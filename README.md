@@ -23,12 +23,28 @@
 
 ## 当前状态
 
-- **仓库结构：** 初始化中。
-- **《月下小站》：** 已有过 v1.0 原型及 v2.0 美术升级任务书的讨论；**实际源代码、模型和资源尚未导入此仓库**，此处不能视作已有可运行版本。
+- **仓库结构：** 已建立项目隔离的目录；源码、资源与验证记录已经导入。
+- **《月下小站》：** 已导入可独立启动的 v2.0 网页工程、原始 v1.0 备份、本地材质、同视角实际离屏渲染图及测试工具。逻辑检查与原生 GLES 渲染已通过；v2.0 的真实 iQOO 15 浏览器体验和稳定帧率仍待实测。
 - **Minecraft MOD：** 已有多个创意方向；尚未在本仓库提交可编译的 MOD 工程。
+
+## 体验与启动
+
+- [v2.0 手机预览](https://moonlit-little-station.misty-bass-0146.chatgpt.site/)
+- [v1.0 备份预览](https://moonlit-little-station.misty-bass-0146.chatgpt.site/v1/)
+- [同视角渲染对比](https://moonlit-little-station.misty-bass-0146.chatgpt.site/studies/)
+
+预览保留原有私有访问范围，可能需要项目所属的 ChatGPT 账号登录。GitHub 存放源码，更新此仓库不会自动更新上述站点。
+
+在仓库根目录运行：
+
+```sh
+python -m http.server 8000 --bind 0.0.0.0 --directory projects/moonlit-halt/dist
+```
+
+电脑访问 `http://localhost:8000`；同一 Wi-Fi 的手机访问 `http://电脑局域网IP:8000`。无需构建或安装网页依赖。详细操作见[项目说明](projects/moonlit-halt/README.md)，验证范围见[测试报告](projects/moonlit-halt/TEST-REPORT.md)。
 
 ## 下一步
 
-导入《月下小站》实际工程与参考图后，进行结构审计，确定 v2.0 升级范围并在手机浏览器实测。Minecraft MOD 项目则先按具体创意建立独立子项目，避免不同实验混为一包。
+先在 iQOO 15 手机浏览器体验 v2.0，比较同一路径的建筑、材质、月光与暖光，并记录操作、声音与性能反馈。Minecraft MOD 仍按具体创意建立独立子项目。
 
 仓库维护以 README、各项目文档和实际提交记录为准。

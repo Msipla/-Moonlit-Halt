@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0a1422"><title>月下小站 v2.0 · Moonlit Halt</title><link rel="stylesheet" href="style.css"></head>
+<body>
+<canvas id="scene" aria-label="可自由漫游的月夜铁路小站"></canvas>
+<header><span class="eyebrow">A MOONLIT FAIRYTALE</span><h1>月下小站</h1><span class="subtitle">永夜乡间 · 维多利亚月夜习作 02</span></header>
+<nav><button id="sound" aria-label="开启环境声">声音 关</button><button id="quality">画质 标准</button><button id="help">操作</button></nav>
+<div id="landmark">沿着灯光，慢慢走。</div>
+<div id="joystick" aria-label="拖动摇杆移动"><div id="stick"></div></div>
+<div id="lookHint">右侧滑动 · 环顾</div>
+<footer><span>MOONLIT HALT</span><span id="perf">静候月光</span><button id="home">回到小路</button></footer>
+<section id="intro" class="veil"><div class="card"><span class="eyebrow">DARK VICTORIAN · MOONLIT FAIRYTALE</span><h2>夜还很长。<br>小站的灯仍亮着。</h2><p>循着乡间小路，走向月光下的旧车站。<br>没有目的地，只有缓慢的风与远处的机器。</p><div class="instructions"><span>左侧摇杆<br><b>移动</b></span><span>右侧滑动<br><b>环顾</b></span><span>建议横屏<br><b>戴上耳机</b></span></div><button id="enter" class="primary">走进月夜 <span>→</span></button><small>电脑：WASD / 方向键移动 · 拖动画面转向<br>声音需点击开启；可随时关闭。</small></div></section>
+<section id="helpPanel" class="veil hidden"><div class="card"><span class="eyebrow">TAKE YOUR TIME</span><h2>慢慢走，抬头看。</h2><p>手机：左下摇杆移动，右侧拖动转动视角。<br>电脑：WASD 或方向键移动，拖动画面环顾。<br>“回到小路”重置位置；画质可切换省电模式。<br>建筑外墙有碰撞，站台可沿缓坡登上。</p><p>这是小型美术原型，车站无可进入的室内。</p><button id="closeHelp" class="primary">继续漫游 →</button></div></section>
+<section id="error" class="veil hidden"><div class="card"><h2>月光暂时没能抵达。</h2><p id="errorText"></p><button onclick="location.reload()" class="primary">重新加载</button></div></section>
+<script src="scene.js"></script></body></html>

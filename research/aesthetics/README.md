@@ -8,4 +8,10 @@
 - **巨构与远景：** 远处可见、难以立即抵达的庞大建筑或地貌。
 - **月夜维多利亚建筑：** 《月下小站》的建筑比例、材质、月光和灯光设计。
 
-具体参考图、版权来源、提示词与对比截图待后续逐项补充。
+## 已有实验
+
+- [《月下小站》美术范围](../../projects/moonlit-halt/ART-BRIEF.md)：五项反馈、色彩与氛围、迭代边界。
+- [实际渲染对比图](../../projects/moonlit-halt/dist/studies/comparison.jpg)与[同视角参数](../../projects/moonlit-halt/dist/studies/cameras.json)：原生 GLES 离屏绘制，非 Android 截图。
+- [美术修改和真实建筑参考](../../projects/moonlit-halt/TEST-REPORT.md)：含 Historic England 与铁路修复资料的来源链接。
+
+其他方向的参考图、版权来源和实验记录后续逐项补充。

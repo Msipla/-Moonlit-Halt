@@ -1,0 +1,119 @@
+{
+  "description": "Runtime files and original renders preserved from existing v1/v2 project. Gallery HTML is adapted to the GitHub source link.",
+  "files": [
+    {
+      "path": "dist/assets/materials.jpg",
+      "bytes": 176460,
+      "sha256": "221fa8fed3b30ff9da0f4058095108c2782e27aaf4d09acc01fb976c2be18dff",
+      "git_blob_sha1": "4c3a0183ec74f57c4cfcf96acc9f8e3f8b1a4783"
+    },
+    {
+      "path": "dist/assets/moon.jpg",
+      "bytes": 49969,
+      "sha256": "497fcd841b9c605a0f702b32ac6eaa7e9f7250de2db0ca71c6d411c6a2dc602a",
+      "git_blob_sha1": "89321c0a7dc7f8a7438a4e5dcc2732b4622f0e0e"
+    },
+    {
+      "path": "dist/assets/station-sign.png",
+      "bytes": 6541,
+      "sha256": "d219e3c04ea1eae26e428470188b0598a1384ffa31a51aea9926cc9980f83944",
+      "git_blob_sha1": "96c17694f6cb3251fecb6d36b387e77b8b57ad5f"
+    },
+    {
+      "path": "dist/index.html",
+      "bytes": 2440,
+      "sha256": "75d023d16951a699d7eb350970d01c736ca0acb825bc3ee24a6b5eb7ed47954a",
+      "git_blob_sha1": "9f007cd3b540487b52032290c3a9d6aea73e0375"
+    },
+    {
+      "path": "dist/scene.js",
+      "bytes": 33844,
+      "sha256": "dd16e41b395f1817579c704b9b2cca07c3d6256159a85312f91a013d752063d5",
+      "git_blob_sha1": "472d8f3e69ec27c69f1a44476a0aed2877e17d7e"
+    },
+    {
+      "path": "dist/studies/cameras.json",
+      "bytes": 619,
+      "sha256": "f85f318e6bd908dc8d54d77f1b01625ee421e1161ff8671933a7a1acaedde8cc",
+      "git_blob_sha1": "5881957910d2bdc87f5e321614631ee312056162"
+    },
+    {
+      "path": "dist/studies/comparison.jpg",
+      "bytes": 217172,
+      "sha256": "c64bfa0bc45f5005da6ddc29e9bc3afa54a6c02385d52d3d5e9bc3f0579766e0",
+      "git_blob_sha1": "4591ee0e4763e0f228e5c02c070de2ccd739edf2"
+    },
+    {
+      "path": "dist/studies/v1-arrival.png",
+      "bytes": 114752,
+      "sha256": "8052af7b3571671a0d773b926d57ef59727638b8e06b333835b65d4c79a11d47",
+      "git_blob_sha1": "6461d28cf2cd9ecb1d6f2b850b4f6f0ef77e2fcc"
+    },
+    {
+      "path": "dist/studies/v1-facade.png",
+      "bytes": 186099,
+      "sha256": "8e3504cb376a728456c5e0b2a8cc62f188a1de5d06dc31ff7fe870998bd98775",
+      "git_blob_sha1": "4658ecfb83fecffae2eef46c83d8896eef150ae2"
+    },
+    {
+      "path": "dist/studies/v1-platform.png",
+      "bytes": 176184,
+      "sha256": "33babff73c366e1646a7853b267c9e4e96f4483d16f2b04783d4dfa7d84ec80f",
+      "git_blob_sha1": "8de943a887337a54dc085a13f655be0235e5a896"
+    },
+    {
+      "path": "dist/studies/v2-arrival.png",
+      "bytes": 321418,
+      "sha256": "a6670a5ad863be3d7b369ef08058e67bea09de813f27931ba06c3e6940cfdef3",
+      "git_blob_sha1": "5ba6c6a56f5b79032e94b8e08b59727b46f1d767"
+    },
+    {
+      "path": "dist/studies/v2-facade.png",
+      "bytes": 401937,
+      "sha256": "321c2b86665efcb3469d5d47809e2ce3de79b30a2e6cf67defff52b4851c57e0",
+      "git_blob_sha1": "df6ae0b2bcceeedcec02e51ab7d22abf4020acfc"
+    },
+    {
+      "path": "dist/studies/v2-platform.png",
+      "bytes": 520550,
+      "sha256": "025e2d2bb744b7d7ac480d8d19cdc9ce57cd708ac4355df83b7ea732a7ee0599",
+      "git_blob_sha1": "bf6b9385e43d016fd30d147ed6b99884097518f3"
+    },
+    {
+      "path": "dist/studies/v2-portrait.png",
+      "bytes": 455896,
+      "sha256": "d7dc4051db69d8e5fe3589d66b3172ea8096c62cc5ce42317305eb5ec8fc0e70",
+      "git_blob_sha1": "6b7c254e405eb1de5534038faa01505db13cdce4"
+    },
+    {
+      "path": "dist/style.css",
+      "bytes": 3467,
+      "sha256": "8231eb994fe93f297574b63c964791c5410b0f864d5f405664d0deda0141157e",
+      "git_blob_sha1": "33ea846f4f97b28750ec49b68160ce2eb24b757d"
+    },
+    {
+      "path": "dist/v1/index.html",
+      "bytes": 2429,
+      "sha256": "6327d5de4942bfbfd9c3477f0f2c1f2afb664b8247b4bf009f39fd82f1bee457",
+      "git_blob_sha1": "9af6dd73a28fa6b02a9f859474611c5a331df4dc"
+    },
+    {
+      "path": "dist/v1/moonlit-halt-source.zip",
+      "bytes": 21343,
+      "sha256": "1cc8a3d45389453fd0079103e46448c9e6e5e133d3a1ef6f5538325d8fc512aa",
+      "git_blob_sha1": "6143177109cca6969a0a2e832a672f2e2bf34ea0"
+    },
+    {
+      "path": "dist/v1/scene.js",
+      "bytes": 25461,
+      "sha256": "366c9ed66141110cd8005e6cdc5fefc97495ed08057f755e9175a37a37f4a83a",
+      "git_blob_sha1": "d5eb6de20d14db987893efa30d2497e95b59e3c2"
+    },
+    {
+      "path": "dist/v1/style.css",
+      "bytes": 3467,
+      "sha256": "8231eb994fe93f297574b63c964791c5410b0f864d5f405664d0deda0141157e",
+      "git_blob_sha1": "33ea846f4f97b28750ec49b68160ce2eb24b757d"
+    }
+  ]
+}

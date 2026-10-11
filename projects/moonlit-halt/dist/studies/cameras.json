@@ -1,0 +1,38 @@
+{
+  "views": {
+    "arrival": {
+      "eye": [
+        0,
+        1.7,
+        4
+      ],
+      "yaw": 0,
+      "pitch": 0.035
+    },
+    "facade": {
+      "eye": [
+        0,
+        1.7,
+        -18
+      ],
+      "yaw": -0.04,
+      "pitch": 0.14
+    },
+    "platform": {
+      "eye": [
+        8.0,
+        2.16,
+        -26.8
+      ],
+      "yaw": -1.05,
+      "pitch": 0.18
+    }
+  },
+  "viewport": [
+    1280,
+    720
+  ],
+  "time_seconds": 12,
+  "renderer": "Mesa EGL / OpenGL ES, native command replay",
+  "limitations": "No browser DOM/UI/audio execution. v1 canvas sign is approximated with Pillow glyphs."
+}
