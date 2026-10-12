@@ -17,9 +17,10 @@ for x in range(34, 57):
 for x, z in [(37, 23), (53, 31)]:
     box(x, 60, z, x+1, 64, z+1, 'bricks')
 for x in [31, 59]:
-    box(x, 54, 39, x, 56, 39, 'polished_blackstone_bricks')
-    put(x, 57, 39, 'polished_blackstone_brick_slab', type='bottom', waterlogged='false')
-    put(x, 58, 39, 'iron_bars', north='false', south='false', east='false', west='false', waterlogged='false')
+    z = 39 if x == 31 else 41  # Right finial must not overlap tower warm windows.
+    box(x, 54, z, x, 56, z, 'polished_blackstone_bricks')
+    put(x, 57, z, 'polished_blackstone_brick_slab', type='bottom', waterlogged='false')
+    put(x, 58, z, 'iron_bars', north='false', south='false', east='false', west='false', waterlogged='false')
 for z in range(18, 41):
     put(45, 62, z, 'iron_bars', north='true', south='true', east='false', west='false', waterlogged='false')
 # Small pointed porch pediment; clear opening below is unchanged.

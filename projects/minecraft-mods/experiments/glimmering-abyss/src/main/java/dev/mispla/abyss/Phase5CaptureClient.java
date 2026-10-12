@@ -109,7 +109,7 @@ public final class Phase5CaptureClient implements ClientModInitializer {
         var test=CASES.get(phase);if(phase==1)command(client,"abyss building");if(phase==2)command(client,"abyss route");selectWithCommand(client,test.profile);command(client,"abyss lamps "+(test.kind.equals("native_lanterns")?"on":"off"));command(client,"abyss light "+test.light);command(client,test.view==null?"abyss return":test.kind.equals("phase4_control")?"abyss building view facade":Exploration.VIEWS.contains(test.view)?"abyss route view "+test.view.name():"abyss view "+test.view.name());
     }
     private boolean cQueuesReady(MinecraftClient c) {
-        return c.worldRenderer.getChunksDebugString().matches(".*pC: 0+, pU: 0+.*");
+        return c.worldRenderer.getChunksDebugString().matches(".*pC: 0+, pU: 0+(?:,|\\s|$).*");
     }
     private void screenshot(MinecraftClient client,String name)throws Exception {
         Files.createDirectories(OUT);try(var image=ScreenshotRecorder.takeScreenshot(client.getFramebuffer())){image.writeTo(OUT.resolve(name));}System.out.println("ABYSS_PHASE5_CAPTURE_SAVED "+name);

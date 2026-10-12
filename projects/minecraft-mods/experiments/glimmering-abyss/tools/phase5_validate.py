@@ -5,7 +5,7 @@ def validate(output):
  rows=json.loads((output/'screenshots/captures.json').read_text());assert len(rows)==14
  raw=json.loads((output/'frame-intervals.json').read_text());assert set(raw)=={r['file'] for r in rows}
  for r in rows:
-  assert r['gl_error_at_capture']==0 and re.search(r'pC: 0+, pU: 0+',r['chunk_debug']),r['file']
+  assert r['gl_error_at_capture']==0 and re.search(r'pC: 0+, pU: 0+(?:,|\s|$)',r['chunk_debug']),r['file']
   assert r['environment']['native_lightmap_rgb']==r['environment']['display_lightmap_rgb']
   assert r['space_lighting']['active']==(r['render_profile']!='a' and r['kind']!='dimension_scope')
   values=sorted(raw[r['file']]);assert len(values)==r['sample_frames'] and all(x>0 for x in values)

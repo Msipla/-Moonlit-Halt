@@ -28,8 +28,8 @@ public final class Exploration {
     public static final BlockPos ORIGIN = new BlockPos(-32,-63,15);
     public static final List<GlimmeringAbyss.View> VIEWS = List.of(
         Architecture.VIEWS.get(0),
-        new GlimmeringAbyss.View("core",4.5,39,36.5,-130,30),
-        new GlimmeringAbyss.View("down",4.5,39,35.5,180,68),
+        new GlimmeringAbyss.View("core",4.5,39,32.9,-115,18),
+        new GlimmeringAbyss.View("down",4.5,39,32.9,180,82),
         new GlimmeringAbyss.View("span",-7.5,57,62.5,180,25),
         new GlimmeringAbyss.View("departure",30.5,39,43.5,98,0),
         new GlimmeringAbyss.View("arrival",-29.5,39,35.5,-90,-8),
