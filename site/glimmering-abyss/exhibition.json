@@ -1,0 +1,191 @@
+{
+  "schema": 1,
+  "latestStage": "phase3",
+  "updated": "2026-10-12",
+  "stages": [
+    {
+      "id": "phase1",
+      "number": "01",
+      "title": "第一阶段 · 地形与安全路线",
+      "short": "第一阶段",
+      "description": "生成真实洞厅、岩柱与观景路线，建立原版光照基线。",
+      "technical": "技术已验证",
+      "aesthetic": "画面仍需改进",
+      "aestheticState": "waiting",
+      "verdict": "原始基线偏暗。技术成果保留，用于理解后续光照改进的起点。",
+      "base": "evidence/phase1/screenshots/",
+      "cover": "glimmer-platform.png",
+      "views": [
+        "platform",
+        "tunnel",
+        "edge"
+      ],
+      "modes": [
+        {
+          "id": "baseline",
+          "label": "无光源"
+        },
+        {
+          "id": "glimmer",
+          "label": "微光"
+        },
+        {
+          "id": "reference",
+          "label": "强光"
+        }
+      ],
+      "defaultMode": "glimmer",
+      "report": "phase1.html",
+      "extras": [],
+      "version": "0.1.0",
+      "technicalState": "passed",
+      "developmentLabel": "第一阶段历史成果"
+    },
+    {
+      "id": "phase2",
+      "number": "02",
+      "title": "第二阶段 · 环境显示对照",
+      "short": "第二阶段",
+      "description": "A/B/C 与 Veil 实机比较，探索环境底光和远处层次。",
+      "technical": "技术已验证",
+      "aesthetic": "美学不通过",
+      "aestheticState": "failed",
+      "verdict": "用户已明确美学不通过：画面过黑，远景缺少自然环境光。Veil 的色调可参考，雾幕遮挡不可采用。",
+      "base": "evidence/phase2/screenshots/",
+      "cover": "veil-platform.png",
+      "views": [
+        "platform",
+        "tunnel",
+        "edge",
+        "overlook"
+      ],
+      "modes": [
+        {
+          "id": "a",
+          "label": "A 原版"
+        },
+        {
+          "id": "b",
+          "label": "B 自然层次"
+        },
+        {
+          "id": "c",
+          "label": "C 远景"
+        },
+        {
+          "id": "veil",
+          "label": "Veil 雾幕",
+          "onlyView": "platform",
+          "file": "veil-platform.png"
+        }
+      ],
+      "defaultMode": "c",
+      "report": "phase2.html",
+      "extras": [
+        {
+          "file": "b-no-sources.png",
+          "title": "B · 关闭测试光源"
+        },
+        {
+          "file": "c-no-sources.png",
+          "title": "C · 关闭测试光源"
+        }
+      ],
+      "version": "0.2.0",
+      "technicalState": "passed",
+      "developmentLabel": "第二阶段历史成果"
+    },
+    {
+      "id": "phase3",
+      "number": "03",
+      "title": "第三阶段 · 可配置空间光",
+      "short": "第三阶段",
+      "description": "按位置与表面朝向呈现空间光，冷蓝与铜金共用同一套逻辑。",
+      "technical": "技术已验证",
+      "aesthetic": "美学待验收",
+      "aestheticState": "waiting",
+      "verdict": "可运行视觉原型已完成。用户美学验收待定；城市、生态和世界活动仍未开发。",
+      "pointer": "evidence/phase3/latest.json",
+      "cover": "blue-overlook.png",
+      "views": [
+        "platform",
+        "tunnel",
+        "edge",
+        "overlook"
+      ],
+      "modes": [
+        {
+          "id": "blue",
+          "label": "冷蓝"
+        },
+        {
+          "id": "copper",
+          "label": "铜金"
+        },
+        {
+          "id": "lamps",
+          "label": "局部暖光",
+          "onlyView": "platform",
+          "file": "blue-lanterns.png"
+        }
+      ],
+      "defaultMode": "blue",
+      "report": "phase3.html",
+      "extras": [
+        {
+          "file": "blue-no-sources.png",
+          "title": "冷蓝 · 关闭测试光源"
+        },
+        {
+          "file": "copper-no-sources.png",
+          "title": "铜金 · 关闭测试光源"
+        },
+        {
+          "file": "blue-clear-platform.png",
+          "title": "关闭空气透视"
+        },
+        {
+          "file": "blue-no-field-platform.png",
+          "title": "关闭区域辐照"
+        },
+        {
+          "file": "blue-reference.png",
+          "title": "空间光 + 原版强光"
+        },
+        {
+          "file": "a-reference.png",
+          "title": "原版强光对照"
+        }
+      ],
+      "version": "0.3.0",
+      "technicalState": "passed",
+      "developmentLabel": "第三阶段视觉原型"
+    }
+  ],
+  "timeline": [
+    {
+      "date": "2026.10.12",
+      "title": "先让洞厅真实存在",
+      "text": "第一阶段完成洞厅生成、安全观景路线与原生光照测试。画面偏暗，为下一步留下清晰的基线。",
+      "state": "技术已验证 · 视觉仍需改进"
+    },
+    {
+      "date": "2026.10.12",
+      "title": "技术通过，视觉否决",
+      "text": "第二阶段完成三套方案与 Veil 对照。用户明确画面不通过，保留技术成果，重新确定环境光方向。",
+      "state": "技术已验证 · 美学不通过"
+    },
+    {
+      "date": "2026.10.12",
+      "title": "空间开始有明暗层次",
+      "text": "第三阶段进行了两轮真实客户端采集。远壁亮起、巨柱保留暗剪影，另一种色调也完成验证。",
+      "state": "可运行原型 · 美学待验收"
+    },
+    {
+      "date": "当前",
+      "title": "等待你的视觉判断",
+      "text": "先确认光照与空间感，再安排目标 Windows 电脑和渲染兼容性测试。",
+      "state": "待验收 · 后续研发未启动"
+    }
+  ]
+}

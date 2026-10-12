@@ -1,0 +1,55 @@
+name: Check Glimmering Abyss exhibition
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'site/glimmering-abyss/index.html'
+      - 'site/glimmering-abyss/exhibition.*'
+      - 'site/glimmering-abyss/tools/**'
+      - '.github/workflows/glimmering-abyss-gallery-check.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: glimmering-abyss-gallery
+  cancel-in-progress: false
+jobs:
+  browser-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Prepare isolated browser QA
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y fonts-noto-cjk
+          npm install --prefix "$RUNNER_TEMP/gallery-check" playwright@1.62.1
+          "$RUNNER_TEMP/gallery-check/node_modules/.bin/playwright" install --with-deps chromium
+      - name: Check deployed exhibition
+        env:
+          GALLERY_SOURCE_SHA: ${{ github.sha }}
+          GALLERY_URL: https://msipla.github.io/-Moonlit-Halt/
+        run: |
+          export GALLERY_PLAYWRIGHT_DIR="$RUNNER_TEMP/gallery-check"
+          export GALLERY_QA_OUT="projects/minecraft-mods/experiments/glimmering-abyss/evidence/website/runs/${{ github.run_id }}"
+          node site/glimmering-abyss/tools/verify-gallery.cjs
+      - name: Retain browser evidence
+        if: always()
+        run: |
+          path="projects/minecraft-mods/experiments/glimmering-abyss/evidence/website/runs/${{ github.run_id }}"
+          if [ -d "$path" ]; then
+            git config user.name "Glimmering Abyss website validation"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add "$path"
+            git commit -m "test(exhibition): retain browser run ${{ github.run_id }}"
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: exhibition-${{ github.run_id }}
+          path: projects/minecraft-mods/experiments/glimmering-abyss/evidence/website/runs/${{ github.run_id }}

@@ -33,6 +33,8 @@ jobs:
           set -euo pipefail
           mkdir -p _site/evidence/phase1/screenshots
           cp site/glimmering-abyss/index.html _site/index.html
+          cp site/glimmering-abyss/phase1.html _site/phase1.html
+          cp site/glimmering-abyss/exhibition.css site/glimmering-abyss/exhibition.js site/glimmering-abyss/exhibition.json _site/
           cp site/glimmering-abyss/phase2.html _site/phase2.html
           cp site/glimmering-abyss/phase3.html _site/phase3.html
           root=projects/minecraft-mods/experiments/glimmering-abyss/evidence/phase1
