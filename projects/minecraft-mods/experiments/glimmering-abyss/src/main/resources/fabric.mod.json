@@ -3,7 +3,7 @@
   "id": "glimmeringabyss",
   "version": "${version}",
   "name": "Glimmering Abyss",
-  "description": "Small cold-blue cavern art mod: workshop, iron bridge and finite vertical abyss route.",
+  "description": "Compact Victorian underground town on a shelf break, cold blue giant cavern, warm windows and bounded depth haze experiments.",
   "authors": [
     "Mispla",
     "Codex"
@@ -19,7 +19,8 @@
       "dev.mispla.abyss.Phase2CaptureClient",
       "dev.mispla.abyss.Phase3CaptureClient",
       "dev.mispla.abyss.Phase4CaptureClient",
-      "dev.mispla.abyss.Phase5CaptureClient"
+      "dev.mispla.abyss.Phase5CaptureClient",
+      "dev.mispla.abyss.Phase6CaptureClient"
     ]
   },
   "mixins": [

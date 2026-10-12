@@ -61,5 +61,5 @@ def launch(log, phase=4):
  shutil.copy2(jar,mods/jar.name);api=next((ROOT/'build/test-mods').glob('fabric-api-*.jar'));shutil.copy2(api,mods/api.name)
  cmd=['java','-Xms512M','-Xmx2G','-XX:ActiveProcessorCount=4','-Djava.library.path='+str(natives),'-Dorg.lwjgl.librarypath='+str(natives),f'-Dabyss.capture.phase{phase}=true','-Dabyss.port=25585','-cp',os.pathsep.join(cp),fabric['mainClass'],'--username',f'Phase{phase}Tester','--version','1.20.1','--gameDir',str(RUNTIME),'--assetsDir',str(assets),'--assetIndex',idx['id'],'--uuid',f'0000000000000000000000000000000{phase}','--accessToken','0','--userType','legacy','--versionType','release','--width','1280','--height','720']
  (RUNTIME/'launch-provenance.json').write_text(json.dumps({'minecraft':'1.20.1','fabric':'0.14.25','release_jar':jar.name,'release_sha256':hashlib.sha256(jar.read_bytes()).hexdigest(),'development_classes':False,'assets':len(hashes),'official_manifest_url':v['url']},indent=2)+'\n')
- subprocess.run(cmd,cwd=RUNTIME,stdout=log,stderr=subprocess.STDOUT,check=True,timeout=900)
+ subprocess.run(cmd,cwd=RUNTIME,stdout=log,stderr=subprocess.STDOUT,check=True,timeout=1500)
  return RUNTIME

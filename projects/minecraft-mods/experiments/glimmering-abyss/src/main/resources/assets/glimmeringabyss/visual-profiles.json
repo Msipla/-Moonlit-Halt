@@ -112,6 +112,68 @@
       "airStart": 30,
       "airEnd": 235,
       "airMax": 0.26
+    },
+    "blue95": {
+      "color": [
+        0.24,
+        0.63,
+        0.95
+      ],
+      "base": 0.323,
+      "anchor": [
+        -20,
+        52,
+        -80
+      ],
+      "radius": 105,
+      "radiance": 1.5675,
+      "direction": [
+        -0.25,
+        0.6,
+        -0.75
+      ],
+      "airColor": [
+        0.07,
+        0.34,
+        0.57
+      ],
+      "airStart": 30,
+      "airEnd": 235,
+      "airMax": 0.26
+    },
+    "blue95-fog": {
+      "color": [
+        0.24,
+        0.63,
+        0.95
+      ],
+      "base": 0.323,
+      "anchor": [
+        -20,
+        52,
+        -80
+      ],
+      "radius": 105,
+      "radiance": 1.5675,
+      "direction": [
+        -0.25,
+        0.6,
+        -0.75
+      ],
+      "airColor": [
+        0.07,
+        0.34,
+        0.57
+      ],
+      "airStart": 30,
+      "airEnd": 235,
+      "airMax": 0.26,
+      "depth": [
+        12,
+        -58,
+        0.68,
+        28
+      ]
     }
   }
 }

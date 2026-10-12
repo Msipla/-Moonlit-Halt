@@ -20,7 +20,7 @@ public final class EnvironmentClient implements ClientModInitializer {
         SpaceLighting.initialize();
         ClientCommandRegistrationCallback.EVENT.register((dispatcher,access)->{
             var root=literal("abyssrender").executes(c->{c.getSource().sendFeedback(Text.literal("A vanilla | B natural | C silhouette; current="+selectedName()));return 1;});
-            for(String name:new String[]{"a","b","c","veil","blue","copper","blue-clear","blue-no-field"})root.then(literal(name).executes(c->{select(name);c.getSource().sendFeedback(Text.literal("[Abyss render] "+name+" / study only / world light unchanged"));return 1;}));
+            for(String name:new String[]{"a","b","c","veil","blue","copper","blue-clear","blue-no-field","blue95","blue95-fog"})root.then(literal(name).executes(c->{select(name);c.getSource().sendFeedback(Text.literal("[Abyss render] "+name+" / study only / world light unchanged"));return 1;}));
             root.then(literal("reload").executes(c->{SpaceLighting.reload();c.getSource().sendFeedback(Text.literal("[Abyss visuals] reload requested; check config status/log"));return 1;}));
             dispatcher.register(root);
         });

@@ -14,6 +14,7 @@ import java.util.*;
 /** Opt-in, study-dimension solid/cutout shader. No vanilla resource is replaced. */
 public final class SpaceLighting {
     private static final Map<String,SpaceProfile> profiles=new LinkedHashMap<>();
+    private static final Map<String,float[]> depthProfiles=new LinkedHashMap<>();
     private static SpaceProfile selected;
     private static ShaderProgram shader;
     private static long draws;
@@ -31,7 +32,29 @@ public final class SpaceLighting {
             if(!Files.exists(file))try(var in=SpaceLighting.class.getResourceAsStream("/assets/glimmeringabyss/visual-profiles.json")){
                 if(in==null)throw new IllegalStateException("Missing default profiles");Files.copy(in,file);
             }
+            var user=JsonParser.parseString(Files.readString(file)).getAsJsonObject();
+            try(var in=SpaceLighting.class.getResourceAsStream("/assets/glimmeringabyss/visual-profiles.json")) {
+                var defaults=JsonParser.parseString(new String(in.readAllBytes(),java.nio.charset.StandardCharsets.UTF_8)).getAsJsonObject();
+                boolean migrated=false;
+                for(String added:new String[]{"blue95","blue95-fog"})if(!user.getAsJsonObject("profiles").has(added)){
+                    user.getAsJsonObject("profiles").add(added,defaults.getAsJsonObject("profiles").get(added));migrated=true;
+                }
+                if(migrated)Files.writeString(file,new GsonBuilder().setPrettyPrinting().create().toJson(user));
+            }
             Map<String,SpaceProfile> next=parse(Files.readString(file));
+            var nextDepth=new LinkedHashMap<String,float[]>();
+            var root=JsonParser.parseString(Files.readString(file)).getAsJsonObject();
+            for(var entry:root.getAsJsonObject("profiles").entrySet()) {
+                var o=entry.getValue().getAsJsonObject();
+                if(o.has("depth")) {
+                    var a=o.getAsJsonArray("depth");if(a.size()!=4)throw new IllegalArgumentException("depth needs top/bottom/max/distance");
+                    float[] v={a.get(0).getAsFloat(),a.get(1).getAsFloat(),a.get(2).getAsFloat(),a.get(3).getAsFloat()};
+                    for(float value:v)if(!Float.isFinite(value))throw new IllegalArgumentException("Nonfinite depth");
+                    if(v[0]<=v[1]||v[2]<0||v[2]>.72f||v[3]<0)throw new IllegalArgumentException("Depth range");
+                    nextDepth.put(entry.getKey(),v);
+                }
+            }
+            depthProfiles.clear();depthProfiles.putAll(nextDepth);
             String name=selected==null?null:selected.name();profiles.clear();profiles.putAll(next);
             selected=name==null?null:profiles.get(name);configStatus="loaded";
         } catch(Exception e) {
@@ -68,12 +91,14 @@ public final class SpaceLighting {
         shader.getUniformOrDefault("EnvBase").set(p.base());shader.getUniformOrDefault("EnvRadiance").set(p.radiance());
         float[] a=p.anchor();shader.getUniformOrDefault("EnvAnchor").set(a[0],a[1],a[2],p.radius());
         shader.getUniformOrDefault("EnvAirRange").set(p.airStart(),p.airEnd());shader.getUniformOrDefault("EnvAirMax").set(p.airMax());
+        float[] depth=depthProfiles.getOrDefault(p.name(),new float[]{12,-58,0,28});
+        shader.getUniformOrDefault("EnvDepth").set(depth[0],depth[1],depth[2],depth[3]);
         shader.getUniformOrDefault("AlphaCutoff").set(cutoff);draws++;return shader;
     }
     private static void vecUniform(String name,float[] v){shader.getUniformOrDefault(name).set(v[0],v[1],v[2]);}
     public static JsonObject measurements() {
         var o=new JsonObject();o.addProperty("profile",selectedName());o.addProperty("active",active());
         o.addProperty("shader_ready",shader!=null);o.addProperty("terrain_shader_selections",draws);o.addProperty("config_status",configStatus);
-        if(selected!=null)o.add("parameters",new Gson().toJsonTree(selected));return o;
+        if(selected!=null){o.add("parameters",new Gson().toJsonTree(selected));o.add("depth_parameters",new Gson().toJsonTree(depthProfiles.getOrDefault(selected.name(),new float[]{12,-58,0,28})));}return o;
     }
 }

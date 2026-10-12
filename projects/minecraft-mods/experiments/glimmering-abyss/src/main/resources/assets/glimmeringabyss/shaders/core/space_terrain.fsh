@@ -12,6 +12,7 @@ uniform vec3 EnvDirection;
 uniform vec3 EnvAirColor;
 uniform vec2 EnvAirRange;
 uniform float EnvAirMax;
+uniform vec4 EnvDepth;
 uniform float AlphaCutoff;
 in vec4 materialColor;
 in vec2 texCoord;
@@ -38,6 +39,11 @@ void main() {
     float air=smoothstep(EnvAirRange.x,EnvAirRange.y,viewDistance)*EnvAirMax*protection;
     vec3 airColor=EnvAirColor*(0.55+0.45*field);
     lit=mix(lit,airColor,air);
+    // Bounded height-dependent surface haze, not volumetric fog. Walking surfaces
+    // and warm windows above y=12 receive none. Native block light remains protected.
+    float depth=smoothstep(0.0,EnvDepth.x-EnvDepth.y,EnvDepth.x-scenePosition.y);
+    float deepMix=depth*smoothstep(EnvDepth.w,EnvDepth.w+35.0,viewDistance)*EnvDepth.z*protection;
+    lit=mix(lit,vec3(0.012,0.033,0.055),deepMix);
     // Keep the native visibility/status-effect boundary; the scene air term is separately bounded.
     float boundary=smoothstep(FogStart,FogEnd,boundaryDistance)*FogColor.a;
     fragColor=vec4(mix(lit,FogColor.rgb,boundary),surface.a);

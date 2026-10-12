@@ -210,6 +210,17 @@
       "values": [
         0
       ]
+    },
+    {
+      "name": "EnvDepth",
+      "type": "float",
+      "count": 4,
+      "values": [
+        12,
+        -58,
+        0,
+        28
+      ]
     }
   ]
 }
