@@ -4,7 +4,7 @@ package dev.mispla.abyss;
 public record RenderProfile(String name, float floorR, float floorG, float floorB,
         float start, float end, float farR, float farG, float farB, float maxMix, float glow) {
     public static final RenderProfile A = new RenderProfile("a",0,0,0,144,192,0,0,0,1,0);
-    public static final RenderProfile B = new RenderProfile("b",.36f,.40f,.44f,24,320,.006f,.009f,.013f,.90f,.48f);
+    public static final RenderProfile B = new RenderProfile("b",.36f,.40f,.44f,24,224,.006f,.009f,.013f,.92f,.48f);
     public static final RenderProfile C = new RenderProfile("c",.36f,.40f,.44f,36,360,.012f,.018f,.026f,.64f,.48f);
     public static final RenderProfile VEIL = new RenderProfile("veil",.58f,.64f,.70f,8,112,.12f,.18f,.22f,1,.48f);
     public static RenderProfile named(String name) {

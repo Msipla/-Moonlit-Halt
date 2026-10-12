@@ -54,7 +54,7 @@ public final class GlimmeringAbyss implements ModInitializer {
             new View("tunnel", 0.5, 39, 90.5, 180, 0),
             new View("platform", 0.5, 39, 73.5, 180, 12),
             new View("edge", 20.5, 39, 66.5, 165, 15));
-    public static final View OVERLOOK = new View("overlook",20.5,39,66.5,165,46);
+    public static final View OVERLOOK = new View("overlook",0.5,55,60.5,180,28);
 
     public static Identifier id(String path) { return new Identifier("glimmeringabyss", path); }
 
@@ -66,7 +66,7 @@ public final class GlimmeringAbyss implements ModInitializer {
 
         CommandRegistrationCallback.EVENT.register((dispatcher, access, environment) -> dispatcher.register(
                 literal("abyss")
-                .executes(c -> message(c.getSource(), "enter | view tunnel/platform/edge | light baseline/glimmer/reference | audit | return"))
+                .executes(c -> message(c.getSource(), "enter | view tunnel/platform/edge/overlook | light baseline/glimmer/reference | audit | return"))
                 .then(literal("enter").executes(c -> teleport(c.getSource(), VIEWS.get(0))))
                 .then(literal("view").then(argument("name", StringArgumentType.word())
                         .suggests((c, b) -> { VIEWS.forEach(v -> b.suggest(v.name)); b.suggest("overlook"); return b.buildFuture(); })
@@ -86,6 +86,8 @@ public final class GlimmeringAbyss implements ModInitializer {
                     ServerPlayerEntity player = c.getSource().getPlayerOrThrow();
                     ServerWorld world = c.getSource().getServer().getOverworld();
                     BlockPos pos = world.getSpawnPos();
+                    player.getAbilities().flying = false;
+                    player.sendAbilitiesUpdate();
                     player.teleport(world, pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5, 0, 0);
                     return 1;
                 }))));
@@ -124,6 +126,9 @@ public final class GlimmeringAbyss implements ModInitializer {
 
     private static int teleport(ServerCommandSource source, View view) throws com.mojang.brigadier.exceptions.CommandSyntaxException {
         ServerPlayerEntity player = source.getPlayerOrThrow();
+        if (view == OVERLOOK && !player.isCreative()) return message(source, "Overlook requires Creative mode.");
+        player.getAbilities().flying = view == OVERLOOK;
+        player.sendAbilitiesUpdate();
         player.teleport(study(source.getServer()), view.x, view.y, view.z, view.yaw, view.pitch);
         return message(source, "View " + view.name + " / study seed " + Terrain.SEED);
     }

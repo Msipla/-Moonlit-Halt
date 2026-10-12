@@ -1,4 +1,4 @@
-Picked up JAVA_TOOL_OPTIONS: -XX:-UseContainerSupport -Djava.net.preferIPv4Stack=true -Dorg.gradle.internal.http.connectionTimeout=10000 -Dorg.gradle.internal.http.socketTimeout=10000 -Djavax.net.ssl.trustStore=/etc/ssl/certs/java/cacerts -Dhttp.proxyHost=127.0.0.1 -Dhttp.proxyPort=38379 -Dhttps.proxyHost=127.0.0.1 -Dhttps.proxyPort=38379
+Picked up JAVA_TOOL_OPTIONS: -XX:-UseContainerSupport -Djava.net.preferIPv4Stack=true -Dorg.gradle.internal.http.connectionTimeout=10000 -Dorg.gradle.internal.http.socketTimeout=10000 -Djavax.net.ssl.trustStore=/etc/ssl/certs/java/cacerts -Dhttp.proxyHost=127.0.0.1 -Dhttp.proxyPort=46673 -Dhttps.proxyHost=127.0.0.1 -Dhttps.proxyPort=46673
 To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/8.2.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
 Daemon will be stopped at the end of the build 
 
@@ -6,23 +6,24 @@ Daemon will be stopped at the end of the build
 Fabric Loom: 1.2.8
 
 > Task :compileJava
-> Task :processResources
+> Task :processResources UP-TO-DATE
 > Task :classes
 > Task :jar
 > Task :sourcesJar
-> Task :remapSourcesJar
-> Task :remapJar
-> Task :compileTestJava
-> Task :assemble
+> Task :compileTestJava UP-TO-DATE
 > Task :processTestResources NO-SOURCE
-> Task :testClasses
+> Task :testClasses UP-TO-DATE
+
 > Task :test
-Picked up JAVA_TOOL_OPTIONS: -XX:-UseContainerSupport -Djava.net.preferIPv4Stack=true -Dorg.gradle.internal.http.connectionTimeout=10000 -Dorg.gradle.internal.http.socketTimeout=10000 -Djavax.net.ssl.trustStore=/etc/ssl/certs/java/cacerts -Dhttp.proxyHost=127.0.0.1 -Dhttp.proxyPort=38379 -Dhttps.proxyHost=127.0.0.1 -Dhttps.proxyPort=38379
+Picked up JAVA_TOOL_OPTIONS: -XX:-UseContainerSupport -Djava.net.preferIPv4Stack=true -Dorg.gradle.internal.http.connectionTimeout=10000 -Dorg.gradle.internal.http.socketTimeout=10000 -Djavax.net.ssl.trustStore=/etc/ssl/certs/java/cacerts -Dhttp.proxyHost=127.0.0.1 -Dhttp.proxyPort=46673 -Dhttps.proxyHost=127.0.0.1 -Dhttps.proxyPort=46673
 
 > Task :validateAccessWidener NO-SOURCE
 > Task :check
+> Task :stageTestMods UP-TO-DATE
+> Task :remapSourcesJar
+> Task :remapJar
+> Task :assemble
 > Task :build
-> Task :stageTestMods
 
 Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.
 
@@ -30,5 +31,5 @@ You can use '--warning-mode all' to show the individual deprecation warnings and
 
 For more on this, please refer to https://docs.gradle.org/8.2.1/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
 
-BUILD SUCCESSFUL in 6m 26s
-9 actionable tasks: 9 executed
+BUILD SUCCESSFUL in 20s
+9 actionable tasks: 6 executed, 3 up-to-date

@@ -94,7 +94,7 @@ def run(args):
             {"block": "minecraft:bedrock", "height": 1}, {"block": "minecraft:dirt", "height": 2},
             {"block": "minecraft:grass_block", "height": 1}], "structures": {}}),
         "difficulty": "peaceful", "gamemode": "creative", "spawn-protection": "0",
-        "view-distance": "12", "simulation-distance": "6", "max-players": "2",
+        "view-distance": "16" if args.phase2 else "12", "simulation-distance": "6", "max-players": "2",
         "max-tick-time": "120000", "enable-command-block": "false"
     }
     server_command = [java, "-Xms512M", "-Xmx1500M", "-XX:ActiveProcessorCount=4",
@@ -134,26 +134,40 @@ def run(args):
     try:
         if args.capture:
             # The optional client harness is only enabled through this property.
+            capture_started = time.time()
             with (output / "client.log").open("w", encoding="utf-8") as client_log:
                 client_command = gradle + ["runClient", "-PabyssPhase2Capture" if args.phase2 else "-PabyssCapture"]
                 if args.skip_asset_download: client_command += ['-x','downloadAssets']
                 subprocess.run(client_command, cwd=ROOT,
                                stdout=client_log, stderr=subprocess.STDOUT, check=True, timeout=900)
             expected_marker = "ABYSS_PHASE2_COMPLETE 17 walk_collision=true" if args.phase2 else "ABYSS_CAPTURE_COMPLETE 9 walk_collision=true"
-            if expected_marker not in (output / "client.log").read_text(encoding="utf-8", errors="replace"):
-                raise RuntimeError("Current client run did not finish; old capture files cannot count as a pass")
+            marker_present = expected_marker in (output / "client.log").read_text(encoding="utf-8", errors="replace")
             captures = ROOT / ("run-client/abyss-phase2-captures" if args.phase2 else "run-client/abyss-captures")
             manifest = json.loads((captures / "captures.json").read_text())
             if len(manifest) != (17 if args.phase2 else 9):
-                raise RuntimeError("Real game capture did not produce all nine viewpoints/modes")
+                raise RuntimeError("Real game capture did not produce the complete current manifest")
+            # A redirected completion message can be absent even after Minecraft
+            # wrote its final walk result. Require fresh files from this launch,
+            # rather than counting an old manifest or relying on stdout alone.
+            required = [captures / "captures.json", captures / "walk-collision.json"]
+            required += [captures / row["file"] for row in manifest]
+            if args.phase2: required += [captures / f"b-platform-stability-{i}.png" for i in [1, 2]]
+            if not all(path.exists() and path.stat().st_mtime >= capture_started for path in required):
+                raise RuntimeError("Current capture files are missing or stale")
+            walk = json.loads((captures / "walk-collision.json").read_text())
+            if not walk["walk_and_collision_pass"]:
+                raise RuntimeError("Actual client walk/railing collision check failed")
+            (output / "client-completion-check.json").write_text(json.dumps({
+                "capture_started_epoch": capture_started, "stdout_marker_present": marker_present,
+                "fresh_file_count": len(required), "fresh_file_check_pass": True,
+                "positive_actual_walk_result": True,
+                "proof": "Current-launch manifest, every screenshot, and final actual-client walk JSON."
+            }, indent=2) + "\n")
             target = output / "screenshots"
             target.mkdir(exist_ok=True)
             for capture in manifest:
                 shutil.copy2(captures / capture["file"], target / capture["file"])
             shutil.copy2(captures / "captures.json", target / "captures.json")
-            walk = json.loads((captures / "walk-collision.json").read_text())
-            if not walk["walk_and_collision_pass"]:
-                raise RuntimeError("Actual client walk/railing collision check failed")
             shutil.copy2(captures / "walk-collision.json", output / "walk-collision.json")
             if args.phase2:
                 for path in captures.glob('*-stability-*.png'):shutil.copy2(path,target/path.name)

@@ -53,7 +53,7 @@ public final class Phase2CaptureClient implements ClientModInitializer {
         if(System.nanoTime()-started>700_000_000_000L){fail(client,new IllegalStateException("Capture timeout"));return;}
         if(!connected&&client.currentScreen!=null&&client.currentScreen.getClass().getSimpleName().equals("AccessibilityOnboardingScreen"))client.setScreen(new TitleScreen());
         if(!connected&&client.currentScreen instanceof TitleScreen&&client.getOverlay()==null) {
-            connected=true;client.options.getViewDistance().setValue(12);client.options.getSimulationDistance().setValue(6);
+            connected=true;client.options.getViewDistance().setValue(16);client.options.getSimulationDistance().setValue(6);
             client.options.getFov().setValue(75);client.options.getGamma().setValue(.5);client.options.getMaxFps().setValue(60);
             client.options.getEnableVsync().setValue(false);client.options.getGraphicsMode().setValue(GraphicsMode.FANCY);client.options.getAo().setValue(true);
             client.options.pauseOnLostFocus=false;client.options.hudHidden=true;client.options.write();

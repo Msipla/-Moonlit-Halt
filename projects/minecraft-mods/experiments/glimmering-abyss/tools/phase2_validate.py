@@ -6,6 +6,7 @@ def validate(output):
     for view in ['tunnel','platform','edge','overlook']:
         rows=[r for r in comparison if r['view']==view];assert len(rows)==3 and {r['render_profile'] for r in rows}=={'a','b','c'}
         assert all([r[k] for k in fixed]==[rows[0][k] for k in fixed] for r in rows),view
+        if view=='overlook':assert rows[0]['y']==55,'Creative overlook camera fell instead of holding position'
     for r in captures:
         e=r['environment'];assert e['profile']==r['render_profile'] and e['observed_lightmap_writes']>0;assert r['gl_error_at_capture']==0,r['file']
         if r['render_profile']=='a' or r['kind']=='dimension_scope':assert not e['custom_active'] and e['native_lightmap_rgb']==e['display_lightmap_rgb'],r['file']
