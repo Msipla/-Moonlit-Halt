@@ -14,4 +14,4 @@
 
 ## 已立项的技术实验
 
-- [Project 02 · 微光深渊](experiments/glimmering-abyss/)：Minecraft 1.20.1 地形、光照与性能的最小可行性验证；已有 v0.2.0 可运行工程和真实客户端证据；技术通过，美学未通过。第三阶段研发状态见项目入口。
+- [Project 02 · 微光深渊](experiments/glimmering-abyss/)：Minecraft 1.20.1 地形、光照与性能的最小可行性验证；已有 v0.3.0 可配置空间光原型和真实客户端证据；第三阶段技术检查通过，美学验收待定；第二阶段美学明确不通过。恢复从项目 HANDOFF 开始。

@@ -1,8 +1,10 @@
-> 2026-10-12：第二阶段技术成果保留，用户美学验收不通过。第三阶段研发中，尚无新画面通过声明。历史证据勘误见第二阶段报告末尾。
+> 2026-10-12：v0.3.0 环境视觉原型已实际运行；用户美学验收待定。第二阶段美学不通过，原始证据与旧安装包保留。
 
 # Project 02 · 微光深渊（Glimmering Abyss）
 
-Minecraft Java **1.20.1** 的独立地形／光照技术原型，版本 **0.2.0**。第二阶段在既有地形上比较原版基线 A、自然空间层次 B、巨构远景 C；保留第一阶段世界光传播、路线和护栏。
+Minecraft Java **1.20.1** 的独立地形／光照技术原型，版本 **0.3.0**。第三阶段增加世界位置与表面朝向决定的环境辐照、受控空气透视与冷蓝/铜金配置；保留既有地形、原生光传播及 A/B/C/Veil。
+
+[第三阶段原图对照](https://msipla.github.io/-Moonlit-Halt/phase3.html) · [第三阶段报告](TEST-REPORT-PHASE3.md) · [工程恢复入口](HANDOFF.md)
 
 [打开 Phase 2 真实截图对照](https://msipla.github.io/-Moonlit-Halt/phase2.html) · [第二阶段测试报告](TEST-REPORT-PHASE2.md) · [第二阶段开发日志](devlog/2026-10-12-phase2.md)
 
@@ -23,17 +25,17 @@ Minecraft Java **1.20.1** 的独立地形／光照技术原型，版本 **0.2.0*
 ## 安装体验
 
 1. 使用 **Minecraft Java 1.20.1 + Fabric Loader 0.14.25 + Java 17** 的独立测试实例。
-2. 把 [glimmering-abyss-0.2.0.jar](artifacts/glimmering-abyss-0.2.0.jar) 与 [Fabric API 0.85.0+1.20.1](https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-api/0.85.0+1.20.1/fabric-api-0.85.0+1.20.1.jar) 放进该实例的 `mods` 文件夹。
+2. 把 [glimmering-abyss-0.3.0.jar](artifacts/glimmering-abyss-0.3.0.jar) 与 [Fabric API 0.85.0+1.20.1](https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-api/0.85.0+1.20.1/fabric-api-0.85.0+1.20.1.jar) 放进该实例的 `mods` 文件夹。
 3. 新建测试世界，建议创造模式并允许作弊，聊天栏输入：
 
 ```mcfunction
 /abyss enter
 /abyss light glimmer
 /abyss view platform
-/abyssrender c
+/abyssrender blue
 ```
 
-同一实例只放一个 Glimmering Abyss 版本；不要同时加载 0.1.0 和 0.2.0。
+同一实例只放一个 Glimmering Abyss 版本；不要同时加载多个 0.1.0 / 0.2.0 / 0.3.0 版本。
 
 按 Minecraft 原有 WASD、鼠标与跳跃操作漫游。观景台护栏会挡住正常行走的玩家；创造模式飞行仍可越过护栏。
 
@@ -44,9 +46,12 @@ Minecraft Java **1.20.1** 的独立地形／光照技术原型，版本 **0.2.0*
 | `/abyss view platform` | 观景台中央机位 |
 | `/abyss view edge` | 深渊边缘机位，仍位于护栏内 |
 | `/abyss view overlook` | 创造模式固定飞行俯视机位；其他机位恢复落地 |
+| `/abyssrender blue` / `copper` | 可配置空间光预设 |
+| `/abyssrender reload` | 重读实例 config/glimmeringabyss-visuals.json |
+| `/abyss lamps on` / `off` | 临时原版灯笼校准；可恢复移除 |
 | `/abyssrender a` | 原版环境渲染基线 |
 | `/abyssrender b` | 自然空间层次 |
-| `/abyssrender c` | 远景轮廓方案；开发侧暂时建议 |
+| `/abyssrender c` | 历史第二阶段远景方案；美学不通过 |
 | `/abyssrender veil` | 明显雾幕诊断方案，不作为推荐体验 |
 | `/abyss light baseline` | 所有测试光源为 0 级 |
 | `/abyss light glimmer` | 所有测试光源为 5 级 |
@@ -90,7 +95,7 @@ Linux／macOS：
 ./gradlew build
 ```
 
-可安装的正式 JAR 输出为 `build/libs/glimmering-abyss-0.2.0.jar`。`sources.jar` 用于查阅源码，不放进 `mods` 文件夹。
+可安装的正式 JAR 输出为 `build/libs/glimmering-abyss-0.3.0.jar`。`sources.jar` 用于查阅源码，不放进 `mods` 文件夹。
 
 ## 复现游戏检查
 
@@ -144,3 +149,9 @@ python tools/run_experiment.py --accept-eula --capture --phase2 --output evidenc
 - `evidence/diagnostics/`：保留的失败检查记录。
 
 官方版本资料：[Minecraft 1.20.1](https://www.minecraft.net/en-us/article/minecraft--java-edition-1-20-1)、[Fabric 安装器](https://fabricmc.net/use/installer/)、[Fabric API 发布仓库](https://github.com/FabricMC/fabric-api)、[Fabric Maven](https://maven.fabricmc.net/)。
+
+## 第三阶段证据与待办
+
+最新运行入口 `evidence/phase3/latest.json`；两轮各自保存，正式候选包来源见 `artifacts/checksums-v0.3.json`。本轮 21 张原图和 9 项测试通过。第三阶段蓝/铜金 shader 不更改 lightmap；上文 B/C 是历史第二阶段显示路线。新系统目前只处理实验维度的不透明/cutout 地形，未做几何遮挡与透明材质适配。完整范围、实测/未测分级和待办见 [TEST-REPORT-PHASE3](TEST-REPORT-PHASE3.md)。
+
+下一步先由用户验收原图，再按反馈推进；Windows/PCL2/GPU 与第三方渲染兼容测试仍待执行。

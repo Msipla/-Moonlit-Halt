@@ -1,0 +1,79 @@
+{
+  "method": "Mean original RGB, no altered image output; illustrative fixed rectangular bands, not global perceptual ratings",
+  "regions": {
+    "near_floor": [
+      350,
+      460,
+      930,
+      700
+    ],
+    "upper_wall_band": [
+      320,
+      40,
+      920,
+      220
+    ]
+  },
+  "measurements": {
+    "phase2_A": {
+      "near_floor": [
+        7.013,
+        7.013,
+        7.187
+      ],
+      "upper_wall_band": [
+        4.879,
+        4.875,
+        4.952
+      ]
+    },
+    "phase2_B": {
+      "near_floor": [
+        30.544,
+        33.042,
+        35.646
+      ],
+      "upper_wall_band": [
+        11.014,
+        12.275,
+        13.953
+      ]
+    },
+    "phase2_C": {
+      "near_floor": [
+        30.544,
+        33.042,
+        35.646
+      ],
+      "upper_wall_band": [
+        18.247,
+        19.971,
+        22.243
+      ]
+    },
+    "phase2_Veil": {
+      "near_floor": [
+        44.623,
+        48.399,
+        52.889
+      ],
+      "upper_wall_band": [
+        31.41,
+        45.366,
+        54.86
+      ]
+    },
+    "phase3_blue": {
+      "near_floor": [
+        7.013,
+        17.739,
+        26.751
+      ],
+      "upper_wall_band": [
+        9.636,
+        29.521,
+        44.725
+      ]
+    }
+  }
+}

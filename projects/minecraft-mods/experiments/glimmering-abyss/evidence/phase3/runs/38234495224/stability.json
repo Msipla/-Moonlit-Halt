@@ -1,0 +1,18 @@
+{
+  "method": "Unmodified actual stationary frames; compare with base at approximately +0.6 and +1.2 seconds",
+  "comparisons": [
+    {
+      "file": "blue-platform-stability-1.png",
+      "max_channel_difference": 9,
+      "mean_channel_difference": 6.691261574074074e-05,
+      "fraction_pixels_changed": 4.774305555555556e-05
+    },
+    {
+      "file": "blue-platform-stability-2.png",
+      "max_channel_difference": 20,
+      "mean_channel_difference": 0.0001273148148148148,
+      "fraction_pixels_changed": 4.4487847222222224e-05
+    }
+  ],
+  "limit": "Short single-view sample, not a long-duration flicker guarantee"
+}

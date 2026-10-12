@@ -8,6 +8,8 @@ on:
       - 'projects/minecraft-mods/experiments/glimmering-abyss/evidence/phase2/**'
       - 'projects/minecraft-mods/experiments/glimmering-abyss/TEST-REPORT.md'
       - 'projects/minecraft-mods/experiments/glimmering-abyss/TEST-REPORT-PHASE2.md'
+      - 'projects/minecraft-mods/experiments/glimmering-abyss/evidence/phase3/latest.json'
+      - 'projects/minecraft-mods/experiments/glimmering-abyss/TEST-REPORT-PHASE3.md'
       - '.github/workflows/glimmering-abyss-pages.yml'
   workflow_dispatch:
 permissions:
@@ -32,6 +34,7 @@ jobs:
           mkdir -p _site/evidence/phase1/screenshots
           cp site/glimmering-abyss/index.html _site/index.html
           cp site/glimmering-abyss/phase2.html _site/phase2.html
+          cp site/glimmering-abyss/phase3.html _site/phase3.html
           root=projects/minecraft-mods/experiments/glimmering-abyss/evidence/phase1
           cp "$root/summary.json" "$root/audit-glimmer.json" _site/evidence/phase1/
           cp "$root/screenshots/captures.json" _site/evidence/phase1/screenshots/
@@ -45,6 +48,17 @@ jobs:
           cp "$root/screenshots/captures.json" _site/evidence/phase2/screenshots/
           cp "$root/screenshots/"*.png _site/evidence/phase2/screenshots/
           test "$(find _site/evidence/phase2/screenshots -name '*.png' | wc -l)" -eq 19
+          root=projects/minecraft-mods/experiments/glimmering-abyss/evidence/phase3
+          mkdir -p _site/evidence/phase3
+          cp "$root/latest.json" _site/evidence/phase3/latest.json
+          run=$(python -c 'import json; print(json.load(open("projects/minecraft-mods/experiments/glimmering-abyss/evidence/phase3/latest.json"))["run"])')
+          mkdir -p "_site/evidence/phase3/runs/$run/screenshots"
+          for file in summary.json performance.csv frame-intervals.json stability.json; do
+            cp "$root/runs/$run/$file" "_site/evidence/phase3/runs/$run/"
+          done
+          cp "$root/runs/$run/screenshots/captures.json" "_site/evidence/phase3/runs/$run/screenshots/"
+          cp "$root/runs/$run/screenshots/"*.png "_site/evidence/phase3/runs/$run/screenshots/"
+          test "$(find "_site/evidence/phase3/runs/$run/screenshots" -name '*.png' | wc -l)" -eq 21
           python - <<'PY'
           import datetime, json, os
           from pathlib import Path
