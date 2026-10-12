@@ -148,14 +148,14 @@ public final class Phase6CaptureClient implements ClientModInitializer {
             if(c.player.getY()<59&&System.nanoTime()-climbStarted<20_000_000_000L)return;
             c.options.forwardKey.setPressed(false);
             boolean pass=c.player.getY()>=59&&!c.player.getAbilities().flying;
-            var r=new JsonObject();r.addProperty("method","Actual forward-key walking from workshop, across bridge and back, through streets and up the vanilla ladder; no intermediate teleport or flight.");r.addProperty("end_y",c.player.getY());r.addProperty("actual_ladder_climb_pass",pass);r.addProperty("walk_and_collision_pass",pass);r.add("walking_legs",legs);
+            var r=new JsonObject();r.addProperty("method","Actual forward-key walking from workshop, across bridge and back, through streets and up the vanilla ladder; no intermediate teleport or flight.");r.addProperty("end_y",c.player.getY());r.addProperty("end_x",c.player.getX());r.addProperty("end_z",c.player.getZ());r.addProperty("actual_ladder_climb_pass",pass);r.addProperty("walk_and_collision_pass",pass);r.add("walking_legs",legs);
             try{write("walk-collision.json",r);screenshot(c,"blue-walk-high.png");}catch(Exception e){fail(c,e);return;}
             if(!pass){fail(c,new IllegalStateException("Ladder did not reach balcony: "+r));return;}
             climbed=true;legStarted=System.nanoTime();c.player.setYaw(-90);return;
         }
         if(!steppedOff){
             c.options.forwardKey.setPressed(true);
-            if(c.player.getX()<55.5&&System.nanoTime()-legStarted<4_000_000_000L)return;
+            if(c.player.getX()<56.5&&System.nanoTime()-legStarted<4_000_000_000L)return;
             c.options.forwardKey.setPressed(false);steppedOff=true;
             try{screenshot(c,"blue-walk-balcony.png");}catch(Exception e){fail(c,e);return;}
             command(c,"abyss town view bridge");legStarted=System.nanoTime();return;

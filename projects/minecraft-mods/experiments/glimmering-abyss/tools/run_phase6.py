@@ -37,6 +37,7 @@ def run(args):
   for mode in ['baseline','reference','glimmer']:
    command(server,'abyss light '+mode);wait_for(lambda:not (server/'abyss-command.txt').exists(),60,'Light update',p);time.sleep(5);command(server,'abyss audit')
    path=results/f'audit-{mode}.json';wait_for(path.exists,180,'Legacy native audit',p);shutil.copy2(path,output/path.name)
+  command(server,'abyss safety first');wait_for(lambda:(results/'safety-first.json').exists(),60,'Entire-landscape safety probe',p);shutil.copy2(results/'safety-first.json',output/'safety-first.json')
   capture_start=time.time()
   with (output/'client.log').open('w') as client_log:client=launch(client_log, phase=6)
   captures=client/'abyss-phase6-captures';rows=json.loads((captures/'captures.json').read_text());walk=json.loads((captures/'walk-collision.json').read_text())
@@ -51,7 +52,6 @@ def run(args):
   shutil.copy2(results/'audit-glimmer-before-building.json',output/'audit-glimmer-before-building.json')
   shutil.copy2(results/'architecture-phase4-regression.json',output/'architecture-phase4-regression.json')
   shutil.copy2(results/'exploration-phase5-regression.json',output/'exploration-phase5-regression.json')
-  command(server,'abyss safety first');wait_for(lambda:(results/'safety-first.json').exists(),60,'Entire-landscape safety probe',p);shutil.copy2(results/'safety-first.json',output/'safety-first.json')
  finally:stop(p,log)
  # An actual server restart loads the existing save without placing the structure again.
  p,log=start('server-reload.log')

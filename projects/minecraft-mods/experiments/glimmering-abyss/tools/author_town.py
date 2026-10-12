@@ -109,8 +109,12 @@ for x in range(52,65):
 for z in range(-63,-51):
  for x in (52,64):
   put(x,59,z,'cobbled_deepslate_wall',up='true',north='tall',south='tall',east='none',west='none',waterlogged='false')
+box(54,57,-60,55,60,-56,'air')
 box(53,41,-58,53,60,-58,'deepslate_bricks')
 for y in range(41,60):put(54,y,-58,'ladder',facing='east',waterlogged='false')
+# A forgiving two-block-wide slot gives standing headroom; the east deck is the exit.
+for z in (-60,-56):
+ for x in (54,55):put(x,59,z,'polished_blackstone_wall',up='true',north='none',south='none',east='tall',west='tall',waterlogged='false')
 # Ladder passes through the balcony opening; move east at y=59 to step off.
 box(57,59,-57,61,70,-53,'polished_blackstone_bricks')
 for y in range(63,68):
