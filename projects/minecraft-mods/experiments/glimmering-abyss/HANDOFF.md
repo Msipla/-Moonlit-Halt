@@ -30,3 +30,9 @@ Phase 1/2 原始证据及旧 JAR 保持原样；Phase 2 报告只追加明确勘
 可重复构建 `./gradlew build stageTestMods`；有桌面显示时运行 `python tools/run_experiment.py --accept-eula --capture --phase3 --output evidence/phase3/local-unique-run`。服务端只监听 localhost，依赖/世界/缓存不提交。新的输出目录必须唯一。
 
 聊天恢复与治理：[Conversation-Archives](https://github.com/Msipla/Conversation-Archives/blob/main/conversations/minecraft/HANDOFF.md)。工程成果不复制到聊天库或 Archives 正史库。
+
+## 项目展厅（2026-10-12 更新）
+
+用户浏览入口为 [GitHub Pages 项目展厅](https://msipla.github.io/-Moonlit-Halt/)，首页以真实画面、阶段状态、画廊和时间线为主。完整技术报告继续保存在 phase1.html / phase2.html / phase3.html；旧阶段证据 URL 不变。阶段展示清单为 site/glimmering-abyss/exhibition.json，后续发布需同步维护。网站 QA 截图位于 evidence/website，不能混作 Minecraft 实机证据。
+
+最终网页源码 570ba16，Pages 38239083223 与独立 Chromium QA 38239083189 均成功；360–1440px 视口检查通过，实体手机尚未实测。完整网页验证见 [网站测试报告](../../../../site/glimmering-abyss/TEST-REPORT.md)。后续先收用户第三阶段原图反馈及真实设备表现；不要因网页 QA 通过而改变美学待验收状态。
