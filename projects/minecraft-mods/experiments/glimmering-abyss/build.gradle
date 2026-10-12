@@ -19,6 +19,7 @@ dependencies {
 }
 
 loom {
+    mixin { defaultRefmapName = 'glimmering-abyss-refmap.json' }
     runs {
         client {
             runDir 'run-client'
@@ -27,6 +28,7 @@ loom {
             if (project.hasProperty('abyssCapture')) {
                 vmArgs '-Dabyss.capture=true', '-Dabyss.port=25585'
             }
+            if (project.hasProperty('abyssPhase2Capture')) vmArgs '-Dabyss.capture.phase2=true', '-Dabyss.port=25585'
         }
         server {
             runDir 'run-server'
@@ -53,6 +55,6 @@ tasks.register('stageTestMods', Copy) {
     into layout.buildDirectory.dir('test-mods')
 }
 tasks.named('wrapper') {
-    gradleVersion = '8.1.1'
+    gradleVersion = '8.2.1'
     distributionType = Wrapper.DistributionType.BIN
 }

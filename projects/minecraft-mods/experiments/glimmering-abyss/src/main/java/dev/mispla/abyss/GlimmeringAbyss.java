@@ -54,6 +54,7 @@ public final class GlimmeringAbyss implements ModInitializer {
             new View("tunnel", 0.5, 39, 90.5, 180, 0),
             new View("platform", 0.5, 39, 73.5, 180, 12),
             new View("edge", 20.5, 39, 66.5, 165, 15));
+    public static final View OVERLOOK = new View("overlook",20.5,39,66.5,165,46);
 
     public static Identifier id(String path) { return new Identifier("glimmeringabyss", path); }
 
@@ -68,10 +69,10 @@ public final class GlimmeringAbyss implements ModInitializer {
                 .executes(c -> message(c.getSource(), "enter | view tunnel/platform/edge | light baseline/glimmer/reference | audit | return"))
                 .then(literal("enter").executes(c -> teleport(c.getSource(), VIEWS.get(0))))
                 .then(literal("view").then(argument("name", StringArgumentType.word())
-                        .suggests((c, b) -> { VIEWS.forEach(v -> b.suggest(v.name)); return b.buildFuture(); })
+                        .suggests((c, b) -> { VIEWS.forEach(v -> b.suggest(v.name)); b.suggest("overlook"); return b.buildFuture(); })
                         .executes(c -> {
                             String name = StringArgumentType.getString(c, "name");
-                            View view = VIEWS.stream().filter(v -> v.name.equals(name)).findFirst().orElse(null);
+                            View view = name.equals("overlook") ? OVERLOOK : VIEWS.stream().filter(v -> v.name.equals(name)).findFirst().orElse(null);
                             if (view == null) return message(c.getSource(), "Unknown view: " + name);
                             return teleport(c.getSource(), view);
                         })))
@@ -79,7 +80,8 @@ public final class GlimmeringAbyss implements ModInitializer {
                         .then(argument("mode", StringArgumentType.word())
                         .suggests((c, b) -> { for (String name : new String[]{"baseline", "glimmer", "reference"}) b.suggest(name); return b.buildFuture(); })
                         .executes(c -> changeLight(c.getSource(), StringArgumentType.getString(c, "mode")))))
-                .then(literal("audit").requires(s -> s.hasPermissionLevel(2)).executes(c -> audit(c.getSource())))
+                .then(literal("audit").requires(s -> s.hasPermissionLevel(2)).executes(c -> audit(c.getSource(),""))
+                        .then(argument("label",StringArgumentType.word()).executes(c -> audit(c.getSource(),StringArgumentType.getString(c,"label")))))
                 .then(literal("return").executes(c -> {
                     ServerPlayerEntity player = c.getSource().getPlayerOrThrow();
                     ServerWorld world = c.getSource().getServer().getOverworld();
@@ -149,8 +151,9 @@ public final class GlimmeringAbyss implements ModInitializer {
         return message(source, "Light " + mode + " / " + FIXTURES.size() + " emitters. Wait for lighting/chunks to settle before audit.");
     }
 
-    private static int audit(ServerCommandSource source) {
+    private static int audit(ServerCommandSource source,String label) {
         try {
+            if(!label.matches("[a-zA-Z0-9_-]{0,40}"))throw new IllegalArgumentException("Invalid audit label");
             ServerWorld world = study(source.getServer());
             JsonObject result = new JsonObject();
             result.addProperty("minecraft", "1.20.1");
@@ -224,7 +227,7 @@ public final class GlimmeringAbyss implements ModInitializer {
             result.addProperty("server_total_ticks", ticks);
             result.addProperty("lighting_pending_at_audit_end", world.getChunkManager().getLightingProvider().hasUpdates());
             Path directory = Path.of("abyss-results"); Files.createDirectories(directory);
-            Path path = directory.resolve("audit-" + mode + ".json");
+            Path path = directory.resolve("audit-" + mode + (label.isEmpty()?"":"-"+label) + ".json");
             Files.writeString(path, new GsonBuilder().setPrettyPrinting().create().toJson(result));
             message(source, "Audit " + path + " / light=" + lightPass + " route=" + routePass);
             return lightPass && routePass ? 1 : 0;

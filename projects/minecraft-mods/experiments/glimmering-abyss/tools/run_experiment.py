@@ -19,6 +19,12 @@ import urllib.request
 ROOT = Path(__file__).resolve().parents[1]
 
 
+def release_jar():
+    version = next(line.split('=',1)[1].strip() for line in (ROOT/'gradle.properties').read_text().splitlines() if line.startswith('mod_version='))
+    return ROOT / f'build/libs/glimmering-abyss-{version}.jar'
+
+
+
 def wait_for(check, timeout, message, process=None):
     deadline = time.monotonic() + timeout
     while time.monotonic() < deadline:
@@ -47,7 +53,7 @@ def run(args):
     gradle = [str(wrapper), "--no-daemon"]
     if not args.skip_build:
         subprocess.run(gradle + ["build", "stageTestMods"], cwd=ROOT, check=True)
-    elif not (ROOT / "build/libs/glimmering-abyss-0.1.0.jar").exists() or not (ROOT / "build/test-mods").exists():
+    elif not release_jar().exists() or not (ROOT / "build/test-mods").exists():
         raise RuntimeError("--skip-build requires existing verified build artifacts")
 
     java = str(Path(os.environ["JAVA_HOME"]) / "bin" / ("java.exe" if os.name == "nt" else "java")) if os.environ.get("JAVA_HOME") else "java"
@@ -76,7 +82,7 @@ def run(args):
                             "-downloadMinecraft", "-dir", str(server_dir)], cwd=ROOT, stdout=log, stderr=subprocess.STDOUT, check=True)
     mods = server_dir / "mods"
     mods.mkdir(exist_ok=True)
-    jar = ROOT / "build/libs/glimmering-abyss-0.1.0.jar"
+    jar = release_jar()
     api = next((ROOT / "build/test-mods").glob("fabric-api-*.jar"))
     shutil.copy2(jar, mods / jar.name)
     shutil.copy2(api, mods / api.name)
@@ -129,13 +135,16 @@ def run(args):
         if args.capture:
             # The optional client harness is only enabled through this property.
             with (output / "client.log").open("w", encoding="utf-8") as client_log:
-                subprocess.run(gradle + ["runClient", "-PabyssCapture"], cwd=ROOT,
+                client_command = gradle + ["runClient", "-PabyssPhase2Capture" if args.phase2 else "-PabyssCapture"]
+                if args.skip_asset_download: client_command += ['-x','downloadAssets']
+                subprocess.run(client_command, cwd=ROOT,
                                stdout=client_log, stderr=subprocess.STDOUT, check=True, timeout=900)
-            if "ABYSS_CAPTURE_COMPLETE 9 walk_collision=true" not in (output / "client.log").read_text(encoding="utf-8", errors="replace"):
+            expected_marker = "ABYSS_PHASE2_COMPLETE 17 walk_collision=true" if args.phase2 else "ABYSS_CAPTURE_COMPLETE 9 walk_collision=true"
+            if expected_marker not in (output / "client.log").read_text(encoding="utf-8", errors="replace"):
                 raise RuntimeError("Current client run did not finish; old capture files cannot count as a pass")
-            captures = ROOT / "run-client/abyss-captures"
+            captures = ROOT / ("run-client/abyss-phase2-captures" if args.phase2 else "run-client/abyss-captures")
             manifest = json.loads((captures / "captures.json").read_text())
-            if len(manifest) != 9:
+            if len(manifest) != (17 if args.phase2 else 9):
                 raise RuntimeError("Real game capture did not produce all nine viewpoints/modes")
             target = output / "screenshots"
             target.mkdir(exist_ok=True)
@@ -146,7 +155,11 @@ def run(args):
             if not walk["walk_and_collision_pass"]:
                 raise RuntimeError("Actual client walk/railing collision check failed")
             shutil.copy2(captures / "walk-collision.json", output / "walk-collision.json")
-        else:
+            if args.phase2:
+                for path in captures.glob('*-stability-*.png'):shutil.copy2(path,target/path.name)
+                for profile in ['a','b','c']:shutil.copy2(results/f'audit-glimmer-{profile}.json',output/f'audit-glimmer-{profile}.json')
+                for profile in ['b','c']:shutil.copy2(results/f'audit-baseline-no-sources-{profile}.json',output/f'audit-baseline-no-sources-{profile}.json')
+        if not args.capture or args.phase2:
             for mode in ["baseline", "glimmer", "reference"]:
                 command(server_dir, "abyss light " + mode)
                 wait_for(lambda: not (server_dir / "abyss-command.txt").exists(), 60, "Light switch was not processed", process)
@@ -196,9 +209,17 @@ def run(args):
                    "native_server_light_checks": True, "fresh_world_fingerprint_match": match,
                    "terrain_fingerprint": first["generated_terrain_sha256"],
                    "sampled_world_blocks": first["generated_world_sample_count"],
-                   "real_client_screenshots": 9 if args.capture else 0,
+                   "real_client_screenshots": (19 if args.phase2 else 9) if args.capture else 0,
                    "real_client_walk_collision_pass": True if args.capture else None,
                    "performance_limit": "Cloud CPU/software OpenGL; not target desktop hardware or Android."}
+        summary['gradle_asset_download_skipped']=args.skip_asset_download
+        if args.phase2:
+            previous=json.loads((ROOT/'evidence/phase1/summary.json').read_text())
+            summary['comparison_screenshots']=12
+            summary['matches_phase1_terrain_fingerprint']=first['generated_terrain_sha256']==previous['terrain_fingerprint']
+            if not summary['matches_phase1_terrain_fingerprint']:raise RuntimeError('Phase 2 terrain differs from Phase 1 sampling')
+            from phase2_validate import validate
+            summary.update(validate(output))
         (output / "summary.json").write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8")
         print(json.dumps(summary, indent=2), flush=True)
     finally:
@@ -212,4 +233,8 @@ if __name__ == "__main__":
     parser.add_argument("--skip-build", action="store_true", help="Use already built JAR/API artifacts after a successful build")
     parser.add_argument("--server-template", help="Reuse a previously installed official Fabric server bootstrap; fresh worlds, mods and caches are still created")
     parser.add_argument("--output", default="evidence/latest")
-    run(parser.parse_args())
+    parser.add_argument('--phase2',action='store_true',help='A/B/C environment captures; requires --capture')
+    parser.add_argument('--skip-asset-download',action='store_true',help='Advanced: use already prepared graphics/font assets; audio is not validated')
+    args=parser.parse_args()
+    if args.phase2 and not args.capture:parser.error('--phase2 requires --capture')
+    run(args)
