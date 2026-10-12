@@ -34,8 +34,11 @@ put(42, 48, 43, 'iron_bars', north='false', south='false', east='false', west='f
 # Irregular perimeter and lower rock ribs give the opening a natural edge.
 shaft_columns = []
 for x in range(-23, 30):
-    for z in range(16, 57):
-        if ((x-3)/26.0)**2 + ((z-36)/21.0)**2 > 1.0:
+    for z in range(-20, 61):
+        if ((x-3)/26.0)**2 + ((z-20)/40.0)**2 > 1.0:
+            continue
+        # Keep the original near giant pillar and its embedded emitters intact.
+        if (x-12)**2 + (z-7)**2 <= 10**2:
             continue
         shaft_columns.append((x, z))
         box(x, -62, z, x, 37, z, 'air')
@@ -79,8 +82,8 @@ for x,z in [(28,38),(-25,38),(-32,30)]:
     box(x,41,z,x,42,z,'polished_blackstone_wall',up='true',north='none',south='none',east='none',west='none',waterlogged='false')
     put(x,43,z,'lantern',hanging='false',waterlogged='false')
 
-origin = (-32,-63,15)
-size = (100,139,61)
+origin = (-32,-63,-20)
+size = (100,139,93)
 palette, lookup, blocks = [], {}, []
 for pos,s in sorted(b.items()):
     key = json.dumps(s,sort_keys=True)
