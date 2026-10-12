@@ -1,0 +1,19 @@
+{
+  "label": "reload",
+  "template_blocks_checked": 198276,
+  "block_id_mismatches": 0,
+  "explicit_property_mismatches": 0,
+  "actual_structure_state_sha256": "123f8eb9013ead30c438e395d692d8cc3d28a610dafff71a09fb580eb1c65636",
+  "warm_window_blocks": 52,
+  "warm_windows_native_light_12": 52,
+  "route_samples": 217,
+  "connected_route_collision_clearance_pass": true,
+  "iron_rail_samples": 212,
+  "iron_rail_collision_pass": true,
+  "vertical_air_samples": 1800,
+  "finite_vertical_shaft_pass": true,
+  "shaft_floor_y": -63,
+  "walk_surface_y": 39,
+  "template_entities": 0,
+  "pass": true
+}
