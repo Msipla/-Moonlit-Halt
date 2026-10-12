@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "template": "glimmeringabyss:exploration",
+  "origin": [
+    -32,
+    -63,
+    15
+  ],
+  "size": [
+    100,
+    139,
+    61
+  ],
+  "blocks": 198272,
+  "palette_states": 36,
+  "template_sha256": "cfdbbe9bb6fcb34d68ea7eadb7ec1de9b55f39de549b4ea23f2dbfa83effbf21",
+  "entities": 0,
+  "shaft_floor_y": -63,
+  "walk_surface_y": 39,
+  "shaft_depth_blocks": 102,
+  "excavated_columns": 1709,
+  "bridge_deck": "minecraft:iron_trapdoor",
+  "bridge_span_blocks": 54,
+  "additional_buildings": 0,
+  "authoring": "Original vanilla-block finite local shaft and walking route; Phase 4 template and terrain generator unchanged"
+}

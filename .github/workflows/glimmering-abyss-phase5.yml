@@ -1,0 +1,83 @@
+name: Validate Glimmering Abyss short exploration release prototype
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'projects/minecraft-mods/experiments/glimmering-abyss/src/**'
+      - 'projects/minecraft-mods/experiments/glimmering-abyss/tools/**'
+      - 'projects/minecraft-mods/experiments/glimmering-abyss/gradle.properties'
+      - '.github/workflows/glimmering-abyss-phase5.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: glimmering-abyss-phase5
+  cancel-in-progress: true
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      PROJECT: projects/minecraft-mods/experiments/glimmering-abyss
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Prepare software display
+        run: sudo apt-get update && sudo apt-get install -y xvfb
+      - name: Build release and tests
+        working-directory: ${{ env.PROJECT }}
+        run: |
+          mkdir -p evidence/phase5/runs/${{ github.run_id }}
+          set -o pipefail
+          python3 tools/author_route.py
+          ./gradlew --no-daemon build stageTestMods 2>&1 | tee evidence/phase5/runs/${{ github.run_id }}/build.log
+      - name: Run actual Minecraft client and server
+        working-directory: ${{ env.PROJECT }}
+        run: |
+          xvfb-run -a python3 -u tools/run_phase5.py --accept-eula --skip-build --output evidence/phase5/runs/${{ github.run_id }}
+      - name: Preserve current-run evidence and build packages
+        if: always()
+        env:
+          SOURCE_SHA: ${{ github.sha }}
+          RUN_ID: ${{ github.run_id }}
+          RUN_STATUS: ${{ job.status }}
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import os,json,hashlib,shutil
+          p=Path(os.environ['PROJECT']);out=p/'evidence/phase5/runs'/os.environ['RUN_ID'];out.mkdir(parents=True,exist_ok=True)
+          captures=p/'.runtime/release-client/abyss-phase5-captures'
+          if captures.is_dir():
+              (out/'screenshots').mkdir(exist_ok=True)
+              for f in captures.iterdir():
+                  if not f.is_file():continue
+                  target=(out/'screenshots' if f.suffix=='.png' or f.name=='captures.json' else out)/f.name
+                  if not target.exists():shutil.copy2(f,target)
+          launch=p/'.runtime/release-client/launch-provenance.json'
+          if launch.exists():shutil.copy2(launch,out/'client-launch-provenance.json')
+          servers=sorted((p/'.runtime').glob('phase5-server-*'))
+          if servers:
+              for f in (servers[-1]/'abyss-results').glob('*.json'):
+                  if not (out/f.name).exists():shutil.copy2(f,out/f.name)
+          (out/'provenance.json').write_text(json.dumps(dict(source_commit=os.environ['SOURCE_SHA'],workflow_run=os.environ['RUN_ID'],job_status=os.environ['RUN_STATUS']),indent=2)+'\n')
+          for f in (p/'build/test-results/test').glob('TEST-*.xml'):shutil.copy2(f,out/f.name)
+          packages={}
+          for f in (p/'build/libs').glob('glimmering-abyss-0.5.0*.jar'):
+              target=out/f.name;shutil.copy2(f,target);packages[f.name]=dict(sha256=hashlib.sha256(f.read_bytes()).hexdigest(),bytes=f.stat().st_size)
+          (out/'checksums.json').write_text(json.dumps(dict(source_commit=os.environ['SOURCE_SHA'],artifacts=packages),indent=2)+'\n')
+          PY
+          git config user.name "Glimmering Abyss validation"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add "$PROJECT/evidence/phase5/runs/${{ github.run_id }}"
+          git add "$PROJECT/src/main/resources/data/glimmeringabyss/structures/exploration.nbt" "$PROJECT/src/main/resources/data/glimmeringabyss/architecture/exploration.json"
+          git commit -m "test(glimmering-abyss): preserve phase-five run ${{ github.run_id }}"
+          git pull --rebase origin main
+          git push origin HEAD:main
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: phase5-${{ github.run_id }}
+          path: ${{ env.PROJECT }}/evidence/phase5/runs/${{ github.run_id }}

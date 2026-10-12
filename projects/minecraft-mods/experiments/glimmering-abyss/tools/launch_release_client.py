@@ -15,7 +15,7 @@ def download(url,target,sha1=None):
  if sha1 and hashlib.sha1(raw).hexdigest()!=sha1:raise RuntimeError('SHA1 mismatch: '+url)
  target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes(raw);return target
 
-def launch(log):
+def launch(log, phase=4):
  RUNTIME.mkdir(parents=True,exist_ok=True)
  versions=json.loads(get('https://piston-meta.mojang.com/mc/game/version_manifest_v2.json'))
  v=next(x for x in versions['versions'] if x['id']=='1.20.1')
@@ -59,7 +59,7 @@ def launch(log):
  jar=ROOT/f'build/libs/glimmering-abyss-{version}.jar'
  for old in mods.glob('glimmering-abyss-*.jar'):old.unlink()
  shutil.copy2(jar,mods/jar.name);api=next((ROOT/'build/test-mods').glob('fabric-api-*.jar'));shutil.copy2(api,mods/api.name)
- cmd=['java','-Xms512M','-Xmx2G','-XX:ActiveProcessorCount=4','-Djava.library.path='+str(natives),'-Dorg.lwjgl.librarypath='+str(natives),'-Dabyss.capture.phase4=true','-Dabyss.port=25585','-cp',os.pathsep.join(cp),fabric['mainClass'],'--username','Phase4Tester','--version','1.20.1','--gameDir',str(RUNTIME),'--assetsDir',str(assets),'--assetIndex',idx['id'],'--uuid','00000000000000000000000000000004','--accessToken','0','--userType','legacy','--versionType','release','--width','1280','--height','720']
+ cmd=['java','-Xms512M','-Xmx2G','-XX:ActiveProcessorCount=4','-Djava.library.path='+str(natives),'-Dorg.lwjgl.librarypath='+str(natives),f'-Dabyss.capture.phase{phase}=true','-Dabyss.port=25585','-cp',os.pathsep.join(cp),fabric['mainClass'],'--username',f'Phase{phase}Tester','--version','1.20.1','--gameDir',str(RUNTIME),'--assetsDir',str(assets),'--assetIndex',idx['id'],'--uuid',f'0000000000000000000000000000000{phase}','--accessToken','0','--userType','legacy','--versionType','release','--width','1280','--height','720']
  (RUNTIME/'launch-provenance.json').write_text(json.dumps({'minecraft':'1.20.1','fabric':'0.14.25','release_jar':jar.name,'release_sha256':hashlib.sha256(jar.read_bytes()).hexdigest(),'development_classes':False,'assets':len(hashes),'official_manifest_url':v['url']},indent=2)+'\n')
  subprocess.run(cmd,cwd=RUNTIME,stdout=log,stderr=subprocess.STDOUT,check=True,timeout=900)
  return RUNTIME

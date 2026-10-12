@@ -70,6 +70,12 @@ public final class GlimmeringAbyss implements ModInitializer {
         CommandRegistrationCallback.EVENT.register((dispatcher, access, environment) -> dispatcher.register(
                 literal("abyss")
                 .executes(c -> message(c.getSource(), "enter | view tunnel/platform/edge/overlook | light baseline/glimmer/reference | audit | return"))
+                .then(literal("route").requires(s -> s.hasPermissionLevel(2))
+                    .executes(c -> Exploration.place(c.getSource()))
+                    .then(literal("audit").then(argument("label",StringArgumentType.word()).executes(c -> Exploration.audit(c.getSource(),StringArgumentType.getString(c,"label")))))
+                    .then(literal("view").then(argument("name",StringArgumentType.word())
+                        .suggests((c,b) -> {Exploration.VIEWS.forEach(v -> b.suggest(v.name()));return b.buildFuture();})
+                        .executes(c -> Exploration.view(c.getSource(),StringArgumentType.getString(c,"name"))))))
                 .then(literal("building").requires(s -> s.hasPermissionLevel(2))
                     .executes(c -> Architecture.place(c.getSource()))
                     .then(literal("audit").then(argument("label", StringArgumentType.word()).executes(c -> Architecture.audit(c.getSource(), StringArgumentType.getString(c,"label")))))

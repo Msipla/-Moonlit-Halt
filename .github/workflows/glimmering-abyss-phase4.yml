@@ -1,12 +1,5 @@
 name: Validate Glimmering Abyss architecture release prototype
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'projects/minecraft-mods/experiments/glimmering-abyss/src/**'
-      - 'projects/minecraft-mods/experiments/glimmering-abyss/tools/**'
-      - 'projects/minecraft-mods/experiments/glimmering-abyss/gradle.properties'
-      - '.github/workflows/glimmering-abyss-phase4.yml'
   workflow_dispatch:
 permissions:
   contents: write
