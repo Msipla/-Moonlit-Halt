@@ -47,14 +47,16 @@ public final class Phase4CaptureClient implements ClientModInitializer {
         r.add(new Case("overworld-blue.png","blue",null,"glimmer","dimension_scope"));return List.copyOf(r);
     }
     @Override public void onInitializeClient() {
-        if(!Boolean.getBoolean("abyss.capture.phase4"))return;started=System.nanoTime();
+        if(!Boolean.getBoolean("abyss.capture.phase4"))return;started=System.nanoTime();System.out.println("ABYSS_PHASE4_RELEASE_HARNESS_ENABLED");
         WorldRenderEvents.END.register(c->{long now=System.nanoTime();if(phase>=0&&phase<CASES.size()&&!saved&&now-phaseStarted>8_000_000_000L&&lastFrame!=0)frames.add((now-lastFrame)/1e6);lastFrame=now;});
         ClientTickEvents.END_CLIENT_TICK.register(this::tick);
     }
     private void tick(MinecraftClient client) {
         if(finished)return;
         if(System.nanoTime()-started>1000_000_000_000L){fail(client,new IllegalStateException("Capture timeout"));return;}
-        if(!connected&&client.currentScreen!=null&&client.currentScreen.getClass().getSimpleName().equals("AccessibilityOnboardingScreen"))client.setScreen(new TitleScreen());
+        // Release Minecraft uses intermediary class names; never identify screens with a name string.
+        if(!connected&&client.currentScreen!=null&&client.getOverlay()==null&&!(client.currentScreen instanceof TitleScreen))client.setScreen(new TitleScreen());
+        if(!connected&&System.nanoTime()-started>180_000_000_000L){fail(client,new IllegalStateException("Release title-screen connection timeout"));return;}
         if(!connected&&client.currentScreen instanceof TitleScreen&&client.getOverlay()==null) {
             connected=true;client.options.getViewDistance().setValue(16);client.options.getSimulationDistance().setValue(6);
             client.options.getFov().setValue(75);client.options.getGamma().setValue(.5);client.options.getMaxFps().setValue(60);
