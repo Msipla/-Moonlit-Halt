@@ -1,0 +1,13 @@
+{
+  "source_commit": "7795078bd4c48ea45066df12eee33e67b7537bf9",
+  "artifacts": {
+    "glimmering-abyss-0.3.0.jar": {
+      "sha256": "bee4348bff32636c8b1a55353bbeca4e5a2dc1f5b454027a87f5b8a88374f9f2",
+      "bytes": 80187
+    },
+    "glimmering-abyss-0.3.0-sources.jar": {
+      "sha256": "d53611b015e2eeefb73f7370ef145bf55381c0b24bb4bbfbd646f8ad6dc39cce",
+      "bytes": 37227
+    }
+  }
+}
