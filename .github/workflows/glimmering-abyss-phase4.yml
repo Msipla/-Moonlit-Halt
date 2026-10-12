@@ -12,7 +12,7 @@ permissions:
   contents: write
 concurrency:
   group: glimmering-abyss-phase4
-  cancel-in-progress: false
+  cancel-in-progress: true
 jobs:
   validate:
     runs-on: ubuntu-latest
