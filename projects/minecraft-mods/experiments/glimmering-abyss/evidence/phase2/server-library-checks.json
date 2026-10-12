@@ -1,0 +1,57 @@
+[
+  {
+    "path": "net/fabricmc/tiny-mappings-parser/0.3.0+build.17/tiny-mappings-parser-0.3.0+build.17.jar",
+    "sha1": "02f10540a290e382a7cd35c16ec3900046a4e252",
+    "bytes": 82671
+  },
+  {
+    "path": "net/fabricmc/sponge-mixin/0.12.5+mixin.0.8.5/sponge-mixin-0.12.5+mixin.0.8.5.jar",
+    "sha1": "8d31fb97c3e0cd7c8dad3441851c523bcfae6d8e",
+    "bytes": 1451874
+  },
+  {
+    "path": "net/fabricmc/tiny-remapper/0.8.2/tiny-remapper-0.8.2.jar",
+    "sha1": "2cc6565989469ec38893bfb7802b31c0d0d11ea0",
+    "bytes": 216774
+  },
+  {
+    "path": "net/fabricmc/access-widener/2.1.0/access-widener-2.1.0.jar",
+    "sha1": "f62a27adbfd8ab4d4fa5681793039f2c0b177155",
+    "bytes": 30866
+  },
+  {
+    "path": "org/ow2/asm/asm/9.6/asm-9.6.jar",
+    "sha1": "aa205cf0a06dbd8e04ece91c0b37c3f5d567546a",
+    "bytes": 123598
+  },
+  {
+    "path": "org/ow2/asm/asm-analysis/9.6/asm-analysis-9.6.jar",
+    "sha1": "9ce6c7b174bd997fc2552dff47964546bd7a5ec3",
+    "bytes": 34041
+  },
+  {
+    "path": "org/ow2/asm/asm-commons/9.6/asm-commons-9.6.jar",
+    "sha1": "f1a9e5508eff490744144565c47326c8648be309",
+    "bytes": 72194
+  },
+  {
+    "path": "org/ow2/asm/asm-tree/9.6/asm-tree-9.6.jar",
+    "sha1": "c0cdda9d211e965d2a4448aa3fd86110f2f8c2de",
+    "bytes": 51935
+  },
+  {
+    "path": "org/ow2/asm/asm-util/9.6/asm-util-9.6.jar",
+    "sha1": "f77caf84eb93786a749b2baa40865b9613e3eaee",
+    "bytes": 91131
+  },
+  {
+    "path": "net/fabricmc/intermediary/1.20.1/intermediary-1.20.1.jar",
+    "sha1": "97d0bff94981e37bd7a4362deee53c9a84e3fb21",
+    "bytes": 573365
+  },
+  {
+    "path": "net/fabricmc/fabric-loader/0.14.25/fabric-loader-0.14.25.jar",
+    "sha1": "1341646aa401aa9c1350f5cf50a13cbda071f2da",
+    "bytes": 836735
+  }
+]

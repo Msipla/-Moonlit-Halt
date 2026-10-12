@@ -1,0 +1,38 @@
+Picked up JAVA_TOOL_OPTIONS: -XX:-UseContainerSupport -Djava.net.preferIPv4Stack=true -Djavax.net.ssl.trustStore=/etc/ssl/certs/java/cacerts -Dhttp.proxyHost=127.0.0.1 -Dhttp.proxyPort=37855 -Dhttps.proxyHost=127.0.0.1 -Dhttps.proxyPort=37855
+Loading Fabric Installer: 1.0.3
+Installing Fabric Loader 0.14.25(1.20.1) on the server
+Downloading required files
+Downloading library net.fabricmc:tiny-mappings-parser:0.3.0+build.17
+service FabricService{meta='https://meta.fabricmc.net/', maven='https://maven.fabricmc.net/'} failed: java.net.SocketTimeoutException: Read timed out
+service FabricService{meta='https://meta2.fabricmc.net/', maven='https://maven2.fabricmc.net/'} failed: java.net.SocketTimeoutException: Read timed out
+service FabricService{meta='https://meta3.fabricmc.net/', maven='https://maven3.fabricmc.net/'} failed: java.net.SocketTimeoutException: Read timed out
+Exception in thread "main" java.lang.RuntimeException: Failed to install Server
+	at net.fabricmc.installer.Main.main(Main.java:89)
+Caused by: java.net.SocketTimeoutException: Read timed out
+	at java.base/sun.nio.ch.NioSocketImpl.timedRead(NioSocketImpl.java:283)
+	at java.base/sun.nio.ch.NioSocketImpl.implRead(NioSocketImpl.java:309)
+	at java.base/sun.nio.ch.NioSocketImpl.read(NioSocketImpl.java:350)
+	at java.base/sun.nio.ch.NioSocketImpl$1.read(NioSocketImpl.java:803)
+	at java.base/java.net.Socket$SocketInputStream.read(Socket.java:966)
+	at java.base/java.io.BufferedInputStream.fill(BufferedInputStream.java:244)
+	at java.base/java.io.BufferedInputStream.read1(BufferedInputStream.java:284)
+	at java.base/java.io.BufferedInputStream.read(BufferedInputStream.java:343)
+	at java.base/sun.net.www.http.HttpClient.parseHTTPHeader(HttpClient.java:791)
+	at java.base/sun.net.www.http.HttpClient.parseHTTP(HttpClient.java:726)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.doTunneling0(HttpURLConnection.java:2174)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.doTunneling(HttpURLConnection.java:2136)
+	at java.base/sun.net.www.protocol.https.AbstractDelegateHttpsURLConnection.connect(AbstractDelegateHttpsURLConnection.java:181)
+	at java.base/sun.net.www.protocol.https.HttpsURLConnectionImpl.connect(HttpsURLConnectionImpl.java:142)
+	at net.fabricmc.installer.util.Utils.openUrl(Utils.java:145)
+	at net.fabricmc.installer.util.Utils.downloadFile(Utils.java:124)
+	at net.fabricmc.installer.util.FabricService.lambda$downloadSubstitutedMaven$2(FabricService.java:64)
+	at net.fabricmc.installer.util.FabricService.invokeWithFallbacks(FabricService.java:79)
+	at net.fabricmc.installer.util.FabricService.downloadSubstitutedMaven(FabricService.java:63)
+	at net.fabricmc.installer.server.ServerInstaller.install(ServerInstaller.java:119)
+	at net.fabricmc.installer.server.ServerInstaller.install(ServerInstaller.java:66)
+	at net.fabricmc.installer.server.ServerHandler.installCli(ServerHandler.java:78)
+	at net.fabricmc.installer.Main.main(Main.java:87)
+	Suppressed: java.net.SocketTimeoutException: Read timed out
+		... 23 more
+	Suppressed: java.net.SocketTimeoutException: Read timed out
+		... 23 more

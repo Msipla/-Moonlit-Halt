@@ -1,0 +1,7 @@
+{
+  "loom": "1.2.8",
+  "scope": "private build-host cache only; no Minecraft classes changed",
+  "original_sha256": "81b2b0af62e21397ec92829786456a244a0ded02c51d2096b3377ac473362558",
+  "patched_sha256": "040bf8890db9bd9859ae9b9cc2da22078520445f53ef16fb39316a08e2d269fa",
+  "change": "CurrentPlatform reports AF_UNIX unavailable on IOException instead of aborting initialization"
+}

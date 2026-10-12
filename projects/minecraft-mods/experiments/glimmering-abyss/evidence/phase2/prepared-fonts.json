@@ -1,0 +1,12 @@
+[
+  {
+    "path": "minecraft/font/include/unifont.json",
+    "sha1": "f8d4768707b20359f2f7660346bd3a84b6ee27b1",
+    "size": 1879
+  },
+  {
+    "path": "minecraft/font/unifont.zip",
+    "sha1": "a661b5622172ea1ce1fa9ec78fad484d118e5689",
+    "size": 1546906
+  }
+]

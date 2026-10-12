@@ -1,0 +1,1 @@
+Picked up JAVA_TOOL_OPTIONS: -XX:-UseContainerSupport -Djava.net.preferIPv4Stack=true -Djavax.net.ssl.trustStore=/etc/ssl/certs/java/cacerts -Dhttp.proxyHost=127.0.0.1 -Dhttp.proxyPort=38865 -Dhttps.proxyHost=127.0.0.1 -Dhttps.proxyPort=38865
