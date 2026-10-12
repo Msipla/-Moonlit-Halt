@@ -2,15 +2,26 @@
   "schemaVersion": 1,
   "id": "glimmeringabyss",
   "version": "${version}",
-  "name": "Glimmering Abyss · Phase 1",
+  "name": "Glimmering Abyss",
   "description": "Deterministic cavern generation and vanilla block-light experiment for Minecraft 1.20.1.",
-  "authors": ["Mispla", "Codex"],
+  "authors": [
+    "Mispla",
+    "Codex"
+  ],
   "environment": "*",
   "entrypoints": {
-    "main": ["dev.mispla.abyss.GlimmeringAbyss"],
-    "client": ["dev.mispla.abyss.EnvironmentClient", "dev.mispla.abyss.CaptureClient", "dev.mispla.abyss.Phase2CaptureClient"]
+    "main": [
+      "dev.mispla.abyss.GlimmeringAbyss"
+    ],
+    "client": [
+      "dev.mispla.abyss.EnvironmentClient",
+      "dev.mispla.abyss.CaptureClient",
+      "dev.mispla.abyss.Phase2CaptureClient"
+    ]
   },
-  "mixins": ["glimmeringabyss.client.mixins.json"],
+  "mixins": [
+    "glimmeringabyss.client.mixins.json"
+  ],
   "depends": {
     "fabricloader": ">=0.14.25",
     "minecraft": "1.20.1",

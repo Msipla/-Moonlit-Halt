@@ -1,10 +1,12 @@
+> 2026-10-12：第二阶段技术成果保留，用户美学验收不通过。第三阶段研发中，尚无新画面通过声明。历史证据勘误见第二阶段报告末尾。
+
 # Project 02 · 微光深渊（Glimmering Abyss）
 
 Minecraft Java **1.20.1** 的独立地形／光照技术原型，版本 **0.2.0**。第二阶段在既有地形上比较原版基线 A、自然空间层次 B、巨构远景 C；保留第一阶段世界光传播、路线和护栏。
 
 [打开 Phase 2 真实截图对照](https://msipla.github.io/-Moonlit-Halt/phase2.html) · [第二阶段测试报告](TEST-REPORT-PHASE2.md) · [第二阶段开发日志](devlog/2026-10-12-phase2.md)
 
-第一阶段原始说明 [BRIEF.md](BRIEF.md)、[测试报告](TEST-REPORT.md)、[开发日志](devlog/2026-10-12-phase1.md)、[证据](evidence/phase1/) 与 0.1.0 JAR 均保留。正式美学依据来自仓库 `research/aesthetics/` 的 2026-10-12 基准与聊天摘录。技术 PASS 与用户美学验收分开记录。
+第一阶段原始说明 [BRIEF.md](BRIEF.md)、[测试报告](TEST-REPORT.md)、[开发日志](devlog/2026-10-12-phase1.md)、[证据](evidence/phase1/) 与 0.1.0 JAR 均保留。正式美学依据来自仓库 `research/aesthetics/` 的 2026-10-12 基准与聊天摘录。技术 PASS 与用户美学验收分开记录；当前第二阶段美学明确不通过。
 
 ## 已实现
 

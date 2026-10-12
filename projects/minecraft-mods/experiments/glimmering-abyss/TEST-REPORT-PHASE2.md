@@ -109,3 +109,14 @@ python tools/run_experiment.py --accept-eula --capture --phase2 --output evidenc
 - 最终美学验收。以用户根据同机位原图的判断为准。
 
 发布包与源码包：`artifacts/glimmering-abyss-0.2.0.jar`、`glimmering-abyss-0.2.0-sources.jar`，SHA-256 见 `checksums-v0.2.json`。0.1.0 包与第一阶段证据继续保留；同一实例只安装一个本 MOD 版本。
+
+## 2026-10-12 恢复审计勘误与用户验收（追加）
+
+历史原始截图、JSON、CSV、日志、XML 和 v0.2.0 包保持原样。用户已明确第二阶段美学不通过；B/C 不再作为待选最终方案。Veil 的环境色可供研究，雾幕遮挡不可采用。
+
+- `a-tunnel.png` 的原始 `chunk_debug` 为 `pC: 030, pU: 04`；其他 11 张主对照的 pC/pU 为零。“主截图时 pending chunk/rebuild 已为 0”应限于这 11 张，通道 A 不保证加载完成。四机位相机/画质条件一致仍成立。
+- CSV 与捕获 JSON 公开的是 FPS、median、P95、max 等统计值；逐帧间隔仅在客户端内存中计算，未持久归档，不能称为完整逐帧数据公开。第三阶段另存逐帧样本。
+- 包内显示名称含 Phase 1 是历史元数据遗漏；新构建移除阶段名，旧发布包不重写。
+- Windows/PCL2 正式客户端、目标 GPU 与第三方渲染 MOD 仍未验证。
+
+决定来源：[聊天档案](https://github.com/Msipla/Conversation-Archives/blob/main/conversations/minecraft/2026-10-12-phase2-aesthetic-rejection-phase3-vision.md)。第三阶段在当前生成器上研发；技术原型完成仍须用户独立美学验收。
