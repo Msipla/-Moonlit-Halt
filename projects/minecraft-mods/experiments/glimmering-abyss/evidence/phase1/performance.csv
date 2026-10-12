@@ -1,0 +1,10 @@
+light_mode,view,sample_frames,sample_fps,median_frame_ms,p95_frame_ms,max_frame_ms,framebuffer_width,framebuffer_height,fov,brightness_gamma,view_distance_chunks,simulation_distance_chunks,gl_renderer
+baseline,tunnel,110,21.890679492098432,44.892633,52.890461,75.036801,1280,720,75,0.5,12,6,"llvmpipe (LLVM 20.1.2, 256 bits)"
+baseline,platform,103,20.32384554968714,46.040718,58.404333,131.263985,1280,720,75,0.5,12,6,"llvmpipe (LLVM 20.1.2, 256 bits)"
+baseline,edge,103,20.462181047436584,47.85248,59.21542,69.181123,1280,720,75,0.5,12,6,"llvmpipe (LLVM 20.1.2, 256 bits)"
+glimmer,tunnel,105,20.80254733809346,46.663648,58.472178,61.964563,1280,720,75,0.5,12,6,"llvmpipe (LLVM 20.1.2, 256 bits)"
+glimmer,platform,112,22.34449537523919,43.826993,51.979376,60.245225,1280,720,75,0.5,12,6,"llvmpipe (LLVM 20.1.2, 256 bits)"
+glimmer,edge,104,20.606085778627914,46.307446,54.175809,231.149112,1280,720,75,0.5,12,6,"llvmpipe (LLVM 20.1.2, 256 bits)"
+reference,tunnel,109,21.496579762123517,45.287216,56.960649,60.621633,1280,720,75,0.5,12,6,"llvmpipe (LLVM 20.1.2, 256 bits)"
+reference,platform,106,21.145942466158438,46.458173,53.978139,64.530808,1280,720,75,0.5,12,6,"llvmpipe (LLVM 20.1.2, 256 bits)"
+reference,edge,100,19.815188359076814,50.972891,57.649494,60.722886,1280,720,75,0.5,12,6,"llvmpipe (LLVM 20.1.2, 256 bits)"

@@ -1,0 +1,32 @@
+Picked up JAVA_TOOL_OPTIONS: -XX:-UseContainerSupport -Djava.net.preferIPv4Stack=true -Djavax.net.ssl.trustStore=/etc/ssl/certs/java/cacerts -Dhttp.proxyHost=127.0.0.1 -Dhttp.proxyPort=38675 -Dhttps.proxyHost=127.0.0.1 -Dhttps.proxyPort=38675
+To honour the JVM settings for this build a single-use Daemon process will be forked. See https://docs.gradle.org/8.1.1/userguide/gradle_daemon.html#sec:disabling_the_daemon.
+Daemon will be stopped at the end of the build 
+
+> Configure project :
+Fabric Loom: 1.2.8
+Found existing cache lock file, rebuilding loom cache. This may have been caused by a failed or canceled build.
+:remapping 42 mods from modImplementation (java-api)
+:remapping 42 mods from modImplementation (java-runtime)
+
+> Task :compileJava
+> Task :processResources UP-TO-DATE
+> Task :classes
+> Task :jar
+> Task :sourcesJar
+> Task :compileTestJava UP-TO-DATE
+> Task :processTestResources NO-SOURCE
+> Task :testClasses UP-TO-DATE
+
+> Task :test
+Picked up JAVA_TOOL_OPTIONS: -XX:-UseContainerSupport -Djava.net.preferIPv4Stack=true -Djavax.net.ssl.trustStore=/etc/ssl/certs/java/cacerts -Dhttp.proxyHost=127.0.0.1 -Dhttp.proxyPort=38675 -Dhttps.proxyHost=127.0.0.1 -Dhttps.proxyPort=38675
+
+> Task :validateAccessWidener NO-SOURCE
+> Task :check
+> Task :stageTestMods UP-TO-DATE
+> Task :remapSourcesJar
+> Task :remapJar
+> Task :assemble
+> Task :build
+
+BUILD SUCCESSFUL in 34s
+9 actionable tasks: 6 executed, 3 up-to-date

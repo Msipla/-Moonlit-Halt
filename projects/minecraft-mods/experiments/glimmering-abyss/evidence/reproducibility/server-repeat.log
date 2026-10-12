@@ -1,0 +1,131 @@
+Picked up JAVA_TOOL_OPTIONS: -XX:-UseContainerSupport -Djava.net.preferIPv4Stack=true -Djavax.net.ssl.trustStore=/etc/ssl/certs/java/cacerts -Dhttp.proxyHost=127.0.0.1 -Dhttp.proxyPort=38675 -Dhttps.proxyHost=127.0.0.1 -Dhttps.proxyPort=38675
+Starting net.fabricmc.loader.impl.game.minecraft.BundlerClassPathCapture
+[12:08:04] [main/INFO]: Loading Minecraft 1.20.1 with Fabric Loader 0.14.25
+[12:08:04] [main/INFO]: Fabric is preparing JARs on first launch, this may take a few seconds...
+[12:08:04] [main/INFO]: Loading 42 mods:
+	- fabric-api 0.85.0+1.20.1
+	   |-- fabric-api-base 0.4.29+b04edc7a77
+	   |-- fabric-api-lookup-api-v1 1.6.34+4d8536c977
+	   |-- fabric-biome-api-v1 13.0.10+b3afc78b77
+	   |-- fabric-block-api-v1 1.0.9+e022e5d177
+	   |-- fabric-blockrenderlayer-v1 1.1.39+b3afc78b77
+	   |-- fabric-client-tags-api-v1 1.1.0+97bb207577
+	   |-- fabric-command-api-v1 1.2.32+f71b366f77
+	   |-- fabric-command-api-v2 2.2.11+b3afc78b77
+	   |-- fabric-commands-v0 0.2.49+df3654b377
+	   |-- fabric-containers-v0 0.1.61+df3654b377
+	   |-- fabric-content-registries-v0 4.0.8+b3afc78b77
+	   |-- fabric-convention-tags-v1 1.5.3+b3afc78b77
+	   |-- fabric-crash-report-info-v1 0.2.18+aeb40ebe77
+	   |-- fabric-data-generation-api-v1 12.1.12+b3afc78b77
+	   |-- fabric-dimensions-v1 2.1.51+b3afc78b77
+	   |-- fabric-entity-events-v1 1.5.21+b3afc78b77
+	   |-- fabric-events-interaction-v0 0.6.0+b3afc78b77
+	   |-- fabric-events-lifecycle-v0 0.2.61+df3654b377
+	   |-- fabric-game-rule-api-v1 1.0.38+b04edc7a77
+	   |-- fabric-item-api-v1 2.1.26+b3afc78b77
+	   |-- fabric-item-group-api-v1 4.0.8+40e50c4677
+	   |-- fabric-key-binding-api-v1 1.0.36+fb8d95da77
+	   |-- fabric-keybindings-v0 0.2.34+df3654b377
+	   |-- fabric-lifecycle-events-v1 2.2.20+b3afc78b77
+	   |-- fabric-loot-api-v2 1.1.38+b3afc78b77
+	   |-- fabric-loot-tables-v1 1.1.42+9e7660c677
+	   |-- fabric-message-api-v1 5.1.6+b3afc78b77
+	   |-- fabric-mining-level-api-v1 2.1.48+b3afc78b77
+	   |-- fabric-models-v0 0.3.35+b3afc78b77
+	   |-- fabric-networking-api-v1 1.3.8+b3afc78b77
+	   |-- fabric-networking-v0 0.3.48+df3654b377
+	   |-- fabric-object-builder-api-v1 11.1.0+6beca84877
+	   |-- fabric-particles-v1 1.1.0+201a23a077
+	   |-- fabric-recipe-api-v1 1.0.18+b3afc78b77
+	   |-- fabric-registry-sync-v0 2.2.6+b3afc78b77
+	   |-- fabric-renderer-api-v1 3.1.0+c154966e77
+	   |-- fabric-renderer-indigo 1.4.0+c154966e77
+	   |-- fabric-renderer-registries-v1 3.2.44+df3654b377
+	   |-- fabric-rendering-data-attachment-v1 0.3.33+b3afc78b77
+	   |-- fabric-rendering-fluids-v1 3.0.26+b3afc78b77
+	   |-- fabric-rendering-v0 1.1.47+df3654b377
+	   |-- fabric-rendering-v1 3.0.6+b3afc78b77
+	   |-- fabric-resource-conditions-api-v1 2.3.5+ea08f9d877
+	   |-- fabric-resource-loader-v0 0.11.8+e3d6ed2577
+	   |-- fabric-screen-api-v1 2.0.6+b3afc78b77
+	   |-- fabric-screen-handler-api-v1 1.3.27+b3afc78b77
+	   |-- fabric-sound-api-v1 1.0.12+b3afc78b77
+	   |-- fabric-transfer-api-v1 3.2.3+43a3fedd77
+	   \-- fabric-transitive-access-wideners-v1 4.2.0+b3afc78b77
+	- fabricloader 0.14.25
+	- glimmeringabyss 0.1.0
+	- java 17
+	- minecraft 1.20.1
+[12:08:04] [main/INFO]: SpongePowered MIXIN Subsystem Version=0.8.5 Source=file:/workspace/scratch/f5fbcc4a8b17/glimmering-abyss/.runtime/server-repeat-1791778081168046414/libraries/net/fabricmc/sponge-mixin/0.12.5+mixin.0.8.5/sponge-mixin-0.12.5+mixin.0.8.5.jar Service=Knot/Fabric Env=SERVER
+[12:08:04] [main/INFO]: Compatibility level set to JAVA_16
+[12:08:04] [main/INFO]: Compatibility level set to JAVA_17
+[12:08:09] [main/INFO]: Environment: authHost='https://authserver.mojang.com', accountsHost='https://api.mojang.com', sessionHost='https://sessionserver.mojang.com', servicesHost='https://api.minecraftservices.com', name='PROD'
+[12:08:09] [Yggdrasil Key Fetcher/ERROR]: Failed to request yggdrasil public key
+com.mojang.authlib.exceptions.AuthenticationUnavailableException: Cannot contact authentication server
+	at com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService.makeRequest(YggdrasilAuthenticationService.java:119) ~[authlib-4.0.43.jar:?]
+	at com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService.makeRequest(YggdrasilAuthenticationService.java:91) ~[authlib-4.0.43.jar:?]
+	at com.mojang.authlib.yggdrasil.YggdrasilServicesKeyInfo.fetch(YggdrasilServicesKeyInfo.java:94) ~[authlib-4.0.43.jar:?]
+	at com.mojang.authlib.yggdrasil.YggdrasilServicesKeyInfo.lambda$get$1(YggdrasilServicesKeyInfo.java:81) ~[authlib-4.0.43.jar:?]
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:539) ~[?:?]
+	at java.util.concurrent.FutureTask.runAndReset(FutureTask.java:305) ~[?:?]
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:305) ~[?:?]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136) ~[?:?]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635) ~[?:?]
+	at java.lang.Thread.run(Thread.java:833) ~[?:?]
+Caused by: java.net.UnknownHostException: api.minecraftservices.com
+	at sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:567) ~[?:?]
+	at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:327) ~[?:?]
+	at java.net.Socket.connect(Socket.java:633) ~[?:?]
+	at sun.security.ssl.SSLSocketImpl.connect(SSLSocketImpl.java:299) ~[?:?]
+	at sun.net.NetworkClient.doConnect(NetworkClient.java:178) ~[?:?]
+	at sun.net.www.http.HttpClient.openServer(HttpClient.java:498) ~[?:?]
+	at sun.net.www.http.HttpClient.openServer(HttpClient.java:603) ~[?:?]
+	at sun.net.www.protocol.https.HttpsClient.<init>(HttpsClient.java:266) ~[?:?]
+	at sun.net.www.protocol.https.HttpsClient.New(HttpsClient.java:380) ~[?:?]
+	at sun.net.www.protocol.https.AbstractDelegateHttpsURLConnection.getNewHttpClient(AbstractDelegateHttpsURLConnection.java:189) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.plainConnect0(HttpURLConnection.java:1287) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:1128) ~[?:?]
+	at sun.net.www.protocol.https.AbstractDelegateHttpsURLConnection.connect(AbstractDelegateHttpsURLConnection.java:175) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1665) ~[?:?]
+	at sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1589) ~[?:?]
+	at sun.net.www.protocol.https.HttpsURLConnectionImpl.getInputStream(HttpsURLConnectionImpl.java:224) ~[?:?]
+	at com.mojang.authlib.HttpAuthenticationService.performGetRequest(HttpAuthenticationService.java:140) ~[authlib-4.0.43.jar:?]
+	at com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService.makeRequest(YggdrasilAuthenticationService.java:96) ~[authlib-4.0.43.jar:?]
+	... 9 more
+[12:08:09] [main/INFO]: Loaded 7 recipes
+[12:08:10] [main/INFO]: Loaded 1271 advancements
+[12:08:10] [main/INFO]: Applied 0 biome modifications to 0 of 65 new biomes in 1.236 ms
+[12:08:10] [Server thread/INFO]: Starting minecraft server version 1.20.1
+[12:08:10] [Server thread/INFO]: Loading properties
+[12:08:10] [Server thread/INFO]: Default game type: CREATIVE
+[12:08:10] [Server thread/INFO]: Generating keypair
+[12:08:10] [Server thread/INFO]: Starting Minecraft server on 127.0.0.1:25585
+[12:08:10] [Server thread/INFO]: Using epoll channel type
+[12:08:10] [Server thread/WARN]: Failed to find a usable hardware address from the network interfaces; using random bytes: 6f:f6:7a:51:84:2a:fa:77
+[12:08:10] [Server thread/WARN]: **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
+[12:08:10] [Server thread/WARN]: The server will make no attempt to authenticate usernames. Beware.
+[12:08:10] [Server thread/WARN]: While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
+[12:08:10] [Server thread/WARN]: To change this, set "online-mode" to "true" in the server.properties file.
+[12:08:10] [Server thread/INFO]: Preparing level "study-repeat"
+[12:08:11] [Server thread/INFO]: Preparing start region for dimension minecraft:overworld
+[12:08:11] [Worker-Main-3/INFO]: Preparing spawn area: 0%
+[12:08:11] [Worker-Main-1/INFO]: Preparing spawn area: 0%
+[12:08:12] [Worker-Main-1/INFO]: Preparing spawn area: 26%
+[12:08:12] [Worker-Main-1/INFO]: Preparing spawn area: 57%
+[12:08:13] [Server thread/INFO]: Time elapsed: 1877 ms
+[12:08:13] [Server thread/INFO]: Done (2.616s)! For help, type "help"
+[12:08:15] [Server thread/INFO]: [Abyss] Light glimmer / 26 emitters. Wait for lighting/chunks to settle before audit.
+[12:08:21] [Server thread/INFO]: [Abyss] Audit abyss-results/audit-glimmer.json / light=true route=true
+[12:08:21] [Server thread/INFO]: Stopping server
+[12:08:21] [Server thread/INFO]: Saving players
+[12:08:21] [Server thread/INFO]: Saving worlds
+[12:08:22] [Server thread/INFO]: Saving chunks for level 'ServerLevel[study-repeat]'/minecraft:overworld
+[12:08:23] [Server thread/INFO]: Saving chunks for level 'ServerLevel[study-repeat]'/glimmeringabyss:study
+[12:08:23] [Server thread/INFO]: Saving chunks for level 'ServerLevel[study-repeat]'/minecraft:the_nether
+[12:08:23] [Server thread/INFO]: Saving chunks for level 'ServerLevel[study-repeat]'/minecraft:the_end
+[12:08:23] [Server thread/INFO]: ThreadedAnvilChunkStorage (study-repeat): All chunks are saved
+[12:08:23] [Server thread/INFO]: ThreadedAnvilChunkStorage (study): All chunks are saved
+[12:08:23] [Server thread/INFO]: ThreadedAnvilChunkStorage (DIM-1): All chunks are saved
+[12:08:23] [Server thread/INFO]: ThreadedAnvilChunkStorage (DIM1): All chunks are saved
+[12:08:23] [Server thread/INFO]: ThreadedAnvilChunkStorage: All dimensions are saved

@@ -1,0 +1,11 @@
+{
+  "type": "glimmeringabyss:study",
+  "generator": {
+    "type": "glimmeringabyss:cavern",
+    "study_seed": 74102002,
+    "biome_source": {
+      "type": "minecraft:fixed",
+      "biome": "glimmeringabyss:quiet_depths"
+    }
+  }
+}

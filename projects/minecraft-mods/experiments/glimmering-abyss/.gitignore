@@ -1,0 +1,8 @@
+.gradle/
+build/
+run/
+run-client/
+run-server/
+.runtime/
+__pycache__/
+*.pyc
