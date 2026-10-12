@@ -9,7 +9,7 @@ button,a,select,input{touch-action:manipulation}
 button{cursor:pointer}
 button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible,summary:focus-visible{outline:2px solid var(--warm);outline-offset:5px}
 p{line-height:1.85}
-img{display:block;max-width:100%}
+img{display:block;max-width:100%;height:auto}
 .skip{position:fixed;top:-100px;left:15px;background:var(--warm);color:var(--bg);padding:12px;z-index:100}
 .skip:focus{top:10px}
 

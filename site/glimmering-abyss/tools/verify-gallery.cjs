@@ -22,6 +22,7 @@ async function overflow(page){return page.evaluate(()=>({viewport:innerWidth,wid
       const context=await browser.newContext({viewport:{width,height:mobile?844:1000},deviceScaleFactor:1,isMobile:mobile,hasTouch:mobile,locale:'zh-CN',reducedMotion:'reduce'});
       const page=await context.newPage();page.on('pageerror',error=>errors.push({width,error:error.message}));
       await page.goto(base,{waitUntil:'domcontentloaded'});await ready(page);
+      const photo=await page.locator('#gallery-image').boundingBox();assert(Math.abs(photo.width/photo.height-16/9)<.03,'Gallery photo letterboxed at '+width);
       const initial=await overflow(page);assert(initial.width<=width&&initial.body<=width,'Horizontal overflow at '+width);
       assert((await page.locator('#aesthetic-status').innerText()).includes('判断'),'Aesthetic state falsely accepted');
       await page.screenshot({path:path.join(out,'home-'+width+'.png'),fullPage:width===390});
@@ -34,13 +35,14 @@ async function overflow(page){return page.evaluate(()=>({viewport:innerWidth,wid
       await page.locator('[data-view="overlook"]').click();await page.waitForFunction(()=>document.getElementById('gallery-image').complete&&document.getElementById('gallery-image').src.includes('copper-overlook'));
       await page.locator('#zoom-image').click();assert(await page.locator('#lightbox').evaluate(d=>d.open),'Lightbox did not open');
       await page.locator('#close-image').click();assert(!(await page.locator('#lightbox').evaluate(d=>d.open)),'Lightbox did not close');
-      await page.locator('[data-mode="lamps"]').click();assert(await page.locator('[data-view="platform"]').getAttribute('aria-pressed')==='true','Single-view control mismatched');
+      await page.locator('[data-mode="lamps"]').click();await ready(page);assert(await page.locator('[data-view="platform"]').getAttribute('aria-pressed')==='true','Single-view control mismatched');
       await page.locator('#compare-pair').selectOption('veil,blue');assert(await page.locator('#compare-view').isDisabled(),'Veil camera constraint missing');
       await page.locator('#compare-pair').selectOption('blue,copper');await page.locator('#compare-view').selectOption('overlook');
       await page.locator('#compare-range').evaluate(input=>{input.value=75;input.dispatchEvent(new Event('input',{bubbles:true}));});
       assert((await page.locator('#compare-top').getAttribute('style')).includes('25%'),'Comparison slider did not change');
       await page.waitForFunction(()=>['compare-top','compare-bottom'].every(id=>{const i=document.getElementById(id);return i.complete&&i.naturalWidth===1280;}));
-      if(width===390){await page.locator('#gallery').scrollIntoViewIfNeeded();await page.screenshot({path:path.join(out,'gallery-390.png')});await page.locator('#compare').scrollIntoViewIfNeeded();await page.screenshot({path:path.join(out,'compare-390.png')});}
+      const pairSize=await page.locator('#compare-bottom').boundingBox();assert(Math.abs(pairSize.width/pairSize.height-16/9)<.03,'Comparison photo letterboxed at '+width);
+      if(width===390){await page.locator('.site-nav a[href="#gallery"]').click();await page.screenshot({path:path.join(out,'gallery-390.png')});await page.locator('.site-nav a[href="#compare"]').click();await page.screenshot({path:path.join(out,'compare-390.png')});}
       const final=await overflow(page);assert(final.width<=width&&final.body<=width,'Interaction overflow at '+width);
       const touchTargets=await page.locator('#view-tabs button,#mode-tabs button,#zoom-image').evaluateAll(nodes=>nodes.map(n=>({label:n.textContent,height:n.getBoundingClientRect().height})));
       assert(touchTargets.every(t=>t.height>=44),'Small touch target at '+width);
