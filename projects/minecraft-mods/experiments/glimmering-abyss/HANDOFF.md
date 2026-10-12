@@ -31,3 +31,6 @@ Phase 1/2/3 的证据、旧JAR、报告、永久URL保持；第二阶段美学�
 [手机优先展厅](https://msipla.github.io/-Moonlit-Halt/)；第四阶段 [原图与交付](https://msipla.github.io/-Moonlit-Halt/phase4.html)，前三阶段永久报告保留。阶段/时间线/状态由 site/glimmering-abyss/exhibition.json 维护，截图从同一工程证据引用，不另存网页副本。发布与浏览器QA必须查看实际工作流及 build-info.json；视口模拟不能称为实体手机实测。
 
 聊天档案：[Conversation-Archives Minecraft HANDOFF](https://github.com/Msipla/Conversation-Archives/blob/main/conversations/minecraft/HANDOFF.md)。工程详细证据留在这里，不复制进聊天库或 Archives 正史库。
+
+
+最终展厅前端检查点 `488e7ff57ba137ad7c89f9c7daf5ac77a9c8ec9e`，Pages38251393211及真实Chromium QA38251393054成功。360–1440px视口、四阶段导航、第四阶段原图/机位、同机位对照及前三阶段旧URL通过；实体手机未测。详细网页证据见 site/glimmering-abyss/TEST-REPORT.md 与 evidence/website/runs/38251393054。下一步是用户审阅建筑原图，不因网页或技术PASS扩大城市规模。

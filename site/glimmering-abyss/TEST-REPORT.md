@@ -30,3 +30,14 @@
 这是 Linux Chromium 的真实浏览器运行及手机视口/触控模拟，不是实体手机、iQOO、Safari 或 Windows 实测。需要用户设备上的实际浏览反馈。网页功能验证不等于 MOD 美学验收，也不等于 Windows/PCL2/GPU/Sodium/Iris/Distant Horizons 兼容性通过。
 
 第一阶段原首页报告完整保存在 phase1.html；phase2/3 报告、历史 PNG 与原始证据链接继续可访问。后续阶段发布按 [README](README.md) 同步更新 exhibition.json、永久报告页和 Pages 精选证据，保持技术、美学与研发状态分离。本报告之后的文档交接提交不修改已验证前端；最终 Pages 是否发布须核对相应 workflow 与线上 build-info.json。
+
+
+## Phase 4 展厅发布与复测 · 2026-10-12
+
+前端源码 `488e7ff57ba137ad7c89f9c7daf5ac77a9c8ec9e`；Pages [38251393211](https://github.com/Msipla/-Moonlit-Halt/actions/runs/38251393211) 已成功。真实 Chromium QA [38251393054](https://github.com/Msipla/-Moonlit-Halt/actions/runs/38251393054) 访问发布站，核对 build-info.json 源码后通过。
+
+360/390/430/768/1440px 无横向溢出；第一至第四阶段导航、第四阶段7个机位、单机位控制、原图窗口、放置前后滑动对照及原有第三阶段色调对照检查通过；第四阶段永久原图页及前三阶段旧页面/历史证据HTTP 200；JS异常0。390px第四阶段详情页实际图片加载且不溢出。QA代码和完整JSON在工程 evidence/website/runs/38251393054，开发侧已查看390px首页/画廊截图。
+
+首页引用最新真实客户端原图与第四阶段状态；第三阶段方向认可与第四阶段建筑待验收分开，历史图未覆盖。仍只是 Linux Chromium 手机视口/触控模拟，不是实体 iQOO/Safari/Windows 测试。
+
+此次归档仅追加测试报告和交接证明，不改已验证前端；后续仅文档发布以相应 Pages 工作流和 build-info.json 为准。
