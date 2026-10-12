@@ -69,9 +69,9 @@ public final class Architecture {
             }
             boolean route=true;int samples=0;
             for(int x=22;x<=38;x++){var pos=new BlockPos(x,39,70);route &= clear(w,pos);samples++;}
-            for(int z=70;z>=41;z--){var pos=new BlockPos(38,39,z);route &= clear(w,pos);samples++;}
-            for(int x=38;x<=42;x++){var pos=new BlockPos(x,39,42);route &= clear(w,pos);samples++;}
-            for(int z=42;z>=34;z--){var pos=new BlockPos(42,39,z);route &= clear(w,pos);samples++;}
+            for(int z=70;z>=44;z--){var pos=new BlockPos(38,39,z);route &= clear(w,pos);samples++;}
+            for(int x=38;x<=42;x++){var pos=new BlockPos(x,39,44);route &= clear(w,pos);samples++;}
+            for(int z=44;z>=34;z--){var pos=new BlockPos(42,39,z);route &= clear(w,pos);samples++;}
             var result=new JsonObject();result.addProperty("label",label);result.addProperty("dimension",w.getRegistryKey().getValue().toString());
             result.addProperty("template_blocks_checked",list.size());result.addProperty("block_id_mismatches",mismatch);result.addProperty("air_clearance_mismatches",airMismatch);
             result.addProperty("actual_structure_block_id_sha256",HexFormat.of().formatHex(digest.digest()));result.addProperty("warm_window_blocks",windows);result.addProperty("warm_windows_native_light_12",lit);

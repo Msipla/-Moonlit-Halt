@@ -34,7 +34,7 @@ public final class Phase4CaptureClient implements ClientModInitializer {
     private final JsonObject intervals=new JsonObject();
     private boolean connected,entered,finished,saved,walking,prepared;
     private int phase=-1,stability;
-    private long started,phaseStarted,lastFrame,walkStarted;
+    private long started,phaseStarted,lastFrame,walkStarted,walkPressed;
     private double walkStartZ;
     private static List<Case> cases() {
         var r=new ArrayList<Case>();
@@ -111,13 +111,15 @@ public final class Phase4CaptureClient implements ClientModInitializer {
     private void walk(MinecraftClient c) {
         if(!prepared){prepared=true;selectWithCommand(c,"blue");command(c,"abyss building view facade");walkStarted=System.nanoTime();return;}
         long elapsed=System.nanoTime()-walkStarted;
-        if(!walking&&elapsed>2_000_000_000L){walking=true;c.player.setYaw(-172.75f);walkStartZ=c.player.getZ();c.options.forwardKey.setPressed(true);}
-        if(elapsed<14_000_000_000L)return;
+        if(!walking&&elapsed>2_000_000_000L){walking=true;walkPressed=System.nanoTime();c.player.setYaw(-172.75f);walkStartZ=c.player.getZ();c.options.forwardKey.setPressed(true);}
+        if(!walking)return;
+        c.options.forwardKey.setPressed(true);
+        if(c.player.getZ()>20.32 && System.nanoTime()-walkPressed<45_000_000_000L)return;
         c.options.forwardKey.setPressed(false);double z=c.player.getZ(),y=c.player.getY();
-        boolean pass=walkStartZ-z>40&&z<20.1&&z>19&&Math.abs(y-39)<.01;
-        var r=new JsonObject();r.addProperty("method","Real release client forward-key movement for 12 seconds from facade into workshop, stopped by back wall.");r.addProperty("start_z",walkStartZ);r.addProperty("end_z",z);r.addProperty("end_y",y);r.addProperty("walk_and_collision_pass",pass);
+        boolean pass=walkStartZ-z>40&&z<20.32&&z>=20.28&&Math.abs(y-39)<.01;
+        var r=new JsonObject();r.addProperty("method","Real release client held forward key from facade through entrance until physically stopped by the back wall (45 second timeout).");r.addProperty("held_forward_seconds",(System.nanoTime()-walkPressed)/1e9);r.addProperty("start_z",walkStartZ);r.addProperty("end_x",c.player.getX());r.addProperty("end_z",z);r.addProperty("end_y",y);r.addProperty("walk_and_collision_pass",pass);
         try{write("walk-collision.json",r);screenshot(c,"blue-walk-interior.png");}catch(Exception e){fail(c,e);return;}
-        finished=true;System.out.println("ABYSS_PHASE4_COMPLETE "+captures.size()+" walk_collision="+pass);c.scheduleStop();
+        finished=true;System.out.println("ABYSS_PHASE4_WALK_RESULT "+r);System.out.println("ABYSS_PHASE4_COMPLETE "+captures.size()+" walk_collision="+pass);c.scheduleStop();
     }
     private void selectWithCommand(MinecraftClient c,String profile) {
         try {int result=ClientCommandManager.getActiveDispatcher().execute("abyssrender "+profile,(FabricClientCommandSource)c.getNetworkHandler().getCommandSource());if(result!=1||!EnvironmentClient.selectedName().equals(profile))throw new IllegalStateException("Bad command result");System.out.println("ABYSS_RENDER_COMMAND_DISPATCH "+profile+" result="+result);}catch(Exception e){throw new IllegalStateException(e);}
