@@ -1,6 +1,5 @@
 #version 150
 uniform sampler2D Sampler0;
-uniform sampler2D Sampler2;
 uniform vec4 ColorModulator;
 uniform float FogStart;
 uniform float FogEnd;
@@ -19,6 +18,8 @@ in vec2 texCoord;
 in vec3 scenePosition;
 in vec3 faceNormal;
 in vec2 lightCoord;
+in vec3 originalLight;
+in float boundaryDistance;
 in float viewDistance;
 out vec4 fragColor;
 void main() {
@@ -29,8 +30,8 @@ void main() {
     float field=exp(-0.5*dot(toAnchor,toAnchor)/(EnvAnchor.w*EnvAnchor.w));
     float hemisphere=0.38+0.62*max(dot(normal,normalize(EnvDirection)),0.0);
     float facing=0.16+0.84*max(dot(normal,normalize(toAnchor+vec3(0.0001))),0.0);
-    vec3 irradiance=EnvColor*(EnvBase*hemisphere+EnvRadiance*field*facing);
-    vec3 nativeLight=texelFetch(Sampler2,ivec2(clamp(lightCoord,vec2(0),vec2(15))),0).rgb;
+    vec3 irradiance=clamp(EnvColor*(EnvBase*hemisphere+EnvRadiance*field*facing),vec3(0),vec3(1));
+    vec3 nativeLight=originalLight;
     float protection=1.0-smoothstep(0.3,1.0,clamp(lightCoord.x/15.0,0.0,1.0));
     vec3 illumination=mix(nativeLight,max(nativeLight,irradiance),protection);
     vec3 lit=surface.rgb*illumination;
@@ -38,6 +39,6 @@ void main() {
     vec3 airColor=EnvAirColor*(0.55+0.45*field);
     lit=mix(lit,airColor,air);
     // Keep the native visibility/status-effect boundary; the scene air term is separately bounded.
-    float boundary=smoothstep(FogStart,FogEnd,viewDistance)*FogColor.a;
+    float boundary=smoothstep(FogStart,FogEnd,boundaryDistance)*FogColor.a;
     fragColor=vec4(mix(lit,FogColor.rgb,boundary),surface.a);
 }

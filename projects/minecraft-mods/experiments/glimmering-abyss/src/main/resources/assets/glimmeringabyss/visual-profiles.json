@@ -3,83 +3,83 @@
   "profiles": {
     "blue": {
       "color": [
-        0.2,
-        0.53,
-        0.85
+        0.24,
+        0.63,
+        0.95
       ],
-      "base": 0.18,
+      "base": 0.34,
       "anchor": [
         -20,
         52,
         -80
       ],
-      "radius": 92,
-      "radiance": 0.95,
+      "radius": 105,
+      "radiance": 1.65,
       "direction": [
         -0.25,
         0.6,
         -0.75
       ],
       "airColor": [
-        0.045,
-        0.19,
-        0.3
+        0.07,
+        0.34,
+        0.57
       ],
       "airStart": 30,
       "airEnd": 235,
-      "airMax": 0.22
+      "airMax": 0.26
     },
     "copper": {
       "color": [
-        0.8,
-        0.53,
-        0.26
+        0.9,
+        0.63,
+        0.3
       ],
-      "base": 0.18,
+      "base": 0.34,
       "anchor": [
         -20,
         52,
         -80
       ],
-      "radius": 92,
-      "radiance": 0.95,
+      "radius": 105,
+      "radiance": 1.65,
       "direction": [
         -0.25,
         0.6,
         -0.75
       ],
       "airColor": [
-        0.27,
-        0.17,
-        0.065
+        0.52,
+        0.3,
+        0.1
       ],
       "airStart": 30,
       "airEnd": 235,
-      "airMax": 0.22
+      "airMax": 0.26
     },
     "blue-clear": {
       "color": [
-        0.2,
-        0.53,
-        0.85
+        0.24,
+        0.63,
+        0.95
       ],
-      "base": 0.18,
+      "base": 0.34,
       "anchor": [
         -20,
         52,
         -80
       ],
-      "radius": 92,
-      "radiance": 0.95,
+      "radius": 105,
+      "radiance": 1.65,
       "direction": [
         -0.25,
         0.6,
         -0.75
       ],
       "airColor": [
-        0.045,
-        0.19,
-        0.3
+        0.07,
+        0.34,
+        0.57
       ],
       "airStart": 30,
       "airEnd": 235,
@@ -87,17 +87,17 @@
     },
     "blue-no-field": {
       "color": [
-        0.2,
-        0.53,
-        0.85
+        0.24,
+        0.63,
+        0.95
       ],
-      "base": 0.18,
+      "base": 0.34,
       "anchor": [
         -20,
         52,
         -80
       ],
-      "radius": 92,
+      "radius": 105,
       "radiance": 0,
       "direction": [
         -0.25,
@@ -105,13 +105,13 @@
         -0.75
       ],
       "airColor": [
-        0.045,
-        0.19,
-        0.3
+        0.07,
+        0.34,
+        0.57
       ],
       "airStart": 30,
       "airEnd": 235,
-      "airMax": 0.22
+      "airMax": 0.26
     }
   }
 }

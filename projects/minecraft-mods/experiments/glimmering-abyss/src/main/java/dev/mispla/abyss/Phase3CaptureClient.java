@@ -95,7 +95,7 @@ public final class Phase3CaptureClient implements ClientModInitializer {
         r.addProperty("gl_renderer",GL11.glGetString(GL11.GL_RENDERER));r.addProperty("gl_vendor",GL11.glGetString(GL11.GL_VENDOR));r.addProperty("gl_version",GL11.glGetString(GL11.GL_VERSION));r.addProperty("gl_error_at_capture",GL11.glGetError());r.addProperty("chunk_debug",c.worldRenderer.getChunksDebugString());
         var foot=BlockPos.ofFloored(c.player.getPos());r.addProperty("block_light_at_feet",c.world.getLightLevel(LightType.BLOCK,foot));r.addProperty("sky_light_at_feet",c.world.getLightLevel(LightType.SKY,foot));r.add("environment",EnvironmentClient.measurements());r.add("space_lighting",SpaceLighting.measurements());
         if(SpaceLighting.active()&&SpaceLighting.measurements().get("terrain_shader_selections").getAsLong()==0)throw new IllegalStateException("New terrain shader never selected");
-        r.addProperty("sample_frames",frames.size());r.addProperty("settle_seconds",8);r.addProperty("sample_seconds",5);
+        r.addProperty("sample_frames",frames.size());r.addProperty("settle_seconds",8);r.addProperty("sample_seconds",frames.stream().mapToDouble(Double::doubleValue).sum()/1000);
         if(!frames.isEmpty()) {
             double sum=frames.stream().mapToDouble(Double::doubleValue).sum();Collections.sort(frames);
             r.addProperty("sample_fps",frames.size()*1000/sum);r.addProperty("median_frame_ms",frames.get(frames.size()/2));r.addProperty("p95_frame_ms",frames.get((int)Math.floor((frames.size()-1)*.95)));r.addProperty("max_frame_ms",frames.get(frames.size()-1));r.addProperty("frames_over_100ms",frames.stream().filter(v->v>100).count());
