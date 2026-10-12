@@ -29,6 +29,7 @@ loom {
                 vmArgs '-Dabyss.capture=true', '-Dabyss.port=25585'
             }
             if (project.hasProperty('abyssPhase2Capture')) vmArgs '-Dabyss.capture.phase2=true', '-Dabyss.port=25585'
+            if (project.hasProperty('abyssPhase3Capture')) vmArgs '-Dabyss.capture.phase3=true', '-Dabyss.port=25585'
         }
         server {
             runDir 'run-server'

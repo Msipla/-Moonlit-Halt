@@ -16,7 +16,8 @@
     "client": [
       "dev.mispla.abyss.EnvironmentClient",
       "dev.mispla.abyss.CaptureClient",
-      "dev.mispla.abyss.Phase2CaptureClient"
+      "dev.mispla.abyss.Phase2CaptureClient",
+      "dev.mispla.abyss.Phase3CaptureClient"
     ]
   },
   "mixins": [

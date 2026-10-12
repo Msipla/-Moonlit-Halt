@@ -1,0 +1,117 @@
+{
+  "schema": 1,
+  "profiles": {
+    "blue": {
+      "color": [
+        0.2,
+        0.53,
+        0.85
+      ],
+      "base": 0.18,
+      "anchor": [
+        -20,
+        52,
+        -80
+      ],
+      "radius": 92,
+      "radiance": 0.95,
+      "direction": [
+        -0.25,
+        0.6,
+        -0.75
+      ],
+      "airColor": [
+        0.045,
+        0.19,
+        0.3
+      ],
+      "airStart": 30,
+      "airEnd": 235,
+      "airMax": 0.22
+    },
+    "copper": {
+      "color": [
+        0.8,
+        0.53,
+        0.26
+      ],
+      "base": 0.18,
+      "anchor": [
+        -20,
+        52,
+        -80
+      ],
+      "radius": 92,
+      "radiance": 0.95,
+      "direction": [
+        -0.25,
+        0.6,
+        -0.75
+      ],
+      "airColor": [
+        0.27,
+        0.17,
+        0.065
+      ],
+      "airStart": 30,
+      "airEnd": 235,
+      "airMax": 0.22
+    },
+    "blue-clear": {
+      "color": [
+        0.2,
+        0.53,
+        0.85
+      ],
+      "base": 0.18,
+      "anchor": [
+        -20,
+        52,
+        -80
+      ],
+      "radius": 92,
+      "radiance": 0.95,
+      "direction": [
+        -0.25,
+        0.6,
+        -0.75
+      ],
+      "airColor": [
+        0.045,
+        0.19,
+        0.3
+      ],
+      "airStart": 30,
+      "airEnd": 235,
+      "airMax": 0
+    },
+    "blue-no-field": {
+      "color": [
+        0.2,
+        0.53,
+        0.85
+      ],
+      "base": 0.18,
+      "anchor": [
+        -20,
+        52,
+        -80
+      ],
+      "radius": 92,
+      "radiance": 0,
+      "direction": [
+        -0.25,
+        0.6,
+        -0.75
+      ],
+      "airColor": [
+        0.045,
+        0.19,
+        0.3
+      ],
+      "airStart": 30,
+      "airEnd": 235,
+      "airMax": 0.22
+    }
+  }
+}

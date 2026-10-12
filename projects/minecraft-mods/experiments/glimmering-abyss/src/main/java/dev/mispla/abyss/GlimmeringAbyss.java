@@ -44,6 +44,7 @@ public final class GlimmeringAbyss implements ModInitializer {
     public static final Block GLIMMER = new Block(AbstractBlock.Settings.copy(Blocks.DEEPSLATE).luminance(s -> 5));
     public static final Block REFERENCE = new Block(AbstractBlock.Settings.copy(Blocks.DEEPSLATE).luminance(s -> 15));
     private static String mode = "glimmer";
+    private static final java.util.Map<BlockPos,BlockState> lampBackup=new java.util.HashMap<>();
     private static long ticks, tickStart;
     private static double tickSum, tickMax;
     private static int tickSamples;
@@ -80,6 +81,8 @@ public final class GlimmeringAbyss implements ModInitializer {
                         .then(argument("mode", StringArgumentType.word())
                         .suggests((c, b) -> { for (String name : new String[]{"baseline", "glimmer", "reference"}) b.suggest(name); return b.buildFuture(); })
                         .executes(c -> changeLight(c.getSource(), StringArgumentType.getString(c, "mode")))))
+                .then(literal("lamps").requires(s -> s.hasPermissionLevel(2)).then(argument("state",StringArgumentType.word())
+                        .executes(c -> calibrationLamps(c.getSource(),StringArgumentType.getString(c,"state")))))
                 .then(literal("audit").requires(s -> s.hasPermissionLevel(2)).executes(c -> audit(c.getSource(),""))
                         .then(argument("label",StringArgumentType.word()).executes(c -> audit(c.getSource(),StringArgumentType.getString(c,"label")))))
                 .then(literal("return").executes(c -> {
@@ -154,6 +157,19 @@ public final class GlimmeringAbyss implements ModInitializer {
         mode = requested;
         tickSum = tickMax = 0; tickSamples = 0;
         return message(source, "Light " + mode + " / " + FIXTURES.size() + " emitters. Wait for lighting/chunks to settle before audit.");
+    }
+
+    private static int calibrationLamps(ServerCommandSource source,String state) {
+        ServerWorld world=study(source.getServer());
+        if(state.equals("on")) {
+            for(int x:new int[]{-16,16})for(int z:new int[]{68,78}) {
+                BlockPos pos=new BlockPos(x,39,z);lampBackup.putIfAbsent(pos,world.getBlockState(pos));
+                world.setBlockState(pos,Blocks.LANTERN.getDefaultState(),Block.NOTIFY_ALL);
+            }
+        } else if(state.equals("off")) {
+            lampBackup.forEach((pos,original)->world.setBlockState(pos,original,Block.NOTIFY_ALL));lampBackup.clear();
+        } else return message(source,"lamps on/off: temporary native lantern calibration only");
+        return message(source,"Native calibration lanterns "+state);
     }
 
     private static int audit(ServerCommandSource source,String label) {

@@ -1,0 +1,207 @@
+{
+  "vertex": "glimmeringabyss:space_terrain",
+  "fragment": "glimmeringabyss:space_terrain",
+  "attributes": [
+    "Position",
+    "Color",
+    "UV0",
+    "UV2",
+    "Normal"
+  ],
+  "samplers": [
+    {
+      "name": "Sampler0"
+    },
+    {
+      "name": "Sampler2"
+    }
+  ],
+  "uniforms": [
+    {
+      "name": "ModelViewMat",
+      "type": "matrix4x4",
+      "count": 16,
+      "values": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "ProjMat",
+      "type": "matrix4x4",
+      "count": 16,
+      "values": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "ColorModulator",
+      "type": "float",
+      "count": 4,
+      "values": [
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "ChunkOffset",
+      "type": "float",
+      "count": 3,
+      "values": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "FogStart",
+      "type": "float",
+      "count": 1,
+      "values": [
+        0
+      ]
+    },
+    {
+      "name": "FogEnd",
+      "type": "float",
+      "count": 1,
+      "values": [
+        256
+      ]
+    },
+    {
+      "name": "FogColor",
+      "type": "float",
+      "count": 4,
+      "values": [
+        0,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "name": "EnvCamera",
+      "type": "float",
+      "count": 3,
+      "values": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "EnvColor",
+      "type": "float",
+      "count": 3,
+      "values": [
+        0.2,
+        0.53,
+        0.85
+      ]
+    },
+    {
+      "name": "EnvBase",
+      "type": "float",
+      "count": 1,
+      "values": [
+        0.18
+      ]
+    },
+    {
+      "name": "EnvAnchor",
+      "type": "float",
+      "count": 4,
+      "values": [
+        -20,
+        52,
+        -80,
+        92
+      ]
+    },
+    {
+      "name": "EnvRadiance",
+      "type": "float",
+      "count": 1,
+      "values": [
+        0.95
+      ]
+    },
+    {
+      "name": "EnvDirection",
+      "type": "float",
+      "count": 3,
+      "values": [
+        -0.25,
+        0.6,
+        -0.75
+      ]
+    },
+    {
+      "name": "EnvAirColor",
+      "type": "float",
+      "count": 3,
+      "values": [
+        0.045,
+        0.19,
+        0.3
+      ]
+    },
+    {
+      "name": "EnvAirRange",
+      "type": "float",
+      "count": 2,
+      "values": [
+        30,
+        235
+      ]
+    },
+    {
+      "name": "EnvAirMax",
+      "type": "float",
+      "count": 1,
+      "values": [
+        0.22
+      ]
+    },
+    {
+      "name": "AlphaCutoff",
+      "type": "float",
+      "count": 1,
+      "values": [
+        0
+      ]
+    }
+  ]
+}
