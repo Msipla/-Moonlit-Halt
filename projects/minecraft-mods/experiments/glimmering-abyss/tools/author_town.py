@@ -140,6 +140,17 @@ box(19,37,-17,25,38,-5,'deepslate_bricks');box(20,39,-16,24,43,-6,'air')
 for z in range(-17,-4):put(19,39,z,'cobbled_deepslate_wall',up='true',north='tall',south='tall',east='none',west='none',waterlogged='false')
 for x in range(20,26):
  for z in (-17,-5):put(x,39,z,'cobbled_deepslate_wall',up='true',north='none',south='none',east='tall',west='tall',waterlogged='false')
+# Low, 1.5-block collision parapets protect the accessible shelf perimeter.
+# Keep the old bridge and southern research walkway gates open.
+for z in range(-65,47):
+ edge=22+int(2*math.sin(z/13)+1.5*math.sin(z/5));y=39+(z<=-26)+(z<=-43)
+ if not 33<=z<=37:put(edge,y,z,'cobbled_deepslate_wall',up='true',north='tall',south='tall',east='none',west='none',waterlogged='false')
+ put(83,y,z,'cobbled_deepslate_wall',up='true',north='tall',south='tall',east='none',west='none',waterlogged='false')
+for z,y in [(-65,41),(46,39)]:
+ edge=22+int(2*math.sin(z/13)+1.5*math.sin(z/5))
+ for x in range(edge,84):
+  if z==46 and 35<=x<=41:continue
+  put(x,y,z,'cobbled_deepslate_wall',up='true',north='none',south='none',east='tall',west='tall',waterlogged='false')
 # A four-block low masonry viewing bay in the otherwise retained iron railing.
 # Vanilla wall collision is 1.5 blocks high; standing eyes can look over its top.
 for x in range(3,7):
