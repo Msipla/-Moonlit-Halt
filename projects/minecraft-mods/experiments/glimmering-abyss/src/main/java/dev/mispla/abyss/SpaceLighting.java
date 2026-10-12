@@ -100,7 +100,8 @@ public final class SpaceLighting {
     }
     private static void vecUniform(String name,float[] v){shader.getUniformOrDefault(name).set(v[0],v[1],v[2]);}
     public static JsonObject measurements() {
-        var o=new JsonObject();o.addProperty("profile",selectedName());o.addProperty("active",active());
+        var o=new JsonObject();o.addProperty("profile",effective()==null?null:effective().name());o.addProperty("active",active());
+        var origin=JourneyClient.origin();o.addProperty("overworld_local_scope",origin!=null);if(origin!=null)o.addProperty("scene_origin",origin.toShortString());
         o.addProperty("shader_ready",shader!=null);o.addProperty("terrain_shader_selections",draws);o.addProperty("config_status",configStatus);
         if(selected!=null){o.add("parameters",new Gson().toJsonTree(selected));o.add("depth_parameters",new Gson().toJsonTree(depthProfiles.getOrDefault(selected.name(),new float[]{12,-58,0,28})));}return o;
     }

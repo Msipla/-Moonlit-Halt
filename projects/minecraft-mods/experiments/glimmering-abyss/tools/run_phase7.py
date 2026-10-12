@@ -1,6 +1,6 @@
 """Normal-overworld release client/server acceptance, two seeds and real stop/restart."""
 from pathlib import Path
-import argparse,hashlib,json,os,shutil,subprocess,time,urllib.request
+import argparse,hashlib,json,os,shutil,subprocess,time,urllib.request,threading
 from run_experiment import ROOT,release_jar,wait_for,command
 from launch_release_client import launch
 
@@ -47,6 +47,14 @@ def run(args):
   ready();audit('warmup');time.sleep(10);first=audit('first')
   assert first.get('pass'),first
   begin=time.time()
+  def stop_midride():
+   marker=runtime/'release-client/abyss-phase7-captures/restart-ready.json'
+   deadline=time.time()+1200
+   while time.time()<deadline and p.poll() is None:
+    if marker.exists() and marker.stat().st_mtime>=begin:
+     command(server,'stop');return
+    time.sleep(1)
+  monitor=threading.Thread(target=stop_midride,daemon=True);monitor.start()
   with (out/'client.log').open('w') as cl:client=launch(cl,phase=7)
   captures=client/'abyss-phase7-captures';(out/'screenshots').mkdir(exist_ok=True)
   for f in captures.iterdir():
@@ -62,6 +70,10 @@ def run(args):
  try:
   ready();audit('reload-warmup');time.sleep(10);reload=audit('reload');assert reload.get('pass'),reload
   assert first['geometry_sha256']==reload['geometry_sha256'],'Save/restart geometry changed'
+  with (out/'client-reconnect.log').open('w') as cl:client=launch(cl,phase=7,extra_vm_args=['-Dabyss.capture.phase7.reconnect=true'])
+  for f in (client/'abyss-phase7-reconnect').iterdir():
+   if f.is_file():shutil.copy2(f,(out/'screenshots' if f.suffix=='.png' else out)/('reconnect-'+f.name if f.name=='captures.json' else f.name))
+  assert json.loads((out/'recovery.json').read_text())['pass']
  finally:stop(p,log)
  properties['level-name']='phase7-second';properties['level-seed']='-92345';config()
  p,log=start('server-second-seed.log')

@@ -52,7 +52,7 @@ public final class CableCarEntity extends Entity {
     @Override protected void removePassenger(Entity passenger){
         super.removePassenger(passenger);
         if(!arriving&&!getWorld().isClient&&passenger instanceof ServerPlayerEntity p){
-            Journey.land(p,OverworldSite.get((ServerWorld)getWorld()),fromUpper);discard();
+            Journey.queueLanding(p,fromUpper);discard();
         }
     }
 }

@@ -55,18 +55,17 @@ public final class OverworldLandscape {
             int cx=s.x/16-7+s.cursor%14,cz=s.z/16-11+s.cursor/14;
             var chunk=w.getChunk(cx,cz);
             if(s.stage.equals("check")){
-                boolean valid=chunk.getInhabitedTime()==0&&chunk.getBlockEntities().isEmpty();
+                boolean valid=chunk.getInhabitedTime()==0;
                 for(int dx=0;dx<16&&valid;dx++)for(int dz=0;dz<16&&valid;dz++){
                     int wx=cx*16+dx,wz=cz*16+dz,top=ceiling(wx-s.x,wz-s.z);
                     // Exact full-footprint check after vanilla carving/surface/features, not only sampled noise heights.
                     int h=w.getTopY(Heightmap.Type.OCEAN_FLOOR,wx,wz);
                     if(h<top+10)valid=false;
-                    for(int y=top;y<top+8&&valid;y++){
-                        var p=new BlockPos(wx,y,wz);var b=w.getBlockState(p);
-                        if(!b.isSolidBlock(w,p)||!b.getFluidState().isEmpty())valid=false;
-                    }
+                    // The painter retains a four-block solid local roof below this cap.
+                    // Existing natural caves above it are permitted; requiring every native
+                    // voxel to be solid would reject otherwise well-covered mountain sites.
                 }
-                if(!valid){s.stage="search";s.cursor=0;s.reason="Candidate rejected before edits: coverage, existing habitation or block entities";s.markDirty();return;}
+                if(!valid){s.stage="search";s.cursor=0;s.reason="Candidate rejected before edits: coverage or existing habitation";s.markDirty();return;}
                 if(s.caps.size()>s.cursor)s.caps.set(s.cursor,capHash(w,s,cx,cz));else s.caps.add(capHash(w,s,cx,cz));
                 if(++s.cursor==OverworldSite.CHUNKS){
                     s.entryY=w.getTopY(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,s.x,s.z+70);

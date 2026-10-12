@@ -54,10 +54,17 @@ public final class Journey {
         }
     };
     private static final Map<UUID,Long> sleepStarts=new HashMap<>();
+    private static final Map<UUID,Boolean> pendingLandings=new HashMap<>();
+    public static void queueLanding(ServerPlayerEntity p,boolean upper){pendingLandings.put(p.getUuid(),upper);}
     private Journey(){}
     public static void initialize(){
         Registry.register(Registries.BLOCK,GlimmeringAbyss.id("station_bell"),BELL);
+        net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents.END_SERVER_TICK.register(server->{
+            var queued=new HashMap<>(pendingLandings);pendingLandings.clear();
+            queued.forEach((id,upper)->{var player=server.getPlayerManager().getPlayer(id);if(player!=null)land(player,OverworldSite.get(server.getOverworld()),upper);});
+        });
         Registry.register(Registries.ITEM,GlimmeringAbyss.id("echo_shard"),ECHO);
+        net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents.SERVER_STOPPED.register(server->{sleepStarts.clear();pendingLandings.clear();});
         EntitySleepEvents.START_SLEEPING.register((e,p)->{if(e instanceof ServerPlayerEntity sp)sleepStarts.put(sp.getUuid(),sp.getWorld().getTime());});
         EntitySleepEvents.STOP_SLEEPING.register((e,p)->{
             if(e instanceof ServerPlayerEntity sp){
@@ -84,6 +91,7 @@ public final class Journey {
         var s=OverworldSite.get(p.getServer().getOverworld());long day=p.getWorld().getTimeOfDay()/24000;
         if(!s.ready()||s.dreamDays.getOrDefault(p.getUuid(),-1L)==day)return;
         int n=Math.min(2,s.dreams.getOrDefault(p.getUuid(),0)+1);s.dreams.put(p.getUuid(),n);s.dreamDays.put(p.getUuid(),day);s.markDirty();
+        System.out.println("ABYSS_DREAM day="+day+" step="+n);
         p.sendMessage(Text.literal(n==1?"梦中，蓝色巨柱间亮着几扇暖窗。山间传来一声悠远的铃响……":"梦中的幻翼停在玻璃车厢上。掌心的微光，正指向那处山间站台。"),false);
         if(n>=2&&!p.getInventory().contains(new ItemStack(ECHO)))p.getInventory().offerOrDrop(new ItemStack(ECHO));
     }
@@ -101,7 +109,9 @@ public final class Journey {
     }
     public static void board(ServerPlayerEntity p,OverworldSite s,boolean upper){
         if(!s.ready()||p.hasVehicle())return;
-        var w=p.getServerWorld();var car=CAR.create(w);car.configure(s,upper);
+        var w=p.getServerWorld();
+        for(var e:w.iterateEntities())if(e instanceof CableCarEntity&&!e.isRemoved()){p.sendMessage(Text.literal("缆车正在运行，请在站台稍候。"),true);return;}
+        var car=CAR.create(w);car.configure(s,upper);
         if(!w.spawnEntity(car)){p.sendMessage(Text.literal("缆车暂未就绪，请稍后再试。"),true);return;}
         s.journeys.put(p.getUuid(),upper);s.markDirty();w.getPersistentStateManager().save();
         p.teleport(w,s.x+.5,upper?s.entryY+1:45,s.z+70.5,180,8);

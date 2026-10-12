@@ -41,6 +41,7 @@ public final class Phase7Audit {
             .then(literal("view").then(argument("name",StringArgumentType.word()).executes(c->view(c.getSource(),StringArgumentType.getString(c,"name")))))
             .then(literal("intrusion").executes(c->intrusion(c.getSource())))
             .then(literal("natural").executes(c->natural(c.getSource())))
+            .then(literal("bedtime").executes(c->bedtime(c.getSource())))
             .then(literal("dream").executes(c->{Journey.dream(c.getSource().getPlayerOrThrow());return 1;}))
         )));
         ServerTickEvents.END_SERVER_TICK.register(server->{
@@ -68,6 +69,19 @@ public final class Phase7Audit {
             default -> {return 0;}
         }
         p.teleport(w,s.x+x,y,s.z+z,yaw,pitch);p.setHealth(20);p.getHungerManager().setFoodLevel(20);return 1;
+    }
+    private static int bedtime(ServerCommandSource source)throws com.mojang.brigadier.exceptions.CommandSyntaxException{
+        var w=source.getServer().getOverworld();var s=OverworldSite.get(w);int x=s.x+400,z=s.z+70;
+        int y=w.getTopY(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,x,z);
+        for(int dx=-2;dx<=3;dx++)for(int dz=-2;dz<=3;dz++){
+            w.setBlockState(new BlockPos(x+dx,y-1,z+dz),Blocks.STONE.getDefaultState());
+            for(int h=0;h<4;h++)w.setBlockState(new BlockPos(x+dx,y+h,z+dz),Blocks.AIR.getDefaultState());
+        }
+        var bed=Blocks.BLUE_BED.getDefaultState().with(net.minecraft.block.BedBlock.FACING,net.minecraft.util.math.Direction.SOUTH);
+        w.setBlockState(new BlockPos(x,y,z),bed.with(net.minecraft.block.BedBlock.PART,net.minecraft.block.enums.BedPart.FOOT));
+        w.setBlockState(new BlockPos(x,y,z+1),bed.with(net.minecraft.block.BedBlock.PART,net.minecraft.block.enums.BedPart.HEAD));
+        w.setTimeOfDay((w.getTimeOfDay()/24000+1)*24000+13000);
+        var player=source.getPlayerOrThrow();player.teleport(w,x+1.5,y,z+.5,90,40);return 1;
     }
     private static int intrusion(ServerCommandSource source){
         var w=source.getServer().getOverworld();var s=OverworldSite.get(w);

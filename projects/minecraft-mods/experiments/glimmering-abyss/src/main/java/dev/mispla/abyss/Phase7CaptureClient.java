@@ -23,11 +23,13 @@ import java.nio.file.Path;
 
 /** Opt-in official-client harness: actual bell interactions, two rides and walking keys. */
 public final class Phase7CaptureClient implements ClientModInitializer {
-    private static final Path OUT=Path.of("abyss-phase7-captures");
+    private static final boolean RECONNECT=Boolean.getBoolean("abyss.capture.phase7.reconnect");
+    private static final Path OUT=Path.of(RECONNECT?"abyss-phase7-reconnect":"abyss-phase7-captures");
     private final JsonArray frames=new JsonArray(),walks=new JsonArray(),rides=new JsonArray();
     private boolean connected,finished,midShot,lowShot;
     private long started,changed;
-    private int phase=-1,leg;
+    private int phase=-1,leg,sleeps;
+    private boolean observedSleep,restartReady;
     private double startX,startZ;
     private static final double[][] WALK={{20.5,70.5},{38.5,70.5},{38.5,43.5},{30.5,43.5},{30.5,35.5},{-29.5,35.5},{30.5,35.5},{30.5,5.5},{47.5,5.5},{47.5,-22.5},{47.5,5.5},{30.5,5.5},{30.5,43.5},{38.5,43.5},{38.5,70.5},{20.5,70.5},{6.5,70.5}};
     @Override public void onInitializeClient(){if(!Boolean.getBoolean("abyss.capture.phase7"))return;started=System.nanoTime();ClientTickEvents.END_CLIENT_TICK.register(this::tick);}
@@ -47,9 +49,26 @@ public final class Phase7CaptureClient implements ClientModInitializer {
                 connected=true;c.options.getViewDistance().setValue(16);c.options.getSimulationDistance().setValue(6);c.options.getFov().setValue(75);c.options.getGamma().setValue(.5);c.options.getMaxFps().setValue(45);c.options.getEnableVsync().setValue(false);c.options.getGraphicsMode().setValue(GraphicsMode.FANCY);c.options.getAo().setValue(true);c.options.pauseOnLostFocus=false;c.options.hudHidden=true;
                 String address="127.0.0.1:"+Integer.getInteger("abyss.port",25585);ConnectScreen.connect(new TitleScreen(),c,ServerAddress.parse(address),new ServerInfo("Phase 7 release test",address,false),false);return;
             }
+            if(restartReady&&c.world==null){finished=true;c.scheduleStop();return;}
             if(c.player==null||c.world==null||!JourneyClient.ready())return;
+            if(RECONNECT){
+                if(phase==-1){next();return;}if(seconds()<12)return;checkLanding(c,true);capture(c,"reconnected-safe-station.png");
+                var recovery=new JsonObject();recovery.addProperty("pass",true);recovery.addProperty("same_offline_identity",true);write("recovery.json",recovery);finished=true;c.scheduleStop();return;
+            }
             if(phase==-1){command(c,"view outside");next();return;}
-            if(phase==0){if(seconds()<65)return;command(c,"natural");capture(c,"outside-normal-overworld.png");command(c,"view entrance");next();return;}
+            if(phase==0){if(seconds()<65)return;command(c,"natural");capture(c,"outside-normal-overworld.png");command(c,"bedtime");phase=20;changed=System.nanoTime();return;}
+            if(phase==20){
+                if(seconds()<3)return;var bed=new BlockPos(JourneyClient.x+400,c.player.getBlockY(),JourneyClient.z+70);
+                c.interactionManager.interactBlock(c.player,Hand.MAIN_HAND,new BlockHitResult(Vec3d.ofCenter(bed),Direction.UP,bed,false));observedSleep=false;phase=21;changed=System.nanoTime();return;
+            }
+            if(phase==21){
+                observedSleep|=c.player.isSleeping();if(c.player.isSleeping()||!observedSleep){if(seconds()>30)throw new IllegalStateException("Real bed sleep did not complete");return;}
+                if(++sleeps<2){command(c,"bedtime");phase=20;changed=System.nanoTime();return;}
+                if(!c.player.getInventory().contains(new net.minecraft.item.ItemStack(Journey.ECHO)))throw new IllegalStateException("Two real sleeps did not deliver guide");
+                var dream=new JsonObject();dream.addProperty("actual_bed_sleeps",sleeps);dream.addProperty("guide_received",true);write("dreams.json",dream);
+                for(int i=0;i<9;i++)if(c.player.getInventory().getStack(i).isOf(Journey.ECHO))c.player.getInventory().selectedSlot=i;
+                c.interactionManager.interactItem(c.player,Hand.MAIN_HAND);command(c,"view entrance");phase=1;changed=System.nanoTime();return;
+            }
             if(phase==1){if(seconds()<18||!queues(c))return;capture(c,"surface-station.png");bell(c,true);next();return;}
             if(phase==2){if(!c.player.hasVehicle()){if(seconds()>12)throw new IllegalStateException("Upper bell did not board");return;}next();return;}
             if(phase==3){
@@ -81,7 +100,13 @@ public final class Phase7CaptureClient implements ClientModInitializer {
             if(phase==13){
                 command(c,"audit client");command(c,"intrusion");write("rides.json",rides);
                 var r=new JsonObject();r.addProperty("pass",true);r.addProperty("real_bell_interactions",4);r.addProperty("real_walking_legs",walks.size());r.addProperty("native_dimension","minecraft:overworld");r.addProperty("method","Bell right clicks, server-authoritative cabin rides, actual forward-key walking; operator camera placement used only before journey and after round trip.");write("journey.json",r);
-                finished=true;System.out.println("ABYSS_PHASE7_COMPLETE");c.scheduleStop();
+                command(c,"view entrance");next();return;
+            }
+            if(phase==14){if(seconds()<12)return;bell(c,true);next();return;}
+            if(phase==15){
+                if(seconds()<10)return;if(!c.player.hasVehicle())throw new IllegalStateException("Restart test did not board");
+                if(!restartReady){var restart=new JsonObject();restart.addProperty("riding_before_stop",true);restart.addProperty("y",c.player.getY());write("restart-ready.json",restart);restartReady=true;}
+                if(seconds()>90)throw new IllegalStateException("Server did not stop for recovery test");
             }
         }catch(Exception e){e.printStackTrace();finished=true;c.options.forwardKey.setPressed(false);c.options.sneakKey.setPressed(false);System.err.println("ABYSS_PHASE7_FAILED");c.scheduleStop();}
     }
