@@ -10,6 +10,8 @@ on:
       - 'projects/minecraft-mods/experiments/glimmering-abyss/TEST-REPORT-PHASE2.md'
       - 'projects/minecraft-mods/experiments/glimmering-abyss/evidence/phase4/latest.json'
       - 'projects/minecraft-mods/experiments/glimmering-abyss/TEST-REPORT-PHASE4.md'
+      - 'projects/minecraft-mods/experiments/glimmering-abyss/evidence/phase6/latest.json'
+      - 'projects/minecraft-mods/experiments/glimmering-abyss/TEST-REPORT-PHASE6.md'
       - 'projects/minecraft-mods/experiments/glimmering-abyss/evidence/phase5/latest.json'
       - 'projects/minecraft-mods/experiments/glimmering-abyss/TEST-REPORT-PHASE5.md'
       - 'projects/minecraft-mods/experiments/glimmering-abyss/evidence/phase3/latest.json'
@@ -43,6 +45,7 @@ jobs:
           cp site/glimmering-abyss/phase3.html _site/phase3.html
           cp site/glimmering-abyss/phase4.html _site/phase4.html
           cp site/glimmering-abyss/phase5.html _site/phase5.html
+          cp site/glimmering-abyss/phase6.html _site/phase6.html
           root=projects/minecraft-mods/experiments/glimmering-abyss/evidence/phase1
           cp "$root/summary.json" "$root/audit-glimmer.json" _site/evidence/phase1/
           cp "$root/screenshots/captures.json" _site/evidence/phase1/screenshots/
@@ -91,6 +94,18 @@ jobs:
               cp "$directory/$file" "_site/evidence/phase5/runs/$run/"
             done
             cp "$directory/screenshots/captures.json" "$directory/screenshots/"*.png "_site/evidence/phase5/runs/$run/screenshots/"
+          done
+          root=projects/minecraft-mods/experiments/glimmering-abyss/evidence/phase6
+          mkdir -p _site/evidence/phase6
+          cp "$root/latest.json" _site/evidence/phase6/latest.json
+          for directory in "$root"/runs/*; do
+            test -f "$directory/summary.json" || continue
+            run=$(basename "$directory")
+            mkdir -p "_site/evidence/phase6/runs/$run/screenshots"
+            for file in summary.json performance.csv frame-intervals.json town-first.json town-repeat.json town-reload.json safety-first.json safety-reload.json client-launch-provenance.json walk-collision.json rail-collision.json walk-legs.json; do
+              cp "$directory/$file" "_site/evidence/phase6/runs/$run/"
+            done
+            cp "$directory/screenshots/captures.json" "$directory/screenshots/"*.png "_site/evidence/phase6/runs/$run/screenshots/"
           done
           python - <<'PY'
           import datetime, json, os

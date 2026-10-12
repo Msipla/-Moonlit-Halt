@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "latestStage": "phase5",
-  "updated": "2026-10-12",
+  "latestStage": "phase6",
+  "updated": "2026-10-13",
   "stages": [
     {
       "id": "phase1",
@@ -225,9 +225,9 @@
       "description": "一栋工坊、一座安全铁桥和一处小观景台，连成可往返的短路线。",
       "technical": "技术已验证",
       "technicalState": "passed",
-      "aesthetic": "第五阶段画面待验收",
-      "aestheticState": "waiting",
-      "verdict": "保留已认可的工坊与冷暖光，适度精修。原图供用户判断桥下深处的气质；竖井有限，不宣称无限虚空。",
+      "aesthetic": "工坊与冷暖光保留认可",
+      "aestheticState": "direction",
+      "verdict": "用户审图后保留工坊、暖窗和冷蓝巨柱；局部竖井仍像可见底部的深沟，作为第六阶段断崖构图改造的依据。历史技术交付继续有效。",
       "pointer": "evidence/phase5/latest.json",
       "cover": "blue-core.png",
       "views": [
@@ -278,6 +278,81 @@
       ],
       "version": "0.5.0",
       "developmentLabel": "第五阶段短路线原型"
+    },
+    {
+      "id": "phase6",
+      "number": "06",
+      "title": "第六阶段 · 陆架边缘的小镇",
+      "short": "第六阶段",
+      "description": "六栋建筑、短主街与小广场，坐落在平缓岩台上；边缘突然下沉，巨大洞厅仍然留白。",
+      "technical": "技术已验证",
+      "technicalState": "passed",
+      "aesthetic": "小镇与光雾待用户判断",
+      "aestheticState": "waiting",
+      "verdict": "整个景观以宁静、安全的探索为基调；小镇、外围洞穴与深渊均无普通怪物。六栋建筑与一处可登高层形成紧凑小镇，95%环境光和深处渐变供同机位比较。最终画面由用户验收。",
+      "pointer": "evidence/phase6/latest.json",
+      "cover": "blue-plaza.png",
+      "views": [
+        "street",
+        "plaza",
+        "high",
+        "cliff",
+        "bridge",
+        "scale",
+        "overview",
+        "facade",
+        "interior"
+      ],
+      "modes": [
+        {
+          "id": "blue",
+          "label": "原环境光"
+        },
+        {
+          "id": "blue95",
+          "label": "环境光95%",
+          "views": [
+            "street",
+            "high",
+            "cliff"
+          ]
+        },
+        {
+          "id": "blue95-fog",
+          "label": "95%与深处渐变",
+          "views": [
+            "street",
+            "high",
+            "cliff",
+            "bridge"
+          ]
+        },
+        {
+          "id": "a",
+          "label": "原版控制",
+          "onlyView": "street",
+          "file": "a-street.png"
+        }
+      ],
+      "defaultMode": "blue",
+      "defaultView": "street",
+      "report": "phase6.html",
+      "extras": [
+        {
+          "file": "blue-walk-street.png",
+          "title": "实际行走经过主街"
+        },
+        {
+          "file": "blue-walk-balcony.png",
+          "title": "实际登梯抵达观景层"
+        },
+        {
+          "file": "blue-rail-collision.png",
+          "title": "实际前行测试低栏防坠"
+        }
+      ],
+      "version": "0.6.0",
+      "developmentLabel": "第六阶段紧凑小镇原型"
     }
   ],
   "timeline": [
@@ -316,6 +391,12 @@
       "title": "从暖窗走向深渊",
       "text": "保留一栋工坊，沿安全铁桥走到小观景台，验证实际路线往返、护栏和同存档重启。",
       "state": "技术已验证 · 新画面待验收"
+    },
+    {
+      "date": "2026.10.13",
+      "title": "街道很近，深处很远",
+      "text": "保留工坊与冷暖光，建成六栋建筑的小镇、主街和登高视点；断崖外围同样属于安全景观，另提供95%环境光与深处渐变对照。",
+      "state": "技术已验证 · 小镇美学待判断"
     }
   ]
 }
