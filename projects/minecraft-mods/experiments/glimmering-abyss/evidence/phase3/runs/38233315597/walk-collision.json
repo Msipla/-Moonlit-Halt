@@ -1,0 +1,7 @@
+{
+  "method": "Actual forward-key movement for 8 seconds under profile blue; stopped by existing iron rail.",
+  "start_z": 90.5,
+  "end_z": 62.86250001192093,
+  "end_y": 39.0,
+  "walk_and_collision_pass": true
+}
