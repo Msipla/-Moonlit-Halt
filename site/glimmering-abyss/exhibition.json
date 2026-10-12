@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "latestStage": "phase3",
+  "latestStage": "phase4",
   "updated": "2026-10-12",
   "stages": [
     {
@@ -102,9 +102,9 @@
       "short": "第三阶段",
       "description": "按位置与表面朝向呈现空间光，冷蓝与铜金共用同一套逻辑。",
       "technical": "技术已验证",
-      "aesthetic": "美学待验收",
-      "aestheticState": "waiting",
-      "verdict": "可运行视觉原型已完成。用户美学验收待定；城市、生态和世界活动仍未开发。",
+      "aesthetic": "冷蓝方向已认可",
+      "aestheticState": "direction",
+      "verdict": "第三阶段技术已交付。用户认可冷蓝环境光、巨柱与局部暖光的整体方向；铜金保留作配置能力。建筑与完整世界体验另行验收。",
       "pointer": "evidence/phase3/latest.json",
       "cover": "blue-overlook.png",
       "views": [
@@ -159,7 +159,63 @@
       ],
       "version": "0.3.0",
       "technicalState": "passed",
-      "developmentLabel": "第三阶段视觉原型"
+      "developmentLabel": "第三阶段环境基底"
+    },
+    {
+      "id": "phase4",
+      "number": "04",
+      "title": "第四阶段 · 地下工坊原型",
+      "short": "第四阶段",
+      "description": "完整深色砖石工坊、坡屋顶、拱窗与小塔楼；克制暖窗连入既有冷蓝洞厅。",
+      "technical": "技术已验证",
+      "technicalState": "passed",
+      "aesthetic": "建筑美学待验收",
+      "aestheticState": "waiting",
+      "verdict": "可安装建筑原型完成后由用户审阅原图。先判断这一栋是否自然地属于深渊，再决定扩大规模。",
+      "pointer": "evidence/phase4/latest.json",
+      "cover": "blue-scale.png",
+      "views": [
+        "facade",
+        "warmth",
+        "scale",
+        "bridge",
+        "interior",
+        "platform",
+        "overlook"
+      ],
+      "modes": [
+        {
+          "id": "blue",
+          "label": "冷蓝 + 建筑"
+        },
+        {
+          "id": "a",
+          "label": "原版控制",
+          "onlyView": "facade",
+          "file": "a-facade.png"
+        },
+        {
+          "id": "copper",
+          "label": "铜金能力控制",
+          "onlyView": "facade",
+          "file": "copper-facade.png"
+        }
+      ],
+      "defaultMode": "blue",
+      "defaultView": "facade",
+      "report": "phase4.html",
+      "extras": [
+        {
+          "file": "before-platform.png",
+          "title": "同次运行 · 建筑放置前"
+        },
+        {
+          "file": "blue-walk-interior.png",
+          "title": "实际按键行走 · 后墙碰撞"
+        }
+      ],
+      "version": "0.4.0",
+      "developmentLabel": "第四阶段单栋建筑验证"
     }
   ],
   "timeline": [
@@ -179,13 +235,19 @@
       "date": "2026.10.12",
       "title": "空间开始有明暗层次",
       "text": "第三阶段进行了两轮真实客户端采集。远壁亮起、巨柱保留暗剪影，另一种色调也完成验证。",
-      "state": "可运行原型 · 美学待验收"
+      "state": "技术已验证 · 冷蓝方向认可"
+    },
+    {
+      "date": "2026.10.12",
+      "title": "一栋有暖窗的地下工坊",
+      "text": "沿已认可的冷蓝方向加入独立砖石建筑，验证安装包、实际行走与存档重启，提供首版建筑原图。",
+      "state": "技术与美学分开验收"
     },
     {
       "date": "当前",
-      "title": "等待你的视觉判断",
-      "text": "先确认光照与空间感，再安排目标 Windows 电脑和渲染兼容性测试。",
-      "state": "待验收 · 后续研发未启动"
+      "title": "先判断建筑气质",
+      "text": "等待用户审阅第四阶段原图，再决定是否扩大规模。主世界城市、梦境与缆车仍属未来设计。",
+      "state": "建筑美学待验收"
     }
   ]
 }

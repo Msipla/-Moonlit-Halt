@@ -1,3 +1,15 @@
+> 第四阶段恢复：第三阶段工程交付已完成，用户认可冷蓝环境与局部暖光方向。当前建筑版本与实测结果见下列新入口；后文保留第三阶段历史说明。
+
+# Phase 4 · 地下工坊原型 v0.4.0
+
+一栋独立维多利亚／哥特工业风砖石工坊，坡屋顶、拱窗、烟囱、小塔楼、克制暖窗及连接步道；保留原有洞厅和空间光，不在主世界自然生成，不加入可见居民。
+
+[第四阶段原图](https://msipla.github.io/-Moonlit-Halt/phase4.html) · [安装与复测](INSTALL-PHASE4.md) · [第四阶段测试报告](TEST-REPORT-PHASE4.md) · [最新交接](HANDOFF.md)
+
+`/abyss enter` → `/abyssrender blue` → `/abyss building` → `/abyss building view facade`。完整技术/美学状态以 Phase 4 报告为准。技术验证与用户美学验收分开记录，Windows/PCL2、目标 GPU 与第三方渲染模组尚未实测。
+
+---
+
 > 2026-10-12：v0.3.0 环境视觉原型已实际运行；用户美学验收待定。第二阶段美学不通过，原始证据与旧安装包保留。
 
 # Project 02 · 微光深渊（Glimmering Abyss）

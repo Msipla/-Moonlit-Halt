@@ -8,6 +8,8 @@ on:
       - 'projects/minecraft-mods/experiments/glimmering-abyss/evidence/phase2/**'
       - 'projects/minecraft-mods/experiments/glimmering-abyss/TEST-REPORT.md'
       - 'projects/minecraft-mods/experiments/glimmering-abyss/TEST-REPORT-PHASE2.md'
+      - 'projects/minecraft-mods/experiments/glimmering-abyss/evidence/phase4/latest.json'
+      - 'projects/minecraft-mods/experiments/glimmering-abyss/TEST-REPORT-PHASE4.md'
       - 'projects/minecraft-mods/experiments/glimmering-abyss/evidence/phase3/latest.json'
       - 'projects/minecraft-mods/experiments/glimmering-abyss/TEST-REPORT-PHASE3.md'
       - '.github/workflows/glimmering-abyss-pages.yml'
@@ -37,6 +39,7 @@ jobs:
           cp site/glimmering-abyss/exhibition.css site/glimmering-abyss/exhibition.js site/glimmering-abyss/exhibition.json _site/
           cp site/glimmering-abyss/phase2.html _site/phase2.html
           cp site/glimmering-abyss/phase3.html _site/phase3.html
+          cp site/glimmering-abyss/phase4.html _site/phase4.html
           root=projects/minecraft-mods/experiments/glimmering-abyss/evidence/phase1
           cp "$root/summary.json" "$root/audit-glimmer.json" _site/evidence/phase1/
           cp "$root/screenshots/captures.json" _site/evidence/phase1/screenshots/
@@ -61,6 +64,19 @@ jobs:
           cp "$root/runs/$run/screenshots/captures.json" "_site/evidence/phase3/runs/$run/screenshots/"
           cp "$root/runs/$run/screenshots/"*.png "_site/evidence/phase3/runs/$run/screenshots/"
           test "$(find "_site/evidence/phase3/runs/$run/screenshots" -name '*.png' | wc -l)" -eq 21
+          root=projects/minecraft-mods/experiments/glimmering-abyss/evidence/phase4
+          mkdir -p _site/evidence/phase4
+          cp "$root/latest.json" _site/evidence/phase4/latest.json
+          # Retain every successful Phase 4 published run, so future pointers cannot break old image URLs.
+          for directory in "$root"/runs/*; do
+            test -f "$directory/summary.json" || continue
+            run=$(basename "$directory")
+            mkdir -p "_site/evidence/phase4/runs/$run/screenshots"
+            for file in summary.json performance.csv frame-intervals.json architecture-first.json architecture-repeat.json architecture-reload.json client-launch-provenance.json walk-collision.json; do
+              cp "$directory/$file" "_site/evidence/phase4/runs/$run/"
+            done
+            cp "$directory/screenshots/captures.json" "$directory/screenshots/"*.png "_site/evidence/phase4/runs/$run/screenshots/"
+          done
           python - <<'PY'
           import datetime, json, os
           from pathlib import Path

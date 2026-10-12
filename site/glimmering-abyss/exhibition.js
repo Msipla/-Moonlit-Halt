@@ -1,6 +1,6 @@
 'use strict';
 const byId = id => document.getElementById(id);
-const viewNames = {platform:'观景台',tunnel:'通道',edge:'深渊边缘',overlook:'俯视'};
+const viewNames = {platform:'观景台',tunnel:'通道',edge:'深渊边缘',overlook:'俯视',facade:'建筑全貌',warmth:'冷暖局部',scale:'洞厅尺度',bridge:'连接步道',interior:'工坊室内'};
 let project, currentStage, currentView='platform', currentMode, currentImage;
 const text = (tag, value, className) => {
   const node=document.createElement(tag);node.textContent=value;if(className)node.className=className;return node;
@@ -18,7 +18,7 @@ function badge(value,state='') {return text('span',value,'badge '+state);}
 function stageLink(stage) {return '?stage='+stage.id+'#gallery';}
 function chooseStage(id, updateHistory=false) {
   currentStage=project.stages.find(x=>x.id===id)||project.stages.find(x=>x.id===project.latestStage);
-  currentView='platform';currentMode=currentStage.defaultMode;
+  currentView=currentStage.defaultView||'platform';currentMode=currentStage.defaultMode;
   if(updateHistory){const url=new URL(location.href);url.searchParams.set('stage',currentStage.id);url.hash='gallery';history.pushState({},'',url);}
   renderGallery();
 }
@@ -57,13 +57,14 @@ function renderGallery() {
   currentImage={url:imageUrl(s,currentMode,currentView),title:viewNames[currentView]+' · '+mode.label};
   const img=byId('gallery-image');img.src=currentImage.url;img.alt=s.short+' '+currentImage.title+' · 实际客户端原始截图';
   byId('image-title').textContent=currentImage.title;byId('original-link').href=currentImage.url;
-  byId('image-note').textContent=mode.onlyView?'此控制方案只有观景台原图，已切换到对应机位。':'实际 Minecraft 客户端画面，未经提亮或调色。';
+  byId('image-note').textContent=mode.onlyView?'此控制方案只有'+viewNames[mode.onlyView]+'原图，已切换到对应机位。':'实际 Minecraft 客户端画面，未经提亮或调色。';
   const extras=byId('extra-images');extras.replaceChildren();
   for(const item of s.extras){const article=document.createElement('article');article.className='extra-card';const b=document.createElement('button');b.setAttribute('aria-label','放大：'+item.title);const i=document.createElement('img');i.src=s.base+item.file;i.alt=item.title+' · 原始游戏帧';i.loading='lazy';b.append(i);b.addEventListener('click',()=>openImage(s.base+item.file,item.title));article.append(b,text('p',item.title));extras.append(article);}
   byId('extra-images').parentElement.hidden=s.extras.length===0;
 }
 function compareUrl(mode,view) {
-  const latest=project.stages.find(s=>s.id===project.latestStage);
+  const latest=project.stages.find(s=>s.id==='phase3');
+  if(mode==='before4'||mode==='after4'){const fourth=project.stages.find(s=>s.id==='phase4');return fourth.base+(mode==='before4'?'before-platform.png':'blue-platform.png');}
   if(['blue','copper'].includes(mode))return latest.base+mode+'-'+view+'.png';
   // Use the new, drained-queue native controls where they exist. Historical A tunnel is preserved separately.
   if(mode==='a'&&['platform','tunnel'].includes(view))return latest.base+'a-'+view+'.png';
@@ -72,12 +73,12 @@ function compareUrl(mode,view) {
 function updateCompare() {
   if(!project)return;
   const [left,right]=byId('compare-pair').value.split(',');const control=byId('compare-view');
-  const veil=left==='veil';control.disabled=veil;if(veil)control.value='platform';
-  const view=control.value, labels={a:'原版基线 A',b:'第二阶段 B',c:'第二阶段 C',veil:'Veil · 雾幕反例',blue:'最新空间光 · 冷蓝',copper:'最新空间光 · 铜金'};
+  const veil=left==='veil',building=left==='before4';control.disabled=veil||building;if(veil||building)control.value='platform';
+  const view=control.value, labels={a:'原版基线 A',b:'第二阶段 B',c:'第二阶段 C',veil:'Veil · 雾幕反例',blue:'最新空间光 · 冷蓝',copper:'第三阶段 · 铜金',before4:'第四阶段 · 放置前',after4:'第四阶段 · 放置后'};
   byId('compare-top').src=compareUrl(left,view);byId('compare-top').alt=labels[left]+' · '+viewNames[view]+'原图';
   byId('compare-bottom').src=compareUrl(right,view);byId('compare-bottom').alt=labels[right]+' · '+viewNames[view]+'原图';
   byId('compare-left-label').textContent=labels[left];byId('compare-right-label').textContent=labels[right];
-  byId('compare-note').textContent=veil?'Veil 只有观景台原图，已固定到相同机位；它是保留的雾幕反例。':left==='a'&&['platform','tunnel'].includes(view)?'原版 A 使用第三阶段重新采集的同机位控制图。历史原图仍在旧报告中保留。':'同一洞厅、相同机位、视距与显示设置。历史帧和新帧均保持原样；不同运行环境的性能不作直接比较。';
+  byId('compare-note').textContent=building?'同一次真实客户端运行、相同观景台机位与光照参数。仅新增建筑与连接步道；天然地形未改变。':veil?'Veil 只有观景台原图，已固定到相同机位；它是保留的雾幕反例。':left==='a'&&['platform','tunnel'].includes(view)?'原版 A 使用第三阶段重新采集的同机位控制图。历史原图仍在旧报告中保留。':'同一洞厅、相同机位、视距与显示设置。历史帧和新帧均保持原样；不同运行环境的性能不作直接比较。';
 }
 byId('compare-range').addEventListener('input',event=>{const n=event.target.value;byId('compare-top').style.clipPath='inset(0 '+(100-n)+'% 0 0)';byId('compare-divider').style.left=n+'%';byId('compare-value').value=n+'%';});
 byId('compare-pair').addEventListener('change',updateCompare);byId('compare-view').addEventListener('change',updateCompare);

@@ -55,7 +55,7 @@ main{max-width:1250px;margin:auto}
 .section-heading h2,.project-notes h2{font-family:"Songti SC","Noto Serif CJK SC",serif;font-size:31px;font-weight:500;line-height:1.4;letter-spacing:.035em;margin:0}
 .section-heading>p{max-width:345px;color:var(--muted);font-size:13px;margin:0}
 .mobile-break{display:none}
-.stage-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.stage-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
 .stage-card{display:flex;flex-direction:column;border:1px solid var(--line);background:var(--panel);min-width:0;transition:border-color .2s,transform .2s}
 .stage-card:hover{border-color:#72999f;transform:translateY(-3px)}
 .stage-card img{width:100%;aspect-ratio:16/9;object-fit:cover}

@@ -1,3 +1,5 @@
+> Phase 4 维护：新增 phase4.html 与第四阶段画廊，原有 Phase 1–3 永久入口和所有历史截图保留。旧光照对照固定到 Phase 3，建筑放置前后对照固定同次 Phase 4 平台机位。阶段参数继续由 exhibition.json 管理。
+
 # 微光深渊 · GitHub Pages 项目展厅
 
 面向非技术用户，使用原生 HTML/CSS/JS，无构建依赖与第三方字体/图像源。权威工程仍在 projects/minecraft-mods/experiments/glimmering-abyss；本站只展示经过验证的实际游戏帧与清晰状态。
