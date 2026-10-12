@@ -1,0 +1,3341 @@
+[
+  {
+    "file": "before-platform.png",
+    "kind": "before_building",
+    "render_profile": "blue",
+    "light_mode": "glimmer",
+    "view": "platform",
+    "x": 0.5,
+    "y": 39.0,
+    "z": 73.5,
+    "yaw": 180.0,
+    "pitch": 12.0,
+    "framebuffer_width": 1280,
+    "framebuffer_height": 720,
+    "fov": 75,
+    "brightness_gamma": 0.5,
+    "view_distance_chunks": 16,
+    "simulation_distance_chunks": 6,
+    "graphics": "fancy",
+    "ambient_occlusion": true,
+    "dimension_ambient_light": 0.0,
+    "dimension_fixed_time": 18000,
+    "gl_renderer": "llvmpipe (LLVM 20.1.2, 256 bits)",
+    "gl_vendor": "Mesa",
+    "gl_version": "4.5 (Core Profile) Mesa 25.2.8-0ubuntu0.24.04.4",
+    "gl_error_at_capture": 0,
+    "chunk_debug": "C: 828/13068 (s) D: 16, pC: 000, pU: 01, aB: 03",
+    "block_light_at_feet": 0,
+    "sky_light_at_feet": 0,
+    "environment": {
+      "profile": "blue",
+      "space_lighting": {
+        "profile": "blue",
+        "active": true,
+        "shader_ready": true,
+        "terrain_shader_selections": 636,
+        "config_status": "loaded",
+        "parameters": {
+          "name": "blue",
+          "color": [
+            0.24,
+            0.63,
+            0.95
+          ],
+          "base": 0.34,
+          "anchor": [
+            -20.0,
+            52.0,
+            -80.0
+          ],
+          "radius": 105.0,
+          "radiance": 1.65,
+          "direction": [
+            -0.25,
+            0.6,
+            -0.75
+          ],
+          "airColor": [
+            0.07,
+            0.34,
+            0.57
+          ],
+          "airStart": 30.0,
+          "airEnd": 235.0,
+          "airMax": 0.26
+        }
+      },
+      "custom_active": false,
+      "world": "glimmeringabyss:study",
+      "observed_lightmap_writes": 3408,
+      "native_lightmap_0_rgb": [
+        25,
+        25,
+        25
+      ],
+      "display_lightmap_0_rgb": [
+        25,
+        25,
+        25
+      ],
+      "native_lightmap_5_rgb": [
+        99,
+        80,
+        59
+      ],
+      "display_lightmap_5_rgb": [
+        99,
+        80,
+        59
+      ],
+      "native_lightmap_rgb": [
+        [
+          25,
+          25,
+          25
+        ],
+        [
+          39,
+          34,
+          30
+        ],
+        [
+          53,
+          44,
+          37
+        ],
+        [
+          68,
+          55,
+          43
+        ],
+        [
+          83,
+          67,
+          51
+        ],
+        [
+          99,
+          80,
+          59
+        ],
+        [
+          116,
+          94,
+          69
+        ],
+        [
+          132,
+          110,
+          81
+        ],
+        [
+          149,
+          128,
+          95
+        ],
+        [
+          167,
+          146,
+          112
+        ],
+        [
+          184,
+          167,
+          134
+        ],
+        [
+          201,
+          188,
+          160
+        ],
+        [
+          220,
+          211,
+          192
+        ],
+        [
+          241,
+          238,
+          230
+        ],
+        [
+          252,
+          252,
+          252
+        ],
+        [
+          252,
+          252,
+          252
+        ]
+      ],
+      "display_lightmap_rgb": [
+        [
+          25,
+          25,
+          25
+        ],
+        [
+          39,
+          34,
+          30
+        ],
+        [
+          53,
+          44,
+          37
+        ],
+        [
+          68,
+          55,
+          43
+        ],
+        [
+          83,
+          67,
+          51
+        ],
+        [
+          99,
+          80,
+          59
+        ],
+        [
+          116,
+          94,
+          69
+        ],
+        [
+          132,
+          110,
+          81
+        ],
+        [
+          149,
+          128,
+          95
+        ],
+        [
+          167,
+          146,
+          112
+        ],
+        [
+          184,
+          167,
+          134
+        ],
+        [
+          201,
+          188,
+          160
+        ],
+        [
+          220,
+          211,
+          192
+        ],
+        [
+          241,
+          238,
+          230
+        ],
+        [
+          252,
+          252,
+          252
+        ],
+        [
+          252,
+          252,
+          252
+        ]
+      ],
+      "distance_start": 230.4,
+      "distance_end": 256.0,
+      "distance_target_rgba": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "surface_microglow": 0.0,
+      "glow_faces_drawn_last_frame": 0
+    },
+    "space_lighting": {
+      "profile": "blue",
+      "active": true,
+      "shader_ready": true,
+      "terrain_shader_selections": 636,
+      "config_status": "loaded",
+      "parameters": {
+        "name": "blue",
+        "color": [
+          0.24,
+          0.63,
+          0.95
+        ],
+        "base": 0.34,
+        "anchor": [
+          -20.0,
+          52.0,
+          -80.0
+        ],
+        "radius": 105.0,
+        "radiance": 1.65,
+        "direction": [
+          -0.25,
+          0.6,
+          -0.75
+        ],
+        "airColor": [
+          0.07,
+          0.34,
+          0.57
+        ],
+        "airStart": 30.0,
+        "airEnd": 235.0,
+        "airMax": 0.26
+      }
+    },
+    "sample_frames": 104,
+    "settle_seconds": 8,
+    "sample_seconds": 9.247269515,
+    "sample_fps": 11.246563088844935,
+    "median_frame_ms": 80.121905,
+    "p95_frame_ms": 128.537352,
+    "max_frame_ms": 161.669799,
+    "frames_over_100ms": 22
+  },
+  {
+    "file": "blue-facade.png",
+    "kind": "architecture",
+    "render_profile": "blue",
+    "light_mode": "glimmer",
+    "view": "facade",
+    "x": 38.5,
+    "y": 39.0,
+    "z": 66.5,
+    "yaw": -166.0,
+    "pitch": -20.0,
+    "framebuffer_width": 1280,
+    "framebuffer_height": 720,
+    "fov": 75,
+    "brightness_gamma": 0.5,
+    "view_distance_chunks": 16,
+    "simulation_distance_chunks": 6,
+    "graphics": "fancy",
+    "ambient_occlusion": true,
+    "dimension_ambient_light": 0.0,
+    "dimension_fixed_time": 18000,
+    "gl_renderer": "llvmpipe (LLVM 20.1.2, 256 bits)",
+    "gl_vendor": "Mesa",
+    "gl_version": "4.5 (Core Profile) Mesa 25.2.8-0ubuntu0.24.04.4",
+    "gl_error_at_capture": 0,
+    "chunk_debug": "C: 626/13068 (s) D: 16, pC: 000, pU: 00, aB: 04",
+    "block_light_at_feet": 8,
+    "sky_light_at_feet": 0,
+    "environment": {
+      "profile": "blue",
+      "space_lighting": {
+        "profile": "blue",
+        "active": true,
+        "shader_ready": true,
+        "terrain_shader_selections": 1077,
+        "config_status": "loaded",
+        "parameters": {
+          "name": "blue",
+          "color": [
+            0.24,
+            0.63,
+            0.95
+          ],
+          "base": 0.34,
+          "anchor": [
+            -20.0,
+            52.0,
+            -80.0
+          ],
+          "radius": 105.0,
+          "radiance": 1.65,
+          "direction": [
+            -0.25,
+            0.6,
+            -0.75
+          ],
+          "airColor": [
+            0.07,
+            0.34,
+            0.57
+          ],
+          "airStart": 30.0,
+          "airEnd": 235.0,
+          "airMax": 0.26
+        }
+      },
+      "custom_active": false,
+      "world": "glimmeringabyss:study",
+      "observed_lightmap_writes": 5760,
+      "native_lightmap_0_rgb": [
+        25,
+        25,
+        25
+      ],
+      "display_lightmap_0_rgb": [
+        25,
+        25,
+        25
+      ],
+      "native_lightmap_5_rgb": [
+        100,
+        81,
+        60
+      ],
+      "display_lightmap_5_rgb": [
+        100,
+        81,
+        60
+      ],
+      "native_lightmap_rgb": [
+        [
+          25,
+          25,
+          25
+        ],
+        [
+          39,
+          34,
+          31
+        ],
+        [
+          53,
+          44,
+          37
+        ],
+        [
+          69,
+          55,
+          44
+        ],
+        [
+          84,
+          67,
+          51
+        ],
+        [
+          100,
+          81,
+          60
+        ],
+        [
+          117,
+          96,
+          70
+        ],
+        [
+          134,
+          112,
+          82
+        ],
+        [
+          151,
+          129,
+          96
+        ],
+        [
+          168,
+          148,
+          114
+        ],
+        [
+          185,
+          168,
+          136
+        ],
+        [
+          203,
+          190,
+          162
+        ],
+        [
+          221,
+          213,
+          194
+        ],
+        [
+          243,
+          240,
+          234
+        ],
+        [
+          252,
+          252,
+          252
+        ],
+        [
+          252,
+          252,
+          252
+        ]
+      ],
+      "display_lightmap_rgb": [
+        [
+          25,
+          25,
+          25
+        ],
+        [
+          39,
+          34,
+          31
+        ],
+        [
+          53,
+          44,
+          37
+        ],
+        [
+          69,
+          55,
+          44
+        ],
+        [
+          84,
+          67,
+          51
+        ],
+        [
+          100,
+          81,
+          60
+        ],
+        [
+          117,
+          96,
+          70
+        ],
+        [
+          134,
+          112,
+          82
+        ],
+        [
+          151,
+          129,
+          96
+        ],
+        [
+          168,
+          148,
+          114
+        ],
+        [
+          185,
+          168,
+          136
+        ],
+        [
+          203,
+          190,
+          162
+        ],
+        [
+          221,
+          213,
+          194
+        ],
+        [
+          243,
+          240,
+          234
+        ],
+        [
+          252,
+          252,
+          252
+        ],
+        [
+          252,
+          252,
+          252
+        ]
+      ],
+      "distance_start": 230.4,
+      "distance_end": 256.0,
+      "distance_target_rgba": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "surface_microglow": 0.0,
+      "glow_faces_drawn_last_frame": 0
+    },
+    "space_lighting": {
+      "profile": "blue",
+      "active": true,
+      "shader_ready": true,
+      "terrain_shader_selections": 1077,
+      "config_status": "loaded",
+      "parameters": {
+        "name": "blue",
+        "color": [
+          0.24,
+          0.63,
+          0.95
+        ],
+        "base": 0.34,
+        "anchor": [
+          -20.0,
+          52.0,
+          -80.0
+        ],
+        "radius": 105.0,
+        "radiance": 1.65,
+        "direction": [
+          -0.25,
+          0.6,
+          -0.75
+        ],
+        "airColor": [
+          0.07,
+          0.34,
+          0.57
+        ],
+        "airStart": 30.0,
+        "airEnd": 235.0,
+        "airMax": 0.26
+      }
+    },
+    "sample_frames": 65,
+    "settle_seconds": 8,
+    "sample_seconds": 5.139351113,
+    "sample_fps": 12.647511051654432,
+    "median_frame_ms": 77.766233,
+    "p95_frame_ms": 88.48543,
+    "max_frame_ms": 117.119156,
+    "frames_over_100ms": 2
+  },
+  {
+    "file": "blue-warmth.png",
+    "kind": "architecture",
+    "render_profile": "blue",
+    "light_mode": "glimmer",
+    "view": "warmth",
+    "x": 30.5,
+    "y": 39.0,
+    "z": 45.5,
+    "yaw": -145.0,
+    "pitch": -18.0,
+    "framebuffer_width": 1280,
+    "framebuffer_height": 720,
+    "fov": 75,
+    "brightness_gamma": 0.5,
+    "view_distance_chunks": 16,
+    "simulation_distance_chunks": 6,
+    "graphics": "fancy",
+    "ambient_occlusion": true,
+    "dimension_ambient_light": 0.0,
+    "dimension_fixed_time": 18000,
+    "gl_renderer": "llvmpipe (LLVM 20.1.2, 256 bits)",
+    "gl_vendor": "Mesa",
+    "gl_version": "4.5 (Core Profile) Mesa 25.2.8-0ubuntu0.24.04.4",
+    "gl_error_at_capture": 0,
+    "chunk_debug": "C: 455/13068 (s) D: 16, pC: 000, pU: 00, aB: 04",
+    "block_light_at_feet": 10,
+    "sky_light_at_feet": 0,
+    "environment": {
+      "profile": "blue",
+      "space_lighting": {
+        "profile": "blue",
+        "active": true,
+        "shader_ready": true,
+        "terrain_shader_selections": 1638,
+        "config_status": "loaded",
+        "parameters": {
+          "name": "blue",
+          "color": [
+            0.24,
+            0.63,
+            0.95
+          ],
+          "base": 0.34,
+          "anchor": [
+            -20.0,
+            52.0,
+            -80.0
+          ],
+          "radius": 105.0,
+          "radiance": 1.65,
+          "direction": [
+            -0.25,
+            0.6,
+            -0.75
+          ],
+          "airColor": [
+            0.07,
+            0.34,
+            0.57
+          ],
+          "airStart": 30.0,
+          "airEnd": 235.0,
+          "airMax": 0.26
+        }
+      },
+      "custom_active": false,
+      "world": "glimmeringabyss:study",
+      "observed_lightmap_writes": 8752,
+      "native_lightmap_0_rgb": [
+        25,
+        25,
+        25
+      ],
+      "display_lightmap_0_rgb": [
+        25,
+        25,
+        25
+      ],
+      "native_lightmap_5_rgb": [
+        101,
+        81,
+        60
+      ],
+      "display_lightmap_5_rgb": [
+        101,
+        81,
+        60
+      ],
+      "native_lightmap_rgb": [
+        [
+          25,
+          25,
+          25
+        ],
+        [
+          39,
+          34,
+          31
+        ],
+        [
+          54,
+          44,
+          37
+        ],
+        [
+          69,
+          56,
+          44
+        ],
+        [
+          85,
+          68,
+          52
+        ],
+        [
+          101,
+          81,
+          60
+        ],
+        [
+          118,
+          96,
+          71
+        ],
+        [
+          135,
+          112,
+          83
+        ],
+        [
+          152,
+          130,
+          97
+        ],
+        [
+          169,
+          149,
+          115
+        ],
+        [
+          186,
+          169,
+          137
+        ],
+        [
+          204,
+          191,
+          164
+        ],
+        [
+          222,
+          214,
+          196
+        ],
+        [
+          244,
+          242,
+          236
+        ],
+        [
+          252,
+          252,
+          252
+        ],
+        [
+          252,
+          252,
+          252
+        ]
+      ],
+      "display_lightmap_rgb": [
+        [
+          25,
+          25,
+          25
+        ],
+        [
+          39,
+          34,
+          31
+        ],
+        [
+          54,
+          44,
+          37
+        ],
+        [
+          69,
+          56,
+          44
+        ],
+        [
+          85,
+          68,
+          52
+        ],
+        [
+          101,
+          81,
+          60
+        ],
+        [
+          118,
+          96,
+          71
+        ],
+        [
+          135,
+          112,
+          83
+        ],
+        [
+          152,
+          130,
+          97
+        ],
+        [
+          169,
+          149,
+          115
+        ],
+        [
+          186,
+          169,
+          137
+        ],
+        [
+          204,
+          191,
+          164
+        ],
+        [
+          222,
+          214,
+          196
+        ],
+        [
+          244,
+          242,
+          236
+        ],
+        [
+          252,
+          252,
+          252
+        ],
+        [
+          252,
+          252,
+          252
+        ]
+      ],
+      "distance_start": 230.4,
+      "distance_end": 256.0,
+      "distance_target_rgba": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "surface_microglow": 0.0,
+      "glow_faces_drawn_last_frame": 0
+    },
+    "space_lighting": {
+      "profile": "blue",
+      "active": true,
+      "shader_ready": true,
+      "terrain_shader_selections": 1638,
+      "config_status": "loaded",
+      "parameters": {
+        "name": "blue",
+        "color": [
+          0.24,
+          0.63,
+          0.95
+        ],
+        "base": 0.34,
+        "anchor": [
+          -20.0,
+          52.0,
+          -80.0
+        ],
+        "radius": 105.0,
+        "radiance": 1.65,
+        "direction": [
+          -0.25,
+          0.6,
+          -0.75
+        ],
+        "airColor": [
+          0.07,
+          0.34,
+          0.57
+        ],
+        "airStart": 30.0,
+        "airEnd": 235.0,
+        "airMax": 0.26
+      }
+    },
+    "sample_frames": 74,
+    "settle_seconds": 8,
+    "sample_seconds": 4.989792986,
+    "sample_fps": 14.830274564019758,
+    "median_frame_ms": 66.59802,
+    "p95_frame_ms": 78.956686,
+    "max_frame_ms": 95.316355,
+    "frames_over_100ms": 0
+  },
+  {
+    "file": "blue-scale.png",
+    "kind": "architecture",
+    "render_profile": "blue",
+    "light_mode": "glimmer",
+    "view": "scale",
+    "x": -11.5,
+    "y": 57.0,
+    "z": 67.5,
+    "yaw": -122.5,
+    "pitch": 5.0,
+    "framebuffer_width": 1280,
+    "framebuffer_height": 720,
+    "fov": 75,
+    "brightness_gamma": 0.5,
+    "view_distance_chunks": 16,
+    "simulation_distance_chunks": 6,
+    "graphics": "fancy",
+    "ambient_occlusion": true,
+    "dimension_ambient_light": 0.0,
+    "dimension_fixed_time": 18000,
+    "gl_renderer": "llvmpipe (LLVM 20.1.2, 256 bits)",
+    "gl_vendor": "Mesa",
+    "gl_version": "4.5 (Core Profile) Mesa 25.2.8-0ubuntu0.24.04.4",
+    "gl_error_at_capture": 0,
+    "chunk_debug": "C: 606/13068 (s) D: 16, pC: 000, pU: 00, aB: 04",
+    "block_light_at_feet": 0,
+    "sky_light_at_feet": 0,
+    "environment": {
+      "profile": "blue",
+      "space_lighting": {
+        "profile": "blue",
+        "active": true,
+        "shader_ready": true,
+        "terrain_shader_selections": 2157,
+        "config_status": "loaded",
+        "parameters": {
+          "name": "blue",
+          "color": [
+            0.24,
+            0.63,
+            0.95
+          ],
+          "base": 0.34,
+          "anchor": [
+            -20.0,
+            52.0,
+            -80.0
+          ],
+          "radius": 105.0,
+          "radiance": 1.65,
+          "direction": [
+            -0.25,
+            0.6,
+            -0.75
+          ],
+          "airColor": [
+            0.07,
+            0.34,
+            0.57
+          ],
+          "airStart": 30.0,
+          "airEnd": 235.0,
+          "airMax": 0.26
+        }
+      },
+      "custom_active": false,
+      "world": "glimmeringabyss:study",
+      "observed_lightmap_writes": 11520,
+      "native_lightmap_0_rgb": [
+        25,
+        25,
+        25
+      ],
+      "display_lightmap_0_rgb": [
+        25,
+        25,
+        25
+      ],
+      "native_lightmap_5_rgb": [
+        100,
+        81,
+        60
+      ],
+      "display_lightmap_5_rgb": [
+        100,
+        81,
+        60
+      ],
+      "native_lightmap_rgb": [
+        [
+          25,
+          25,
+          25
+        ],
+        [
+          39,
+          34,
+          31
+        ],
+        [
+          53,
+          44,
+          37
+        ],
+        [
+          69,
+          55,
+          44
+        ],
+        [
+          84,
+          67,
+          51
+        ],
+        [
+          100,
+          81,
+          60
+        ],
+        [
+          117,
+          95,
+          70
+        ],
+        [
+          134,
+          112,
+          82
+        ],
+        [
+          151,
+          129,
+          96
+        ],
+        [
+          168,
+          148,
+          114
+        ],
+        [
+          185,
+          168,
+          135
+        ],
+        [
+          203,
+          190,
+          162
+        ],
+        [
+          221,
+          213,
+          194
+        ],
+        [
+          243,
+          240,
+          234
+        ],
+        [
+          252,
+          252,
+          252
+        ],
+        [
+          252,
+          252,
+          252
+        ]
+      ],
+      "display_lightmap_rgb": [
+        [
+          25,
+          25,
+          25
+        ],
+        [
+          39,
+          34,
+          31
+        ],
+        [
+          53,
+          44,
+          37
+        ],
+        [
+          69,
+          55,
+          44
+        ],
+        [
+          84,
+          67,
+          51
+        ],
+        [
+          100,
+          81,
+          60
+        ],
+        [
+          117,
+          95,
+          70
+        ],
+        [
+          134,
+          112,
+          82
+        ],
+        [
+          151,
+          129,
+          96
+        ],
+        [
+          168,
+          148,
+          114
+        ],
+        [
+          185,
+          168,
+          135
+        ],
+        [
+          203,
+          190,
+          162
+        ],
+        [
+          221,
+          213,
+          194
+        ],
+        [
+          243,
+          240,
+          234
+        ],
+        [
+          252,
+          252,
+          252
+        ],
+        [
+          252,
+          252,
+          252
+        ]
+      ],
+      "distance_start": 230.4,
+      "distance_end": 256.0,
+      "distance_target_rgba": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "surface_microglow": 0.0,
+      "glow_faces_drawn_last_frame": 0
+    },
+    "space_lighting": {
+      "profile": "blue",
+      "active": true,
+      "shader_ready": true,
+      "terrain_shader_selections": 2157,
+      "config_status": "loaded",
+      "parameters": {
+        "name": "blue",
+        "color": [
+          0.24,
+          0.63,
+          0.95
+        ],
+        "base": 0.34,
+        "anchor": [
+          -20.0,
+          52.0,
+          -80.0
+        ],
+        "radius": 105.0,
+        "radiance": 1.65,
+        "direction": [
+          -0.25,
+          0.6,
+          -0.75
+        ],
+        "airColor": [
+          0.07,
+          0.34,
+          0.57
+        ],
+        "airStart": 30.0,
+        "airEnd": 235.0,
+        "airMax": 0.26
+      }
+    },
+    "sample_frames": 70,
+    "settle_seconds": 8,
+    "sample_seconds": 5.061406661,
+    "sample_fps": 13.830147365825344,
+    "median_frame_ms": 72.057423,
+    "p95_frame_ms": 75.661187,
+    "max_frame_ms": 88.544993,
+    "frames_over_100ms": 0
+  },
+  {
+    "file": "blue-bridge.png",
+    "kind": "architecture",
+    "render_profile": "blue",
+    "light_mode": "glimmer",
+    "view": "bridge",
+    "x": 27.5,
+    "y": 39.0,
+    "z": 70.5,
+    "yaw": -90.0,
+    "pitch": 0.0,
+    "framebuffer_width": 1280,
+    "framebuffer_height": 720,
+    "fov": 75,
+    "brightness_gamma": 0.5,
+    "view_distance_chunks": 16,
+    "simulation_distance_chunks": 6,
+    "graphics": "fancy",
+    "ambient_occlusion": true,
+    "dimension_ambient_light": 0.0,
+    "dimension_fixed_time": 18000,
+    "gl_renderer": "llvmpipe (LLVM 20.1.2, 256 bits)",
+    "gl_vendor": "Mesa",
+    "gl_version": "4.5 (Core Profile) Mesa 25.2.8-0ubuntu0.24.04.4",
+    "gl_error_at_capture": 0,
+    "chunk_debug": "C: 153/13068 (s) D: 16, pC: 000, pU: 00, aB: 04",
+    "block_light_at_feet": 0,
+    "sky_light_at_feet": 0,
+    "environment": {
+      "profile": "blue",
+      "space_lighting": {
+        "profile": "blue",
+        "active": true,
+        "shader_ready": true,
+        "terrain_shader_selections": 3108,
+        "config_status": "loaded",
+        "parameters": {
+          "name": "blue",
+          "color": [
+            0.24,
+            0.63,
+            0.95
+          ],
+          "base": 0.34,
+          "anchor": [
+            -20.0,
+            52.0,
+            -80.0
+          ],
+          "radius": 105.0,
+          "radiance": 1.65,
+          "direction": [
+            -0.25,
+            0.6,
+            -0.75
+          ],
+          "airColor": [
+            0.07,
+            0.34,
+            0.57
+          ],
+          "airStart": 30.0,
+          "airEnd": 235.0,
+          "airMax": 0.26
+        }
+      },
+      "custom_active": false,
+      "world": "glimmeringabyss:study",
+      "observed_lightmap_writes": 15680,
+      "native_lightmap_0_rgb": [
+        25,
+        25,
+        25
+      ],
+      "display_lightmap_0_rgb": [
+        25,
+        25,
+        25
+      ],
+      "native_lightmap_5_rgb": [
+        102,
+        82,
+        61
+      ],
+      "display_lightmap_5_rgb": [
+        102,
+        82,
+        61
+      ],
+      "native_lightmap_rgb": [
+        [
+          25,
+          25,
+          25
+        ],
+        [
+          39,
+          34,
+          31
+        ],
+        [
+          54,
+          45,
+          37
+        ],
+        [
+          69,
+          56,
+          44
+        ],
+        [
+          85,
+          68,
+          52
+        ],
+        [
+          102,
+          82,
+          61
+        ],
+        [
+          118,
+          97,
+          71
+        ],
+        [
+          135,
+          113,
+          83
+        ],
+        [
+          153,
+          131,
+          98
+        ],
+        [
+          170,
+          150,
+          116
+        ],
+        [
+          187,
+          170,
+          138
+        ],
+        [
+          205,
+          192,
+          165
+        ],
+        [
+          223,
+          215,
+          198
+        ],
+        [
+          245,
+          243,
+          239
+        ],
+        [
+          252,
+          252,
+          252
+        ],
+        [
+          252,
+          252,
+          252
+        ]
+      ],
+      "display_lightmap_rgb": [
+        [
+          25,
+          25,
+          25
+        ],
+        [
+          39,
+          34,
+          31
+        ],
+        [
+          54,
+          45,
+          37
+        ],
+        [
+          69,
+          56,
+          44
+        ],
+        [
+          85,
+          68,
+          52
+        ],
+        [
+          102,
+          82,
+          61
+        ],
+        [
+          118,
+          97,
+          71
+        ],
+        [
+          135,
+          113,
+          83
+        ],
+        [
+          153,
+          131,
+          98
+        ],
+        [
+          170,
+          150,
+          116
+        ],
+        [
+          187,
+          170,
+          138
+        ],
+        [
+          205,
+          192,
+          165
+        ],
+        [
+          223,
+          215,
+          198
+        ],
+        [
+          245,
+          243,
+          239
+        ],
+        [
+          252,
+          252,
+          252
+        ],
+        [
+          252,
+          252,
+          252
+        ]
+      ],
+      "distance_start": 230.4,
+      "distance_end": 256.0,
+      "distance_target_rgba": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "surface_microglow": 0.0,
+      "glow_faces_drawn_last_frame": 0
+    },
+    "space_lighting": {
+      "profile": "blue",
+      "active": true,
+      "shader_ready": true,
+      "terrain_shader_selections": 3108,
+      "config_status": "loaded",
+      "parameters": {
+        "name": "blue",
+        "color": [
+          0.24,
+          0.63,
+          0.95
+        ],
+        "base": 0.34,
+        "anchor": [
+          -20.0,
+          52.0,
+          -80.0
+        ],
+        "radius": 105.0,
+        "radiance": 1.65,
+        "direction": [
+          -0.25,
+          0.6,
+          -0.75
+        ],
+        "airColor": [
+          0.07,
+          0.34,
+          0.57
+        ],
+        "airStart": 30.0,
+        "airEnd": 235.0,
+        "airMax": 0.26
+      }
+    },
+    "sample_frames": 126,
+    "settle_seconds": 8,
+    "sample_seconds": 5.082170563,
+    "sample_fps": 24.79255633750756,
+    "median_frame_ms": 39.629406,
+    "p95_frame_ms": 45.01225,
+    "max_frame_ms": 54.092428,
+    "frames_over_100ms": 0
+  },
+  {
+    "file": "blue-interior.png",
+    "kind": "architecture",
+    "render_profile": "blue",
+    "light_mode": "glimmer",
+    "view": "interior",
+    "x": 42.5,
+    "y": 39.0,
+    "z": 35.5,
+    "yaw": 180.0,
+    "pitch": 0.0,
+    "framebuffer_width": 1280,
+    "framebuffer_height": 720,
+    "fov": 75,
+    "brightness_gamma": 0.5,
+    "view_distance_chunks": 16,
+    "simulation_distance_chunks": 6,
+    "graphics": "fancy",
+    "ambient_occlusion": true,
+    "dimension_ambient_light": 0.0,
+    "dimension_fixed_time": 18000,
+    "gl_renderer": "llvmpipe (LLVM 20.1.2, 256 bits)",
+    "gl_vendor": "Mesa",
+    "gl_version": "4.5 (Core Profile) Mesa 25.2.8-0ubuntu0.24.04.4",
+    "gl_error_at_capture": 0,
+    "chunk_debug": "C: 641/13068 (s) D: 16, pC: 000, pU: 00, aB: 04",
+    "block_light_at_feet": 9,
+    "sky_light_at_feet": 0,
+    "environment": {
+      "profile": "blue",
+      "space_lighting": {
+        "profile": "blue",
+        "active": true,
+        "shader_ready": true,
+        "terrain_shader_selections": 3672,
+        "config_status": "loaded",
+        "parameters": {
+          "name": "blue",
+          "color": [
+            0.24,
+            0.63,
+            0.95
+          ],
+          "base": 0.34,
+          "anchor": [
+            -20.0,
+            52.0,
+            -80.0
+          ],
+          "radius": 105.0,
+          "radiance": 1.65,
+          "direction": [
+            -0.25,
+            0.6,
+            -0.75
+          ],
+          "airColor": [
+            0.07,
+            0.34,
+            0.57
+          ],
+          "airStart": 30.0,
+          "airEnd": 235.0,
+          "airMax": 0.26
+        }
+      },
+      "custom_active": false,
+      "world": "glimmeringabyss:study",
+      "observed_lightmap_writes": 18688,
+      "native_lightmap_0_rgb": [
+        25,
+        25,
+        25
+      ],
+      "display_lightmap_0_rgb": [
+        25,
+        25,
+        25
+      ],
+      "native_lightmap_5_rgb": [
+        100,
+        81,
+        60
+      ],
+      "display_lightmap_5_rgb": [
+        100,
+        81,
+        60
+      ],
+      "native_lightmap_rgb": [
+        [
+          25,
+          25,
+          25
+        ],
+        [
+          39,
+          34,
+          31
+        ],
+        [
+          53,
+          44,
+          37
+        ],
+        [
+          69,
+          55,
+          44
+        ],
+        [
+          84,
+          67,
+          51
+        ],
+        [
+          100,
+          81,
+          60
+        ],
+        [
+          117,
+          96,
+          70
+        ],
+        [
+          134,
+          112,
+          82
+        ],
+        [
+          151,
+          129,
+          96
+        ],
+        [
+          168,
+          148,
+          114
+        ],
+        [
+          185,
+          168,
+          136
+        ],
+        [
+          203,
+          190,
+          162
+        ],
+        [
+          221,
+          213,
+          194
+        ],
+        [
+          243,
+          240,
+          234
+        ],
+        [
+          252,
+          252,
+          252
+        ],
+        [
+          252,
+          252,
+          252
+        ]
+      ],
+      "display_lightmap_rgb": [
+        [
+          25,
+          25,
+          25
+        ],
+        [
+          39,
+          34,
+          31
+        ],
+        [
+          53,
+          44,
+          37
+        ],
+        [
+          69,
+          55,
+          44
+        ],
+        [
+          84,
+          67,
+          51
+        ],
+        [
+          100,
+          81,
+          60
+        ],
+        [
+          117,
+          96,
+          70
+        ],
+        [
+          134,
+          112,
+          82
+        ],
+        [
+          151,
+          129,
+          96
+        ],
+        [
+          168,
+          148,
+          114
+        ],
+        [
+          185,
+          168,
+          136
+        ],
+        [
+          203,
+          190,
+          162
+        ],
+        [
+          221,
+          213,
+          194
+        ],
+        [
+          243,
+          240,
+          234
+        ],
+        [
+          252,
+          252,
+          252
+        ],
+        [
+          252,
+          252,
+          252
+        ]
+      ],
+      "distance_start": 230.4,
+      "distance_end": 256.0,
+      "distance_target_rgba": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "surface_microglow": 0.0,
+      "glow_faces_drawn_last_frame": 0
+    },
+    "space_lighting": {
+      "profile": "blue",
+      "active": true,
+      "shader_ready": true,
+      "terrain_shader_selections": 3672,
+      "config_status": "loaded",
+      "parameters": {
+        "name": "blue",
+        "color": [
+          0.24,
+          0.63,
+          0.95
+        ],
+        "base": 0.34,
+        "anchor": [
+          -20.0,
+          52.0,
+          -80.0
+        ],
+        "radius": 105.0,
+        "radiance": 1.65,
+        "direction": [
+          -0.25,
+          0.6,
+          -0.75
+        ],
+        "airColor": [
+          0.07,
+          0.34,
+          0.57
+        ],
+        "airStart": 30.0,
+        "airEnd": 235.0,
+        "airMax": 0.26
+      }
+    },
+    "sample_frames": 75,
+    "settle_seconds": 8,
+    "sample_seconds": 5.026728546999999,
+    "sample_fps": 14.920240728885336,
+    "median_frame_ms": 66.265147,
+    "p95_frame_ms": 72.1795,
+    "max_frame_ms": 79.223894,
+    "frames_over_100ms": 0
+  },
+  {
+    "file": "blue-platform.png",
+    "kind": "legacy_view",
+    "render_profile": "blue",
+    "light_mode": "glimmer",
+    "view": "platform",
+    "x": 0.5,
+    "y": 39.0,
+    "z": 73.5,
+    "yaw": 180.0,
+    "pitch": 12.0,
+    "framebuffer_width": 1280,
+    "framebuffer_height": 720,
+    "fov": 75,
+    "brightness_gamma": 0.5,
+    "view_distance_chunks": 16,
+    "simulation_distance_chunks": 6,
+    "graphics": "fancy",
+    "ambient_occlusion": true,
+    "dimension_ambient_light": 0.0,
+    "dimension_fixed_time": 18000,
+    "gl_renderer": "llvmpipe (LLVM 20.1.2, 256 bits)",
+    "gl_vendor": "Mesa",
+    "gl_version": "4.5 (Core Profile) Mesa 25.2.8-0ubuntu0.24.04.4",
+    "gl_error_at_capture": 0,
+    "chunk_debug": "C: 870/13068 (s) D: 16, pC: 000, pU: 00, aB: 04",
+    "block_light_at_feet": 0,
+    "sky_light_at_feet": 0,
+    "environment": {
+      "profile": "blue",
+      "space_lighting": {
+        "profile": "blue",
+        "active": true,
+        "shader_ready": true,
+        "terrain_shader_selections": 4122,
+        "config_status": "loaded",
+        "parameters": {
+          "name": "blue",
+          "color": [
+            0.24,
+            0.63,
+            0.95
+          ],
+          "base": 0.34,
+          "anchor": [
+            -20.0,
+            52.0,
+            -80.0
+          ],
+          "radius": 105.0,
+          "radiance": 1.65,
+          "direction": [
+            -0.25,
+            0.6,
+            -0.75
+          ],
+          "airColor": [
+            0.07,
+            0.34,
+            0.57
+          ],
+          "airStart": 30.0,
+          "airEnd": 235.0,
+          "airMax": 0.26
+        }
+      },
+      "custom_active": false,
+      "world": "glimmeringabyss:study",
+      "observed_lightmap_writes": 21088,
+      "native_lightmap_0_rgb": [
+        25,
+        25,
+        25
+      ],
+      "display_lightmap_0_rgb": [
+        25,
+        25,
+        25
+      ],
+      "native_lightmap_5_rgb": [
+        101,
+        81,
+        60
+      ],
+      "display_lightmap_5_rgb": [
+        101,
+        81,
+        60
+      ],
+      "native_lightmap_rgb": [
+        [
+          25,
+          25,
+          25
+        ],
+        [
+          39,
+          34,
+          31
+        ],
+        [
+          54,
+          44,
+          37
+        ],
+        [
+          69,
+          55,
+          44
+        ],
+        [
+          85,
+          68,
+          51
+        ],
+        [
+          101,
+          81,
+          60
+        ],
+        [
+          117,
+          96,
+          70
+        ],
+        [
+          134,
+          112,
+          82
+        ],
+        [
+          151,
+          130,
+          97
+        ],
+        [
+          169,
+          149,
+          114
+        ],
+        [
+          186,
+          169,
+          136
+        ],
+        [
+          203,
+          190,
+          163
+        ],
+        [
+          222,
+          213,
+          195
+        ],
+        [
+          243,
+          241,
+          235
+        ],
+        [
+          252,
+          252,
+          252
+        ],
+        [
+          252,
+          252,
+          252
+        ]
+      ],
+      "display_lightmap_rgb": [
+        [
+          25,
+          25,
+          25
+        ],
+        [
+          39,
+          34,
+          31
+        ],
+        [
+          54,
+          44,
+          37
+        ],
+        [
+          69,
+          55,
+          44
+        ],
+        [
+          85,
+          68,
+          51
+        ],
+        [
+          101,
+          81,
+          60
+        ],
+        [
+          117,
+          96,
+          70
+        ],
+        [
+          134,
+          112,
+          82
+        ],
+        [
+          151,
+          130,
+          97
+        ],
+        [
+          169,
+          149,
+          114
+        ],
+        [
+          186,
+          169,
+          136
+        ],
+        [
+          203,
+          190,
+          163
+        ],
+        [
+          222,
+          213,
+          195
+        ],
+        [
+          243,
+          241,
+          235
+        ],
+        [
+          252,
+          252,
+          252
+        ],
+        [
+          252,
+          252,
+          252
+        ]
+      ],
+      "distance_start": 230.4,
+      "distance_end": 256.0,
+      "distance_target_rgba": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "surface_microglow": 0.0,
+      "glow_faces_drawn_last_frame": 0
+    },
+    "space_lighting": {
+      "profile": "blue",
+      "active": true,
+      "shader_ready": true,
+      "terrain_shader_selections": 4122,
+      "config_status": "loaded",
+      "parameters": {
+        "name": "blue",
+        "color": [
+          0.24,
+          0.63,
+          0.95
+        ],
+        "base": 0.34,
+        "anchor": [
+          -20.0,
+          52.0,
+          -80.0
+        ],
+        "radius": 105.0,
+        "radiance": 1.65,
+        "direction": [
+          -0.25,
+          0.6,
+          -0.75
+        ],
+        "airColor": [
+          0.07,
+          0.34,
+          0.57
+        ],
+        "airStart": 30.0,
+        "airEnd": 235.0,
+        "airMax": 0.26
+      }
+    },
+    "sample_frames": 59,
+    "settle_seconds": 8,
+    "sample_seconds": 5.075854119,
+    "sample_fps": 11.623659509667638,
+    "median_frame_ms": 85.056894,
+    "p95_frame_ms": 92.382415,
+    "max_frame_ms": 98.224445,
+    "frames_over_100ms": 0
+  },
+  {
+    "file": "blue-overlook.png",
+    "kind": "legacy_view",
+    "render_profile": "blue",
+    "light_mode": "glimmer",
+    "view": "overlook",
+    "x": 0.5,
+    "y": 55.0,
+    "z": 60.5,
+    "yaw": 180.0,
+    "pitch": 28.0,
+    "framebuffer_width": 1280,
+    "framebuffer_height": 720,
+    "fov": 75,
+    "brightness_gamma": 0.5,
+    "view_distance_chunks": 16,
+    "simulation_distance_chunks": 6,
+    "graphics": "fancy",
+    "ambient_occlusion": true,
+    "dimension_ambient_light": 0.0,
+    "dimension_fixed_time": 18000,
+    "gl_renderer": "llvmpipe (LLVM 20.1.2, 256 bits)",
+    "gl_vendor": "Mesa",
+    "gl_version": "4.5 (Core Profile) Mesa 25.2.8-0ubuntu0.24.04.4",
+    "gl_error_at_capture": 0,
+    "chunk_debug": "C: 857/13068 (s) D: 16, pC: 000, pU: 00, aB: 04",
+    "block_light_at_feet": 0,
+    "sky_light_at_feet": 0,
+    "environment": {
+      "profile": "blue",
+      "space_lighting": {
+        "profile": "blue",
+        "active": true,
+        "shader_ready": true,
+        "terrain_shader_selections": 4575,
+        "config_status": "loaded",
+        "parameters": {
+          "name": "blue",
+          "color": [
+            0.24,
+            0.63,
+            0.95
+          ],
+          "base": 0.34,
+          "anchor": [
+            -20.0,
+            52.0,
+            -80.0
+          ],
+          "radius": 105.0,
+          "radiance": 1.65,
+          "direction": [
+            -0.25,
+            0.6,
+            -0.75
+          ],
+          "airColor": [
+            0.07,
+            0.34,
+            0.57
+          ],
+          "airStart": 30.0,
+          "airEnd": 235.0,
+          "airMax": 0.26
+        }
+      },
+      "custom_active": false,
+      "world": "glimmeringabyss:study",
+      "observed_lightmap_writes": 23504,
+      "native_lightmap_0_rgb": [
+        25,
+        25,
+        25
+      ],
+      "display_lightmap_0_rgb": [
+        25,
+        25,
+        25
+      ],
+      "native_lightmap_5_rgb": [
+        99,
+        79,
+        59
+      ],
+      "display_lightmap_5_rgb": [
+        99,
+        79,
+        59
+      ],
+      "native_lightmap_rgb": [
+        [
+          25,
+          25,
+          25
+        ],
+        [
+          39,
+          34,
+          30
+        ],
+        [
+          53,
+          44,
+          36
+        ],
+        [
+          68,
+          54,
+          43
+        ],
+        [
+          83,
+          66,
+          51
+        ],
+        [
+          99,
+          79,
+          59
+        ],
+        [
+          115,
+          94,
+          69
+        ],
+        [
+          132,
+          110,
+          80
+        ],
+        [
+          149,
+          127,
+          94
+        ],
+        [
+          166,
+          146,
+          111
+        ],
+        [
+          183,
+          166,
+          132
+        ],
+        [
+          200,
+          187,
+          159
+        ],
+        [
+          219,
+          210,
+          190
+        ],
+        [
+          240,
+          236,
+          228
+        ],
+        [
+          252,
+          252,
+          252
+        ],
+        [
+          252,
+          252,
+          252
+        ]
+      ],
+      "display_lightmap_rgb": [
+        [
+          25,
+          25,
+          25
+        ],
+        [
+          39,
+          34,
+          30
+        ],
+        [
+          53,
+          44,
+          36
+        ],
+        [
+          68,
+          54,
+          43
+        ],
+        [
+          83,
+          66,
+          51
+        ],
+        [
+          99,
+          79,
+          59
+        ],
+        [
+          115,
+          94,
+          69
+        ],
+        [
+          132,
+          110,
+          80
+        ],
+        [
+          149,
+          127,
+          94
+        ],
+        [
+          166,
+          146,
+          111
+        ],
+        [
+          183,
+          166,
+          132
+        ],
+        [
+          200,
+          187,
+          159
+        ],
+        [
+          219,
+          210,
+          190
+        ],
+        [
+          240,
+          236,
+          228
+        ],
+        [
+          252,
+          252,
+          252
+        ],
+        [
+          252,
+          252,
+          252
+        ]
+      ],
+      "distance_start": 230.4,
+      "distance_end": 256.0,
+      "distance_target_rgba": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "surface_microglow": 0.0,
+      "glow_faces_drawn_last_frame": 0
+    },
+    "space_lighting": {
+      "profile": "blue",
+      "active": true,
+      "shader_ready": true,
+      "terrain_shader_selections": 4575,
+      "config_status": "loaded",
+      "parameters": {
+        "name": "blue",
+        "color": [
+          0.24,
+          0.63,
+          0.95
+        ],
+        "base": 0.34,
+        "anchor": [
+          -20.0,
+          52.0,
+          -80.0
+        ],
+        "radius": 105.0,
+        "radiance": 1.65,
+        "direction": [
+          -0.25,
+          0.6,
+          -0.75
+        ],
+        "airColor": [
+          0.07,
+          0.34,
+          0.57
+        ],
+        "airStart": 30.0,
+        "airEnd": 235.0,
+        "airMax": 0.26
+      }
+    },
+    "sample_frames": 60,
+    "settle_seconds": 8,
+    "sample_seconds": 5.101856681999999,
+    "sample_fps": 11.760424437575372,
+    "median_frame_ms": 84.46684,
+    "p95_frame_ms": 89.10379,
+    "max_frame_ms": 93.641441,
+    "frames_over_100ms": 0
+  },
+  {
+    "file": "a-facade.png",
+    "kind": "native_control",
+    "render_profile": "a",
+    "light_mode": "glimmer",
+    "view": "facade",
+    "x": 38.5,
+    "y": 39.0,
+    "z": 66.5,
+    "yaw": -166.0,
+    "pitch": -20.0,
+    "framebuffer_width": 1280,
+    "framebuffer_height": 720,
+    "fov": 75,
+    "brightness_gamma": 0.5,
+    "view_distance_chunks": 16,
+    "simulation_distance_chunks": 6,
+    "graphics": "fancy",
+    "ambient_occlusion": true,
+    "dimension_ambient_light": 0.0,
+    "dimension_fixed_time": 18000,
+    "gl_renderer": "llvmpipe (LLVM 20.1.2, 256 bits)",
+    "gl_vendor": "Mesa",
+    "gl_version": "4.5 (Core Profile) Mesa 25.2.8-0ubuntu0.24.04.4",
+    "gl_error_at_capture": 0,
+    "chunk_debug": "C: 626/13068 (s) D: 16, pC: 000, pU: 00, aB: 04",
+    "block_light_at_feet": 8,
+    "sky_light_at_feet": 0,
+    "environment": {
+      "profile": "a",
+      "space_lighting": {
+        "active": false,
+        "shader_ready": true,
+        "terrain_shader_selections": 4575,
+        "config_status": "loaded"
+      },
+      "custom_active": false,
+      "world": "glimmeringabyss:study",
+      "observed_lightmap_writes": 26608,
+      "native_lightmap_0_rgb": [
+        25,
+        25,
+        25
+      ],
+      "display_lightmap_0_rgb": [
+        25,
+        25,
+        25
+      ],
+      "native_lightmap_5_rgb": [
+        100,
+        80,
+        60
+      ],
+      "display_lightmap_5_rgb": [
+        100,
+        80,
+        60
+      ],
+      "native_lightmap_rgb": [
+        [
+          25,
+          25,
+          25
+        ],
+        [
+          39,
+          34,
+          31
+        ],
+        [
+          53,
+          44,
+          37
+        ],
+        [
+          68,
+          55,
+          44
+        ],
+        [
+          84,
+          67,
+          51
+        ],
+        [
+          100,
+          80,
+          60
+        ],
+        [
+          116,
+          95,
+          70
+        ],
+        [
+          133,
+          111,
+          82
+        ],
+        [
+          150,
+          129,
+          96
+        ],
+        [
+          167,
+          147,
+          113
+        ],
+        [
+          185,
+          168,
+          135
+        ],
+        [
+          202,
+          189,
+          161
+        ],
+        [
+          221,
+          212,
+          193
+        ],
+        [
+          242,
+          239,
+          233
+        ],
+        [
+          252,
+          252,
+          252
+        ],
+        [
+          252,
+          252,
+          252
+        ]
+      ],
+      "display_lightmap_rgb": [
+        [
+          25,
+          25,
+          25
+        ],
+        [
+          39,
+          34,
+          31
+        ],
+        [
+          53,
+          44,
+          37
+        ],
+        [
+          68,
+          55,
+          44
+        ],
+        [
+          84,
+          67,
+          51
+        ],
+        [
+          100,
+          80,
+          60
+        ],
+        [
+          116,
+          95,
+          70
+        ],
+        [
+          133,
+          111,
+          82
+        ],
+        [
+          150,
+          129,
+          96
+        ],
+        [
+          167,
+          147,
+          113
+        ],
+        [
+          185,
+          168,
+          135
+        ],
+        [
+          202,
+          189,
+          161
+        ],
+        [
+          221,
+          212,
+          193
+        ],
+        [
+          242,
+          239,
+          233
+        ],
+        [
+          252,
+          252,
+          252
+        ],
+        [
+          252,
+          252,
+          252
+        ]
+      ],
+      "distance_start": 230.4,
+      "distance_end": 256.0,
+      "distance_target_rgba": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "surface_microglow": 0.0,
+      "glow_faces_drawn_last_frame": 0
+    },
+    "space_lighting": {
+      "active": false,
+      "shader_ready": true,
+      "terrain_shader_selections": 4575,
+      "config_status": "loaded"
+    },
+    "sample_frames": 76,
+    "settle_seconds": 8,
+    "sample_seconds": 4.988367823,
+    "sample_fps": 15.23544427690051,
+    "median_frame_ms": 65.685041,
+    "p95_frame_ms": 67.578601,
+    "max_frame_ms": 75.209258,
+    "frames_over_100ms": 0
+  },
+  {
+    "file": "copper-facade.png",
+    "kind": "palette_control",
+    "render_profile": "copper",
+    "light_mode": "glimmer",
+    "view": "facade",
+    "x": 38.5,
+    "y": 39.0,
+    "z": 66.5,
+    "yaw": -166.0,
+    "pitch": -20.0,
+    "framebuffer_width": 1280,
+    "framebuffer_height": 720,
+    "fov": 75,
+    "brightness_gamma": 0.5,
+    "view_distance_chunks": 16,
+    "simulation_distance_chunks": 6,
+    "graphics": "fancy",
+    "ambient_occlusion": true,
+    "dimension_ambient_light": 0.0,
+    "dimension_fixed_time": 18000,
+    "gl_renderer": "llvmpipe (LLVM 20.1.2, 256 bits)",
+    "gl_vendor": "Mesa",
+    "gl_version": "4.5 (Core Profile) Mesa 25.2.8-0ubuntu0.24.04.4",
+    "gl_error_at_capture": 0,
+    "chunk_debug": "C: 626/13068 (s) D: 16, pC: 000, pU: 00, aB: 04",
+    "block_light_at_feet": 8,
+    "sky_light_at_feet": 0,
+    "environment": {
+      "profile": "copper",
+      "space_lighting": {
+        "profile": "copper",
+        "active": true,
+        "shader_ready": true,
+        "terrain_shader_selections": 5079,
+        "config_status": "loaded",
+        "parameters": {
+          "name": "copper",
+          "color": [
+            0.9,
+            0.63,
+            0.3
+          ],
+          "base": 0.34,
+          "anchor": [
+            -20.0,
+            52.0,
+            -80.0
+          ],
+          "radius": 105.0,
+          "radiance": 1.65,
+          "direction": [
+            -0.25,
+            0.6,
+            -0.75
+          ],
+          "airColor": [
+            0.52,
+            0.3,
+            0.1
+          ],
+          "airStart": 30.0,
+          "airEnd": 235.0,
+          "airMax": 0.26
+        }
+      },
+      "custom_active": false,
+      "world": "glimmeringabyss:study",
+      "observed_lightmap_writes": 29296,
+      "native_lightmap_0_rgb": [
+        25,
+        25,
+        25
+      ],
+      "display_lightmap_0_rgb": [
+        25,
+        25,
+        25
+      ],
+      "native_lightmap_5_rgb": [
+        101,
+        81,
+        60
+      ],
+      "display_lightmap_5_rgb": [
+        101,
+        81,
+        60
+      ],
+      "native_lightmap_rgb": [
+        [
+          25,
+          25,
+          25
+        ],
+        [
+          39,
+          34,
+          31
+        ],
+        [
+          53,
+          44,
+          37
+        ],
+        [
+          69,
+          55,
+          44
+        ],
+        [
+          84,
+          68,
+          51
+        ],
+        [
+          101,
+          81,
+          60
+        ],
+        [
+          117,
+          96,
+          70
+        ],
+        [
+          134,
+          112,
+          82
+        ],
+        [
+          151,
+          129,
+          96
+        ],
+        [
+          168,
+          148,
+          114
+        ],
+        [
+          185,
+          169,
+          136
+        ],
+        [
+          203,
+          190,
+          163
+        ],
+        [
+          221,
+          213,
+          195
+        ],
+        [
+          243,
+          240,
+          235
+        ],
+        [
+          252,
+          252,
+          252
+        ],
+        [
+          252,
+          252,
+          252
+        ]
+      ],
+      "display_lightmap_rgb": [
+        [
+          25,
+          25,
+          25
+        ],
+        [
+          39,
+          34,
+          31
+        ],
+        [
+          53,
+          44,
+          37
+        ],
+        [
+          69,
+          55,
+          44
+        ],
+        [
+          84,
+          68,
+          51
+        ],
+        [
+          101,
+          81,
+          60
+        ],
+        [
+          117,
+          96,
+          70
+        ],
+        [
+          134,
+          112,
+          82
+        ],
+        [
+          151,
+          129,
+          96
+        ],
+        [
+          168,
+          148,
+          114
+        ],
+        [
+          185,
+          169,
+          136
+        ],
+        [
+          203,
+          190,
+          163
+        ],
+        [
+          221,
+          213,
+          195
+        ],
+        [
+          243,
+          240,
+          235
+        ],
+        [
+          252,
+          252,
+          252
+        ],
+        [
+          252,
+          252,
+          252
+        ]
+      ],
+      "distance_start": 230.4,
+      "distance_end": 256.0,
+      "distance_target_rgba": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "surface_microglow": 0.0,
+      "glow_faces_drawn_last_frame": 0
+    },
+    "space_lighting": {
+      "profile": "copper",
+      "active": true,
+      "shader_ready": true,
+      "terrain_shader_selections": 5079,
+      "config_status": "loaded",
+      "parameters": {
+        "name": "copper",
+        "color": [
+          0.9,
+          0.63,
+          0.3
+        ],
+        "base": 0.34,
+        "anchor": [
+          -20.0,
+          52.0,
+          -80.0
+        ],
+        "radius": 105.0,
+        "radiance": 1.65,
+        "direction": [
+          -0.25,
+          0.6,
+          -0.75
+        ],
+        "airColor": [
+          0.52,
+          0.3,
+          0.1
+        ],
+        "airStart": 30.0,
+        "airEnd": 235.0,
+        "airMax": 0.26
+      }
+    },
+    "sample_frames": 67,
+    "settle_seconds": 8,
+    "sample_seconds": 5.072702349999999,
+    "sample_fps": 13.207950196407642,
+    "median_frame_ms": 74.584604,
+    "p95_frame_ms": 86.449741,
+    "max_frame_ms": 93.341135,
+    "frames_over_100ms": 0
+  },
+  {
+    "file": "overworld-blue.png",
+    "kind": "dimension_scope",
+    "render_profile": "blue",
+    "light_mode": "glimmer",
+    "view": "overworld",
+    "x": 0.5,
+    "y": -60.0,
+    "z": 0.5,
+    "yaw": 0.0,
+    "pitch": 0.0,
+    "framebuffer_width": 1280,
+    "framebuffer_height": 720,
+    "fov": 75,
+    "brightness_gamma": 0.5,
+    "view_distance_chunks": 16,
+    "simulation_distance_chunks": 6,
+    "graphics": "fancy",
+    "ambient_occlusion": true,
+    "dimension_ambient_light": 0.0,
+    "dimension_fixed_time": -1,
+    "gl_renderer": "llvmpipe (LLVM 20.1.2, 256 bits)",
+    "gl_vendor": "Mesa",
+    "gl_version": "4.5 (Core Profile) Mesa 25.2.8-0ubuntu0.24.04.4",
+    "gl_error_at_capture": 0,
+    "chunk_debug": "C: 329/26136 (s) D: 16, pC: 000, pU: 00, aB: 04",
+    "block_light_at_feet": 0,
+    "sky_light_at_feet": 15,
+    "environment": {
+      "profile": "blue",
+      "space_lighting": {
+        "profile": "blue",
+        "active": false,
+        "shader_ready": true,
+        "terrain_shader_selections": 5082,
+        "config_status": "loaded",
+        "parameters": {
+          "name": "blue",
+          "color": [
+            0.24,
+            0.63,
+            0.95
+          ],
+          "base": 0.34,
+          "anchor": [
+            -20.0,
+            52.0,
+            -80.0
+          ],
+          "radius": 105.0,
+          "radiance": 1.65,
+          "direction": [
+            -0.25,
+            0.6,
+            -0.75
+          ],
+          "airColor": [
+            0.07,
+            0.34,
+            0.57
+          ],
+          "airStart": 30.0,
+          "airEnd": 235.0,
+          "airMax": 0.26
+        }
+      },
+      "custom_active": false,
+      "world": "minecraft:overworld",
+      "observed_lightmap_writes": 32512,
+      "native_lightmap_0_rgb": [
+        25,
+        25,
+        25
+      ],
+      "display_lightmap_0_rgb": [
+        25,
+        25,
+        25
+      ],
+      "native_lightmap_5_rgb": [
+        100,
+        81,
+        60
+      ],
+      "display_lightmap_5_rgb": [
+        100,
+        81,
+        60
+      ],
+      "native_lightmap_rgb": [
+        [
+          25,
+          25,
+          25
+        ],
+        [
+          39,
+          34,
+          31
+        ],
+        [
+          53,
+          44,
+          37
+        ],
+        [
+          69,
+          55,
+          44
+        ],
+        [
+          84,
+          67,
+          51
+        ],
+        [
+          100,
+          81,
+          60
+        ],
+        [
+          117,
+          96,
+          70
+        ],
+        [
+          134,
+          112,
+          82
+        ],
+        [
+          151,
+          129,
+          96
+        ],
+        [
+          168,
+          148,
+          114
+        ],
+        [
+          185,
+          168,
+          136
+        ],
+        [
+          203,
+          190,
+          162
+        ],
+        [
+          221,
+          213,
+          194
+        ],
+        [
+          243,
+          240,
+          234
+        ],
+        [
+          252,
+          252,
+          252
+        ],
+        [
+          252,
+          252,
+          252
+        ]
+      ],
+      "display_lightmap_rgb": [
+        [
+          25,
+          25,
+          25
+        ],
+        [
+          39,
+          34,
+          31
+        ],
+        [
+          53,
+          44,
+          37
+        ],
+        [
+          69,
+          55,
+          44
+        ],
+        [
+          84,
+          67,
+          51
+        ],
+        [
+          100,
+          81,
+          60
+        ],
+        [
+          117,
+          96,
+          70
+        ],
+        [
+          134,
+          112,
+          82
+        ],
+        [
+          151,
+          129,
+          96
+        ],
+        [
+          168,
+          148,
+          114
+        ],
+        [
+          185,
+          168,
+          136
+        ],
+        [
+          203,
+          190,
+          162
+        ],
+        [
+          221,
+          213,
+          194
+        ],
+        [
+          243,
+          240,
+          234
+        ],
+        [
+          252,
+          252,
+          252
+        ],
+        [
+          252,
+          252,
+          252
+        ]
+      ],
+      "distance_start": 230.4,
+      "distance_end": 256.0,
+      "distance_target_rgba": [
+        0.72163945,
+        0.82575625,
+        1.0,
+        1.0
+      ],
+      "surface_microglow": 0.0,
+      "glow_faces_drawn_last_frame": 0
+    },
+    "space_lighting": {
+      "profile": "blue",
+      "active": false,
+      "shader_ready": true,
+      "terrain_shader_selections": 5082,
+      "config_status": "loaded",
+      "parameters": {
+        "name": "blue",
+        "color": [
+          0.24,
+          0.63,
+          0.95
+        ],
+        "base": 0.34,
+        "anchor": [
+          -20.0,
+          52.0,
+          -80.0
+        ],
+        "radius": 105.0,
+        "radiance": 1.65,
+        "direction": [
+          -0.25,
+          0.6,
+          -0.75
+        ],
+        "airColor": [
+          0.07,
+          0.34,
+          0.57
+        ],
+        "airStart": 30.0,
+        "airEnd": 235.0,
+        "airMax": 0.26
+      }
+    },
+    "sample_frames": 101,
+    "settle_seconds": 8,
+    "sample_seconds": 5.044982420999999,
+    "sample_fps": 20.019891363661106,
+    "median_frame_ms": 48.537426,
+    "p95_frame_ms": 59.293416,
+    "max_frame_ms": 63.145519,
+    "frames_over_100ms": 0
+  }
+]

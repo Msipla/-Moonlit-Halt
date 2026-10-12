@@ -1,0 +1,14 @@
+{
+  "label": "reload-warmup",
+  "dimension": "glimmeringabyss:study",
+  "template_blocks_checked": 20039,
+  "block_id_mismatches": 0,
+  "air_clearance_mismatches": 0,
+  "actual_structure_block_id_sha256": "58bab7bdae7f1012de67f85a4b764938c148a05be6a92bb1c37cdbf631b370a2",
+  "warm_window_blocks": 52,
+  "warm_windows_native_light_12": 52,
+  "route_samples": 60,
+  "connected_route_floor_clearance_pass": true,
+  "template_entities": 0,
+  "pass": true
+}

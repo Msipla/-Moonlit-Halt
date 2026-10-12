@@ -1,0 +1,9 @@
+{
+  "method": "Real release client held forward key from facade through entrance until physically stopped by the back wall (45 second timeout).",
+  "held_forward_seconds": 10.868381194,
+  "start_z": 66.5,
+  "end_x": 44.37936471580892,
+  "end_z": 20.30000001192093,
+  "end_y": 39.0,
+  "walk_and_collision_pass": true
+}

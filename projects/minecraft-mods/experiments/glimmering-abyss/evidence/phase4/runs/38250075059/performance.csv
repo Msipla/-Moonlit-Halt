@@ -1,0 +1,12 @@
+file,render_profile,view,kind,sample_fps,p95_frame_ms,max_frame_ms,sample_frames,chunk_debug
+before-platform.png,blue,platform,before_building,11.246563088844935,128.537352,161.669799,104,"C: 828/13068 (s) D: 16, pC: 000, pU: 01, aB: 03"
+blue-facade.png,blue,facade,architecture,12.647511051654432,88.48543,117.119156,65,"C: 626/13068 (s) D: 16, pC: 000, pU: 00, aB: 04"
+blue-warmth.png,blue,warmth,architecture,14.830274564019758,78.956686,95.316355,74,"C: 455/13068 (s) D: 16, pC: 000, pU: 00, aB: 04"
+blue-scale.png,blue,scale,architecture,13.830147365825344,75.661187,88.544993,70,"C: 606/13068 (s) D: 16, pC: 000, pU: 00, aB: 04"
+blue-bridge.png,blue,bridge,architecture,24.79255633750756,45.01225,54.092428,126,"C: 153/13068 (s) D: 16, pC: 000, pU: 00, aB: 04"
+blue-interior.png,blue,interior,architecture,14.920240728885336,72.1795,79.223894,75,"C: 641/13068 (s) D: 16, pC: 000, pU: 00, aB: 04"
+blue-platform.png,blue,platform,legacy_view,11.623659509667638,92.382415,98.224445,59,"C: 870/13068 (s) D: 16, pC: 000, pU: 00, aB: 04"
+blue-overlook.png,blue,overlook,legacy_view,11.760424437575372,89.10379,93.641441,60,"C: 857/13068 (s) D: 16, pC: 000, pU: 00, aB: 04"
+a-facade.png,a,facade,native_control,15.23544427690051,67.578601,75.209258,76,"C: 626/13068 (s) D: 16, pC: 000, pU: 00, aB: 04"
+copper-facade.png,copper,facade,palette_control,13.207950196407642,86.449741,93.341135,67,"C: 626/13068 (s) D: 16, pC: 000, pU: 00, aB: 04"
+overworld-blue.png,blue,overworld,dimension_scope,20.019891363661106,59.293416,63.145519,101,"C: 329/26136 (s) D: 16, pC: 000, pU: 00, aB: 04"

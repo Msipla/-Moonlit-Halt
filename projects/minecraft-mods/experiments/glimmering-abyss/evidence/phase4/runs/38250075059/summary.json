@@ -1,0 +1,21 @@
+{
+  "status": "TECHNICAL_PASS",
+  "official_release_client_loaded": true,
+  "all_screenshot_queues_drained": true,
+  "original_lightmap_unchanged": true,
+  "legacy_terrain_fingerprint_before_placement_matches": true,
+  "structure_placement_repeat_reload_pass": true,
+  "connected_walkable_route_pass": true,
+  "actual_client_walk_into_building_pass": true,
+  "template_block_count": 20039,
+  "warm_windows_native_light_12": 52,
+  "same_view_before_after_pass": true,
+  "minecraft": "1.20.1",
+  "fabric_loader": "0.14.25",
+  "fabric_api": "0.85.0+1.20.1",
+  "release_jar_sha256": "67d76fe42732b59e967bfeef3cc70d8fad426b5e82c32c9642f3355ea918cbd1",
+  "real_client_screenshots": 12,
+  "client": "Official Minecraft release client + Fabric, packaged remapped JAR; no development classes",
+  "aesthetic_acceptance": "Pending user review of original Phase 4 screenshots",
+  "performance_limit": "Hosted Linux software OpenGL; not target Windows/GPU/phone"
+}
