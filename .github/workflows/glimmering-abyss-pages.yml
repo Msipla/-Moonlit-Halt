@@ -1,0 +1,42 @@
+name: Publish Glimmering Abyss report
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'site/glimmering-abyss/**'
+      - 'projects/minecraft-mods/experiments/glimmering-abyss/evidence/phase1/**'
+      - 'projects/minecraft-mods/experiments/glimmering-abyss/TEST-REPORT.md'
+      - '.github/workflows/glimmering-abyss-pages.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: glimmering-abyss-pages
+  cancel-in-progress: true
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Prepare sanitized public report
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p _site/evidence/phase1/screenshots
+          cp site/glimmering-abyss/index.html _site/index.html
+          root=projects/minecraft-mods/experiments/glimmering-abyss/evidence/phase1
+          cp "$root/summary.json" "$root/audit-glimmer.json" _site/evidence/phase1/
+          cp "$root/screenshots/captures.json" _site/evidence/phase1/screenshots/
+          cp "$root/screenshots/"*.png _site/evidence/phase1/screenshots/
+          test "$(find _site/evidence/phase1/screenshots -name '*.png' | wc -l)" -eq 9
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - id: deployment
+        uses: actions/deploy-pages@v4
