@@ -31,3 +31,7 @@ Phase 1–4 原图/JAR/报告/URL及本阶段三轮证据保留。Phase 4 权威
 [现有手机优先展厅](https://msipla.github.io/-Moonlit-Halt/) · [第五阶段原图与交付](https://msipla.github.io/-Moonlit-Halt/phase5.html)。阶段/时间线由 `site/glimmering-abyss/exhibition.json` 管理，沿用原生静态站，无新门户架构。发布与真实浏览器视口QA记录见网站报告；视口模拟不等于实体手机测试。
 
 不开展月下小站、统一美学实验室、正式主世界生成、梦境或幻翼缆车。长期设计仍在 Conversation-Archives，不复制进本阶段工程交付。下一步等待用户画面判断或目标Windows实测。
+
+## 第五阶段展示交付验收
+
+前端源码 d0e364cec0539c2c714a21113250a92b1f598854；Pages38261641907发布、真实Chromium QA38261641881成功。五阶段入口、360–1440px排版、原图/机位切换、同机位精修对照和旧永久URL通过；开发侧已查看实际网页截图。网页证据已提交310cd26f74928b4fb6a98df7e8dbc466cf45c170。实体手机未测，详见 `site/glimmering-abyss/TEST-REPORT.md`。第五阶段工程与展示收尾，不继续增加功能；等待用户原图判断与目标Windows实测。

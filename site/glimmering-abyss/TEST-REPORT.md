@@ -1,3 +1,19 @@
+# Phase 5 展厅收尾 · 2026-10-12
+
+前端交付提交 `d0e364cec0539c2c714a21113250a92b1f598854`；正式 Pages [38261641907](https://github.com/Msipla/-Moonlit-Halt/actions/runs/38261641907) 发布成功。真实 Chromium 浏览器 [38261641881](https://github.com/Msipla/-Moonlit-Halt/actions/runs/38261641881) 核对部署 build-info 源码后完成检查，PASS；证据提交 `310cd26f74928b4fb6a98df7e8dbc466cf45c170`。
+
+原始网页截图与汇总：[evidence/website/runs/38261641881](../../projects/minecraft-mods/experiments/glimmering-abyss/evidence/website/runs/38261641881/)。已由开发侧查看手机视口首页与第五阶段画廊。第五阶段正式原图来自游戏实跑38259041182，网页截图不能替代游戏实跑。
+
+- 360/390/430、768/1440px 无横向溢出，画廊保持16:9，机位/模式/放大操作通过。
+- 五阶段切换与永久分享入口、第五阶段九机位、原版/铜金控制、同次工坊正面精修对照通过。
+- phase1–5.html 全部 HTTP200；旧阶段证据指针、旧平台/Veil截图继续可访问；第五阶段详情原图与对照全部载入。
+- 原 Pages 架构、原图和历史入口保留；没有统一门户或月下小站开发。第五阶段美学状态仍为待用户判断。
+- 零页面 JavaScript 错误。测试是托管 Linux Chromium 的移动视口/触控模拟，实体 iQOO、Safari 和 Windows 未测。
+
+以下为历史报告，保留原始结论与证据。
+
+---
+
 # 项目展厅测试报告 · 2026-10-12
 
 正式地址：https://msipla.github.io/-Moonlit-Halt/
