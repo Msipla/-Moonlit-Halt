@@ -43,7 +43,7 @@ public final class Phase6CaptureClient implements ClientModInitializer {
     private long legStarted;
     private double legStartX,legStartZ;
     private boolean wallTest,railTest;
-    private static final double[][] WAYPOINTS={{42.5,43.5,39},{30.5,43.5,39},{30.5,35.5,39},{-29.5,35.5,39},{-29.5,30.5,39},{-29.5,35.5,39},{30.5,35.5,39},{30.5,5.5,39},{47.5,5.5,39},{47.5,-22.5,39},{47.5,-39.5,40},{47.5,-47.5,41},{58.5,-47.5,40},{58.5,-55.5,41},{54.5,-55.5,41},{54.5,-58.3,41}};
+    private static final double[][] WAYPOINTS={{42.5,43.5,39},{30.5,43.5,39},{30.5,35.5,39},{-29.5,35.5,39},{-29.5,30.5,39},{-29.5,35.5,39},{30.5,35.5,39},{30.5,5.5,39},{47.5,5.5,39},{47.5,-22.5,39},{47.5,-39.5,40},{47.5,-47.5,41},{58.5,-47.5,40},{58.5,-55.5,41},{54.5,-55.5,41},{55.5,-57.5,41}};
     private boolean climbing,climbed,steppedOff;
     private long climbStarted;
     private static List<Case> cases() {
