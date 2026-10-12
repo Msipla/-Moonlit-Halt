@@ -1,0 +1,19 @@
+{
+  "label": "first",
+  "template_blocks_checked": 2038559,
+  "block_id_mismatches": 0,
+  "explicit_property_mismatches": 0,
+  "actual_structure_state_sha256": "594fc2d6bdb4d3413f88a139fbaf55d4abcdd1caa0840f9fda65e4f19672ab27",
+  "warm_window_blocks": 128,
+  "warm_windows_native_light_12": 128,
+  "accepted_workshop_windows_preserved": 52,
+  "route_samples": 180,
+  "route_collision_clearance_pass": false,
+  "ladder_pass": true,
+  "deep_air_samples": 594,
+  "open_depth_pass": true,
+  "finite_floor_y": -63,
+  "template_entities": 0,
+  "buildings": 6,
+  "pass": false
+}
