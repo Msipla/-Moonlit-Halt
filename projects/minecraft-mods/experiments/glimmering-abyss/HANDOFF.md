@@ -40,6 +40,6 @@ Phase 3冷蓝/巨柱和Phase 4工坊/暖窗方向已认可；Phase 5用户保留
 
 Phase6三次实际失败：38267037910旧栏杆挡巷与机位遮挡；38270349815梯侧擦碰；38272539267爬到56.2被顶板卡住。最终38274690365清理有限梯口后通过。失败、取消记录与上传产物保留，不能当成最终通过。
 
-[现有展厅](https://msipla.github.io/-Moonlit-Halt/) · [Phase6原图/对照](https://msipla.github.io/-Moonlit-Halt/phase6.html)，继续由既有exhibition.json与原生静态站维护，保留Phase1–5永久入口。发布与真实Chromium视口QA另记网站报告；实体手机未测。
+[现有展厅](https://msipla.github.io/-Moonlit-Halt/) · [Phase6原图/对照](https://msipla.github.io/-Moonlit-Halt/phase6.html)，继续由既有exhibition.json与原生静态站维护，保留Phase1–5永久入口。交付提交 `cf8b775a633a4ced2ab8966271472bb5df340548`，Pages [38276893016](https://github.com/Msipla/-Moonlit-Halt/actions/runs/38276893016)成功；真实Chromium [38276893132](https://github.com/Msipla/-Moonlit-Halt/actions/runs/38276893132)核对部署源码后PASS，网页原始证据提交 `3b31228598b7d2e2469b195f5be693e151c6faf5`。五种视口无溢出、JS异常0、第六阶段画廊/同机位对照与历史入口通过，开发侧已查看实际网页截图。详见 [网站测试报告](../../../../site/glimmering-abyss/TEST-REPORT.md)。仅手机视口/触控模拟，实体手机未测。
 
 **不开发Phase7主世界生成、梦境、幻翼缆车，不开发月下小站或统一美学实验室。** 后续风险仅记录于第六阶段报告：地下选址的地表/高度/底界，完整景观保护与光照坐标边界，明确中立幻翼及可靠缆车路径/重载。下一步由用户原图审美判断或目标Windows实测，不继续无边界精修。

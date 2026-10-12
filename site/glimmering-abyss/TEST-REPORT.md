@@ -1,3 +1,15 @@
+# Phase 6 展厅收尾 · 2026-10-13
+
+交付提交 `cf8b775a633a4ced2ab8966271472bb5df340548`；Pages [38276893016](https://github.com/Msipla/-Moonlit-Halt/actions/runs/38276893016) 发布成功。真实托管Linux Chromium QA [38276893132](https://github.com/Msipla/-Moonlit-Halt/actions/runs/38276893132) 核对线上build-info源码后通过；浏览器证据归档提交 `3b31228598b7d2e2469b195f5be693e151c6faf5`。
+
+360/390/430/768/1440px无横向溢出，零JavaScript异常；第六阶段九个机位、按实际原图限制的模式切换、三机位95%及渐变对照、原图窗口与阶段分享入口通过。phase1–6永久页面和历史证据入口均HTTP200。开发侧已查看第六阶段390px画廊、对照和完整详情页的实际网页截图；原图没有网页调色滤镜。浏览器截图及summary见 [evidence/website/runs/38276893132](../../projects/minecraft-mods/experiments/glimmering-abyss/evidence/website/runs/38276893132/)。
+
+这是实际Chromium浏览器运行和移动视口/触控模拟，不能称为实体手机、Safari或Windows实测。后续交接记录只补充文档，不改已验证前端或安装包；文档触发的Pages发布以对应工作流和线上build-info为准。技术通过不等于用户美学通过。
+
+以下为历史报告，保留原始结论与证据。
+
+---
+
 # Phase 5 展厅收尾 · 2026-10-12
 
 前端交付提交 `d0e364cec0539c2c714a21113250a92b1f598854`；正式 Pages [38261641907](https://github.com/Msipla/-Moonlit-Halt/actions/runs/38261641907) 发布成功。真实 Chromium 浏览器 [38261641881](https://github.com/Msipla/-Moonlit-Halt/actions/runs/38261641881) 核对部署 build-info 源码后完成检查，PASS；证据提交 `310cd26f74928b4fb6a98df7e8dbc466cf45c170`。
