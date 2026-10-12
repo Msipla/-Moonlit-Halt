@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "latestStage": "phase4",
+  "latestStage": "phase5",
   "updated": "2026-10-12",
   "stages": [
     {
@@ -169,9 +169,9 @@
       "description": "完整深色砖石工坊、坡屋顶、拱窗与小塔楼；克制暖窗连入既有冷蓝洞厅。",
       "technical": "技术已验证",
       "technicalState": "passed",
-      "aesthetic": "建筑美学待验收",
-      "aestheticState": "waiting",
-      "verdict": "可安装建筑原型完成后由用户审阅原图。先判断这一栋是否自然地属于深渊，再决定扩大规模。",
+      "aesthetic": "工坊与冷暖光已认可",
+      "aestheticState": "accepted",
+      "verdict": "用户认可首版工坊与暖窗、冷蓝空间的配合。第五阶段适度精修与新增铁桥另行审阅。",
       "pointer": "evidence/phase4/latest.json",
       "cover": "blue-scale.png",
       "views": [
@@ -216,6 +216,68 @@
       ],
       "version": "0.4.0",
       "developmentLabel": "第四阶段单栋建筑验证"
+    },
+    {
+      "id": "phase5",
+      "number": "05",
+      "title": "第五阶段 · 铁桥与垂直深渊",
+      "short": "第五阶段",
+      "description": "一栋工坊、一座安全铁桥和一处小观景台，连成可往返的短路线。",
+      "technical": "技术已验证",
+      "technicalState": "passed",
+      "aesthetic": "第五阶段画面待验收",
+      "aestheticState": "waiting",
+      "verdict": "保留已认可的工坊与冷暖光，适度精修。原图供用户判断桥下深处的气质；竖井有限，不宣称无限虚空。",
+      "pointer": "evidence/phase5/latest.json",
+      "cover": "blue-core.png",
+      "views": [
+        "core",
+        "down",
+        "facade",
+        "span",
+        "departure",
+        "arrival",
+        "warmth",
+        "interior",
+        "platform"
+      ],
+      "modes": [
+        {
+          "id": "blue",
+          "label": "冷蓝 + 铁桥"
+        },
+        {
+          "id": "a",
+          "label": "原版控制",
+          "onlyView": "core",
+          "file": "a-core.png"
+        },
+        {
+          "id": "copper",
+          "label": "铜金能力控制",
+          "onlyView": "core",
+          "file": "copper-core.png"
+        }
+      ],
+      "defaultMode": "blue",
+      "defaultView": "core",
+      "report": "phase5.html",
+      "extras": [
+        {
+          "file": "before-facade.png",
+          "title": "同次运行 · 第四阶段原工坊"
+        },
+        {
+          "file": "blue-walk-arrival.png",
+          "title": "实际按键过桥 · 抵达俯瞰台"
+        },
+        {
+          "file": "blue-rail-collision.png",
+          "title": "实际按键前行 · 铁栏杆阻挡"
+        }
+      ],
+      "version": "0.5.0",
+      "developmentLabel": "第五阶段短路线原型"
     }
   ],
   "timeline": [
@@ -244,10 +306,16 @@
       "state": "技术与美学分开验收"
     },
     {
-      "date": "当前",
-      "title": "先判断建筑气质",
-      "text": "等待用户审阅第四阶段原图，再决定是否扩大规模。主世界城市、梦境与缆车仍属未来设计。",
-      "state": "建筑美学待验收"
+      "date": "2026.10.12",
+      "title": "工坊方向获得认可",
+      "text": "用户认可暖窗与冷蓝环境，确定第五阶段只做适度建筑精修、铁桥和局部垂直深渊。",
+      "state": "工坊方向认可 · 控制体量"
+    },
+    {
+      "date": "2026.10.12",
+      "title": "从暖窗走向深渊",
+      "text": "保留一栋工坊，沿安全铁桥走到小观景台，验证实际路线往返、护栏和同存档重启。",
+      "state": "技术已验证 · 新画面待验收"
     }
   ]
 }

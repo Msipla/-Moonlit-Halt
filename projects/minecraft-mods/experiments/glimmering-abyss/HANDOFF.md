@@ -1,36 +1,33 @@
 # 《微光深渊》工程恢复入口
 
-2026-10-12 · v0.4.0 首版地下工坊已完成正式客户端/服务端技术实跑；建筑美学等待用户审阅原图。第三阶段工程已交付，用户认可冷蓝巨柱环境与局部暖光方向。不要因旧档案待反馈描述重做 Phase 3。
+2026-10-12 · **Phase 5 v0.5.0 小型探索原型技术交付。第五阶段画面与工坊精修待用户审阅。** Phase 3 冷蓝/巨柱与 Phase 4 工坊/暖窗已获认可；不根据旧待验收文字重做旧阶段。
 
 ## 当前权威
 
-本目录是唯一权威工程。已验证源码 `bfa41181cb3fc263eb62889bff34e060111b4c58`；实跑 [38250075059](https://github.com/Msipla/-Moonlit-Halt/actions/runs/38250075059)，证据 `evidence/phase4/runs/38250075059/`，指针 `evidence/phase4/latest.json`。先读取 main 最新提交、[Phase 4报告](TEST-REPORT-PHASE4.md)、[日志](devlog/2026-10-12-phase4.md) 与 research/aesthetics 的 Phase 4 追加基准，再看最新聊天校订。
+唯一任务书 [TASK-PHASE5.md](TASK-PHASE5.md)。最新代码检查点 `0adfd2b523fa332b6bfcdb53bfce9792c1f9c421`；真实运行 [38259041182](https://github.com/Msipla/-Moonlit-Halt/actions/runs/38259041182)，生成结构与完整证据提交 `91d4c08163e89ef5bacf20052af6e85d2977d26c`。工作流先运行生成脚本再构建；恢复时读取 main 最新源码、[第五阶段报告](TEST-REPORT-PHASE5.md)、[日志](devlog/2026-10-12-phase5.md) 与 `evidence/phase5/latest.json`。
 
-## 已实际验证
+## 已实现与验证
 
-正式 remapped JAR 在官方发布 Minecraft客户端与正式Fabric服务端安装/加载；原9项单元测试，原生光级与原地形指纹（放置前），20,039处模板方块类型/净空，52个暖窗12级光，60处连接路线检查，重复放置、实际存档重启、真实按键入屋及后墙碰撞，12张原始截图和逐帧数据。Windows/PCL2/目标GPU/长时/第三方渲染兼容尚未实测，音频设备不可用。
+一栋适度精修的原工坊、54格安全铁桥、有限局部竖井和小俯瞰台。52个原暖窗位置/原生12级光保留；世界高度、原生成器、着色器和视觉配置不变。局部开挖是有意的存档改变，不能声称放置后地形完全不变。保护原近巨柱，不新增第二栋建筑或NPC。
 
-包为 artifacts/glimmering-abyss-0.4.0.jar，SHA-256 `67d76fe42732b59e967bfeef3cc70d8fad426b5e82c32c9642f3355ea918cbd1`。只安装一个本MOD版本，配套版本与步骤见 [INSTALL-PHASE4](INSTALL-PHASE4.md)。默认仍为原版A；`/abyss enter` → `/abyssrender blue` → `/abyss building` → `/abyss building view facade`。
+官方发布 Minecraft客户端与正式 Fabric服务端安装同一 remapped JAR；原9项测试、322,459处结构类型/明确属性、217路线采样、212护栏采样、1,800竖井空气采样、十段实际按键往返、后墙及栏杆碰撞、重复放置和同存档重启通过。14采集机位严格pC/pU为零，另3张行走/碰撞图，共17原始PNG。
 
-一栋原创砖石工坊，坡屋顶、拱窗、烟囱、小塔、局部暖窗及步道；没有村民/常驻NPC。标准 NBT 模板可替换，构造脚本在 tools/author_workshop.py。不改天然生成器；右侧桥口属于有意新增。复放命令重置模板覆盖区域的手动改动/容器内容，研发世界使用。
+安装包 [glimmering-abyss-0.5.0.jar](artifacts/glimmering-abyss-0.5.0.jar)，239,404字节，SHA-256 `fba21336abb20d0eb013fd56c4a3f310affdbdd091cb174d1ff1aab76864aa1a`；源码包及校验同目录。见 [INSTALL-PHASE5](INSTALL-PHASE5.md)。进入：`/abyss enter` → `/abyssrender blue` → `/abyss route` → `/abyss route view interior`，走出工坊、过桥、抵达并回望；`/abyss return` 返回。
 
-## 美学与下一步
+`core/down/departure/arrival/facade/warmth/interior` 是落地机位；`span` 需创造模式。默认仍保留原版 A，铜金能力保留。复放会重置模板明确覆盖位置与容器内容，使用测试存档；原 `/abyss building` 模板仍保留，但不会清除所有第五阶段模板外装饰，严格旧版比较用新测试存档。
 
-先让用户看第四阶段原图，判断建筑是否自然地属于冷蓝洞厅，再决定扩大规模。不要因技术通过宣布美学通过。冷蓝方向已获认可；铜金仅保留能力验证。窗当前不透明、室内简略、暖光局部机位被近灯柱遮挡一部分，环境光没有完整墙体遮挡。
+## 美学与限制
 
-未来正式生存版：主世界地下约一至两座稀有城市，睡眠梦境线索，类似末影之眼的入口引导，幻翼牵引封闭观景缆车，海洋附属扩展，Alex's Caves 探索兼容研究。都未实现；实验维度继续用于研发，不因此推翻Fabric。
+最终原图已由开发侧查看。桥下竖井确实存在，深处为蓝黑暗部；有限底面与远侧谷底在一些角度仍可能辨认，栏杆/桥面也有真实前景遮挡。**不宣布“永远看不见底”或用户美学通过。** 工坊精修可通过同次 before-facade / blue-facade 对照判断。先做用户原图评审与目标电脑体验，不继续扩大城市。
 
-## 历史与复现
+托管Linux软件OpenGL已测；Windows/PCL2、目标GPU、长时、第三方渲染兼容与音效听感未测。窗仍不透明，空间光没有完整几何遮挡。历史队列检查的字段前缀误判已定位：Phase 3 blue-tunnel / Phase 4 before-platform 各有pU=01；原图不改，勘误见第五阶段报告。第五阶段最新14机位已严格复核为零。
 
-Phase 1/2/3 的证据、旧JAR、报告、永久URL保持；第二阶段美学否决保持。Phase 3 最终实跑38234495224和原21张截图继续可访问。本轮首次启动超时/路线判定失败保留日志，详见Phase4报告；不声称复原旧Work临时世界，也不假装保留了失败轮未复制的PNG。
+## 历史、复现与展示
 
-构建 `./gradlew --no-daemon build stageTestMods`；显示环境中运行 `xvfb-run -a python3 -u tools/run_phase4.py --accept-eula --skip-build --output evidence/phase4/local-unique-run`。选择新目录，不能覆盖历史。正式游戏依赖与测试存档不提交。
+Phase 1–4 原图/JAR/报告/URL及本阶段三轮证据保留。Phase 4 权威原运行38250075059、源码bfa41181；首版工坊与冷暖光的用户认可仍有效。Phase 2 美学否决保留。
 
-## 项目展厅
+构建：`python3 tools/author_route.py`，`./gradlew --no-daemon build stageTestMods`。实跑：`xvfb-run -a python3 -u tools/run_phase5.py --accept-eula --skip-build --output evidence/phase5/new-unique-run`；不能覆盖历史。官方依赖和完整临时测试世界不提交。
 
-[手机优先展厅](https://msipla.github.io/-Moonlit-Halt/)；第四阶段 [原图与交付](https://msipla.github.io/-Moonlit-Halt/phase4.html)，前三阶段永久报告保留。阶段/时间线/状态由 site/glimmering-abyss/exhibition.json 维护，截图从同一工程证据引用，不另存网页副本。发布与浏览器QA必须查看实际工作流及 build-info.json；视口模拟不能称为实体手机实测。
+[现有手机优先展厅](https://msipla.github.io/-Moonlit-Halt/) · [第五阶段原图与交付](https://msipla.github.io/-Moonlit-Halt/phase5.html)。阶段/时间线由 `site/glimmering-abyss/exhibition.json` 管理，沿用原生静态站，无新门户架构。发布与真实浏览器视口QA记录见网站报告；视口模拟不等于实体手机测试。
 
-聊天档案：[Conversation-Archives Minecraft HANDOFF](https://github.com/Msipla/Conversation-Archives/blob/main/conversations/minecraft/HANDOFF.md)。工程详细证据留在这里，不复制进聊天库或 Archives 正史库。
-
-
-最终展厅前端检查点 `488e7ff57ba137ad7c89f9c7daf5ac77a9c8ec9e`，Pages38251393211及真实Chromium QA38251393054成功。360–1440px视口、四阶段导航、第四阶段原图/机位、同机位对照及前三阶段旧URL通过；实体手机未测。详细网页证据见 site/glimmering-abyss/TEST-REPORT.md 与 evidence/website/runs/38251393054。下一步是用户审阅建筑原图，不因网页或技术PASS扩大城市规模。
+不开展月下小站、统一美学实验室、正式主世界生成、梦境或幻翼缆车。长期设计仍在 Conversation-Archives，不复制进本阶段工程交付。下一步等待用户画面判断或目标Windows实测。

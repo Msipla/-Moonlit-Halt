@@ -26,11 +26,17 @@ async function overflow(page){return page.evaluate(()=>({viewport:innerWidth,wid
       const initial=await overflow(page);assert(initial.width<=width&&initial.body<=width,'Horizontal overflow at '+width);
       assert((await page.locator('#aesthetic-status').innerText()).includes('判断'),'Aesthetic state falsely accepted');
       await page.screenshot({path:path.join(out,'home-'+width+'.png'),fullPage:width===390});
-      for(const id of ['phase1','phase2','phase3','phase4']){
+      for(const id of ['phase1','phase2','phase3','phase4','phase5']){
         await page.locator('[data-stage-tab="'+id+'"]').click();await ready(page);
         assert(await page.locator('[data-stage-tab="'+id+'"]').getAttribute('aria-pressed')==='true','Stage did not switch');
         assert(page.url().includes('stage='+id),'Stage permalink missing');
       }
+      for(const view of ['core','down','facade','span','departure','arrival','warmth','interior','platform']){await page.locator('[data-view="'+view+'"]').click();await ready(page);}
+      await page.locator('[data-mode="a"]').click();await ready(page);assert(await page.locator('[data-view="core"]').getAttribute('aria-pressed')==='true','Phase 5 core-only control mismatched');
+      await page.locator('#compare-pair').selectOption('before5,after5');assert(await page.locator('#compare-view').isDisabled(),'Refinement must use facade camera');assert(await page.locator('#compare-view').inputValue()==='facade','Wrong refinement camera label');
+      await page.waitForFunction(()=>['compare-top','compare-bottom'].every(id=>{const i=document.getElementById(id);return i.complete&&i.naturalWidth===1280;}));
+      if(width===390){await page.locator('.site-nav a[href="#gallery"]').click();await page.screenshot({path:path.join(out,'phase5-390.png')});}
+      await page.locator('[data-stage-tab="phase4"]').click();await ready(page);
       for(const view of ['facade','warmth','scale','bridge','interior','platform','overlook']){await page.locator('[data-view="'+view+'"]').click();await ready(page);}
       await page.locator('[data-mode="a"]').click();await ready(page);assert(await page.locator('[data-view="facade"]').getAttribute('aria-pressed')==='true','Phase 4 single-view control mismatched');
       await page.locator('#compare-pair').selectOption('before4,after4');assert(await page.locator('#compare-view').isDisabled(),'Before/after camera must stay platform');
@@ -56,9 +62,10 @@ async function overflow(page){return page.evaluate(()=>({viewport:innerWidth,wid
       await context.close();
     }
     assert(errors.length===0,'Browser JavaScript errors');
-    const legacy=['phase1.html','phase2.html','phase3.html','phase4.html','evidence/phase4/latest.json','evidence/phase1/summary.json','evidence/phase2/summary.json','evidence/phase1/screenshots/glimmer-platform.png','evidence/phase2/screenshots/veil-platform.png','evidence/phase3/latest.json'];
+    const legacy=['phase1.html','phase2.html','phase3.html','phase4.html','phase5.html','evidence/phase5/latest.json','evidence/phase4/latest.json','evidence/phase1/summary.json','evidence/phase2/summary.json','evidence/phase1/screenshots/glimmer-platform.png','evidence/phase2/screenshots/veil-platform.png','evidence/phase3/latest.json'];
     const links=[];for(const url of legacy){const response=await fetch(base+url);links.push({url,status:response.status});assert(response.ok,'Broken permanent link '+url);}
     const detail=await browser.newPage({viewport:{width:390,height:844}});await detail.goto(base+'phase4.html');await detail.waitForFunction(()=>document.documentElement.dataset.phase4Ready==='true');await detail.waitForFunction(()=>Array.from(document.querySelectorAll('#pictures img,#before,#after')).every(i=>i.complete&&i.naturalWidth===1280));assert((await overflow(detail)).width<=390,'Phase 4 detail overflow');await detail.screenshot({path:path.join(out,'phase4-detail-390.png'),fullPage:true});await detail.close();
+    const fifth=await browser.newPage({viewport:{width:390,height:844}});await fifth.goto(base+'phase5.html');await fifth.waitForFunction(()=>document.documentElement.dataset.phase5Ready==='true');await fifth.waitForFunction(()=>Array.from(document.querySelectorAll('#pictures img,#before,#after')).every(i=>i.complete&&i.naturalWidth===1280));assert((await overflow(fifth)).width<=390,'Phase 5 detail overflow');await fifth.screenshot({path:path.join(out,'phase5-detail-390.png'),fullPage:true});await fifth.close();
     const report={status:'PASS',deployed_source:deployment.commit,base,viewports:results,legacy_links:links,javascript_errors:errors,limit:'Chromium mobile viewport/touch emulation on hosted Linux; not real iQOO, Safari or Windows testing'};
     fs.writeFileSync(path.join(out,'summary.json'),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report));
   }catch(error){fs.writeFileSync(path.join(out,'failure.json'),JSON.stringify({status:'FAIL',error:error.message,deployment,results,errors},null,2)+'\n');throw error;}finally{await browser.close();}

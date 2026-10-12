@@ -1,3 +1,5 @@
+> Phase 5 维护：继续沿用现有静态站，新增 phase5.html 与第五阶段真实铁桥/竖井/路线原图。保留 Phase 1–4 永久 URL，精修对照固定为同次运行的工坊正面机位。
+
 > Phase 4 维护：新增 phase4.html 与第四阶段画廊，原有 Phase 1–3 永久入口和所有历史截图保留。旧光照对照固定到 Phase 3，建筑放置前后对照固定同次 Phase 4 平台机位。阶段参数继续由 exhibition.json 管理。
 
 # 微光深渊 · GitHub Pages 项目展厅

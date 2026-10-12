@@ -1,3 +1,15 @@
+# Phase 5 · 铁桥与垂直深渊 v0.5.0
+
+保留已认可的一栋工坊与冷蓝/暖窗关系，适度精修砖饰、入口山墙与铁艺。新增一座可通行铁桥、一处有限局部竖井与小观景台；实际可从工坊走到目的地再返回，保持空旷留白。
+
+[第五阶段原图与交付](https://msipla.github.io/-Moonlit-Halt/phase5.html) · [安装说明](INSTALL-PHASE5.md) · [实测报告](TEST-REPORT-PHASE5.md) · [最新交接](HANDOFF.md)
+
+`/abyss enter` → `/abyssrender blue` → `/abyss route` → `/abyss route view interior`。本阶段原图与精修等待用户审阅；技术通过不代表美学通过。Windows/PCL2 与目标 GPU 尚未实测。
+
+**本阶段唯一任务书：[TASK-PHASE5.md](TASK-PHASE5.md)。** 不扩大城市，不开发梦境、幻翼缆车或正式主世界生成，也不混入月下小站开发。下方为历史阶段说明，当前实际结果以 HANDOFF 和第五阶段报告为准。
+
+---
+
 > 第四阶段恢复：第三阶段工程交付已完成，用户认可冷蓝环境与局部暖光方向。当前建筑版本与实测结果见下列新入口；后文保留第三阶段历史说明。
 
 # Phase 4 · 地下工坊原型 v0.4.0
