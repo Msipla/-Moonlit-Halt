@@ -109,7 +109,7 @@ public final class Phase4CaptureClient implements ClientModInitializer {
     private void walk(MinecraftClient c) {
         if(!prepared){prepared=true;selectWithCommand(c,"blue");command(c,"abyss building view facade");walkStarted=System.nanoTime();return;}
         long elapsed=System.nanoTime()-walkStarted;
-        if(!walking&&elapsed>2_000_000_000L){walking=true;walkStartZ=c.player.getZ();c.options.forwardKey.setPressed(true);}
+        if(!walking&&elapsed>2_000_000_000L){walking=true;c.player.setYaw(-172.75f);walkStartZ=c.player.getZ();c.options.forwardKey.setPressed(true);}
         if(elapsed<10_000_000_000L)return;
         c.options.forwardKey.setPressed(false);double z=c.player.getZ(),y=c.player.getY();
         boolean pass=walkStartZ-z>20&&z<38&&z>19&&Math.abs(y-39)<.01;

@@ -24,9 +24,9 @@ import java.util.List;
 public final class Architecture {
     public static final BlockPos ORIGIN = new BlockPos(22,-34,15);
     public static final List<GlimmeringAbyss.View> VIEWS = List.of(
-        new GlimmeringAbyss.View("facade",42.5,39,57.5,180,-18),
+        new GlimmeringAbyss.View("facade",38.5,39,66.5,-166,-20),
         new GlimmeringAbyss.View("warmth",30.5,39,45.5,-145,-18),
-        new GlimmeringAbyss.View("scale",-11.5,57,67.5,-145,5),
+        new GlimmeringAbyss.View("scale",-11.5,57,67.5,-122.5f,5),
         new GlimmeringAbyss.View("bridge",27.5,39,70.5,-90,0),
         new GlimmeringAbyss.View("interior",42.5,39,35.5,180,0));
     private Architecture() {}
