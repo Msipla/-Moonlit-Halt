@@ -64,7 +64,7 @@ public final class Phase7Audit {
             case "cliff" -> {x=20.06;y=45;z=-11.5;yaw=90;pitch=55;}
             case "overview" -> {x=-31.5;y=66;z=60.5;yaw=-135;pitch=18;p.changeGameMode(GameMode.CREATIVE);p.getAbilities().flying=true;p.sendAbilitiesUpdate();}
             case "surface" -> {x=17;y=s.entryY+7;z=85;yaw=140;pitch=20;p.changeGameMode(GameMode.CREATIVE);p.getAbilities().flying=true;p.sendAbilitiesUpdate();}
-            case "outside" -> {x=400.5;z=70.5;y=w.getTopY(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,s.x+400,s.z+70)+1;w.setTimeOfDay(18000);p.changeGameMode(GameMode.CREATIVE);}
+            case "outside" -> {x=400.5;z=70.5;y=OverworldLandscape.surface(w,Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,s.x+400,s.z+70)+1;w.setTimeOfDay(18000);p.changeGameMode(GameMode.CREATIVE);}
             case "entrance" -> {}
             default -> {return 0;}
         }
@@ -72,7 +72,7 @@ public final class Phase7Audit {
     }
     private static int bedtime(ServerCommandSource source)throws com.mojang.brigadier.exceptions.CommandSyntaxException{
         var w=source.getServer().getOverworld();var s=OverworldSite.get(w);int x=s.x+400,z=s.z+70;
-        int y=w.getTopY(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,x,z);
+        int y=OverworldLandscape.surface(w,Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,x,z);
         for(int dx=-2;dx<=3;dx++)for(int dz=-2;dz<=3;dz++){
             w.setBlockState(new BlockPos(x+dx,y-1,z+dz),Blocks.STONE.getDefaultState());
             for(int h=0;h<4;h++)w.setBlockState(new BlockPos(x+dx,y+h,z+dz),Blocks.AIR.getDefaultState());

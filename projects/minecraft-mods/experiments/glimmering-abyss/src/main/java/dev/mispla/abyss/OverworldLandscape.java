@@ -28,6 +28,10 @@ public final class OverworldLandscape {
         var w=server.getOverworld();if(w.getTime()%2==0)tick(w);
     });}
     private static int height(ServerWorld w,int x,int z){return w.getChunkManager().getChunkGenerator().getHeight(x,z,Heightmap.Type.OCEAN_FLOOR_WG,w,w.getChunkManager().getNoiseConfig());}
+    /** World.getTopY returns bottom Y for an unloaded remote chunk. Load explicitly. */
+    public static int surface(ServerWorld w,Heightmap.Type type,int x,int z){
+        return w.getChunk(x>>4,z>>4).sampleHeightmap(type,x&15,z&15)+1;
+    }
     public static int ceiling(int x,int z){
         var c=Terrain.column(x,z,Terrain.SEED);
         int top=(int)Math.ceil(c.roof())+4;
@@ -59,7 +63,7 @@ public final class OverworldLandscape {
                 for(int dx=0;dx<16&&valid;dx++)for(int dz=0;dz<16&&valid;dz++){
                     int wx=cx*16+dx,wz=cz*16+dz,top=ceiling(wx-s.x,wz-s.z);
                     // Exact full-footprint check after vanilla carving/surface/features, not only sampled noise heights.
-                    int h=w.getTopY(Heightmap.Type.OCEAN_FLOOR,wx,wz);
+                    int h=chunk.sampleHeightmap(Heightmap.Type.OCEAN_FLOOR,dx,dz)+1;
                     if(h<top+10)valid=false;
                     // The painter retains a four-block solid local roof below this cap.
                     // Existing natural caves above it are permitted; requiring every native
@@ -68,7 +72,7 @@ public final class OverworldLandscape {
                 if(!valid){s.stage="search";s.cursor=0;s.reason="Candidate rejected before edits: coverage or existing habitation";s.markDirty();return;}
                 if(s.caps.size()>s.cursor)s.caps.set(s.cursor,capHash(w,s,cx,cz));else s.caps.add(capHash(w,s,cx,cz));
                 if(++s.cursor==OverworldSite.CHUNKS){
-                    s.entryY=w.getTopY(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,s.x,s.z+70);
+                    s.entryY=surface(w,Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,s.x,s.z+70);
                     // Dry, reachable station; the exact shaft is the sole intended surface opening.
                     if(s.entryY>240||s.entryY<100){s.stage="search";s.cursor=0;s.markDirty();return;}
                     s.stage="carve";s.cursor=0;s.reason="";s.markDirty();w.getPersistentStateManager().save();
@@ -89,10 +93,11 @@ public final class OverworldLandscape {
     public static String capHash(ServerWorld w,OverworldSite s,int cx,int cz){
         try{
             var hash=java.security.MessageDigest.getInstance("SHA-256");
+            var chunk=w.getChunk(cx,cz);
             for(int dx=0;dx<16;dx++)for(int dz=0;dz<16;dz++){
                 int x=cx*16+dx,z=cz*16+dz,lx=x-s.x,lz=z-s.z;
                 if(lx>=-6&&lx<=9&&lz>=64&&lz<=77)continue;
-                int h=w.getTopY(Heightmap.Type.OCEAN_FLOOR,x,z);
+                int h=chunk.sampleHeightmap(Heightmap.Type.OCEAN_FLOOR,dx,dz)+1;
                 hash.update((h+":"+w.getBlockState(new BlockPos(x,h-1,z))+":"+w.getBlockState(new BlockPos(x,h-2,z))).getBytes(java.nio.charset.StandardCharsets.UTF_8));
                 for(int y=-64;y<=-59;y++)hash.update(w.getBlockState(new BlockPos(x,y,z)).toString().getBytes(java.nio.charset.StandardCharsets.UTF_8));
             }
