@@ -3,7 +3,7 @@
   "id": "glimmeringabyss",
   "version": "${version}",
   "name": "Glimmering Abyss",
-  "description": "Compact Victorian underground town on a shelf break, cold blue giant cavern, warm windows and bounded depth haze experiments.",
+  "description": "Rare overworld mountain cavern, protected town, dreams and a closed scenic phantom cable car.",
   "authors": [
     "Mispla",
     "Codex"
@@ -20,7 +20,9 @@
       "dev.mispla.abyss.Phase3CaptureClient",
       "dev.mispla.abyss.Phase4CaptureClient",
       "dev.mispla.abyss.Phase5CaptureClient",
-      "dev.mispla.abyss.Phase6CaptureClient"
+      "dev.mispla.abyss.Phase6CaptureClient",
+      "dev.mispla.abyss.JourneyClient",
+      "dev.mispla.abyss.Phase7CaptureClient"
     ]
   },
   "mixins": [

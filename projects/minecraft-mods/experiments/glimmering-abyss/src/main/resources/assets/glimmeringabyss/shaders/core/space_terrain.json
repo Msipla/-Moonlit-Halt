@@ -221,6 +221,14 @@
         0,
         28
       ]
+    },
+    {
+      "name": "EnvScoped",
+      "type": "float",
+      "count": 1,
+      "values": [
+        0
+      ]
     }
   ]
 }

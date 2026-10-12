@@ -79,14 +79,17 @@ public final class SpaceLighting {
     public static boolean select(String name){SpaceProfile p=profiles.get(name);if(p==null)return false;selected=p;return true;}
     public static void disable(){selected=null;}
     public static String selectedName(){return selected==null?null:selected.name();}
+    private static SpaceProfile effective(){return JourneyClient.origin()!=null?profiles.get("blue"):selected;}
     public static boolean active(){
-        MinecraftClient c=MinecraftClient.getInstance();return selected!=null&&shader!=null&&EnvironmentClient.studyActive()
+        MinecraftClient c=MinecraftClient.getInstance();return effective()!=null&&shader!=null&&(EnvironmentClient.studyActive()||JourneyClient.origin()!=null)
                 &&c.gameRenderer.getCamera().getSubmersionType()==CameraSubmersionType.NONE;
     }
     public static ShaderProgram terrain(float cutoff) {
         if(!active())return null;
-        SpaceProfile p=selected;var camera=MinecraftClient.getInstance().gameRenderer.getCamera().getPos();
-        shader.getUniformOrDefault("EnvCamera").set((float)camera.x,(float)camera.y,(float)camera.z);
+        SpaceProfile p=effective();var camera=MinecraftClient.getInstance().gameRenderer.getCamera().getPos();
+        var origin=JourneyClient.origin();
+        shader.getUniformOrDefault("EnvCamera").set((float)(camera.x-(origin==null?0:origin.getX())),(float)(camera.y-(origin==null?0:origin.getY())),(float)(camera.z-(origin==null?0:origin.getZ())));
+        shader.getUniformOrDefault("EnvScoped").set(origin==null?0f:1f);
         vecUniform("EnvColor",p.color());vecUniform("EnvDirection",p.direction());vecUniform("EnvAirColor",p.airColor());
         shader.getUniformOrDefault("EnvBase").set(p.base());shader.getUniformOrDefault("EnvRadiance").set(p.radiance());
         float[] a=p.anchor();shader.getUniformOrDefault("EnvAnchor").set(a[0],a[1],a[2],p.radius());

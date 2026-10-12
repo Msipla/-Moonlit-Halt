@@ -23,9 +23,12 @@ import java.util.List;
 public final class SceneSafety {
     private SceneSafety(){}
     public static boolean protects(ServerWorld world){return world.getRegistryKey().equals(GlimmeringAbyss.STUDY);}
+    public static boolean protects(ServerWorld world,double x,double y,double z){
+        return protects(world)||world.getRegistryKey().equals(net.minecraft.world.World.OVERWORLD)&&OverworldSite.get(world).contains(x,y,z);
+    }
     public static void initialize(){
         // Also covers old save entities, spawners and alternate insertion paths.
-        ServerEntityEvents.ENTITY_LOAD.register((entity,world)->{if(protects(world)&&entity instanceof MobEntity)entity.discard();});
+        ServerEntityEvents.ENTITY_LOAD.register((entity,world)->{if(entity instanceof MobEntity&&protects(world,entity.getX(),entity.getY(),entity.getZ()))entity.discard();});
     }
     public static int probe(ServerCommandSource s,String label){
         try{

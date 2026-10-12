@@ -13,6 +13,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class SceneSpawnMixin {
     @Inject(method="spawnEntity",at=@At("HEAD"),cancellable=true)
     private void abyss$excludeSceneMobs(Entity entity,CallbackInfoReturnable<Boolean> result){
-        if(entity instanceof MobEntity&&SceneSafety.protects((ServerWorld)(Object)this))result.setReturnValue(false);
+        if(entity instanceof MobEntity&&SceneSafety.protects((ServerWorld)(Object)this,entity.getX(),entity.getY(),entity.getZ()))result.setReturnValue(false);
     }
 }
