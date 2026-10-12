@@ -43,6 +43,7 @@ public final class GlimmeringAbyss implements ModInitializer {
     public static final Block DARK = new Block(AbstractBlock.Settings.copy(Blocks.DEEPSLATE).luminance(s -> 0));
     public static final Block GLIMMER = new Block(AbstractBlock.Settings.copy(Blocks.DEEPSLATE).luminance(s -> 5));
     public static final Block REFERENCE = new Block(AbstractBlock.Settings.copy(Blocks.DEEPSLATE).luminance(s -> 15));
+    public static final Block WARM_WINDOW = new Block(AbstractBlock.Settings.copy(Blocks.DEEPSLATE).luminance(state -> 12));
     private static String mode = "glimmer";
     private static final java.util.Map<BlockPos,BlockState> lampBackup=new java.util.HashMap<>();
     private static long ticks, tickStart;
@@ -60,6 +61,7 @@ public final class GlimmeringAbyss implements ModInitializer {
     public static Identifier id(String path) { return new Identifier("glimmeringabyss", path); }
 
     @Override public void onInitialize() {
+        Registry.register(Registries.BLOCK, id("warm_window"), WARM_WINDOW);
         Registry.register(Registries.BLOCK, id("dark_marker"), DARK);
         Registry.register(Registries.BLOCK, id("glimmerstone"), GLIMMER);
         Registry.register(Registries.BLOCK, id("reference_marker"), REFERENCE);
@@ -68,6 +70,12 @@ public final class GlimmeringAbyss implements ModInitializer {
         CommandRegistrationCallback.EVENT.register((dispatcher, access, environment) -> dispatcher.register(
                 literal("abyss")
                 .executes(c -> message(c.getSource(), "enter | view tunnel/platform/edge/overlook | light baseline/glimmer/reference | audit | return"))
+                .then(literal("building").requires(s -> s.hasPermissionLevel(2))
+                    .executes(c -> Architecture.place(c.getSource()))
+                    .then(literal("audit").then(argument("label", StringArgumentType.word()).executes(c -> Architecture.audit(c.getSource(), StringArgumentType.getString(c,"label")))))
+                    .then(literal("view").then(argument("name", StringArgumentType.word())
+                        .suggests((c,b) -> { Architecture.VIEWS.forEach(v -> b.suggest(v.name()));return b.buildFuture(); })
+                        .executes(c -> Architecture.view(c.getSource(),StringArgumentType.getString(c,"name"))))))
                 .then(literal("enter").executes(c -> teleport(c.getSource(), VIEWS.get(0))))
                 .then(literal("view").then(argument("name", StringArgumentType.word())
                         .suggests((c, b) -> { VIEWS.forEach(v -> b.suggest(v.name)); b.suggest("overlook"); return b.buildFuture(); })

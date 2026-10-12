@@ -3,7 +3,7 @@
   "id": "glimmeringabyss",
   "version": "${version}",
   "name": "Glimmering Abyss",
-  "description": "Deterministic cavern generation and vanilla block-light experiment for Minecraft 1.20.1.",
+  "description": "Cold-blue cavern and original Victorian/Gothic workshop prototype.",
   "authors": [
     "Mispla",
     "Codex"
@@ -17,7 +17,8 @@
       "dev.mispla.abyss.EnvironmentClient",
       "dev.mispla.abyss.CaptureClient",
       "dev.mispla.abyss.Phase2CaptureClient",
-      "dev.mispla.abyss.Phase3CaptureClient"
+      "dev.mispla.abyss.Phase3CaptureClient",
+      "dev.mispla.abyss.Phase4CaptureClient"
     ]
   },
   "mixins": [
