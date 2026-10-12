@@ -1,0 +1,162 @@
+{
+  "minecraft": "1.20.1",
+  "dimension": "glimmeringabyss:study",
+  "study_seed": 74102002,
+  "world_seed": 74102002,
+  "light_mode": "glimmer",
+  "emitter_count": 26,
+  "dimension_has_skylight": false,
+  "ambient_light": 0.0,
+  "calibration_chunks_kept_loaded_for_test_server": true,
+  "light_profile": [
+    {
+      "distance": 0,
+      "block": 5,
+      "sky": 0,
+      "expected_unobstructed_block": 5
+    },
+    {
+      "distance": 1,
+      "block": 4,
+      "sky": 0,
+      "expected_unobstructed_block": 4
+    },
+    {
+      "distance": 2,
+      "block": 3,
+      "sky": 0,
+      "expected_unobstructed_block": 3
+    },
+    {
+      "distance": 3,
+      "block": 2,
+      "sky": 0,
+      "expected_unobstructed_block": 2
+    },
+    {
+      "distance": 4,
+      "block": 1,
+      "sky": 0,
+      "expected_unobstructed_block": 1
+    },
+    {
+      "distance": 5,
+      "block": 0,
+      "sky": 0,
+      "expected_unobstructed_block": 0
+    },
+    {
+      "distance": 6,
+      "block": 0,
+      "sky": 0,
+      "expected_unobstructed_block": 0
+    },
+    {
+      "distance": 7,
+      "block": 0,
+      "sky": 0,
+      "expected_unobstructed_block": 0
+    },
+    {
+      "distance": 8,
+      "block": 0,
+      "sky": 0,
+      "expected_unobstructed_block": 0
+    },
+    {
+      "distance": 9,
+      "block": 0,
+      "sky": 0,
+      "expected_unobstructed_block": 0
+    },
+    {
+      "distance": 10,
+      "block": 0,
+      "sky": 0,
+      "expected_unobstructed_block": 0
+    },
+    {
+      "distance": 11,
+      "block": 0,
+      "sky": 0,
+      "expected_unobstructed_block": 0
+    },
+    {
+      "distance": 12,
+      "block": 0,
+      "sky": 0,
+      "expected_unobstructed_block": 0
+    },
+    {
+      "distance": 13,
+      "block": 0,
+      "sky": 0,
+      "expected_unobstructed_block": 0
+    },
+    {
+      "distance": 14,
+      "block": 0,
+      "sky": 0,
+      "expected_unobstructed_block": 0
+    },
+    {
+      "distance": 15,
+      "block": 0,
+      "sky": 0,
+      "expected_unobstructed_block": 0
+    },
+    {
+      "distance": 16,
+      "block": 0,
+      "sky": 0,
+      "expected_unobstructed_block": 0
+    }
+  ],
+  "native_light_profile_pass": true,
+  "views": [
+    {
+      "name": "tunnel",
+      "x": 0.5,
+      "y": 39.0,
+      "z": 90.5,
+      "yaw": 180.0,
+      "pitch": 0.0,
+      "floor_solid": true,
+      "two_block_clearance": true,
+      "block_light_at_feet": 0,
+      "sky_light_at_feet": 0
+    },
+    {
+      "name": "platform",
+      "x": 0.5,
+      "y": 39.0,
+      "z": 73.5,
+      "yaw": 180.0,
+      "pitch": 12.0,
+      "floor_solid": true,
+      "two_block_clearance": true,
+      "block_light_at_feet": 0,
+      "sky_light_at_feet": 0
+    },
+    {
+      "name": "edge",
+      "x": 20.5,
+      "y": 39.0,
+      "z": 66.5,
+      "yaw": 165.0,
+      "pitch": 15.0,
+      "floor_solid": true,
+      "two_block_clearance": true,
+      "block_light_at_feet": 0,
+      "sky_light_at_feet": 0
+    }
+  ],
+  "route_and_rail_pass": true,
+  "generated_world_sample_count": 178080,
+  "generated_terrain_sha256": "730a8e888ac049180c373fa51a2e3faca44a2bb131f632b5f05f069db96ca241",
+  "server_tick_samples_since_mode_change": 120,
+  "server_tick_mean_ms": 0.5714533666666666,
+  "server_tick_max_ms": 3.103593,
+  "server_total_ticks": 440,
+  "lighting_pending_at_audit_end": false
+}
