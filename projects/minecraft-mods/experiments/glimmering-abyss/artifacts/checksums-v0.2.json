@@ -1,0 +1,13 @@
+{
+  "source_checkpoint_commit": "1bceff1064f0501351264afc29c9456b57bd240e",
+  "artifacts": {
+    "glimmering-abyss-0.2.0.jar": {
+      "sha256": "f4ee8ac687c921d4f5ac5280ef386bc30953634374295fba4582361e4157f194",
+      "bytes": 57123
+    },
+    "glimmering-abyss-0.2.0-sources.jar": {
+      "sha256": "d7ae1fc32f4ae2e032f8aaa1eb9b5aaad036cb2cab70e6dc8c9bb776a73e437a",
+      "bytes": 26223
+    }
+  }
+}

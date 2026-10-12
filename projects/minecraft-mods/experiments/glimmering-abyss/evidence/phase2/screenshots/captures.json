@@ -1,0 +1,4031 @@
+[
+  {
+    "file": "a-tunnel.png",
+    "kind": "comparison",
+    "render_profile": "a",
+    "light_mode": "glimmer",
+    "view": "tunnel",
+    "x": 0.5,
+    "y": 39.0,
+    "z": 90.5,
+    "yaw": 180.0,
+    "pitch": 0.0,
+    "framebuffer_width": 1280,
+    "framebuffer_height": 720,
+    "fov": 75,
+    "brightness_gamma": 0.5,
+    "view_distance_chunks": 16,
+    "simulation_distance_chunks": 6,
+    "graphics": "fancy",
+    "ambient_occlusion": true,
+    "dimension_ambient_light": 0.0,
+    "dimension_fixed_time": 18000,
+    "gl_renderer": "llvmpipe (LLVM 20.1.2, 256 bits)",
+    "gl_vendor": "Mesa",
+    "gl_version": "4.5 (Core Profile) Mesa 25.2.8-0ubuntu0.24.04.2",
+    "gl_error_at_capture": 0,
+    "chunk_debug": "C: 853/13068 (s) D: 16, pC: 030, pU: 04, aB: 00",
+    "block_light_at_feet": 0,
+    "sky_light_at_feet": 0,
+    "environment": {
+      "profile": "a",
+      "custom_active": false,
+      "world": "glimmeringabyss:study",
+      "observed_lightmap_writes": 3984,
+      "native_lightmap_0_rgb": [
+        25,
+        25,
+        25
+      ],
+      "display_lightmap_0_rgb": [
+        25,
+        25,
+        25
+      ],
+      "native_lightmap_5_rgb": [
+        99,
+        80,
+        59
+      ],
+      "display_lightmap_5_rgb": [
+        99,
+        80,
+        59
+      ],
+      "native_lightmap_rgb": [
+        [
+          25,
+          25,
+          25
+        ],
+        [
+          39,
+          34,
+          30
+        ],
+        [
+          53,
+          44,
+          37
+        ],
+        [
+          68,
+          55,
+          43
+        ],
+        [
+          83,
+          67,
+          51
+        ],
+        [
+          99,
+          80,
+          59
+        ],
+        [
+          116,
+          95,
+          69
+        ],
+        [
+          133,
+          110,
+          81
+        ],
+        [
+          150,
+          128,
+          95
+        ],
+        [
+          167,
+          147,
+          112
+        ],
+        [
+          184,
+          167,
+          134
+        ],
+        [
+          201,
+          188,
+          160
+        ],
+        [
+          220,
+          211,
+          192
+        ],
+        [
+          241,
+          238,
+          231
+        ],
+        [
+          252,
+          252,
+          252
+        ],
+        [
+          252,
+          252,
+          252
+        ]
+      ],
+      "display_lightmap_rgb": [
+        [
+          25,
+          25,
+          25
+        ],
+        [
+          39,
+          34,
+          30
+        ],
+        [
+          53,
+          44,
+          37
+        ],
+        [
+          68,
+          55,
+          43
+        ],
+        [
+          83,
+          67,
+          51
+        ],
+        [
+          99,
+          80,
+          59
+        ],
+        [
+          116,
+          95,
+          69
+        ],
+        [
+          133,
+          110,
+          81
+        ],
+        [
+          150,
+          128,
+          95
+        ],
+        [
+          167,
+          147,
+          112
+        ],
+        [
+          184,
+          167,
+          134
+        ],
+        [
+          201,
+          188,
+          160
+        ],
+        [
+          220,
+          211,
+          192
+        ],
+        [
+          241,
+          238,
+          231
+        ],
+        [
+          252,
+          252,
+          252
+        ],
+        [
+          252,
+          252,
+          252
+        ]
+      ],
+      "distance_start": 230.4,
+      "distance_end": 256.0,
+      "distance_target_rgba": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "surface_microglow": 0.0,
+      "glow_faces_drawn_last_frame": 0
+    },
+    "sample_frames": 91,
+    "settle_seconds": 8,
+    "sample_seconds": 5,
+    "sample_fps": 18.0031332249478,
+    "median_frame_ms": 54.376751,
+    "p95_frame_ms": 66.949291,
+    "max_frame_ms": 78.814375,
+    "frames_over_100ms": 0
+  },
+  {
+    "file": "a-platform.png",
+    "kind": "comparison",
+    "render_profile": "a",
+    "light_mode": "glimmer",
+    "view": "platform",
+    "x": 0.5,
+    "y": 39.0,
+    "z": 73.5,
+    "yaw": 180.0,
+    "pitch": 12.0,
+    "framebuffer_width": 1280,
+    "framebuffer_height": 720,
+    "fov": 75,
+    "brightness_gamma": 0.5,
+    "view_distance_chunks": 16,
+    "simulation_distance_chunks": 6,
+    "graphics": "fancy",
+    "ambient_occlusion": true,
+    "dimension_ambient_light": 0.0,
+    "dimension_fixed_time": 18000,
+    "gl_renderer": "llvmpipe (LLVM 20.1.2, 256 bits)",
+    "gl_vendor": "Mesa",
+    "gl_version": "4.5 (Core Profile) Mesa 25.2.8-0ubuntu0.24.04.2",
+    "gl_error_at_capture": 0,
+    "chunk_debug": "C: 829/13068 (s) D: 16, pC: 000, pU: 00, aB: 04",
+    "block_light_at_feet": 0,
+    "sky_light_at_feet": 0,
+    "environment": {
+      "profile": "a",
+      "custom_active": false,
+      "world": "glimmeringabyss:study",
+      "observed_lightmap_writes": 7600,
+      "native_lightmap_0_rgb": [
+        25,
+        25,
+        25
+      ],
+      "display_lightmap_0_rgb": [
+        25,
+        25,
+        25
+      ],
+      "native_lightmap_5_rgb": [
+        101,
+        82,
+        61
+      ],
+      "display_lightmap_5_rgb": [
+        101,
+        82,
+        61
+      ],
+      "native_lightmap_rgb": [
+        [
+          25,
+          25,
+          25
+        ],
+        [
+          39,
+          34,
+          31
+        ],
+        [
+          54,
+          44,
+          37
+        ],
+        [
+          69,
+          56,
+          44
+        ],
+        [
+          85,
+          68,
+          52
+        ],
+        [
+          101,
+          82,
+          61
+        ],
+        [
+          118,
+          97,
+          71
+        ],
+        [
+          135,
+          113,
+          83
+        ],
+        [
+          152,
+          131,
+          97
+        ],
+        [
+          169,
+          150,
+          115
+        ],
+        [
+          187,
+          170,
+          137
+        ],
+        [
+          204,
+          191,
+          165
+        ],
+        [
+          223,
+          214,
+          197
+        ],
+        [
+          244,
+          242,
+          238
+        ],
+        [
+          252,
+          252,
+          252
+        ],
+        [
+          252,
+          252,
+          252
+        ]
+      ],
+      "display_lightmap_rgb": [
+        [
+          25,
+          25,
+          25
+        ],
+        [
+          39,
+          34,
+          31
+        ],
+        [
+          54,
+          44,
+          37
+        ],
+        [
+          69,
+          56,
+          44
+        ],
+        [
+          85,
+          68,
+          52
+        ],
+        [
+          101,
+          82,
+          61
+        ],
+        [
+          118,
+          97,
+          71
+        ],
+        [
+          135,
+          113,
+          83
+        ],
+        [
+          152,
+          131,
+          97
+        ],
+        [
+          169,
+          150,
+          115
+        ],
+        [
+          187,
+          170,
+          137
+        ],
+        [
+          204,
+          191,
+          165
+        ],
+        [
+          223,
+          214,
+          197
+        ],
+        [
+          244,
+          242,
+          238
+        ],
+        [
+          252,
+          252,
+          252
+        ],
+        [
+          252,
+          252,
+          252
+        ]
+      ],
+      "distance_start": 230.4,
+      "distance_end": 256.0,
+      "distance_target_rgba": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "surface_microglow": 0.0,
+      "glow_faces_drawn_last_frame": 0
+    },
+    "sample_frames": 91,
+    "settle_seconds": 8,
+    "sample_seconds": 5,
+    "sample_fps": 17.94799984818201,
+    "median_frame_ms": 54.304447,
+    "p95_frame_ms": 65.736688,
+    "max_frame_ms": 68.084231,
+    "frames_over_100ms": 0
+  },
+  {
+    "file": "a-edge.png",
+    "kind": "comparison",
+    "render_profile": "a",
+    "light_mode": "glimmer",
+    "view": "edge",
+    "x": 20.5,
+    "y": 39.0,
+    "z": 66.5,
+    "yaw": 165.0,
+    "pitch": 15.0,
+    "framebuffer_width": 1280,
+    "framebuffer_height": 720,
+    "fov": 75,
+    "brightness_gamma": 0.5,
+    "view_distance_chunks": 16,
+    "simulation_distance_chunks": 6,
+    "graphics": "fancy",
+    "ambient_occlusion": true,
+    "dimension_ambient_light": 0.0,
+    "dimension_fixed_time": 18000,
+    "gl_renderer": "llvmpipe (LLVM 20.1.2, 256 bits)",
+    "gl_vendor": "Mesa",
+    "gl_version": "4.5 (Core Profile) Mesa 25.2.8-0ubuntu0.24.04.2",
+    "gl_error_at_capture": 0,
+    "chunk_debug": "C: 805/13068 (s) D: 16, pC: 000, pU: 00, aB: 04",
+    "block_light_at_feet": 0,
+    "sky_light_at_feet": 0,
+    "environment": {
+      "profile": "a",
+      "custom_active": false,
+      "world": "glimmeringabyss:study",
+      "observed_lightmap_writes": 11296,
+      "native_lightmap_0_rgb": [
+        25,
+        25,
+        25
+      ],
+      "display_lightmap_0_rgb": [
+        25,
+        25,
+        25
+      ],
+      "native_lightmap_5_rgb": [
+        101,
+        81,
+        60
+      ],
+      "display_lightmap_5_rgb": [
+        101,
+        81,
+        60
+      ],
+      "native_lightmap_rgb": [
+        [
+          25,
+          25,
+          25
+        ],
+        [
+          39,
+          34,
+          31
+        ],
+        [
+          54,
+          44,
+          37
+        ],
+        [
+          69,
+          55,
+          44
+        ],
+        [
+          84,
+          68,
+          51
+        ],
+        [
+          101,
+          81,
+          60
+        ],
+        [
+          117,
+          96,
+          70
+        ],
+        [
+          134,
+          112,
+          82
+        ],
+        [
+          151,
+          130,
+          97
+        ],
+        [
+          168,
+          149,
+          114
+        ],
+        [
+          186,
+          169,
+          136
+        ],
+        [
+          203,
+          190,
+          163
+        ],
+        [
+          222,
+          213,
+          195
+        ],
+        [
+          243,
+          241,
+          235
+        ],
+        [
+          252,
+          252,
+          252
+        ],
+        [
+          252,
+          252,
+          252
+        ]
+      ],
+      "display_lightmap_rgb": [
+        [
+          25,
+          25,
+          25
+        ],
+        [
+          39,
+          34,
+          31
+        ],
+        [
+          54,
+          44,
+          37
+        ],
+        [
+          69,
+          55,
+          44
+        ],
+        [
+          84,
+          68,
+          51
+        ],
+        [
+          101,
+          81,
+          60
+        ],
+        [
+          117,
+          96,
+          70
+        ],
+        [
+          134,
+          112,
+          82
+        ],
+        [
+          151,
+          130,
+          97
+        ],
+        [
+          168,
+          149,
+          114
+        ],
+        [
+          186,
+          169,
+          136
+        ],
+        [
+          203,
+          190,
+          163
+        ],
+        [
+          222,
+          213,
+          195
+        ],
+        [
+          243,
+          241,
+          235
+        ],
+        [
+          252,
+          252,
+          252
+        ],
+        [
+          252,
+          252,
+          252
+        ]
+      ],
+      "distance_start": 230.4,
+      "distance_end": 256.0,
+      "distance_target_rgba": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "surface_microglow": 0.0,
+      "glow_faces_drawn_last_frame": 0
+    },
+    "sample_frames": 89,
+    "settle_seconds": 8,
+    "sample_seconds": 5,
+    "sample_fps": 17.78859749833041,
+    "median_frame_ms": 54.110986,
+    "p95_frame_ms": 68.759727,
+    "max_frame_ms": 77.276289,
+    "frames_over_100ms": 0
+  },
+  {
+    "file": "a-overlook.png",
+    "kind": "comparison",
+    "render_profile": "a",
+    "light_mode": "glimmer",
+    "view": "overlook",
+    "x": 0.5,
+    "y": 55.0,
+    "z": 60.5,
+    "yaw": 180.0,
+    "pitch": 28.0,
+    "framebuffer_width": 1280,
+    "framebuffer_height": 720,
+    "fov": 75,
+    "brightness_gamma": 0.5,
+    "view_distance_chunks": 16,
+    "simulation_distance_chunks": 6,
+    "graphics": "fancy",
+    "ambient_occlusion": true,
+    "dimension_ambient_light": 0.0,
+    "dimension_fixed_time": 18000,
+    "gl_renderer": "llvmpipe (LLVM 20.1.2, 256 bits)",
+    "gl_vendor": "Mesa",
+    "gl_version": "4.5 (Core Profile) Mesa 25.2.8-0ubuntu0.24.04.2",
+    "gl_error_at_capture": 0,
+    "chunk_debug": "C: 815/13068 (s) D: 16, pC: 000, pU: 00, aB: 04",
+    "block_light_at_feet": 0,
+    "sky_light_at_feet": 0,
+    "environment": {
+      "profile": "a",
+      "custom_active": false,
+      "world": "glimmeringabyss:study",
+      "observed_lightmap_writes": 14928,
+      "native_lightmap_0_rgb": [
+        25,
+        25,
+        25
+      ],
+      "display_lightmap_0_rgb": [
+        25,
+        25,
+        25
+      ],
+      "native_lightmap_5_rgb": [
+        99,
+        80,
+        59
+      ],
+      "display_lightmap_5_rgb": [
+        99,
+        80,
+        59
+      ],
+      "native_lightmap_rgb": [
+        [
+          25,
+          25,
+          25
+        ],
+        [
+          39,
+          34,
+          30
+        ],
+        [
+          53,
+          44,
+          37
+        ],
+        [
+          68,
+          55,
+          43
+        ],
+        [
+          83,
+          67,
+          51
+        ],
+        [
+          99,
+          80,
+          59
+        ],
+        [
+          115,
+          94,
+          69
+        ],
+        [
+          132,
+          110,
+          81
+        ],
+        [
+          149,
+          127,
+          95
+        ],
+        [
+          166,
+          146,
+          112
+        ],
+        [
+          183,
+          166,
+          133
+        ],
+        [
+          201,
+          187,
+          159
+        ],
+        [
+          219,
+          210,
+          191
+        ],
+        [
+          240,
+          237,
+          230
+        ],
+        [
+          252,
+          252,
+          252
+        ],
+        [
+          252,
+          252,
+          252
+        ]
+      ],
+      "display_lightmap_rgb": [
+        [
+          25,
+          25,
+          25
+        ],
+        [
+          39,
+          34,
+          30
+        ],
+        [
+          53,
+          44,
+          37
+        ],
+        [
+          68,
+          55,
+          43
+        ],
+        [
+          83,
+          67,
+          51
+        ],
+        [
+          99,
+          80,
+          59
+        ],
+        [
+          115,
+          94,
+          69
+        ],
+        [
+          132,
+          110,
+          81
+        ],
+        [
+          149,
+          127,
+          95
+        ],
+        [
+          166,
+          146,
+          112
+        ],
+        [
+          183,
+          166,
+          133
+        ],
+        [
+          201,
+          187,
+          159
+        ],
+        [
+          219,
+          210,
+          191
+        ],
+        [
+          240,
+          237,
+          230
+        ],
+        [
+          252,
+          252,
+          252
+        ],
+        [
+          252,
+          252,
+          252
+        ]
+      ],
+      "distance_start": 230.4,
+      "distance_end": 256.0,
+      "distance_target_rgba": [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "surface_microglow": 0.0,
+      "glow_faces_drawn_last_frame": 0
+    },
+    "sample_frames": 87,
+    "settle_seconds": 8,
+    "sample_seconds": 5,
+    "sample_fps": 17.21593863955149,
+    "median_frame_ms": 56.426285,
+    "p95_frame_ms": 67.332447,
+    "max_frame_ms": 86.459139,
+    "frames_over_100ms": 0
+  },
+  {
+    "file": "b-tunnel.png",
+    "kind": "comparison",
+    "render_profile": "b",
+    "light_mode": "glimmer",
+    "view": "tunnel",
+    "x": 0.5,
+    "y": 39.0,
+    "z": 90.5,
+    "yaw": 180.0,
+    "pitch": 0.0,
+    "framebuffer_width": 1280,
+    "framebuffer_height": 720,
+    "fov": 75,
+    "brightness_gamma": 0.5,
+    "view_distance_chunks": 16,
+    "simulation_distance_chunks": 6,
+    "graphics": "fancy",
+    "ambient_occlusion": true,
+    "dimension_ambient_light": 0.0,
+    "dimension_fixed_time": 18000,
+    "gl_renderer": "llvmpipe (LLVM 20.1.2, 256 bits)",
+    "gl_vendor": "Mesa",
+    "gl_version": "4.5 (Core Profile) Mesa 25.2.8-0ubuntu0.24.04.2",
+    "gl_error_at_capture": 0,
+    "chunk_debug": "C: 887/13068 (s) D: 16, pC: 000, pU: 00, aB: 04",
+    "block_light_at_feet": 0,
+    "sky_light_at_feet": 0,
+    "environment": {
+      "profile": "b",
+      "custom_active": true,
+      "world": "glimmeringabyss:study",
+      "observed_lightmap_writes": 18624,
+      "native_lightmap_0_rgb": [
+        25,
+        25,
+        25
+      ],
+      "display_lightmap_0_rgb": [
+        108,
+        117,
+        126
+      ],
+      "native_lightmap_5_rgb": [
+        100,
+        81,
+        60
+      ],
+      "display_lightmap_5_rgb": [
+        137,
+        127,
+        117
+      ],
+      "native_lightmap_rgb": [
+        [
+          25,
+          25,
+          25
+        ],
+        [
+          39,
+          34,
+          31
+        ],
+        [
+          53,
+          44,
+          37
+        ],
+        [
+          69,
+          55,
+          44
+        ],
+        [
+          84,
+          67,
+          51
+        ],
+        [
+          100,
+          81,
+          60
+        ],
+        [
+          117,
+          96,
+          70
+        ],
+        [
+          134,
+          112,
+          82
+        ],
+        [
+          151,
+          129,
+          96
+        ],
+        [
+          168,
+          148,
+          114
+        ],
+        [
+          185,
+          168,
+          136
+        ],
+        [
+          203,
+          190,
+          162
+        ],
+        [
+          221,
+          213,
+          194
+        ],
+        [
+          243,
+          240,
+          234
+        ],
+        [
+          252,
+          252,
+          252
+        ],
+        [
+          252,
+          252,
+          252
+        ]
+      ],
+      "display_lightmap_rgb": [
+        [
+          108,
+          117,
+          126
+        ],
+        [
+          112,
+          117,
+          123
+        ],
+        [
+          116,
+          117,
+          120
+        ],
+        [
+          123,
+          119,
+          118
+        ],
+        [
+          129,
+          122,
+          117
+        ],
+        [
+          137,
+          127,
+          117
+        ],
+        [
+          147,
+          134,
+          119
+        ],
+        [
+          157,
+          143,
+          123
+        ],
+        [
+          168,
+          153,
+          129
+        ],
+        [
+          181,
+          165,
+          139
+        ],
+        [
+          193,
+          180,
+          153
+        ],
+        [
+          208,
+          197,
+          173
+        ],
+        [
+          223,
+          216,
+          199
+        ],
+        [
+          244,
+          241,
+          235
+        ],
+        [
+          252,
+          252,
+          252
+        ],
+        [
+          252,
+          252,
+          252
+        ]
+      ],
+      "distance_start": 24.0,
+      "distance_end": 224.0,
+      "distance_target_rgba": [
+        0.006,
+        0.009,
+        0.013,
+        0.92
+      ],
+      "surface_microglow": 0.48,
+      "glow_faces_drawn_last_frame": 53
+    },
+    "sample_frames": 90,
+    "settle_seconds": 8,
+    "sample_seconds": 5,
+    "sample_fps": 17.794920164810858,
+    "median_frame_ms": 55.439258,
+    "p95_frame_ms": 66.48287,
+    "max_frame_ms": 69.173426,
+    "frames_over_100ms": 0
+  },
+  {
+    "file": "b-platform.png",
+    "kind": "comparison",
+    "render_profile": "b",
+    "light_mode": "glimmer",
+    "view": "platform",
+    "x": 0.5,
+    "y": 39.0,
+    "z": 73.5,
+    "yaw": 180.0,
+    "pitch": 12.0,
+    "framebuffer_width": 1280,
+    "framebuffer_height": 720,
+    "fov": 75,
+    "brightness_gamma": 0.5,
+    "view_distance_chunks": 16,
+    "simulation_distance_chunks": 6,
+    "graphics": "fancy",
+    "ambient_occlusion": true,
+    "dimension_ambient_light": 0.0,
+    "dimension_fixed_time": 18000,
+    "gl_renderer": "llvmpipe (LLVM 20.1.2, 256 bits)",
+    "gl_vendor": "Mesa",
+    "gl_version": "4.5 (Core Profile) Mesa 25.2.8-0ubuntu0.24.04.2",
+    "gl_error_at_capture": 0,
+    "chunk_debug": "C: 829/13068 (s) D: 16, pC: 000, pU: 00, aB: 04",
+    "block_light_at_feet": 0,
+    "sky_light_at_feet": 0,
+    "environment": {
+      "profile": "b",
+      "custom_active": true,
+      "world": "glimmeringabyss:study",
+      "observed_lightmap_writes": 22432,
+      "native_lightmap_0_rgb": [
+        25,
+        25,
+        25
+      ],
+      "display_lightmap_0_rgb": [
+        108,
+        117,
+        126
+      ],
+      "native_lightmap_5_rgb": [
+        99,
+        79,
+        59
+      ],
+      "display_lightmap_5_rgb": [
+        136,
+        126,
+        116
+      ],
+      "native_lightmap_rgb": [
+        [
+          25,
+          25,
+          25
+        ],
+        [
+          38,
+          34,
+          30
+        ],
+        [
+          53,
+          44,
+          36
+        ],
+        [
+          67,
+          54,
+          43
+        ],
+        [
+          83,
+          66,
+          51
+        ],
+        [
+          99,
+          79,
+          59
+        ],
+        [
+          115,
+          94,
+          69
+        ],
+        [
+          132,
+          109,
+          80
+        ],
+        [
+          148,
+          127,
+          94
+        ],
+        [
+          166,
+          145,
+          111
+        ],
+        [
+          183,
+          165,
+          132
+        ],
+        [
+          200,
+          186,
+          158
+        ],
+        [
+          219,
+          209,
+          189
+        ],
+        [
+          240,
+          236,
+          228
+        ],
+        [
+          252,
+          252,
+          252
+        ],
+        [
+          252,
+          252,
+          252
+        ]
+      ],
+      "display_lightmap_rgb": [
+        [
+          108,
+          117,
+          126
+        ],
+        [
+          111,
+          117,
+          122
+        ],
+        [
+          116,
+          117,
+          120
+        ],
+        [
+          121,
+          118,
+          118
+        ],
+        [
+          128,
+          121,
+          117
+        ],
+        [
+          136,
+          126,
+          116
+        ],
+        [
+          145,
+          133,
+          118
+        ],
+        [
+          156,
+          140,
+          121
+        ],
+        [
+          166,
+          151,
+          127
+        ],
+        [
+          179,
+          163,
+          136
+        ],
+        [
+          192,
+          177,
+          150
+        ],
+        [
+          205,
+          193,
+          169
+        ],
+        [
+          222,
+          213,
+          195
+        ],
+        [
+          241,
+          237,
+          230
+        ],
+        [
+          252,
+          252,
+          252
+        ],
+        [
+          252,
+          252,
+          252
+        ]
+      ],
+      "distance_start": 24.0,
+      "distance_end": 224.0,
+      "distance_target_rgba": [
+        0.006,
+        0.009,
+        0.013,
+        0.92
+      ],
+      "surface_microglow": 0.48,
+      "glow_faces_drawn_last_frame": 53
+    },
+    "sample_frames": 97,
+    "settle_seconds": 8,
+    "sample_seconds": 5,
+    "sample_fps": 19.11903603389261,
+    "median_frame_ms": 51.683173,
+    "p95_frame_ms": 62.04422,
+    "max_frame_ms": 70.653953,
+    "frames_over_100ms": 0
+  },
+  {
+    "file": "b-edge.png",
+    "kind": "comparison",
+    "render_profile": "b",
+    "light_mode": "glimmer",
+    "view": "edge",
+    "x": 20.5,
+    "y": 39.0,
+    "z": 66.5,
+    "yaw": 165.0,
+    "pitch": 15.0,
+    "framebuffer_width": 1280,
+    "framebuffer_height": 720,
+    "fov": 75,
+    "brightness_gamma": 0.5,
+    "view_distance_chunks": 16,
+    "simulation_distance_chunks": 6,
+    "graphics": "fancy",
+    "ambient_occlusion": true,
+    "dimension_ambient_light": 0.0,
+    "dimension_fixed_time": 18000,
+    "gl_renderer": "llvmpipe (LLVM 20.1.2, 256 bits)",
+    "gl_vendor": "Mesa",
+    "gl_version": "4.5 (Core Profile) Mesa 25.2.8-0ubuntu0.24.04.2",
+    "gl_error_at_capture": 0,
+    "chunk_debug": "C: 805/13068 (s) D: 16, pC: 000, pU: 00, aB: 04",
+    "block_light_at_feet": 0,
+    "sky_light_at_feet": 0,
+    "environment": {
+      "profile": "b",
+      "custom_active": true,
+      "world": "glimmeringabyss:study",
+      "observed_lightmap_writes": 26384,
+      "native_lightmap_0_rgb": [
+        25,
+        25,
+        25
+      ],
+      "display_lightmap_0_rgb": [
+        108,
+        117,
+        126
+      ],
+      "native_lightmap_5_rgb": [
+        102,
+        82,
+        61
+      ],
+      "display_lightmap_5_rgb": [
+        139,
+        128,
+        118
+      ],
+      "native_lightmap_rgb": [
+        [
+          25,
+          25,
+          25
+        ],
+        [
+          39,
+          34,
+          31
+        ],
+        [
+          54,
+          45,
+          37
+        ],
+        [
+          70,
+          56,
+          44
+        ],
+        [
+          86,
+          69,
+          52
+        ],
+        [
+          102,
+          82,
+          61
+        ],
+        [
+          119,
+          97,
+          71
+        ],
+        [
+          136,
+          114,
+          84
+        ],
+        [
+          153,
+          132,
+          99
+        ],
+        [
+          171,
+          151,
+          117
+        ],
+        [
+          188,
+          171,
+          139
+        ],
+        [
+          205,
+          193,
+          167
+        ],
+        [
+          224,
+          216,
+          199
+        ],
+        [
+          246,
+          244,
+          241
+        ],
+        [
+          252,
+          252,
+          252
+        ],
+        [
+          252,
+          252,
+          252
+        ]
+      ],
+      "display_lightmap_rgb": [
+        [
+          108,
+          117,
+          126
+        ],
+        [
+          112,
+          117,
+          123
+        ],
+        [
+          117,
+          118,
+          120
+        ],
+        [
+          123,
+          120,
+          118
+        ],
+        [
+          131,
+          124,
+          118
+        ],
+        [
+          139,
+          128,
+          118
+        ],
+        [
+          148,
+          135,
+          120
+        ],
+        [
+          159,
+          144,
+          124
+        ],
+        [
+          170,
+          155,
+          131
+        ],
+        [
+          183,
+          168,
+          141
+        ],
+        [
+          196,
+          182,
+          156
+        ],
+        [
+          210,
+          200,
+          177
+        ],
+        [
+          226,
+          219,
+          204
+        ],
+        [
+          246,
+          245,
+          242
+        ],
+        [
+          252,
+          252,
+          252
+        ],
+        [
+          252,
+          252,
+          252
+        ]
+      ],
+      "distance_start": 24.0,
+      "distance_end": 224.0,
+      "distance_target_rgba": [
+        0.006,
+        0.009,
+        0.013,
+        0.92
+      ],
+      "surface_microglow": 0.48,
+      "glow_faces_drawn_last_frame": 53
+    },
+    "sample_frames": 86,
+    "settle_seconds": 8,
+    "sample_seconds": 5,
+    "sample_fps": 17.079951487464246,
+    "median_frame_ms": 57.614349,
+    "p95_frame_ms": 67.369837,
+    "max_frame_ms": 75.820975,
+    "frames_over_100ms": 0
+  },
+  {
+    "file": "b-overlook.png",
+    "kind": "comparison",
+    "render_profile": "b",
+    "light_mode": "glimmer",
+    "view": "overlook",
+    "x": 0.5,
+    "y": 55.0,
+    "z": 60.5,
+    "yaw": 180.0,
+    "pitch": 28.0,
+    "framebuffer_width": 1280,
+    "framebuffer_height": 720,
+    "fov": 75,
+    "brightness_gamma": 0.5,
+    "view_distance_chunks": 16,
+    "simulation_distance_chunks": 6,
+    "graphics": "fancy",
+    "ambient_occlusion": true,
+    "dimension_ambient_light": 0.0,
+    "dimension_fixed_time": 18000,
+    "gl_renderer": "llvmpipe (LLVM 20.1.2, 256 bits)",
+    "gl_vendor": "Mesa",
+    "gl_version": "4.5 (Core Profile) Mesa 25.2.8-0ubuntu0.24.04.2",
+    "gl_error_at_capture": 0,
+    "chunk_debug": "C: 815/13068 (s) D: 16, pC: 000, pU: 00, aB: 04",
+    "block_light_at_feet": 0,
+    "sky_light_at_feet": 0,
+    "environment": {
+      "profile": "b",
+      "custom_active": true,
+      "world": "glimmeringabyss:study",
+      "observed_lightmap_writes": 30096,
+      "native_lightmap_0_rgb": [
+        25,
+        25,
+        25
+      ],
+      "display_lightmap_0_rgb": [
+        108,
+        117,
+        126
+      ],
+      "native_lightmap_5_rgb": [
+        100,
+        81,
+        60
+      ],
+      "display_lightmap_5_rgb": [
+        137,
+        127,
+        117
+      ],
+      "native_lightmap_rgb": [
+        [
+          25,
+          25,
+          25
+        ],
+        [
+          39,
+          34,
+          31
+        ],
+        [
+          53,
+          44,
+          37
+        ],
+        [
+          68,
+          55,
+          44
+        ],
+        [
+          84,
+          67,
+          51
+        ],
+        [
+          100,
+          81,
+          60
+        ],
+        [
+          117,
+          95,
+          70
+        ],
+        [
+          133,
+          111,
+          82
+        ],
+        [
+          150,
+          129,
+          96
+        ],
+        [
+          168,
+          148,
+          113
+        ],
+        [
+          185,
+          168,
+          135
+        ],
+        [
+          202,
+          189,
+          162
+        ],
+        [
+          221,
+          212,
+          193
+        ],
+        [
+          242,
+          239,
+          233
+        ],
+        [
+          252,
+          252,
+          252
+        ],
+        [
+          252,
+          252,
+          252
+        ]
+      ],
+      "display_lightmap_rgb": [
+        [
+          108,
+          117,
+          126
+        ],
+        [
+          112,
+          117,
+          123
+        ],
+        [
+          116,
+          117,
+          120
+        ],
+        [
+          122,
+          119,
+          118
+        ],
+        [
+          129,
+          122,
+          117
+        ],
+        [
+          137,
+          127,
+          117
+        ],
+        [
+          147,
+          133,
+          119
+        ],
+        [
+          156,
+          142,
+          123
+        ],
+        [
+          168,
+          153,
+          129
+        ],
+        [
+          181,
+          165,
+          138
+        ],
+        [
+          193,
+          180,
+          153
+        ],
+        [
+          207,
+          196,
+          173
+        ],
+        [
+          223,
+          215,
+          198
+        ],
+        [
+          243,
+          240,
+          234
+        ],
+        [
+          252,
+          252,
+          252
+        ],
+        [
+          252,
+          252,
+          252
+        ]
+      ],
+      "distance_start": 24.0,
+      "distance_end": 224.0,
+      "distance_target_rgba": [
+        0.006,
+        0.009,
+        0.013,
+        0.92
+      ],
+      "surface_microglow": 0.48,
+      "glow_faces_drawn_last_frame": 53
+    },
+    "sample_frames": 90,
+    "settle_seconds": 8,
+    "sample_seconds": 5,
+    "sample_fps": 17.680042554919492,
+    "median_frame_ms": 54.998381,
+    "p95_frame_ms": 68.671628,
+    "max_frame_ms": 89.274332,
+    "frames_over_100ms": 0
+  },
+  {
+    "file": "c-tunnel.png",
+    "kind": "comparison",
+    "render_profile": "c",
+    "light_mode": "glimmer",
+    "view": "tunnel",
+    "x": 0.5,
+    "y": 39.0,
+    "z": 90.5,
+    "yaw": 180.0,
+    "pitch": 0.0,
+    "framebuffer_width": 1280,
+    "framebuffer_height": 720,
+    "fov": 75,
+    "brightness_gamma": 0.5,
+    "view_distance_chunks": 16,
+    "simulation_distance_chunks": 6,
+    "graphics": "fancy",
+    "ambient_occlusion": true,
+    "dimension_ambient_light": 0.0,
+    "dimension_fixed_time": 18000,
+    "gl_renderer": "llvmpipe (LLVM 20.1.2, 256 bits)",
+    "gl_vendor": "Mesa",
+    "gl_version": "4.5 (Core Profile) Mesa 25.2.8-0ubuntu0.24.04.2",
+    "gl_error_at_capture": 0,
+    "chunk_debug": "C: 887/13068 (s) D: 16, pC: 000, pU: 00, aB: 04",
+    "block_light_at_feet": 0,
+    "sky_light_at_feet": 0,
+    "environment": {
+      "profile": "c",
+      "custom_active": true,
+      "world": "glimmeringabyss:study",
+      "observed_lightmap_writes": 33584,
+      "native_lightmap_0_rgb": [
+        25,
+        25,
+        25
+      ],
+      "display_lightmap_0_rgb": [
+        108,
+        117,
+        126
+      ],
+      "native_lightmap_5_rgb": [
+        102,
+        82,
+        61
+      ],
+      "display_lightmap_5_rgb": [
+        139,
+        128,
+        118
+      ],
+      "native_lightmap_rgb": [
+        [
+          25,
+          25,
+          25
+        ],
+        [
+          39,
+          34,
+          31
+        ],
+        [
+          54,
+          45,
+          37
+        ],
+        [
+          70,
+          56,
+          44
+        ],
+        [
+          86,
+          69,
+          52
+        ],
+        [
+          102,
+          82,
+          61
+        ],
+        [
+          119,
+          97,
+          71
+        ],
+        [
+          136,
+          114,
+          84
+        ],
+        [
+          153,
+          132,
+          98
+        ],
+        [
+          170,
+          151,
+          117
+        ],
+        [
+          188,
+          171,
+          139
+        ],
+        [
+          205,
+          193,
+          166
+        ],
+        [
+          224,
+          216,
+          199
+        ],
+        [
+          246,
+          244,
+          240
+        ],
+        [
+          252,
+          252,
+          252
+        ],
+        [
+          252,
+          252,
+          252
+        ]
+      ],
+      "display_lightmap_rgb": [
+        [
+          108,
+          117,
+          126
+        ],
+        [
+          112,
+          117,
+          123
+        ],
+        [
+          117,
+          118,
+          120
+        ],
+        [
+          123,
+          120,
+          118
+        ],
+        [
+          131,
+          124,
+          118
+        ],
+        [
+          139,
+          128,
+          118
+        ],
+        [
+          148,
+          135,
+          120
+        ],
+        [
+          159,
+          144,
+          124
+        ],
+        [
+          170,
+          155,
+          130
+        ],
+        [
+          182,
+          168,
+          141
+        ],
+        [
+          196,
+          182,
+          156
+        ],
+        [
+          210,
+          200,
+          176
+        ],
+        [
+          226,
+          219,
+          204
+        ],
+        [
+          246,
+          245,
+          241
+        ],
+        [
+          252,
+          252,
+          252
+        ],
+        [
+          252,
+          252,
+          252
+        ]
+      ],
+      "distance_start": 36.0,
+      "distance_end": 360.0,
+      "distance_target_rgba": [
+        0.012,
+        0.018,
+        0.026,
+        0.64
+      ],
+      "surface_microglow": 0.48,
+      "glow_faces_drawn_last_frame": 53
+    },
+    "sample_frames": 87,
+    "settle_seconds": 8,
+    "sample_seconds": 5,
+    "sample_fps": 17.08832090646674,
+    "median_frame_ms": 57.774032,
+    "p95_frame_ms": 69.149666,
+    "max_frame_ms": 72.220818,
+    "frames_over_100ms": 0
+  },
+  {
+    "file": "c-platform.png",
+    "kind": "comparison",
+    "render_profile": "c",
+    "light_mode": "glimmer",
+    "view": "platform",
+    "x": 0.5,
+    "y": 39.0,
+    "z": 73.5,
+    "yaw": 180.0,
+    "pitch": 12.0,
+    "framebuffer_width": 1280,
+    "framebuffer_height": 720,
+    "fov": 75,
+    "brightness_gamma": 0.5,
+    "view_distance_chunks": 16,
+    "simulation_distance_chunks": 6,
+    "graphics": "fancy",
+    "ambient_occlusion": true,
+    "dimension_ambient_light": 0.0,
+    "dimension_fixed_time": 18000,
+    "gl_renderer": "llvmpipe (LLVM 20.1.2, 256 bits)",
+    "gl_vendor": "Mesa",
+    "gl_version": "4.5 (Core Profile) Mesa 25.2.8-0ubuntu0.24.04.2",
+    "gl_error_at_capture": 0,
+    "chunk_debug": "C: 829/13068 (s) D: 16, pC: 000, pU: 00, aB: 04",
+    "block_light_at_feet": 0,
+    "sky_light_at_feet": 0,
+    "environment": {
+      "profile": "c",
+      "custom_active": true,
+      "world": "glimmeringabyss:study",
+      "observed_lightmap_writes": 37440,
+      "native_lightmap_0_rgb": [
+        25,
+        25,
+        25
+      ],
+      "display_lightmap_0_rgb": [
+        108,
+        117,
+        126
+      ],
+      "native_lightmap_5_rgb": [
+        99,
+        79,
+        59
+      ],
+      "display_lightmap_5_rgb": [
+        136,
+        126,
+        116
+      ],
+      "native_lightmap_rgb": [
+        [
+          25,
+          25,
+          25
+        ],
+        [
+          39,
+          34,
+          30
+        ],
+        [
+          53,
+          44,
+          36
+        ],
+        [
+          68,
+          54,
+          43
+        ],
+        [
+          83,
+          66,
+          51
+        ],
+        [
+          99,
+          79,
+          59
+        ],
+        [
+          115,
+          94,
+          69
+        ],
+        [
+          132,
+          110,
+          80
+        ],
+        [
+          149,
+          127,
+          94
+        ],
+        [
+          166,
+          146,
+          111
+        ],
+        [
+          183,
+          166,
+          132
+        ],
+        [
+          200,
+          187,
+          159
+        ],
+        [
+          219,
+          210,
+          190
+        ],
+        [
+          240,
+          236,
+          229
+        ],
+        [
+          252,
+          252,
+          252
+        ],
+        [
+          252,
+          252,
+          252
+        ]
+      ],
+      "display_lightmap_rgb": [
+        [
+          108,
+          117,
+          126
+        ],
+        [
+          112,
+          117,
+          122
+        ],
+        [
+          116,
+          117,
+          120
+        ],
+        [
+          122,
+          118,
+          118
+        ],
+        [
+          128,
+          121,
+          117
+        ],
+        [
+          136,
+          126,
+          116
+        ],
+        [
+          145,
+          133,
+          118
+        ],
+        [
+          156,
+          141,
+          121
+        ],
+        [
+          167,
+          151,
+          127
+        ],
+        [
+          179,
+          163,
+          136
+        ],
+        [
+          192,
+          178,
+          150
+        ],
+        [
+          205,
+          194,
+          170
+        ],
+        [
+          222,
+          214,
+          196
+        ],
+        [
+          241,
+          237,
+          231
+        ],
+        [
+          252,
+          252,
+          252
+        ],
+        [
+          252,
+          252,
+          252
+        ]
+      ],
+      "distance_start": 36.0,
+      "distance_end": 360.0,
+      "distance_target_rgba": [
+        0.012,
+        0.018,
+        0.026,
+        0.64
+      ],
+      "surface_microglow": 0.48,
+      "glow_faces_drawn_last_frame": 53
+    },
+    "sample_frames": 95,
+    "settle_seconds": 8,
+    "sample_seconds": 5,
+    "sample_fps": 18.934334055699704,
+    "median_frame_ms": 51.734163,
+    "p95_frame_ms": 63.476281,
+    "max_frame_ms": 73.187332,
+    "frames_over_100ms": 0
+  },
+  {
+    "file": "c-edge.png",
+    "kind": "comparison",
+    "render_profile": "c",
+    "light_mode": "glimmer",
+    "view": "edge",
+    "x": 20.5,
+    "y": 39.0,
+    "z": 66.5,
+    "yaw": 165.0,
+    "pitch": 15.0,
+    "framebuffer_width": 1280,
+    "framebuffer_height": 720,
+    "fov": 75,
+    "brightness_gamma": 0.5,
+    "view_distance_chunks": 16,
+    "simulation_distance_chunks": 6,
+    "graphics": "fancy",
+    "ambient_occlusion": true,
+    "dimension_ambient_light": 0.0,
+    "dimension_fixed_time": 18000,
+    "gl_renderer": "llvmpipe (LLVM 20.1.2, 256 bits)",
+    "gl_vendor": "Mesa",
+    "gl_version": "4.5 (Core Profile) Mesa 25.2.8-0ubuntu0.24.04.2",
+    "gl_error_at_capture": 0,
+    "chunk_debug": "C: 805/13068 (s) D: 16, pC: 000, pU: 00, aB: 04",
+    "block_light_at_feet": 0,
+    "sky_light_at_feet": 0,
+    "environment": {
+      "profile": "c",
+      "custom_active": true,
+      "world": "glimmeringabyss:study",
+      "observed_lightmap_writes": 41168,
+      "native_lightmap_0_rgb": [
+        25,
+        25,
+        25
+      ],
+      "display_lightmap_0_rgb": [
+        108,
+        117,
+        126
+      ],
+      "native_lightmap_5_rgb": [
+        100,
+        81,
+        60
+      ],
+      "display_lightmap_5_rgb": [
+        137,
+        127,
+        117
+      ],
+      "native_lightmap_rgb": [
+        [
+          25,
+          25,
+          25
+        ],
+        [
+          39,
+          34,
+          31
+        ],
+        [
+          53,
+          44,
+          37
+        ],
+        [
+          69,
+          55,
+          44
+        ],
+        [
+          84,
+          67,
+          51
+        ],
+        [
+          100,
+          81,
+          60
+        ],
+        [
+          117,
+          96,
+          70
+        ],
+        [
+          134,
+          112,
+          82
+        ],
+        [
+          151,
+          129,
+          96
+        ],
+        [
+          168,
+          148,
+          114
+        ],
+        [
+          185,
+          168,
+          136
+        ],
+        [
+          203,
+          190,
+          163
+        ],
+        [
+          221,
+          213,
+          195
+        ],
+        [
+          243,
+          240,
+          234
+        ],
+        [
+          252,
+          252,
+          252
+        ],
+        [
+          252,
+          252,
+          252
+        ]
+      ],
+      "display_lightmap_rgb": [
+        [
+          108,
+          117,
+          126
+        ],
+        [
+          112,
+          117,
+          123
+        ],
+        [
+          116,
+          117,
+          120
+        ],
+        [
+          123,
+          119,
+          118
+        ],
+        [
+          129,
+          122,
+          117
+        ],
+        [
+          137,
+          127,
+          117
+        ],
+        [
+          147,
+          134,
+          119
+        ],
+        [
+          157,
+          143,
+          123
+        ],
+        [
+          168,
+          153,
+          129
+        ],
+        [
+          181,
+          165,
+          139
+        ],
+        [
+          193,
+          180,
+          153
+        ],
+        [
+          208,
+          197,
+          174
+        ],
+        [
+          223,
+          216,
+          200
+        ],
+        [
+          244,
+          241,
+          235
+        ],
+        [
+          252,
+          252,
+          252
+        ],
+        [
+          252,
+          252,
+          252
+        ]
+      ],
+      "distance_start": 36.0,
+      "distance_end": 360.0,
+      "distance_target_rgba": [
+        0.012,
+        0.018,
+        0.026,
+        0.64
+      ],
+      "surface_microglow": 0.48,
+      "glow_faces_drawn_last_frame": 53
+    },
+    "sample_frames": 92,
+    "settle_seconds": 8,
+    "sample_seconds": 5,
+    "sample_fps": 18.19795391194421,
+    "median_frame_ms": 53.897119,
+    "p95_frame_ms": 65.3534,
+    "max_frame_ms": 109.434045,
+    "frames_over_100ms": 1
+  },
+  {
+    "file": "c-overlook.png",
+    "kind": "comparison",
+    "render_profile": "c",
+    "light_mode": "glimmer",
+    "view": "overlook",
+    "x": 0.5,
+    "y": 55.0,
+    "z": 60.5,
+    "yaw": 180.0,
+    "pitch": 28.0,
+    "framebuffer_width": 1280,
+    "framebuffer_height": 720,
+    "fov": 75,
+    "brightness_gamma": 0.5,
+    "view_distance_chunks": 16,
+    "simulation_distance_chunks": 6,
+    "graphics": "fancy",
+    "ambient_occlusion": true,
+    "dimension_ambient_light": 0.0,
+    "dimension_fixed_time": 18000,
+    "gl_renderer": "llvmpipe (LLVM 20.1.2, 256 bits)",
+    "gl_vendor": "Mesa",
+    "gl_version": "4.5 (Core Profile) Mesa 25.2.8-0ubuntu0.24.04.2",
+    "gl_error_at_capture": 0,
+    "chunk_debug": "C: 815/13068 (s) D: 16, pC: 000, pU: 00, aB: 04",
+    "block_light_at_feet": 0,
+    "sky_light_at_feet": 0,
+    "environment": {
+      "profile": "c",
+      "custom_active": true,
+      "world": "glimmeringabyss:study",
+      "observed_lightmap_writes": 44912,
+      "native_lightmap_0_rgb": [
+        25,
+        25,
+        25
+      ],
+      "display_lightmap_0_rgb": [
+        108,
+        117,
+        126
+      ],
+      "native_lightmap_5_rgb": [
+        98,
+        79,
+        59
+      ],
+      "display_lightmap_5_rgb": [
+        136,
+        126,
+        116
+      ],
+      "native_lightmap_rgb": [
+        [
+          25,
+          25,
+          25
+        ],
+        [
+          38,
+          34,
+          30
+        ],
+        [
+          53,
+          43,
+          36
+        ],
+        [
+          67,
+          54,
+          43
+        ],
+        [
+          82,
+          66,
+          50
+        ],
+        [
+          98,
+          79,
+          59
+        ],
+        [
+          114,
+          93,
+          69
+        ],
+        [
+          131,
+          109,
+          80
+        ],
+        [
+          148,
+          126,
+          94
+        ],
+        [
+          165,
+          145,
+          111
+        ],
+        [
+          182,
+          165,
+          131
+        ],
+        [
+          200,
+          186,
+          157
+        ],
+        [
+          218,
+          209,
+          189
+        ],
+        [
+          239,
+          235,
+          227
+        ],
+        [
+          252,
+          252,
+          252
+        ],
+        [
+          252,
+          252,
+          252
+        ]
+      ],
+      "display_lightmap_rgb": [
+        [
+          108,
+          117,
+          126
+        ],
+        [
+          111,
+          117,
+          122
+        ],
+        [
+          116,
+          116,
+          120
+        ],
+        [
+          121,
+          118,
+          118
+        ],
+        [
+          128,
+          121,
+          116
+        ],
+        [
+          136,
+          126,
+          116
+        ],
+        [
+          144,
+          132,
+          118
+        ],
+        [
+          155,
+          140,
+          121
+        ],
+        [
+          166,
+          150,
+          127
+        ],
+        [
+          178,
+          163,
+          136
+        ],
+        [
+          191,
+          177,
+          149
+        ],
+        [
+          205,
+          193,
+          168
+        ],
+        [
+          221,
+          213,
+          195
+        ],
+        [
+          240,
+          236,
+          229
+        ],
+        [
+          252,
+          252,
+          252
+        ],
+        [
+          252,
+          252,
+          252
+        ]
+      ],
+      "distance_start": 36.0,
+      "distance_end": 360.0,
+      "distance_target_rgba": [
+        0.012,
+        0.018,
+        0.026,
+        0.64
+      ],
+      "surface_microglow": 0.48,
+      "glow_faces_drawn_last_frame": 53
+    },
+    "sample_frames": 93,
+    "settle_seconds": 8,
+    "sample_seconds": 5,
+    "sample_fps": 18.44633894555903,
+    "median_frame_ms": 52.737568,
+    "p95_frame_ms": 67.361891,
+    "max_frame_ms": 72.414133,
+    "frames_over_100ms": 0
+  },
+  {
+    "file": "veil-platform.png",
+    "kind": "failure",
+    "render_profile": "veil",
+    "light_mode": "glimmer",
+    "view": "platform",
+    "x": 0.5,
+    "y": 39.0,
+    "z": 73.5,
+    "yaw": 180.0,
+    "pitch": 12.0,
+    "framebuffer_width": 1280,
+    "framebuffer_height": 720,
+    "fov": 75,
+    "brightness_gamma": 0.5,
+    "view_distance_chunks": 16,
+    "simulation_distance_chunks": 6,
+    "graphics": "fancy",
+    "ambient_occlusion": true,
+    "dimension_ambient_light": 0.0,
+    "dimension_fixed_time": 18000,
+    "gl_renderer": "llvmpipe (LLVM 20.1.2, 256 bits)",
+    "gl_vendor": "Mesa",
+    "gl_version": "4.5 (Core Profile) Mesa 25.2.8-0ubuntu0.24.04.2",
+    "gl_error_at_capture": 0,
+    "chunk_debug": "C: 829/13068 (s) D: 16, pC: 000, pU: 00, aB: 04",
+    "block_light_at_feet": 0,
+    "sky_light_at_feet": 0,
+    "environment": {
+      "profile": "veil",
+      "custom_active": true,
+      "world": "glimmeringabyss:study",
+      "observed_lightmap_writes": 48720,
+      "native_lightmap_0_rgb": [
+        25,
+        25,
+        25
+      ],
+      "display_lightmap_0_rgb": [
+        158,
+        172,
+        186
+      ],
+      "native_lightmap_5_rgb": [
+        100,
+        80,
+        60
+      ],
+      "display_lightmap_5_rgb": [
+        160,
+        155,
+        151
+      ],
+      "native_lightmap_rgb": [
+        [
+          25,
+          25,
+          25
+        ],
+        [
+          39,
+          34,
+          31
+        ],
+        [
+          53,
+          44,
+          37
+        ],
+        [
+          68,
+          55,
+          44
+        ],
+        [
+          84,
+          67,
+          51
+        ],
+        [
+          100,
+          80,
+          60
+        ],
+        [
+          116,
+          95,
+          70
+        ],
+        [
+          133,
+          111,
+          82
+        ],
+        [
+          150,
+          129,
+          96
+        ],
+        [
+          167,
+          147,
+          113
+        ],
+        [
+          185,
+          168,
+          135
+        ],
+        [
+          202,
+          189,
+          161
+        ],
+        [
+          221,
+          212,
+          193
+        ],
+        [
+          242,
+          239,
+          233
+        ],
+        [
+          252,
+          252,
+          252
+        ],
+        [
+          252,
+          252,
+          252
+        ]
+      ],
+      "display_lightmap_rgb": [
+        [
+          158,
+          172,
+          186
+        ],
+        [
+          156,
+          166,
+          177
+        ],
+        [
+          155,
+          161,
+          169
+        ],
+        [
+          155,
+          157,
+          162
+        ],
+        [
+          157,
+          155,
+          156
+        ],
+        [
+          160,
+          155,
+          151
+        ],
+        [
+          164,
+          156,
+          148
+        ],
+        [
+          171,
+          160,
+          147
+        ],
+        [
+          178,
+          167,
+          148
+        ],
+        [
+          187,
+          175,
+          153
+        ],
+        [
+          199,
+          187,
+          163
+        ],
+        [
+          210,
+          200,
+          179
+        ],
+        [
+          225,
+          218,
+          202
+        ],
+        [
+          243,
+          240,
+          235
+        ],
+        [
+          252,
+          252,
+          252
+        ],
+        [
+          252,
+          252,
+          252
+        ]
+      ],
+      "distance_start": 8.0,
+      "distance_end": 112.0,
+      "distance_target_rgba": [
+        0.12,
+        0.18,
+        0.22,
+        1.0
+      ],
+      "surface_microglow": 0.48,
+      "glow_faces_drawn_last_frame": 53
+    },
+    "sample_frames": 92,
+    "settle_seconds": 8,
+    "sample_seconds": 5,
+    "sample_fps": 18.215633099916612,
+    "median_frame_ms": 52.978187,
+    "p95_frame_ms": 66.557647,
+    "max_frame_ms": 68.077903,
+    "frames_over_100ms": 0
+  },
+  {
+    "file": "b-no-sources.png",
+    "kind": "natural_without_sources",
+    "render_profile": "b",
+    "light_mode": "baseline",
+    "view": "platform",
+    "x": 0.5,
+    "y": 39.0,
+    "z": 73.5,
+    "yaw": 180.0,
+    "pitch": 12.0,
+    "framebuffer_width": 1280,
+    "framebuffer_height": 720,
+    "fov": 75,
+    "brightness_gamma": 0.5,
+    "view_distance_chunks": 16,
+    "simulation_distance_chunks": 6,
+    "graphics": "fancy",
+    "ambient_occlusion": true,
+    "dimension_ambient_light": 0.0,
+    "dimension_fixed_time": 18000,
+    "gl_renderer": "llvmpipe (LLVM 20.1.2, 256 bits)",
+    "gl_vendor": "Mesa",
+    "gl_version": "4.5 (Core Profile) Mesa 25.2.8-0ubuntu0.24.04.2",
+    "gl_error_at_capture": 0,
+    "chunk_debug": "C: 829/13068 (s) D: 16, pC: 000, pU: 00, aB: 04",
+    "block_light_at_feet": 0,
+    "sky_light_at_feet": 0,
+    "environment": {
+      "profile": "b",
+      "custom_active": true,
+      "world": "glimmeringabyss:study",
+      "observed_lightmap_writes": 52640,
+      "native_lightmap_0_rgb": [
+        25,
+        25,
+        25
+      ],
+      "display_lightmap_0_rgb": [
+        108,
+        117,
+        126
+      ],
+      "native_lightmap_5_rgb": [
+        100,
+        80,
+        60
+      ],
+      "display_lightmap_5_rgb": [
+        137,
+        127,
+        117
+      ],
+      "native_lightmap_rgb": [
+        [
+          25,
+          25,
+          25
+        ],
+        [
+          39,
+          34,
+          31
+        ],
+        [
+          53,
+          44,
+          37
+        ],
+        [
+          68,
+          55,
+          44
+        ],
+        [
+          84,
+          67,
+          51
+        ],
+        [
+          100,
+          80,
+          60
+        ],
+        [
+          116,
+          95,
+          70
+        ],
+        [
+          133,
+          111,
+          82
+        ],
+        [
+          150,
+          129,
+          96
+        ],
+        [
+          168,
+          148,
+          113
+        ],
+        [
+          185,
+          168,
+          135
+        ],
+        [
+          202,
+          189,
+          161
+        ],
+        [
+          221,
+          212,
+          193
+        ],
+        [
+          242,
+          239,
+          233
+        ],
+        [
+          252,
+          252,
+          252
+        ],
+        [
+          252,
+          252,
+          252
+        ]
+      ],
+      "display_lightmap_rgb": [
+        [
+          108,
+          117,
+          126
+        ],
+        [
+          112,
+          117,
+          123
+        ],
+        [
+          116,
+          117,
+          120
+        ],
+        [
+          122,
+          119,
+          118
+        ],
+        [
+          129,
+          122,
+          117
+        ],
+        [
+          137,
+          127,
+          117
+        ],
+        [
+          146,
+          133,
+          119
+        ],
+        [
+          156,
+          142,
+          123
+        ],
+        [
+          168,
+          153,
+          129
+        ],
+        [
+          181,
+          165,
+          138
+        ],
+        [
+          193,
+          180,
+          153
+        ],
+        [
+          207,
+          196,
+          172
+        ],
+        [
+          223,
+          215,
+          198
+        ],
+        [
+          243,
+          240,
+          234
+        ],
+        [
+          252,
+          252,
+          252
+        ],
+        [
+          252,
+          252,
+          252
+        ]
+      ],
+      "distance_start": 24.0,
+      "distance_end": 224.0,
+      "distance_target_rgba": [
+        0.0059999973,
+        0.009000003,
+        0.012999997,
+        0.92
+      ],
+      "surface_microglow": 0.48,
+      "glow_faces_drawn_last_frame": 0
+    },
+    "sample_frames": 97,
+    "settle_seconds": 8,
+    "sample_seconds": 5,
+    "sample_fps": 19.29047409712546,
+    "median_frame_ms": 50.514155,
+    "p95_frame_ms": 63.399989,
+    "max_frame_ms": 66.594899,
+    "frames_over_100ms": 0
+  },
+  {
+    "file": "c-no-sources.png",
+    "kind": "natural_without_sources",
+    "render_profile": "c",
+    "light_mode": "baseline",
+    "view": "platform",
+    "x": 0.5,
+    "y": 39.0,
+    "z": 73.5,
+    "yaw": 180.0,
+    "pitch": 12.0,
+    "framebuffer_width": 1280,
+    "framebuffer_height": 720,
+    "fov": 75,
+    "brightness_gamma": 0.5,
+    "view_distance_chunks": 16,
+    "simulation_distance_chunks": 6,
+    "graphics": "fancy",
+    "ambient_occlusion": true,
+    "dimension_ambient_light": 0.0,
+    "dimension_fixed_time": 18000,
+    "gl_renderer": "llvmpipe (LLVM 20.1.2, 256 bits)",
+    "gl_vendor": "Mesa",
+    "gl_version": "4.5 (Core Profile) Mesa 25.2.8-0ubuntu0.24.04.2",
+    "gl_error_at_capture": 0,
+    "chunk_debug": "C: 829/13068 (s) D: 16, pC: 000, pU: 00, aB: 04",
+    "block_light_at_feet": 0,
+    "sky_light_at_feet": 0,
+    "environment": {
+      "profile": "c",
+      "custom_active": true,
+      "world": "glimmeringabyss:study",
+      "observed_lightmap_writes": 56560,
+      "native_lightmap_0_rgb": [
+        25,
+        25,
+        25
+      ],
+      "display_lightmap_0_rgb": [
+        108,
+        117,
+        126
+      ],
+      "native_lightmap_5_rgb": [
+        98,
+        79,
+        59
+      ],
+      "display_lightmap_5_rgb": [
+        136,
+        126,
+        116
+      ],
+      "native_lightmap_rgb": [
+        [
+          25,
+          25,
+          25
+        ],
+        [
+          38,
+          34,
+          30
+        ],
+        [
+          52,
+          43,
+          36
+        ],
+        [
+          67,
+          54,
+          43
+        ],
+        [
+          82,
+          66,
+          50
+        ],
+        [
+          98,
+          79,
+          59
+        ],
+        [
+          114,
+          93,
+          68
+        ],
+        [
+          131,
+          109,
+          80
+        ],
+        [
+          147,
+          126,
+          93
+        ],
+        [
+          165,
+          144,
+          110
+        ],
+        [
+          182,
+          164,
+          131
+        ],
+        [
+          199,
+          185,
+          156
+        ],
+        [
+          217,
+          208,
+          188
+        ],
+        [
+          238,
+          234,
+          225
+        ],
+        [
+          252,
+          252,
+          252
+        ],
+        [
+          252,
+          252,
+          252
+        ]
+      ],
+      "display_lightmap_rgb": [
+        [
+          108,
+          117,
+          126
+        ],
+        [
+          111,
+          117,
+          122
+        ],
+        [
+          115,
+          116,
+          120
+        ],
+        [
+          121,
+          118,
+          118
+        ],
+        [
+          128,
+          121,
+          116
+        ],
+        [
+          136,
+          126,
+          116
+        ],
+        [
+          144,
+          132,
+          117
+        ],
+        [
+          155,
+          140,
+          121
+        ],
+        [
+          165,
+          150,
+          126
+        ],
+        [
+          178,
+          162,
+          136
+        ],
+        [
+          191,
+          176,
+          149
+        ],
+        [
+          204,
+          192,
+          168
+        ],
+        [
+          220,
+          212,
+          194
+        ],
+        [
+          239,
+          235,
+          227
+        ],
+        [
+          252,
+          252,
+          252
+        ],
+        [
+          252,
+          252,
+          252
+        ]
+      ],
+      "distance_start": 36.0,
+      "distance_end": 360.0,
+      "distance_target_rgba": [
+        0.012,
+        0.018,
+        0.026,
+        0.64
+      ],
+      "surface_microglow": 0.48,
+      "glow_faces_drawn_last_frame": 0
+    },
+    "sample_frames": 97,
+    "settle_seconds": 8,
+    "sample_seconds": 5,
+    "sample_fps": 19.17385411568431,
+    "median_frame_ms": 50.799392,
+    "p95_frame_ms": 61.522229,
+    "max_frame_ms": 64.636953,
+    "frames_over_100ms": 0
+  },
+  {
+    "file": "overworld-b.png",
+    "kind": "dimension_scope",
+    "render_profile": "b",
+    "light_mode": "glimmer",
+    "view": "overworld",
+    "x": 0.5,
+    "y": -60.0,
+    "z": 0.5,
+    "yaw": 0.0,
+    "pitch": 0.0,
+    "framebuffer_width": 1280,
+    "framebuffer_height": 720,
+    "fov": 75,
+    "brightness_gamma": 0.5,
+    "view_distance_chunks": 16,
+    "simulation_distance_chunks": 6,
+    "graphics": "fancy",
+    "ambient_occlusion": true,
+    "dimension_ambient_light": 0.0,
+    "dimension_fixed_time": -1,
+    "gl_renderer": "llvmpipe (LLVM 20.1.2, 256 bits)",
+    "gl_vendor": "Mesa",
+    "gl_version": "4.5 (Core Profile) Mesa 25.2.8-0ubuntu0.24.04.2",
+    "gl_error_at_capture": 0,
+    "chunk_debug": "C: 329/26136 (s) D: 16, pC: 000, pU: 00, aB: 04",
+    "block_light_at_feet": 0,
+    "sky_light_at_feet": 15,
+    "environment": {
+      "profile": "b",
+      "custom_active": false,
+      "world": "minecraft:overworld",
+      "observed_lightmap_writes": 60496,
+      "native_lightmap_0_rgb": [
+        25,
+        25,
+        25
+      ],
+      "display_lightmap_0_rgb": [
+        25,
+        25,
+        25
+      ],
+      "native_lightmap_5_rgb": [
+        99,
+        79,
+        59
+      ],
+      "display_lightmap_5_rgb": [
+        99,
+        79,
+        59
+      ],
+      "native_lightmap_rgb": [
+        [
+          25,
+          25,
+          25
+        ],
+        [
+          39,
+          34,
+          30
+        ],
+        [
+          53,
+          44,
+          36
+        ],
+        [
+          68,
+          54,
+          43
+        ],
+        [
+          83,
+          66,
+          51
+        ],
+        [
+          99,
+          79,
+          59
+        ],
+        [
+          115,
+          94,
+          69
+        ],
+        [
+          132,
+          110,
+          80
+        ],
+        [
+          149,
+          127,
+          94
+        ],
+        [
+          166,
+          146,
+          111
+        ],
+        [
+          183,
+          166,
+          133
+        ],
+        [
+          200,
+          187,
+          159
+        ],
+        [
+          219,
+          210,
+          190
+        ],
+        [
+          240,
+          236,
+          229
+        ],
+        [
+          252,
+          252,
+          252
+        ],
+        [
+          252,
+          252,
+          252
+        ]
+      ],
+      "display_lightmap_rgb": [
+        [
+          25,
+          25,
+          25
+        ],
+        [
+          39,
+          34,
+          30
+        ],
+        [
+          53,
+          44,
+          36
+        ],
+        [
+          68,
+          54,
+          43
+        ],
+        [
+          83,
+          66,
+          51
+        ],
+        [
+          99,
+          79,
+          59
+        ],
+        [
+          115,
+          94,
+          69
+        ],
+        [
+          132,
+          110,
+          80
+        ],
+        [
+          149,
+          127,
+          94
+        ],
+        [
+          166,
+          146,
+          111
+        ],
+        [
+          183,
+          166,
+          133
+        ],
+        [
+          200,
+          187,
+          159
+        ],
+        [
+          219,
+          210,
+          190
+        ],
+        [
+          240,
+          236,
+          229
+        ],
+        [
+          252,
+          252,
+          252
+        ],
+        [
+          252,
+          252,
+          252
+        ]
+      ],
+      "distance_start": 230.4,
+      "distance_end": 256.0,
+      "distance_target_rgba": [
+        0.72163945,
+        0.82575625,
+        1.0,
+        1.0
+      ],
+      "surface_microglow": 0.0,
+      "glow_faces_drawn_last_frame": 0
+    },
+    "sample_frames": 109,
+    "settle_seconds": 8,
+    "sample_seconds": 5,
+    "sample_fps": 21.68210088784185,
+    "median_frame_ms": 44.431566,
+    "p95_frame_ms": 56.061201,
+    "max_frame_ms": 101.895133,
+    "frames_over_100ms": 1
+  },
+  {
+    "file": "overworld-a.png",
+    "kind": "dimension_scope",
+    "render_profile": "a",
+    "light_mode": "glimmer",
+    "view": "overworld",
+    "x": 0.5,
+    "y": -60.0,
+    "z": 0.5,
+    "yaw": 0.0,
+    "pitch": 0.0,
+    "framebuffer_width": 1280,
+    "framebuffer_height": 720,
+    "fov": 75,
+    "brightness_gamma": 0.5,
+    "view_distance_chunks": 16,
+    "simulation_distance_chunks": 6,
+    "graphics": "fancy",
+    "ambient_occlusion": true,
+    "dimension_ambient_light": 0.0,
+    "dimension_fixed_time": -1,
+    "gl_renderer": "llvmpipe (LLVM 20.1.2, 256 bits)",
+    "gl_vendor": "Mesa",
+    "gl_version": "4.5 (Core Profile) Mesa 25.2.8-0ubuntu0.24.04.2",
+    "gl_error_at_capture": 0,
+    "chunk_debug": "C: 329/26136 (s) D: 16, pC: 000, pU: 00, aB: 04",
+    "block_light_at_feet": 0,
+    "sky_light_at_feet": 15,
+    "environment": {
+      "profile": "a",
+      "custom_active": false,
+      "world": "minecraft:overworld",
+      "observed_lightmap_writes": 64592,
+      "native_lightmap_0_rgb": [
+        25,
+        25,
+        25
+      ],
+      "display_lightmap_0_rgb": [
+        25,
+        25,
+        25
+      ],
+      "native_lightmap_5_rgb": [
+        102,
+        82,
+        61
+      ],
+      "display_lightmap_5_rgb": [
+        102,
+        82,
+        61
+      ],
+      "native_lightmap_rgb": [
+        [
+          25,
+          25,
+          25
+        ],
+        [
+          39,
+          34,
+          31
+        ],
+        [
+          54,
+          45,
+          37
+        ],
+        [
+          69,
+          56,
+          44
+        ],
+        [
+          85,
+          68,
+          52
+        ],
+        [
+          102,
+          82,
+          61
+        ],
+        [
+          119,
+          97,
+          71
+        ],
+        [
+          136,
+          113,
+          83
+        ],
+        [
+          153,
+          131,
+          98
+        ],
+        [
+          170,
+          150,
+          116
+        ],
+        [
+          187,
+          171,
+          138
+        ],
+        [
+          205,
+          192,
+          166
+        ],
+        [
+          223,
+          215,
+          198
+        ],
+        [
+          245,
+          243,
+          239
+        ],
+        [
+          252,
+          252,
+          252
+        ],
+        [
+          252,
+          252,
+          252
+        ]
+      ],
+      "display_lightmap_rgb": [
+        [
+          25,
+          25,
+          25
+        ],
+        [
+          39,
+          34,
+          31
+        ],
+        [
+          54,
+          45,
+          37
+        ],
+        [
+          69,
+          56,
+          44
+        ],
+        [
+          85,
+          68,
+          52
+        ],
+        [
+          102,
+          82,
+          61
+        ],
+        [
+          119,
+          97,
+          71
+        ],
+        [
+          136,
+          113,
+          83
+        ],
+        [
+          153,
+          131,
+          98
+        ],
+        [
+          170,
+          150,
+          116
+        ],
+        [
+          187,
+          171,
+          138
+        ],
+        [
+          205,
+          192,
+          166
+        ],
+        [
+          223,
+          215,
+          198
+        ],
+        [
+          245,
+          243,
+          239
+        ],
+        [
+          252,
+          252,
+          252
+        ],
+        [
+          252,
+          252,
+          252
+        ]
+      ],
+      "distance_start": 230.4,
+      "distance_end": 256.0,
+      "distance_target_rgba": [
+        0.72163945,
+        0.82575625,
+        1.0,
+        1.0
+      ],
+      "surface_microglow": 0.0,
+      "glow_faces_drawn_last_frame": 0
+    },
+    "sample_frames": 121,
+    "settle_seconds": 8,
+    "sample_seconds": 5,
+    "sample_fps": 23.988974166282045,
+    "median_frame_ms": 40.17445,
+    "p95_frame_ms": 50.245398,
+    "max_frame_ms": 69.14783,
+    "frames_over_100ms": 0
+  }
+]

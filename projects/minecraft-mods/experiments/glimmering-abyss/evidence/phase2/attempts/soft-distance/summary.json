@@ -1,0 +1,23 @@
+{
+  "status": "PASS",
+  "minecraft": "1.20.1",
+  "loader": "Fabric 0.14.25",
+  "fabric_api": "0.85.0+1.20.1",
+  "release_jar_sha256": "54918f50ecfba4f5e7d4ed8256a2efd74c1d39ae7c2591438b7b22fd507ab0a5",
+  "native_server_light_checks": true,
+  "fresh_world_fingerprint_match": true,
+  "terrain_fingerprint": "730a8e888ac049180c373fa51a2e3faca44a2bb131f632b5f05f069db96ca241",
+  "sampled_world_blocks": 178080,
+  "real_client_screenshots": 19,
+  "real_client_walk_collision_pass": true,
+  "performance_limit": "Cloud CPU/software OpenGL; not target desktop hardware or Android.",
+  "gradle_asset_download_skipped": true,
+  "comparison_screenshots": 12,
+  "matches_phase1_terrain_fingerprint": true,
+  "same_view_conditions_pass": true,
+  "native_light_unchanged_between_profiles": true,
+  "zero_source_environment_control_pass": true,
+  "overworld_render_scope_pass": true,
+  "gl_error_checks_pass": true,
+  "aesthetic_acceptance": "Pending user comparison of actual raw screenshots."
+}

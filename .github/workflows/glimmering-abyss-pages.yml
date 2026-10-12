@@ -5,7 +5,9 @@ on:
     paths:
       - 'site/glimmering-abyss/**'
       - 'projects/minecraft-mods/experiments/glimmering-abyss/evidence/phase1/**'
+      - 'projects/minecraft-mods/experiments/glimmering-abyss/evidence/phase2/**'
       - 'projects/minecraft-mods/experiments/glimmering-abyss/TEST-REPORT.md'
+      - 'projects/minecraft-mods/experiments/glimmering-abyss/TEST-REPORT-PHASE2.md'
       - '.github/workflows/glimmering-abyss-pages.yml'
   workflow_dispatch:
 permissions:
@@ -29,11 +31,28 @@ jobs:
           set -euo pipefail
           mkdir -p _site/evidence/phase1/screenshots
           cp site/glimmering-abyss/index.html _site/index.html
+          cp site/glimmering-abyss/phase2.html _site/phase2.html
           root=projects/minecraft-mods/experiments/glimmering-abyss/evidence/phase1
           cp "$root/summary.json" "$root/audit-glimmer.json" _site/evidence/phase1/
           cp "$root/screenshots/captures.json" _site/evidence/phase1/screenshots/
           cp "$root/screenshots/"*.png _site/evidence/phase1/screenshots/
           test "$(find _site/evidence/phase1/screenshots -name '*.png' | wc -l)" -eq 9
+          mkdir -p _site/evidence/phase2/screenshots
+          root=projects/minecraft-mods/experiments/glimmering-abyss/evidence/phase2
+          cp "$root/summary.json" "$root/performance.csv" "$root/stability.json" _site/evidence/phase2/
+          cp "$root/audit-glimmer-a.json" "$root/audit-glimmer-b.json" "$root/audit-glimmer-c.json" _site/evidence/phase2/
+          cp "$root/audit-baseline-no-sources-b.json" "$root/audit-baseline-no-sources-c.json" _site/evidence/phase2/
+          cp "$root/screenshots/captures.json" _site/evidence/phase2/screenshots/
+          cp "$root/screenshots/"*.png _site/evidence/phase2/screenshots/
+          test "$(find _site/evidence/phase2/screenshots -name '*.png' | wc -l)" -eq 19
+          python - <<'PY'
+          import datetime, json, os
+          from pathlib import Path
+          Path('_site/build-info.json').write_text(json.dumps({
+              'commit': os.environ['GITHUB_SHA'],
+              'built_at': datetime.datetime.now(datetime.timezone.utc).isoformat()
+          }) + '\n')
+          PY
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

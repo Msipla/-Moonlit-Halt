@@ -1,0 +1,38 @@
+{
+  "status": "PASS",
+  "minecraft": "1.20.1",
+  "loader": "Fabric 0.14.25",
+  "fabric_api": "0.85.0+1.20.1",
+  "release_jar_sha256": "f4ee8ac687c921d4f5ac5280ef386bc30953634374295fba4582361e4157f194",
+  "native_server_light_checks": true,
+  "fresh_world_fingerprint_match": true,
+  "terrain_fingerprint": "730a8e888ac049180c373fa51a2e3faca44a2bb131f632b5f05f069db96ca241",
+  "sampled_world_blocks": 178080,
+  "real_client_screenshots": 19,
+  "real_client_walk_collision_pass": true,
+  "performance_limit": "Cloud CPU/software OpenGL; not target desktop hardware or Android.",
+  "gradle_asset_download_skipped": true,
+  "comparison_screenshots": 12,
+  "matches_phase1_terrain_fingerprint": true,
+  "same_view_conditions_pass": true,
+  "native_light_unchanged_between_profiles": true,
+  "zero_source_environment_control_pass": true,
+  "overworld_render_scope_pass": true,
+  "gl_error_checks_pass": true,
+  "aesthetic_acceptance": "Pending user comparison of actual raw screenshots.",
+  "source_checkpoint_commit": "1bceff1064f0501351264afc29c9456b57bd240e",
+  "visual_review": {
+    "recommendation": "暂建议以 C 作为下一轮起点：实际观景台与俯视图保留了更连贯的远壁和巨柱层次，近景底光与 B 相同。B 的远景更收敛，但部分空腔重新隐没；最终选择仍由用户比较原图决定。",
+    "veil": "实际画面中出现明显的蓝灰色雾幕，远侧材质大面积被覆盖。作为反例保留，不推荐这组参数。",
+    "status": "Developer visual review completed; user aesthetic acceptance pending."
+  },
+  "unit_tests_passed": 6,
+  "client_completion_check": {
+    "capture_started_epoch": 1791791733.3531451,
+    "stdout_marker_present": true,
+    "fresh_file_count": 21,
+    "fresh_file_check_pass": true,
+    "positive_actual_walk_result": true,
+    "proof": "Current-launch manifest, every screenshot, and final actual-client walk JSON."
+  }
+}

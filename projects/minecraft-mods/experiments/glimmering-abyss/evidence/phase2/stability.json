@@ -1,0 +1,20 @@
+{
+  "method": "Compare unmodified consecutive stationary B-platform game captures at approximately +0.6 and +1.2 seconds. No image processing output.",
+  "comparisons": [
+    {
+      "file": "b-platform-stability-1.png",
+      "max_channel_difference": 14,
+      "mean_channel_difference": 0.0001515480324074074,
+      "fraction_pixels_changed": 0.000302734375,
+      "fraction_pixels_over_2": 1.0850694444444445e-05
+    },
+    {
+      "file": "b-platform-stability-2.png",
+      "max_channel_difference": 14,
+      "mean_channel_difference": 0.00018229166666666667,
+      "fraction_pixels_changed": 0.0003005642361111111,
+      "fraction_pixels_over_2": 1.953125e-05
+    }
+  ],
+  "limit": "Short stationary sample only; not long-duration or all-camera flicker coverage."
+}
