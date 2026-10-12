@@ -16,6 +16,8 @@ import net.minecraft.client.network.ServerInfo;
 import net.minecraft.client.option.GraphicsMode;
 import net.minecraft.client.util.ScreenshotRecorder;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
+import net.minecraft.block.Blocks;
 import net.minecraft.world.LightType;
 import org.lwjgl.opengl.GL11;
 import java.nio.file.Files;
@@ -162,8 +164,9 @@ public final class Phase6CaptureClient implements ClientModInitializer {
             if(!walking){if(System.nanoTime()-legStarted<2_000_000_000L)return;walking=true;legStarted=System.nanoTime();c.player.setYaw(180);c.player.setPitch(35);}
             c.options.forwardKey.setPressed(true);if(System.nanoTime()-legStarted<5_000_000_000L)return;
             c.options.forwardKey.setPressed(false);double z=c.player.getZ();
-            boolean pass=z>32.8&&z<33.4&&Math.abs(c.player.getY()-39)<.01&&Math.abs(c.player.getX()-4.5)<.01;
-            var r=new JsonObject();r.addProperty("method","Actual forward key held north into bridge iron rail, flight disabled, five seconds including stationary collision.");r.addProperty("end_x",c.player.getX());r.addProperty("end_z",z);r.addProperty("end_y",c.player.getY());r.addProperty("rail_collision_pass",pass);
+            var railPos=new BlockPos(4,39,32);var rail=c.world.getBlockState(railPos);double height=rail.getCollisionShape(c.world,railPos).getMax(Direction.Axis.Y);
+            boolean pass=z>32.8&&z<33.4&&Math.abs(c.player.getY()-39)<.01&&Math.abs(c.player.getX()-4.5)<.01&&!c.player.getAbilities().flying&&rail.isOf(Blocks.POLISHED_BLACKSTONE_WALL)&&height==1.5;
+            var r=new JsonObject();r.addProperty("method","Actual forward key held north into the low bridge masonry parapet, flight disabled, five seconds including stationary collision.");r.addProperty("end_x",c.player.getX());r.addProperty("end_z",z);r.addProperty("end_y",c.player.getY());r.addProperty("rail_collision_pass",pass);r.addProperty("barrier_type","minecraft:polished_blackstone_wall");r.addProperty("barrier_collision_height",height);r.addProperty("flying",c.player.getAbilities().flying);
             try{write("rail-collision.json",r);screenshot(c,"blue-rail-collision.png");}catch(Exception e){fail(c,e);return;}
             if(!pass){fail(c,new IllegalStateException("Rail did not stop player: "+r));return;}
             railTest=true;
