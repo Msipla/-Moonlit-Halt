@@ -41,6 +41,8 @@ for x in range(26,66):
  for z in range(-2,6):put(x,38,z,'polished_deepslate' if z in (-2,5) else 'deepslate_tiles')
 for x in range(29,33):
  for z in range(5,44):put(x,38,z,'deepslate_tiles')
+# Open the former north platform rail into the short alley.
+box(29,39,15,32,42,15,'air')
 # Ground and stairs follow small shelf offsets, never requiring parkour.
 for z,y in [(-26,39),(-43,40)]:
  for x in range(44,50):put(x,y,z,'deepslate_tile_stairs',facing='north',half='bottom',shape='straight',waterlogged='false')
@@ -100,13 +102,13 @@ for y in [41,50]:
  for x in (52,64):box(x,y,-64,x,y,-51,'polished_blackstone_brick_slab',type='top',waterlogged='false')
 box(57,41,-52,59,44,-52,'air')
 # Opening roof, safe perimeter, balcony at y=59.
-box(52,58,-64,64,58,-51,'deepslate_tiles');box(54,59,-62,62,62,-53,'air')
+box(52,58,-64,64,58,-51,'deepslate_tiles');box(53,59,-63,63,62,-52,'air')
 for x in range(52,65):
  for z in (-64,-51):
-  for y in (59,60):bars(x,y,z)
+  put(x,59,z,'cobbled_deepslate_wall',up='true',north='none',south='none',east='tall',west='tall',waterlogged='false')
 for z in range(-63,-51):
  for x in (52,64):
-  for y in (59,60):bars(x,y,z,'z')
+  put(x,59,z,'cobbled_deepslate_wall',up='true',north='tall',south='tall',east='none',west='none',waterlogged='false')
 for y in range(41,60):put(54,y,-58,'ladder',facing='east',waterlogged='false')
 # Ladder passes through the balcony opening; move east at y=59 to step off.
 box(57,59,-57,61,70,-53,'polished_blackstone_bricks')
@@ -128,7 +130,7 @@ for x,z in [(46,-23),(46,-40)]:
  x=49;y=39+(z<=-26)
  box(x,y,z,x,y+3,z,'polished_blackstone_wall',up='true',north='none',south='none',east='none',west='none',waterlogged='false');put(x,y+4,z,'lantern',hanging='false',waterlogged='false')
 for x,z in [(60,10),(77,-17)]:
- box(x-1,38,z-1,x+1,39,z+1,'bricks');put(x,40,z,'azalea');box(x-1,42,z-1,x+1,43,z+1,'azalea_leaves',persistent='true',distance='1',waterlogged='false');box(x,40,z,x,42,z,'oak_log',axis='y')
+ box(x-1,38,z-1,x+1,39,z+1,'bricks');put(x,40,z,'azalea');box(x-1,42,z-1,x+1,43,z+1,'azalea_leaves',persistent='true',waterlogged='false');box(x,40,z,x,42,z,'oak_log',axis='y')
 for x,z in [(36,7),(56,7)]:
  for xx in range(x,x+3):put(xx,39,z,'dark_oak_stairs',facing='south',half='bottom',shape='straight',waterlogged='false')
 for x,z in [(69,8),(71,8),(74,8)]:put(x,39,z,'barrel',facing='up',open='false')
@@ -137,6 +139,10 @@ box(19,37,-17,25,38,-5,'deepslate_bricks');box(20,39,-16,24,43,-6,'air')
 for z in range(-17,-4):put(19,39,z,'cobbled_deepslate_wall',up='true',north='tall',south='tall',east='none',west='none',waterlogged='false')
 for x in range(20,26):
  for z in (-17,-5):put(x,39,z,'cobbled_deepslate_wall',up='true',north='none',south='none',east='tall',west='tall',waterlogged='false')
+# A four-block low masonry viewing bay in the otherwise retained iron railing.
+# Vanilla wall collision is 1.5 blocks high; standing eyes can look over its top.
+for x in range(3,7):
+ put(x,39,32,'polished_blackstone_wall',up='true',north='none',south='none',east='tall',west='tall',waterlogged='false');put(x,40,32,'air')
 # Preserve all accepted workshop windows exactly.
 for p,s in original_windows.items():b[p]=s
 assert all(b[p]==s for p,s in original_windows.items())

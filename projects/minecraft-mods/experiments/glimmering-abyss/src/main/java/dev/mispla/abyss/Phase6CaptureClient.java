@@ -90,7 +90,8 @@ public final class Phase6CaptureClient implements ClientModInitializer {
                 if(test.file.equals("before-facade.png"))command(client,"abyss building audit phase4-regression");
                 if(test.file.equals("before-bridge.png"))command(client,"abyss route audit phase5-regression");
                 if(test.file.equals("blue-street.png"))command(client,"abyss town audit first");
-                if(test.file.equals("blue-interior.png")){command(client,"abyss town");command(client,"abyss town audit repeat");}
+                if(test.file.equals("blue-interior.png"))command(client,"abyss town");
+                if(test.file.equals("blue95-street.png"))command(client,"abyss town audit repeat");
                 
             }
             next(client);

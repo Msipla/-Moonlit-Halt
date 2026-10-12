@@ -19,7 +19,7 @@ def run(args):
  with (output/'installer.log').open('w') as log:subprocess.run(['java','-jar',str(installer),'server','-mcversion','1.20.1','-loader','0.14.25','-downloadMinecraft','-dir',str(server)],stdout=log,stderr=subprocess.STDOUT,check=True)
  (server/'mods').mkdir();jar=release_jar();shutil.copy2(jar,server/'mods'/jar.name);api=next((ROOT/'build/test-mods').glob('fabric-api-*.jar'));shutil.copy2(api,server/'mods'/api.name)
  (server/'eula.txt').write_text('eula=true\n')
- properties={'server-ip':'127.0.0.1','server-port':'25585','online-mode':'false','level-name':'phase6-study','level-seed':'74102002','level-type':'minecraft:flat','generator-settings':json.dumps({'biome':'minecraft:plains','layers':[{'block':'minecraft:bedrock','height':1},{'block':'minecraft:dirt','height':2},{'block':'minecraft:grass_block','height':1}],'structures':{}}),'difficulty':'peaceful','gamemode':'creative','spawn-protection':'0','view-distance':'16','simulation-distance':'6','max-players':'2','max-tick-time':'120000'}
+ properties={'server-ip':'127.0.0.1','server-port':'25585','online-mode':'false','level-name':'phase6-study','level-seed':'74102002','level-type':'minecraft:flat','generator-settings':json.dumps({'biome':'minecraft:plains','layers':[{'block':'minecraft:bedrock','height':1},{'block':'minecraft:dirt','height':2},{'block':'minecraft:grass_block','height':1}],'structures':{}}),'difficulty':'hard','gamemode':'creative','spawn-protection':'0','view-distance':'16','simulation-distance':'6','max-players':'2','max-tick-time':'120000'}
  (server/'server.properties').write_text('\n'.join(f'{k}={v}' for k,v in properties.items())+'\n')
  cmd=['java','-Xms512M','-Xmx1500M','-XX:ActiveProcessorCount=4','-Dabyss.testServer=true','-jar','fabric-server-launch.jar','nogui']
  def start(file):
@@ -51,6 +51,7 @@ def run(args):
   shutil.copy2(results/'audit-glimmer-before-building.json',output/'audit-glimmer-before-building.json')
   shutil.copy2(results/'architecture-phase4-regression.json',output/'architecture-phase4-regression.json')
   shutil.copy2(results/'exploration-phase5-regression.json',output/'exploration-phase5-regression.json')
+  command(server,'abyss safety first');wait_for(lambda:(results/'safety-first.json').exists(),60,'Entire-landscape safety probe',p);shutil.copy2(results/'safety-first.json',output/'safety-first.json')
  finally:stop(p,log)
  # An actual server restart loads the existing save without placing the structure again.
  p,log=start('server-reload.log')
@@ -59,6 +60,7 @@ def run(args):
   # audit first loads chunks, then audit once lighting has settled.
   command(server,'abyss town audit reload-warmup');wait_for(lambda:(results/'town-reload-warmup.json').exists(),90,'Reload warmup',p);time.sleep(8)
   command(server,'abyss town audit reload');wait_for(lambda:(results/'town-reload.json').exists(),90,'Reload audit',p);shutil.copy2(results/'town-reload.json',output/'town-reload.json')
+  command(server,'abyss safety reload');wait_for(lambda:(results/'safety-reload.json').exists(),60,'Safety after reload',p);shutil.copy2(results/'safety-reload.json',output/'safety-reload.json')
  finally:stop(p,log)
  from phase6_validate import validate
  summary=validate(output);summary.update(minecraft='1.20.1',fabric_loader='0.14.25',fabric_api='0.85.0+1.20.1',release_jar_sha256=hashlib.sha256(jar.read_bytes()).hexdigest(),real_client_screenshots=26,client='Official Minecraft release client + Fabric, packaged remapped JAR; no development classes',aesthetic_acceptance='Pending user review of original Phase 6 screenshots',performance_limit='Hosted Linux software OpenGL; not target Windows/GPU/phone')

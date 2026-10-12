@@ -24,7 +24,8 @@
     ]
   },
   "mixins": [
-    "glimmeringabyss.client.mixins.json"
+    "glimmeringabyss.client.mixins.json",
+    "glimmeringabyss.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=0.14.25",

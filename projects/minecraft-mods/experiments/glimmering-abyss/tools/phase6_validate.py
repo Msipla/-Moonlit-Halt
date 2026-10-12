@@ -27,6 +27,8 @@ def validate(output):
  audits=[json.loads((output/f'town-{name}.json').read_text()) for name in ['first','repeat','reload']]
  assert all(a['pass'] and a['template_entities']==0 for a in audits),audits
  assert len({a['actual_structure_state_sha256'] for a in audits})==1
+ for label in ('first','reload'):
+  safety=json.loads((output/f'safety-{label}.json').read_text());assert safety['pass'] and safety['difficulty']=='hard' and safety['dark_abyss_native_block_light']==0
  launch=json.loads((output/'client-launch-provenance.json').read_text());assert launch['development_classes'] is False
  walk=json.loads((output/'walk-collision.json').read_text());assert walk['actual_ladder_climb_pass']
  rail=json.loads((output/'rail-collision.json').read_text());assert rail['rail_collision_pass']
@@ -37,4 +39,4 @@ def validate(output):
  keys=['file','render_profile','view','kind','sample_fps','p95_frame_ms','max_frame_ms','sample_frames','chunk_debug']
  with (output/'performance.csv').open('w',newline='') as f:
   w=csv.DictWriter(f,fieldnames=keys);w.writeheader();w.writerows({k:r[k] for k in keys} for r in rows)
- return dict(status='TECHNICAL_PASS',official_release_client_loaded=True,all_screenshot_queues_drained=True,original_lightmap_unchanged=True,legacy_terrain_before_placement_matches=True,structure_repeat_reload_pass=True,actual_bridge_return_and_street_walk_pass=True,actual_vanilla_ladder_climb_pass=True,actual_iron_rail_collision_pass=True,phase4_and_5_template_regression_pass=True,lighting_95_percent_same_view_pass=True,bounded_height_surface_haze=True,template_block_count=audits[0]['template_blocks_checked'],warm_windows_native_light_12=audits[0]['warm_windows_native_light_12'],accepted_workshop_windows_preserved=52,buildings=6)
+ return dict(status='TECHNICAL_PASS',official_release_client_loaded=True,all_screenshot_queues_drained=True,original_lightmap_unchanged=True,legacy_terrain_before_placement_matches=True,structure_repeat_reload_pass=True,actual_bridge_return_and_street_walk_pass=True,actual_vanilla_ladder_climb_pass=True,actual_iron_rail_collision_pass=True,phase4_and_5_template_regression_pass=True,lighting_95_percent_same_view_pass=True,bounded_height_surface_haze=True,template_block_count=audits[0]['template_blocks_checked'],warm_windows_native_light_12=audits[0]['warm_windows_native_light_12'],accepted_workshop_windows_preserved=52,buildings=6,entire_landscape_no_mobs_hard_difficulty_pass=True,overworld_spawning_unchanged=True)

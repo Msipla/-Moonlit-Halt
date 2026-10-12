@@ -61,6 +61,7 @@ public final class GlimmeringAbyss implements ModInitializer {
     public static Identifier id(String path) { return new Identifier("glimmeringabyss", path); }
 
     @Override public void onInitialize() {
+        SceneSafety.initialize();
         Registry.register(Registries.BLOCK, id("warm_window"), WARM_WINDOW);
         Registry.register(Registries.BLOCK, id("dark_marker"), DARK);
         Registry.register(Registries.BLOCK, id("glimmerstone"), GLIMMER);
@@ -70,6 +71,8 @@ public final class GlimmeringAbyss implements ModInitializer {
         CommandRegistrationCallback.EVENT.register((dispatcher, access, environment) -> dispatcher.register(
                 literal("abyss")
                 .executes(c -> message(c.getSource(), "enter | view tunnel/platform/edge/overlook | light baseline/glimmer/reference | audit | return"))
+                .then(literal("safety").requires(s -> s.hasPermissionLevel(2))
+                    .then(argument("label",StringArgumentType.word()).executes(c -> SceneSafety.probe(c.getSource(),StringArgumentType.getString(c,"label")))))
                 .then(literal("town").requires(s -> s.hasPermissionLevel(2))
                     .executes(c -> Town.place(c.getSource()))
                     .then(literal("audit").then(argument("label",StringArgumentType.word()).executes(c -> Town.audit(c.getSource(),StringArgumentType.getString(c,"label")))))

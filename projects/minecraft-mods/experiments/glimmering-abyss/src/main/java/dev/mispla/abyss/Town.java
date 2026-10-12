@@ -29,11 +29,11 @@ public final class Town {
     public static final List<GlimmeringAbyss.View> VIEWS=List.of(
         new GlimmeringAbyss.View("street",47.5,39,4.5,180,-9),
         new GlimmeringAbyss.View("plaza",63.5,39,4.5,112,-8),
-        new GlimmeringAbyss.View("high",55.5,59,-60.5,27,18),
-        new GlimmeringAbyss.View("cliff",20.5,39,-11.5,90,55),
-        new GlimmeringAbyss.View("bridge",4.5,39,33.4,180,47),
-        new GlimmeringAbyss.View("scale",-29.5,39,35.5,-55,-10),
-        new GlimmeringAbyss.View("overview",-31.5,73,66.5,-145,24),
+        new GlimmeringAbyss.View("high",53.8,59,-52.5,27,18),
+        new GlimmeringAbyss.View("cliff",20.06,39,-11.5,90,55),
+        new GlimmeringAbyss.View("bridge",4.5,39,33.07,180,47),
+        new GlimmeringAbyss.View("scale",4.5,39,36.5,-128,-12),
+        new GlimmeringAbyss.View("overview",-31.5,60,60.5,-135,18),
         Architecture.VIEWS.get(0),Architecture.VIEWS.get(4));
     private Town(){}
     private static ServerWorld world(ServerCommandSource s){
