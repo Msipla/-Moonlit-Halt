@@ -110,10 +110,10 @@ public final class Phase4CaptureClient implements ClientModInitializer {
         if(!prepared){prepared=true;selectWithCommand(c,"blue");command(c,"abyss building view facade");walkStarted=System.nanoTime();return;}
         long elapsed=System.nanoTime()-walkStarted;
         if(!walking&&elapsed>2_000_000_000L){walking=true;c.player.setYaw(-172.75f);walkStartZ=c.player.getZ();c.options.forwardKey.setPressed(true);}
-        if(elapsed<10_000_000_000L)return;
+        if(elapsed<14_000_000_000L)return;
         c.options.forwardKey.setPressed(false);double z=c.player.getZ(),y=c.player.getY();
-        boolean pass=walkStartZ-z>20&&z<38&&z>19&&Math.abs(y-39)<.01;
-        var r=new JsonObject();r.addProperty("method","Real release client forward-key movement for 8 seconds from facade into workshop, stopped by back wall.");r.addProperty("start_z",walkStartZ);r.addProperty("end_z",z);r.addProperty("end_y",y);r.addProperty("walk_and_collision_pass",pass);
+        boolean pass=walkStartZ-z>40&&z<20.1&&z>19&&Math.abs(y-39)<.01;
+        var r=new JsonObject();r.addProperty("method","Real release client forward-key movement for 12 seconds from facade into workshop, stopped by back wall.");r.addProperty("start_z",walkStartZ);r.addProperty("end_z",z);r.addProperty("end_y",y);r.addProperty("walk_and_collision_pass",pass);
         try{write("walk-collision.json",r);screenshot(c,"blue-walk-interior.png");}catch(Exception e){fail(c,e);return;}
         finished=true;System.out.println("ABYSS_PHASE4_COMPLETE "+captures.size()+" walk_collision="+pass);c.scheduleStop();
     }
