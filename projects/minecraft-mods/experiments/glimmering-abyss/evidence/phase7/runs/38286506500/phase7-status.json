@@ -1,0 +1,10 @@
+{
+  "seed": 74102002,
+  "stage": "unavailable",
+  "x": 5488,
+  "z": -5344,
+  "entry_y": 0,
+  "attempt": 4096,
+  "cursor": 0,
+  "reason": "No covered, uninhabited candidate in bounded search"
+}
