@@ -144,7 +144,7 @@ for x in range(20,26):
 # Keep the old bridge and southern research walkway gates open.
 for z in range(-65,47):
  edge=22+int(2*math.sin(z/13)+1.5*math.sin(z/5));y=39+(z<=-26)+(z<=-43)
- if not 33<=z<=37:put(edge,y,z,'cobbled_deepslate_wall',up='true',north='tall',south='tall',east='none',west='none',waterlogged='false')
+ if not (33<=z<=37 or -16<=z<=-6):put(edge,y,z,'cobbled_deepslate_wall',up='true',north='tall',south='tall',east='none',west='none',waterlogged='false')
  put(83,y,z,'cobbled_deepslate_wall',up='true',north='tall',south='tall',east='none',west='none',waterlogged='false')
 for z,y in [(-65,41),(46,39)]:
  edge=22+int(2*math.sin(z/13)+1.5*math.sin(z/5))
