@@ -52,13 +52,19 @@ public final class Phase7Audit {
         });
     }
     static void write(String name,JsonObject r){try{Files.createDirectories(Path.of("abyss-results"));Files.writeString(Path.of("abyss-results/phase7-"+name+".json"),new GsonBuilder().setPrettyPrinting().create().toJson(r));}catch(Exception e){throw new IllegalStateException(e);}}
-    private static JsonObject state(ServerWorld w){var s=OverworldSite.get(w);var r=new JsonObject();r.addProperty("seed",w.getSeed());r.addProperty("stage",s.stage);r.addProperty("x",s.x);r.addProperty("z",s.z);r.addProperty("entry_y",s.entryY);r.addProperty("approach_length",s.approachLength);r.addProperty("approach_y",s.approachY);r.addProperty("attempt",s.attempt);r.addProperty("cursor",s.cursor);r.addProperty("reason",s.reason);r.addProperty("unfinished_rides",s.journeys.size());return r;}
+    private static JsonObject state(ServerWorld w){var s=OverworldSite.get(w);var r=new JsonObject();r.addProperty("layout",s.layout);r.addProperty("seed",w.getSeed());r.addProperty("stage",s.stage);r.addProperty("x",s.x);r.addProperty("z",s.z);r.addProperty("entry_y",s.entryY);r.addProperty("approach_length",s.approachLength);r.addProperty("approach_y",s.approachY);r.addProperty("attempt",s.attempt);r.addProperty("cursor",s.cursor);r.addProperty("reason",s.reason);r.addProperty("unfinished_rides",s.journeys.size());return r;}
     private static int status(ServerCommandSource source){var r=state(source.getServer().getOverworld());write("status",r);source.sendFeedback(()->Text.literal(r.toString()),false);return 1;}
     private static int view(ServerCommandSource source,String name)throws com.mojang.brigadier.exceptions.CommandSyntaxException{
         var w=source.getServer().getOverworld();var s=OverworldSite.get(w);if(!s.ready())return 0;
         var p=source.getPlayerOrThrow();p.changeGameMode(GameMode.SURVIVAL);p.getAbilities().flying=false;p.sendAbilitiesUpdate();
         double x=6.5,y=s.entryY+1,z=70.5;float yaw=180,pitch=8;
         switch(name){
+            case "library" -> {x=-47.5;y=45;z=38.5;yaw=120;pitch=8;}
+            case "bridge-destination" -> {x=-29.5;y=45;z=35.5;yaw=90;pitch=-5;}
+            case "bedroom" -> {x=38.5;y=51;z=-10.5;yaw=180;pitch=10;}
+            case "water" -> {x=76.5;y=46;z=-27.5;yaw=180;pitch=30;}
+            case "west-cave" -> {x=-83.5;y=36;z=-52.5;yaw=-35;pitch=8;p.changeGameMode(GameMode.CREATIVE);p.getAbilities().flying=true;p.sendAbilitiesUpdate();}
+            case "floor" -> {x=-26.5;y=4;z=49.5;yaw=-145;pitch=23;p.changeGameMode(GameMode.CREATIVE);p.getAbilities().flying=true;p.sendAbilitiesUpdate();}
             case "approach" -> {x=9.5+s.approachLength;y=s.approachY+1;z=70.5;yaw=90;pitch=0;}
             case "lower" -> y=45;
             case "street" -> {x=47.5;y=45;z=4.5;yaw=180;pitch=-9;}
@@ -145,7 +151,17 @@ public final class Phase7Audit {
             r.addProperty("geometry_sample_count",samples);r.addProperty("geometry_sha256",HexFormat.of().formatHex(digest.digest()));r.add("scene_spawn_attempts",attempts);r.addProperty("scene_insertions_blocked",blocked);r.addProperty("outside_boundary_insertions_allowed",outside);r.addProperty("loaded_scene_mobs",sceneMobs);
             r.addProperty("doMobSpawning",w.getGameRules().getBoolean(GameRules.DO_MOB_SPAWNING));r.addProperty("difficulty",w.getDifficulty().getName());r.addProperty("dark_native_light",w.getLightLevel(LightType.BLOCK,s.at(0,-54,-20)));
             r.addProperty("surface_exact_required",label.equals("first")||label.equals("second"));
-            r.addProperty("pass",(!(label.equals("first")||label.equals("second"))||capMatches==OverworldSite.CHUNKS)&&windows==128&&preserved==128&&lit==128&&bedrock&&shaft&&blocked&&outside&&sceneMobs==0&&w.getGameRules().getBoolean(GameRules.DO_MOB_SPAWNING));write(label,r);return r.get("pass").getAsBoolean()?1:0;
+            boolean fluids=true;int water=0;
+            if(s.layout>=75)for(int x=74;x<=78;x++)for(int z=-35;z<=-31;z++){
+                var pos=s.at(x,38,z);if(w.getBlockState(pos).isOf(Blocks.WATER))water++;
+                fluids&=w.getBlockState(pos.down()).isSolidBlock(w,pos.down());
+                for(var dir:List.of(net.minecraft.util.math.Direction.NORTH,net.minecraft.util.math.Direction.SOUTH,net.minecraft.util.math.Direction.EAST,net.minecraft.util.math.Direction.WEST)){
+                    var q=pos.offset(dir);fluids&=w.getBlockState(q).isOf(Blocks.WATER)||w.getBlockState(q).isSolidBlock(w,q);
+                }
+            }
+            r.addProperty("water_source_cells",water);r.addProperty("water_basin_contained",fluids);
+            boolean natural=s.layout<75||water==25&&fluids;
+            r.addProperty("pass",natural&&(!(label.equals("first")||label.equals("second"))||capMatches==OverworldSite.CHUNKS)&&windows==128&&preserved==128&&lit==128&&bedrock&&shaft&&blocked&&outside&&sceneMobs==0&&w.getGameRules().getBoolean(GameRules.DO_MOB_SPAWNING));write(label,r);return r.get("pass").getAsBoolean()?1:0;
         }catch(Exception e){e.printStackTrace();return 0;}
     }
 }

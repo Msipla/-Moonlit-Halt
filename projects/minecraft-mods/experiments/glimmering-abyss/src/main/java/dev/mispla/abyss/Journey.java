@@ -37,6 +37,7 @@ import java.util.UUID;
 /** Two quiet dreams, a reusable direction shard and two station bells. */
 public final class Journey {
     public static final Identifier SITE_PACKET=GlimmeringAbyss.id("site");
+    public static final Identifier DREAM_PACKET=GlimmeringAbyss.id("dream");
     public static final EntityType<CableCarEntity> CAR=Registry.register(Registries.ENTITY_TYPE,GlimmeringAbyss.id("cable_car"),
         FabricEntityTypeBuilder.<CableCarEntity>create(SpawnGroup.MISC,CableCarEntity::new).dimensions(EntityDimensions.fixed(3,3.3f)).trackRangeBlocks(160).trackedUpdateRate(1).build());
     public static final Block BELL=new Block(AbstractBlock.Settings.copy(Blocks.LODESTONE).strength(-1,3600000)){
@@ -88,19 +89,23 @@ public final class Journey {
     public static void syncAll(MinecraftServer server){for(var p:server.getPlayerManager().getPlayerList())sync(p);}
     public static void sync(ServerPlayerEntity p){
         var s=OverworldSite.get(p.getServer().getOverworld());var b=PacketByteBufs.create();
-        b.writeBoolean(s.ready());b.writeInt(s.x);b.writeInt(s.z);b.writeInt(s.entryY);b.writeInt(s.approachLength);b.writeInt(s.approachY);ServerPlayNetworking.send(p,SITE_PACKET,b);
+        b.writeBoolean(s.ready());b.writeInt(s.x);b.writeInt(s.z);b.writeInt(s.entryY);b.writeInt(s.approachLength);b.writeInt(s.approachY);b.writeInt(s.layout);ServerPlayNetworking.send(p,SITE_PACKET,b);
     }
     public static void dream(ServerPlayerEntity p){
         var s=OverworldSite.get(p.getServer().getOverworld());long day=p.getWorld().getTimeOfDay()/24000;
         if(!s.ready()||s.dreamDays.getOrDefault(p.getUuid(),-1L)==day)return;
         int n=Math.min(2,s.dreams.getOrDefault(p.getUuid(),0)+1);s.dreams.put(p.getUuid(),n);s.dreamDays.put(p.getUuid(),day);s.markDirty();
         System.out.println("ABYSS_DREAM day="+day+" step="+n);
-        p.sendMessage(Text.literal(n==1?"梦中，蓝色巨柱间亮着几扇暖窗。山间传来一声悠远的铃响……":"梦中的幻翼停在玻璃车厢上。掌心的微光，正指向那处山间站台。"),false);
+        previewDream(p,n);
+        p.sendMessage(Text.literal(n==1?"醒来时，还记得蓝色洞穴中的巨柱。":"无人小镇的窗灯还亮着。掌心的微光指向山间站台。"),false);
         if(n>=2&&!p.getInventory().contains(new ItemStack(ECHO)))p.getInventory().offerOrDrop(new ItemStack(ECHO));
+    }
+    public static void previewDream(ServerPlayerEntity p,int step){
+        if(ServerPlayNetworking.canSend(p,DREAM_PACKET)){var b=PacketByteBufs.create();b.writeInt(step);ServerPlayNetworking.send(p,DREAM_PACKET,b);}
     }
     public static void guide(ServerPlayerEntity p){
         var s=OverworldSite.get(p.getServer().getOverworld());
-        if(!s.ready()){p.sendMessage(Text.literal("微光尚未回应。先在这片世界歇息片刻。"),true);return;}
+        if(!s.ready()){p.sendMessage(Text.literal(DiscoveryStatus.describe(s.stage,s.cursor,s.attempt,s.reason,s.dreams.getOrDefault(p.getUuid(),0))),true);return;}
         if(!p.getWorld().getRegistryKey().equals(World.OVERWORLD)){p.sendMessage(Text.literal("回响来自主世界的群山。"),true);return;}
         Vec3d target=Vec3d.ofCenter(s.approach());Vec3d delta=target.subtract(p.getPos());
         var dir=new Vec3d(delta.x,0,delta.z).normalize();
