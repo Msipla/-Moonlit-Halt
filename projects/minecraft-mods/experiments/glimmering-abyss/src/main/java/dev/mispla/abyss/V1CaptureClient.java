@@ -16,7 +16,7 @@ import java.nio.file.*;
 /** Opt-in release-client spatial review. Actual sleep, bell journeys and forward-key loop. */
 public final class V1CaptureClient implements ClientModInitializer {
     private static final Path OUT=Path.of("abyss-v1-captures");
-    private static final double[][] ROUTE={{47.5,-68.5},{47.5,-84.5},{22.5,-84.5},{22.5,-100.5},{-28.5,-100.5},{-28.5,-124.5},{-78.5,-124.5},{-78.5,-148.5},{-126.5,-148.5},{-126.5,-184.5},{-151.5,-184.5},{-151.5,-214.5},{-90.5,-214.5},{-90.5,-176.5},{-66.5,-176.5},{-66.5,-124.5},{-78.5,-124.5},{-28.5,-124.5},{-28.5,-100.5},{22.5,-100.5},{22.5,-84.5},{47.5,-84.5},{47.5,-68.5}};
+    private static final double[][] ROUTE={{47.5,-67.5},{47.5,-83.5},{22.5,-83.5},{22.5,-99.5},{-27.5,-99.5},{-27.5,-123.5},{-77.5,-123.5},{-77.5,-147.5},{-125.5,-147.5},{-125.5,-183.5},{-150.5,-183.5},{-150.5,-213.5},{-89.5,-213.5},{-89.5,-175.5},{-65.5,-175.5},{-65.5,-123.5},{-77.5,-123.5},{-27.5,-123.5},{-27.5,-99.5},{22.5,-99.5},{22.5,-83.5},{47.5,-83.5},{47.5,-67.5}};
     private final JsonArray frames=new JsonArray(),motion=new JsonArray(),walks=new JsonArray();
     private int state=-1,leg,night;private boolean connected,done,slept;private int dreamCaptured;
     private long started,changed;private double walkX,walkZ;
@@ -34,12 +34,12 @@ public final class V1CaptureClient implements ClientModInitializer {
             if(System.nanoTime()-started>1400_000_000_000L)throw new IllegalStateException("Preview deadline");
             if(!connected&&c.currentScreen!=null&&c.getOverlay()==null&&!(c.currentScreen instanceof TitleScreen))c.setScreen(new TitleScreen());
             if(!connected&&c.currentScreen instanceof TitleScreen&&c.getOverlay()==null){
-                connected=true;c.options.getViewDistance().setValue(16);c.options.getSimulationDistance().setValue(6);c.options.getFov().setValue(75);c.options.getGamma().setValue(.5);c.options.getMaxFps().setValue(45);c.options.getEnableVsync().setValue(false);c.options.pauseOnLostFocus=false;c.options.hudHidden=false;
+                connected=true;c.options.getViewDistance().setValue(16);c.options.getSimulationDistance().setValue(6);c.options.getFov().setValue(75);c.options.getGamma().setValue(.5);c.options.getMaxFps().setValue(45);c.options.getEnableVsync().setValue(false);c.options.pauseOnLostFocus=false;c.options.hudHidden=false;c.options.tutorialStep=net.minecraft.client.tutorial.TutorialStep.NONE;
                 String address="127.0.0.1:25585";ConnectScreen.connect(new TitleScreen(),c,ServerAddress.parse(address),new ServerInfo("V1 release preview",address,false),false);return;
             }
             if(c.player==null||c.world==null||!JourneyClient.ready())return;
             if(!c.player.isAlive())throw new IllegalStateException("Player died");
-            if(DreamScreen.step>dreamCaptured&&DreamScreen.alpha()>.85f){
+            if(DreamScreen.step>dreamCaptured&&DreamScreen.alpha()>.98f&&DreamScreen.renderedFrames>=3){
                 capture(c,"sleep-dream-"+DreamScreen.step+".png");var r=new JsonObject();r.addProperty("step",DreamScreen.step);r.addProperty("sleeping_at_capture",c.player.isSleeping());write("dream-"+DreamScreen.step+".json",r);dreamCaptured=DreamScreen.step;
             }
             if(c.player.hasVehicle()){
@@ -63,14 +63,15 @@ public final class V1CaptureClient implements ClientModInitializer {
                 slept|=c.player.isSleeping();if(!slept||c.player.isSleeping()||DreamScreen.step!=0){if(seconds()>40)throw new IllegalStateException("Sleep/wake flow did not finish; observed="+slept+" sleeping="+c.player.isSleeping()+" dream="+DreamScreen.step+" at="+c.player.getPos());return;}
                 if(++night<2){cmd(c,"bedtime");next(0);return;}
                 if(dreamCaptured!=2||!c.player.getInventory().contains(new net.minecraft.item.ItemStack(Journey.ECHO)))throw new IllegalStateException("Sleep dreams or guide absent");
-                cmd(c,"view entrance");next(2);return;
+                c.options.hudHidden=true;cmd(c,"view entrance");next(2);return;
             }
             if(state==2){if(!readyFrame(c))return;capture(c,"upper-station.png");bell(c,true);next(3);return;}
             if(state==3){if(!c.player.hasVehicle()){if(seconds()>10)throw new IllegalStateException("Boarding failed");return;}next(4);return;}
             if(state==4){if(c.player.hasVehicle()){if(seconds()>100)throw new IllegalStateException("Ride deadline");return;}checkLanding(c,false);cmd(c,"view overview");next(5);return;}
+            if(state==91){if(!readyFrame(c))return;capture(c,"town-culling-disabled.png");c.chunkCullingEnabled=true;cmd(c,"view rift");next(6);return;}
             if(state>=5&&state<=9){
                 if(!readyFrame(c))return;String[] names={"town-in-abyss.png","main-rift.png","folded-gallery.png","warm-return.png","town-street.png"};String[] views={"rift","gallery","homeward","street"};
-                capture(c,names[state-5]);if(state<9){cmd(c,"view "+views[state-5]);next(state+1);}else{cmd(c,"view route-start");next(10);}return;
+                capture(c,names[state-5]);if(state==5){c.chunkCullingEnabled=false;next(91);return;}if(state<9){cmd(c,"view "+views[state-5]);next(state+1);}else{cmd(c,"view route-start");next(10);}return;
             }
             if(state==10){if(seconds()<5)return;leg=1;walkX=c.player.getX();walkZ=c.player.getZ();next(11);return;}
             if(state==11){
@@ -96,7 +97,7 @@ public final class V1CaptureClient implements ClientModInitializer {
     }
     private void capture(MinecraftClient c,String name)throws Exception{
         Files.createDirectories(OUT);try(var f=ScreenshotRecorder.takeScreenshot(c.getFramebuffer())){f.writeTo(OUT.resolve(name));}
-        var r=new JsonObject();r.addProperty("file",name);r.addProperty("position",c.player.getPos().toString());r.addProperty("yaw",c.player.getYaw());r.addProperty("pitch",c.player.getPitch());r.addProperty("health",c.player.getHealth());r.addProperty("sleeping",c.player.isSleeping());r.addProperty("chunk_debug",c.worldRenderer.getChunksDebugString());r.addProperty("gl_error",GL11.glGetError());r.addProperty("renderer",GL11.glGetString(GL11.GL_RENDERER));r.add("environment",EnvironmentClient.measurements());frames.add(r);write("captures.json",frames);
+        var r=new JsonObject();r.addProperty("file",name);r.addProperty("position",c.player.getPos().toString());r.addProperty("yaw",c.player.getYaw());r.addProperty("pitch",c.player.getPitch());r.addProperty("health",c.player.getHealth());r.addProperty("sleeping",c.player.isSleeping());r.addProperty("chunk_culling",c.chunkCullingEnabled);r.addProperty("dream_rendered_frames",DreamScreen.renderedFrames);r.addProperty("chunk_debug",c.worldRenderer.getChunksDebugString());r.addProperty("gl_error",GL11.glGetError());r.addProperty("renderer",GL11.glGetString(GL11.GL_RENDERER));r.add("environment",EnvironmentClient.measurements());frames.add(r);write("captures.json",frames);
     }
     private void finish(MinecraftClient c){var r=new JsonObject();r.addProperty("status","SPATIAL_PREVIEW_CAPTURED");r.addProperty("android_tested",false);r.addProperty("aesthetic_accepted",false);write("result.json",r);done=true;c.options.forwardKey.setPressed(false);c.scheduleStop();}
     private void write(String name,Object value){try{Files.createDirectories(OUT);Files.writeString(OUT.resolve(name),new GsonBuilder().setPrettyPrinting().create().toJson(value));}catch(Exception ex){throw new IllegalStateException(ex);}}

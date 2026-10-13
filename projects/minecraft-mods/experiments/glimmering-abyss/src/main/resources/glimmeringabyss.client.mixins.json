@@ -6,7 +6,8 @@
   "client": [
     "LightmapMixin",
     "DistanceMixin",
-    "SpaceShaderMixin"
+    "SpaceShaderMixin",
+    "CavernBackdropMixin"
   ],
   "injectors": {
     "defaultRequire": 1

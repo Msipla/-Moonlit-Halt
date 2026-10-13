@@ -11,16 +11,20 @@ public final class AbyssShape {
         {-42,-77,65,96,-55},{-79,-147,39,81,-47},{-78,-222,59,77,-52},{-122,-268,33,58,-39}};
     private static final double[][] WEST={{-56,-102,32,76,-40},{-126,-143,36,68,-35},
         {-167,-187,39,73,-45},{-153,-252,31,57,-32}};
-    public record Column(int x,int z,double floor,double roof,double q,double rough){
+    private static final double[][] LEDGES={{47,40,-68},{47,40,-84},{22,37,-84},{22,37,-100},{-28,31,-100},{-28,31,-124},{-78,27,-124},{-78,25,-148},{-126,24,-148},{-126,20,-184},{-151,20,-184},{-151,16,-214},{-90,16,-214},{-90,22,-176},{-66,22,-176},{-66,27,-124},{-78,27,-124}};
+    public record Column(int x,int z,double floor,double roof,double q,double rough,double ledgeDistance,double ledgeTop){
         public boolean rock(int y){
             if(y<=floor||y>=roof)return true;
             double mid=(roof+floor)*.5,half=(roof-floor)*.5;
             if(q+.12*Math.pow((y-mid)/half,4)>1+rough)return true;
+            // Occupied shelves widen into talus and merge with the native floor below.
+            if(y<=ledgeTop&&ledgeDistance<7+(ledgeTop-y)*.55)return true;
             // Large attached rock shoulders, not a repeated forest of cylinders.
-            double fault=x+23+.25*(z+75)+7*Math.sin(z*.024);
-            if(z<-56&&z>-143&&fault>0&&fault<24&&y>18+10*Math.sin(z*.032))return true;
-            double fold=x+111-.38*(z+178)+6*Math.sin(z*.043);
-            if(z<-158&&z>-254&&fold>0&&fold<17&&y>-13)return true;
+            double fault=x+23+.25*(z+75)+7*Math.sin(z*.024+y*.031)+4*Math.sin(y*.068);
+            double width=(17+4*Math.sin(y*.055+z*.027)+Math.max(0,y-50)*.15)*Math.max(0,Math.sin(Math.PI*(z+143)/87));
+            if(z<-56&&z>-143&&fault>0&&fault<width&&y>18+10*Math.sin(z*.032))return true;
+            double fold=x+111-.38*(z+178)+6*Math.sin(z*.043+y*.04)+3*Math.sin(y*.08);
+            if(z<-158&&z>-254&&fold>0&&fold<15+3*Math.sin(y*.047)&&y>-13)return true;
             // Quiet inhabited terrace narrows at the lip, broadens at its foot.
             int top=38+(z<=-26?1:0)+(z<=-43?1:0);
             double depth=Math.max(0,top-y);
@@ -37,7 +41,15 @@ public final class AbyssShape {
         // The town sits in a broad side recess, out of the central fracture.
         double q=sq((x-47)/79.0)+sq((z+15)/104.0);
         if(q<v[0]){v[0]=q;v[1]=-46+12*q+3*n;v[2]=103-20*q+4*n;}
-        return new Column(x,z,Math.max(-57,v[1]+3*n),Math.min(cap-4,v[2]+3*n),v[0],.05*n);
+        double distance=1e9,ledgeTop=0;
+        double wx=x+2*Math.sin(z*.06),wz=z+2*Math.sin(x*.05);
+        for(int i=1;i<LEDGES.length;i++){
+            var a=LEDGES[i-1];var b=LEDGES[i];double dx=b[0]-a[0],dz=b[2]-a[2];
+            double t=Math.max(0,Math.min(1,((wx-a[0])*dx+(wz-a[2])*dz)/(dx*dx+dz*dz)));
+            double d=Math.hypot(wx-a[0]-dx*t,wz-a[2]-dz*t);
+            if(d<distance){distance=d;ledgeTop=a[1]+(b[1]-a[1])*t-2+Math.sin(x*.06+z*.07);}
+        }
+        return new Column(x,z,Math.max(-57,v[1]+3*n),Math.min(cap-4,v[2]+3*n),v[0],.05*n,distance,ledgeTop);
     }
     private static void corridor(double[] best,double x,double z,double[][] points){
         for(int i=1;i<points.length;i++){

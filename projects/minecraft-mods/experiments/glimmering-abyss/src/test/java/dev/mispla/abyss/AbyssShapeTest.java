@@ -28,6 +28,6 @@ class AbyssShapeTest {
         }
     }
     @Test void distantVaultsRemainConnectedToCentralRift(){
-        for(int[] p:new int[][]{{-42,0,-77},{-78,0,-222},{-167,0,-187},{-153,0,-252}})assertFalse(AbyssShape.column(p[0],p[2]).rock(p[1]));
+        for(int[] p:new int[][]{{-42,36,-77},{-78,36,-222},{-167,36,-187},{-153,36,-252}})assertFalse(AbyssShape.column(p[0],p[2]).rock(p[1]));
     }
 }

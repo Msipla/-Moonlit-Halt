@@ -229,6 +229,17 @@
       "values": [
         0
       ]
+    },
+    {
+      "name": "EnvBounds",
+      "type": "float",
+      "count": 4,
+      "values": [
+        -112,
+        112,
+        -176,
+        112
+      ]
     }
   ]
 }

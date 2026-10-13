@@ -73,7 +73,7 @@ public final class Phase7Audit {
             case "rift" -> {x=-45.5;y=55;z=-134.5;yaw=165;pitch=12;}
             case "gallery" -> {x=-145.5;y=35;z=-205.5;yaw=-20;pitch=8;}
             case "homeward" -> {x=-66.5;y=34;z=-125.5;yaw=-30;pitch=-3;}
-            case "route-start" -> {x=47.5;y=47;z=-68.5;yaw=180;pitch=0;}
+            case "route-start" -> {x=47.5;y=47;z=-67.5;yaw=180;pitch=0;}
             case "library" -> {x=-47.5;y=45;z=38.5;yaw=120;pitch=8;}
             case "bridge-destination" -> {x=-29.5;y=45;z=35.5;yaw=90;pitch=-5;}
             case "bedroom" -> {x=38.5;y=51;z=-10.5;yaw=180;pitch=10;}

@@ -23,7 +23,11 @@ public final class JourneyClient implements ClientModInitializer {
                 else DreamScreen.wake();
             });
         });
-        net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback.EVENT.register(DreamScreen::render);
+        net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback.EVENT.register((context,delta)->{
+            if(MinecraftClient.getInstance().currentScreen==null)DreamScreen.render(context,delta);
+        });
+        net.fabricmc.fabric.api.client.screen.v1.ScreenEvents.AFTER_INIT.register((client,screen,width,height)->
+            net.fabricmc.fabric.api.client.screen.v1.ScreenEvents.afterRender(screen).register((s,context,mx,my,delta)->DreamScreen.render(context,delta)));
         ClientPlayConnectionEvents.DISCONNECT.register((handler,client)->{ready=false;DreamScreen.clear();});
     }
     public static boolean ready(){return ready;}
