@@ -103,6 +103,8 @@ def run(args):
  p,log=start('server-legacy-phase7.log')
  try:
   legacy=ready();baseline=audit('legacy-warmup');time.sleep(10)
+  p.stdin.write(f"forceload add {legacy['x']+45} {legacy['z']+8}\n");p.stdin.flush()
+  wait_for(lambda:any(k in (out/'server-legacy-phase7.log').read_text() for k in ('Marked chunk','commands.forceload.added')),45,'Native witness chunk loaded',p)
   p.stdin.write(f"setblock {legacy['x']+45} 48 {legacy['z']+8} minecraft:gold_block\n");p.stdin.flush()
   wait_for(lambda:any(k in (out/'server-legacy-phase7.log').read_text() for k in ('Changed the block at','commands.setblock.success')),30,'Native console witness placement',p)
   before=audit('legacy-before');assert before['pass']
