@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="dev.mispla.abyss.TerrainTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2026-10-12T23:48:51" hostname="runnervmmprz5" time="0.127">
+  <properties/>
+  <testcase name="safeRouteAndTwoBlockRailAreContinuous()" classname="dev.mispla.abyss.TerrainTest" time="0.005"/>
+  <testcase name="fixturesAreUniqueAndFarFixturesTouchExposedRock()" classname="dev.mispla.abyss.TerrainTest" time="0.014"/>
+  <testcase name="seedControlsRockShapeButNotSafeRoute()" classname="dev.mispla.abyss.TerrainTest" time="0.104"/>
+  <testcase name="chamberHasDeepDropAndSealedRoof()" classname="dev.mispla.abyss.TerrainTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
