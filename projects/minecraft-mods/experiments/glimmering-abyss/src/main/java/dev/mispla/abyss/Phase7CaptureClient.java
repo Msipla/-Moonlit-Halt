@@ -39,7 +39,7 @@ public final class Phase7CaptureClient implements ClientModInitializer {
     private int phase=-1,leg,sleeps;
     private boolean observedSleep,restartReady;
     private double startX,startZ;
-    private static final double[][] WALK=NATURAL?new double[][]{{6.5,72.5},{20.5,72.5},{20.5,70.5},{38.5,70.5},{38.5,43.5},{30.5,43.5},{30.5,35.5},{-29.5,35.5},{-46.5,35.5},{-48.5,35.5},{-48.5,32.5},{-48.5,35.5},{-29.5,35.5},{30.5,35.5},{30.5,5.5},{47.5,5.5},{47.5,-22.5},{47.5,5.5},{30.5,5.5},{30.5,43.5},{38.5,43.5},{38.5,70.5},{20.5,70.5},{20.5,72.5},{6.5,72.5},{6.5,70.5}}:new double[][]{{6.5,72.5},{20.5,72.5},{20.5,70.5},{38.5,70.5},{38.5,43.5},{30.5,43.5},{30.5,35.5},{-29.5,35.5},{30.5,35.5},{30.5,5.5},{47.5,5.5},{47.5,-22.5},{47.5,5.5},{30.5,5.5},{30.5,43.5},{38.5,43.5},{38.5,70.5},{20.5,70.5},{20.5,72.5},{6.5,72.5},{6.5,70.5}};
+    private static final double[][] WALK=NATURAL?new double[][]{{6.5,72.5},{20.5,72.5},{20.5,70.5},{38.5,70.5},{38.5,43.5},{30.5,43.5},{30.5,35.5},{-29.5,35.5},{-46.5,35.5},{-48.5,35.5},{-47.5,31.5},{-48.5,35.5},{-29.5,35.5},{30.5,35.5},{30.5,5.5},{47.5,5.5},{47.5,-22.5},{47.5,5.5},{30.5,5.5},{30.5,43.5},{38.5,43.5},{38.5,70.5},{20.5,70.5},{20.5,72.5},{6.5,72.5},{6.5,70.5}}:new double[][]{{6.5,72.5},{20.5,72.5},{20.5,70.5},{38.5,70.5},{38.5,43.5},{30.5,43.5},{30.5,35.5},{-29.5,35.5},{30.5,35.5},{30.5,5.5},{47.5,5.5},{47.5,-22.5},{47.5,5.5},{30.5,5.5},{30.5,43.5},{38.5,43.5},{38.5,70.5},{20.5,70.5},{20.5,72.5},{6.5,72.5},{6.5,70.5}};
     @Override public void onInitializeClient(){if(!Boolean.getBoolean("abyss.capture.phase7"))return;started=System.nanoTime();ClientTickEvents.END_CLIENT_TICK.register(this::tick);}
     private double seconds(){return (System.nanoTime()-changed)/1e9;}
     private void next(){phase++;changed=System.nanoTime();System.out.println("ABYSS_PHASE7_STAGE "+phase);}
@@ -66,7 +66,7 @@ public final class Phase7CaptureClient implements ClientModInitializer {
             }
             if(SECOND){
                 if(phase==-1){command(c,"view overview");next();return;}
-                if(seconds()<18||!queues(c))return;
+                if(seconds()<(NATURAL?8:18)||!queues(c))return;
                 capture(c,"second-seed-overview.png");finished=true;c.scheduleStop();return;
             }
             if(c.currentScreen instanceof DreamScreen dream){
@@ -96,6 +96,7 @@ public final class Phase7CaptureClient implements ClientModInitializer {
             }
             if(phase==22){
                 if(seconds()<3)return;var bed=new BlockPos(JourneyClient.x-46,45,JourneyClient.z+30);
+                var attempt=new JsonObject();attempt.addProperty("player_position",c.player.getPos().toString());attempt.addProperty("player_block",c.player.getBlockPos().toString());attempt.addProperty("bed_state",c.world.getBlockState(bed).toString());attempt.addProperty("head_state",c.world.getBlockState(bed.north()).toString());write("refuge-attempt.json",attempt);
                 c.interactionManager.interactBlock(c.player,Hand.MAIN_HAND,new BlockHitResult(Vec3d.ofCenter(bed),Direction.UP,bed,false));phase=23;changed=System.nanoTime();return;
             }
             if(phase==23){
@@ -106,7 +107,7 @@ public final class Phase7CaptureClient implements ClientModInitializer {
             if(phase==17){if(!surfaceWalk(c,true))return;c.player.setYaw(180);c.player.setPitch(8);phase=1;changed=System.nanoTime();return;}
             if(phase==18){if(!surfaceWalk(c,false))return;capture(c,"surface-walk-exit.png");phase=19;changed=System.nanoTime();return;}
             if(phase==19){if(!surfaceWalk(c,true))return;bell(c,true);phase=7;changed=System.nanoTime();return;}
-            if(phase==1){if(seconds()<18||!queues(c))return;capture(c,"surface-station.png");bell(c,true);next();return;}
+            if(phase==1){if(seconds()<(NATURAL?8:18)||!queues(c))return;capture(c,"surface-station.png");bell(c,true);next();return;}
             if(phase==2){if(!c.player.hasVehicle()){if(seconds()>12)throw new IllegalStateException("Upper bell did not board");return;}next();return;}
             if(phase==3){
                 if(!midShot&&c.player.getY()<JourneyClient.entryY-10){capture(c,"cabin-descent.png");midShot=true;}
@@ -140,13 +141,13 @@ public final class Phase7CaptureClient implements ClientModInitializer {
             if(phase==7){if(seconds()<8)return;if(!c.player.hasVehicle())throw new IllegalStateException("Emergency test failed to board");c.options.sneakKey.setPressed(true);next();return;}
             if(phase==8){if(seconds()<3)return;c.options.sneakKey.setPressed(false);if(c.player.hasVehicle())throw new IllegalStateException("Emergency dismount still riding");checkLanding(c,true);capture(c,"emergency-safe-return.png");command(c,"view street");next();return;}
             if(phase>=9&&phase<=12){
-                if(seconds()<18||!queues(c))return;
+                if(seconds()<(NATURAL?8:18)||!queues(c))return;
                 String[] names={"town-street.png","naturalized-cliff.png","overworld-town-overview.png","surface-entrance-overview.png"};capture(c,names[phase-9]);
                 if(phase==9)command(c,"view cliff");if(phase==10)command(c,"view overview");if(phase==11)command(c,"view surface");
                 if(phase==12&&NATURAL){command(c,"view bridge-destination");phase=30;changed=System.nanoTime();return;}next();return;
             }
             if(phase>=30&&phase<=35){
-                if(seconds()<18||!queues(c))return;
+                if(seconds()<(NATURAL?8:18)||!queues(c))return;
                 String[] names={"bridge-destination.png","library-interior.png","residence-bedroom.png","contained-water.png","side-cave.png","natural-floor.png"};
                 String[] next={"library","bedroom","water","west-cave","floor"};capture(c,names[phase-30]);
                 if(phase<35){command(c,"view "+next[phase-30]);phase++;}else phase=13;

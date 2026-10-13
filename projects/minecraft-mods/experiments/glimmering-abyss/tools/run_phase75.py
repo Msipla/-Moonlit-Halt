@@ -92,6 +92,8 @@ def run(args):
   assert (first['x'],first['z'])!=(second['x'],second['z'])
   with (out/'client-second-seed.log').open('w') as cl:client=launch(cl,phase=7,extra_vm_args=['-Dabyss.capture.phase75=true','-Dabyss.capture.phase75.second=true'])
   shutil.copy2(client/'abyss-phase7-captures/second-seed-overview.png',out/'screenshots/second-seed-overview.png')
+  shutil.copy2(client/'abyss-phase7-captures/captures.json',out/'screenshots/second-captures.json')
+  shutil.copy2(client/'launch-provenance.json',out/'client-second-seed-provenance.json')
  finally:stop(p,log)
  # Generate an authentic Phase 7 save with its shipped JAR, add a player-built
  # witness, then upgrade that exact save. Never fake the layout tag on a new cave.
