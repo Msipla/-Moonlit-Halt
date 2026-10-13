@@ -28,11 +28,12 @@ public final class Phase7CaptureClient implements ClientModInitializer {
     private final JsonArray frames=new JsonArray(),walks=new JsonArray(),rides=new JsonArray();
     private boolean connected,finished,midShot,lowShot,exteriorShot;
     private long exteriorAt;
+    private net.minecraft.entity.decoration.ArmorStandEntity photoCamera;
     private long started,changed;
     private int phase=-1,leg,sleeps;
     private boolean observedSleep,restartReady;
     private double startX,startZ;
-    private static final double[][] WALK={{20.5,70.5},{38.5,70.5},{38.5,43.5},{30.5,43.5},{30.5,35.5},{-29.5,35.5},{30.5,35.5},{30.5,5.5},{47.5,5.5},{47.5,-22.5},{47.5,5.5},{30.5,5.5},{30.5,43.5},{38.5,43.5},{38.5,70.5},{20.5,70.5},{6.5,70.5}};
+    private static final double[][] WALK={{6.5,72.5},{20.5,72.5},{20.5,70.5},{38.5,70.5},{38.5,43.5},{30.5,43.5},{30.5,35.5},{-29.5,35.5},{30.5,35.5},{30.5,5.5},{47.5,5.5},{47.5,-22.5},{47.5,5.5},{30.5,5.5},{30.5,43.5},{38.5,43.5},{38.5,70.5},{20.5,70.5},{20.5,72.5},{6.5,72.5},{6.5,70.5}};
     @Override public void onInitializeClient(){if(!Boolean.getBoolean("abyss.capture.phase7"))return;started=System.nanoTime();ClientTickEvents.END_CLIENT_TICK.register(this::tick);}
     private double seconds(){return (System.nanoTime()-changed)/1e9;}
     private void next(){phase++;changed=System.nanoTime();System.out.println("ABYSS_PHASE7_STAGE "+phase);}
@@ -73,12 +74,19 @@ public final class Phase7CaptureClient implements ClientModInitializer {
             if(phase==1){if(seconds()<18||!queues(c))return;capture(c,"surface-station.png");bell(c,true);next();return;}
             if(phase==2){if(!c.player.hasVehicle()){if(seconds()>12)throw new IllegalStateException("Upper bell did not board");return;}next();return;}
             if(phase==3){
-                if(!midShot&&c.player.getY()<JourneyClient.entryY-10){capture(c,"cabin-descent.png");midShot=true;exteriorAt=System.nanoTime();c.options.setPerspective(net.minecraft.client.option.Perspective.THIRD_PERSON_BACK);c.player.setPitch(20);}
-                if(midShot&&!exteriorShot&&System.nanoTime()-exteriorAt>2_000_000_000L){capture(c,"phantom-car-exterior.png");exteriorShot=true;c.options.setPerspective(net.minecraft.client.option.Perspective.FIRST_PERSON);c.player.setPitch(8);}
+                if(!midShot&&c.player.getY()<JourneyClient.entryY-10){capture(c,"cabin-descent.png");midShot=true;}
                 if(!lowShot&&c.player.getY()<72){c.player.setYaw(-140);c.player.setPitch(8);capture(c,"cabin-cavern-arrival.png");lowShot=true;}
+                if(!exteriorShot&&photoCamera==null&&c.player.hasVehicle()&&c.player.getY()<66){
+                    // Detached photography camera only; the real passenger remains seated and the server car keeps moving.
+                    photoCamera=new net.minecraft.entity.decoration.ArmorStandEntity(c.world,0,0,0);
+                    photoCamera.refreshPositionAndAngles(JourneyClient.x-9.5,c.player.getY()+2,JourneyClient.z+60.5,-45,18);
+                    c.setCameraEntity(photoCamera);exteriorAt=System.nanoTime();
+                }
+                if(photoCamera!=null&&System.nanoTime()-exteriorAt>1_000_000_000L){capture(c,"phantom-car-exterior.png");exteriorShot=true;c.setCameraEntity(c.player);photoCamera=null;}
                 if(c.player.hasVehicle()){if(seconds()>150)throw new IllegalStateException("Descent did not finish");return;}
-                checkLanding(c,false);capture(c,"lower-arrival.png");leg=0;startX=c.player.getX();startZ=c.player.getZ();next();return;
+                checkLanding(c,false);phase=16;changed=System.nanoTime();return;
             }
+            if(phase==16){if(seconds()<2)return;capture(c,"lower-arrival.png");leg=0;startX=c.player.getX();startZ=c.player.getZ();phase=4;changed=System.nanoTime();return;}
             if(phase==4){
                 if(leg>=WALK.length){c.options.forwardKey.setPressed(false);bell(c,false);next();return;}
                 double tx=JourneyClient.x+WALK[leg][0],tz=JourneyClient.z+WALK[leg][1],dx=tx-c.player.getX(),dz=tz-c.player.getZ();
@@ -87,7 +95,7 @@ public final class Phase7CaptureClient implements ClientModInitializer {
                 c.options.forwardKey.setPressed(false);boolean pass=Math.hypot(dx,dz)<=.5&&Math.abs(c.player.getY()-45)<.15&&!c.player.getAbilities().flying;
                 var r=new JsonObject();r.addProperty("leg",leg);r.addProperty("start_x",startX);r.addProperty("start_z",startZ);r.addProperty("end_x",c.player.getX());r.addProperty("end_z",c.player.getZ());r.addProperty("end_y",c.player.getY());r.addProperty("forward_seconds",seconds());r.addProperty("pass",pass);walks.add(r);write("walk.json",walks);
                 if(!pass)throw new IllegalStateException("Walking blocked: "+r);
-                if(leg==5)capture(c,"walk-bridge.png");if(leg==9)capture(c,"walk-town.png");
+                if(leg==7)capture(c,"walk-bridge.png");if(leg==11)capture(c,"walk-town.png");
                 leg++;startX=c.player.getX();startZ=c.player.getZ();changed=System.nanoTime();return;
             }
             if(phase==5){if(!c.player.hasVehicle()){if(seconds()>12)throw new IllegalStateException("Lower bell did not board");return;}next();return;}
@@ -101,7 +109,7 @@ public final class Phase7CaptureClient implements ClientModInitializer {
             }
             if(phase==13){
                 command(c,"audit client");command(c,"intrusion");write("rides.json",rides);
-                var r=new JsonObject();r.addProperty("pass",true);r.addProperty("real_bell_interactions",4);r.addProperty("real_walking_legs",walks.size());r.addProperty("native_dimension","minecraft:overworld");r.addProperty("method","Bell right clicks, server-authoritative cabin rides, actual forward-key walking; operator camera placement used only before journey and after round trip.");write("journey.json",r);
+                var r=new JsonObject();r.addProperty("pass",true);r.addProperty("real_bell_interactions",4);r.addProperty("real_walking_legs",walks.size());r.addProperty("native_dimension","minecraft:overworld");r.addProperty("method","Bell right clicks, server-authoritative cabin rides, actual forward-key walking; Operator camera placement before journey and after round trip; detached client camera for one exterior frame does not move the seated passenger.");write("journey.json",r);
                 command(c,"view entrance");next();return;
             }
             if(phase==14){if(seconds()<12)return;bell(c,true);next();return;}
@@ -123,7 +131,7 @@ public final class Phase7CaptureClient implements ClientModInitializer {
     }
     private void capture(MinecraftClient c,String file)throws Exception{
         Files.createDirectories(OUT);try(var frame=ScreenshotRecorder.takeScreenshot(c.getFramebuffer())){frame.writeTo(OUT.resolve(file));}
-        var r=new JsonObject();r.addProperty("file",file);r.addProperty("x",c.player.getX());r.addProperty("y",c.player.getY());r.addProperty("z",c.player.getZ());r.addProperty("yaw",c.player.getYaw());r.addProperty("pitch",c.player.getPitch());r.addProperty("riding",c.player.hasVehicle());r.addProperty("health",c.player.getHealth());r.addProperty("dimension",c.world.getRegistryKey().getValue().toString());r.addProperty("chunk_debug",c.worldRenderer.getChunksDebugString());r.addProperty("gl_error",GL11.glGetError());r.addProperty("renderer",GL11.glGetString(GL11.GL_RENDERER));r.add("environment",EnvironmentClient.measurements());frames.add(r);write("captures.json",frames);
+        var r=new JsonObject();r.addProperty("file",file);r.addProperty("x",c.player.getX());r.addProperty("y",c.player.getY());r.addProperty("z",c.player.getZ());r.addProperty("yaw",c.player.getYaw());r.addProperty("pitch",c.player.getPitch());r.addProperty("riding",c.player.hasVehicle());r.addProperty("health",c.player.getHealth());r.addProperty("dimension",c.world.getRegistryKey().getValue().toString());r.addProperty("chunk_debug",c.worldRenderer.getChunksDebugString());r.addProperty("detached_photo_camera",c.getCameraEntity()!=c.player);r.addProperty("camera_position",c.gameRenderer.getCamera().getPos().toString());r.addProperty("gl_error",GL11.glGetError());r.addProperty("renderer",GL11.glGetString(GL11.GL_RENDERER));r.add("environment",EnvironmentClient.measurements());frames.add(r);write("captures.json",frames);
     }
     private void write(String name,Object value){try{Files.createDirectories(OUT);Files.writeString(OUT.resolve(name),new GsonBuilder().setPrettyPrinting().create().toJson(value));}catch(Exception e){throw new IllegalStateException(e);}}
 }
