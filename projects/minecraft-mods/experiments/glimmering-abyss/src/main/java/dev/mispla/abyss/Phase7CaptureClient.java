@@ -26,7 +26,8 @@ public final class Phase7CaptureClient implements ClientModInitializer {
     private static final boolean RECONNECT=Boolean.getBoolean("abyss.capture.phase7.reconnect");
     private static final Path OUT=Path.of(RECONNECT?"abyss-phase7-reconnect":"abyss-phase7-captures");
     private final JsonArray frames=new JsonArray(),walks=new JsonArray(),rides=new JsonArray();
-    private boolean connected,finished,midShot,lowShot;
+    private boolean connected,finished,midShot,lowShot,exteriorShot;
+    private long exteriorAt;
     private long started,changed;
     private int phase=-1,leg,sleeps;
     private boolean observedSleep,restartReady;
@@ -34,7 +35,7 @@ public final class Phase7CaptureClient implements ClientModInitializer {
     private static final double[][] WALK={{20.5,70.5},{38.5,70.5},{38.5,43.5},{30.5,43.5},{30.5,35.5},{-29.5,35.5},{30.5,35.5},{30.5,5.5},{47.5,5.5},{47.5,-22.5},{47.5,5.5},{30.5,5.5},{30.5,43.5},{38.5,43.5},{38.5,70.5},{20.5,70.5},{6.5,70.5}};
     @Override public void onInitializeClient(){if(!Boolean.getBoolean("abyss.capture.phase7"))return;started=System.nanoTime();ClientTickEvents.END_CLIENT_TICK.register(this::tick);}
     private double seconds(){return (System.nanoTime()-changed)/1e9;}
-    private void next(){phase++;changed=System.nanoTime();}
+    private void next(){phase++;changed=System.nanoTime();System.out.println("ABYSS_PHASE7_STAGE "+phase);}
     private void command(MinecraftClient c,String command){c.getNetworkHandler().sendChatCommand("abyss phase7 "+command);}
     private void bell(MinecraftClient c,boolean upper){
         var p=new BlockPos(JourneyClient.x+6,upper?JourneyClient.entryY+1:45,JourneyClient.z+68);
@@ -72,7 +73,8 @@ public final class Phase7CaptureClient implements ClientModInitializer {
             if(phase==1){if(seconds()<18||!queues(c))return;capture(c,"surface-station.png");bell(c,true);next();return;}
             if(phase==2){if(!c.player.hasVehicle()){if(seconds()>12)throw new IllegalStateException("Upper bell did not board");return;}next();return;}
             if(phase==3){
-                if(!midShot&&c.player.getY()<JourneyClient.entryY-10){capture(c,"cabin-descent.png");midShot=true;}
+                if(!midShot&&c.player.getY()<JourneyClient.entryY-10){capture(c,"cabin-descent.png");midShot=true;exteriorAt=System.nanoTime();c.options.setPerspective(net.minecraft.client.option.Perspective.THIRD_PERSON_BACK);c.player.setPitch(20);}
+                if(midShot&&!exteriorShot&&System.nanoTime()-exteriorAt>2_000_000_000L){capture(c,"phantom-car-exterior.png");exteriorShot=true;c.options.setPerspective(net.minecraft.client.option.Perspective.FIRST_PERSON);c.player.setPitch(8);}
                 if(!lowShot&&c.player.getY()<72){c.player.setYaw(-140);c.player.setPitch(8);capture(c,"cabin-cavern-arrival.png");lowShot=true;}
                 if(c.player.hasVehicle()){if(seconds()>150)throw new IllegalStateException("Descent did not finish");return;}
                 checkLanding(c,false);capture(c,"lower-arrival.png");leg=0;startX=c.player.getX();startZ=c.player.getZ();next();return;
@@ -108,13 +110,17 @@ public final class Phase7CaptureClient implements ClientModInitializer {
                 if(!restartReady){var restart=new JsonObject();restart.addProperty("riding_before_stop",true);restart.addProperty("y",c.player.getY());write("restart-ready.json",restart);restartReady=true;}
                 if(seconds()>90)throw new IllegalStateException("Server did not stop for recovery test");
             }
-        }catch(Exception e){e.printStackTrace();finished=true;c.options.forwardKey.setPressed(false);c.options.sneakKey.setPressed(false);System.err.println("ABYSS_PHASE7_FAILED");c.scheduleStop();}
+        }catch(Exception e){var failure=new JsonObject();failure.addProperty("phase",phase);failure.addProperty("error",e.toString());if(c.world!=null)failure.addProperty("chunk_debug",c.worldRenderer.getChunksDebugString());write("failure.json",failure);e.printStackTrace();finished=true;c.options.forwardKey.setPressed(false);c.options.sneakKey.setPressed(false);System.err.println("ABYSS_PHASE7_FAILED");c.scheduleStop();}
     }
     private void checkLanding(MinecraftClient c,boolean upper){
         boolean pass=Math.abs(c.player.getX()-(JourneyClient.x+6.5))<.2&&Math.abs(c.player.getZ()-(JourneyClient.z+70.5))<.2&&Math.abs(c.player.getY()-(upper?JourneyClient.entryY+1:45))<.3&&c.player.getHealth()>0&&!c.player.hasVehicle();
         var r=new JsonObject();r.addProperty("upper",upper);r.addProperty("x",c.player.getX());r.addProperty("y",c.player.getY());r.addProperty("z",c.player.getZ());r.addProperty("health",c.player.getHealth());r.addProperty("pass",pass);rides.add(r);if(!pass)throw new IllegalStateException("Unsafe landing "+r);
     }
-    private boolean queues(MinecraftClient c){return c.worldRenderer.getChunksDebugString().matches(".*pC: 0(?:[, ].*)?")&&c.worldRenderer.getChunksDebugString().matches(".*pU: 0(?:[, ].*)?");}
+    private boolean queues(MinecraftClient c){
+        boolean idle=c.worldRenderer.getChunksDebugString().matches(".*pC: 0+, pU: 0+(?:,|\\s|$).*");
+        if(!idle&&seconds()>150)throw new IllegalStateException("Chunk queues did not drain: "+c.worldRenderer.getChunksDebugString());
+        return idle;
+    }
     private void capture(MinecraftClient c,String file)throws Exception{
         Files.createDirectories(OUT);try(var frame=ScreenshotRecorder.takeScreenshot(c.getFramebuffer())){frame.writeTo(OUT.resolve(file));}
         var r=new JsonObject();r.addProperty("file",file);r.addProperty("x",c.player.getX());r.addProperty("y",c.player.getY());r.addProperty("z",c.player.getZ());r.addProperty("yaw",c.player.getYaw());r.addProperty("pitch",c.player.getPitch());r.addProperty("riding",c.player.hasVehicle());r.addProperty("health",c.player.getHealth());r.addProperty("dimension",c.world.getRegistryKey().getValue().toString());r.addProperty("chunk_debug",c.worldRenderer.getChunksDebugString());r.addProperty("gl_error",GL11.glGetError());r.addProperty("renderer",GL11.glGetString(GL11.GL_RENDERER));r.add("environment",EnvironmentClient.measurements());frames.add(r);write("captures.json",frames);

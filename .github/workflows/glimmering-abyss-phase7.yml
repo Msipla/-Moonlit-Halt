@@ -55,6 +55,13 @@ jobs:
                   if not f.is_file():continue
                   target=(out/'screenshots' if f.suffix=='.png' or f.name=='captures.json' else out)/f.name
                   if not target.exists():shutil.copy2(f,target)
+          reconnect=p/'.runtime/release-client/abyss-phase7-reconnect'
+          if reconnect.is_dir():
+              (out/'screenshots').mkdir(exist_ok=True)
+              for f in reconnect.iterdir():
+                  if f.is_file():
+                      target=(out/'screenshots' if f.suffix=='.png' else out)/('reconnect-'+f.name if f.name=='captures.json' else f.name)
+                      if not target.exists():shutil.copy2(f,target)
           launch=p/'.runtime/release-client/launch-provenance.json'
           if launch.exists():shutil.copy2(launch,out/'client-launch-provenance.json')
           servers=sorted((p/'.runtime').glob('phase7-server-*'))

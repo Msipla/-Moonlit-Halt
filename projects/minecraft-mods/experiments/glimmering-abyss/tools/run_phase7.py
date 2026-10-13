@@ -61,6 +61,8 @@ def run(args):
    if f.is_file():shutil.copy2(f,(out/'screenshots' if f.suffix=='.png' or f.name=='captures.json' else out)/f.name)
   shutil.copy2(client/'launch-provenance.json',out/'client-launch-provenance.json')
   assert (captures/'journey.json').stat().st_mtime>=begin and json.loads((captures/'journey.json').read_text())['pass']
+  assert (captures/'restart-ready.json').stat().st_mtime>=begin and json.loads((captures/'restart-ready.json').read_text())['riding_before_stop'],'No actual mid-ride server-stop evidence'
+  assert json.loads((results/'phase7-client.json').read_text())['pass'],'Client-era safety and scene audit failed'
   wait_for(lambda:(results/'phase7-intrusion.json').exists(),90,'Intrusion rejection',p)
   for f in results.glob('*.json'):shutil.copy2(f,out/f.name)
   assert json.loads((out/'phase7-intrusion.json').read_text())['removed_after_crossing']
