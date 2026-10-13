@@ -1,0 +1,19 @@
+{
+  "label": "reload",
+  "template_blocks_checked": 2038574,
+  "block_id_mismatches": 0,
+  "explicit_property_mismatches": 0,
+  "actual_structure_state_sha256": "a4a3b6de582c902e0f911806efc252f1d7c4dcd215cb637f2a3c33b718a7ffb4",
+  "warm_window_blocks": 128,
+  "warm_windows_native_light_12": 128,
+  "accepted_workshop_windows_preserved": 52,
+  "route_samples": 180,
+  "route_collision_clearance_pass": true,
+  "ladder_pass": true,
+  "deep_air_samples": 594,
+  "open_depth_pass": true,
+  "finite_floor_y": -63,
+  "template_entities": 0,
+  "buildings": 6,
+  "pass": true
+}

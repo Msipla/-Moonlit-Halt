@@ -1,0 +1,10 @@
+{
+  "method": "Actual forward key held north into the low bridge masonry parapet, flight disabled, five seconds including stationary collision.",
+  "end_x": 4.5,
+  "end_z": 33.05000001192093,
+  "end_y": 39.0,
+  "rail_collision_pass": true,
+  "barrier_type": "minecraft:polished_blackstone_wall",
+  "barrier_collision_height": 1.5,
+  "flying": false
+}

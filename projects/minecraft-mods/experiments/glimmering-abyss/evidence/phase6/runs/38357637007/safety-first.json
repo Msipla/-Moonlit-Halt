@@ -1,0 +1,52 @@
+{
+  "label": "first",
+  "difficulty": "hard",
+  "entire_study_dimension_protected": true,
+  "overworld_protected": false,
+  "natural_biome_spawn_entries": 0,
+  "actual_spawn_attempts": [
+    {
+      "type": "minecraft:zombie",
+      "spawn_accepted": false
+    },
+    {
+      "type": "minecraft:skeleton",
+      "spawn_accepted": false
+    },
+    {
+      "type": "minecraft:creeper",
+      "spawn_accepted": false
+    },
+    {
+      "type": "minecraft:spider",
+      "spawn_accepted": false
+    },
+    {
+      "type": "minecraft:enderman",
+      "spawn_accepted": false
+    },
+    {
+      "type": "minecraft:phantom",
+      "spawn_accepted": false
+    },
+    {
+      "type": "minecraft:bat",
+      "spawn_accepted": false
+    },
+    {
+      "type": "minecraft:cow",
+      "spawn_accepted": false
+    },
+    {
+      "type": "minecraft:squid",
+      "spawn_accepted": false
+    }
+  ],
+  "all_scene_mob_insertions_rejected": true,
+  "loaded_scene_mobs": 0,
+  "overworld_zombie_spawn_accepted": true,
+  "overworld_doMobSpawning_before": true,
+  "overworld_doMobSpawning_after": true,
+  "dark_abyss_native_block_light": 0,
+  "pass": true
+}
