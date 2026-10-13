@@ -20,7 +20,7 @@ def run(args):
  def config(): (server/'server.properties').write_text('\n'.join(f'{k}={v}' for k,v in properties.items())+'\n')
  config();cmd=['java','-Xms512M','-Xmx3G','-XX:ActiveProcessorCount=4','-Dabyss.testServer=true','-jar','fabric-server-launch.jar','nogui'];results=server/'abyss-results'
  def start(name):
-  log=(out/name).open('w');p=subprocess.Popen(cmd,cwd=server,stdout=log,stderr=subprocess.STDOUT);wait_for(lambda:'Done (' in (out/name).read_text(errors='replace'),300,'Normal overworld startup',p);return p,log
+  log=(out/name).open('w');p=subprocess.Popen(cmd,cwd=server,stdout=log,stderr=subprocess.STDOUT,stdin=subprocess.PIPE,text=True);wait_for(lambda:'Done (' in (out/name).read_text(errors='replace'),300,'Normal overworld startup',p);return p,log
  def stop(p,log):
   if p.poll() is None:
    command(server,'stop')
@@ -102,9 +102,11 @@ def run(args):
  properties['level-name']='phase7-legacy';properties['level-seed']='74102002';config()
  p,log=start('server-legacy-phase7.log')
  try:
-  legacy=ready();audit('legacy-warmup');time.sleep(10)
-  command(server,f"setblock {legacy['x']+45} 48 {legacy['z']+8} minecraft:gold_block")
+  legacy=ready();baseline=audit('legacy-warmup');time.sleep(10)
+  p.stdin.write(f"setblock {legacy['x']+45} 48 {legacy['z']+8} minecraft:gold_block\n");p.stdin.flush()
+  wait_for(lambda:any(k in (out/'server-legacy-phase7.log').read_text() for k in ('Changed the block at','commands.setblock.success')),30,'Native console witness placement',p)
   before=audit('legacy-before');assert before['pass']
+  assert before['geometry_sha256']!=baseline['geometry_sha256'],'Witness was not present in the actual geometry sample'
  finally:stop(p,log)
  (server/'mods'/old.name).unlink();shutil.copy2(jar,server/'mods'/jar.name)
  p,log=start('server-legacy-upgraded.log')

@@ -1,20 +1,22 @@
 [
   {
     "step": 1,
-    "source_run": "38387233527",
+    "source_run": "38392139699",
+    "source_commit": "aaaa3445bc8aeb4b68bcd1dd982ce9175350159d",
     "source_file": "side-cave.png",
-    "source_commit": "0532ccd6b6e3db02f9c0b51b088d1b12b7fd0750",
-    "sha256": "c95685514b5ad618326ee8957e69278faa97db0d1f25c649fcb95b377b2fb427",
+    "sha256": "c95438ada35ffa9c7145e5c923237e7c392983e18e72b5827704636535cc395f",
     "unedited_original_scene": true,
-    "source_run_status": "Failed later photography/restart test; this individual capture was alive and GL error 0"
+    "source_ui": "Normal in-game photography, visually verified without death overlay; chunk queues drained",
+    "source_run_status": "Core new-world, rides, restart and old layout passed; final witness assertion failed because its placement command was ignored"
   },
   {
     "step": 2,
-    "source_run": "38387233527",
+    "source_run": "38392139699",
+    "source_commit": "aaaa3445bc8aeb4b68bcd1dd982ce9175350159d",
     "source_file": "overworld-town-overview.png",
-    "source_commit": "0532ccd6b6e3db02f9c0b51b088d1b12b7fd0750",
-    "sha256": "f5d6b1b6cd11cd0e9758c4860c3df21a86a33bf30c0a977a5f1375b2cdc2ae4d",
+    "sha256": "bc8aea67940f3db776fdb7cda153f0938ae6bf71f769c22c562c4e97a83c20a0",
     "unedited_original_scene": true,
-    "source_run_status": "Failed later photography/restart test; this individual capture was alive and GL error 0"
+    "source_ui": "Normal in-game photography, visually verified without death overlay; chunk queues drained",
+    "source_run_status": "Core new-world, rides, restart and old layout passed; final witness assertion failed because its placement command was ignored"
   }
 ]
