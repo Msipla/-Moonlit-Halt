@@ -4,7 +4,7 @@
 
 [JAR](artifacts/glimmering-abyss-0.7.0.jar) · [安装与游玩](INSTALL-PHASE7.md) · [完整测试报告](TEST-REPORT-PHASE7.md) · [恢复](HANDOFF.md) · [阶段原图](https://msipla.github.io/-Moonlit-Halt/phase7.html)
 
-正式实跑38354855268全部通过：两个种子生成、局部安全与外部自然刷怪、真实睡眠、三段阶梯进出、21段地下行走、正常乘车往返、潜行提前返回及途中停服后的健康安全重连。16张原始PNG与失败历史保留。托管Linux客户端／服务端已测，Windows/PCL2及第三方渲染未测；新增画面待用户审阅。具体默认分支与展厅发布状态见HANDOFF及网站测试报告。
+正式实跑38354855268全部通过：两个种子生成、局部安全与外部自然刷怪、真实睡眠、三段阶梯进出、21段地下行走、正常乘车往返、潜行提前返回及途中停服后的健康安全重连。16张原始PNG与失败历史保留。托管Linux客户端／服务端已测，Windows/PCL2及第三方渲染未测；新增画面待用户审阅。PR #1已合并main，既有Pages已发布并通过实际线上Chromium检查；记录见HANDOFF及网站测试报告。
 
 以下保留Phase 6及更早阶段当时的记录；Phase 6整体美学后续已获认可。
 

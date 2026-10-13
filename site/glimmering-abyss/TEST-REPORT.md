@@ -6,6 +6,10 @@
 
 完整JSON和17份原始网页帧见 [evidence/website/runs/38357271286](../../projects/minecraft-mods/experiments/glimmering-abyss/evidence/website/runs/38357271286/)。开发侧已查看390px画廊／详情与1440px首页截图。此轮是Actions内本地HTTP预览，`preview=true`，不能当作Pages上线；合并后的实际发布与线上QA另行补齐。托管Chromium移动视口／触控模拟，不是实体手机、Safari或Windows浏览器实测。
 
+正式交付由 [PR #1](https://github.com/Msipla/-Moonlit-Halt/pull/1) 合并，提交 `f68ead9df06e090ed25114d027fce43872fc4f34`。Pages [38357637066](https://github.com/Msipla/-Moonlit-Halt/actions/runs/38357637066) 发布成功；实际线上Chromium [38357637094](https://github.com/Msipla/-Moonlit-Halt/actions/runs/38357637094) 核对该部署源码后PASS，`preview=false`。五种视口与全部上述交互再次通过，16条永久入口HTTP200，JS异常0；原始JSON／17份网页帧见 [evidence/website/runs/38357637094](../../projects/minecraft-mods/experiments/glimmering-abyss/evidence/website/runs/38357637094/)，归档提交 `10c685e`。开发侧已查看线上390px画廊与1440px首页，详情帧与预览内容一致。
+
+独立读取线上build-info得到f68ead9，phase7/latest为TECHNICAL_PASS、最终游戏实跑38354855268；phase7、phase6、phase1页面均HTTP200。此后仅文档／历史工作流入口整理，不修改已验证HTML／JS／CSS／原图／安装包。后续文档触发的Pages版本以最终build-info为准，不把新的文档提交冒称已重新实测的前端源码。
+
 以下保留历次发布记录。
 
 ---

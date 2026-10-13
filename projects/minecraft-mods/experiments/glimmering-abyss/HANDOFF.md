@@ -1,8 +1,8 @@
 # 《微光深渊》工程恢复入口
 
-2026-10-13 · **Phase 7 v0.7.0 完整技术验收通过，交付包与证据已准备；默认分支／Pages发布状态以网站测试报告和后续交付记录为准。**
+2026-10-13 · **Phase 7 v0.7.0 完整技术验收通过，已合并主分支并发布既有Pages展厅；新增画面待用户审阅。**
 
-当前唯一任务书 [TASK-PHASE7.md](TASK-PHASE7.md)。正式源码 `057afdeabaeae453d4ffdc17220684b3d8595403`，真实发布客户端与Fabric服务端运行 [38354855268](https://github.com/Msipla/-Moonlit-Halt/actions/runs/38354855268) 全部通过，证据提交 `b64aaeb7cb578e9d3284ada1becafecf3cf5c2ea`。开发分支 `codex/phase7-overworld`。恢复先读本入口、[Phase 7报告](TEST-REPORT-PHASE7.md)、[安装游玩说明](INSTALL-PHASE7.md)、`evidence/phase7/latest.json`及本分支最新源码；不要从旧失败运行的候选包继续。
+当前唯一任务书 [TASK-PHASE7.md](TASK-PHASE7.md)。正式源码 `057afdeabaeae453d4ffdc17220684b3d8595403`，真实发布客户端与Fabric服务端运行 [38354855268](https://github.com/Msipla/-Moonlit-Halt/actions/runs/38354855268) 全部通过，证据提交 `b64aaeb7cb578e9d3284ada1becafecf3cf5c2ea`。交付由 [PR #1](https://github.com/Msipla/-Moonlit-Halt/pull/1) 普通合并到main，提交 `f68ead9df06e090ed25114d027fce43872fc4f34`；23个开发／证据检查点保留。开发分支 `codex/phase7-overworld`。恢复先读本入口、[Phase 7报告](TEST-REPORT-PHASE7.md)、[安装游玩说明](INSTALL-PHASE7.md)、`evidence/phase7/latest.json`及本分支最新源码；不要从旧失败运行的候选包继续。
 
 [glimmering-abyss-0.7.0.jar](artifacts/glimmering-abyss-0.7.0.jar)：780,201字节，SHA-256 `90d39cb50b4ab0e1d08613c7b7c5f4bcb5c7a3904e90a1b4a08c760510a46631`，与实际客户端／服务端使用的包一致；源码包及 `checksums-v0.7.json` 同目录。
 
@@ -14,7 +14,9 @@
 
 托管Linux软件OpenGL已测。Windows/PCL2、用户GPU、Sodium/Iris/DH、第三方光影、实体手机、异常断电和长时多人未测；独立全区块卸载场景与人为阻塞路径未单独实测。测试定位到原生地表阶梯端点后真实步行，不宣称从出生点完成数千格长途。暖窗仍不透明、空间光无完整墙体遮挡；缆车固定单线单客，幻翼没有独立AI。Phase 7入口、车厢与外围原图待用户审阅，不继续无边界精修。
 
-沿用[现有展厅](https://msipla.github.io/-Moonlit-Halt/)，新增phase7.html并保留Phase 1–6永久URL。独立分支上的浏览器预览验证和实际Pages上线必须分开记录，见[网站测试报告](../../../../site/glimmering-abyss/TEST-REPORT.md)。分支交付源码c227ff7的真实Chromium预览38357271286已PASS，证据6863b39；五种视口、七阶段入口与原图通过，开发侧已查看网页帧。此轮preview=true，尚非线上Pages。初次直接main推送曾被自动审批拒绝，最终发布须依据具体已验收交付与有效授权；不得把分支测试说成线上发布。长期正史留在Conversation-Archives，本工程不混入月下小站或门户重构。
+沿用[现有展厅](https://msipla.github.io/-Moonlit-Halt/)，新增 [phase7.html](https://msipla.github.io/-Moonlit-Halt/phase7.html)，保留Phase 1–6永久URL。分支预览38357271286与正式线上Chromium38357637094均PASS；Pages38357637066成功，线上build-info确认部署源码f68ead9，网页证据提交 `10c685e`。五种视口、七阶段入口、原图与旧对照通过，开发侧已查看实际网页帧。详见[网站测试报告](../../../../site/glimmering-abyss/TEST-REPORT.md)。后续交接文档更新不修改此轮已验证前端或游戏包；文档再发布以对应工作流与线上build-info为准。
+
+初次直接main推送的自动审批拒绝作为历史失败保留；本次在完整验收、目标公开仓库核实和具体PR准备后，普通合并已成功，交付不再被该次拒绝阻塞。合并触发了旧Phase 6验证器的自身文件监听（38357637007）；该历史流程的产物归档固定引用0.6.0，不能用此轮作为正式0.7.0包的验收。其运行记录保留，并将历史验证器改为仅手动入口，避免再误触发；Phase 6原指针与正式包不改。长期正史留在Conversation-Archives，本工程不混入月下小站或门户重构。
 
 以下为 Phase 6 已交付历史快照，原始证据与安装包继续有效。
 
