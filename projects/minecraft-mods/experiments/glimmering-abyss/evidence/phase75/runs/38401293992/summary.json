@@ -1,0 +1,14 @@
+{
+  "status": "TECHNICAL_PASS",
+  "minecraft": "1.20.1",
+  "release_jar_sha256": "9bf21d17eb41318ea00d7203c97f0c1c652b1096b867e9e12bcc915f15985c8b",
+  "seeds": [
+    74102002,
+    -92345
+  ],
+  "real_client": true,
+  "real_server_restart": true,
+  "natural_outside_monsters": 71,
+  "aesthetic_acceptance": "Pending user review of Phase 7.5 natural cave and Android riding comfort",
+  "limitations": "Hosted Linux software OpenGL; not Windows, PCL2, target GPU, Sodium/Iris/DH or real phone"
+}
