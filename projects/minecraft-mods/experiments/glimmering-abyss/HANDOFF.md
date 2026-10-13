@@ -2,9 +2,11 @@
 
 唯一范围/验收依据：[TASK-V1.0.md](TASK-V1.0.md)。恢复基线 main `2ac019cddf9d9a53a5bf1ec347d586c693f23404`；Phase 7.5 正式包与证据已核实，最新安卓反馈见 Conversation-Archives 的 `2026-10-13-glimmering-abyss-v1-design-decision.md`。下方旧阶段快照不表示 V1.0 状态。
 
-工作分支 [codex/v1-abyss-world](https://github.com/Msipla/-Moonlit-Halt/tree/codex/v1-abyss-world)，[草稿PR #6](https://github.com/Msipla/-Moonlit-Halt/pull/6)。修正源码 `eba98ab4d45707e5f939e3da0a7976ff760d4ab0`，完整实跑 [38427638986](https://github.com/Msipla/-Moonlit-Halt/actions/runs/38427638986) 进行中。**恢复V1.0开发必须读取该分支最新源码与HANDOFF；main目前仍保留正式0.7.5生产代码。** 当前目标 **1.0.0-preview.1 空间验证包**，不是正式版。新布局100使用折向远处的主裂谷/西侧连通岩廊、588区块包络与约531格外围环线，先沿用七栋建筑检验空间关系，尚未扩充正式聚落。新下站移向小镇南侧，下降横向分量不再摆出再回；梦境改为睡眠中的HUD淡入、醒后淡出，不打开强制GUI或显示固定台词。
+工作分支 [codex/v1-abyss-world](https://github.com/Msipla/-Moonlit-Halt/tree/codex/v1-abyss-world)，[草稿PR #6](https://github.com/Msipla/-Moonlit-Halt/pull/6)。修正源码 `d6878c0aa70e13810bbd748c7830cf8abb890479`，完整实跑 [38430433184](https://github.com/Msipla/-Moonlit-Halt/actions/runs/38430433184) 进行中。**恢复V1.0开发必须读取该分支最新源码与HANDOFF；main目前仍保留正式0.7.5生产代码。** 当前目标 **1.0.0-preview.1 空间验证包**，不是正式版。新布局100使用折向远处的主裂谷/西侧连通岩廊、588区块包络与约531格外围环线，先沿用七栋建筑检验空间关系，尚未扩充正式聚落。新下站移向小镇南侧，下降横向分量不再摆出再回；梦境改为睡眠中的HUD淡入、醒后淡出，不打开强制GUI或显示固定台词。
 
 布局70/75的生成配方、历史NBT及旧已生成景观保留；新尺寸只对布局100使用。未验证项目不能标作完成。首次本地构建因Gradle下载网络未连通失败，原日志在 `evidence/v1/local/`；首轮38425341031构建和18项测试通过，但远端覆土要求导致4096候选全拒，未生成。已将远端洞顶改为随原生地表下沉，逐列覆土和路径净空检查继续保留；完整证据未删除。正式构建/真实客户端和服务端转至独立GitHub工作流 `glimmering-abyss-v1.yml`。后续恢复先检查此分支最新运行与实际日志。
+
+**验证检查点：** 38427638986已实际完成布局100/588区块生成与物理审计：588/588地表和基岩保留，128暖窗原生12级，38,336建筑/路线非空气块零类型缺漏，水池/局部禁怪/外部边界/HARD规则通过。但首个真实睡眠流程超时，尚无空间原图；不能称为完整技术或美学通过。当前修正额外持久化洞顶高度以去除逐列噪声查询开销，补连续护边和真实床块/位置等待。第三轮仍需完整验证。
 
 按TASK-V1.0第五节，空间方向须以真实截图供用户确认后，再大量精修/扩充建筑。当前没有美学验收、安卓实测、正式V1.0交付结论；没有开发未来两个海域、NPC或Pages改版。
 
