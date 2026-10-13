@@ -85,7 +85,7 @@ public final class Journey {
     public static void syncAll(MinecraftServer server){for(var p:server.getPlayerManager().getPlayerList())sync(p);}
     public static void sync(ServerPlayerEntity p){
         var s=OverworldSite.get(p.getServer().getOverworld());var b=PacketByteBufs.create();
-        b.writeBoolean(s.ready());b.writeInt(s.x);b.writeInt(s.z);b.writeInt(s.entryY);ServerPlayNetworking.send(p,SITE_PACKET,b);
+        b.writeBoolean(s.ready());b.writeInt(s.x);b.writeInt(s.z);b.writeInt(s.entryY);b.writeInt(s.approachLength);b.writeInt(s.approachY);ServerPlayNetworking.send(p,SITE_PACKET,b);
     }
     public static void dream(ServerPlayerEntity p){
         var s=OverworldSite.get(p.getServer().getOverworld());long day=p.getWorld().getTimeOfDay()/24000;
@@ -99,7 +99,7 @@ public final class Journey {
         var s=OverworldSite.get(p.getServer().getOverworld());
         if(!s.ready()){p.sendMessage(Text.literal("微光尚未回应。先在这片世界歇息片刻。"),true);return;}
         if(!p.getWorld().getRegistryKey().equals(World.OVERWORLD)){p.sendMessage(Text.literal("回响来自主世界的群山。"),true);return;}
-        Vec3d target=Vec3d.ofCenter(s.landing(true));Vec3d delta=target.subtract(p.getPos());
+        Vec3d target=Vec3d.ofCenter(s.approach());Vec3d delta=target.subtract(p.getPos());
         var dir=new Vec3d(delta.x,0,delta.z).normalize();
         for(int i=1;i<=20;i++)p.getServerWorld().spawnParticles(p,ParticleTypes.END_ROD,true,p.getX()+dir.x*i*.5,p.getEyeY(),p.getZ()+dir.z*i*.5,1,.02,.03,.02,0);
         String ns=delta.z<0?"北":"南",ew=delta.x<0?"西":"东";

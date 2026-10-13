@@ -12,7 +12,7 @@ import java.util.UUID;
 public final class OverworldSite extends PersistentState {
     public static final int MIN_X=-112, MAX_X=111, MIN_Z=-176, MAX_Z=111, OFFSET_Y=6;
     public static final int CHUNKS=14*18;
-    public int x,z,entryY,attempt,cursor;
+    public int x,z,entryY,attempt,cursor,approachLength,approachY;
     public String stage="search";
     public String reason="";
     public final Map<UUID,Integer> dreams=new HashMap<>();
@@ -26,6 +26,7 @@ public final class OverworldSite extends PersistentState {
     }
     private static OverworldSite read(NbtCompound n){
         var s=new OverworldSite();s.x=n.getInt("x");s.z=n.getInt("z");s.entryY=n.getInt("entryY");
+        s.approachLength=n.getInt("approachLength");s.approachY=n.getInt("approachY");
         s.attempt=n.getInt("attempt");s.cursor=n.getInt("cursor");s.stage=n.getString("stage");s.reason=n.getString("reason");
         if(s.stage.equals("carve")){s.cursor=0;s.resumed=true;}
         if(s.stage.equals("check"))s.cursor=0;
@@ -36,7 +37,7 @@ public final class OverworldSite extends PersistentState {
         return s;
     }
     @Override public NbtCompound writeNbt(NbtCompound n){
-        n.putInt("schema",1);n.putInt("x",x);n.putInt("z",z);n.putInt("entryY",entryY);n.putInt("attempt",attempt);n.putInt("cursor",cursor);n.putString("stage",stage);n.putString("reason",reason);
+        n.putInt("approachLength",approachLength);n.putInt("approachY",approachY);n.putInt("schema",1);n.putInt("x",x);n.putInt("z",z);n.putInt("entryY",entryY);n.putInt("attempt",attempt);n.putInt("cursor",cursor);n.putString("stage",stage);n.putString("reason",reason);
         var cs=new net.minecraft.nbt.NbtList();caps.forEach(v->cs.add(net.minecraft.nbt.NbtString.of(v)));n.put("caps",cs);
         var d=new NbtCompound();dreams.forEach((k,v)->d.putInt(k.toString(),v));n.put("dreams",d);
         var days=new NbtCompound();dreamDays.forEach((k,v)->days.putLong(k.toString(),v));n.put("dreamDays",days);
@@ -50,7 +51,8 @@ public final class OverworldSite extends PersistentState {
         double lx=px-x,lz=pz-z;
         // Whole cavern volume plus its separate surface station and shaft.
         return lx>=MIN_X&&lx<=MAX_X+1&&lz>=MIN_Z&&lz<=MAX_Z+1&&py>=-58&&py<=117
-            || lx>=-10&&lx<=11&&lz>=60&&lz<=81&&py>=45&&py<=entryY+9;
+            || lx>=-10&&lx<=13+approachLength&&lz>=60&&lz<=81&&py>=45&&py<=Math.max(entryY,approachY)+9;
     }
+    public BlockPos approach(){return new BlockPos(x+9+approachLength,approachY+1,z+70);}
     public BlockPos landing(boolean upper){return new BlockPos(x+6,upper?entryY+1:45,z+70);}
 }

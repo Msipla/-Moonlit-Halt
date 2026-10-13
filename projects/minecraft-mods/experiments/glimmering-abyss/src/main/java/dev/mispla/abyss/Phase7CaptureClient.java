@@ -25,7 +25,7 @@ import java.nio.file.Path;
 public final class Phase7CaptureClient implements ClientModInitializer {
     private static final boolean RECONNECT=Boolean.getBoolean("abyss.capture.phase7.reconnect");
     private static final Path OUT=Path.of(RECONNECT?"abyss-phase7-reconnect":"abyss-phase7-captures");
-    private final JsonArray frames=new JsonArray(),walks=new JsonArray(),rides=new JsonArray();
+    private final JsonArray frames=new JsonArray(),walks=new JsonArray(),rides=new JsonArray(),accesses=new JsonArray();
     private boolean connected,finished,midShot,lowShot,exteriorShot;
     private long exteriorAt;
     private net.minecraft.entity.decoration.ArmorStandEntity photoCamera;
@@ -69,8 +69,11 @@ public final class Phase7CaptureClient implements ClientModInitializer {
                 if(!c.player.getInventory().contains(new net.minecraft.item.ItemStack(Journey.ECHO)))throw new IllegalStateException("Two real sleeps did not deliver guide");
                 var dream=new JsonObject();dream.addProperty("actual_bed_sleeps",sleeps);dream.addProperty("guide_received",true);write("dreams.json",dream);
                 for(int i=0;i<9;i++)if(c.player.getInventory().getStack(i).isOf(Journey.ECHO))c.player.getInventory().selectedSlot=i;
-                c.interactionManager.interactItem(c.player,Hand.MAIN_HAND);command(c,"view entrance");phase=1;changed=System.nanoTime();return;
+                c.interactionManager.interactItem(c.player,Hand.MAIN_HAND);command(c,"view approach");phase=17;changed=System.nanoTime();return;
             }
+            if(phase==17){if(!surfaceWalk(c,true))return;phase=1;changed=System.nanoTime();return;}
+            if(phase==18){if(!surfaceWalk(c,false))return;capture(c,"surface-walk-exit.png");phase=19;changed=System.nanoTime();return;}
+            if(phase==19){if(!surfaceWalk(c,true))return;bell(c,true);phase=7;changed=System.nanoTime();return;}
             if(phase==1){if(seconds()<18||!queues(c))return;capture(c,"surface-station.png");bell(c,true);next();return;}
             if(phase==2){if(!c.player.hasVehicle()){if(seconds()>12)throw new IllegalStateException("Upper bell did not board");return;}next();return;}
             if(phase==3){
@@ -80,6 +83,7 @@ public final class Phase7CaptureClient implements ClientModInitializer {
                     // Detached photography camera only; the real passenger remains seated and the server car keeps moving.
                     photoCamera=new net.minecraft.entity.decoration.ArmorStandEntity(c.world,0,0,0);
                     photoCamera.refreshPositionAndAngles(JourneyClient.x-9.5,c.player.getY()+2,JourneyClient.z+60.5,-45,18);
+                    photoCamera.prevYaw=photoCamera.getYaw();photoCamera.prevPitch=photoCamera.getPitch();
                     c.setCameraEntity(photoCamera);exteriorAt=System.nanoTime();
                 }
                 if(photoCamera!=null&&System.nanoTime()-exteriorAt>1_000_000_000L){capture(c,"phantom-car-exterior.png");exteriorShot=true;c.setCameraEntity(c.player);photoCamera=null;}
@@ -99,7 +103,7 @@ public final class Phase7CaptureClient implements ClientModInitializer {
                 leg++;startX=c.player.getX();startZ=c.player.getZ();changed=System.nanoTime();return;
             }
             if(phase==5){if(!c.player.hasVehicle()){if(seconds()>12)throw new IllegalStateException("Lower bell did not board");return;}next();return;}
-            if(phase==6){if(c.player.hasVehicle()){if(seconds()>150)throw new IllegalStateException("Return did not finish");return;}checkLanding(c,true);capture(c,"surface-return.png");bell(c,true);next();return;}
+            if(phase==6){if(c.player.hasVehicle()){if(seconds()>150)throw new IllegalStateException("Return did not finish");return;}checkLanding(c,true);capture(c,"surface-return.png");phase=18;changed=System.nanoTime();return;}
             if(phase==7){if(seconds()<8)return;if(!c.player.hasVehicle())throw new IllegalStateException("Emergency test failed to board");c.options.sneakKey.setPressed(true);next();return;}
             if(phase==8){if(seconds()<3)return;c.options.sneakKey.setPressed(false);if(c.player.hasVehicle())throw new IllegalStateException("Emergency dismount still riding");checkLanding(c,true);capture(c,"emergency-safe-return.png");command(c,"view street");next();return;}
             if(phase>=9&&phase<=12){
@@ -109,7 +113,7 @@ public final class Phase7CaptureClient implements ClientModInitializer {
             }
             if(phase==13){
                 command(c,"audit client");command(c,"intrusion");write("rides.json",rides);
-                var r=new JsonObject();r.addProperty("pass",true);r.addProperty("real_bell_interactions",4);r.addProperty("real_walking_legs",walks.size());r.addProperty("native_dimension","minecraft:overworld");r.addProperty("method","Bell right clicks, server-authoritative cabin rides, actual forward-key walking; Operator camera placement before journey and after round trip; detached client camera for one exterior frame does not move the seated passenger.");write("journey.json",r);
+                var r=new JsonObject();r.addProperty("pass",true);r.addProperty("real_bell_interactions",4);r.addProperty("real_walking_legs",walks.size());r.addProperty("real_surface_access_walks",accesses.size());r.addProperty("native_dimension","minecraft:overworld");r.addProperty("method","Bell right clicks, server-authoritative cabin rides, actual forward-key walking; Operator placement at the native-ground approach endpoint and photographic positions after round trip; actual stair walking enters and leaves the station; detached client camera for one exterior frame does not move the seated passenger.");write("journey.json",r);
                 command(c,"view entrance");next();return;
             }
             if(phase==14){if(seconds()<12)return;bell(c,true);next();return;}
@@ -119,6 +123,16 @@ public final class Phase7CaptureClient implements ClientModInitializer {
                 if(seconds()>90)throw new IllegalStateException("Server did not stop for recovery test");
             }
         }catch(Exception e){var failure=new JsonObject();failure.addProperty("phase",phase);failure.addProperty("error",e.toString());if(c.world!=null)failure.addProperty("chunk_debug",c.worldRenderer.getChunksDebugString());write("failure.json",failure);e.printStackTrace();finished=true;c.options.forwardKey.setPressed(false);c.options.sneakKey.setPressed(false);System.err.println("ABYSS_PHASE7_FAILED");c.scheduleStop();}
+    }
+    private boolean surfaceWalk(MinecraftClient c,boolean inward){
+        double x=JourneyClient.x+(inward?6.5:9.5+JourneyClient.approachLength),z=JourneyClient.z+70.5;
+        double y=inward?JourneyClient.entryY+1:JourneyClient.approachY+1,dx=x-c.player.getX(),dz=z-c.player.getZ();
+        c.player.setYaw((float)Math.toDegrees(Math.atan2(-dx,dz)));c.player.setPitch(0);
+        boolean reached=Math.hypot(dx,dz)<.4&&Math.abs(c.player.getY()-y)<.6;
+        c.options.forwardKey.setPressed(!reached);
+        if(!reached){if(seconds()>60)throw new IllegalStateException("Surface stairs blocked at "+c.player.getPos()+" target "+x+","+y+","+z);return false;}
+        if(c.player.getHealth()!=20||c.player.getAbilities().flying)throw new IllegalStateException("Surface access was not safe walking");
+        var r=new JsonObject();r.addProperty("inward",inward);r.addProperty("seconds",seconds());r.addProperty("x",c.player.getX());r.addProperty("y",c.player.getY());r.addProperty("z",c.player.getZ());r.addProperty("health",c.player.getHealth());r.addProperty("pass",true);accesses.add(r);write("surface-access.json",accesses);return true;
     }
     private void checkLanding(MinecraftClient c,boolean upper){
         boolean pass=Math.abs(c.player.getX()-(JourneyClient.x+6.5))<.2&&Math.abs(c.player.getZ()-(JourneyClient.z+70.5))<.2&&Math.abs(c.player.getY()-(upper?JourneyClient.entryY+1:45))<.3&&c.player.getHealth()>0&&!c.player.hasVehicle();

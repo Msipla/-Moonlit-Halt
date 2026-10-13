@@ -10,12 +10,12 @@ import net.minecraft.world.World;
 
 public final class JourneyClient implements ClientModInitializer {
     private static boolean ready;
-    public static int x,z,entryY;
+    public static int x,z,entryY,approachLength,approachY;
     @Override public void onInitializeClient(){
         EntityRendererRegistry.register(Journey.CAR,CableCarRenderer::new);
         ClientPlayNetworking.registerGlobalReceiver(Journey.SITE_PACKET,(client,handler,b,response)->{
-            boolean ok=b.readBoolean();int nx=b.readInt(),nz=b.readInt(),ny=b.readInt();
-            client.execute(()->{ready=ok;x=nx;z=nz;entryY=ny;});
+            boolean ok=b.readBoolean();int nx=b.readInt(),nz=b.readInt(),ny=b.readInt(),nl=b.readInt(),na=b.readInt();
+            client.execute(()->{ready=ok;x=nx;z=nz;entryY=ny;approachLength=nl;approachY=na;});
         });
         ClientPlayConnectionEvents.DISCONNECT.register((handler,client)->ready=false);
     }

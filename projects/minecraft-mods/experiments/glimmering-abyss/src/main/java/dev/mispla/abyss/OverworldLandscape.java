@@ -32,6 +32,24 @@ public final class OverworldLandscape {
     public static int surface(ServerWorld w,Heightmap.Type type,int x,int z){
         return w.getChunk(x>>4,z>>4).sampleHeightmap(type,x&15,z&15)+1;
     }
+    private static int ground(ServerWorld w,int x,int z){
+        var p=new BlockPos.Mutable(x,surface(w,Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,x,z)-1,z);
+        while(p.getY()>w.getBottomY()){
+            var b=w.getBlockState(p);
+            if(b.isSolidBlock(w,p)&&!b.isIn(net.minecraft.registry.tag.BlockTags.LOGS)&&!b.isIn(net.minecraft.registry.tag.BlockTags.LEAVES))return p.getY();
+            p.move(net.minecraft.util.math.Direction.DOWN);
+        }
+        return w.getBottomY();
+    }
+    private static boolean planApproach(ServerWorld w,OverworldSite s){
+        s.entryY=ground(w,s.x,s.z+70)+1;
+        if(s.entryY<100||s.entryY>240)return false;
+        for(int length=8;length<=32;length+=4){
+            int y=ground(w,s.x+9+length,s.z+70);
+            if(Math.abs(y-s.entryY)<length){s.approachLength=length;s.approachY=y;return true;}
+        }
+        return false;
+    }
     public static int ceiling(int x,int z){
         var c=Terrain.column(x,z,Terrain.SEED);
         int top=(int)Math.ceil(c.roof())+4;
@@ -53,7 +71,7 @@ public final class OverworldLandscape {
                 if(height(w,x,z)<130)return;
                 for(int lx=-112;lx<=111;lx+=32)for(int lz=-176;lz<=111;lz+=32)
                     if(height(w,x+lx,z+lz)<ceiling(lx,lz)+12)return;
-                s.x=x;s.z=z;s.cursor=0;s.caps.clear();s.stage="check";s.markDirty();
+                s.x=x;s.z=z;if(!planApproach(w,s))return;s.cursor=0;s.caps.clear();s.stage="check";s.markDirty();
                 System.out.println("ABYSS_SITE_CANDIDATE "+x+","+z+" attempt="+s.attempt);return;
             }
             int cx=s.x/16-7+s.cursor%14,cz=s.z/16-11+s.cursor/14;
@@ -72,7 +90,6 @@ public final class OverworldLandscape {
                 if(!valid){s.stage="search";s.cursor=0;s.reason="Candidate rejected before edits: coverage or existing habitation";s.markDirty();return;}
                 if(s.caps.size()>s.cursor)s.caps.set(s.cursor,capHash(w,s,cx,cz));else s.caps.add(capHash(w,s,cx,cz));
                 if(++s.cursor==OverworldSite.CHUNKS){
-                    s.entryY=surface(w,Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,s.x,s.z+70);
                     // Dry, reachable station; the exact shaft is the sole intended surface opening.
                     if(s.entryY>240||s.entryY<100){s.stage="search";s.cursor=0;s.markDirty();return;}
                     s.stage="carve";s.cursor=0;s.reason="";s.markDirty();w.getPersistentStateManager().save();
@@ -96,7 +113,7 @@ public final class OverworldLandscape {
             var chunk=w.getChunk(cx,cz);
             for(int dx=0;dx<16;dx++)for(int dz=0;dz<16;dz++){
                 int x=cx*16+dx,z=cz*16+dz,lx=x-s.x,lz=z-s.z;
-                if(lx>=-6&&lx<=9&&lz>=64&&lz<=77)continue;
+                if(lx>=-6&&lx<=9&&lz>=64&&lz<=77 || lx>=10&&lx<=10+s.approachLength&&lz>=67&&lz<=73)continue;
                 int h=chunk.sampleHeightmap(Heightmap.Type.OCEAN_FLOOR,dx,dz)+1;
                 hash.update((h+":"+w.getBlockState(new BlockPos(x,h-1,z))+":"+w.getBlockState(new BlockPos(x,h-2,z))).getBytes(java.nio.charset.StandardCharsets.UTF_8));
                 for(int y=-64;y<=-59;y++)hash.update(w.getBlockState(new BlockPos(x,y,z)).toString().getBytes(java.nio.charset.StandardCharsets.UTF_8));
@@ -171,6 +188,21 @@ public final class OverworldLandscape {
             if(y==s.entryY)for(int x=-4;x<=4;x++)for(int z=66;z<=74;z++)
                 if(Math.abs(x)==4||z==66||z==74)set(w,s,x,y+1,z,Blocks.COBBLED_DEEPSLATE_WALL);
             set(w,s,6,y+1,68,Journey.BELL);set(w,s,7,y+1,68,Blocks.LANTERN);
+        }
+        // A short guarded staircase meets actual native ground, with a three-wide opening in the outer rail.
+        for(int step=0;step<=s.approachLength;step++){
+            int x=9+step,y=s.entryY+(int)Math.round((s.approachY-s.entryY)*step/(double)s.approachLength);
+            int next=step==s.approachLength?y:s.entryY+(int)Math.round((s.approachY-s.entryY)*(step+1)/(double)s.approachLength);
+            int base=y+(next>y?1:0);
+            for(int z=68;z<=72;z++){
+                for(int h=1;h<=4;h++)set(w,s,x,base+h,z,Blocks.AIR);
+                for(int h=base-1;h>=base-16;h--){var p=new BlockPos(s.x+x,h,s.z+z);if(w.getBlockState(p).isSolidBlock(w,p))break;set(w,s,x,h,z,Blocks.DEEPSLATE_BRICKS);}
+                if(z==68||z==72){set(w,s,x,base,z,Blocks.POLISHED_DEEPSLATE);set(w,s,x,base+1,z,Blocks.COBBLED_DEEPSLATE_WALL);}
+                else{
+                    var floor=next==y?Blocks.POLISHED_DEEPSLATE.getDefaultState():Blocks.POLISHED_DEEPSLATE_STAIRS.getDefaultState().with(Properties.HORIZONTAL_FACING,next>y?net.minecraft.util.math.Direction.EAST:net.minecraft.util.math.Direction.WEST);
+                    w.setBlockState(new BlockPos(s.x+x,base,s.z+z),floor,Block.NOTIFY_ALL);
+                }
+            }
         }
         // Footing under the surface platform: no floating station on a sloping mountain.
         for(int x=-6;x<=9;x++)for(int z=64;z<=77;z++)for(int y=s.entryY-1;y>=s.entryY-16;y--){

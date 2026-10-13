@@ -67,6 +67,8 @@ def run(args):
   for f in results.glob('*.json'):shutil.copy2(f,out/f.name)
   assert json.loads((out/'phase7-intrusion.json').read_text())['removed_after_crossing']
   assert json.loads((out/'phase7-natural.json').read_text())['outside_loaded_monsters']>0
+  access=json.loads((out/'surface-access.json').read_text());assert len(access)==3 and all(v['pass'] for v in access)
+  p.wait(timeout=100)  # The monitor already requested stop; do not leave a duplicate stop command for the next process.
  finally:stop(p,log)
  p,log=start('server-reload.log')
  try:
