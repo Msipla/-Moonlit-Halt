@@ -71,7 +71,7 @@ public final class Phase7CaptureClient implements ClientModInitializer {
                 for(int i=0;i<9;i++)if(c.player.getInventory().getStack(i).isOf(Journey.ECHO))c.player.getInventory().selectedSlot=i;
                 c.interactionManager.interactItem(c.player,Hand.MAIN_HAND);command(c,"view approach");phase=17;changed=System.nanoTime();return;
             }
-            if(phase==17){if(!surfaceWalk(c,true))return;phase=1;changed=System.nanoTime();return;}
+            if(phase==17){if(!surfaceWalk(c,true))return;c.player.setYaw(180);c.player.setPitch(8);phase=1;changed=System.nanoTime();return;}
             if(phase==18){if(!surfaceWalk(c,false))return;capture(c,"surface-walk-exit.png");phase=19;changed=System.nanoTime();return;}
             if(phase==19){if(!surfaceWalk(c,true))return;bell(c,true);phase=7;changed=System.nanoTime();return;}
             if(phase==1){if(seconds()<18||!queues(c))return;capture(c,"surface-station.png");bell(c,true);next();return;}
@@ -83,7 +83,7 @@ public final class Phase7CaptureClient implements ClientModInitializer {
                     // Detached photography camera only; the real passenger remains seated and the server car keeps moving.
                     photoCamera=new net.minecraft.entity.decoration.ArmorStandEntity(c.world,0,0,0);
                     photoCamera.refreshPositionAndAngles(JourneyClient.x-9.5,c.player.getY()+2,JourneyClient.z+60.5,-45,18);
-                    photoCamera.prevYaw=photoCamera.getYaw();photoCamera.prevPitch=photoCamera.getPitch();
+                    photoCamera.prevYaw=photoCamera.getYaw();photoCamera.prevPitch=photoCamera.getPitch();photoCamera.headYaw=photoCamera.prevHeadYaw=-45;photoCamera.bodyYaw=photoCamera.prevBodyYaw=-45;
                     c.setCameraEntity(photoCamera);exteriorAt=System.nanoTime();
                 }
                 if(photoCamera!=null&&System.nanoTime()-exteriorAt>1_000_000_000L){capture(c,"phantom-car-exterior.png");exteriorShot=true;c.setCameraEntity(c.player);photoCamera=null;}
@@ -145,7 +145,7 @@ public final class Phase7CaptureClient implements ClientModInitializer {
     }
     private void capture(MinecraftClient c,String file)throws Exception{
         Files.createDirectories(OUT);try(var frame=ScreenshotRecorder.takeScreenshot(c.getFramebuffer())){frame.writeTo(OUT.resolve(file));}
-        var r=new JsonObject();r.addProperty("file",file);r.addProperty("x",c.player.getX());r.addProperty("y",c.player.getY());r.addProperty("z",c.player.getZ());r.addProperty("yaw",c.player.getYaw());r.addProperty("pitch",c.player.getPitch());r.addProperty("riding",c.player.hasVehicle());r.addProperty("health",c.player.getHealth());r.addProperty("dimension",c.world.getRegistryKey().getValue().toString());r.addProperty("chunk_debug",c.worldRenderer.getChunksDebugString());r.addProperty("detached_photo_camera",c.getCameraEntity()!=c.player);r.addProperty("camera_position",c.gameRenderer.getCamera().getPos().toString());r.addProperty("gl_error",GL11.glGetError());r.addProperty("renderer",GL11.glGetString(GL11.GL_RENDERER));r.add("environment",EnvironmentClient.measurements());frames.add(r);write("captures.json",frames);
+        var r=new JsonObject();r.addProperty("file",file);r.addProperty("x",c.player.getX());r.addProperty("y",c.player.getY());r.addProperty("z",c.player.getZ());r.addProperty("yaw",c.player.getYaw());r.addProperty("pitch",c.player.getPitch());r.addProperty("riding",c.player.hasVehicle());r.addProperty("health",c.player.getHealth());r.addProperty("dimension",c.world.getRegistryKey().getValue().toString());r.addProperty("chunk_debug",c.worldRenderer.getChunksDebugString());r.addProperty("detached_photo_camera",c.getCameraEntity()!=c.player);r.addProperty("camera_position",c.gameRenderer.getCamera().getPos().toString());r.addProperty("camera_yaw",c.gameRenderer.getCamera().getYaw());r.addProperty("camera_pitch",c.gameRenderer.getCamera().getPitch());r.addProperty("gl_error",GL11.glGetError());r.addProperty("renderer",GL11.glGetString(GL11.GL_RENDERER));r.add("environment",EnvironmentClient.measurements());frames.add(r);write("captures.json",frames);
     }
     private void write(String name,Object value){try{Files.createDirectories(OUT);Files.writeString(OUT.resolve(name),new GsonBuilder().setPrettyPrinting().create().toJson(value));}catch(Exception e){throw new IllegalStateException(e);}}
 }

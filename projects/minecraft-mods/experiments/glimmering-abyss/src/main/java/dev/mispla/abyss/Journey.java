@@ -77,8 +77,7 @@ public final class Journey {
             if(s.journeys.containsKey(h.player.getUuid()))recover(h.player,s,"旅途中断后，你已回到安全站台。");
         }));
         ServerPlayConnectionEvents.DISCONNECT.register((h,server)->{
-            var s=OverworldSite.get(server.getOverworld());
-            if(s.journeys.containsKey(h.player.getUuid()))recover(h.player,s,"缆车已靠站。");
+            // Player position can be saved before DISCONNECT. Keep the durable ride record; JOIN owns recovery.
             sleepStarts.remove(h.player.getUuid());
         });
     }
