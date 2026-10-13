@@ -74,28 +74,29 @@ def run(args):
   shutil.copy2(client/'abyss-v1-captures/captures.json',out/'screenshots/second-captures.json')
   shutil.copy2(client/'launch-provenance.json',out/'client-second-seed-provenance.json')
  finally:stop(p,log)
- # Generate an authentic Phase 7 save with its shipped JAR, add a player-built
- # witness, then upgrade that exact save. Never fake the layout tag on a new cave.
- (server/'mods'/jar.name).unlink()
- old=ROOT/'artifacts/glimmering-abyss-0.7.0.jar';shutil.copy2(old,server/'mods'/old.name)
- properties['level-name']='phase7-legacy';properties['level-seed']='74102002';config()
- p,log=start('server-legacy-phase7.log')
- try:
-  legacy=ready();baseline=audit('legacy-warmup');time.sleep(10)
-  p.stdin.write(f"forceload add {legacy['x']+45} {legacy['z']+8}\n");p.stdin.flush()
-  wait_for(lambda:any(k in (out/'server-legacy-phase7.log').read_text() for k in ('Marked chunk','commands.forceload.added')),45,'Native witness chunk loaded',p)
-  p.stdin.write(f"setblock {legacy['x']+45} 48 {legacy['z']+8} minecraft:gold_block\n");p.stdin.flush()
-  wait_for(lambda:any(k in (out/'server-legacy-phase7.log').read_text() for k in ('Changed the block at','commands.setblock.success')),30,'Native console witness placement',p)
-  before=audit('legacy-before');assert before['pass']
-  assert before['geometry_sha256']!=baseline['geometry_sha256'],'Witness was not present in the actual geometry sample'
- finally:stop(p,log)
- (server/'mods'/old.name).unlink();shutil.copy2(jar,server/'mods'/jar.name)
- p,log=start('server-legacy-upgraded.log')
- try:
-  legacy=ready();audit('legacy-upgrade-warmup');time.sleep(10);after=audit('legacy-after')
-  assert after['layout']==70 and after['pass'] and after['player_witness_gold'] and before['geometry_sha256']==after['geometry_sha256']
-  (out/'legacy-upgrade.json').write_text(json.dumps(dict(pass_=True,old_jar_sha256=hashlib.sha256(old.read_bytes()).hexdigest(),new_jar_sha256=hashlib.sha256(jar.read_bytes()).hexdigest(),authentic_old_world=True,layout=after['layout'],gold_block_in_sample=True,before_geometry=before['geometry_sha256'],after_geometry=after['geometry_sha256']),indent=2)+'\n')
- finally:stop(p,log)
+ # Generate authentic worlds with BOTH shipped prototypes. A real console witness
+ # must change the baseline fingerprint before an upgrade can claim preservation.
+ for old_version,expected_layout in [('0.7.0',70),('0.7.5',75)]:
+  (server/'mods'/jar.name).unlink()
+  old=ROOT/f'artifacts/glimmering-abyss-{old_version}.jar';shutil.copy2(old,server/'mods'/old.name)
+  properties['level-name']='legacy-'+old_version;properties['level-seed']='74102002';config()
+  before_log='server-legacy-'+old_version+'.log';p,log=start(before_log)
+  try:
+   legacy=ready();baseline=audit('legacy-warmup');time.sleep(10)
+   p.stdin.write(f"forceload add {legacy['x']+45} {legacy['z']+8}\n");p.stdin.flush()
+   wait_for(lambda:any(k in (out/before_log).read_text() for k in ('Marked chunk','commands.forceload.added')),45,'Native witness chunk loaded',p)
+   p.stdin.write(f"setblock {legacy['x']+45} 48 {legacy['z']+8} minecraft:gold_block\n");p.stdin.flush()
+   wait_for(lambda:any(k in (out/before_log).read_text() for k in ('Changed the block at','commands.setblock.success')),30,'Native console witness placement',p)
+   before=audit('legacy-before');assert before['pass']
+   assert before['geometry_sha256']!=baseline['geometry_sha256'],'Witness was not present in the actual geometry sample'
+  finally:stop(p,log)
+  (server/'mods'/old.name).unlink();shutil.copy2(jar,server/'mods'/jar.name)
+  p,log=start('server-upgraded-'+old_version+'.log')
+  try:
+   ready();audit('legacy-upgrade-warmup');time.sleep(10);after=audit('legacy-after')
+   assert after['layout']==expected_layout and after['pass'] and after['player_witness_gold'] and before['geometry_sha256']==after['geometry_sha256']
+   (out/('legacy-upgrade-'+old_version+'.json')).write_text(json.dumps(dict(pass_=True,old_jar_sha256=hashlib.sha256(old.read_bytes()).hexdigest(),new_jar_sha256=hashlib.sha256(jar.read_bytes()).hexdigest(),authentic_old_world=True,layout=after['layout'],gold_block_in_sample=True,before_geometry=before['geometry_sha256'],after_geometry=after['geometry_sha256']),indent=2)+'\n')
+  finally:stop(p,log)
  summary=dict(status='SPATIAL_PREVIEW_TECHNICAL_PASS',minecraft='1.20.1',release_jar_sha256=hashlib.sha256(jar.read_bytes()).hexdigest(),seeds=[74102002,-92345],real_client=True,real_server_restart=True,aesthetic_acceptance='Pending user confirmation of v1 spatial direction; settlement expansion has not started',limitations='Hosted Linux software OpenGL; not Windows, PCL2, target GPU, Sodium/Iris/DH or real phone')
  (out/'summary.json').write_text(json.dumps(summary,indent=2)+'\n');print(summary,flush=True)
 if __name__=='__main__':

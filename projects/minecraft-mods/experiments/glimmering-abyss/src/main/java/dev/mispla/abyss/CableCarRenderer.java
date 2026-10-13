@@ -28,6 +28,7 @@ public final class CableCarRenderer extends EntityRenderer<CableCarEntity> {
         m.push();m.translate(x,y,z);m.scale(sx,sy,sz);MinecraftClient.getInstance().getBlockRenderManager().renderBlockAsEntity(state,m,v,light,OverlayTexture.DEFAULT_UV);m.pop();
     }
     @Override public void render(CableCarEntity car,float yaw,float delta,MatrixStack m,VertexConsumerProvider v,int worldLight){
+        m.push();m.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(180-yaw));
         int light=LightmapTextureManager.pack(12,0);
         var floor=Blocks.DARK_OAK_PLANKS.getDefaultState();var frame=Blocks.POLISHED_DEEPSLATE.getDefaultState();var glass=Blocks.GLASS.getDefaultState();
         box(m,v,light,floor,-1.5f,0,-1.5f,3,.2f,3);
@@ -41,6 +42,6 @@ public final class CableCarRenderer extends EntityRenderer<CableCarEntity> {
         pose.age=car.age;phantom.setAngles(pose,0,0,car.age+delta,0,0);
         m.push();m.translate(0,5.1,-1.8);m.multiply(RotationAxis.POSITIVE_X.rotationDegrees(180));m.scale(1.8f,1.8f,1.8f);
         phantom.render(m,v.getBuffer(RenderLayer.getEntityCutoutNoCull(PHANTOM)),light,OverlayTexture.DEFAULT_UV,.65f,.88f,1,1);m.pop();
-        super.render(car,yaw,delta,m,v,worldLight);
+        m.pop();super.render(car,yaw,delta,m,v,worldLight);
     }
 }

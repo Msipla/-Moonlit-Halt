@@ -147,7 +147,7 @@ public final class Phase7Audit {
                 row.addProperty("top",w.getBlockState(new BlockPos(s.x+x,y-1,s.z+z)).toString());row.addProperty("second",w.getBlockState(new BlockPos(s.x+x,y-2,s.z+z)).toString());surface.add(row);
             }
             r.add("native_surface_samples",surface);
-            int samples=0;for(int x=-108;x<108;x+=9)for(int z=-172;z<108;z+=9)for(int y=-63;y<=105;y+=7){
+            int samples=0;for(int x=s.layout>=100?s.minX()+4:-108;x<(s.layout>=100?s.maxX()-4:108);x+=9)for(int z=s.layout>=100?s.minZ()+4:-172;z<(s.layout>=100?s.maxZ()-4:108);z+=9)for(int y=-63;y<=105;y+=7){
                 if(y>OverworldLandscape.ceiling(s,x,z)-OverworldSite.OFFSET_Y)continue;
                 digest.update(w.getBlockState(s.at(x,y,z)).toString().getBytes(java.nio.charset.StandardCharsets.UTF_8));samples++;
             }
@@ -159,7 +159,7 @@ public final class Phase7Audit {
                 }
             }
             var attempts=new JsonArray();boolean blocked=true;
-            for(int[] point:new int[][]{{47,45,4},{-40,26,-60},{4,45,35},{0,-54,-20},{0,85,70},{6,s.entryY+2,70},{9+s.approachLength/2,Math.max(s.entryY,s.approachY)+2,70},{-111,20,-175},{110,20,110}}){
+            for(int[] point:new int[][]{{47,45,4},{-40,26,-60},{4,45,35},{0,-54,-20},{0,85,70},{6,s.entryY+2,70},{9+s.approachLength/2,Math.max(s.entryY,s.approachY)+2,70},{s.minX()+1,20,s.minZ()+1},{s.maxX()-1,20,s.maxZ()-1}}){
                 for(var type:List.of(EntityType.ZOMBIE,EntityType.SKELETON,EntityType.CREEPER,EntityType.PHANTOM,EntityType.BAT,EntityType.COW)){
                     var mob=type.create(w);mob.setPosition(s.x+point[0]+.5,point[1],s.z+point[2]+.5);boolean accepted=w.spawnEntity(mob);blocked&=!accepted;
                     var row=new JsonObject();row.addProperty("type",EntityType.getId(type).toString());row.addProperty("local_x",point[0]);row.addProperty("y",point[1]);row.addProperty("local_z",point[2]);row.addProperty("accepted",accepted);attempts.add(row);if(accepted)mob.discard();
@@ -169,7 +169,7 @@ public final class Phase7Audit {
                 var mob=EntityType.ZOMBIE.create(w);mob.setPosition(s.x+q[0],q[1],s.z+q[2]);outside&=w.spawnEntity(mob)&&!mob.isRemoved();mob.discard();
             }
             int sceneMobs=0;for(var e:w.iterateEntities())if(e instanceof MobEntity&&SceneSafety.protects(w,e.getX(),e.getY(),e.getZ()))sceneMobs++;
-            boolean bedrock=true;for(int x=-112;x<112;x+=16)for(int z=-176;z<112;z+=16)bedrock&=w.getBlockState(new BlockPos(s.x+x,-64,s.z+z)).isOf(Blocks.BEDROCK);
+            boolean bedrock=true;for(int x=s.minX();x<=s.maxX();x+=16)for(int z=s.minZ();z<=s.maxZ();z+=16)bedrock&=w.getBlockState(new BlockPos(s.x+x,-64,s.z+z)).isOf(Blocks.BEDROCK);
             boolean shaft=true;for(int y=45;y<=s.entryY+3;y++)for(int x=-1;x<=1;x++)for(int z=69;z<=71;z++)shaft&=w.getBlockState(new BlockPos(s.x+x,y,s.z+z)).getCollisionShape(w,new BlockPos(s.x+x,y,s.z+z)).isEmpty();
             r.addProperty("warm_windows",windows);r.addProperty("warm_windows_preserved",preserved);r.addProperty("warm_windows_native_12",lit);r.addProperty("bedrock_intact",bedrock);r.addProperty("shaft_clear",shaft);
             r.addProperty("geometry_sample_count",samples);r.addProperty("geometry_sha256",HexFormat.of().formatHex(digest.digest()));r.add("scene_spawn_attempts",attempts);r.addProperty("scene_insertions_blocked",blocked);r.addProperty("outside_boundary_insertions_allowed",outside);r.addProperty("loaded_scene_mobs",sceneMobs);

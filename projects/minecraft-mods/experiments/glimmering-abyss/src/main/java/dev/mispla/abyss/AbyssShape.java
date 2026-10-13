@@ -29,14 +29,15 @@ public final class AbyssShape {
             return y<=38&&sq((x+49)/(25+depth*.17))+sq((z-35)/(22+depth*.13))<1;
         }
     }
-    public static Column column(int x,int z){
+    public static Column column(int x,int z){return column(x,z,ceiling(x,z));}
+    public static Column column(int x,int z,int cap){
         double n=Math.sin(x*.034+Math.sin(z*.019))*Math.cos(z*.039)+.25*Math.sin(x*.103-z*.071);
         double[] v={9,-57,45};
         corridor(v,x+4*n,z+3*n,SPINE);corridor(v,x+3*n,z-4*n,WEST);
         // The town sits in a broad side recess, out of the central fracture.
         double q=sq((x-47)/79.0)+sq((z+15)/104.0);
         if(q<v[0]){v[0]=q;v[1]=-46+12*q+3*n;v[2]=103-20*q+4*n;}
-        return new Column(x,z,Math.max(-57,v[1]+3*n),Math.min(ceiling(x,z)-4,v[2]+3*n),v[0],.05*n);
+        return new Column(x,z,Math.max(-57,v[1]+3*n),Math.min(cap-4,v[2]+3*n),v[0],.05*n);
     }
     private static void corridor(double[] best,double x,double z,double[][] points){
         for(int i=1;i<points.length;i++){

@@ -66,6 +66,20 @@ public final class OverworldLandscape {
         if(x>=-55&&x<=83&&z>=-106&&z<=73)top=Math.max(top,82);
         return Math.min(111,Math.max(48,top))+OverworldSite.OFFSET_Y;
     }
+    private static boolean remote(int x,int z){return x<-112||x>111||z<-176||z>111;}
+    private static int ceiling(ServerWorld w,OverworldSite s,int x,int z){
+        int cap=ceiling(s,x,z);
+        // Far vaults descend beneath the native relief. Noise terrain is immutable,
+        // so save/restart uses exactly the same cap; actual ground is checked separately.
+        if(s.layout>=100&&remote(x,z))cap=Math.min(cap,height(w,s.x+x,s.z+z)-16);
+        return cap;
+    }
+    private static int routeCap(int x,int z){
+        // A sparse blueprint has no claim on the rest of the terrain column.
+        if(abyssTown==null)return -58;
+        for(int y=abyssSY-1-8;y>=-8;y--)if(abyssAt(x,y,z)!=null)return y+4+OverworldSite.OFFSET_Y;
+        return -58;
+    }
     private static void tick(ServerWorld w){
         var s=OverworldSite.get(w);
         if(s.ready()||s.stage.equals("unavailable"))return;
@@ -73,14 +87,15 @@ public final class OverworldLandscape {
             if(!(w.getChunkManager().getChunkGenerator() instanceof NoiseChunkGenerator)||w.getBottomY()>-64){
                 s.stage="unavailable";s.reason="Requires a normal height overworld with noise terrain";s.markDirty();return;
             }
+            if(s.layout>=100)loadAbyssTown();
             if(s.stage.equals("search")){
                 if(s.attempt>=4096){s.stage="unavailable";s.reason="No covered, uninhabited candidate in bounded search";s.markDirty();return;}
                 var rng=new Random(w.getSeed()^0x41B155L^(s.attempt*0x9E3779B97F4A7C15L));s.attempt++;
                 int x=(rng.nextInt(1024)-512)*16,z=(rng.nextInt(1024)-512)*16;
                 if(Math.abs(x)<768&&Math.abs(z)<768)return;
                 if(height(w,x,z)<130)return;
-                for(int lx=s.minX();lx<=s.maxX();lx+=32)for(int lz=s.minZ();lz<=s.maxZ();lz+=32)
-                    if(height(w,x+lx,z+lz)<ceiling(s,lx,lz)+12)return;
+                for(int lx=-112;lx<=111;lx+=32)for(int lz=-176;lz<=111;lz+=32)
+                    if(!(s.layout>=100&&remote(lx,lz))&&height(w,x+lx,z+lz)<ceiling(s,lx,lz)+12)return;
                 s.x=x;s.z=z;if(!planApproach(w,s))return;s.cursor=0;s.caps.clear();s.stage="check";s.markDirty();
                 System.out.println("ABYSS_SITE_CANDIDATE "+x+","+z+" attempt="+s.attempt);return;
             }
@@ -89,10 +104,10 @@ public final class OverworldLandscape {
             if(s.stage.equals("check")){
                 boolean valid=chunk.getInhabitedTime()==0;
                 for(int dx=0;dx<16&&valid;dx++)for(int dz=0;dz<16&&valid;dz++){
-                    int wx=cx*16+dx,wz=cz*16+dz,top=ceiling(s,wx-s.x,wz-s.z);
+                    int wx=cx*16+dx,wz=cz*16+dz,top=ceiling(w,s,wx-s.x,wz-s.z);
                     // Exact full-footprint check after vanilla carving/surface/features, not only sampled noise heights.
                     int h=ground(w,wx,wz)+1; // Bare ground, never count a tree canopy as mountain cover.
-                    if(h<top+10)valid=false;
+                    if(h<top+10||s.layout>=100&&remote(wx-s.x,wz-s.z)&&top<routeCap(wx-s.x,wz-s.z))valid=false;
                     // The painter retains a four-block solid local roof below this cap.
                     // Existing natural caves above it are permitted; requiring every native
                     // voxel to be solid would reject otherwise well-covered mountain sites.
@@ -217,8 +232,8 @@ public final class OverworldLandscape {
     private static void paint(ServerWorld w,OverworldSite s,int cx,int cz){
         var pos=new BlockPos.Mutable();
         for(int dx=0;dx<16;dx++)for(int dz=0;dz<16;dz++){
-            int x=cx*16+dx-s.x,z=cz*16+dz-s.z;var c=Terrain.column(x,z,Terrain.SEED);var natural=CavernShape.column(x,z);var abyss=AbyssShape.column(x,z);
-            int top=ceiling(s,x,z)-OverworldSite.OFFSET_Y;
+            int x=cx*16+dx-s.x,z=cz*16+dz-s.z;var c=Terrain.column(x,z,Terrain.SEED);var natural=CavernShape.column(x,z);
+            int top=ceiling(w,s,x,z)-OverworldSite.OFFSET_Y;var abyss=AbyssShape.column(x,z,top);
             for(int y=-63;y<=top;y++){
                 var state=s.layout>=100?abyssExpected(abyss,y):s.layout>=75?naturalExpected(natural,y):expected(c,y);pos.set(s.x+x,y+OverworldSite.OFFSET_Y,s.z+z);
                 if(!w.getBlockState(pos).isOf(Blocks.BEDROCK))w.setBlockState(pos,state,FLAGS);
