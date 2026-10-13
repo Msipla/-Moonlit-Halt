@@ -69,6 +69,7 @@ def run(args):
   for f in results.glob('*.json'):shutil.copy2(f,out/f.name)
   assert json.loads((out/'phase7-intrusion.json').read_text())['removed_after_crossing']
   assert json.loads((out/'phase7-debug-permissions.json').read_text())['pass']
+  assert json.loads((out/'refuge-sleep.json').read_text())['actual_refuge_bed_sleep']
   motion=json.loads((out/'cabin-motion.json').read_text())
   assert len(motion)>500 and max(r['car_x'] for r in motion)-min(r['car_x'] for r in motion)>27
   assert json.loads((out/'phase7-natural.json').read_text())['outside_loaded_monsters']>0

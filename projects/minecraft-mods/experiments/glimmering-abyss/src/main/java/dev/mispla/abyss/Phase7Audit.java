@@ -73,18 +73,27 @@ public final class Phase7Audit {
             case "library" -> {x=-47.5;y=45;z=38.5;yaw=120;pitch=8;}
             case "bridge-destination" -> {x=-29.5;y=45;z=35.5;yaw=90;pitch=-5;}
             case "bedroom" -> {x=38.5;y=51;z=-10.5;yaw=180;pitch=10;}
-            case "water" -> {x=76.5;y=46;z=-27.5;yaw=180;pitch=30;}
+            case "water" -> {x=76.5;y=46;z=19.5;yaw=180;pitch=25;}
             case "west-cave" -> {x=-83.5;y=36;z=-52.5;yaw=-35;pitch=8;p.changeGameMode(GameMode.CREATIVE);p.getAbilities().flying=true;p.sendAbilitiesUpdate();}
             case "floor" -> {x=-4.5;y=0;z=42.5;yaw=180;pitch=45;p.changeGameMode(GameMode.CREATIVE);p.getAbilities().flying=true;p.sendAbilitiesUpdate();}
             case "approach" -> {x=9.5+s.approachLength;y=s.approachY+1;z=70.5;yaw=90;pitch=0;}
             case "lower" -> y=45;
             case "street" -> {x=47.5;y=45;z=4.5;yaw=180;pitch=-9;}
-            case "cliff" -> {x=-47.5;y=28;z=17.5;yaw=-90;pitch=8;p.changeGameMode(GameMode.CREATIVE);p.getAbilities().flying=true;p.sendAbilitiesUpdate();}
+            case "cliff" -> {x=-31.5;y=26;z=7.5;yaw=-90;pitch=8;p.changeGameMode(GameMode.CREATIVE);p.getAbilities().flying=true;p.sendAbilitiesUpdate();}
             case "overview" -> {x=-31.5;y=66;z=60.5;yaw=-135;pitch=18;p.changeGameMode(GameMode.CREATIVE);p.getAbilities().flying=true;p.sendAbilitiesUpdate();}
             case "surface" -> {x=17;y=s.entryY+7;z=85;yaw=140;pitch=20;p.changeGameMode(GameMode.CREATIVE);p.getAbilities().flying=true;p.sendAbilitiesUpdate();}
             case "outside" -> {x=400.5;z=70.5;y=OverworldLandscape.surface(w,Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,s.x+400,s.z+70)+1;w.setTimeOfDay(18000);p.changeGameMode(GameMode.CREATIVE);}
             case "entrance" -> {}
             default -> {return 0;}
+        }
+        if(java.util.Set.of("library","bridge-destination","bedroom","water","west-cave","floor","cliff","overview","surface").contains(name)){
+            p.changeGameMode(GameMode.CREATIVE);p.getAbilities().flying=true;p.sendAbilitiesUpdate();
+            boolean clear=false;
+            for(int radius=0;radius<=12&&!clear;radius++)for(int dx=-radius;dx<=radius&&!clear;dx++)for(int dz=-radius;dz<=radius&&!clear;dz++){
+                if(Math.max(Math.abs(dx),Math.abs(dz))!=radius)continue;
+                if(w.isSpaceEmpty(p,new net.minecraft.util.math.Box(s.x+x+dx-.3,y,s.z+z+dz-.3,s.x+x+dx+.3,y+1.8,s.z+z+dz+.3))){x+=dx;z+=dz;clear=true;}
+            }
+            if(!clear)throw new IllegalStateException("No clear photography position for "+name);
         }
         p.teleport(w,s.x+x,y,s.z+z,yaw,pitch);p.setHealth(20);p.getHungerManager().setFoodLevel(20);return 1;
     }
@@ -163,7 +172,7 @@ public final class Phase7Audit {
             r.addProperty("doMobSpawning",w.getGameRules().getBoolean(GameRules.DO_MOB_SPAWNING));r.addProperty("difficulty",w.getDifficulty().getName());r.addProperty("dark_native_light",w.getLightLevel(LightType.BLOCK,s.at(0,-54,-20)));
             r.addProperty("surface_exact_required",label.equals("first")||label.equals("second"));
             boolean fluids=true;int water=0;
-            if(s.layout>=75)for(int x=74;x<=78;x++)for(int z=-35;z<=-31;z++){
+            if(s.layout>=75)for(int x=74;x<=78;x++)for(int z=12;z<=16;z++){
                 var pos=s.at(x,38,z);if(w.getBlockState(pos).isOf(Blocks.WATER))water++;
                 fluids&=w.getBlockState(pos.down()).isSolidBlock(w,pos.down());
                 for(var dir:List.of(net.minecraft.util.math.Direction.NORTH,net.minecraft.util.math.Direction.SOUTH,net.minecraft.util.math.Direction.EAST,net.minecraft.util.math.Direction.WEST)){

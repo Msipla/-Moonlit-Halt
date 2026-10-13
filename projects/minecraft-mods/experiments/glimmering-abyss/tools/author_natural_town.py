@@ -77,6 +77,10 @@ for x in range(-59,-41):
  if -58<=x<=-43:
   for z in (26,43):box(x,49,z,x,h-1,z,'stone_bricks')
 box(-43,39,34,-42,41,36,'air')
+for z in (28,39):
+ box(-43,40,z,-43,43,z+2,'glass_pane',north='true',south='true',east='false',west='false',waterlogged='false')
+ box(-45,44,z+1,-45,47,z+1,'chain',axis='y',waterlogged='false')
+ put(-45,43,z+1,'lantern',hanging='true',waterlogged='false')
 # Glass offers an actual view from indoors; unchanged old warm windows stay exact.
 for x in (-55,-49):
  box(x,40,43,x+2,43,43,'glass_pane',north='false',south='false',east='true',west='true',waterlogged='false')
@@ -92,10 +96,10 @@ for x in range(-42,-24):
 lamp(-41,40,32)
 # One small, fully enclosed static basin. Every water cell has stone below and
 # either water or solid stone on all four sides, avoiding cascading fluid work.
-box(72,37,-37,80,39,-29,'deepslate')
-box(73,39,-36,79,43,-30,'air')
-box(74,38,-35,78,38,-31,'water',level='0')
-for x,z in [(73,-30),(79,-30)]:lamp(x,39,z)
+box(72,37,10,80,39,18,'deepslate')
+box(73,39,11,79,43,17,'air')
+box(74,38,12,78,38,16,'water',level='0')
+for x,z in [(73,17),(79,17)]:lamp(x,39,z)
 assert all(b[p]==s for p,s in original_windows.items())
 origin=(-64,34,-106);size=(148,46,180);palette=[];lookup={};rows=[]
 for pos,s in sorted(b.items()):
