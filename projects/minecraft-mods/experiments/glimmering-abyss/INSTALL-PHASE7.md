@@ -1,6 +1,6 @@
 # 《微光深渊》v0.7.0 · 主世界地下旅行
 
-开发候选版本。以 `TEST-REPORT-PHASE7.md` 和对应实跑证据为验收依据。
+正式 v0.7.0 安装包；完整技术验收运行 [38354855268](https://github.com/Msipla/-Moonlit-Halt/actions/runs/38354855268) 通过。下载 [glimmering-abyss-0.7.0.jar](artifacts/glimmering-abyss-0.7.0.jar)，780,201字节，SHA-256 `90d39cb50b4ab0e1d08613c7b7c5f4bcb5c7a3904e90a1b4a08c760510a46631`。见 [校验](artifacts/checksums-v0.7.json) 与 [测试报告](TEST-REPORT-PHASE7.md)。新增画面待用户审阅。
 
 Minecraft Java **1.20.1**、Java **17**、Fabric Loader **0.14.25**、Fabric API **0.85.0+1.20.1**。客户端与服务端均安装同一版本 MOD 和 Fabric API；每个实例只保留一个微光深渊版本，勿安装 sources JAR。
 

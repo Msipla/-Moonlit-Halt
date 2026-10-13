@@ -1,13 +1,13 @@
 'use strict';
 const byId = id => document.getElementById(id);
-const viewNames = {platform:'观景台',tunnel:'通道',edge:'深渊边缘',overlook:'俯视',facade:'建筑全貌',warmth:'冷暖局部',scale:'洞厅尺度',bridge:'连接步道',interior:'工坊室内',core:'铁桥核心机位',down:'桥上俯视',span:'铁桥远景',departure:'路线起点',arrival:'抵达回望',street:'镇内主街',plaza:'小广场',high:'登楼远眺',cliff:'断崖俯视',overview:'小镇远景'};
+const viewNames = {entrance:'山间站台',car:'幻翼车厢',descent:'下降抵达',return:'返回地面',platform:'观景台',tunnel:'通道',edge:'深渊边缘',overlook:'俯视',facade:'建筑全貌',warmth:'冷暖局部',scale:'洞厅尺度',bridge:'连接步道',interior:'工坊室内',core:'铁桥核心机位',down:'桥上俯视',span:'铁桥远景',departure:'路线起点',arrival:'抵达回望',street:'镇内主街',plaza:'小广场',high:'登楼远眺',cliff:'断崖俯视',overview:'小镇远景'};
 let project, currentStage, currentView='platform', currentMode, currentImage;
 const text = (tag, value, className) => {
   const node=document.createElement(tag);node.textContent=value;if(className)node.className=className;return node;
 };
 function imageUrl(stage, mode, view) {
   const variant=stage.modes.find(x=>x.id===mode);
-  return stage.base+(variant.file||mode+'-'+view+'.png');
+  return stage.base+(variant.file||stage.files?.[view]||mode+'-'+view+'.png');
 }
 function openImage(url,title) {
   byId('lightbox-title').textContent=title;
@@ -57,7 +57,7 @@ function renderGallery() {
   currentImage={url:imageUrl(s,currentMode,currentView),title:viewNames[currentView]+' · '+mode.label};
   const img=byId('gallery-image');img.src=currentImage.url;img.alt=s.short+' '+currentImage.title+' · 实际客户端原始截图';
   byId('image-title').textContent=currentImage.title;byId('original-link').href=currentImage.url;
-  byId('image-note').textContent=currentView==='overview'?'创造模式远景，用于观察整体构图；未经提亮或调色。':mode.onlyView?'此控制方案只有'+viewNames[mode.onlyView]+'原图，已切换到对应机位。':'实际 Minecraft 客户端画面，未经提亮或调色。';
+  byId('image-note').textContent=s.notes?.[currentView]||(currentView==='overview'?'创造模式远景，用于观察整体构图；未经提亮或调色。':mode.onlyView?'此控制方案只有'+viewNames[mode.onlyView]+'原图，已切换到对应机位。':'实际 Minecraft 客户端画面，未经提亮或调色。');
   const extras=byId('extra-images');extras.replaceChildren();
   for(const item of s.extras){const article=document.createElement('article');article.className='extra-card';const b=document.createElement('button');b.setAttribute('aria-label','放大：'+item.title);const i=document.createElement('img');i.src=s.base+item.file;i.alt=item.title+' · 原始游戏帧';i.loading='lazy';b.append(i);b.addEventListener('click',()=>openImage(s.base+item.file,item.title));article.append(b,text('p',item.title));extras.append(article);}
   byId('extra-images').parentElement.hidden=s.extras.length===0;
