@@ -1,0 +1,20 @@
+{
+  "status": "CAPTURE_PASS",
+  "scope": "Second-seed framebuffer supplement; does not replace full acceptance run 38401293992",
+  "seed": -92345,
+  "release_run": "38401293992",
+  "release_jar_sha256": "9bf21d17eb41318ea00d7203c97f0c1c652b1096b867e9e12bcc915f15985c8b",
+  "test_fixture_source": "7f8cf41904fa05744840d57c8dca8645077b356d",
+  "attempts": [
+    {
+      "attempt": 1,
+      "bright_sky_fraction": 0.0012510850694444444,
+      "health": 20.0,
+      "gl_error": 0,
+      "chunk_debug": "C: 936/26136 (s) D: 16, pC: 000, pU: 00, aB: 04",
+      "preliminary_capture_pass": true
+    }
+  ],
+  "manual_visual_review": "Required before selection in public gallery",
+  "image_sha256": "6f9790f400cb27bde4769a57392d072096383213cfff47cbf026b66d80f101ec"
+}

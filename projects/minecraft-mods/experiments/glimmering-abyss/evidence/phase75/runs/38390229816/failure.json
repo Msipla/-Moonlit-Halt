@@ -1,0 +1,5 @@
+{
+  "phase": 23,
+  "error": "java.lang.IllegalStateException: Refuge bed sleep did not complete",
+  "chunk_debug": "C: 768/26136 (s) D: 16, pC: 000, pU: 00, aB: 04"
+}

@@ -1,0 +1,6 @@
+{
+  "player_position": "(-7439.511343867254, 45.0, -2416.4743432874407)",
+  "player_block": "class_2338{x\u003d-7440, y\u003d45, z\u003d-2417}",
+  "bed_state": "Block{minecraft:blue_bed}[facing\u003dnorth,occupied\u003dfalse,part\u003dfoot]",
+  "head_state": "Block{minecraft:blue_bed}[facing\u003dnorth,occupied\u003dfalse,part\u003dhead]"
+}

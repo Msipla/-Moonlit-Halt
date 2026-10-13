@@ -1,12 +1,14 @@
 name: Check Glimmering Abyss exhibition
 on:
   push:
-    branches: [main, codex/phase7-overworld]
+    branches: [main, codex/phase7-overworld, codex/phase7.5-natural-caverns]
     paths:
       - 'site/glimmering-abyss/index.html'
       - 'site/glimmering-abyss/exhibition.*'
       - 'site/glimmering-abyss/tools/**'
       - 'site/glimmering-abyss/phase7.html'
+      - 'site/glimmering-abyss/phase75.html'
+      - 'projects/minecraft-mods/experiments/glimmering-abyss/evidence/phase75/latest.json'
       - 'projects/minecraft-mods/experiments/glimmering-abyss/evidence/phase7/latest.json'
       - '.github/workflows/glimmering-abyss-gallery-check.yml'
   workflow_dispatch:
@@ -31,7 +33,7 @@ jobs:
           npm install --prefix "$RUNNER_TEMP/gallery-check" playwright@1.62.1
           "$RUNNER_TEMP/gallery-check/node_modules/.bin/playwright" install --with-deps chromium
       - name: Prepare branch preview
-        if: github.ref_name == 'codex/phase7-overworld'
+        if: startsWith(github.ref_name, 'codex/')
         run: |
           mkdir -p "$RUNNER_TEMP/exhibition-preview"
           cp site/glimmering-abyss/*.html site/glimmering-abyss/exhibition.* "$RUNNER_TEMP/exhibition-preview/"
@@ -49,7 +51,7 @@ jobs:
         run: |
           export GALLERY_PLAYWRIGHT_DIR="$RUNNER_TEMP/gallery-check"
           export GALLERY_QA_OUT="projects/minecraft-mods/experiments/glimmering-abyss/evidence/website/runs/${{ github.run_id }}"
-          if [ "${{ github.ref_name }}" = "codex/phase7-overworld" ]; then
+          if [ "${{ github.ref_name }}" != "main" ]; then
             export GALLERY_URL="http://127.0.0.1:8765/"
           fi
           node site/glimmering-abyss/tools/verify-gallery.cjs

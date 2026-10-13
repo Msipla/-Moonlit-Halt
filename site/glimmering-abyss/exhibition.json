@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "latestStage": "phase7",
+  "latestStage": "phase75",
   "updated": "2026-10-13",
   "stages": [
     {
@@ -362,9 +362,9 @@
       "description": "梦境带来线索，微光指向山间；乘封闭幻翼车厢抵达地下小镇，再安全返回地面。",
       "technical": "技术已验证",
       "technicalState": "passed",
-      "aesthetic": "新增画面待用户判断",
-      "aestheticState": "waiting",
-      "verdict": "普通主世界生成、完整景观安全和发现—抵达—返回闭环已实测通过，包括途中停服后的健康落站。已认可的小镇与冷蓝基准保持原样；新增入口、车厢与岩台外围画面待用户审阅。",
+      "aesthetic": "既有美学保留，安卓反馈已记录",
+      "aestheticState": "direction",
+      "verdict": "Phase 7工程交付与用户安卓实测已完成；乘车抖动、运动表现、生成提示和洞穴地貌的反馈由Phase 7.5继续处理。历史原图与证据保留。",
       "pointer": "evidence/phase7/latest.json",
       "cover": "overworld-town-overview.png",
       "views": [
@@ -410,6 +410,81 @@
         "car": "实际乘车过程的独立摄影机位；乘客仍坐在车厢中。原图未经提亮或调色。",
         "overview": "创造摄影机位，用于观察小镇和洞厅的整体尺度；不是生存抵达证明。",
         "cliff": "创造摄影机位，观察岩台侧壁与外围衔接；原图未经提亮或调色。"
+      }
+    },
+    {
+      "id": "phase75",
+      "number": "07.5",
+      "title": "Phase 7.5 · 天然洞穴中的暖光庇护所",
+      "short": "Phase 7.5",
+      "description": "不对称岩壁、侧洞与起伏底面，让小镇依附天然岩台；过桥进入阅览庇护所，乘车横向欣赏深处。",
+      "technical": "技术已验证",
+      "technicalState": "passed",
+      "aesthetic": "新地貌待用户判断",
+      "aestheticState": "waiting",
+      "verdict": "正式v0.7.5发布包经两个种子真实客户端/专用服完整验证，行走、床铺、梦境、往返、重连与旧存档改动保留通过。天然地貌、美学和安卓Amethyst体验仍待用户判断。",
+      "pointer": "evidence/phase75/latest.json",
+      "cover": "overworld-town-overview.png",
+      "views": [
+        "overview",
+        "cliff",
+        "floor",
+        "cave",
+        "bridge",
+        "library",
+        "street",
+        "bedroom",
+        "water",
+        "descent"
+      ],
+      "files": {
+        "overview": "overworld-town-overview.png",
+        "cliff": "naturalized-cliff.png",
+        "floor": "natural-floor.png",
+        "cave": "side-cave.png",
+        "bridge": "bridge-destination.png",
+        "library": "library-interior.png",
+        "street": "town-street.png",
+        "bedroom": "residence-bedroom.png",
+        "water": "contained-water.png",
+        "descent": "../../38396057622/screenshots/cabin-cavern-arrival.png"
+      },
+      "modes": [
+        {
+          "id": "overworld",
+          "label": "主世界实机"
+        }
+      ],
+      "defaultMode": "overworld",
+      "defaultView": "overview",
+      "report": "phase75.html",
+      "extras": [
+        {
+          "file": "dream-1.png",
+          "title": "第一晚 · 真实场景静态梦境"
+        },
+        {
+          "file": "dream-2.png",
+          "title": "第二晚 · 暖窗梦境"
+        },
+        {
+          "file": "reconnected-safe-station.png",
+          "title": "途中停服 · 重连安全落站"
+        },
+        {
+          "file": "../../38406057372/screenshots/second-seed-overview.png",
+          "title": "第二种子 · 加载后完整原图（同一安装包）"
+        }
+      ],
+      "version": "0.7.5",
+      "developmentLabel": "Phase 7.5天然地貌与可居住庇护所",
+      "notes": {
+        "overview": "创造摄影机位，用于观察空间与地形；实际步行另有证据。",
+        "cliff": "创造摄影机位，观察岩台与底部；未经提亮或调色。",
+        "library": "阅览庇护所的室内摄影机位；真实按键过桥进屋另有记录。",
+        "bedroom": "住宅上层卧室的摄影机位；有真实楼梯与床铺。",
+        "floor": "天然底面摄影机位，不作为生存行走证明。",
+        "descent": "上一轮v0.7.5的有效真实乘车原图；与正式包的游戏条目内容一致。本轮首次动态取景有渲染空隙，未宣布安卓渲染问题已修复，诊断原图见阶段报告。"
       }
     }
   ],
@@ -460,7 +535,13 @@
       "date": "2026.10.13",
       "title": "梦境通向主世界地下",
       "text": "第六阶段整体美学获认可。主世界地下景观、局部安全、梦境定位、幻翼车厢与正常往返通过实测；途中停服重连也安全落站。",
-      "state": "第七阶段技术已验证 · 新增画面待判断"
+      "state": "Phase 7已交付并经用户安卓试用 · 反馈由Phase 7.5处理"
+    },
+    {
+      "date": "2026.10.13",
+      "title": "从洞厅走向洞穴",
+      "text": "保留巨型空间、冷蓝基准与原建筑，采用自然岩台、侧洞与起伏底面，补齐内饰、桥对岸停留空间、短暂实景梦境和乘车插值。",
+      "state": "Phase 7.5技术已验证 · 安卓与美学待验收"
     }
   ]
 }

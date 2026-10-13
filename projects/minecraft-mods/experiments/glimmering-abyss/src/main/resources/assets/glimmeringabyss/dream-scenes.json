@@ -1,0 +1,22 @@
+[
+  {
+    "step": 1,
+    "source_run": "38392139699",
+    "source_commit": "aaaa3445bc8aeb4b68bcd1dd982ce9175350159d",
+    "source_file": "side-cave.png",
+    "sha256": "c95438ada35ffa9c7145e5c923237e7c392983e18e72b5827704636535cc395f",
+    "unedited_original_scene": true,
+    "source_ui": "Normal in-game photography, visually verified without death overlay; chunk queues drained",
+    "source_run_status": "Core new-world, rides, restart and old layout passed; final witness assertion failed because its placement command was ignored"
+  },
+  {
+    "step": 2,
+    "source_run": "38392139699",
+    "source_commit": "aaaa3445bc8aeb4b68bcd1dd982ce9175350159d",
+    "source_file": "overworld-town-overview.png",
+    "sha256": "bc8aea67940f3db776fdb7cda153f0938ae6bf71f769c22c562c4e97a83c20a0",
+    "unedited_original_scene": true,
+    "source_ui": "Normal in-game photography, visually verified without death overlay; chunk queues drained",
+    "source_run_status": "Core new-world, rides, restart and old layout passed; final witness assertion failed because its placement command was ignored"
+  }
+]

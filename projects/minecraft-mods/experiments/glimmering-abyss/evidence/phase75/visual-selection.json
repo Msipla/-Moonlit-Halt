@@ -1,0 +1,25 @@
+{
+  "status": "RAW_FRAME_SELECTION_REVIEWED",
+  "aesthetic_acceptance": "Pending user Android review",
+  "release_run": "38401293992",
+  "release_jar_sha256": "9bf21d17eb41318ea00d7203c97f0c1c652b1096b867e9e12bcc915f15985c8b",
+  "second_seed": {
+    "run": "38406057372",
+    "file": "second-seed-overview.png",
+    "sha256": "6f9790f400cb27bde4769a57392d072096383213cfff47cbf026b66d80f101ec",
+    "manual_visual_review": "2026-10-13: full cave/town visible; no large sky gaps or death UI; unedited original"
+  },
+  "ride": {
+    "run": "38396057622",
+    "file": "cabin-cavern-arrival.png",
+    "sha256": "c29cb2c1587a5ec31b3ad7ac714c65d6c1f5571a170ffb7e54ad8d306a220e39",
+    "jar_zip_names_and_decoded_contents_identical": true,
+    "whole_source_run_status": "Final legacy fixture failed; not relabeled passed"
+  },
+  "diagnostic_frames_retained": [
+    "38401293992/screenshots/second-seed-overview.png",
+    "38401293992/screenshots/cabin-cavern-arrival.png",
+    "38401293992/screenshots/phantom-car-exterior.png"
+  ],
+  "limits": "Initial/moving rendering gaps remain recorded; Android root cause and ride comfort unverified"
+}

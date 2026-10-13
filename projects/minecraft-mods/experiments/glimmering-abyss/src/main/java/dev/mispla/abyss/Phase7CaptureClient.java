@@ -24,6 +24,12 @@ import java.nio.file.Path;
 /** Opt-in official-client harness: actual bell interactions, two rides and walking keys. */
 public final class Phase7CaptureClient implements ClientModInitializer {
     private static final boolean RECONNECT=Boolean.getBoolean("abyss.capture.phase7.reconnect");
+    private static final boolean NATURAL=Boolean.getBoolean("abyss.capture.phase75");
+    private static final boolean SECOND=Boolean.getBoolean("abyss.capture.phase75.second");
+    private long dreamSeenAt;
+    private int dreamCaptured;
+    private boolean refugeRested;
+    private final JsonArray motion=new JsonArray();
     private static final Path OUT=Path.of(RECONNECT?"abyss-phase7-reconnect":"abyss-phase7-captures");
     private final JsonArray frames=new JsonArray(),walks=new JsonArray(),rides=new JsonArray(),accesses=new JsonArray();
     private boolean connected,finished,midShot,lowShot,exteriorShot;
@@ -33,7 +39,7 @@ public final class Phase7CaptureClient implements ClientModInitializer {
     private int phase=-1,leg,sleeps;
     private boolean observedSleep,restartReady;
     private double startX,startZ;
-    private static final double[][] WALK={{6.5,72.5},{20.5,72.5},{20.5,70.5},{38.5,70.5},{38.5,43.5},{30.5,43.5},{30.5,35.5},{-29.5,35.5},{30.5,35.5},{30.5,5.5},{47.5,5.5},{47.5,-22.5},{47.5,5.5},{30.5,5.5},{30.5,43.5},{38.5,43.5},{38.5,70.5},{20.5,70.5},{20.5,72.5},{6.5,72.5},{6.5,70.5}};
+    private static final double[][] WALK=NATURAL?new double[][]{{6.5,72.5},{20.5,72.5},{20.5,70.5},{38.5,70.5},{38.5,43.5},{30.5,43.5},{30.5,35.5},{-29.5,35.5},{-46.5,35.5},{-48.5,35.5},{-47.5,31.5},{-48.5,35.5},{-29.5,35.5},{30.5,35.5},{30.5,5.5},{47.5,5.5},{47.5,-22.5},{47.5,5.5},{30.5,5.5},{30.5,43.5},{38.5,43.5},{38.5,70.5},{20.5,70.5},{20.5,72.5},{6.5,72.5},{6.5,70.5}}:new double[][]{{6.5,72.5},{20.5,72.5},{20.5,70.5},{38.5,70.5},{38.5,43.5},{30.5,43.5},{30.5,35.5},{-29.5,35.5},{30.5,35.5},{30.5,5.5},{47.5,5.5},{47.5,-22.5},{47.5,5.5},{30.5,5.5},{30.5,43.5},{38.5,43.5},{38.5,70.5},{20.5,70.5},{20.5,72.5},{6.5,72.5},{6.5,70.5}};
     @Override public void onInitializeClient(){if(!Boolean.getBoolean("abyss.capture.phase7"))return;started=System.nanoTime();ClientTickEvents.END_CLIENT_TICK.register(this::tick);}
     private double seconds(){return (System.nanoTime()-changed)/1e9;}
     private void next(){phase++;changed=System.nanoTime();System.out.println("ABYSS_PHASE7_STAGE "+phase);}
@@ -53,6 +59,23 @@ public final class Phase7CaptureClient implements ClientModInitializer {
             }
             if(restartReady&&c.world==null){finished=true;c.scheduleStop();return;}
             if(c.player==null||c.world==null||!JourneyClient.ready())return;
+            if(!c.player.isAlive())throw new IllegalStateException("Acceptance player died at "+c.player.getPos());
+            if(NATURAL&&c.player.hasVehicle()&&(phase==3||phase==6)){
+                var r=new JsonObject();r.addProperty("phase",phase);r.addProperty("seconds",seconds());r.addProperty("x",c.player.getX());r.addProperty("y",c.player.getY());r.addProperty("z",c.player.getZ());
+                var car=c.player.getVehicle();r.addProperty("car_x",car.getX());r.addProperty("car_y",car.getY());r.addProperty("car_z",car.getZ());motion.add(r);
+            }
+            if(SECOND){
+                if(phase==-1){command(c,"view overview");next();return;}
+                if(seconds()<(NATURAL?8:18)||!queues(c))return;
+                capture(c,"second-seed-overview.png");finished=true;c.scheduleStop();return;
+            }
+            if(c.currentScreen instanceof DreamScreen dream){
+                if(dream.step>dreamCaptured){
+                    if(dreamSeenAt==0)dreamSeenAt=System.nanoTime();
+                    if(System.nanoTime()-dreamSeenAt>400_000_000L){capture(c,"dream-"+dream.step+".png");dreamCaptured=dream.step;dreamSeenAt=0;}
+                }
+                return;
+            }
             if(RECONNECT){
                 if(phase==-1){next();return;}if(seconds()<12)return;checkLanding(c,true);capture(c,"reconnected-safe-station.png");
                 var recovery=new JsonObject();recovery.addProperty("pass",true);recovery.addProperty("same_offline_identity",true);write("recovery.json",recovery);finished=true;c.scheduleStop();return;
@@ -71,10 +94,20 @@ public final class Phase7CaptureClient implements ClientModInitializer {
                 for(int i=0;i<9;i++)if(c.player.getInventory().getStack(i).isOf(Journey.ECHO))c.player.getInventory().selectedSlot=i;
                 c.interactionManager.interactItem(c.player,Hand.MAIN_HAND);command(c,"view approach");phase=17;changed=System.nanoTime();return;
             }
+            if(phase==22){
+                if(seconds()<3)return;var bed=new BlockPos(JourneyClient.x-46,45,JourneyClient.z+30);
+                var attempt=new JsonObject();attempt.addProperty("player_position",c.player.getPos().toString());attempt.addProperty("player_block",c.player.getBlockPos().toString());attempt.addProperty("bed_state",c.world.getBlockState(bed).toString());attempt.addProperty("head_state",c.world.getBlockState(bed.north()).toString());write("refuge-attempt.json",attempt);
+                c.interactionManager.interactBlock(c.player,Hand.MAIN_HAND,new BlockHitResult(Vec3d.ofCenter(bed),Direction.UP,bed,false));phase=23;changed=System.nanoTime();return;
+            }
+            if(phase==23){
+                observedSleep|=c.player.isSleeping();if(c.player.isSleeping()||!observedSleep){if(seconds()>30)throw new IllegalStateException("Refuge bed sleep did not complete");return;}
+                var r=new JsonObject();r.addProperty("actual_refuge_bed_sleep",true);r.addProperty("health",c.player.getHealth());r.addProperty("dimension",c.world.getRegistryKey().getValue().toString());write("refuge-sleep.json",r);
+                refugeRested=true;leg++;startX=c.player.getX();startZ=c.player.getZ();phase=4;changed=System.nanoTime();return;
+            }
             if(phase==17){if(!surfaceWalk(c,true))return;c.player.setYaw(180);c.player.setPitch(8);phase=1;changed=System.nanoTime();return;}
             if(phase==18){if(!surfaceWalk(c,false))return;capture(c,"surface-walk-exit.png");phase=19;changed=System.nanoTime();return;}
             if(phase==19){if(!surfaceWalk(c,true))return;bell(c,true);phase=7;changed=System.nanoTime();return;}
-            if(phase==1){if(seconds()<18||!queues(c))return;capture(c,"surface-station.png");bell(c,true);next();return;}
+            if(phase==1){if(seconds()<(NATURAL?8:18)||!queues(c))return;capture(c,"surface-station.png");bell(c,true);next();return;}
             if(phase==2){if(!c.player.hasVehicle()){if(seconds()>12)throw new IllegalStateException("Upper bell did not board");return;}next();return;}
             if(phase==3){
                 if(!midShot&&c.player.getY()<JourneyClient.entryY-10){capture(c,"cabin-descent.png");midShot=true;}
@@ -99,7 +132,8 @@ public final class Phase7CaptureClient implements ClientModInitializer {
                 c.options.forwardKey.setPressed(false);boolean pass=Math.hypot(dx,dz)<=.5&&Math.abs(c.player.getY()-45)<.15&&!c.player.getAbilities().flying;
                 var r=new JsonObject();r.addProperty("leg",leg);r.addProperty("start_x",startX);r.addProperty("start_z",startZ);r.addProperty("end_x",c.player.getX());r.addProperty("end_z",c.player.getZ());r.addProperty("end_y",c.player.getY());r.addProperty("forward_seconds",seconds());r.addProperty("pass",pass);walks.add(r);write("walk.json",walks);
                 if(!pass)throw new IllegalStateException("Walking blocked: "+r);
-                if(leg==7)capture(c,"walk-bridge.png");if(leg==11)capture(c,"walk-town.png");
+                if(leg==7)capture(c,"walk-bridge.png");if(NATURAL&&leg==8)capture(c,"walk-library.png");if(leg==(NATURAL?16:11))capture(c,"walk-town.png");
+                if(NATURAL&&leg==10&&!refugeRested){c.getNetworkHandler().sendChatCommand("time set 18000");observedSleep=false;phase=22;changed=System.nanoTime();return;}
                 leg++;startX=c.player.getX();startZ=c.player.getZ();changed=System.nanoTime();return;
             }
             if(phase==5){if(!c.player.hasVehicle()){if(seconds()>12)throw new IllegalStateException("Lower bell did not board");return;}next();return;}
@@ -107,11 +141,20 @@ public final class Phase7CaptureClient implements ClientModInitializer {
             if(phase==7){if(seconds()<8)return;if(!c.player.hasVehicle())throw new IllegalStateException("Emergency test failed to board");c.options.sneakKey.setPressed(true);next();return;}
             if(phase==8){if(seconds()<3)return;c.options.sneakKey.setPressed(false);if(c.player.hasVehicle())throw new IllegalStateException("Emergency dismount still riding");checkLanding(c,true);capture(c,"emergency-safe-return.png");command(c,"view street");next();return;}
             if(phase>=9&&phase<=12){
-                if(seconds()<18||!queues(c))return;
+                if(seconds()<(NATURAL?8:18)||!queues(c))return;
                 String[] names={"town-street.png","naturalized-cliff.png","overworld-town-overview.png","surface-entrance-overview.png"};capture(c,names[phase-9]);
-                if(phase==9)command(c,"view cliff");if(phase==10)command(c,"view overview");if(phase==11)command(c,"view surface");next();return;
+                if(phase==9)command(c,"view cliff");if(phase==10)command(c,"view overview");if(phase==11)command(c,"view surface");
+                if(phase==12&&NATURAL){command(c,"view bridge-destination");phase=30;changed=System.nanoTime();return;}next();return;
+            }
+            if(phase>=30&&phase<=35){
+                if(seconds()<(NATURAL?8:18)||!queues(c))return;
+                String[] names={"bridge-destination.png","library-interior.png","residence-bedroom.png","contained-water.png","side-cave.png","natural-floor.png"};
+                String[] next={"library","bedroom","water","west-cave","floor"};capture(c,names[phase-30]);
+                if(phase<35){command(c,"view "+next[phase-30]);phase++;}else phase=13;
+                changed=System.nanoTime();return;
             }
             if(phase==13){
+                if(NATURAL){command(c,"debugcheck");write("cabin-motion.json",motion);}
                 command(c,"audit client");command(c,"intrusion");write("rides.json",rides);
                 var r=new JsonObject();r.addProperty("pass",true);r.addProperty("real_bell_interactions",4);r.addProperty("real_walking_legs",walks.size());r.addProperty("real_surface_access_walks",accesses.size());r.addProperty("native_dimension","minecraft:overworld");r.addProperty("method","Bell right clicks, server-authoritative cabin rides, actual forward-key walking; Operator placement at the native-ground approach endpoint and photographic positions after round trip; actual stair walking enters and leaves the station; detached client camera for one exterior frame does not move the seated passenger.");write("journey.json",r);
                 command(c,"view entrance");next();return;

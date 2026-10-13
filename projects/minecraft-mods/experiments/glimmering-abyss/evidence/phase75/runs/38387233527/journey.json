@@ -1,0 +1,8 @@
+{
+  "pass": true,
+  "real_bell_interactions": 4,
+  "real_walking_legs": 23,
+  "real_surface_access_walks": 3,
+  "native_dimension": "minecraft:overworld",
+  "method": "Bell right clicks, server-authoritative cabin rides, actual forward-key walking; Operator placement at the native-ground approach endpoint and photographic positions after round trip; actual stair walking enters and leaves the station; detached client camera for one exterior frame does not move the seated passenger."
+}

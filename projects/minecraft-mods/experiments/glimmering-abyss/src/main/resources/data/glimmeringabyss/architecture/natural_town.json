@@ -1,0 +1,19 @@
+{
+  "layout": 75,
+  "origin": [
+    -64,
+    34,
+    -106
+  ],
+  "size": [
+    148,
+    46,
+    180
+  ],
+  "buildings": 7,
+  "blocks": 83531,
+  "warm_windows_preserved": 128,
+  "water_cells": 25,
+  "template_sha256": "a18901bebd77507cf5e79a0262ce96671a981223703940e854cbf7b3757ae6df",
+  "historic_town_unchanged": true
+}

@@ -42,6 +42,7 @@ public final class Phase7Audit {
             .then(literal("intrusion").executes(c->intrusion(c.getSource())))
             .then(literal("natural").executes(c->natural(c.getSource())))
             .then(literal("bedtime").executes(c->bedtime(c.getSource())))
+            .then(literal("debugcheck").executes(c->debugcheck(c.getSource())))
             .then(literal("dream").executes(c->{Journey.dream(c.getSource().getPlayerOrThrow());return 1;}))
         )));
         ServerTickEvents.END_SERVER_TICK.register(server->{
@@ -51,23 +52,48 @@ public final class Phase7Audit {
             }
         });
     }
+    private static int debugcheck(ServerCommandSource source)throws com.mojang.brigadier.exceptions.CommandSyntaxException{
+        var p=source.getPlayerOrThrow();var old=p.interactionManager.getGameMode();boolean flying=p.getAbilities().flying;
+        boolean denied=false,allowed=false;var dispatcher=source.getServer().getCommandManager().getDispatcher();
+        try{
+            p.changeGameMode(GameMode.SURVIVAL);
+            try{dispatcher.execute("abyss debug status",p.getCommandSource());}catch(com.mojang.brigadier.exceptions.CommandSyntaxException ex){denied=true;}
+            p.changeGameMode(GameMode.CREATIVE);allowed=dispatcher.execute("abyss debug status",p.getCommandSource())==1;
+        }finally{p.changeGameMode(old);p.getAbilities().flying=flying;p.sendAbilitiesUpdate();}
+        var r=new JsonObject();r.addProperty("survival_player_denied",denied);r.addProperty("creative_player_allowed",allowed);r.addProperty("pass",denied&&allowed);write("debug-permissions",r);return denied&&allowed?1:0;
+    }
     static void write(String name,JsonObject r){try{Files.createDirectories(Path.of("abyss-results"));Files.writeString(Path.of("abyss-results/phase7-"+name+".json"),new GsonBuilder().setPrettyPrinting().create().toJson(r));}catch(Exception e){throw new IllegalStateException(e);}}
-    private static JsonObject state(ServerWorld w){var s=OverworldSite.get(w);var r=new JsonObject();r.addProperty("seed",w.getSeed());r.addProperty("stage",s.stage);r.addProperty("x",s.x);r.addProperty("z",s.z);r.addProperty("entry_y",s.entryY);r.addProperty("approach_length",s.approachLength);r.addProperty("approach_y",s.approachY);r.addProperty("attempt",s.attempt);r.addProperty("cursor",s.cursor);r.addProperty("reason",s.reason);r.addProperty("unfinished_rides",s.journeys.size());return r;}
+    private static JsonObject state(ServerWorld w){var s=OverworldSite.get(w);var r=new JsonObject();r.addProperty("layout",s.layout);r.addProperty("seed",w.getSeed());r.addProperty("stage",s.stage);r.addProperty("x",s.x);r.addProperty("z",s.z);r.addProperty("entry_y",s.entryY);r.addProperty("approach_length",s.approachLength);r.addProperty("approach_y",s.approachY);r.addProperty("attempt",s.attempt);r.addProperty("cursor",s.cursor);r.addProperty("reason",s.reason);r.addProperty("unfinished_rides",s.journeys.size());return r;}
     private static int status(ServerCommandSource source){var r=state(source.getServer().getOverworld());write("status",r);source.sendFeedback(()->Text.literal(r.toString()),false);return 1;}
     private static int view(ServerCommandSource source,String name)throws com.mojang.brigadier.exceptions.CommandSyntaxException{
         var w=source.getServer().getOverworld();var s=OverworldSite.get(w);if(!s.ready())return 0;
         var p=source.getPlayerOrThrow();p.changeGameMode(GameMode.SURVIVAL);p.getAbilities().flying=false;p.sendAbilitiesUpdate();
         double x=6.5,y=s.entryY+1,z=70.5;float yaw=180,pitch=8;
         switch(name){
+            case "library" -> {x=-47.5;y=45;z=38.5;yaw=120;pitch=8;}
+            case "bridge-destination" -> {x=-29.5;y=45;z=35.5;yaw=90;pitch=-5;}
+            case "bedroom" -> {x=38.5;y=51;z=-10.5;yaw=180;pitch=10;}
+            case "water" -> {x=76.5;y=46;z=19.5;yaw=180;pitch=25;}
+            case "west-cave" -> {x=-83.5;y=36;z=-52.5;yaw=-35;pitch=8;p.changeGameMode(GameMode.CREATIVE);p.getAbilities().flying=true;p.sendAbilitiesUpdate();}
+            case "floor" -> {x=-4.5;y=0;z=42.5;yaw=180;pitch=45;p.changeGameMode(GameMode.CREATIVE);p.getAbilities().flying=true;p.sendAbilitiesUpdate();}
             case "approach" -> {x=9.5+s.approachLength;y=s.approachY+1;z=70.5;yaw=90;pitch=0;}
             case "lower" -> y=45;
             case "street" -> {x=47.5;y=45;z=4.5;yaw=180;pitch=-9;}
-            case "cliff" -> {x=-47.5;y=28;z=17.5;yaw=-90;pitch=8;p.changeGameMode(GameMode.CREATIVE);p.getAbilities().flying=true;p.sendAbilitiesUpdate();}
+            case "cliff" -> {x=-31.5;y=26;z=7.5;yaw=-90;pitch=8;p.changeGameMode(GameMode.CREATIVE);p.getAbilities().flying=true;p.sendAbilitiesUpdate();}
             case "overview" -> {x=-31.5;y=66;z=60.5;yaw=-135;pitch=18;p.changeGameMode(GameMode.CREATIVE);p.getAbilities().flying=true;p.sendAbilitiesUpdate();}
             case "surface" -> {x=17;y=s.entryY+7;z=85;yaw=140;pitch=20;p.changeGameMode(GameMode.CREATIVE);p.getAbilities().flying=true;p.sendAbilitiesUpdate();}
             case "outside" -> {x=400.5;z=70.5;y=OverworldLandscape.surface(w,Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,s.x+400,s.z+70)+1;w.setTimeOfDay(18000);p.changeGameMode(GameMode.CREATIVE);}
             case "entrance" -> {}
             default -> {return 0;}
+        }
+        if(java.util.Set.of("library","bridge-destination","bedroom","water","west-cave","floor","cliff","overview","surface").contains(name)){
+            p.changeGameMode(GameMode.CREATIVE);p.getAbilities().flying=true;p.sendAbilitiesUpdate();
+            boolean clear=false;
+            for(int radius=0;radius<=12&&!clear;radius++)for(int dx=-radius;dx<=radius&&!clear;dx++)for(int dz=-radius;dz<=radius&&!clear;dz++){
+                if(Math.max(Math.abs(dx),Math.abs(dz))!=radius)continue;
+                if(w.isSpaceEmpty(p,new net.minecraft.util.math.Box(s.x+x+dx-.3,y,s.z+z+dz-.3,s.x+x+dx+.3,y+1.8,s.z+z+dz+.3))){x+=dx;z+=dz;clear=true;}
+            }
+            if(!clear)throw new IllegalStateException("No clear photography position for "+name);
         }
         p.teleport(w,s.x+x,y,s.z+z,yaw,pitch);p.setHealth(20);p.getHungerManager().setFoodLevel(20);return 1;
     }
@@ -118,7 +144,7 @@ public final class Phase7Audit {
             }
             r.add("native_surface_samples",surface);
             int samples=0;for(int x=-108;x<108;x+=9)for(int z=-172;z<108;z+=9)for(int y=-63;y<=105;y+=7){
-                if(y>OverworldLandscape.ceiling(x,z)-OverworldSite.OFFSET_Y)continue;
+                if(y>OverworldLandscape.ceiling(s,x,z)-OverworldSite.OFFSET_Y)continue;
                 digest.update(w.getBlockState(s.at(x,y,z)).toString().getBytes(java.nio.charset.StandardCharsets.UTF_8));samples++;
             }
             for(int step=0;step<=s.approachLength;step++){
@@ -145,7 +171,29 @@ public final class Phase7Audit {
             r.addProperty("geometry_sample_count",samples);r.addProperty("geometry_sha256",HexFormat.of().formatHex(digest.digest()));r.add("scene_spawn_attempts",attempts);r.addProperty("scene_insertions_blocked",blocked);r.addProperty("outside_boundary_insertions_allowed",outside);r.addProperty("loaded_scene_mobs",sceneMobs);
             r.addProperty("doMobSpawning",w.getGameRules().getBoolean(GameRules.DO_MOB_SPAWNING));r.addProperty("difficulty",w.getDifficulty().getName());r.addProperty("dark_native_light",w.getLightLevel(LightType.BLOCK,s.at(0,-54,-20)));
             r.addProperty("surface_exact_required",label.equals("first")||label.equals("second"));
-            r.addProperty("pass",(!(label.equals("first")||label.equals("second"))||capMatches==OverworldSite.CHUNKS)&&windows==128&&preserved==128&&lit==128&&bedrock&&shaft&&blocked&&outside&&sceneMobs==0&&w.getGameRules().getBoolean(GameRules.DO_MOB_SPAWNING));write(label,r);return r.get("pass").getAsBoolean()?1:0;
+            boolean fluids=true;int water=0;
+            if(s.layout>=75)for(int x=74;x<=78;x++)for(int z=12;z<=16;z++){
+                var pos=s.at(x,38,z);if(w.getBlockState(pos).isOf(Blocks.WATER))water++;
+                fluids&=w.getBlockState(pos.down()).isSolidBlock(w,pos.down());
+                for(var dir:List.of(net.minecraft.util.math.Direction.NORTH,net.minecraft.util.math.Direction.SOUTH,net.minecraft.util.math.Direction.EAST,net.minecraft.util.math.Direction.WEST)){
+                    var q=pos.offset(dir);fluids&=w.getBlockState(q).isOf(Blocks.WATER)||w.getBlockState(q).isSolidBlock(w,q);
+                }
+            }
+            r.addProperty("water_source_cells",water);r.addProperty("water_basin_contained",fluids);
+            int structures=0,missing=0;
+            if(s.layout>=75){
+                var tn=w.getStructureTemplateManager().getTemplate(GlimmeringAbyss.id("natural_town")).orElseThrow().writeNbt(new NbtCompound());
+                var tp=tn.getList("palette",NbtElement.COMPOUND_TYPE);var tb=tn.getList("blocks",NbtElement.COMPOUND_TYPE);
+                for(int i=0;i<tb.size();i++){
+                    var b=tb.getCompound(i);String id=tp.getCompound(b.getInt("state")).getString("Name");if(id.equals("minecraft:air"))continue;
+                    var xyz=b.getList("pos",NbtElement.INT_TYPE);var pos=s.at(xyz.getInt(0)-64,xyz.getInt(1)+34,xyz.getInt(2)-106);
+                    structures++;if(!net.minecraft.registry.Registries.BLOCK.getId(w.getBlockState(pos).getBlock()).toString().equals(id))missing++;
+                }
+            }
+            r.addProperty("architectural_nonair_blocks",structures);r.addProperty("architectural_missing_or_wrong_blocks",missing);
+            r.addProperty("player_witness_gold",w.getBlockState(s.at(45,42,8)).isOf(Blocks.GOLD_BLOCK));
+            boolean natural=s.layout<75||water==25&&fluids&&missing==0;
+            r.addProperty("pass",natural&&(!(label.equals("first")||label.equals("second"))||capMatches==OverworldSite.CHUNKS)&&windows==128&&preserved==128&&lit==128&&bedrock&&shaft&&blocked&&outside&&sceneMobs==0&&w.getGameRules().getBoolean(GameRules.DO_MOB_SPAWNING));write(label,r);return r.get("pass").getAsBoolean()?1:0;
         }catch(Exception e){e.printStackTrace();return 0;}
     }
 }
