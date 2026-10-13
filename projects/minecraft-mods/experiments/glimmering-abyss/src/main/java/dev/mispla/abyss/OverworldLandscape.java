@@ -81,7 +81,7 @@ public final class OverworldLandscape {
                 for(int dx=0;dx<16&&valid;dx++)for(int dz=0;dz<16&&valid;dz++){
                     int wx=cx*16+dx,wz=cz*16+dz,top=ceiling(wx-s.x,wz-s.z);
                     // Exact full-footprint check after vanilla carving/surface/features, not only sampled noise heights.
-                    int h=chunk.sampleHeightmap(Heightmap.Type.OCEAN_FLOOR,dx,dz)+1;
+                    int h=ground(w,wx,wz)+1; // Bare ground, never count a tree canopy as mountain cover.
                     if(h<top+10)valid=false;
                     // The painter retains a four-block solid local roof below this cap.
                     // Existing natural caves above it are permitted; requiring every native
@@ -114,7 +114,7 @@ public final class OverworldLandscape {
             for(int dx=0;dx<16;dx++)for(int dz=0;dz<16;dz++){
                 int x=cx*16+dx,z=cz*16+dz,lx=x-s.x,lz=z-s.z;
                 if(lx>=-6&&lx<=9&&lz>=64&&lz<=77 || lx>=10&&lx<=10+s.approachLength&&lz>=67&&lz<=73)continue;
-                int h=chunk.sampleHeightmap(Heightmap.Type.OCEAN_FLOOR,dx,dz)+1;
+                int h=ground(w,x,z)+1;
                 hash.update((h+":"+w.getBlockState(new BlockPos(x,h-1,z))+":"+w.getBlockState(new BlockPos(x,h-2,z))).getBytes(java.nio.charset.StandardCharsets.UTF_8));
                 for(int y=-64;y<=-59;y++)hash.update(w.getBlockState(new BlockPos(x,y,z)).toString().getBytes(java.nio.charset.StandardCharsets.UTF_8));
             }
