@@ -61,7 +61,11 @@ public final class Journey {
         Registry.register(Registries.BLOCK,GlimmeringAbyss.id("station_bell"),BELL);
         net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents.END_SERVER_TICK.register(server->{
             var queued=new HashMap<>(pendingLandings);pendingLandings.clear();
-            queued.forEach((id,upper)->{var player=server.getPlayerManager().getPlayer(id);if(player!=null)land(player,OverworldSite.get(server.getOverworld()),upper);});
+            queued.forEach((id,upper)->{var player=server.getPlayerManager().getPlayer(id);if(player!=null){
+                player.stopRiding();pendingLandings.remove(id);
+                land(player,OverworldSite.get(server.getOverworld()),upper);
+                System.out.println("ABYSS_SAFE_LANDING "+player.getPos()+" health="+player.getHealth());
+            }});
         });
         Registry.register(Registries.ITEM,GlimmeringAbyss.id("echo_shard"),ECHO);
         net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents.SERVER_STOPPED.register(server->{sleepStarts.clear();pendingLandings.clear();});
@@ -117,8 +121,9 @@ public final class Journey {
         p.startRiding(car,true);p.sendMessage(Text.literal("玻璃车门已关闭。请欣赏沿途风景；潜行可提前返回安全站台。"),true);
     }
     public static void recover(ServerPlayerEntity p,OverworldSite s,String message){
-        boolean upper=s.journeys.getOrDefault(p.getUuid(),true);p.stopRiding();
-        land(p,s,upper);p.sendMessage(Text.literal(message),true);
+        boolean upper=s.journeys.getOrDefault(p.getUuid(),true);
+        // Vanilla restores RootVehicle after the Fabric JOIN notification. Recover once that login work has finished.
+        queueLanding(p,upper);System.out.println("ABYSS_RECOVERY_QUEUED upper="+upper);
     }
     public static void land(ServerPlayerEntity p,OverworldSite s,boolean upper){
         var pos=s.landing(upper);var w=p.getServer().getOverworld();w.getChunk(pos);

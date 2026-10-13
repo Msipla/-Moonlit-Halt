@@ -52,7 +52,7 @@ public final class Phase7Audit {
         });
     }
     static void write(String name,JsonObject r){try{Files.createDirectories(Path.of("abyss-results"));Files.writeString(Path.of("abyss-results/phase7-"+name+".json"),new GsonBuilder().setPrettyPrinting().create().toJson(r));}catch(Exception e){throw new IllegalStateException(e);}}
-    private static JsonObject state(ServerWorld w){var s=OverworldSite.get(w);var r=new JsonObject();r.addProperty("seed",w.getSeed());r.addProperty("stage",s.stage);r.addProperty("x",s.x);r.addProperty("z",s.z);r.addProperty("entry_y",s.entryY);r.addProperty("approach_length",s.approachLength);r.addProperty("approach_y",s.approachY);r.addProperty("attempt",s.attempt);r.addProperty("cursor",s.cursor);r.addProperty("reason",s.reason);return r;}
+    private static JsonObject state(ServerWorld w){var s=OverworldSite.get(w);var r=new JsonObject();r.addProperty("seed",w.getSeed());r.addProperty("stage",s.stage);r.addProperty("x",s.x);r.addProperty("z",s.z);r.addProperty("entry_y",s.entryY);r.addProperty("approach_length",s.approachLength);r.addProperty("approach_y",s.approachY);r.addProperty("attempt",s.attempt);r.addProperty("cursor",s.cursor);r.addProperty("reason",s.reason);r.addProperty("unfinished_rides",s.journeys.size());return r;}
     private static int status(ServerCommandSource source){var r=state(source.getServer().getOverworld());write("status",r);source.sendFeedback(()->Text.literal(r.toString()),false);return 1;}
     private static int view(ServerCommandSource source,String name)throws com.mojang.brigadier.exceptions.CommandSyntaxException{
         var w=source.getServer().getOverworld();var s=OverworldSite.get(w);if(!s.ready())return 0;
