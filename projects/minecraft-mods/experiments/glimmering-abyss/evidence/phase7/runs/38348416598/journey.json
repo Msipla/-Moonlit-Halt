@@ -1,0 +1,7 @@
+{
+  "pass": true,
+  "real_bell_interactions": 4,
+  "real_walking_legs": 21,
+  "native_dimension": "minecraft:overworld",
+  "method": "Bell right clicks, server-authoritative cabin rides, actual forward-key walking; Operator camera placement before journey and after round trip; detached client camera for one exterior frame does not move the seated passenger."
+}

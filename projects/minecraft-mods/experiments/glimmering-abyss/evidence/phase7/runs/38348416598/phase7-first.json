@@ -1,0 +1,363 @@
+{
+  "seed": 74102002,
+  "stage": "ready",
+  "x": -7392,
+  "z": -2448,
+  "entry_y": 149,
+  "attempt": 1097,
+  "cursor": 252,
+  "reason": "",
+  "unchanged_surface_and_bedrock_chunks": 252,
+  "warm_windows": 128,
+  "warm_windows_preserved": 128,
+  "warm_windows_native_12": 128,
+  "bedrock_intact": true,
+  "shaft_clear": true,
+  "geometry_sample_count": 19200,
+  "geometry_sha256": "2741a8faa8363d286e28053882bbc3905d57d33ecd8a3d693929002cecdd1004",
+  "scene_spawn_attempts": [
+    {
+      "type": "minecraft:zombie",
+      "local_x": 47,
+      "y": 45,
+      "local_z": 4,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:skeleton",
+      "local_x": 47,
+      "y": 45,
+      "local_z": 4,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:creeper",
+      "local_x": 47,
+      "y": 45,
+      "local_z": 4,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:phantom",
+      "local_x": 47,
+      "y": 45,
+      "local_z": 4,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:bat",
+      "local_x": 47,
+      "y": 45,
+      "local_z": 4,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:cow",
+      "local_x": 47,
+      "y": 45,
+      "local_z": 4,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:zombie",
+      "local_x": -40,
+      "y": 26,
+      "local_z": -60,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:skeleton",
+      "local_x": -40,
+      "y": 26,
+      "local_z": -60,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:creeper",
+      "local_x": -40,
+      "y": 26,
+      "local_z": -60,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:phantom",
+      "local_x": -40,
+      "y": 26,
+      "local_z": -60,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:bat",
+      "local_x": -40,
+      "y": 26,
+      "local_z": -60,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:cow",
+      "local_x": -40,
+      "y": 26,
+      "local_z": -60,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:zombie",
+      "local_x": 4,
+      "y": 45,
+      "local_z": 35,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:skeleton",
+      "local_x": 4,
+      "y": 45,
+      "local_z": 35,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:creeper",
+      "local_x": 4,
+      "y": 45,
+      "local_z": 35,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:phantom",
+      "local_x": 4,
+      "y": 45,
+      "local_z": 35,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:bat",
+      "local_x": 4,
+      "y": 45,
+      "local_z": 35,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:cow",
+      "local_x": 4,
+      "y": 45,
+      "local_z": 35,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:zombie",
+      "local_x": 0,
+      "y": -54,
+      "local_z": -20,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:skeleton",
+      "local_x": 0,
+      "y": -54,
+      "local_z": -20,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:creeper",
+      "local_x": 0,
+      "y": -54,
+      "local_z": -20,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:phantom",
+      "local_x": 0,
+      "y": -54,
+      "local_z": -20,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:bat",
+      "local_x": 0,
+      "y": -54,
+      "local_z": -20,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:cow",
+      "local_x": 0,
+      "y": -54,
+      "local_z": -20,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:zombie",
+      "local_x": 0,
+      "y": 85,
+      "local_z": 70,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:skeleton",
+      "local_x": 0,
+      "y": 85,
+      "local_z": 70,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:creeper",
+      "local_x": 0,
+      "y": 85,
+      "local_z": 70,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:phantom",
+      "local_x": 0,
+      "y": 85,
+      "local_z": 70,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:bat",
+      "local_x": 0,
+      "y": 85,
+      "local_z": 70,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:cow",
+      "local_x": 0,
+      "y": 85,
+      "local_z": 70,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:zombie",
+      "local_x": 6,
+      "y": 151,
+      "local_z": 70,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:skeleton",
+      "local_x": 6,
+      "y": 151,
+      "local_z": 70,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:creeper",
+      "local_x": 6,
+      "y": 151,
+      "local_z": 70,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:phantom",
+      "local_x": 6,
+      "y": 151,
+      "local_z": 70,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:bat",
+      "local_x": 6,
+      "y": 151,
+      "local_z": 70,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:cow",
+      "local_x": 6,
+      "y": 151,
+      "local_z": 70,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:zombie",
+      "local_x": -111,
+      "y": 20,
+      "local_z": -175,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:skeleton",
+      "local_x": -111,
+      "y": 20,
+      "local_z": -175,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:creeper",
+      "local_x": -111,
+      "y": 20,
+      "local_z": -175,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:phantom",
+      "local_x": -111,
+      "y": 20,
+      "local_z": -175,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:bat",
+      "local_x": -111,
+      "y": 20,
+      "local_z": -175,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:cow",
+      "local_x": -111,
+      "y": 20,
+      "local_z": -175,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:zombie",
+      "local_x": 110,
+      "y": 20,
+      "local_z": 110,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:skeleton",
+      "local_x": 110,
+      "y": 20,
+      "local_z": 110,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:creeper",
+      "local_x": 110,
+      "y": 20,
+      "local_z": 110,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:phantom",
+      "local_x": 110,
+      "y": 20,
+      "local_z": 110,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:bat",
+      "local_x": 110,
+      "y": 20,
+      "local_z": 110,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:cow",
+      "local_x": 110,
+      "y": 20,
+      "local_z": 110,
+      "accepted": false
+    }
+  ],
+  "scene_insertions_blocked": true,
+  "outside_boundary_insertions_allowed": true,
+  "loaded_scene_mobs": 0,
+  "doMobSpawning": true,
+  "difficulty": "hard",
+  "dark_native_light": 0,
+  "pass": true
+}
