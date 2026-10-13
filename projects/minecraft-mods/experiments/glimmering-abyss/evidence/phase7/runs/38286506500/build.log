@@ -1,0 +1,48 @@
+Downloading https://downloads.gradle.org/distributions/gradle-8.2.1-bin.zip
+............10%............20%............30%.............40%............50%............60%............70%.............80%............90%............100%
+
+Welcome to Gradle 8.2.1!
+
+Here are the highlights of this release:
+ - Kotlin DSL: new reference documentation, assignment syntax by default
+ - Kotlin DSL is now the default with Gradle init
+ - Improved suggestions to resolve errors in console output
+ - Reduced sync memory consumption
+
+For more details see https://docs.gradle.org/8.2.1/release-notes.html
+
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/8.2.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+
+> Configure project :
+Fabric Loom: 1.2.8
+:remapping 42 mods from modImplementation (java-api)
+
+> Task :compileJava
+Note: /home/runner/work/-Moonlit-Halt/-Moonlit-Halt/projects/minecraft-mods/experiments/glimmering-abyss/src/main/java/dev/mispla/abyss/Journey.java uses or overrides a deprecated API.
+Note: Recompile with -Xlint:deprecation for details.
+
+> Task :processResources
+> Task :classes
+> Task :jar
+> Task :sourcesJar
+> Task :remapJar
+> Task :compileTestJava
+> Task :processTestResources NO-SOURCE
+> Task :testClasses
+> Task :remapSourcesJar
+> Task :test
+> Task :assemble
+> Task :validateAccessWidener NO-SOURCE
+> Task :check
+> Task :build
+> Task :stageTestMods
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/8.2.1/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD SUCCESSFUL in 1m 40s
+9 actionable tasks: 9 executed

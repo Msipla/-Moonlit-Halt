@@ -1,3 +1,15 @@
+# Phase 7 展厅收尾 · 2026-10-13
+
+正式游戏原图来自完整技术通过运行38354855268、源码057afde。现有静态展厅追加第七阶段主世界发现与往返页面、七个画廊机位和实际回站／重连图；保留第六阶段及更早永久入口和对照。第六阶段整体美学按用户最新认可更新；第七阶段新增画面仍待判断。
+
+分支交付源码 `c227ff77498e08d817fe7a1d253041117d4b3978`；真实托管Linux Chromium预览 [38357271286](https://github.com/Msipla/-Moonlit-Halt/actions/runs/38357271286) PASS，证据提交 `6863b39`。核对预览build-info的源码后，360/390/430/768/1440px均无横向溢出、JavaScript异常0；七阶段切换、第七阶段七个机位、旧模式约束和同机位对照、原图窗口、16条永久入口检查通过。390px第七阶段详情8张原图完整加载、无溢出。
+
+完整JSON和17份原始网页帧见 [evidence/website/runs/38357271286](../../projects/minecraft-mods/experiments/glimmering-abyss/evidence/website/runs/38357271286/)。开发侧已查看390px画廊／详情与1440px首页截图。此轮是Actions内本地HTTP预览，`preview=true`，不能当作Pages上线；合并后的实际发布与线上QA另行补齐。托管Chromium移动视口／触控模拟，不是实体手机、Safari或Windows浏览器实测。
+
+以下保留历次发布记录。
+
+---
+
 # Phase 6 展厅收尾 · 2026-10-13
 
 交付提交 `cf8b775a633a4ced2ab8966271472bb5df340548`；Pages [38276893016](https://github.com/Msipla/-Moonlit-Halt/actions/runs/38276893016) 发布成功。真实托管Linux Chromium QA [38276893132](https://github.com/Msipla/-Moonlit-Halt/actions/runs/38276893132) 核对线上build-info源码后通过；浏览器证据归档提交 `3b31228598b7d2e2469b195f5be693e151c6faf5`。

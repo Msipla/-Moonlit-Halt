@@ -3,7 +3,8 @@
   "package": "dev.mispla.abyss.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "SceneSpawnMixin"
+    "SceneSpawnMixin",
+    "SceneMobTickMixin"
   ],
   "injectors": {
     "defaultRequire": 1

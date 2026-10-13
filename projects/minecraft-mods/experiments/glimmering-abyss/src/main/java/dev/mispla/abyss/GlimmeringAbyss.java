@@ -62,6 +62,9 @@ public final class GlimmeringAbyss implements ModInitializer {
 
     @Override public void onInitialize() {
         SceneSafety.initialize();
+        Journey.initialize();
+        OverworldLandscape.initialize();
+        Phase7Audit.initialize();
         Registry.register(Registries.BLOCK, id("warm_window"), WARM_WINDOW);
         Registry.register(Registries.BLOCK, id("dark_marker"), DARK);
         Registry.register(Registries.BLOCK, id("glimmerstone"), GLIMMER);

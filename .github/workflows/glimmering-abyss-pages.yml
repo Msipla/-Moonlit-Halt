@@ -4,6 +4,8 @@ on:
     branches: [main]
     paths:
       - 'site/glimmering-abyss/**'
+      - 'projects/minecraft-mods/experiments/glimmering-abyss/evidence/phase7/latest.json'
+      - 'projects/minecraft-mods/experiments/glimmering-abyss/TEST-REPORT-PHASE7.md'
       - 'projects/minecraft-mods/experiments/glimmering-abyss/evidence/phase1/**'
       - 'projects/minecraft-mods/experiments/glimmering-abyss/evidence/phase2/**'
       - 'projects/minecraft-mods/experiments/glimmering-abyss/TEST-REPORT.md'
@@ -46,6 +48,7 @@ jobs:
           cp site/glimmering-abyss/phase4.html _site/phase4.html
           cp site/glimmering-abyss/phase5.html _site/phase5.html
           cp site/glimmering-abyss/phase6.html _site/phase6.html
+          cp site/glimmering-abyss/phase7.html _site/phase7.html
           root=projects/minecraft-mods/experiments/glimmering-abyss/evidence/phase1
           cp "$root/summary.json" "$root/audit-glimmer.json" _site/evidence/phase1/
           cp "$root/screenshots/captures.json" _site/evidence/phase1/screenshots/
@@ -106,6 +109,16 @@ jobs:
               cp "$directory/$file" "_site/evidence/phase6/runs/$run/"
             done
             cp "$directory/screenshots/captures.json" "$directory/screenshots/"*.png "_site/evidence/phase6/runs/$run/screenshots/"
+          done
+          root=projects/minecraft-mods/experiments/glimmering-abyss/evidence/phase7
+          mkdir -p _site/evidence/phase7
+          cp "$root/latest.json" _site/evidence/phase7/latest.json
+          for directory in "$root"/runs/*; do
+            test -f "$directory/summary.json" || continue
+            run=$(basename "$directory")
+            mkdir -p "_site/evidence/phase7/runs/$run/screenshots"
+            cp "$directory/"*.json "_site/evidence/phase7/runs/$run/"
+            cp "$directory/screenshots/"*.json "$directory/screenshots/"*.png "_site/evidence/phase7/runs/$run/screenshots/"
           done
           python - <<'PY'
           import datetime, json, os

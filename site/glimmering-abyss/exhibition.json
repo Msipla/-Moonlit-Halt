@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "latestStage": "phase6",
+  "latestStage": "phase7",
   "updated": "2026-10-13",
   "stages": [
     {
@@ -287,9 +287,9 @@
       "description": "六栋建筑、短主街与小广场，坐落在平缓岩台上；边缘突然下沉，巨大洞厅仍然留白。",
       "technical": "技术已验证",
       "technicalState": "passed",
-      "aesthetic": "小镇与光雾待用户判断",
-      "aestheticState": "waiting",
-      "verdict": "整个景观以宁静、安全的探索为基调；小镇、外围洞穴与深渊均无普通怪物。六栋建筑与一处可登高层形成紧凑小镇，95%环境光和深处渐变供同机位比较。最终画面由用户验收。",
+      "aesthetic": "整体美学已认可",
+      "aestheticState": "accepted",
+      "verdict": "用户已审阅并总体认可第六阶段小镇，保留六栋建筑、街道、暖窗与冷蓝基准；95%对照作为历史实验保留。第七阶段只小幅自然化岩台外围，并推进普通主世界的发现与往返。",
       "pointer": "evidence/phase6/latest.json",
       "cover": "blue-plaza.png",
       "views": [
@@ -353,6 +353,64 @@
       ],
       "version": "0.6.0",
       "developmentLabel": "第六阶段紧凑小镇原型"
+    },
+    {
+      "id": "phase7",
+      "number": "07",
+      "title": "第七阶段 · 主世界的地下来信",
+      "short": "第七阶段",
+      "description": "梦境带来线索，微光指向山间；乘封闭幻翼车厢抵达地下小镇，再安全返回地面。",
+      "technical": "技术已验证",
+      "technicalState": "passed",
+      "aesthetic": "新增画面待用户判断",
+      "aestheticState": "waiting",
+      "verdict": "普通主世界生成、完整景观安全和发现—抵达—返回闭环已实测通过，包括途中停服后的健康落站。已认可的小镇与冷蓝基准保持原样；新增入口、车厢与岩台外围画面待用户审阅。",
+      "pointer": "evidence/phase7/latest.json",
+      "cover": "overworld-town-overview.png",
+      "views": [
+        "entrance",
+        "car",
+        "descent",
+        "street",
+        "cliff",
+        "overview",
+        "return"
+      ],
+      "files": {
+        "entrance": "surface-station.png",
+        "car": "phantom-car-exterior.png",
+        "descent": "cabin-cavern-arrival.png",
+        "street": "town-street.png",
+        "cliff": "naturalized-cliff.png",
+        "overview": "overworld-town-overview.png",
+        "return": "surface-return.png"
+      },
+      "modes": [
+        {
+          "id": "overworld",
+          "label": "主世界实机"
+        }
+      ],
+      "defaultMode": "overworld",
+      "defaultView": "entrance",
+      "report": "phase7.html",
+      "extras": [
+        {
+          "file": "emergency-safe-return.png",
+          "title": "途中潜行 · 返回安全站台"
+        },
+        {
+          "file": "reconnected-safe-station.png",
+          "title": "途中停服 · 重连安全落站"
+        }
+      ],
+      "version": "0.7.0",
+      "developmentLabel": "第七阶段主世界发现与往返",
+      "notes": {
+        "car": "实际乘车过程的独立摄影机位；乘客仍坐在车厢中。原图未经提亮或调色。",
+        "overview": "创造摄影机位，用于观察小镇和洞厅的整体尺度；不是生存抵达证明。",
+        "cliff": "创造摄影机位，观察岩台侧壁与外围衔接；原图未经提亮或调色。"
+      }
     }
   ],
   "timeline": [
@@ -396,7 +454,13 @@
       "date": "2026.10.13",
       "title": "街道很近，深处很远",
       "text": "保留工坊与冷暖光，建成六栋建筑的小镇、主街和登高视点；断崖外围同样属于安全景观，另提供95%环境光与深处渐变对照。",
-      "state": "技术已验证 · 小镇美学待判断"
+      "state": "技术已验证 · 小镇整体美学已认可"
+    },
+    {
+      "date": "2026.10.13",
+      "title": "梦境通向主世界地下",
+      "text": "第六阶段整体美学获认可。主世界地下景观、局部安全、梦境定位、幻翼车厢与正常往返通过实测；途中停服重连也安全落站。",
+      "state": "第七阶段技术已验证 · 新增画面待判断"
     }
   ]
 }

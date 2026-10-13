@@ -1,0 +1,5 @@
+{
+  "phase": 0,
+  "error": "java.lang.IllegalStateException: Unsafe landing {\"upper\":true,\"x\":-7391.5,\"y\":45.0,\"z\":-2377.5,\"health\":0.0,\"pass\":false}",
+  "chunk_debug": "C: 491/26136 (s) D: 16, pC: 029, pU: 04, aB: 00"
+}
