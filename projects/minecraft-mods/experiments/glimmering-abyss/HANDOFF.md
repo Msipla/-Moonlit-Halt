@@ -14,7 +14,7 @@
 
 托管Linux软件OpenGL已测。Windows/PCL2、用户GPU、Sodium/Iris/DH、第三方光影、实体手机、异常断电和长时多人未测；独立全区块卸载场景与人为阻塞路径未单独实测。测试定位到原生地表阶梯端点后真实步行，不宣称从出生点完成数千格长途。暖窗仍不透明、空间光无完整墙体遮挡；缆车固定单线单客，幻翼没有独立AI。Phase 7入口、车厢与外围原图待用户审阅，不继续无边界精修。
 
-沿用[现有展厅](https://msipla.github.io/-Moonlit-Halt/)，新增phase7.html并保留Phase 1–6永久URL。独立分支上的浏览器预览验证和实际Pages上线必须分开记录，见[网站测试报告](../../../../site/glimmering-abyss/TEST-REPORT.md)。初次直接main推送曾被自动审批拒绝，最终发布须依据具体已验收交付与有效授权；不得把分支测试说成线上发布。长期正史留在Conversation-Archives，本工程不混入月下小站或门户重构。
+沿用[现有展厅](https://msipla.github.io/-Moonlit-Halt/)，新增phase7.html并保留Phase 1–6永久URL。独立分支上的浏览器预览验证和实际Pages上线必须分开记录，见[网站测试报告](../../../../site/glimmering-abyss/TEST-REPORT.md)。分支交付源码c227ff7的真实Chromium预览38357271286已PASS，证据6863b39；五种视口、七阶段入口与原图通过，开发侧已查看网页帧。此轮preview=true，尚非线上Pages。初次直接main推送曾被自动审批拒绝，最终发布须依据具体已验收交付与有效授权；不得把分支测试说成线上发布。长期正史留在Conversation-Archives，本工程不混入月下小站或门户重构。
 
 以下为 Phase 6 已交付历史快照，原始证据与安装包继续有效。
 
