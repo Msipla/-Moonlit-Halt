@@ -23,6 +23,9 @@ public final class OverworldLandscape {
     private static final int SX=139,SY=143,SZ=180;
     private static short[] naturalTown;
     private static BlockState[] naturalPalette;
+    private static short[] abyssTown;
+    private static BlockState[] abyssPalette;
+    private static int abyssSX,abyssSY,abyssSZ;
     private static final int FLAGS=Block.NOTIFY_LISTENERS|Block.FORCE_STATE;
     private OverworldLandscape(){}
     public static void initialize(){ServerTickEvents.END_SERVER_TICK.register(server->{
@@ -56,6 +59,7 @@ public final class OverworldLandscape {
         return CavernShape.ceiling(x,z)+OverworldSite.OFFSET_Y;
     }
     public static int ceiling(OverworldSite s,int x,int z){
+        if(s.layout>=100)return AbyssShape.ceiling(x,z)+OverworldSite.OFFSET_Y;
         if(s.layout>=75)return ceiling(x,z);
         var c=Terrain.column(x,z,Terrain.SEED);
         int top=(int)Math.ceil(c.roof())+4;
@@ -75,12 +79,12 @@ public final class OverworldLandscape {
                 int x=(rng.nextInt(1024)-512)*16,z=(rng.nextInt(1024)-512)*16;
                 if(Math.abs(x)<768&&Math.abs(z)<768)return;
                 if(height(w,x,z)<130)return;
-                for(int lx=-112;lx<=111;lx+=32)for(int lz=-176;lz<=111;lz+=32)
+                for(int lx=s.minX();lx<=s.maxX();lx+=32)for(int lz=s.minZ();lz<=s.maxZ();lz+=32)
                     if(height(w,x+lx,z+lz)<ceiling(s,lx,lz)+12)return;
                 s.x=x;s.z=z;if(!planApproach(w,s))return;s.cursor=0;s.caps.clear();s.stage="check";s.markDirty();
                 System.out.println("ABYSS_SITE_CANDIDATE "+x+","+z+" attempt="+s.attempt);return;
             }
-            int cx=s.x/16-7+s.cursor%14,cz=s.z/16-11+s.cursor/14;
+            int cx=s.chunkX(s.cursor),cz=s.chunkZ(s.cursor);
             var chunk=w.getChunk(cx,cz);
             if(s.stage.equals("check")){
                 boolean valid=chunk.getInhabitedTime()==0;
@@ -95,7 +99,7 @@ public final class OverworldLandscape {
                 }
                 if(!valid){s.stage="search";s.cursor=0;s.reason="Candidate rejected before edits: coverage or existing habitation";s.markDirty();return;}
                 if(s.caps.size()>s.cursor)s.caps.set(s.cursor,capHash(w,s,cx,cz));else s.caps.add(capHash(w,s,cx,cz));
-                if(++s.cursor==OverworldSite.CHUNKS){
+                if(++s.cursor==s.chunks()){
                     // Dry, reachable station; the exact shaft is the sole intended surface opening.
                     if(s.entryY>240||s.entryY<100){s.stage="search";s.cursor=0;s.markDirty();return;}
                     s.stage="carve";s.cursor=0;s.reason="";s.markDirty();w.getPersistentStateManager().save();
@@ -104,8 +108,8 @@ public final class OverworldLandscape {
                 s.markDirty();return;
             }
             if(s.stage.equals("carve")){
-                loadTown();if(s.layout>=75)loadNaturalTown();paint(w,s,cx,cz);
-                if(++s.cursor==OverworldSite.CHUNKS){
+                loadTown();if(s.layout>=75)loadNaturalTown();if(s.layout>=100)loadAbyssTown();paint(w,s,cx,cz);
+                if(++s.cursor==s.chunks()){
                     stations(w,s);s.stage="ready";s.markDirty();w.getServer().save(false,true,true);
                     Journey.syncAll(w.getServer());System.out.println("ABYSS_SITE_READY "+s.x+","+s.z+" entry="+s.entryY);
                 }
@@ -153,6 +157,28 @@ public final class OverworldLandscape {
         int dx=x+64,dy=y-34,dz=z+106;if(dx<0||dx>=148||dy<0||dy>=46||dz<0||dz>=180)return null;
         int i=naturalTown[(dx*180+dz)*46+dy];return i<0?null:naturalPalette[i];
     }
+    private static void loadAbyssTown()throws Exception{
+        if(abyssTown!=null)return;
+        try(var in=OverworldLandscape.class.getResourceAsStream("/data/glimmeringabyss/structures/abyss_town.nbt")){
+            var n=NbtIo.readCompressed(in);var p=n.getList("palette",NbtElement.COMPOUND_TYPE);
+            var size=n.getList("size",NbtElement.INT_TYPE);abyssSX=size.getInt(0);abyssSY=size.getInt(1);abyssSZ=size.getInt(2);
+            abyssPalette=new BlockState[p.size()];for(int i=0;i<p.size();i++)abyssPalette[i]=NbtHelper.toBlockState(Registries.BLOCK.getReadOnlyWrapper(),p.getCompound(i));
+            abyssTown=new short[abyssSX*abyssSY*abyssSZ];Arrays.fill(abyssTown,(short)-1);
+            var blocks=n.getList("blocks",NbtElement.COMPOUND_TYPE);
+            for(int i=0;i<blocks.size();i++){var row=blocks.getCompound(i);var a=row.getList("pos",NbtElement.INT_TYPE);abyssTown[(a.getInt(0)*abyssSZ+a.getInt(2))*abyssSY+a.getInt(1)]=(short)row.getInt("state");}
+        }
+    }
+    private static BlockState abyssAt(int x,int y,int z){
+        int dx=x+180,dy=y+8,dz=z+290;
+        if(dx<0||dx>=abyssSX||dy<0||dy>=abyssSY||dz<0||dz>=abyssSZ)return null;
+        int i=abyssTown[(dx*abyssSZ+dz)*abyssSY+dy];return i<0?null:abyssPalette[i];
+    }
+    private static BlockState abyssExpected(AbyssShape.Column c,int y){
+        var t=abyssAt(c.x(),y,c.z());if(t!=null)return t;
+        if(!c.rock(y))return Blocks.AIR.getDefaultState();
+        double stratum=y+.16*c.x()+4*Math.sin(c.z()*.021);
+        return (Math.floorMod((int)Math.floor(stratum),29)<2?Blocks.TUFF:Blocks.DEEPSLATE).getDefaultState();
+    }
     private static BlockState naturalExpected(CavernShape.Column c,int y){
         var t=naturalAt(c.x(),y,c.z());if(t!=null)return t;
         // Retain the proven entry balcony/walkway geometry, away from the geological shelf.
@@ -191,10 +217,10 @@ public final class OverworldLandscape {
     private static void paint(ServerWorld w,OverworldSite s,int cx,int cz){
         var pos=new BlockPos.Mutable();
         for(int dx=0;dx<16;dx++)for(int dz=0;dz<16;dz++){
-            int x=cx*16+dx-s.x,z=cz*16+dz-s.z;var c=Terrain.column(x,z,Terrain.SEED);var natural=CavernShape.column(x,z);
+            int x=cx*16+dx-s.x,z=cz*16+dz-s.z;var c=Terrain.column(x,z,Terrain.SEED);var natural=CavernShape.column(x,z);var abyss=AbyssShape.column(x,z);
             int top=ceiling(s,x,z)-OverworldSite.OFFSET_Y;
             for(int y=-63;y<=top;y++){
-                var state=s.layout>=75?naturalExpected(natural,y):expected(c,y);pos.set(s.x+x,y+OverworldSite.OFFSET_Y,s.z+z);
+                var state=s.layout>=100?abyssExpected(abyss,y):s.layout>=75?naturalExpected(natural,y):expected(c,y);pos.set(s.x+x,y+OverworldSite.OFFSET_Y,s.z+z);
                 if(!w.getBlockState(pos).isOf(Blocks.BEDROCK))w.setBlockState(pos,state,FLAGS);
             }
         }
@@ -210,9 +236,11 @@ public final class OverworldLandscape {
             }else set(w,s,x,y,z,Blocks.AIR);
         }
         for(int y:new int[]{44,s.entryY}){
+            int ox=y==44?s.dockX():0,oz=y==44?s.dockZ()-70:0;
             for(int x=-6;x<=9;x++)for(int z=64;z<=77;z++){
                 if(y==s.entryY&&x>=-3&&x<=3&&z>=67&&z<=73)continue;
-                set(w,s,x,y,z,Blocks.POLISHED_DEEPSLATE);
+                set(w,s,x+ox,y,z+oz,Blocks.POLISHED_DEEPSLATE);
+                if(y==44&&s.layout>=100)for(int h=1;h<=8;h++)set(w,s,x+ox,y+h,z+oz,Blocks.AIR);
                 if(y==s.entryY){
                     for(int h=1;h<=4;h++)set(w,s,x,y+h,z,Blocks.AIR);
                     if(x==-6||x==9||z==64||z==77)set(w,s,x,y+1,z,Blocks.COBBLED_DEEPSLATE_WALL);
@@ -221,7 +249,7 @@ public final class OverworldLandscape {
             // Guard the upper shaft. Bell remotely boards the passenger into a closed cabin.
             if(y==s.entryY)for(int x=-4;x<=4;x++)for(int z=66;z<=74;z++)
                 if(Math.abs(x)==4||z==66||z==74)set(w,s,x,y+1,z,Blocks.COBBLED_DEEPSLATE_WALL);
-            set(w,s,6,y+1,68,Journey.BELL);set(w,s,7,y+1,68,Blocks.LANTERN);
+            set(w,s,6+ox,y+1,68+oz,Journey.BELL);set(w,s,7+ox,y+1,68+oz,Blocks.LANTERN);
         }
         // A short guarded staircase meets actual native ground, with a three-wide opening in the outer rail.
         for(int step=0;step<=s.approachLength;step++){

@@ -23,7 +23,7 @@ public final class CableCarEntity extends Entity {
     private double lerpX,lerpY,lerpZ;
     private int lerpTicks;
     public CableCarEntity(EntityType<? extends CableCarEntity> type,World w){super(type,w);setNoGravity(true);setInvulnerable(true);}
-    public void configure(OverworldSite s,boolean upper){originX=s.x;originZ=s.z;topY=s.entryY+1;layout=s.layout;fromUpper=upper;setPosition(s.x+.5,upper?topY:45,s.z+70.5);}
+    public void configure(OverworldSite s,boolean upper){originX=s.x;originZ=s.z;topY=s.entryY+1;layout=s.layout;fromUpper=upper;setPosition(s.x+.5+(upper?0:s.dockX()),upper?topY:45,s.z+.5+(upper?70:s.dockZ()));}
     @Override protected void initDataTracker(){}
     @Override protected void readCustomDataFromNbt(NbtCompound n){originX=n.getInt("x");originZ=n.getInt("z");topY=n.getInt("top");layout=n.contains("layout")?n.getInt("layout"):70;fromUpper=n.getBoolean("upper");progress=n.getInt("progress");}
     @Override protected void writeCustomDataToNbt(NbtCompound n){n.putInt("layout",layout);n.putInt("x",originX);n.putInt("z",originZ);n.putInt("top",topY);n.putBoolean("upper",fromUpper);n.putInt("progress",progress);}
