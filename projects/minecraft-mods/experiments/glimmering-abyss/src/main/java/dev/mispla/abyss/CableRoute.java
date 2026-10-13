@@ -8,8 +8,8 @@ public final class CableRoute {
     public static Point at(double descent,int upperY,int layout){
         double t=Math.max(0,Math.min(1,descent));
         if(layout<75)return new Point(.5,upperY+(45-upperY)*smooth(t),70.5);
-        if(t<.55)return new Point(.5,upperY+(82-upperY)*smooth(t/.55),70.5);
+        if(t<.55)return new Point(.5,upperY+(78-upperY)*smooth(t/.55),70.5);
         double u=(t-.55)/.45,s=smooth(u),swing=Math.pow(Math.sin(Math.PI*u),2);
-        return new Point(.5-28*swing,82-37*s,70.5-25*swing);
+        return new Point(.5-28*swing,78-33*s,70.5-25*swing);
     }
 }

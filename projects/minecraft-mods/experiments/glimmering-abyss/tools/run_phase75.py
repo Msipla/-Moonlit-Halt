@@ -68,6 +68,9 @@ def run(args):
   wait_for(lambda:(results/'phase7-intrusion.json').exists(),90,'Intrusion rejection',p)
   for f in results.glob('*.json'):shutil.copy2(f,out/f.name)
   assert json.loads((out/'phase7-intrusion.json').read_text())['removed_after_crossing']
+  assert json.loads((out/'phase7-debug-permissions.json').read_text())['pass']
+  motion=json.loads((out/'cabin-motion.json').read_text())
+  assert len(motion)>500 and max(r['car_x'] for r in motion)-min(r['car_x'] for r in motion)>27
   assert json.loads((out/'phase7-natural.json').read_text())['outside_loaded_monsters']>0
   access=json.loads((out/'surface-access.json').read_text());assert len(access)==3 and all(v['pass'] for v in access)
   p.wait(timeout=100)  # The monitor already requested stop; do not leave a duplicate stop command for the next process.
@@ -86,6 +89,26 @@ def run(args):
  try:
   ready();audit('second-warmup');time.sleep(10);second=audit('second');assert second.get('pass'),second
   assert (first['x'],first['z'])!=(second['x'],second['z'])
+  with (out/'client-second-seed.log').open('w') as cl:client=launch(cl,phase=7,extra_vm_args=['-Dabyss.capture.phase75=true','-Dabyss.capture.phase75.second=true'])
+  shutil.copy2(client/'abyss-phase7-captures/second-seed-overview.png',out/'screenshots/second-seed-overview.png')
+ finally:stop(p,log)
+ # Generate an authentic Phase 7 save with its shipped JAR, add a player-built
+ # witness, then upgrade that exact save. Never fake the layout tag on a new cave.
+ (server/'mods'/jar.name).unlink()
+ old=ROOT/'artifacts/glimmering-abyss-0.7.0.jar';shutil.copy2(old,server/'mods'/old.name)
+ properties['level-name']='phase7-legacy';properties['level-seed']='74102002';config()
+ p,log=start('server-legacy-phase7.log')
+ try:
+  legacy=ready();audit('legacy-warmup');time.sleep(10)
+  command(server,f"setblock {legacy['x']+45} 48 {legacy['z']+8} minecraft:gold_block")
+  before=audit('legacy-before');assert before['pass']
+ finally:stop(p,log)
+ (server/'mods'/old.name).unlink();shutil.copy2(jar,server/'mods'/jar.name)
+ p,log=start('server-legacy-upgraded.log')
+ try:
+  legacy=ready();audit('legacy-upgrade-warmup');time.sleep(10);after=audit('legacy-after')
+  assert after['layout']==70 and after['pass'] and after['player_witness_gold'] and before['geometry_sha256']==after['geometry_sha256']
+  (out/'legacy-upgrade.json').write_text(json.dumps(dict(pass_=True,old_jar_sha256=hashlib.sha256(old.read_bytes()).hexdigest(),new_jar_sha256=hashlib.sha256(jar.read_bytes()).hexdigest(),authentic_old_world=True,layout=after['layout'],gold_block_in_sample=True,before_geometry=before['geometry_sha256'],after_geometry=after['geometry_sha256']),indent=2)+'\n')
  finally:stop(p,log)
  summary=dict(status='TECHNICAL_PASS',minecraft='1.20.1',release_jar_sha256=hashlib.sha256(jar.read_bytes()).hexdigest(),seeds=[74102002,-92345],real_client=True,real_server_restart=True,natural_outside_monsters=json.loads((out/'phase7-natural.json').read_text())['outside_loaded_monsters'],aesthetic_acceptance='Pending user review of Phase 7.5 natural cave and Android riding comfort',limitations='Hosted Linux software OpenGL; not Windows, PCL2, target GPU, Sodium/Iris/DH or real phone')
  (out/'summary.json').write_text(json.dumps(summary,indent=2)+'\n');print(summary,flush=True)

@@ -31,7 +31,7 @@ public final class CavernShape {
             }
             // Occupied rock terrace: compact near the houses, widening into irregular talus below.
             int top=38+(z<=-26?1:0)+(z<=-43?1:0);
-            double depth=Math.max(0,top-y),rx=45+depth*.34,rz=77+depth*.27;
+            double depth=Math.max(0,top-y),rx=60+depth*.34,rz=91+depth*.27;
             double sx=x-62-3*Math.sin(z*.052+y*.053),sz=z+11+4*Math.sin(x*.04+y*.036);
             double shelf=sq(sx/rx)+sq(sz/rz);
             if(y<=top&&shelf<1+.06*Math.sin(z*.19+y*.12))return true;
@@ -50,11 +50,13 @@ public final class CavernShape {
         if(ellipsoid(x,35,z,42,35,-124,37,29,40)<1)roof=Math.max(roof,67);
         if(ellipsoid(x,38,z,-68,38,33,30,30,35)<1)roof=Math.max(roof,71);
         if(Math.abs(x)<=25&&Math.abs(z-68)<=28)roof=Math.max(roof,87);
-        return new Column(x,z,q,Math.max(-57,floor),Math.min(107,roof),.065*n);
+        return new Column(x,z,q,Math.max(-57,floor),Math.min(ceiling(x,z)-4,roof),.065*n);
     }
     public static int ceiling(int x,int z){
-        int top=(int)Math.ceil(column(x,z).roof())+4;
-        if(x>=-60&&x<=83&&z>=-106&&z<=73)top=Math.max(top,82);
+        // Keep the already verified Phase 7 cap. New shapes fit underneath it,
+        // rather than increasing the mountain requirements or weakening cover.
+        int top=(int)Math.ceil(Terrain.column(x,z,Terrain.SEED).roof())+4;
+        if(x>=-55&&x<=83&&z>=-106&&z<=73)top=Math.max(top,82);
         return Math.min(111,Math.max(48,top));
     }
     private static double ellipsoid(double x,double y,double z,double cx,double cy,double cz,double rx,double ry,double rz){

@@ -55,7 +55,7 @@ public final class OverworldLandscape {
     public static int ceiling(int x,int z){
         return CavernShape.ceiling(x,z)+OverworldSite.OFFSET_Y;
     }
-    private static int ceiling(OverworldSite s,int x,int z){
+    public static int ceiling(OverworldSite s,int x,int z){
         if(s.layout>=75)return ceiling(x,z);
         var c=Terrain.column(x,z,Terrain.SEED);
         int top=(int)Math.ceil(c.roof())+4;

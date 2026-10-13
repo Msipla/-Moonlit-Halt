@@ -25,8 +25,10 @@ import java.nio.file.Path;
 public final class Phase7CaptureClient implements ClientModInitializer {
     private static final boolean RECONNECT=Boolean.getBoolean("abyss.capture.phase7.reconnect");
     private static final boolean NATURAL=Boolean.getBoolean("abyss.capture.phase75");
+    private static final boolean SECOND=Boolean.getBoolean("abyss.capture.phase75.second");
     private long dreamSeenAt;
     private int dreamCaptured;
+    private final JsonArray motion=new JsonArray();
     private static final Path OUT=Path.of(RECONNECT?"abyss-phase7-reconnect":"abyss-phase7-captures");
     private final JsonArray frames=new JsonArray(),walks=new JsonArray(),rides=new JsonArray(),accesses=new JsonArray();
     private boolean connected,finished,midShot,lowShot,exteriorShot;
@@ -56,6 +58,15 @@ public final class Phase7CaptureClient implements ClientModInitializer {
             }
             if(restartReady&&c.world==null){finished=true;c.scheduleStop();return;}
             if(c.player==null||c.world==null||!JourneyClient.ready())return;
+            if(NATURAL&&c.player.hasVehicle()&&(phase==3||phase==6)){
+                var r=new JsonObject();r.addProperty("phase",phase);r.addProperty("seconds",seconds());r.addProperty("x",c.player.getX());r.addProperty("y",c.player.getY());r.addProperty("z",c.player.getZ());
+                var car=c.player.getVehicle();r.addProperty("car_x",car.getX());r.addProperty("car_y",car.getY());r.addProperty("car_z",car.getZ());motion.add(r);
+            }
+            if(SECOND){
+                if(phase==-1){command(c,"view overview");next();return;}
+                if(seconds()<18||!queues(c))return;
+                capture(c,"second-seed-overview.png");finished=true;c.scheduleStop();return;
+            }
             if(c.currentScreen instanceof DreamScreen dream){
                 if(dream.step>dreamCaptured){
                     if(dreamSeenAt==0)dreamSeenAt=System.nanoTime();
@@ -130,6 +141,7 @@ public final class Phase7CaptureClient implements ClientModInitializer {
                 changed=System.nanoTime();return;
             }
             if(phase==13){
+                if(NATURAL){command(c,"debugcheck");write("cabin-motion.json",motion);}
                 command(c,"audit client");command(c,"intrusion");write("rides.json",rides);
                 var r=new JsonObject();r.addProperty("pass",true);r.addProperty("real_bell_interactions",4);r.addProperty("real_walking_legs",walks.size());r.addProperty("real_surface_access_walks",accesses.size());r.addProperty("native_dimension","minecraft:overworld");r.addProperty("method","Bell right clicks, server-authoritative cabin rides, actual forward-key walking; Operator placement at the native-ground approach endpoint and photographic positions after round trip; actual stair walking enters and leaves the station; detached client camera for one exterior frame does not move the seated passenger.");write("journey.json",r);
                 command(c,"view entrance");next();return;
