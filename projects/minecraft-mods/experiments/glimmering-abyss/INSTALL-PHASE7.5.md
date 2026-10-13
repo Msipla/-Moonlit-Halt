@@ -1,6 +1,6 @@
 # 《微光深渊》Phase 7.5 · 安装与验证
 
-**开发中的说明；正式包校验与测试结果以阶段报告和 artifacts/checksums-v0.7.5.json 为准。**
+**正式v0.7.5发布包已在真实客户端与专用服务端完整验证（运行38401293992）。** 校验见[artifacts/checksums-v0.7.5.json](artifacts/checksums-v0.7.5.json)，范围见[阶段报告](TEST-REPORT-PHASE7.5.md)。安卓最终体验与美学仍待用户实测。
 
 Minecraft Java **1.20.1**、Java **17**、Fabric Loader **0.14.25**、Fabric API **0.85.0+1.20.1**。将正式 `glimmering-abyss-0.7.5.jar` 放进实例的 `mods` 文件夹，移走旧版微光深渊 JAR；客户端与专用服务端安装相同版本，不安装 `sources` 包。
 
@@ -36,3 +36,14 @@ Minecraft Java **1.20.1**、Java **17**、Fabric Loader **0.14.25**、Fabric API
 局部禁怪包含全部景观及入口，不改变主世界其他区域的刷怪。车厢仍为固定线路、一次一人；上部穿越入口竖井，横向观景发生在地下段。暖窗保持旧发光立面，空间光仍没有完整墙体遮挡。本阶段不加入NPC、敌对生物、战斗、大片地下海洋或全球地形替换。
 
 真实安卓Amethyst的最终乘坐舒适度、显示兼容性和审美结论由用户验证；托管Linux客户端结果不能替代手机实测。Windows/PCL2、Sodium/Iris/DH、第三方光影及长时多人负载亦不在已验证范围。
+
+## 开发复现
+
+已提交生成好的NBT，普通构建无需重新生成素材。使用Java 17：
+
+```bash
+./gradlew --no-daemon build stageTestMods
+xvfb-run -a python3 -u tools/run_phase75.py --accept-eula --skip-build --output evidence/phase75/new-unique-run
+```
+
+实跑脚本用于Linux隔离测试世界，包含正常世界生成、官方发布客户端与专用服、真实停服重启和旧版升级；依赖首次按官方来源下载。每轮使用新证据目录。需要改建筑时再运行 `python3 tools/author_natural_town.py`；它只生成新的稀疏模板，不改历史 `town.nbt`。
