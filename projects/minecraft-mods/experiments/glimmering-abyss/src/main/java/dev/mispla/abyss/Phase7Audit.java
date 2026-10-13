@@ -62,7 +62,7 @@ public final class Phase7Audit {
             case "approach" -> {x=9.5+s.approachLength;y=s.approachY+1;z=70.5;yaw=90;pitch=0;}
             case "lower" -> y=45;
             case "street" -> {x=47.5;y=45;z=4.5;yaw=180;pitch=-9;}
-            case "cliff" -> {x=20.06;y=45;z=-11.5;yaw=90;pitch=55;}
+            case "cliff" -> {x=-47.5;y=28;z=17.5;yaw=-90;pitch=8;p.changeGameMode(GameMode.CREATIVE);p.getAbilities().flying=true;p.sendAbilitiesUpdate();}
             case "overview" -> {x=-31.5;y=66;z=60.5;yaw=-135;pitch=18;p.changeGameMode(GameMode.CREATIVE);p.getAbilities().flying=true;p.sendAbilitiesUpdate();}
             case "surface" -> {x=17;y=s.entryY+7;z=85;yaw=140;pitch=20;p.changeGameMode(GameMode.CREATIVE);p.getAbilities().flying=true;p.sendAbilitiesUpdate();}
             case "outside" -> {x=400.5;z=70.5;y=OverworldLandscape.surface(w,Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,s.x+400,s.z+70)+1;w.setTimeOfDay(18000);p.changeGameMode(GameMode.CREATIVE);}
