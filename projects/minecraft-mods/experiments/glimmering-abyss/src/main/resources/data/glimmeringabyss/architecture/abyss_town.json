@@ -16,7 +16,7 @@
     [
       47,
       40,
-      -68
+      -60
     ],
     [
       47,
@@ -99,7 +99,7 @@
       -124
     ]
   ],
-  "blocks": 117451,
-  "template_sha256": "0d330ec835ef3e54657386273fb926385374e09c3c17864ea311b14fa3f83841",
+  "blocks": 117891,
+  "template_sha256": "c3c48f613633d5b590eecefd10fb55a43d5f496890ab61e7401992e8a3620f8a",
   "old_templates_unchanged": true
 }

@@ -16,7 +16,7 @@ import java.nio.file.*;
 /** Opt-in release-client spatial review. Actual sleep, bell journeys and forward-key loop. */
 public final class V1CaptureClient implements ClientModInitializer {
     private static final Path OUT=Path.of("abyss-v1-captures");
-    private static final double[][] ROUTE={{47.5,-67.5},{47.5,-83.5},{22.5,-83.5},{22.5,-99.5},{-27.5,-99.5},{-27.5,-123.5},{-77.5,-123.5},{-77.5,-147.5},{-125.5,-147.5},{-125.5,-183.5},{-150.5,-183.5},{-150.5,-213.5},{-89.5,-213.5},{-89.5,-175.5},{-65.5,-175.5},{-65.5,-123.5},{-77.5,-123.5},{-27.5,-123.5},{-27.5,-99.5},{22.5,-99.5},{22.5,-83.5},{47.5,-83.5},{47.5,-67.5}};
+    private static final double[][] ROUTE={{47.5,-57.5},{47.5,-83.5},{22.5,-83.5},{22.5,-99.5},{-27.5,-99.5},{-27.5,-123.5},{-77.5,-123.5},{-77.5,-147.5},{-125.5,-147.5},{-125.5,-183.5},{-150.5,-183.5},{-150.5,-213.5},{-89.5,-213.5},{-89.5,-175.5},{-65.5,-175.5},{-65.5,-123.5},{-77.5,-123.5},{-27.5,-123.5},{-27.5,-99.5},{22.5,-99.5},{22.5,-83.5},{47.5,-83.5},{47.5,-57.5}};
     private final JsonArray frames=new JsonArray(),motion=new JsonArray(),walks=new JsonArray();
     private int state=-1,leg,night;private boolean connected,done,slept;private int dreamCaptured;
     private long started,changed;private double walkX,walkZ;
@@ -75,7 +75,7 @@ public final class V1CaptureClient implements ClientModInitializer {
             }
             if(state==10){if(seconds()<5)return;leg=1;walkX=c.player.getX();walkZ=c.player.getZ();next(11);return;}
             if(state==11){
-                if(leg==ROUTE.length){c.options.forwardKey.setPressed(false);cmd(c,"view lower");next(12);return;}
+                if(leg==ROUTE.length){c.options.forwardKey.setPressed(false);capture(c,"walk-return-to-town.png");cmd(c,"view lower");next(12);return;}
                 double dx=JourneyClient.x+ROUTE[leg][0]-c.player.getX(),dz=JourneyClient.z+ROUTE[leg][1]-c.player.getZ();
                 c.player.setYaw((float)Math.toDegrees(Math.atan2(-dx,dz)));c.player.setPitch(0);c.options.forwardKey.setPressed(true);
                 if(Math.hypot(dx,dz)>.4){if(seconds()>60)throw new IllegalStateException("Loop blocked leg "+leg+" at "+c.player.getPos());return;}

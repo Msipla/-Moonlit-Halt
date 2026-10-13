@@ -30,6 +30,12 @@ public final class JourneyClient implements ClientModInitializer {
             net.fabricmc.fabric.api.client.screen.v1.ScreenEvents.afterRender(screen).register((s,context,mx,my,delta)->DreamScreen.render(context,delta)));
         ClientPlayConnectionEvents.DISCONNECT.register((handler,client)->{ready=false;DreamScreen.clear();});
     }
+    public static boolean cavernBackdropActive(net.minecraft.client.render.Camera camera){
+        var c=MinecraftClient.getInstance();
+        return layout>=100&&origin()!=null
+            &&camera.getSubmersionType()==net.minecraft.client.render.CameraSubmersionType.NONE
+            &&c.world.getLightLevel(net.minecraft.world.LightType.SKY,BlockPos.ofFloored(camera.getPos()))==0;
+    }
     public static boolean ready(){return ready;}
     public static BlockPos origin(){
         var c=MinecraftClient.getInstance();if(!ready||c.world==null||!c.world.getRegistryKey().equals(World.OVERWORLD))return null;

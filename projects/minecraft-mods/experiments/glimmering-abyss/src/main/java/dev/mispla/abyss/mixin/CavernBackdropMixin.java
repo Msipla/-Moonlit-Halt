@@ -18,7 +18,7 @@ public abstract class CavernBackdropMixin {
     @Shadow private static float blue;
     @Inject(method="render",at=@At("TAIL"))
     private static void abyss$backdrop(Camera camera,float delta,ClientWorld world,int distance,float skyDarkness,CallbackInfo ci){
-        if(JourneyClient.layout>=100&&JourneyClient.origin()!=null&&camera.getSubmersionType()==CameraSubmersionType.NONE){
+        if(JourneyClient.cavernBackdropActive(camera)){
             red=.012f;green=.033f;blue=.055f;
             RenderSystem.clearColor(red,green,blue,0);
             RenderSystem.setShaderFogColor(red,green,blue);

@@ -12,7 +12,7 @@ n=read_nbt(gzip.decompress((P/'src/main/resources/data/glimmeringabyss/structure
 b={tuple(v+o for v,o in zip(row['pos'],(-64,34,-106))):n['palette'][row['state']] for row in n['blocks']}
 def put(x,y,z,name,**props):b[x,y,z]={'Name':'minecraft:'+name,**({'Properties':{k:str(v) for k,v in props.items()}} if props else {})}
 # Local floor coordinates. Axis-aligned legs allow safe stairs and reproducible real walking.
-route=[(47,40,-68),(47,40,-84),(22,37,-84),(22,37,-100),(-28,31,-100),(-28,31,-124),(-78,27,-124),(-78,25,-148),(-126,24,-148),(-126,20,-184),(-151,20,-184),(-151,16,-214),(-90,16,-214),(-90,22,-176),(-66,22,-176),(-66,27,-124),(-78,27,-124)]
+route=[(47,40,-60),(47,40,-84),(22,37,-84),(22,37,-100),(-28,31,-100),(-28,31,-124),(-78,27,-124),(-78,25,-148),(-126,24,-148),(-126,20,-184),(-151,20,-184),(-151,16,-214),(-90,16,-214),(-90,22,-176),(-66,22,-176),(-66,27,-124),(-78,27,-124)]
 floors={};facing={}
 for a,c in zip(route,route[1:]):
  length=max(abs(c[0]-a[0]),abs(c[2]-a[2]));dx=(c[0]-a[0])//length;dz=(c[2]-a[2])//length
@@ -22,6 +22,9 @@ for a,c in zip(route,route[1:]):
   for offset in range(-2,3):
    pos=(x+(offset if dz else 0),z+(offset if dx else 0));floors[pos]=max(y,floors.get(pos,-99))
    if nexty!=y:facing[pos]=('east' if dx>0 else 'west') if dx else ('south' if dz>0 else 'north')
+# The first leg joins the existing north street, so it is an entrance rather
+# than an exposed endpoint. Clear the old terrace rail as part of this connector.
+entrance={(x,-60) for x in range(46,49)}
 # Rock path footing/clearance; walls only on exposed path edges, not a fence through junctions.
 for (x,z),y in floors.items():
  for h in range(y-5,y+1):put(x,h,z,'deepslate' if h<y else 'cobbled_deepslate')
@@ -31,7 +34,7 @@ for (x,z),y in floors.items():
  neighbors=[((x+dx,z+dz),direction) for dx,dz,direction in [(1,0,'east'),(-1,0,'west'),(0,1,'south'),(0,-1,'north')]]
  higher=next((direction for q,direction in neighbors if floors.get(q,y)==y+1),None)
  if higher:put(x,y+1,z,'cobbled_deepslate_stairs',facing=higher,half='bottom',shape='straight',waterlogged='false')
- if any(q not in floors for q,_ in neighbors):put(x,y+1,z,'cobbled_deepslate_wall',up='true',north='none',south='none',east='none',west='none',waterlogged='false')
+ if (x,z) not in entrance and any(q not in floors for q,_ in neighbors):put(x,y+1,z,'cobbled_deepslate_wall',up='true',north='none',south='none',east='none',west='none',waterlogged='false')
 # Explicit wall arms survive FORCE_STATE placement; neighbouring posts form a continuous guard.
 edge={(x,z) for (x,z),y in floors.items() if b.get((x,y+1,z),{}).get('Name')=='minecraft:cobbled_deepslate_wall'}
 for x,z in edge:
@@ -41,7 +44,7 @@ for x,z in edge:
 # Occasional familiar warm lights mark the way back. No combat/biomes/new regions.
 for x,y,z in route:
  edge=next(((xx,zz) for xx,zz in floors if abs(xx-x)+abs(zz-z)<=3 and any((xx+dx,zz+dz) not in floors for dx,dz in [(1,0),(-1,0),(0,1),(0,-1)])),None)
- if edge:put(edge[0],floors[edge]+2,edge[1],'lantern',hanging='false',waterlogged='false')
+ if edge and edge not in entrance:put(edge[0],floors[edge]+2,edge[1],'lantern',hanging='false',waterlogged='false')
 # New dock approaches the existing southern lane; no hairpin to the old shaft foot.
 for x in range(18,40):
  for z in range(52,66):
