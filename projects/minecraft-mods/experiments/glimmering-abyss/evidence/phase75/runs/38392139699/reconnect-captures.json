@@ -1,0 +1,227 @@
+[
+  {
+    "file": "reconnected-safe-station.png",
+    "x": -7385.5,
+    "y": 150.0,
+    "z": -2377.5,
+    "yaw": 90.0,
+    "pitch": 0.0,
+    "riding": false,
+    "health": 20.0,
+    "dimension": "minecraft:overworld",
+    "chunk_debug": "C: 177/26136 (s) D: 16, pC: 105, pU: 08, aB: 00",
+    "detached_photo_camera": false,
+    "camera_position": "(-7385.5, 151.61999988555908, -2377.5)",
+    "camera_yaw": 90.0,
+    "camera_pitch": 0.0,
+    "gl_error": 0,
+    "renderer": "llvmpipe (LLVM 20.1.2, 256 bits)",
+    "environment": {
+      "profile": "a",
+      "space_lighting": {
+        "active": false,
+        "overworld_local_scope": false,
+        "shader_ready": true,
+        "terrain_shader_selections": 0,
+        "config_status": "loaded"
+      },
+      "custom_active": false,
+      "world": "minecraft:overworld",
+      "observed_lightmap_writes": 784,
+      "native_lightmap_0_rgb": [
+        25,
+        25,
+        25
+      ],
+      "display_lightmap_0_rgb": [
+        25,
+        25,
+        25
+      ],
+      "native_lightmap_5_rgb": [
+        98,
+        79,
+        59
+      ],
+      "display_lightmap_5_rgb": [
+        98,
+        79,
+        59
+      ],
+      "native_lightmap_rgb": [
+        [
+          25,
+          25,
+          25
+        ],
+        [
+          38,
+          34,
+          30
+        ],
+        [
+          52,
+          43,
+          36
+        ],
+        [
+          67,
+          54,
+          43
+        ],
+        [
+          82,
+          66,
+          50
+        ],
+        [
+          98,
+          79,
+          59
+        ],
+        [
+          114,
+          93,
+          68
+        ],
+        [
+          131,
+          109,
+          80
+        ],
+        [
+          148,
+          126,
+          94
+        ],
+        [
+          165,
+          145,
+          110
+        ],
+        [
+          182,
+          165,
+          131
+        ],
+        [
+          200,
+          186,
+          157
+        ],
+        [
+          218,
+          209,
+          188
+        ],
+        [
+          239,
+          235,
+          227
+        ],
+        [
+          252,
+          252,
+          252
+        ],
+        [
+          252,
+          252,
+          252
+        ]
+      ],
+      "display_lightmap_rgb": [
+        [
+          25,
+          25,
+          25
+        ],
+        [
+          38,
+          34,
+          30
+        ],
+        [
+          52,
+          43,
+          36
+        ],
+        [
+          67,
+          54,
+          43
+        ],
+        [
+          82,
+          66,
+          50
+        ],
+        [
+          98,
+          79,
+          59
+        ],
+        [
+          114,
+          93,
+          68
+        ],
+        [
+          131,
+          109,
+          80
+        ],
+        [
+          148,
+          126,
+          94
+        ],
+        [
+          165,
+          145,
+          110
+        ],
+        [
+          182,
+          165,
+          131
+        ],
+        [
+          200,
+          186,
+          157
+        ],
+        [
+          218,
+          209,
+          188
+        ],
+        [
+          239,
+          235,
+          227
+        ],
+        [
+          252,
+          252,
+          252
+        ],
+        [
+          252,
+          252,
+          252
+        ]
+      ],
+      "distance_start": 230.4,
+      "distance_end": 256.0,
+      "distance_target_rgba": [
+        0.7208829,
+        0.826191,
+        1.0,
+        1.0
+      ],
+      "surface_microglow": 0.0,
+      "glow_faces_drawn_last_frame": 0
+    }
+  }
+]
