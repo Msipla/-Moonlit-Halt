@@ -69,8 +69,11 @@ public final class OverworldLandscape {
     private static boolean remote(int x,int z){return x<-112||x>111||z<-176||z>111;}
     private static int ceiling(ServerWorld w,OverworldSite s,int x,int z){
         int cap=ceiling(s,x,z);
-        // Far vaults descend beneath the native relief. Noise terrain is immutable,
-        // so save/restart uses exactly the same cap; actual ground is checked separately.
+        if(s.layout>=100&&s.columnCaps.length>0){
+            int saved=s.columnCaps[s.capIndex(x,z)];
+            if(saved!=Integer.MIN_VALUE)return saved;
+        }
+        // Compatibility for an interrupted, unshipped first sample without persisted caps.
         if(s.layout>=100&&remote(x,z))cap=Math.min(cap,height(w,s.x+x,s.z+z)-16);
         return cap;
     }
@@ -96,17 +99,20 @@ public final class OverworldLandscape {
                 if(height(w,x,z)<130)return;
                 for(int lx=-112;lx<=111;lx+=32)for(int lz=-176;lz<=111;lz+=32)
                     if(!(s.layout>=100&&remote(lx,lz))&&height(w,x+lx,z+lz)<ceiling(s,lx,lz)+12)return;
-                s.x=x;s.z=z;if(!planApproach(w,s))return;s.cursor=0;s.caps.clear();s.stage="check";s.markDirty();
+                s.x=x;s.z=z;if(!planApproach(w,s))return;s.cursor=0;s.caps.clear();if(s.layout>=100)s.resetCaps();s.stage="check";s.markDirty();
                 System.out.println("ABYSS_SITE_CANDIDATE "+x+","+z+" attempt="+s.attempt);return;
             }
             int cx=s.chunkX(s.cursor),cz=s.chunkZ(s.cursor);
             var chunk=w.getChunk(cx,cz);
             if(s.stage.equals("check")){
                 boolean valid=chunk.getInhabitedTime()==0;
+                if(s.layout>=100&&s.columnCaps.length==0)s.resetCaps();
                 for(int dx=0;dx<16&&valid;dx++)for(int dz=0;dz<16&&valid;dz++){
-                    int wx=cx*16+dx,wz=cz*16+dz,top=ceiling(w,s,wx-s.x,wz-s.z);
+                    int wx=cx*16+dx,wz=cz*16+dz,top=ceiling(s,wx-s.x,wz-s.z);
                     // Exact full-footprint check after vanilla carving/surface/features, not only sampled noise heights.
                     int h=ground(w,wx,wz)+1; // Bare ground, never count a tree canopy as mountain cover.
+                    if(s.layout>=100&&remote(wx-s.x,wz-s.z))top=Math.min(top,h-16);
+                    if(s.layout>=100)s.columnCaps[s.capIndex(wx-s.x,wz-s.z)]=top;
                     if(h<top+10||s.layout>=100&&remote(wx-s.x,wz-s.z)&&top<routeCap(wx-s.x,wz-s.z))valid=false;
                     // The painter retains a four-block solid local roof below this cap.
                     // Existing natural caves above it are permitted; requiring every native

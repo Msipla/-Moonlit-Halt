@@ -14,6 +14,7 @@ public final class OverworldSite extends PersistentState {
     public static final int CHUNKS=14*18;
     public int x,z,entryY,attempt,cursor,approachLength,approachY;
     public int layout=100;
+    public int[] columnCaps=new int[0];
     public String stage="search";
     public String reason="";
     public final Map<UUID,Integer> dreams=new HashMap<>();
@@ -27,7 +28,7 @@ public final class OverworldSite extends PersistentState {
     }
     private static OverworldSite read(NbtCompound n){
         var s=new OverworldSite();s.x=n.getInt("x");s.z=n.getInt("z");s.entryY=n.getInt("entryY");
-        s.layout=n.contains("layout")?n.getInt("layout"):70;
+        s.layout=n.contains("layout")?n.getInt("layout"):70;s.columnCaps=n.getIntArray("columnCaps");
         s.approachLength=n.getInt("approachLength");s.approachY=n.getInt("approachY");
         s.attempt=n.getInt("attempt");s.cursor=n.getInt("cursor");s.stage=n.getString("stage");s.reason=n.getString("reason");
         if(s.stage.equals("carve")){s.cursor=0;s.resumed=true;}
@@ -39,7 +40,7 @@ public final class OverworldSite extends PersistentState {
         return s;
     }
     @Override public NbtCompound writeNbt(NbtCompound n){
-        n.putInt("layout",layout);
+        n.putInt("layout",layout);if(columnCaps.length>0)n.putIntArray("columnCaps",columnCaps);
         n.putInt("approachLength",approachLength);n.putInt("approachY",approachY);n.putInt("schema",1);n.putInt("x",x);n.putInt("z",z);n.putInt("entryY",entryY);n.putInt("attempt",attempt);n.putInt("cursor",cursor);n.putString("stage",stage);n.putString("reason",reason);
         var cs=new net.minecraft.nbt.NbtList();caps.forEach(v->cs.add(net.minecraft.nbt.NbtString.of(v)));n.put("caps",cs);
         var d=new NbtCompound();dreams.forEach((k,v)->d.putInt(k.toString(),v));n.put("dreams",d);
@@ -54,6 +55,8 @@ public final class OverworldSite extends PersistentState {
     public int chunks(){return widthChunks()*(maxZ()-minZ()+1)/16;}
     public int chunkX(int index){return x/16+minX()/16+index%widthChunks();}
     public int chunkZ(int index){return z/16+minZ()/16+index/widthChunks();}
+    public int capIndex(int lx,int lz){return (lx-minX())*(maxZ()-minZ()+1)+lz-minZ();}
+    public void resetCaps(){columnCaps=new int[(maxX()-minX()+1)*(maxZ()-minZ()+1)];java.util.Arrays.fill(columnCaps,Integer.MIN_VALUE);}
     public int dockX(){return layout>=100?24:0;}
     public int dockZ(){return layout>=100?58:70;}
     public BlockPos at(int lx,int ly,int lz){return new BlockPos(x+lx,ly+OFFSET_Y,z+lz);}

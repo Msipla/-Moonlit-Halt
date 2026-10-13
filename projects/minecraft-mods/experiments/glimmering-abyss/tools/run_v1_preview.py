@@ -80,20 +80,20 @@ def run(args):
   (server/'mods'/jar.name).unlink()
   old=ROOT/f'artifacts/glimmering-abyss-{old_version}.jar';shutil.copy2(old,server/'mods'/old.name)
   properties['level-name']='legacy-'+old_version;properties['level-seed']='74102002';config()
-  before_log='server-legacy-'+old_version+'.log';p,log=start(before_log)
+  before_log='server-legacy-'+old_version+'.log';tag='legacy'+str(expected_layout);p,log=start(before_log)
   try:
-   legacy=ready();baseline=audit('legacy-warmup');time.sleep(10)
+   legacy=ready();baseline=audit(tag+'-warmup');time.sleep(10)
    p.stdin.write(f"forceload add {legacy['x']+45} {legacy['z']+8}\n");p.stdin.flush()
    wait_for(lambda:any(k in (out/before_log).read_text() for k in ('Marked chunk','commands.forceload.added')),45,'Native witness chunk loaded',p)
    p.stdin.write(f"setblock {legacy['x']+45} 48 {legacy['z']+8} minecraft:gold_block\n");p.stdin.flush()
    wait_for(lambda:any(k in (out/before_log).read_text() for k in ('Changed the block at','commands.setblock.success')),30,'Native console witness placement',p)
-   before=audit('legacy-before');assert before['pass']
+   before=audit(tag+'-before');assert before['pass']
    assert before['geometry_sha256']!=baseline['geometry_sha256'],'Witness was not present in the actual geometry sample'
   finally:stop(p,log)
   (server/'mods'/old.name).unlink();shutil.copy2(jar,server/'mods'/jar.name)
   p,log=start('server-upgraded-'+old_version+'.log')
   try:
-   ready();audit('legacy-upgrade-warmup');time.sleep(10);after=audit('legacy-after')
+   ready();audit(tag+'-upgrade-warmup');time.sleep(10);after=audit(tag+'-after')
    assert after['layout']==expected_layout and after['pass'] and after['player_witness_gold'] and before['geometry_sha256']==after['geometry_sha256']
    (out/('legacy-upgrade-'+old_version+'.json')).write_text(json.dumps(dict(pass_=True,old_jar_sha256=hashlib.sha256(old.read_bytes()).hexdigest(),new_jar_sha256=hashlib.sha256(jar.read_bytes()).hexdigest(),authentic_old_world=True,layout=after['layout'],gold_block_in_sample=True,before_geometry=before['geometry_sha256'],after_geometry=after['geometry_sha256']),indent=2)+'\n')
   finally:stop(p,log)

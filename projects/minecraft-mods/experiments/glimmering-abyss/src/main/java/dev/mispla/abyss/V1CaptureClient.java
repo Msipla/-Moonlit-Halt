@@ -49,13 +49,18 @@ public final class V1CaptureClient implements ClientModInitializer {
                 if(state==-1){cmd(c,"view overview");next(90);return;}
                 if(readyFrame(c)){capture(c,"second-seed-overview.png");finish(c);}return;
             }
-            if(state==-1){cmd(c,"bedtime");next(0);return;}
+            if(state==-1){next(-2);return;}
+            if(state==-2){if(seconds()<5||!c.player.hasPermissionLevel(2))return;cmd(c,"view outside");next(-3);return;}
+            if(state==-3){if(seconds()<10)return;cmd(c,"bedtime");next(0);return;}
             if(state==0){
                 if(seconds()<3)return;var p=new BlockPos(JourneyClient.x+400,c.player.getBlockY(),JourneyClient.z+70);
+                if(Math.abs(c.player.getX()-(JourneyClient.x+401.5))>2||!c.world.getBlockState(p).isOf(net.minecraft.block.Blocks.BLUE_BED)){
+                    if(seconds()>25)throw new IllegalStateException("Sleep fixture did not arrive at "+c.player.getPos()+" bed="+c.world.getBlockState(p));return;
+                }
                 c.interactionManager.interactBlock(c.player,Hand.MAIN_HAND,new BlockHitResult(Vec3d.ofCenter(p),Direction.UP,p,false));slept=false;next(1);return;
             }
             if(state==1){
-                slept|=c.player.isSleeping();if(!slept||c.player.isSleeping()||DreamScreen.step!=0){if(seconds()>40)throw new IllegalStateException("Sleep/wake flow did not finish");return;}
+                slept|=c.player.isSleeping();if(!slept||c.player.isSleeping()||DreamScreen.step!=0){if(seconds()>40)throw new IllegalStateException("Sleep/wake flow did not finish; observed="+slept+" sleeping="+c.player.isSleeping()+" dream="+DreamScreen.step+" at="+c.player.getPos());return;}
                 if(++night<2){cmd(c,"bedtime");next(0);return;}
                 if(dreamCaptured!=2||!c.player.getInventory().contains(new net.minecraft.item.ItemStack(Journey.ECHO)))throw new IllegalStateException("Sleep dreams or guide absent");
                 cmd(c,"view entrance");next(2);return;
@@ -80,7 +85,7 @@ public final class V1CaptureClient implements ClientModInitializer {
             if(state==12){if(seconds()<4)return;bell(c,false);next(13);return;}
             if(state==13){if(!c.player.hasVehicle()){if(seconds()>10)throw new IllegalStateException("Return boarding failed");return;}next(14);return;}
             if(state==14){if(c.player.hasVehicle()){if(seconds()>100)throw new IllegalStateException("Return ride deadline");return;}checkLanding(c,true);write("motion.json",motion);cmd(c,"debugcheck");finish(c);}
-        }catch(Exception ex){var r=new JsonObject();r.addProperty("state",state);r.addProperty("leg",leg);r.addProperty("error",ex.toString());write("failure.json",r);ex.printStackTrace();done=true;c.options.forwardKey.setPressed(false);c.scheduleStop();}
+        }catch(Exception ex){var r=new JsonObject();r.addProperty("state",state);r.addProperty("leg",leg);r.addProperty("error",ex.toString());if(c.player!=null){r.addProperty("position",c.player.getPos().toString());r.addProperty("permission",c.player.hasPermissionLevel(2));r.addProperty("sleeping",c.player.isSleeping());r.addProperty("dream_step",DreamScreen.step);try{capture(c,"failure-state.png");}catch(Exception ignored){}}write("failure.json",r);ex.printStackTrace();done=true;c.options.forwardKey.setPressed(false);c.scheduleStop();}
     }
     private boolean readyFrame(MinecraftClient c){
         if(seconds()>160)throw new IllegalStateException("Unsettled chunks "+c.worldRenderer.getChunksDebugString());

@@ -112,7 +112,8 @@ public final class Phase7Audit {
         w.setBlockState(new BlockPos(x,y,z),bed.with(net.minecraft.block.BedBlock.PART,net.minecraft.block.enums.BedPart.FOOT));
         w.setBlockState(new BlockPos(x,y,z+1),bed.with(net.minecraft.block.BedBlock.PART,net.minecraft.block.enums.BedPart.HEAD));
         w.setTimeOfDay((w.getTimeOfDay()/24000+1)*24000+13000);
-        var player=source.getPlayerOrThrow();player.teleport(w,x+1.5,y,z+.5,90,40);return 1;
+        var player=source.getPlayerOrThrow();player.teleport(w,x+1.5,y,z+.5,90,40);
+        var fixture=new JsonObject();fixture.addProperty("bed_x",x);fixture.addProperty("bed_y",y);fixture.addProperty("bed_z",z);fixture.addProperty("player",player.getPos().toString());fixture.addProperty("time_of_day",w.getTimeOfDay());write("sleep-fixture",fixture);return 1;
     }
     private static int intrusion(ServerCommandSource source){
         var w=source.getServer().getOverworld();var s=OverworldSite.get(w);

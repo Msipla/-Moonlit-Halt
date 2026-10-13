@@ -32,6 +32,12 @@ for (x,z),y in floors.items():
  higher=next((direction for q,direction in neighbors if floors.get(q,y)==y+1),None)
  if higher:put(x,y+1,z,'cobbled_deepslate_stairs',facing=higher,half='bottom',shape='straight',waterlogged='false')
  if any(q not in floors for q,_ in neighbors):put(x,y+1,z,'cobbled_deepslate_wall',up='true',north='none',south='none',east='none',west='none',waterlogged='false')
+# Explicit wall arms survive FORCE_STATE placement; neighbouring posts form a continuous guard.
+edge={(x,z) for (x,z),y in floors.items() if b.get((x,y+1,z),{}).get('Name')=='minecraft:cobbled_deepslate_wall'}
+for x,z in edge:
+ y=floors[x,z]
+ arms={name:('low' if (x+dx,z+dz) in edge else 'none') for dx,dz,name in [(0,-1,'north'),(0,1,'south'),(1,0,'east'),(-1,0,'west')]}
+ put(x,y+1,z,'cobbled_deepslate_wall',up='true',waterlogged='false',**arms)
 # Occasional familiar warm lights mark the way back. No combat/biomes/new regions.
 for x,y,z in route:
  edge=next(((xx,zz) for xx,zz in floors if abs(xx-x)+abs(zz-z)<=3 and any((xx+dx,zz+dz) not in floors for dx,dz in [(1,0),(-1,0),(0,1),(0,-1)])),None)
