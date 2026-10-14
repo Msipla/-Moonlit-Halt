@@ -32,6 +32,7 @@ import static net.minecraft.server.command.CommandManager.argument;
 public final class Phase7Audit {
     private static MobEntity entering;
     private static long enteredAt;
+    private static final java.util.Map<java.util.UUID,Integer> sleepStarts=new java.util.HashMap<>(),sleepStops=new java.util.HashMap<>();
     private Phase7Audit(){}
     public static void initialize(){
         CommandRegistrationCallback.EVENT.register((d,a,e)->d.register(literal("abyss").then(literal("phase7")
@@ -42,9 +43,14 @@ public final class Phase7Audit {
             .then(literal("intrusion").executes(c->intrusion(c.getSource())))
             .then(literal("natural").executes(c->natural(c.getSource())))
             .then(literal("bedtime").executes(c->bedtime(c.getSource())))
+            .then(literal("sleepstate").then(argument("label",StringArgumentType.word()).executes(c->sleepstate(c.getSource(),StringArgumentType.getString(c,"label")))))
             .then(literal("debugcheck").executes(c->debugcheck(c.getSource())))
             .then(literal("dream").executes(c->{Journey.dream(c.getSource().getPlayerOrThrow());return 1;}))
         )));
+        if(Boolean.getBoolean("abyss.testServer")){
+            net.fabricmc.fabric.api.entity.event.v1.EntitySleepEvents.START_SLEEPING.register((entity,pos)->{if(entity instanceof net.minecraft.server.network.ServerPlayerEntity player)sleepStarts.merge(player.getUuid(),1,Integer::sum);});
+            net.fabricmc.fabric.api.entity.event.v1.EntitySleepEvents.STOP_SLEEPING.register((entity,pos)->{if(entity instanceof net.minecraft.server.network.ServerPlayerEntity player)sleepStops.merge(player.getUuid(),1,Integer::sum);});
+        }
         ServerTickEvents.END_SERVER_TICK.register(server->{
             if(entering!=null&&server.getOverworld().getTime()>enteredAt+5){
                 var r=new JsonObject();r.addProperty("removed_after_crossing",entering.isRemoved());r.addProperty("ticks",server.getOverworld().getTime()-enteredAt);
@@ -111,9 +117,23 @@ public final class Phase7Audit {
         var bed=Blocks.BLUE_BED.getDefaultState().with(net.minecraft.block.BedBlock.FACING,net.minecraft.util.math.Direction.SOUTH);
         w.setBlockState(new BlockPos(x,y,z),bed.with(net.minecraft.block.BedBlock.PART,net.minecraft.block.enums.BedPart.FOOT));
         w.setBlockState(new BlockPos(x,y,z+1),bed.with(net.minecraft.block.BedBlock.PART,net.minecraft.block.enums.BedPart.HEAD));
-        w.setTimeOfDay((w.getTimeOfDay()/24000+1)*24000+13000);
-        var player=source.getPlayerOrThrow();player.teleport(w,x+1.5,y,z+.5,90,40);
-        var fixture=new JsonObject();fixture.addProperty("bed_x",x);fixture.addProperty("bed_y",y);fixture.addProperty("bed_z",z);fixture.addProperty("player",player.getPos().toString());fixture.addProperty("time_of_day",w.getTimeOfDay());write("sleep-fixture",fixture);return 1;
+        long beforeDayTime=w.getTimeOfDay(),beforeWorldTime=w.getTime();
+        var dispatcher=source.getServer().getCommandManager().getDispatcher();
+        dispatcher.execute("time add 24000",source);
+        long advancedDay=w.getTimeOfDay()/24000;
+        dispatcher.execute("time set "+(advancedDay*24000+13000),source);
+        if(w.getTimeOfDay()/24000<=beforeDayTime/24000)throw new IllegalStateException("Native time command did not advance the day");
+        var player=source.getPlayerOrThrow();player.changeGameMode(GameMode.SURVIVAL);player.getAbilities().flying=false;player.sendAbilitiesUpdate();player.teleport(w,x+1.5,y,z+.5,90,40);
+        var fixture=new JsonObject();fixture.addProperty("bed_x",x);fixture.addProperty("bed_y",y);fixture.addProperty("bed_z",z);fixture.addProperty("player",player.getPos().toString());fixture.addProperty("time_of_day",w.getTimeOfDay());fixture.addProperty("before_day_time",beforeDayTime);fixture.addProperty("before_world_time",beforeWorldTime);fixture.addProperty("world_time",w.getTime());fixture.addProperty("day_before",beforeDayTime/24000);fixture.addProperty("day_after",w.getTimeOfDay()/24000);fixture.addProperty("command","time add 24000; time set absolute-next-day-night");write("sleep-fixture-"+(s.dreams.getOrDefault(player.getUuid(),0)+1),fixture);write("sleep-fixture",fixture);return 1;
+    }
+    private static int sleepstate(ServerCommandSource source,String label)throws com.mojang.brigadier.exceptions.CommandSyntaxException{
+        if(!label.matches("[a-zA-Z0-9_-]{1,32}"))return 0;
+        var player=source.getPlayerOrThrow();var w=player.getServerWorld();var site=OverworldSite.get(source.getServer().getOverworld());var r=new JsonObject();
+        r.addProperty("world_time",w.getTime());r.addProperty("day_time",w.getTimeOfDay());r.addProperty("day",w.getTimeOfDay()/24000);r.addProperty("sleeping",player.isSleeping());
+        r.addProperty("start_sleep_events",sleepStarts.getOrDefault(player.getUuid(),0));r.addProperty("stop_sleep_events",sleepStops.getOrDefault(player.getUuid(),0));
+        r.addProperty("dreams",site.dreams.getOrDefault(player.getUuid(),0));r.addProperty("dream_day",site.dreamDays.getOrDefault(player.getUuid(),-1L));
+        r.addProperty("has_echo",player.getInventory().contains(new net.minecraft.item.ItemStack(Journey.ECHO)));r.addProperty("game_mode",player.interactionManager.getGameMode().getName());
+        write("sleep-"+label,r);return 1;
     }
     private static int intrusion(ServerCommandSource source){
         var w=source.getServer().getOverworld();var s=OverworldSite.get(w);

@@ -8,11 +8,17 @@ on:
       - 'projects/minecraft-mods/experiments/glimmering-abyss/gradle.properties'
       - '.github/workflows/glimmering-abyss-v1.yml'
   workflow_dispatch:
+    inputs:
+      suite:
+        description: Validation scope (full includes two seeds and legacy upgrades)
+        type: choice
+        options: [full, mechanics]
+        default: full
 permissions:
   contents: write
 concurrency:
   group: glimmering-abyss-v1
-  cancel-in-progress: true
+  cancel-in-progress: false
 jobs:
   validate:
     runs-on: ubuntu-latest
@@ -36,7 +42,9 @@ jobs:
       - name: Run actual Minecraft client and server
         working-directory: ${{ env.PROJECT }}
         run: |
-          xvfb-run -a python3 -u tools/run_v1_preview.py --accept-eula --skip-build --output evidence/v1/runs/${{ github.run_id }}
+          args=()
+          if [[ "${{ inputs.suite || 'mechanics' }}" == mechanics ]]; then args+=(--mechanics-only); fi
+          xvfb-run -a python3 -u tools/run_v1_preview.py --accept-eula --skip-build --output evidence/v1/runs/${{ github.run_id }} "${args[@]}"
       - name: Preserve current-run evidence and build packages
         if: always()
         env:
@@ -55,6 +63,9 @@ jobs:
                   if not f.is_file():continue
                   target=(out/'screenshots' if f.suffix=='.png' or f.name=='captures.json' else out)/f.name
                   if not target.exists():shutil.copy2(f,target)
+          for name in ('mechanics','transport','reconnect'):
+              source=p/'.runtime/release-client'/('abyss-v1-'+name)
+              if source.is_dir():shutil.copytree(source,out/name,dirs_exist_ok=True)
           reconnect=p/'.runtime/release-client/abyss-phase7-reconnect'
           if reconnect.is_dir():
               (out/'screenshots').mkdir(exist_ok=True)
@@ -63,7 +74,7 @@ jobs:
                       target=(out/'screenshots' if f.suffix=='.png' else out)/('reconnect-'+f.name if f.name=='captures.json' else f.name)
                       if not target.exists():shutil.copy2(f,target)
           launch=p/'.runtime/release-client/launch-provenance.json'
-          if launch.exists():shutil.copy2(launch,out/'client-launch-provenance.json')
+          if launch.exists() and not (out/'client-launch-provenance.json').exists():shutil.copy2(launch,out/'client-launch-provenance.json')
           servers=sorted((p/'.runtime').glob('v1-preview-server-*'))
           if servers:
               for f in (servers[-1]/'abyss-results').glob('*.json'):
