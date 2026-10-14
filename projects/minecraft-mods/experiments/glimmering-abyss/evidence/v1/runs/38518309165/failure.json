@@ -1,0 +1,9 @@
+{
+  "state": 21,
+  "leg": 27,
+  "error": "java.lang.IllegalStateException: Settlement blocked leg 27 at (-7293.300000011921, 45.0, -2427.505800472686)",
+  "position": "(-7293.300000011921, 45.0, -2427.505800472686)",
+  "permission": true,
+  "sleeping": false,
+  "dream_step": 0
+}
