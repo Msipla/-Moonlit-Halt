@@ -343,6 +343,28 @@
     "garden-residence": 12,
     "weaving-workshop": 10
   },
+  "door_headroom_repairs": [
+    [
+      56,
+      40,
+      -6
+    ],
+    [
+      56,
+      40,
+      -5
+    ],
+    [
+      56,
+      41,
+      -6
+    ],
+    [
+      56,
+      41,
+      -5
+    ]
+  ],
   "route_signs": [
     {
       "position": [
@@ -414,5 +436,5 @@
   "warm_windows": 184,
   "new_house_footprint_cells": 676,
   "historical_templates_unchanged": true,
-  "template_sha256": "bba9488bb99d7dbb97fe3f34e7caa7ee41337768c7e139b3752ee181adc296f7"
+  "template_sha256": "ec52b0a80ebb6ae08fa3bb10f79a4b154bb56cd6a8cd0ccd8722954e65f75bd0"
 }

@@ -28,11 +28,11 @@ public final class V1CaptureClient implements ClientModInitializer {
     private static final float[] ROOM_YAWS={100,180,180,90,170,-140,135};
     private static final double[][][] ROOMS={
         {{42.5,44.5},{42.5,36.5},{42.5,28.5},{52.5,28.5},{52.5,20.5},{53.5,20.5},{53.5,28.5},{42.5,28.5},{53.5,28.5},{53.5,20.5},{52.5,20.5},{52.5,28.5},{42.5,28.5},{42.5,44.5}},
-        {{38.5,-3.5},{38.5,-8.5},{40.5,-8.5},{40.5,-18.5},{34.5,-18.5},{34.5,-10.5},{38.5,-10.5},{34.5,-10.5},{34.5,-18.5},{40.5,-18.5},{40.5,-8.5},{38.5,-8.5},{38.5,-3.5}},
-        {{56.5,-3.5},{56.5,-8.5},{59.5,-8.5},{59.5,-17.5},{52.5,-17.5},{52.5,-9.5},{57.5,-9.5},{52.5,-9.5},{52.5,-17.5},{59.5,-17.5},{59.5,-8.5},{56.5,-8.5},{56.5,-3.5}},
+        {{38.5,-3.5},{38.5,-8.5},{39.5,-8.5},{39.5,-15.5},{36.5,-15.5},{36.5,-17.5},{34.5,-17.5},{34.5,-10.5},{38.5,-10.5},{34.5,-10.5},{34.5,-17.5},{36.5,-17.5},{36.5,-15.5},{39.5,-15.5},{39.5,-8.5},{38.5,-8.5},{38.5,-3.5}},
+        {{56.5,-3.5},{56.5,-8.5},{55.5,-8.5},{55.5,-14.5},{54.5,-14.5},{54.5,-16.5},{52.5,-16.5},{52.5,-9.5},{57.5,-9.5},{52.5,-9.5},{52.5,-16.5},{54.5,-16.5},{54.5,-14.5},{55.5,-14.5},{55.5,-8.5},{56.5,-8.5},{56.5,-3.5}},
         {{72.5,8.5},{72.5,2.5},{72.5,-3.5},{74.5,-3.5},{72.5,-3.5},{72.5,2.5},{72.5,8.5}},
         {{32.5,-26.5},{32.5,-30.5},{33.5,-30.5},{33.5,-35.5},{33.5,-30.5},{32.5,-30.5},{32.5,-26.5}},
-        {{58.5,-49.5},{58.5,-54.5},{56.5,-54.5},{56.5,-58.5},{56.5,-54.5},{58.5,-54.5},{58.5,-49.5}},
+        {{58.5,-49.5},{58.5,-53.5},{56.5,-53.5},{56.5,-58.5},{56.5,-53.5},{58.5,-53.5},{58.5,-49.5}},
         {{-39.5,35.5},{-46.5,35.5},{-46.5,38.5},{-50.5,38.5},{-46.5,38.5},{-46.5,35.5},{-39.5,35.5}}
     };
     private final JsonArray frames=new JsonArray(),motion=new JsonArray(),walks=new JsonArray(),townWalks=new JsonArray(),roomWalks=new JsonArray();
@@ -160,7 +160,7 @@ public final class V1CaptureClient implements ClientModInitializer {
                 if(leg==path.length){c.options.forwardKey.setPressed(false);room++;next(30);return;}
                 double dx=JourneyClient.x+path[leg][0]-c.player.getX(),dz=JourneyClient.z+path[leg][1]-c.player.getZ();
                 c.player.setYaw((float)Math.toDegrees(Math.atan2(-dx,dz)));c.player.setPitch(0);c.options.forwardKey.setPressed(true);
-                if(Math.hypot(dx,dz)>.4){if(seconds()>60)throw new IllegalStateException("Interior blocked "+ROOM_NAMES[room]+" leg "+leg+" at "+c.player.getPos());return;}
+                if(Math.hypot(dx,dz)>.18){if(seconds()>60)throw new IllegalStateException("Interior blocked "+ROOM_NAMES[room]+" leg "+leg+" at "+c.player.getPos());return;}
                 c.options.forwardKey.setPressed(false);var r=new JsonObject();r.addProperty("room",ROOM_NAMES[room]);r.addProperty("leg",leg);r.addProperty("start_x",walkX);r.addProperty("start_z",walkZ);r.addProperty("end_x",c.player.getX());r.addProperty("end_y",c.player.getY());r.addProperty("end_z",c.player.getZ());r.addProperty("health",c.player.getHealth());r.addProperty("flying",c.player.getAbilities().flying);roomWalks.add(r);write("interior-walk.json",roomWalks);
                 if(c.player.getAbilities().flying||c.player.getHealth()!=20)throw new IllegalStateException("Unsafe interior walk");
                 int reached=leg;leg++;walkX=c.player.getX();walkZ=c.player.getZ();changed=System.nanoTime();

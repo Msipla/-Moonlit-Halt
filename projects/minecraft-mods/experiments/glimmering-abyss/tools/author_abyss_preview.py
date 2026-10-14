@@ -261,6 +261,12 @@ print('Finishing round:',len(rows),len(packed),'bytes; new house footprints',foo
 # Layout 103 completes the existing rooms and makes the existing loop legible.
 # Keep every shipped recipe above reproducible for old and interrupted worlds.
 accepted=b.copy();entities={};room_changes={};current_room=''
+# The old slate-house bay trim blocks standing headroom over its south door.
+# Open only those four trim cells; warm windows and the bay silhouette remain.
+door_repairs={(56,y,z) for y in (40,41) for z in (-6,-5)}
+for p in door_repairs:
+ assert b[p]['Name']=='minecraft:polished_deepslate',('Unexpected door obstruction',p,b[p])
+ put(*p,'air')
 def furnish(x,y,z,name,**props):
  old=b.get((x,y,z),{}).get('Name')
  assert old=='minecraft:air',(current_room,(x,y,z),old,name)
@@ -371,7 +377,7 @@ sign(-65,28,-125,12,['已接回镇路','沿东向岩坡上行','前方小镇与�
 # All old architectural solids are retained. Only empty room cells and the
 # explicitly bounded existing observation bay/route hints changed.
 for p,v in accepted.items():
- if v['Name']!='minecraft:air' and not (p[0],p[2]) in bay and p not in entities:
+ if v['Name']!='minecraft:air' and not (p[0],p[2]) in bay and p not in entities and p not in door_repairs:
   assert b[p]==v,('Accepted solid changed',p)
 assert all(b[p]==v for p,v in original_windows.items())
 assert len(room_changes)==11
@@ -392,7 +398,7 @@ packed=gzip.compress(b'\x0a\0\0'+payload({'DataVersion':3465,'author':'Mispla / 
  layout=103,origin=origin,size=size,buildings=11,additions=buildings,street_routes=town_routes,
  route=route,exploration_nodes=[{'name':'fault-observation-bay','bounds':[-154,-187,-146,-180],'floor':20},
  {'name':'lower-gallery-terminus','position':[-151,16,-214]},{'name':'homeward-junction','position':[-66,27,-124]}],
- room_new_furnishings=room_changes,route_signs=[{'position':list(p),'text':[json.loads(t)['text'] for t in n['front_text']['messages']]} for p,n in entities.items()],
+ room_new_furnishings=room_changes,door_headroom_repairs=[list(p) for p in sorted(door_repairs)],route_signs=[{'position':list(p),'text':[json.loads(t)['text'] for t in n['front_text']['messages']]} for p,n in entities.items()],
  blocks=len(rows),warm_windows=sum(v['Name']=='glimmeringabyss:warm_window' for v in b.values()),
  new_house_footprint_cells=footprint_area,historical_templates_unchanged=True,
  template_sha256=hashlib.sha256(packed).hexdigest()),indent=2,ensure_ascii=False)+'\n')
