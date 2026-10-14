@@ -37,6 +37,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Read verified V1 preview evidence
+        uses: actions/checkout@v4
+        with:
+          ref: c3283ac785507e83c42fe404fffaae247482cf61
+          path: _v1-evidence
+          persist-credentials: false
+          sparse-checkout: |
+            projects/minecraft-mods/experiments/glimmering-abyss/evidence/v1/runs/38580056771
+            projects/minecraft-mods/experiments/glimmering-abyss/evidence/v1/runs/38574327630
       - name: Prepare sanitized public report
         shell: bash
         run: |
@@ -52,6 +61,7 @@ jobs:
           cp site/glimmering-abyss/phase6.html _site/phase6.html
           cp site/glimmering-abyss/phase7.html _site/phase7.html
           cp site/glimmering-abyss/phase75.html _site/phase75.html
+          cp site/glimmering-abyss/v1.html _site/v1.html
           root=projects/minecraft-mods/experiments/glimmering-abyss/evidence/phase1
           cp "$root/summary.json" "$root/audit-glimmer.json" _site/evidence/phase1/
           cp "$root/screenshots/captures.json" _site/evidence/phase1/screenshots/
@@ -139,6 +149,18 @@ jobs:
           mkdir -p _site/evidence/phase75/runs/38396057622/screenshots
           cp "$root/screenshots/cabin-cavern-arrival.png" "$root/screenshots/captures.json" _site/evidence/phase75/runs/38396057622/screenshots/
           cp "$root/provenance.json" "$root/checksums.json" "$root/client-launch-provenance.json" _site/evidence/phase75/runs/38396057622/
+          # Published V1 assets are pinned to the verified preview, without merging the development branch.
+          root=_v1-evidence/projects/minecraft-mods/experiments/glimmering-abyss/evidence/v1/runs
+          target=_site/evidence/v1/runs/38580056771
+          mkdir -p "$target/screenshots" "$target/before-preview3"
+          cp "$root/38580056771/"*.json "$target/"
+          cp "$root/38580056771/screenshots/"*.json "$root/38580056771/screenshots/"*.png "$target/screenshots/"
+          cp "$root/38580056771/before-preview3/"*.json "$root/38580056771/before-preview3/"*.png "$target/before-preview3/"
+          for view in screenshots before-preview3; do
+            target="_site/evidence/v1/runs/38574327630/$view"
+            mkdir -p "$target"
+            cp "$root/38574327630/$view/orphan-glimmerstone.png" "$root/38574327630/$view/captures.json" "$target/"
+          done
           python - <<'PY'
           import datetime, json, os
           from pathlib import Path

@@ -26,6 +26,28 @@ async function overflow(page){return page.evaluate(()=>({viewport:innerWidth,wid
       const initial=await overflow(page);assert(initial.width<=width&&initial.body<=width,'Horizontal overflow at '+width);
       assert((await page.locator('#aesthetic-status').innerText()).includes('判断'),'Aesthetic state falsely accepted');
       await page.screenshot({path:path.join(out,'home-'+width+'.png'),fullPage:width===390});
+      await page.locator('[data-stage-tab="v1preview"]').click();await ready(page);
+      assert(await page.locator('#stage-report').getAttribute('href')==='v1.html','V1 permanent report missing');
+      assert((await page.locator('#latest-summary').getAttribute('href')).includes('v1/runs/38580056771/summary.json'),'Latest V1 summary path was overwritten');
+      assert(await page.locator('#v1-gallery-download').isVisible(),'V1 download missing');
+      for(const view of ['overview','street','cliff','rift','high','interior','workshop','shop','reading','observation','terminus','homeward','orphan']){
+        const button=page.locator('[data-view="'+view+'"]');const label=await button.innerText();
+        assert(label.trim().length>0&&!label.includes('undefined'),'Missing V1 view label '+view);
+        await button.click();await ready(page);
+        assert(!(await page.locator('#image-title').innerText()).includes('undefined'),'Undefined V1 image title');
+      }
+      await page.locator('#compare-pair').selectOption('beforeV1,afterV1');
+      for(const view of ['cliff','rift','orphan']){
+        await page.locator('#compare-view').selectOption(view);
+        await page.waitForFunction(()=>['compare-top','compare-bottom'].every(id=>{const i=document.getElementById(id);return i.complete&&i.naturalWidth===1280;}));
+        const before=await page.locator('#compare-top').getAttribute('src'),after=await page.locator('#compare-bottom').getAttribute('src');
+        assert(before.includes('before-preview3/')&&after.includes('/screenshots/'),'Wrong V1 comparison sources');
+        assert(before.includes(view==='orphan'?'38574327630':'38580056771'),'Wrong V1 comparison provenance');
+      }
+      if(width===390||width===1440){
+        await page.locator('[data-view="overview"]').click();await ready(page);await page.locator('.site-nav a[href="#gallery"]').click();await page.screenshot({path:path.join(out,'v1-gallery-'+width+'.png')});
+        await page.locator('#compare-view').selectOption('cliff');await page.waitForFunction(()=>document.getElementById('compare-top').complete&&document.getElementById('compare-bottom').complete);await page.locator('.site-nav a[href="#compare"]').click();await page.screenshot({path:path.join(out,'v1-compare-'+width+'.png')});
+      }
       for(const id of ['phase1','phase2','phase3','phase4','phase5','phase6','phase7','phase75']){
         await page.locator('[data-stage-tab="'+id+'"]').click();await ready(page);
         assert(await page.locator('[data-stage-tab="'+id+'"]').getAttribute('aria-pressed')==='true','Stage did not switch');
@@ -73,17 +95,18 @@ async function overflow(page){return page.evaluate(()=>({viewport:innerWidth,wid
       const final=await overflow(page);assert(final.width<=width&&final.body<=width,'Interaction overflow at '+width);
       const touchTargets=await page.locator('#view-tabs button,#mode-tabs button,#zoom-image').evaluateAll(nodes=>nodes.map(n=>({label:n.textContent,height:n.getBoundingClientRect().height})));
       assert(touchTargets.every(t=>t.height>=44),'Small touch target at '+width);
-      results.push({width,height:mobile?844:1000,emulated_mobile:mobile,horizontal_overflow:false,stage_navigation:true,palette_and_view:true,lightbox:true,comparison_slider:true,touch_targets:touchTargets});
+      results.push({width,height:mobile?844:1000,emulated_mobile:mobile,horizontal_overflow:false,stage_navigation:true,v1_views_and_comparisons:true,palette_and_view:true,lightbox:true,comparison_slider:true,touch_targets:touchTargets});
       await context.close();
     }
     assert(errors.length===0,'Browser JavaScript errors');
-    const legacy=['phase75.html','evidence/phase75/latest.json','phase7.html','evidence/phase7/latest.json','phase1.html','phase2.html','phase3.html','phase4.html','phase5.html','phase6.html','evidence/phase6/latest.json','evidence/phase5/latest.json','evidence/phase4/latest.json','evidence/phase1/summary.json','evidence/phase2/summary.json','evidence/phase1/screenshots/glimmer-platform.png','evidence/phase2/screenshots/veil-platform.png','evidence/phase3/latest.json'];
+    const legacy=['v1.html','evidence/v1/runs/38580056771/summary.json','phase75.html','evidence/phase75/latest.json','phase7.html','evidence/phase7/latest.json','phase1.html','phase2.html','phase3.html','phase4.html','phase5.html','phase6.html','evidence/phase6/latest.json','evidence/phase5/latest.json','evidence/phase4/latest.json','evidence/phase1/summary.json','evidence/phase2/summary.json','evidence/phase1/screenshots/glimmer-platform.png','evidence/phase2/screenshots/veil-platform.png','evidence/phase3/latest.json'];
     const links=[];for(const url of legacy){const response=await fetch(base+url);links.push({url,status:response.status});assert(response.ok,'Broken permanent link '+url);}
     const detail=await browser.newPage({viewport:{width:390,height:844}});await detail.goto(base+'phase4.html');await detail.waitForFunction(()=>document.documentElement.dataset.phase4Ready==='true');await detail.waitForFunction(()=>Array.from(document.querySelectorAll('#pictures img,#before,#after')).every(i=>i.complete&&i.naturalWidth===1280));assert((await overflow(detail)).width<=390,'Phase 4 detail overflow');await detail.screenshot({path:path.join(out,'phase4-detail-390.png'),fullPage:true});await detail.close();
     const fifth=await browser.newPage({viewport:{width:390,height:844}});await fifth.goto(base+'phase5.html');await fifth.waitForFunction(()=>document.documentElement.dataset.phase5Ready==='true');await fifth.waitForFunction(()=>Array.from(document.querySelectorAll('#pictures img,#before,#after')).every(i=>i.complete&&i.naturalWidth===1280));assert((await overflow(fifth)).width<=390,'Phase 5 detail overflow');await fifth.screenshot({path:path.join(out,'phase5-detail-390.png'),fullPage:true});await fifth.close();
     const sixth=await browser.newPage({viewport:{width:390,height:844}});await sixth.goto(base+'phase6.html');await sixth.waitForFunction(()=>document.documentElement.dataset.phase6Ready==='true');await sixth.locator('#pictures img').evaluateAll(nodes=>nodes.forEach(i=>i.loading='eager'));await sixth.waitForFunction(()=>Array.from(document.querySelectorAll('#pictures img,#before,#after')).every(i=>i.complete&&i.naturalWidth===1280));assert((await overflow(sixth)).width<=390,'Phase 6 detail overflow');await sixth.locator('#compare-pair').selectOption('blue95,blue95-fog');await sixth.locator('#compare-view').selectOption('cliff');await sixth.waitForFunction(()=>document.getElementById('after').complete&&document.getElementById('after').src.includes('blue95-fog-cliff'));await sixth.screenshot({path:path.join(out,'phase6-detail-390.png'),fullPage:true});await sixth.close();
     const seventh=await browser.newPage({viewport:{width:390,height:844}});await seventh.goto(base+'phase7.html');await seventh.waitForFunction(()=>document.documentElement.dataset.phase7Ready==='true');await seventh.locator('#pictures img').evaluateAll(nodes=>nodes.forEach(i=>i.loading='eager'));await seventh.waitForFunction(()=>Array.from(document.querySelectorAll('#pictures img')).every(i=>i.complete&&i.naturalWidth===1280));assert((await overflow(seventh)).width<=390,'Phase 7 detail overflow');await seventh.screenshot({path:path.join(out,'phase7-detail-390.png'),fullPage:true});await seventh.close();
     const eighth=await browser.newPage({viewport:{width:390,height:844}});await eighth.goto(base+'phase75.html');await eighth.waitForFunction(()=>document.documentElement.dataset.phase75Ready==='true');await eighth.locator('#pictures img').evaluateAll(nodes=>nodes.forEach(i=>i.loading='eager'));await eighth.waitForFunction(()=>Array.from(document.querySelectorAll('#pictures img')).every(i=>i.complete&&i.naturalWidth===1280));assert((await overflow(eighth)).width<=390,'Phase 7.5 detail overflow');await eighth.screenshot({path:path.join(out,'phase75-detail-390.png'),fullPage:true});await eighth.close();
+    const v1=await browser.newPage({viewport:{width:390,height:844}});await v1.goto(base+'v1.html');await v1.waitForFunction(()=>document.documentElement.dataset.v1Ready==='true');await v1.locator('#pictures img').evaluateAll(nodes=>nodes.forEach(i=>i.loading='eager'));await v1.waitForFunction(()=>Array.from(document.querySelectorAll('#pictures img')).every(i=>i.complete&&i.naturalWidth===1280));assert((await overflow(v1)).width<=390,'V1 detail overflow');assert((await v1.locator('#download').getAttribute('href')).includes('38580056771/glimmering-abyss-1.0.0-preview.4.jar'),'Wrong V1 download');await v1.screenshot({path:path.join(out,'v1-detail-390.png'),fullPage:true});await v1.close();
     const report={status:'PASS',preview:!!deployment.preview,deployed_source:deployment.commit,base,viewports:results,legacy_links:links,javascript_errors:errors,limit:'Chromium mobile viewport/touch emulation on hosted Linux; not real iQOO, Safari or Windows testing'};
     fs.writeFileSync(path.join(out,'summary.json'),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report));
   }catch(error){fs.writeFileSync(path.join(out,'failure.json'),JSON.stringify({status:'FAIL',error:error.message,deployment,results,errors},null,2)+'\n');throw error;}finally{await browser.close();}

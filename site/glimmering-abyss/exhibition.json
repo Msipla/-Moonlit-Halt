@@ -498,13 +498,14 @@
       "aesthetic": "整体方向认可，修复待安卓复验",
       "aestheticState": "direction",
       "verdict": "1.0.0-preview.4（layout103）完成20项Java测试、两种子真实客户端/服务端、134段生存按键通行及旧档保护验证。异常微光石已追踪并修复；室内与探索路线已补充。Linux验证通过不代表安卓Amethyst美学验收或正式1.0发布。",
-      "base": "https://raw.githubusercontent.com/Msipla/-Moonlit-Halt/c3283ac785507e83c42fe404fffaae247482cf61/projects/minecraft-mods/experiments/glimmering-abyss/evidence/v1/runs/38580056771/screenshots/",
-      "evidenceBase": "https://raw.githubusercontent.com/Msipla/-Moonlit-Halt/c3283ac785507e83c42fe404fffaae247482cf61/projects/minecraft-mods/experiments/glimmering-abyss/evidence/v1/runs/38580056771/",
+      "base": "evidence/v1/runs/38580056771/screenshots/",
+      "evidenceBase": "evidence/v1/runs/38580056771/",
       "cover": "town-in-abyss.png",
       "views": [
         "overview",
         "street",
         "cliff",
+        "rift",
         "high",
         "interior",
         "workshop",
@@ -518,7 +519,7 @@
       "files": {
         "overview": "town-in-abyss.png",
         "street": "town-street.png",
-        "cliff": "main-rift.png",
+        "cliff": "town-cliff.png",
         "high": "settlement-on-rock-shelves.png",
         "interior": "interior-brick-residence.png",
         "workshop": "interior-original-workshop.png",
@@ -527,7 +528,8 @@
         "observation": "fault-observation-bay.png",
         "terminus": "lower-gallery-terminus.png",
         "homeward": "signed-homeward-junction.png",
-        "orphan": "orphan-glimmerstone.png"
+        "orphan": "orphan-glimmerstone.png",
+        "rift": "main-rift.png"
       },
       "modes": [
         {
@@ -537,7 +539,7 @@
       ],
       "defaultMode": "preview",
       "defaultView": "overview",
-      "report": "https://github.com/Msipla/-Moonlit-Halt/blob/codex/v1-abyss-world/projects/minecraft-mods/experiments/glimmering-abyss/TEST-REPORT-V1.0.md",
+      "report": "v1.html",
       "extras": [
         {
           "file": "interior-tea-room.png",
@@ -566,6 +568,36 @@
         "observation": "现有探索环线的断层观测停留节点。",
         "terminus": "既有环线下层远端探索节点。",
         "homeward": "回镇指路牌，需由安卓玩家再次验收可读性。"
+      },
+      "sourceRef": "c3283ac785507e83c42fe404fffaae247482cf61",
+      "viewLabels": {
+        "overview": "深渊与聚落",
+        "street": "镇内主街",
+        "cliff": "镇侧断崖",
+        "rift": "主裂谷",
+        "high": "岩台布局",
+        "interior": "住宅室内",
+        "workshop": "工坊楼上",
+        "shop": "商店柜台",
+        "reading": "图书馆",
+        "observation": "断层观测点",
+        "terminus": "岩廊远端",
+        "homeward": "回镇岔口",
+        "orphan": "微光石修复位置"
+      },
+      "comparisons": {
+        "cliff": {
+          "before": "evidence/v1/runs/38580056771/before-preview3/town-cliff.png",
+          "after": "evidence/v1/runs/38580056771/screenshots/town-cliff.png"
+        },
+        "rift": {
+          "before": "evidence/v1/runs/38580056771/before-preview3/main-rift.png",
+          "after": "evidence/v1/runs/38580056771/screenshots/main-rift.png"
+        },
+        "orphan": {
+          "before": "evidence/v1/runs/38574327630/before-preview3/orphan-glimmerstone.png",
+          "after": "evidence/v1/runs/38574327630/screenshots/orphan-glimmerstone.png"
+        }
       }
     }
   ],
