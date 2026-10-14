@@ -150,12 +150,12 @@
         21
       ],
       [
-        65,
+        67,
         38,
         21
       ],
       [
-        65,
+        67,
         38,
         35
       ],
@@ -178,9 +178,9 @@
       ]
     ]
   ],
-  "blocks": 133982,
-  "original_building_blocks_preserved": 14091,
+  "blocks": 133959,
+  "original_building_blocks_preserved": 16032,
   "original_warm_windows_preserved": 128,
   "warm_windows": 184,
-  "template_sha256": "2b28f89ae8fe1a2efa4b9a03a712a32b99e242059dd420e8a5640090c87c2aa5"
+  "template_sha256": "9b126ca2121f44ff2a3a9b1f61b151ccc0b54bf6a736f0610969e397520f50f6"
 }

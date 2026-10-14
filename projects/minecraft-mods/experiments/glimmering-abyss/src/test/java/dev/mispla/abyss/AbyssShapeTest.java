@@ -32,7 +32,7 @@ class AbyssShapeTest {
     }
     @Test void localEastWallRevisionPreservesMainRiftAndRemoteVaults(){
         for(int x=-208;x<=127;x+=5)for(int z=-320;z<=127;z+=5){
-            if(x>72&&Math.abs(z+10)<140)continue;
+            if(x>72&&Math.abs(z+10)<140||x>50&&z>-10)continue;
             var old=AbyssShape.column(x,z,AbyssShape.ceiling(x,z),100);var next=AbyssShape.column(x,z,AbyssShape.ceiling(x,z),101);
             for(int y=-63;y<111;y+=3)assertEquals(old.rock(y),next.rock(y),"Changed outside east-wall scope");
         }

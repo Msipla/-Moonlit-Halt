@@ -92,12 +92,13 @@ def dwelling(kind,x,z,w,d,floor,wall):
  for xx in (x,x+w-1):
   for zz in (z,z+d-1):box(xx,floor+1,zz,xx,floor+h,zz,'polished_deepslate')
  box(x,floor+1,door-1,x,floor+3,door+1,'air');lamp(x-1,floor+4,door,True)
+ box(x-1,floor+5,door,x-1,floor+h,door,'chain',axis='y',waterlogged='false')
  for zz in (z+3,z+d-4):
   box(x+w-1,floor+2,zz,x+w-1,floor+4,zz+1,'glimmeringabyss:warm_window')
   put(x+w-1,floor+5,zz,'glimmeringabyss:warm_window')
  for xx in (x+3,x+w-4):
   box(xx,floor+2,z,xx+1,floor+4,z,'glass_pane',east='true',west='true',north='false',south='false',waterlogged='false')
- lamp(x+w-3,floor+3,z+3)
+ lamp(x+w-3,floor+h-1,z+3,True)
  put(x+w-3,floor+1,z+d-3,'barrel',facing='up',open='false')
  put(x+3,floor+1,z+d-3,'crafting_table')
  buildings.append(dict(kind=kind,bounds=[x,z,x+w-1,z+d-1],floor=floor,door=[x,door]))
@@ -122,7 +123,7 @@ box(75,39,31,77,39,31,'dark_oak_slab',type='top',waterlogged='false');seat(75,39
 town_routes=[[(47,38,-24),(65,39,-24),(84,39,-24)],
  [(84,39,-24),(84,40,-40),(68,40,-40),(68,41,-56),(82,41,-56)],
  [(84,39,-24),(94,40,-24)],[(84,39,-24),(84,38,21),(94,39,21)],
- [(84,38,21),(65,38,21),(65,38,35),(74,38,35)],[(65,39,-24),(65,39,-30)]]
+ [(84,38,21),(67,38,21),(67,38,35),(74,38,35)],[(65,39,-24),(65,39,-30)]]
 street={}
 for path in town_routes:
  for a,c in zip(path,path[1:]):
@@ -146,9 +147,11 @@ for x in range(63,73):
  for z in range(-34,-27):put(x,45,z,'blue_wool' if x%4<2 else 'gray_wool')
 for x,z in [(71,-33),(71,-31)]:put(x,40,z,'barrel',facing='up',open='false')
 seat(63,40,-32);lamp(70,43,-30,True)
-for x,y,z in [(68,43,-38),(82,42,-20),(82,41,19),(64,41,33)]:lamp(x,y,z)
+for x,y,z in [(68,43,-38),(82,42,-20),(82,41,19),(68,41,25)]:
+ ground=38+(z<=-26)+(z<=-43)
+ box(x,ground+1,z,x,y-1,z,'dark_oak_fence',east='false',west='false',north='false',south='false',waterlogged='false');lamp(x,y,z)
 
-original_rooms=[(32,58,18,44),(32,44,-20,-4),(50,63,-19,-4),(64,80,-11,7),(26,39,-43,-27),(52,65,-64,-47),(-59,-42,25,44)]
+original_rooms=[(31,65,17,44),(32,44,-20,-4),(50,63,-19,-4),(64,80,-11,7),(26,39,-43,-27),(52,65,-64,-47),(-59,-42,25,44)]
 preserved=[p for p,v in base.items() if v['Name']!='minecraft:air' and any(a<=p[0]<=c and d<=p[2]<=e for a,c,d,e in original_rooms)]
 assert all(b[p]==base[p] for p in preserved),'Original building block was overwritten'
 original_windows={p:v for p,v in base.items() if v['Name']=='glimmeringabyss:warm_window'}

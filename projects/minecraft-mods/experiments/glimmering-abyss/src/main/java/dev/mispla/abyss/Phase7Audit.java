@@ -233,7 +233,8 @@ public final class Phase7Audit {
             }
             r.addProperty("architectural_nonair_blocks",structures);r.addProperty("architectural_missing_or_wrong_blocks",missing);
             r.addProperty("all_template_warm_windows",allWindows);r.addProperty("all_template_warm_windows_native_12",allLit);
-            r.addProperty("player_witness_gold",w.getBlockState(s.at(45,42,8)).isOf(Blocks.GOLD_BLOCK));
+            int witnessX=s.layout>=100?48:45;
+            r.addProperty("player_witness_x",witnessX);r.addProperty("player_witness_gold",w.getBlockState(s.at(witnessX,42,8)).isOf(Blocks.GOLD_BLOCK));
             boolean natural=s.layout<75||water==25&&fluids&&missing==0;
             r.addProperty("pass",natural&&(!(label.equals("first")||label.equals("second"))||capMatches==s.chunks())&&windows==128&&preserved==128&&lit==128&&bedrock&&shaft&&blocked&&outside&&sceneMobs==0&&w.getGameRules().getBoolean(GameRules.DO_MOB_SPAWNING));write(label,r);return r.get("pass").getAsBoolean()?1:0;
         }catch(Exception e){e.printStackTrace();return 0;}

@@ -144,9 +144,10 @@ def run(args):
   before_log='server-legacy-'+old_version+'.log';tag='legacy'+str(expected_layout);p,log=start(before_log)
   try:
    legacy=ready();baseline=audit(tag+'-warmup');time.sleep(10)
-   p.stdin.write(f"forceload add {legacy['x']+45} {legacy['z']+8}\n");p.stdin.flush()
+   witness_x=48 if expected_layout>=100 else 45
+   p.stdin.write(f"forceload add {legacy['x']+witness_x} {legacy['z']+8}\n");p.stdin.flush()
    wait_for(lambda:any(k in (out/before_log).read_text() for k in ('Marked chunk','commands.forceload.added')),45,'Native witness chunk loaded',p)
-   p.stdin.write(f"setblock {legacy['x']+45} 48 {legacy['z']+8} minecraft:gold_block\n");p.stdin.flush()
+   p.stdin.write(f"setblock {legacy['x']+witness_x} 48 {legacy['z']+8} minecraft:gold_block\n");p.stdin.flush()
    wait_for(lambda:any(k in (out/before_log).read_text() for k in ('Changed the block at','commands.setblock.success')),30,'Native console witness placement',p)
    before=audit(tag+'-before');assert before['pass']
    assert before['geometry_sha256']!=baseline['geometry_sha256'],'Witness was not present in the actual geometry sample'

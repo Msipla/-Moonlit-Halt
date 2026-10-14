@@ -200,7 +200,7 @@ public final class OverworldLandscape {
         var t=(c.layout()>=101?settlementTown:abyssTown).at(c.x(),y,c.z());if(t!=null)return t;
         if(!c.rock(y))return Blocks.AIR.getDefaultState();
         double stratum=y+.16*c.x()+4*Math.sin(c.z()*.021);
-        if(c.layout()>=101&&c.x()>75){
+        if(c.layout()>=101&&(c.x()>75||c.x()>50&&c.z()>0)){
             stratum+=.25*c.z()+5*Math.sin(c.x()*.044+c.z()*.036);
             if(Math.floorMod((int)Math.floor(stratum),29)<3)return Blocks.TUFF.getDefaultState();
             var axis=Math.sin(c.z()*.033+y*.021)>.35?net.minecraft.util.math.Direction.Axis.X:net.minecraft.util.math.Direction.Axis.Y;

@@ -28,6 +28,10 @@ public final class AbyssShape {
                 boundary-=wallWeight*(recess-shoulder+sway)/43;
                 // Recesses end in solid rock before the unchanged footprint edge.
                 boundary+=wallWeight*.60*smooth((x-109)/17.0);
+                double side=smooth((x-50)/28.0)*(1-smooth((Math.abs(z-66)-44)/32.0));
+                localRoof-=side*(5*Math.exp(-sq((z-65)/18.0))+3*Math.sin(x*.079-z*.047));
+                boundary+=side*(11*Math.exp(-sq((z-66)/20.0))*Math.exp(-sq((y-63)/24.0))
+                    -8*Math.exp(-sq((z-38)/16.0))*Math.exp(-sq((y-49)/13.0)))/43;
             }
             if(y>=localRoof)return true;
             double mid=(localRoof+floor)*.5,half=(localRoof-floor)*.5;
@@ -65,7 +69,7 @@ public final class AbyssShape {
             double d=Math.hypot(wx-a[0]-dx*t,wz-a[2]-dz*t);
             if(d<distance){distance=d;ledgeTop=a[1]+(b[1]-a[1])*t-2+Math.sin(x*.06+z*.07);}
         }
-        double weight=layout>=101?smooth((x-72)/40.0)*(1-smooth((Math.abs(z+10)-106)/34.0)):0;
+        double weight=layout>=101?Math.max(smooth((x-72)/40.0)*(1-smooth((Math.abs(z+10)-106)/34.0)),smooth((x-50)/28.0)*(1-smooth((Math.abs(z-66)-44)/32.0))):0;
         double geologicalCap=cap;
         if(weight>0&&x>111){
             int innerCap=CavernShape.ceiling(111,z);
