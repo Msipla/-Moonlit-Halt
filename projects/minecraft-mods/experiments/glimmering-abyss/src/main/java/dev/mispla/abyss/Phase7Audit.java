@@ -82,7 +82,7 @@ public final class Phase7Audit {
             case "homeward" -> {x=-66.5;y=34;z=-125.5;yaw=-30;pitch=-3;}
             case "route-start" -> {x=47.5;y=47;z=-57.5;yaw=180;pitch=0;}
             case "settlement-start" -> {x=47.5;y=45;z=-23.5;yaw=-90;pitch=0;}
-            case "east-lane" -> {x=83.5;y=45;z=20.5;yaw=180;pitch=-16;}
+            case "east-lane" -> {x=83.5;y=45;z=19.5;yaw=180;pitch=-16;}
             case "settlement-overlook" -> {x=70.5;y=59;z=71.5;yaw=-169;pitch=18;}
             case "north-pocket" -> {x=63.5;y=47;z=-71.5;yaw=-135;pitch=-10;}
             case "public-nook" -> {x=65.5;y=46;z=-23.5;yaw=180;pitch=-7;}
