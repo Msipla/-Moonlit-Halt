@@ -1,0 +1,57 @@
+[
+  {
+    "room": "original-workshop",
+    "leg": 1,
+    "start_x": -7349.5,
+    "start_z": -2403.5,
+    "end_x": -7349.5,
+    "end_y": 45.0,
+    "end_z": -2411.22718403004,
+    "health": 20.0,
+    "flying": false
+  },
+  {
+    "room": "original-workshop",
+    "leg": 2,
+    "start_x": -7349.5,
+    "start_z": -2411.22718403004,
+    "end_x": -7349.5,
+    "end_y": 45.0,
+    "end_z": -2419.2139695611154,
+    "health": 20.0,
+    "flying": false
+  },
+  {
+    "room": "original-workshop",
+    "leg": 3,
+    "start_x": -7349.5,
+    "start_z": -2419.2139695611154,
+    "end_x": -7339.830229364595,
+    "end_y": 45.0,
+    "end_z": -2419.4930790348267,
+    "health": 20.0,
+    "flying": false
+  },
+  {
+    "room": "original-workshop",
+    "leg": 4,
+    "start_x": -7339.830229364595,
+    "start_z": -2419.4930790348267,
+    "end_x": -7339.514655139946,
+    "end_y": 45.0,
+    "end_z": -2427.2193984661417,
+    "health": 20.0,
+    "flying": false
+  },
+  {
+    "room": "original-workshop",
+    "leg": 5,
+    "start_x": -7339.514655139946,
+    "start_z": -2427.2193984661417,
+    "end_x": -7338.891084578233,
+    "end_y": 45.0,
+    "end_z": -2427.51938792271,
+    "health": 20.0,
+    "flying": false
+  }
+]
