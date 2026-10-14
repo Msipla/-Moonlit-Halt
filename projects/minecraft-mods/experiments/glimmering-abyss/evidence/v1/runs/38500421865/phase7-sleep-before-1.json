@@ -1,0 +1,12 @@
+{
+  "world_time": 5809,
+  "day_time": 18100,
+  "day": 0,
+  "sleeping": false,
+  "start_sleep_events": 0,
+  "stop_sleep_events": 0,
+  "dreams": 0,
+  "dream_day": -1,
+  "has_echo": false,
+  "game_mode": "creative"
+}
