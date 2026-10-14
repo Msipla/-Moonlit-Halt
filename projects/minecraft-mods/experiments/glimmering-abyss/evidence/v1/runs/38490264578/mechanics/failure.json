@@ -1,0 +1,9 @@
+{
+  "state": 103,
+  "leg": 0,
+  "error": "java.lang.IllegalStateException: Restart test failed to board",
+  "position": "(-7385.5, 150.0, -2377.5)",
+  "permission": true,
+  "sleeping": false,
+  "dream_step": 0
+}
