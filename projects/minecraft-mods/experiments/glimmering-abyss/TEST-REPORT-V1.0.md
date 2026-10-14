@@ -1,8 +1,53 @@
-# V1.0 空间预览与功能验证
+# V1.0 preview.3 · 有限收尾与相关技术交付
+
+更新：2026-10-14。唯一范围：[TASK-V1.0.md](TASK-V1.0.md)。用户对preview.2整体方向有条件认可，本轮局部地貌/新增建筑间距收尾已完成技术验证；**最终美学及安卓Amethyst实机仍待确认，正式1.0未发布。**
+
+源码`1307316bd7c642014ef97f4a135eefdddb2c4e29`，[运行38523047710](https://github.com/Msipla/-Moonlit-Halt/actions/runs/38523047710)全部成功，证据提交`69d973c`。推荐JAR 4,937,573字节，SHA-256 `d74739e66507c28f770663d31cdd6c11298e1665d6a8f911d77e203704a30f02`；[JAR](evidence/v1/runs/38523047710/glimmering-abyss-1.0.0-preview.3.jar)、[校验](evidence/v1/runs/38523047710/checksums.json)、[来源](evidence/v1/runs/38523047710/provenance.json)。JAR和sources包大小/校验已本地复核，直接引用本运行目录。
+
+## 本轮有限修改
+
+布局102保留原七栋/工坊侧塔檐口16,032实体建筑块及128暖窗，四份历史NBT逐字节保持。四栋新增建筑总占地844→676格（约减少20%），错开到既有岩台口袋，两栋入口转向；总数仍11栋，生成包络仍588区块。缩小公共雨棚，短支巷绕过保留岩突，不铺新整片平台或堆装饰。东壁局部斜向断层、凹凸/附壁岩肩、不同尺度岩纹及覆顶内侧过渡只用于新102；原生cap和地表覆盖要求未提高或放宽，主裂谷、西廊、巨大落差及冷蓝/暖光保持。已生成70/75/100/101不自动迁移或重铺。
+
+| 本轮检查 | 实际结果与证据 |
+| --- | --- |
+| 发布构建 | 20项Java测试，零失败/错误；[build](evidence/v1/runs/38523047710/build.log)及同目录XML |
+| 两种子 | 74102002与-92345均完成实际发布客户端/专用服；布局102，各588/588生成后原生地表/基岩保持（入口例外）；[first](evidence/v1/runs/38523047710/phase7-first.json)、[second](evidence/v1/runs/38523047710/phase7-second.json) |
+| 模板/照明/安全 | 各47,860模板实体块零缺漏；184暖窗原生12级；25格水池封闭；HARD/doMobSpawning=true、景观Mob=0、内部插入拒绝/外部允许。不把插入检查当本轮自然刷怪统计 |
+| 实际通行 | 22段外围+43段聚落/四处房间/公共空间生存按键行走，各段记录健康20、未飞行；外围脚部Y23–47、聚落Y45–47；[外围](evidence/v1/runs/38523047710/walk.json)、[聚落](evidence/v1/runs/38523047710/settlement-walk.json) |
+| 原生成住宅床睡眠 | 生存真实床铺交互，日0→1夜→2醒，实际世界刻181，START/STOP1/1，dreams1/dream_day2；捕获梦境时真实在睡眠中，醒后界面实际关闭再截帧；[before](evidence/v1/runs/38523047710/phase7-sleep-house-before.json)、[fixture](evidence/v1/runs/38523047710/phase7-house-sleep-fixture.json)、[after](evidence/v1/runs/38523047710/phase7-sleep-house-after.json) |
+| 新档保存重启 | 34,288处几何采样指纹保持`fee590a25ba8c005bd6cf4fcc305cfeedfde29bbc47f62db4ae09cf50d907411`；[reload](evidence/v1/runs/38523047710/phase7-reload.json)。运行后地表样本545/588，本轮未调查这些长期差异原因，不将即时生成保护扩写为地表永久静止 |
+| 真实preview.2旧档 | 用正式已交付f855…包生成101世界，原生放金块并先改变采样指纹；换本包后101、金块及指纹保持；[升级](evidence/v1/runs/38523047710/legacy-upgrade-1.0.0-preview.2.json) |
+| 未变机制基准 | 10个Journey/CableRoute/DreamScreen/SceneSafety/EnvironmentClient/SpaceProfile相关class及四份旧NBT与38500421865包逐字节相同。缆车往返/提前下车/乘车停服重连、完整双梦境/微光以及真实70/75/100升级继续引用该完整运行；本轮不重复这些未改检查 |
+
+[本轮summary](evidence/v1/runs/38523047710/summary.json)明确区分本轮检查和既有基准。相关finishing套件采用原生命令准备夜晚，但必须真实生存睡眠、跨日和状态更新；下方时间规范继续适用。
+
+## 原图与验收边界
+
+[原图目录](evidence/v1/runs/38523047710/screenshots/)含首种子19帧、第二种子1帧，全部未经后期处理。首种子19次GL检查均0；主要静态审图机位等待pC/pU清零。两张移动中的gallery帧仍有更新队列，不能作为完整静态渲染证据；逐帧见[captures](evidence/v1/runs/38523047710/screenshots/captures.json)。部分全景使用创造飞行摄影，通行证明来自独立65段生存行走。
+
+已实际复查全景、开放东巷、北侧烘焙屋留白、岩台俯视、新室内、醒后及第二种子原图。重点：[全景](evidence/v1/runs/38523047710/screenshots/town-in-abyss.png)、[东侧岩体/巷道](evidence/v1/runs/38523047710/screenshots/east-wall-and-lane.png)、[北屋留白](evidence/v1/runs/38523047710/screenshots/north-rock-and-bakehouse.png)、[岩台布局](evidence/v1/runs/38523047710/screenshots/settlement-on-rock-shelves.png)。这些画面供用户最终确认自然度和间距，本Work没有代替用户作最终美学通过结论。
+
+安卓Amethyst、Windows/PCL2、目标GPU、Sodium/Iris/DH、第三方光影及长时多人未测。实机检查和正式1.0冻结步骤已合入[安装说明](INSTALL-V1.0-PREVIEW.md)，无需新的管理文件；Pages和展示美化仍由独立统筹负责。
+
+## 本轮失败与修复
+
+- 38509533344新东宅檐口越过镇侧覆顶边界111，4096候选严格拒绝，未绘制；住宅向内移、补作者边界断言，不放宽保护。[原异常](evidence/v1/runs/38509533344/runner-failure.log)。
+- 38510709344相关技术全部成功，但实看原图发现短巷穿岩突成为直小隧道；移巷绕岩，并局部向下缓和覆顶边界，原图保留。
+- 38517301144首种子严格物理通过，官方assets下载RemoteDisconnected；加最多4次临时错误重试，1/3/5秒间隔，永久HTTP错误立即失败，官方SHA校验不变。[原异常](evidence/v1/runs/38517301144/runner-failure.log)。
+- 38518309165真实开放巷道图及22+26段完成，第27段侧向撞台阶高半块；转弯平地z20→19，再正向上台阶，43段/健康20/未飞行标准不变。
+- 38520663184正常全景完成，昂贵的剔除关闭辅助摄影队列259/8超时；同地貌的辅助对照在38518309165已有GL0/队列0原图，其整体运行仍因路径失败。finish不重复该辅助项，full保留；正常截图仍要求队列0/160秒时限。最终38523047710全部通过。
+
+各运行的原始包/日志/数据/PNG保留。同名preview.3候选不可混用，安装只认本报告顶部精确目录和SHA。详细过程见[devlog](devlog/2026-10-13-v1.md)。
+
+---
+
+下方保留先前运行当时的结果和验收状态，当前恢复与交付以本报告顶部及HANDOFF为准。
+
+# 先前空间预览与功能验证记录
 
 更新：2026-10-14。唯一范围与最终验收依据：[TASK-V1.0.md](TASK-V1.0.md)。空间方向已获用户有条件认可；本轮 **1.0.0-preview.2** 局部岩壁优化及聚落扩建完整技术回归已通过，最新岩壁自然度/扩建美学与安卓 Amethyst 尚未验收。
 
-## 本轮地貌与聚落：完整技术回归通过
+## preview.2 完整技术基准（先前记录）
 
 源码`078a674314bbab69eec4f13bff17a47cf2d30426`，[38500421865](https://github.com/Msipla/-Moonlit-Halt/actions/runs/38500421865)全部成功，证据提交`c085f9c98d16dbdff9dd6a737baa7afa48b63bd4`。发布JAR为1.0.0-preview.2，4,835,680字节，SHA-256 `f855057e1fce107df9eeab8c5959c442f839fe939cca1a8456f6aa2c8134a8bf`；JAR及sources包校验已本地复核，完整来源见[checksums](evidence/v1/runs/38500421865/checksums.json)与[provenance](evidence/v1/runs/38500421865/provenance.json)。
 
