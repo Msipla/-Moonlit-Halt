@@ -4,13 +4,13 @@
 
 ## 已验证的空间样版包
 
-[glimmering-abyss-1.0.0-preview.1.jar](evidence/v1/runs/38442034346/glimmering-abyss-1.0.0-preview.1.jar)，4,732,336字节；SHA-256：
+[glimmering-abyss-1.0.0-preview.1.jar](evidence/v1/runs/38491285454/glimmering-abyss-1.0.0-preview.1.jar)，4,735,163字节；SHA-256：
 
 ```text
-642d2766e6702b150b85eed952ebd095fd7f1ef9b3fdd540969fc20819a884ed
+fe03279fcaa00d3f8a7fe2d31448981c3b10810aa92cdb05ed27edd0b1e84077
 ```
 
-来源：源码 `695004f906c4a5294db25977118ac332bfa59459`，[Actions38442034346](https://github.com/Msipla/-Moonlit-Halt/actions/runs/38442034346)，[校验与源码包](evidence/v1/runs/38442034346/checksums.json)。同名预览包可能出现在失败/补测目录中，安装时以此精确来源和校验值为准，不复制新的二进制到多个目录。
+来源：源码 `a7800d1d4ee293962f69b78e6c685296f1cc0aca`，[功能专项38491285454](https://github.com/Msipla/-Moonlit-Halt/actions/runs/38491285454)，[校验与源码包](evidence/v1/runs/38491285454/checksums.json)。生产类/资源与[完整空间验证38442034346](https://github.com/Msipla/-Moonlit-Halt/actions/runs/38442034346)逐字节一致，只有两处隔离诊断类更新。同名预览包可能出现在失败/补测目录中，安装时以此精确来源和校验值为准，不复制新的二进制到多个目录。
 
 环境：Minecraft Java **1.20.1**、Java **17**、Fabric Loader **0.14.25**、Fabric API **0.85.0+1.20.1**。把该JAR放进实例`mods`，移走其他版本的微光深渊JAR；专用服务端安装同一包。不要安装sources包。
 
