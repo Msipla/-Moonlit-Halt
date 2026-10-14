@@ -513,7 +513,7 @@
         "street": "east-wall-and-lane.png",
         "cliff": "north-rock-and-bakehouse.png",
         "high": "settlement-on-rock-shelves.png",
-        "interior": "settlement-interior-13.png"
+        "interior": "residence-after-sleep.png"
       },
       "modes": [
         {
@@ -530,7 +530,8 @@
       "notes": {
         "overview": "创造摄影机位；显示深渊与聚落的整体关系，非生存抵达证明。",
         "street": "东侧街巷与天然岩壁，未经提亮或调色。",
-        "high": "岩台布局摄影机位，真实行走由独立65段记录验证。"
+        "high": "岩台布局摄影机位，真实行走由独立65段记录验证。",
+        "interior": "住宅真实睡眠后游戏原图；画面用于展示室内，不替代睡眠状态与事件数据。"
       }
     }
   ],
