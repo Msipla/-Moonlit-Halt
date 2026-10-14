@@ -198,12 +198,12 @@ def finish_house(kind,x,z,w,d,floor,wall,rotate=False):
   b[x+xx,y,z+zz]=state
  record.update(bounds=[x,z,x+(d if rotate else w)-1,z+(w if rotate else d)-1],door=[x+d-1-d//2,z] if rotate else [x,z+d//2],facing='north' if rotate else 'west')
 finish_house('bakehouse',72,-92,13,15,40,'stone_bricks')
-finish_house('east-residence',103,-45,11,13,40,'bricks')
+finish_house('east-residence',99,-45,11,13,40,'bricks')
 finish_house('garden-residence',94,22,11,13,39,'stone_bricks',True)
 finish_house('weaving-workshop',71,52,13,15,38,'deepslate_bricks',True)
 # Short branching connections turn around living rock; no new all-town platform.
 town_routes=[[(47,40,-78),(62,40,-78),(62,40,-72),(69,40,-72),(69,40,-85),(78,40,-85)],
- [(47,38,-24),(65,39,-24),(86,39,-24),(86,39,-32),(94,39,-32),(94,40,-39),(107,40,-39)],
+ [(47,38,-24),(65,39,-24),(86,39,-24),(86,39,-32),(94,39,-32),(94,40,-39),(103,40,-39)],
  [(86,39,-24),(86,39,-14),(89,39,-14),(89,38,12),(100,38,12),(100,39,26)],
  [(89,38,12),(89,38,42),(78,38,42),(78,38,58)],[(65,39,-24),(65,39,-31)]]
 street={}
@@ -234,7 +234,7 @@ for x,y,z in [(67,44,-73),(92,43,-29),(87,42,11),(79,42,45)]:
  box(x,ground+1,z,x,y-1,z,'dark_oak_fence',east='false',west='false',north='false',south='false',waterlogged='false');lamp(x,y,z)
 assert all(b[p]==base[p] for p in preserved),'Original building block was overwritten in finishing round'
 assert all(b[p]==v for p,v in original_windows.items())
-# Footprints retain natural stone between additions. Verify actual native shelf
+# Footprints retain natural stone between additions. Verify procedural natural shelf
 # attachment, rather than merely claim that a small foundation is sufficient.
 footprint_area=0;supports=[]
 for house in buildings:
@@ -244,9 +244,10 @@ for house in buildings:
    top=38+(z<=-26)+(z<=-43);depth=max(0,top-(house['floor']-3))
    grounded+=((x-62-4*math.sin(z*.035))/(59+depth*.27))**2+((z+11+5*math.sin(x*.03))/(90+depth*.19))**2<1
  assert grounded/area>.85,(house,grounded,area)
- supports.append(dict(kind=house['kind'],native_shelf_cells=grounded,footprint_cells=area))
+ supports.append(dict(kind=house['kind'],natural_shelf_cells=grounded,footprint_cells=area))
 assert footprint_area<844
-origin=(-180,-8,-290);size=(296,88,364);palette=[];lookup={};rows=[]
+assert all(p[0]<=111 for p in b.keys()-base.keys()),'Addition exceeds the covered town-side ceiling boundary'
+origin=(-180,-8,-290);size=(292,88,364);palette=[];lookup={};rows=[]
 for pos,state in sorted(b.items()):
  key=json.dumps(state,sort_keys=True)
  if key not in lookup:lookup[key]=len(palette);palette.append(state)
@@ -254,5 +255,5 @@ for pos,state in sorted(b.items()):
  rows.append({'pos':[v-o for v,o in zip(pos,origin)],'state':lookup[key]})
 packed=gzip.compress(b'\x0a\0\0'+payload({'DataVersion':3465,'author':'Mispla / Codex v1 limited settlement finish','size':list(size),'palette':palette,'blocks':rows,'entities':[]})[1],mtime=0)
 (P/'src/main/resources/data/glimmeringabyss/structures/settlement_finish.nbt').write_bytes(packed)
-(P/'src/main/resources/data/glimmeringabyss/architecture/settlement_finish.json').write_text(json.dumps(dict(layout=102,origin=origin,size=size,buildings=11,additions=buildings,street_routes=town_routes,blocks=len(rows),original_building_blocks_preserved=len(preserved),original_warm_windows_preserved=len(original_windows),warm_windows=sum(v['Name']=='glimmeringabyss:warm_window' for v in b.values()),new_house_footprint_cells=footprint_area,previous_new_house_footprint_cells=844,native_shelf_attachment=supports,template_sha256=hashlib.sha256(packed).hexdigest()),indent=2)+'\n')
-print('Finishing round:',len(rows),len(packed),'bytes; new house footprints',footprint_area,'vs 844; original blocks',len(preserved),'native attachment',supports)
+(P/'src/main/resources/data/glimmeringabyss/architecture/settlement_finish.json').write_text(json.dumps(dict(layout=102,origin=origin,size=size,buildings=11,additions=buildings,street_routes=town_routes,blocks=len(rows),original_building_blocks_preserved=len(preserved),original_warm_windows_preserved=len(original_windows),warm_windows=sum(v['Name']=='glimmeringabyss:warm_window' for v in b.values()),new_house_footprint_cells=footprint_area,previous_new_house_footprint_cells=844,natural_shelf_attachment=supports,template_sha256=hashlib.sha256(packed).hexdigest()),indent=2)+'\n')
+print('Finishing round:',len(rows),len(packed),'bytes; new house footprints',footprint_area,'vs 844; original blocks',len(preserved),'natural shelf attachment',supports)

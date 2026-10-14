@@ -21,7 +21,7 @@ public final class V1CaptureClient implements ClientModInitializer {
     private static final boolean RECONNECT=Boolean.getBoolean("abyss.capture.v1.reconnect");
     private static final Path OUT=Path.of(MECHANICS?"abyss-v1-mechanics":RECONNECT?"abyss-v1-reconnect":TRANSPORT?"abyss-v1-transport":"abyss-v1-captures");
     private static final double[][] ROUTE={{47.5,-57.5},{47.5,-83.5},{22.5,-83.5},{22.5,-99.5},{-27.5,-99.5},{-27.5,-123.5},{-77.5,-123.5},{-77.5,-147.5},{-125.5,-147.5},{-125.5,-183.5},{-150.5,-183.5},{-150.5,-213.5},{-89.5,-213.5},{-89.5,-175.5},{-65.5,-175.5},{-65.5,-123.5},{-77.5,-123.5},{-27.5,-123.5},{-27.5,-99.5},{22.5,-99.5},{22.5,-83.5},{47.5,-83.5},{47.5,-57.5}};
-    private static final double[][] SETTLEMENT={{47.5,-23.5},{47.5,-57.5},{47.5,-77.5},{62.5,-77.5},{62.5,-71.5},{69.5,-71.5},{69.5,-84.5},{78.5,-84.5},{69.5,-84.5},{69.5,-71.5},{62.5,-71.5},{62.5,-77.5},{47.5,-77.5},{47.5,-23.5},{65.5,-23.5},{86.5,-23.5},{86.5,-31.5},{94.5,-31.5},{94.5,-38.5},{107.5,-38.5},{94.5,-38.5},{94.5,-31.5},{86.5,-31.5},{86.5,-23.5},{86.5,-13.5},{89.5,-13.5},{89.5,12.5},{100.5,12.5},{100.5,26.5},{100.5,12.5},{89.5,12.5},{89.5,42.5},{78.5,42.5},{78.5,58.5},{78.5,42.5},{89.5,42.5},{89.5,12.5},{89.5,-13.5},{86.5,-13.5},{86.5,-23.5},{65.5,-23.5},{65.5,-30.5},{65.5,-23.5},{47.5,-23.5}};
+    private static final double[][] SETTLEMENT={{47.5,-23.5},{47.5,-57.5},{47.5,-77.5},{62.5,-77.5},{62.5,-71.5},{69.5,-71.5},{69.5,-84.5},{78.5,-84.5},{69.5,-84.5},{69.5,-71.5},{62.5,-71.5},{62.5,-77.5},{47.5,-77.5},{47.5,-23.5},{65.5,-23.5},{86.5,-23.5},{86.5,-31.5},{94.5,-31.5},{94.5,-38.5},{103.5,-38.5},{94.5,-38.5},{94.5,-31.5},{86.5,-31.5},{86.5,-23.5},{86.5,-13.5},{89.5,-13.5},{89.5,12.5},{100.5,12.5},{100.5,26.5},{100.5,12.5},{89.5,12.5},{89.5,42.5},{78.5,42.5},{78.5,58.5},{78.5,42.5},{89.5,42.5},{89.5,12.5},{89.5,-13.5},{86.5,-13.5},{86.5,-23.5},{65.5,-23.5},{65.5,-30.5},{65.5,-23.5},{47.5,-23.5}};
     private final JsonArray frames=new JsonArray(),motion=new JsonArray(),walks=new JsonArray(),townWalks=new JsonArray();
     private int state=-1,leg,night;private boolean connected,done,slept,restartReady;private int dreamCaptured;
     private long started,changed;private double walkX,walkZ;
@@ -102,7 +102,7 @@ public final class V1CaptureClient implements ClientModInitializer {
             }
             if(state==20){if(seconds()<5)return;leg=1;walkX=c.player.getX();walkZ=c.player.getZ();next(21);return;}
             if(state==21){
-                if(leg==SETTLEMENT.length){c.options.forwardKey.setPressed(false);cmd(c,"sleepstate house-before");cmd(c,"house-bedtime");next(22);return;}
+                if(leg==SETTLEMENT.length){c.options.forwardKey.setPressed(false);c.options.hudHidden=false;cmd(c,"sleepstate house-before");cmd(c,"house-bedtime");next(22);return;}
                 double dx=JourneyClient.x+SETTLEMENT[leg][0]-c.player.getX(),dz=JourneyClient.z+SETTLEMENT[leg][1]-c.player.getZ();
                 c.player.setYaw((float)Math.toDegrees(Math.atan2(-dx,dz)));c.player.setPitch(0);c.options.forwardKey.setPressed(true);
                 if(Math.hypot(dx,dz)>.4){if(seconds()>60)throw new IllegalStateException("Settlement blocked leg "+leg+" at "+c.player.getPos());return;}
@@ -112,7 +112,7 @@ public final class V1CaptureClient implements ClientModInitializer {
                 leg++;walkX=c.player.getX();walkZ=c.player.getZ();changed=System.nanoTime();return;
             }
             if(state==22){
-                if(seconds()<3)return;var p=new BlockPos(JourneyClient.x+110,47,JourneyClient.z-41);
+                if(seconds()<3)return;var p=new BlockPos(JourneyClient.x+106,47,JourneyClient.z-41);
                 if(!c.world.getBlockState(p).isOf(net.minecraft.block.Blocks.BLUE_BED))throw new IllegalStateException("New residence has no real bed");
                 c.interactionManager.interactBlock(c.player,Hand.MAIN_HAND,new BlockHitResult(Vec3d.ofCenter(p),Direction.UP,p,false));slept=false;next(23);return;
             }
