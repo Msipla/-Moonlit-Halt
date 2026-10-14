@@ -1,43 +1,39 @@
-# V1.0 preview.3 · 安装、最终审图与实机验收
+# V1.0 preview.4 · 安卓复核安装与旧档兼容
 
-本轮有限地貌/新增聚落间距收尾技术完成，**最终美学和安卓Amethyst实机待确认，尚非正式1.0**。完整范围与结果见[TASK](TASK-V1.0.md)、[报告](TEST-REPORT-V1.0.md)。
+本轮四项反馈修复的工程验证通过，**最终美学和新包安卓 Amethyst 体验待你确认，正式1.0尚未发布**。完整原始结果见 [测试报告](TEST-REPORT-V1.0.md)，草稿PR #6保留。
 
-## 已验证包
+## 本轮测试包
 
-[glimmering-abyss-1.0.0-preview.3.jar](evidence/v1/runs/38523047710/glimmering-abyss-1.0.0-preview.3.jar)，4,937,573字节，SHA-256：
+[glimmering-abyss-1.0.0-preview.4.jar](evidence/v1/runs/38580056771/glimmering-abyss-1.0.0-preview.4.jar)，5,048,148字节；SHA-256：
 
 ```text
-d74739e66507c28f770663d31cdd6c11298e1665d6a8f911d77e203704a30f02
+4894fc6e504d74c831d2ae85c9ad7dfcc7e1435b5682d7024fffc09612f51b1f
 ```
 
-来源：源码`1307316bd7c642014ef97f4a135eefdddb2c4e29`，[成功运行38523047710](https://github.com/Msipla/-Moonlit-Halt/actions/runs/38523047710)，证据69d973c；[校验/源码包](evidence/v1/runs/38523047710/checksums.json)。两种子、20项Java测试、65段实际生存行走、住宅床真实睡眠、重启及真实101旧档保护已验证。缆车/双梦境等未改机制使用38500421865完整基准。其它运行有同名候选，不能只按文件名选包。
+源码 `6d0fdbc40397c5550e98bd98d69b1ebf0c966692`，[成功运行38580056771](https://github.com/Msipla/-Moonlit-Halt/actions/runs/38580056771)；[校验/源码包](evidence/v1/runs/38580056771/checksums.json)。安装主JAR，sources JAR用于阅读源码。相同文件名的历史失败候选留在各自运行目录，使用这里指定的包与SHA。
 
-使用Minecraft Java **1.20.1**、Java **17**、Fabric Loader **0.14.25**、Fabric API **0.85.0+1.20.1**。该JAR放进实例mods，移走其它微光深渊版本；专用服安装同一包。sources包不放mods。
+Minecraft Java **1.20.1**、Java **17**、Fabric Loader **0.14.25**、Fabric API **0.85.0+1.20.1**。备份存档后，在现有Fabric实例mods中保留一个微光深渊主JAR并替换为本包；客户端和专用服务端使用同一版。
 
-## 世界与玩家流程
+## 新世界与旧世界
 
-保留旧档，另建普通新世界看布局102；已验证种子74102002和-92345。后台选址/预检/588区块生成需数分钟，设备不同会有差异；不要用超平坦。已生成70/75/100/101景观及玩家改动保留，不自动重铺；本轮真实101升级已验，70/75/100沿用先前完整基准。
+| 世界状态 | 换包后的行为 |
+| --- | --- |
+| 普通新世界 | 生成103景观，包含本轮岩壁、室内、微光石修复和探索指引；本轮实际验证种子74102002、-92345 |
+| 已生成Phase7/7.5、preview.1/2/3景观（70/75/100/101/102） | 保持已有地貌、房屋、微光石、路线与玩家方块；本包保留历史配方，旧景观不自动重铺 |
+| 既有景观内玩家改动 | 保留；本轮真实preview.3旧包生成102世界、放金块后换包，布局/金块/采样指纹已验证 |
 
-就绪后，在两个不同夜晚以生存模式实际睡眠。梦境睡眠中淡入、醒后淡出，保留原版离床按钮；第二晚取得寻梦微光，右键引导入口，循灯到站、右键回响铃乘缆车，游览后乘车返回；潜行用于提前返回出发站台。
+**想看本轮景观改进，请另建普通新世界。** 后台选址、覆土预检及588区块绘制需数分钟，设备不同会有差异；使用正常主世界生成。实体手机性能仍由本次实测记录。
 
-创造模式可用`/abyss debug status`、`/abyss debug entrance`、`/abyss debug town`查询/定位已完成的景观，不会重新生成。普通安装不使用仅隔离测试服务端可用的phase7诊断命令。
+景观就绪后，在两个不同游戏日的夜晚用生存模式实际睡眠；梦境睡眠中淡入、醒后淡出，第二晚取得寻梦微光，右键定位入口。到站后右键回响铃乘缆车，返程同理，潜行用于提前返回出发站。创造模式可用 `/abyss debug status`、`/abyss debug entrance`、`/abyss debug town` 查询/定位已完成的景观；这是已有调试入口，不会重新生成。
 
-加速睡眠测试时可以用原生`/time add 24000`核对日数，再定位到该日绝对夜晚；随后必须真实生存睡眠。反复set night不能证明跨日，32000为第二日白天；时间修改不等于睡眠或模组状态更新，细则见报告。
+## 本轮安卓复核重点
 
-## 最终审图
+1. 沿主街、桥和观景点查看是否仍有无意义孤立深青块；与报告中的[微光石同机位原图](evidence/v1/runs/38574327630/screenshots/orphan-glimmerstone.png)对照（该对来自上一成功运行，后续仅改路牌方向字）。
+2. 从镇侧断崖和主裂谷看洞壁/洞顶，判断纵纹及台阶自然度；冷蓝、局部暖光、巨大落差与安静氛围应保持。参考[全景](evidence/v1/runs/38580056771/screenshots/town-in-abyss.png)、[断崖](evidence/v1/runs/38580056771/screenshots/town-cliff.png)、[裂谷](evidence/v1/runs/38580056771/screenshots/main-rift.png)。
+3. 走入住宅/工坊/商店/茶室/图书馆和四栋新建筑，检查基本陈设、门、床边、柜台和上下楼；可直接在住宅床睡眠。[工坊](evidence/v1/runs/38580056771/screenshots/interior-original-workshop-ground.png)、[住宅](evidence/v1/runs/38580056771/screenshots/interior-brick-residence.png)、[图书馆](evidence/v1/runs/38580056771/screenshots/interior-library-refuge.png)。
+4. 从镇北循灯下行，经过断层观测台和下层远端，再沿东侧回程坡回到小镇，观察是否有值得停留的景观、地标与清楚归路。[节点](evidence/v1/runs/38580056771/screenshots/fault-observation-bay.png)、[远端](evidence/v1/runs/38580056771/screenshots/lower-gallery-terminus.png)、[返程](evidence/v1/runs/38580056771/screenshots/signed-homeward-junction.png)。
+5. 正常乘缆车往返、两个跨日夜晚睡眠、保存退出重进；在镇内和外围各正常停留/行走约五分钟，记录视距、渲染器、常见/最低FPS及卡顿/发热/闪退，保留原图与latest.log。
 
-保留原七栋、巨大深渊、冷蓝/暖光和未知黑暗。新增仍四栋，建筑占地844→676格，错开/转入口，短支巷绕岩突、保留岩石与空地，实际脚部Y45–47。重点确认岩壁/洞顶的自然程度，以及新增部分间距是否舒适。
+加速睡眠可先用原生 `/time add 24000` 核对日数，再设到该日绝对夜晚；仍需真实右键床铺。重复set night不证明新一天，32000是第二日白天；时间命令不替代睡眠事件。
 
-[全景](evidence/v1/runs/38523047710/screenshots/town-in-abyss.png) · [东巷/岩体](evidence/v1/runs/38523047710/screenshots/east-wall-and-lane.png) · [北屋留白](evidence/v1/runs/38523047710/screenshots/north-rock-and-bakehouse.png) · [岩台布局](evidence/v1/runs/38523047710/screenshots/settlement-on-rock-shelves.png) · [全部原图](evidence/v1/runs/38523047710/screenshots/)
-
-## 正式1.0前的实机验收准备
-
-preview.2已获得有条件审图认可；本轮有限收尾已提供新的原图和校验包，最终美学仍需确认。以下真实安卓Amethyst检查不由Linux自动化代替。先备份旧档，在独立普通新世界使用本轮推荐包；保持设备常用渲染设置，记录Amethyst/Java/渲染器版本、手机型号、视距和是否启用第三方光影。
-
-1. 生成就绪后查看聚落全景、东壁与洞顶；走入四处新建筑及岩台支巷，确认有留白、头部净空、舒适高差和可辨返回路线。顺路走完折向廊返回镇内。
-2. 生存模式在两个不同游戏日的夜晚真实睡眠，观察睡眠期间梦境的淡入/停留/醒后淡出、离床按钮和第二晚微光授予。命令可用于推进日数，但不替代床铺交互和实际睡眠；避免重复set night停在同一日。
-3. 从入口实际乘缆车下降并返回，观察横向靠站的连贯性、抖动、异常显示、碰撞和安全落站；再次登车后潜行提前下车，再确认可重新登车。
-4. 保存退出后重入同一世界，确认建筑、路面、灯光、玩家改动和抵达状态保持；保留旧世界仅换包，确认既有景观未被重铺。
-5. 同设置在镇内和外围各正常停留/行走约五分钟，记录常见及最低FPS、区块加载是否卡顿、明显发热/闪退。截图和latest.log保存原件；不能仅用静态全景判断手机性能。
-
-最终美学和实机结果确认后，才冻结正式1.0版本号、重新构建正式JAR/来源/SHA并更新此说明。当前PR保持草稿，未实测平台和第三方渲染兼容性继续明确标注。
+实体安卓新包与最终美学结果确认后，再冻结正式1.0、构建正式JAR并交付。全部本轮[未经后期处理的游戏原图](evidence/v1/runs/38580056771/screenshots/)与[修复前原图](evidence/v1/runs/38580056771/before-preview3/)可直接查看。

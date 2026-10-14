@@ -1,3 +1,57 @@
+# V1.0 preview.4 · 安卓反馈收尾技术报告
+
+更新：2026-10-14。本轮四项反馈修复已完成相关工程验证，**最终岩壁/室内/探索体验及新包安卓 Amethyst 验收仍待用户确认，正式 V1.0 未发布。** 唯一范围：[TASK-V1.0.md](TASK-V1.0.md) 第八节；开发分支 `codex/v1-abyss-world`，[草稿 PR #6](https://github.com/Msipla/-Moonlit-Halt/pull/6)。
+
+源码 `6d0fdbc40397c5550e98bd98d69b1ebf0c966692`，[运行 38580056771](https://github.com/Msipla/-Moonlit-Halt/actions/runs/38580056771)全部成功。推荐 [JAR](evidence/v1/runs/38580056771/glimmering-abyss-1.0.0-preview.4.jar)，5,048,148 字节，SHA-256 `4894fc6e504d74c831d2ae85c9ad7dfcc7e1435b5682d7024fffc09612f51b1f`；[校验与源码包](evidence/v1/runs/38580056771/checksums.json)、[来源](evidence/v1/runs/38580056771/provenance.json)。本地已复核 JAR/sources 的实际大小和 SHA。同名历史候选须按运行目录和 SHA 区分。
+
+## 四项实际修复
+
+| 反馈 | 来源与最小修复 | 证据与边界 |
+| --- | --- | --- |
+| 孤立深青方块 | 真实 preview.3 旧世界取样确认是 `glimmeringabyss:glimmerstone`，模型借用原版 sculk 贴图。旧 `Terrain.fixtures` 的26个校准坐标在绘制新地貌后仍强制放置；其中14处已不适合。103仅将微光石嵌入连通天然岩体，排除蓝图占位，修源头 | 两种子异常残留0；旧102仍14处，证明旧景观未自动清理。不是按颜色删除原版幽匿或交互块。取样含六邻块和坐标，见 [first](evidence/v1/runs/38580056771/phase7-first.json)、[旧档取样](evidence/v1/runs/38580056771/phase7-legacy102-after.json) |
+| 人工纵纹/台阶 | 原截面主要只随 x/z 变化，岩面沿高度拉长；103对暴露洞壁、岩台和附壁巨柱表皮加入随高度变化的多尺度错层及不等宽侵蚀。保持 SPINE/WEST、巨大落差、原包络、占用面及缆车净空，环境光代码不改 | 同机位主裂谷、镇侧断崖真实前后帧；自然程度由用户下一轮审图决定 |
+| 空房间 | 11栋按工坊、住宅、店铺、茶室、钟塔阅览、图书馆、烘焙和织作手工分区，新增186格陈设；门、床边、柜台和楼梯留动线。原石板宅凸窗仅清4格门口净空；原工坊只扩大1格楼梯孔并补11格木栏 | 43段新增街巷/房间和69段原室内/上下楼生存实走，真实原生床睡眠，室内原图。184暖窗、11栋、四栋新房占地676格保持；7份历史NBT字节不变 |
+| 白走外围环线 | 实际路线仍为镇北→西廊下降→既有断层观测停留位→下层远端→东侧回程上坡→镇内。补测绘台、地标与5块双面中文牌，明确远端和归路；校对北向岩廊的方向字 | 22段去程/节点/返程实走及3处静止节点帧；沿用既有岩廊和岩台，无新区域、NPC或任务系统 |
+
+## 本轮运行验证
+
+| 检查 | 实际结果 |
+| --- | --- |
+| 发布构建 | 官方 Minecraft 1.20.1 发布客户端、Fabric 0.14.25/API 0.85.0+1.20.1、Java17；20项Java测试，零失败/错误；[build](evidence/v1/runs/38580056771/build.log)、同目录XML |
+| 两个种子 | 74102002、-92345，各实际客户端及专用服；生成后588/588原生地表/基岩保持（入口例外）；[first](evidence/v1/runs/38580056771/phase7-first.json)、[second](evidence/v1/runs/38580056771/phase7-second.json) |
+| 建筑/光/安全 | 各48,254蓝图实体块零缺漏，184暖窗原生12、25格池水封闭、5块牌文字正确；HARD/doMobSpawning=true，景观Mob0、内部插入拒绝、外部允许。插入检查不冒称专门自然刷怪统计 |
+| 实际通行 | 22外围+43新增街巷/房间+69原室内/楼梯，共134段，各段健康20/未飞行；[外围](evidence/v1/runs/38580056771/walk.json)、[街巷](evidence/v1/runs/38580056771/settlement-walk.json)、[原室内](evidence/v1/runs/38580056771/interior-walk.json)。原室内分别从诊断设置的入口起步，室内各段用正常按键，不宣称一次连续走遍全部建筑 |
+| 原生住宅睡眠 | 生存右键原生成床，日0→1夜→2醒，真实世界刻181、START/STOP1/1、dreams1；[before](evidence/v1/runs/38580056771/phase7-sleep-house-before.json)、[fixture](evidence/v1/runs/38580056771/phase7-house-sleep-fixture.json)、[after](evidence/v1/runs/38580056771/phase7-sleep-house-after.json) |
+| 新档保存/重启 | 34,288几何采样保持，5块牌文字持久保留；[reload](evidence/v1/runs/38580056771/phase7-reload.json)。生成后地表588/588，长时样本548/588；差异原因本轮未调查，不宣称地表永久静止 |
+| 真实旧档保护 | 正式 preview.3/d747…包生成102世界，金块先改变实际采样，再换本包；102、金块和指纹保持；[升级](evidence/v1/runs/38580056771/legacy-upgrade-1.0.0-preview.3.json) |
+| 未改机制基准 | 与正式 preview.3 实际ZIP条目比较，10个交通/梦境/安全/环境class及7份旧NBT逐字节相同；完整缆车往返、提前下车、途中停服重连、双梦境/微光，以及70/75/100/101旧档分别沿用38500421865/38523047710已验证基准，不混作本轮重测 |
+
+## 真实原图
+
+[全部首种子/第二种子原图](evidence/v1/runs/38580056771/screenshots/)；[preview.3真实旧包的修复前原图](evidence/v1/runs/38580056771/before-preview3/)。首种子30帧、第二种子1帧、旧包3帧，共34张未经后期处理PNG；逐帧机位/队列/GL/环境参数见各目录 captures.json。首种子30帧与旧包3帧的GL检查均0；静止机位等pC/pU清零后取图。部分全景用创造飞行摄影，通行证明来自独立生存按键记录。
+
+最终运行的两张岩壁前后帧XYZ/yaw/pitch严格一致；孤立方块旧帧实际Y45、后帧Y48，不能称同机位。下表仅该位置引用上一完整通过运行38574327630的一对Y48原图，机位严格一致；其后至最终源码仅改岔口路牌“南→北”，全部class逐字节相同，方块/地貌未再改。最终运行的偏差原帧和记录照常保留，不修改图片或元数据。
+
+| 同相对机位 | 修复前（正式preview.3生成旧世界） | 修复后 |
+| --- | --- | --- |
+| 街旁微光石，64.5/48/-18.5，yaw -129/pitch1；38574327630 | [before](evidence/v1/runs/38574327630/before-preview3/orphan-glimmerstone.png) | [after](evidence/v1/runs/38574327630/screenshots/orphan-glimmerstone.png) |
+| 镇侧断崖，-31.5/26/7.5，yaw -90/pitch8 | [before](evidence/v1/runs/38580056771/before-preview3/town-cliff.png) | [after](evidence/v1/runs/38580056771/screenshots/town-cliff.png) |
+| 主裂谷，-45.5/55/-134.5，yaw165/pitch12 | [before](evidence/v1/runs/38580056771/before-preview3/main-rift.png) | [after](evidence/v1/runs/38580056771/screenshots/main-rift.png) |
+
+原图复查重点：[聚落/深渊](evidence/v1/runs/38580056771/screenshots/town-in-abyss.png)、[原工坊地面](evidence/v1/runs/38580056771/screenshots/interior-original-workshop-ground.png)、[工坊楼上](evidence/v1/runs/38580056771/screenshots/interior-original-workshop.png)、[住宅](evidence/v1/runs/38580056771/screenshots/interior-brick-residence.png)、[图书馆](evidence/v1/runs/38580056771/screenshots/interior-library-refuge.png)、[观测停留位](evidence/v1/runs/38580056771/screenshots/fault-observation-bay.png)、[远端](evidence/v1/runs/38580056771/screenshots/lower-gallery-terminus.png)、[回镇](evidence/v1/runs/38580056771/screenshots/signed-homeward-junction.png)。角色手持测试物品属于隔离测试库存，未向生产流程添加道具。
+
+## 失败保留、兼容与验收
+
+38568330551和38569686382均完成首种子/65段外围街巷/原床睡眠，但旧工坊上楼卡头，整个运行失败；原截图、日志、JSON与候选包保留。定位为跨阶时头部碰(53,45,24)旧地板，仅新103扩一格既有孔并围栏，保持生存行走标准。38574327630完整相关验证成功；随后仅校正路牌“北”字，最新38580056771再次完整成功，交付只认本报告顶部包。未删除旧失败，未放宽通行/摄影/旧档保护标准。
+
+已生成70/75/100/101/102及玩家改动保留；新地貌/室内/路牌/微光石源头修复用于新103，不静默重铺旧景观。详细安装与新世界复核见 [INSTALL-V1.0-PREVIEW.md](INSTALL-V1.0-PREVIEW.md)。
+
+实体安卓Amethyst新包、Windows/PCL2、目标GPU、第三方渲染与长时多人未由本Work实测；Linux软件OpenGL技术成功不替代手机体验。冷蓝/暖光、深渊尺度和建筑方向已获认可，但最终自然度、室内完成度和探索体验仍待用户下一轮安卓确认；PR保持草稿，正式1.0不冻结或发布。Pages分工与已有统筹成果保留。
+
+---
+
+以下为前轮历史记录；当前交付以上述运行与HANDOFF为准。
+
 # V1.0 preview.3 · 有限收尾与相关技术交付
 
 更新：2026-10-14。唯一范围：[TASK-V1.0.md](TASK-V1.0.md)。用户对preview.2整体方向有条件认可，本轮局部地貌/新增建筑间距收尾已完成技术验证；**最终美学及安卓Amethyst实机仍待确认，正式1.0未发布。**
