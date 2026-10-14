@@ -395,7 +395,7 @@
       ],
       "text": [
         "西：断层观测台",
-        "南：下层岩廊",
+        "北：下层岩廊",
         "东：小镇",
         "环线可返回"
       ]
@@ -444,5 +444,5 @@
   "warm_windows": 184,
   "new_house_footprint_cells": 676,
   "historical_templates_unchanged": true,
-  "template_sha256": "53ae3c261f3442d2a91497cefb325620c3aa013f51204d69ae1140c46c3be5d9"
+  "template_sha256": "c9c9415228f455ad75cc76587b4b35ceeb5d06abcb9894129fbd803700654270"
 }
