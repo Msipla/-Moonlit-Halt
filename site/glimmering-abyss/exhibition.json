@@ -492,28 +492,42 @@
       "number": "1.0",
       "title": "V1.0 · 深渊聚落预览",
       "short": "V1.0 预览",
-      "description": "天然岩壁与岩台上的11栋暖窗建筑；布局疏散、街巷绕岩，保留巨大冷蓝深渊。preview.3已通过技术验证，正式版待实机验收。",
+      "description": "preview.4：修复异常微光石、自然岩壁、11栋建筑室内与西廊探索指引；冷蓝深渊与暖窗风格保持不变。",
       "technical": "预览版技术通过",
       "technicalState": "passed",
-      "aesthetic": "整体方向获认可，实机待验",
+      "aesthetic": "整体方向认可，修复待安卓复验",
       "aestheticState": "direction",
-      "verdict": "1.0.0-preview.3（layout102）完成20项Java测试、两个种子、65段生存行走与存档保护验证。用户认可整体美学；安卓/Windows实机和正式1.0.0发布尚未完成。原图来自托管Linux真实Minecraft客户端，非实体手机截图。",
-      "base": "https://raw.githubusercontent.com/Msipla/-Moonlit-Halt/69d973c/projects/minecraft-mods/experiments/glimmering-abyss/evidence/v1/runs/38523047710/screenshots/",
-      "evidenceBase": "https://raw.githubusercontent.com/Msipla/-Moonlit-Halt/69d973c/projects/minecraft-mods/experiments/glimmering-abyss/evidence/v1/runs/38523047710/",
+      "verdict": "1.0.0-preview.4（layout103）完成20项Java测试、两种子真实客户端/服务端、134段生存按键通行及旧档保护验证。异常微光石已追踪并修复；室内与探索路线已补充。Linux验证通过不代表安卓Amethyst美学验收或正式1.0发布。",
+      "base": "https://raw.githubusercontent.com/Msipla/-Moonlit-Halt/c3283ac785507e83c42fe404fffaae247482cf61/projects/minecraft-mods/experiments/glimmering-abyss/evidence/v1/runs/38580056771/screenshots/",
+      "evidenceBase": "https://raw.githubusercontent.com/Msipla/-Moonlit-Halt/c3283ac785507e83c42fe404fffaae247482cf61/projects/minecraft-mods/experiments/glimmering-abyss/evidence/v1/runs/38580056771/",
       "cover": "town-in-abyss.png",
       "views": [
         "overview",
         "street",
         "cliff",
         "high",
-        "interior"
+        "interior",
+        "workshop",
+        "shop",
+        "reading",
+        "observation",
+        "terminus",
+        "homeward",
+        "orphan"
       ],
       "files": {
         "overview": "town-in-abyss.png",
-        "street": "east-wall-and-lane.png",
-        "cliff": "north-rock-and-bakehouse.png",
+        "street": "town-street.png",
+        "cliff": "main-rift.png",
         "high": "settlement-on-rock-shelves.png",
-        "interior": "residence-after-sleep.png"
+        "interior": "interior-brick-residence.png",
+        "workshop": "interior-original-workshop.png",
+        "shop": "interior-store-shop.png",
+        "reading": "interior-library-refuge.png",
+        "observation": "fault-observation-bay.png",
+        "terminus": "lower-gallery-terminus.png",
+        "homeward": "signed-homeward-junction.png",
+        "orphan": "orphan-glimmerstone.png"
       },
       "modes": [
         {
@@ -524,14 +538,34 @@
       "defaultMode": "preview",
       "defaultView": "overview",
       "report": "https://github.com/Msipla/-Moonlit-Halt/blob/codex/v1-abyss-world/projects/minecraft-mods/experiments/glimmering-abyss/TEST-REPORT-V1.0.md",
-      "extras": [],
-      "version": "1.0.0-preview.3",
-      "developmentLabel": "V1.0预览 · 实机验收准备",
+      "extras": [
+        {
+          "file": "interior-tea-room.png",
+          "title": "茶室内部 · 真实原图"
+        },
+        {
+          "file": "interior-slate-residence.png",
+          "title": "住宅内部 · 真实原图"
+        },
+        {
+          "file": "walk-return-to-town.png",
+          "title": "探索返镇 · 真实原图"
+        },
+        {
+          "file": "second-seed-overview.png",
+          "title": "第二种子 · 真实原图"
+        }
+      ],
+      "version": "1.0.0-preview.4",
+      "developmentLabel": "V1.0 preview.4 · 安卓复验待确认",
       "notes": {
-        "overview": "创造摄影机位；显示深渊与聚落的整体关系，非生存抵达证明。",
-        "street": "东侧街巷与天然岩壁，未经提亮或调色。",
-        "high": "岩台布局摄影机位，真实行走由独立65段记录验证。",
-        "interior": "住宅真实睡眠后游戏原图；画面用于展示室内，不替代睡眠状态与事件数据。"
+        "overview": "创造摄影机位；展示深渊与聚落，不代表生存抵达。",
+        "interior": "住宅内部真实游戏截图；实际通行另有生存按键记录。",
+        "workshop": "工坊室内原图；室内净空经过回归验证。",
+        "orphan": "异常微光石修复证据机位；详细旧帧对照边界见工程测试报告。",
+        "observation": "现有探索环线的断层观测停留节点。",
+        "terminus": "既有环线下层远端探索节点。",
+        "homeward": "回镇指路牌，需由安卓玩家再次验收可读性。"
       }
     }
   ],
@@ -592,9 +626,9 @@
     },
     {
       "date": "2026.10.14",
-      "title": "从原型走向 V1.0",
-      "text": "preview.3保留冷蓝深渊与暖窗，疏散聚落并优化岩壁；真实客户端技术回归通过，等待用户设备实机验收与正式版冻结。",
-      "state": "预览版技术通过 · 正式1.0未发布"
+      "title": "V1.0 预览收尾与实机复验",
+      "text": "preview.4针对孤立微光石、规则洞壁、空房间和探索环线进行有限修复；两种子客户端/服务端技术验证通过，下一步由用户安卓复验。",
+      "state": "preview.4技术验证通过 · 安卓美学待验收 · 正式1.0未发布"
     }
   ]
 }
