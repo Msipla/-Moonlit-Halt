@@ -365,6 +365,14 @@
       -5
     ]
   ],
+  "stair_headroom_repairs": [
+    [
+      53,
+      45,
+      24
+    ]
+  ],
+  "stair_guard_cells": 11,
   "route_signs": [
     {
       "position": [
@@ -400,9 +408,9 @@
       ],
       "text": [
         "断层观测台",
-        "两条裂谷在此交叠",
-        "停步望向西侧岩穹",
-        "下层尽端在南方"
+        "岩层在此交错",
+        "沿岩廊望向远端",
+        "循灯可到下层尽端"
       ]
     },
     {
@@ -436,5 +444,5 @@
   "warm_windows": 184,
   "new_house_footprint_cells": 676,
   "historical_templates_unchanged": true,
-  "template_sha256": "ec52b0a80ebb6ae08fa3bb10f79a4b154bb56cd6a8cd0ccd8722954e65f75bd0"
+  "template_sha256": "53ae3c261f3442d2a91497cefb325620c3aa013f51204d69ae1140c46c3be5d9"
 }

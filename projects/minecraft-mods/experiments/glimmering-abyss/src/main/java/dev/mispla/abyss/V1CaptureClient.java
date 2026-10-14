@@ -125,7 +125,7 @@ public final class V1CaptureClient implements ClientModInitializer {
                 int reached=leg;leg++;walkX=c.player.getX();walkZ=c.player.getZ();changed=System.nanoTime();
                 if(reached==10||reached==11||reached==16){
                     nodeLabel=reached==10?"fault-observation-bay.png":reached==11?"lower-gallery-terminus.png":"signed-homeward-junction.png";
-                    c.player.setYaw(reached==10?90:reached==11?-65:-30);c.player.setPitch(-8);next(50);
+                    c.player.setYaw(reached==10?-165:reached==11?-65:-30);c.player.setPitch(-8);next(50);
                 }return;
             }
             if(state==50){if(!readyFrame(c))return;capture(c,nodeLabel);next(11);return;}

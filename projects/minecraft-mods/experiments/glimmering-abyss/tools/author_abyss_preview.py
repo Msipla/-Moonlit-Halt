@@ -267,6 +267,19 @@ door_repairs={(56,y,z) for y in (40,41) for z in (-6,-5)}
 for p in door_repairs:
  assert b[p]['Name']=='minecraft:polished_deepslate',('Unexpected door obstruction',p,b[p])
  put(*p,'air')
+# During the real client walk the upper floor catches the player's head while
+# stepping off stair z24. Extend the existing opening by exactly one floor cell.
+stair_repairs={(53,45,24)}
+for p in stair_repairs:
+ assert b[p]['Name']=='minecraft:polished_blackstone_bricks',(p,b[p])
+ put(*p,'air')
+guards={(x,z) for x in (52,54) for z in range(23,28)}|{(53,23)}
+for x,z in guards:
+ assert b[x,46,z]['Name']=='minecraft:air',(x,z,b[x,46,z])
+ arms={name:str((x+dx,z+dz) in guards).lower() for dx,dz,name in [(1,0,'east'),(-1,0,'west'),(0,1,'south'),(0,-1,'north')]}
+ put(x,46,z,'dark_oak_fence',waterlogged='false',**arms)
+for i in range(7):
+ assert all(b[53,y,21+i]['Name']=='minecraft:air' for y in range(40+i,43+i)),('Workshop stair headroom',i)
 def furnish(x,y,z,name,**props):
  old=b.get((x,y,z),{}).get('Name')
  assert old=='minecraft:air',(current_room,(x,y,z),old,name)
@@ -371,13 +384,13 @@ def sign(x,y,z,rotation,lines):
  entities[x,y,z]={'id':'minecraft:sign','front_text':text,'back_text':text,'is_waxed':1}
 sign(48,41,-72,0,['岩廊环线','断层观测台','沿灯火下行','回镇走东侧坡道'])
 sign(-75,28,-125,12,['西：断层观测台','南：下层岩廊','东：小镇','环线可返回'])
-sign(-149,21,-185,12,['断层观测台','两条裂谷在此交叠','停步望向西侧岩穹','下层尽端在南方'])
+sign(-149,21,-185,12,['断层观测台','岩层在此交错','沿岩廊望向远端','循灯可到下层尽端'])
 sign(-150,17,-211,8,['下层尽端观景','此处为环线远端','东行接回程上坡','灯火通向小镇'])
 sign(-65,28,-125,12,['已接回镇路','沿东向岩坡上行','前方小镇与钟塔','返程可在此歇脚'])
 # All old architectural solids are retained. Only empty room cells and the
 # explicitly bounded existing observation bay/route hints changed.
 for p,v in accepted.items():
- if v['Name']!='minecraft:air' and not (p[0],p[2]) in bay and p not in entities and p not in door_repairs:
+ if v['Name']!='minecraft:air' and not (p[0],p[2]) in bay and p not in entities and p not in door_repairs|stair_repairs:
   assert b[p]==v,('Accepted solid changed',p)
 assert all(b[p]==v for p,v in original_windows.items())
 assert len(room_changes)==11
@@ -398,7 +411,7 @@ packed=gzip.compress(b'\x0a\0\0'+payload({'DataVersion':3465,'author':'Mispla / 
  layout=103,origin=origin,size=size,buildings=11,additions=buildings,street_routes=town_routes,
  route=route,exploration_nodes=[{'name':'fault-observation-bay','bounds':[-154,-187,-146,-180],'floor':20},
  {'name':'lower-gallery-terminus','position':[-151,16,-214]},{'name':'homeward-junction','position':[-66,27,-124]}],
- room_new_furnishings=room_changes,door_headroom_repairs=[list(p) for p in sorted(door_repairs)],route_signs=[{'position':list(p),'text':[json.loads(t)['text'] for t in n['front_text']['messages']]} for p,n in entities.items()],
+ room_new_furnishings=room_changes,door_headroom_repairs=[list(p) for p in sorted(door_repairs)],stair_headroom_repairs=[list(p) for p in sorted(stair_repairs)],stair_guard_cells=len(guards),route_signs=[{'position':list(p),'text':[json.loads(t)['text'] for t in n['front_text']['messages']]} for p,n in entities.items()],
  blocks=len(rows),warm_windows=sum(v['Name']=='glimmeringabyss:warm_window' for v in b.values()),
  new_house_footprint_cells=footprint_area,historical_templates_unchanged=True,
  template_sha256=hashlib.sha256(packed).hexdigest()),indent=2,ensure_ascii=False)+'\n')

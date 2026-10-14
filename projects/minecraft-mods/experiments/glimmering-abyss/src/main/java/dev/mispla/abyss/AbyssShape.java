@@ -71,12 +71,21 @@ public final class AbyssShape {
             if(y<=ledgeTop&&ledgeDistance<7+(ledgeTop-y)*.55)return true;
             // Large attached rock shoulders, not a repeated forest of cylinders.
             double fault=x+23+.25*(z+75)+7*Math.sin(z*.024+y*.031)+4*Math.sin(y*.068);
-            if(layout>=103)fault+=3*Terrain.noise((z+.35*y)/13.0,y/17.0,41045);
             double width=(17+4*Math.sin(y*.055+z*.027)+Math.max(0,y-50)*.15)*Math.max(0,Math.sin(Math.PI*(z+143)/87));
+            if(layout>=103){
+                fault+=5*Terrain.noise((z+.35*y)/16.0,y/22.0,41045)
+                    +2*Terrain.noise((z-.47*y)/5.5,y/7.0,41050);
+                width+=3.5*Terrain.noise((z+.27*y)/12.0,y/13.0,41051)*Math.max(0,Math.sin(Math.PI*(z+143)/87));
+            }
             if(z<-56&&z>-143&&fault>0&&fault<width&&y>18+10*Math.sin(z*.032))return true;
             double fold=x+111-.38*(z+178)+6*Math.sin(z*.043+y*.04)+3*Math.sin(y*.08);
-            if(layout>=103)fold+=3*Terrain.noise((z-.25*y)/12.0,y/15.0,41046);
-            if(z<-158&&z>-254&&fold>0&&fold<15+3*Math.sin(y*.047)&&y>-13)return true;
+            double foldWidth=15+3*Math.sin(y*.047);
+            if(layout>=103){
+                fold+=5*Terrain.noise((z-.25*y)/16.0,y/19.0,41046)
+                    +2*Terrain.noise((z+.41*y)/6.0,y/8.0,41052);
+                foldWidth+=3.5*Terrain.noise((z+.36*y)/15.0,y/11.0,41053);
+            }
+            if(z<-158&&z>-254&&fold>0&&fold<foldWidth&&y>-13)return true;
             // Quiet inhabited terrace narrows at the lip, broadens at its foot.
             double depth=Math.max(0,terraceTop-y);
             double skin=layout>=103&&depth>3
