@@ -84,7 +84,7 @@ public final class V1CaptureClient implements ClientModInitializer {
             if(state==91){if(!readyFrame(c))return;capture(c,"town-culling-disabled.png");c.chunkCullingEnabled=true;cmd(c,"view rift");next(6);return;}
             if(state>=5&&state<=9){
                 if(!readyFrame(c))return;String[] names={"town-in-abyss.png","main-rift.png","folded-gallery.png","warm-return.png","town-street.png"};String[] views={"rift","gallery","homeward","street"};
-                capture(c,names[state-5]);if(state==5){c.chunkCullingEnabled=false;next(91);return;}if(state<9){cmd(c,"view "+views[state-5]);next(state+1);}else{cmd(c,"view east-lane");next(15);}return;
+                capture(c,names[state-5]);if(state==5){if(FINISH){cmd(c,"view rift");next(6);}else{c.chunkCullingEnabled=false;next(91);}return;}if(state<9){cmd(c,"view "+views[state-5]);next(state+1);}else{cmd(c,"view east-lane");next(15);}return;
             }
             if(state==15){if(!readyFrame(c))return;capture(c,"east-wall-and-lane.png");cmd(c,"view public-nook");next(16);return;}
             if(state==16){if(!readyFrame(c))return;capture(c,"sheltered-public-nook.png");cmd(c,"view settlement-overlook");next(17);return;}
