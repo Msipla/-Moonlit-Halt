@@ -111,6 +111,14 @@ public final class V1CaptureClient implements ClientModInitializer {
             if(c.player.hasVehicle())throw new IllegalStateException("Early-exit still riding");
             checkLanding(c,true);capture(c,"emergency-safe-return.png");
             var r=new JsonObject();r.addProperty("pass",true);r.addProperty("health",c.player.getHealth());write("emergency.json",r);
+            next(104);return;
+        }
+        if(state==104){
+            // END_CLIENT_TICK changes the key for the next input update. Do not
+            // interact while the player's previous sneak state is still active.
+            if(seconds()<1)return;
+            if(c.player.isSneaking()){if(seconds()>5)throw new IllegalStateException("Sneak release did not reach the player input");return;}
+            var r=new JsonObject();r.addProperty("sneaking_before_board",c.player.isSneaking());r.addProperty("release_wait_seconds",seconds());write("reboard-input.json",r);
             bell(c,true);next(103);return;
         }
         if(state==103){
