@@ -1,16 +1,36 @@
 # V1.0 空间预览与功能验证
 
-更新：2026-10-14。唯一范围与最终验收依据：[TASK-V1.0.md](TASK-V1.0.md)。空间方向已获用户有条件认可；本轮 **1.0.0-preview.2** 局部东壁优化及聚落扩建实机验证进行中，最新岩壁自然度/扩建美学与安卓 Amethyst 尚未验收。
+更新：2026-10-14。唯一范围与最终验收依据：[TASK-V1.0.md](TASK-V1.0.md)。空间方向已获用户有条件认可；本轮 **1.0.0-preview.2** 局部岩壁优化及聚落扩建完整技术回归已通过，最新岩壁自然度/扩建美学与安卓 Amethyst 尚未验收。
 
-## 本轮地貌与聚落验证（修正版测试中）
+## 本轮地貌与聚落：完整技术回归通过
 
-修正版源码`078a674314bbab69eec4f13bff17a47cf2d30426`，[38500421865](https://github.com/Msipla/-Moonlit-Halt/actions/runs/38500421865)完整套件进行中。布局101仍588区块，东/东南壁局部断层、岩棚、附壁岩肩及洞顶过渡；新增烘焙屋、织工作坊及两处住宅，共11栋，窄巷/公共雨棚依附岩台。原七栋保护框扩大到工坊侧塔及檐口，16,032实体块及128暖窗全部保持，历史三份NBT逐字节不变，旧景观不重铺。
+源码`078a674314bbab69eec4f13bff17a47cf2d30426`，[38500421865](https://github.com/Msipla/-Moonlit-Halt/actions/runs/38500421865)全部成功，证据提交`c085f9c98d16dbdff9dd6a737baa7afa48b63bd4`。发布JAR为1.0.0-preview.2，4,835,680字节，SHA-256 `f855057e1fce107df9eeab8c5959c442f839fe939cca1a8456f6aa2c8134a8bf`；JAR及sources包校验已本地复核，完整来源见[checksums](evidence/v1/runs/38500421865/checksums.json)与[provenance](evidence/v1/runs/38500421865/provenance.json)。
 
-初版[38495935223](https://github.com/Msipla/-Moonlit-Halt/actions/runs/38495935223)最终失败，源码cedc699、证据39beb03。实际已完成19项Java测试、两种子各588/588原生地表/基岩、48,715处模板实体块零类型缺漏、184暖窗原生12、22段外围及28段街巷健康20未飞行、两次梦境睡眠和第三次原住宅床睡眠、完整车辆/重启保护，以及两种真实70/75升级。最后布局100旧档金块x45已放置且审计看见，但未落入x=-204+9i的几何采样，因此指纹未改变而严格断言失败，100升级尚未完成。修为layout>=100用x48、70/75仍45，不放宽保护验证。
+布局101在原588区块内局部处理东/东南壁的倾斜断层、内凹岩棚、附壁岩肩及洞顶过渡，改变局部岩纹方向；主裂谷/西廊/尺度与冷暖光基准保留。新增烘焙屋、织工作坊、两处住宅和三格窄巷/小型公共雨棚，共11栋，单体基础依附天然岩台。原七栋保护框扩大到工坊侧塔及檐口，16,032个实体块、128暖窗逐块保持；town/natural_town/abyss_town三份历史NBT逐字节不变，旧70/75/100不自动重铺。
 
-初版保护框还遗漏工坊侧塔底部15块，修正版南巷移两格、街灯移位并补真实灯柱/吊链/贴顶灯；初版原图的东南壁改善不足，修正版做针对性补充。初版包不作为交付候选；失败日志、PNG与数据均在原运行目录保留。修正版改变生产几何，继续完整两种子/车辆/睡眠/步行/70/75/100旧档回归，不将前轮事实冒充本轮通过。
+| 检查 | 本轮实际结果与证据 |
+| --- | --- |
+| 构建与Java | 19项测试、零失败/错误；发布客户端和Fabric专用服；[build.log](evidence/v1/runs/38500421865/build.log)及同目录XML |
+| 两种子 | 74102002、-92345均正常生成布局101并实际启动客户端；生成后各588/588原生地表及基岩保持；[first](evidence/v1/runs/38500421865/phase7-first.json)、[second](evidence/v1/runs/38500421865/phase7-second.json) |
+| 模板与照明 | 各48,730处非空气模板块无类型缺漏；原128暖窗及全部184暖窗原生12级，25格水池封闭 |
+| 局部安全 | HARD、doMobSpawning=true，景观Mob=0、内部插入拒绝、外部边界插入允许；不把插入测试等同本轮专门自然刷怪统计 |
+| 外围与街巷 | 22段外围+28段街巷/四处新建筑/公共空间生存按键行走，全程健康20、未飞行；[walk](evidence/v1/runs/38500421865/walk.json)、[settlement-walk](evidence/v1/runs/38500421865/settlement-walk.json)。街巷实际脚部Y45–48，外围Y23–47 |
+| 梦境与记忆 | 两次真实生存睡眠，0→1夜→2醒、2→3夜→4醒；世界刻182/181、START/STOP1/1→2/2，dreams1→2、第二晚微光；[sleep-verification](evidence/v1/runs/38500421865/sleep-verification.json) |
+| 新住宅床 | 原生成床而非重放夹具床，第三次生存睡眠；日4→5夜→6醒，世界刻162、事件3/3；dreams维持2、dream_day维持4、微光保留；[fixture](evidence/v1/runs/38500421865/phase7-house-sleep-fixture.json)、[before](evidence/v1/runs/38500421865/phase7-sleep-house-before.json)、[after](evidence/v1/runs/38500421865/phase7-sleep-house-after.json) |
+| 缆车往返 | 900下降/899返回采样各轴零反转、乘客水平偏移0，健康20正常落站；[motion](evidence/v1/runs/38500421865/motion.json) |
+| 提前下车及停服重连 | 实际潜行提前安全落站、再登车、Y142.104乘车中停服、同身份同档重连健康20离车安全地表站台、unfinished_rides=0；[transport](evidence/v1/runs/38500421865/transport/)、[reconnect](evidence/v1/runs/38500421865/reconnect/) |
+| 新档重启 | 34,288个采样指纹完全相同；[reload](evidence/v1/runs/38500421865/phase7-reload.json)。生成后地表初检588/588；长期运行的原生地表样本不宣称永远静止 |
+| 三种真实旧档 | 分别用正式0.7.0/0.7.5/preview.1包生成，再原生放金块；金块先改变实际采样指纹，换新包后布局70/75/100、金块及指纹保持；[70](evidence/v1/runs/38500421865/legacy-upgrade-0.7.0.json)、[75](evidence/v1/runs/38500421865/legacy-upgrade-0.7.5.json)、[100](evidence/v1/runs/38500421865/legacy-upgrade-1.0.0-preview.1.json) |
 
-以下为更早已完成的真实技术结论。
+本轮直接运行完整套件，未跳过或复用旧档测试。原图为首种子20张、第二种子1张，另有交通保护原图；[本轮原图目录](evidence/v1/runs/38500421865/screenshots/)。首种子20次捕获GL均为0，摄影机位/原生天空光/区块队列/渲染器见[captures](evidence/v1/runs/38500421865/screenshots/captures.json)。已实际查看全景、东侧街巷、公共雨棚、烘焙屋/住宅/织坊室内、折向廊及第二种子原图。冷蓝、暖光、巨大落差和原建筑群保持，右侧局部岩肩/内凹与洞顶衔接已变化；不据此宣布最终美学通过。
+
+重点审阅：[全景/岩壁](evidence/v1/runs/38500421865/screenshots/town-in-abyss.png)、[东侧街巷](evidence/v1/runs/38500421865/screenshots/east-wall-and-lane.png)、[公共空间](evidence/v1/runs/38500421865/screenshots/sheltered-public-nook.png)、[住宅室内](evidence/v1/runs/38500421865/screenshots/settlement-interior-13.png)。部分全景使用创造飞行摄影，可达性由独立50段生存按键记录证明。residence-after-sleep.png在状态翻转同刻取得，仍显示上一帧原版离床界面；真实醒来以事件/时间数据验证，该图不作醒后UI完整渲染证据。
+
+初版38495935223（源码cedc699、证据39beb03）在最后布局100旧档金块见证采样失败：x45不在该布局x=-204+9i网格，虽放置成功且旧审计看见金块，指纹未变化。修为100及以上x48、70/75仍45，坚持先改变指纹再保护，未放宽断言。初版还遗漏工坊侧塔底部15块保护，已移巷/灯并扩大保护框；灯具补支撑/吊链/贴顶，实看原图后加强东南壁。失败日志、原图与初版包留在原目录，初版不作交付候选。
+
+当前审图状态：用户此前仅对整体空间方向有条件认可；本轮岩壁自然度和聚落扩建仍待用户看本轮真实原图确认。安卓Amethyst、Windows/PCL2、目标GPU、Sodium/Iris/DH、光影及长时多人未测；正式1.0.0验收未完成。
+
+以下为前轮已完成的真实技术结论。
 ## 已通过的空间预览
 
 [运行38442034346](https://github.com/Msipla/-Moonlit-Halt/actions/runs/38442034346)全部成功，源码 `695004f906c4a5294db25977118ac332bfa59459`，证据提交 `e4e49fe36c1601a206f2e38d95a3b4d4b27d0cc8`。使用官方 Minecraft Java 1.20.1 发布客户端、Fabric Loader 0.14.25、Fabric API 0.85.0+1.20.1、Java 17 和独立专用服务端。
@@ -53,7 +73,7 @@
 - 最终由生存模式玩家实际右键床铺，观察真实入睡及醒来；分别核对每晚前后日数、世界刻、事件计数、dreams增加到1/2、dreamDays与醒来日一致、第二晚实际获得寻梦微光。画面变黑、alpha增长或命令返回成功都不足以证明流程通过。
 - 每次客户端测试清理自己的临时捕获目录，先保存上一轮证据；不能复用上次的result.json、failure.json或截图作为当前结果。
 
-## 原图与美学边界
+## 前轮原图与有条件审图反馈
 
 第五轮有12张首种子原始PNG和1张第二种子原图；[完整目录](evidence/v1/runs/38442034346/screenshots/)，机位、渲染器、GL状态见[captures.json](evidence/v1/runs/38442034346/screenshots/captures.json)。开发侧已逐项复查关键原图，远端原版亮天空带已消失；GL0/队列0不等于美学通过。
 
@@ -64,7 +84,7 @@
 - [实际步行返回镇口](evidence/v1/runs/38442034346/screenshots/walk-return-to-town.png)
 - [第二种子](evidence/v1/runs/38442034346/screenshots/second-seed-overview.png)
 
-部分机位使用创造飞行摄影，实际可行走性另由22段生存按键测试证明。岩壁仍有连续长竖向轮廓，外围步道目前是规则轴向连接，主镇仍为原七栋尺度；不能宣布它们已达到正式天然深渊/可信聚落美学。
+此前部分机位使用创造飞行摄影，可行走性由22段生存记录证明。用户已认可这组原图的整体空间/冷暖光/落差/未知感及折向廊，指定局部改善右侧连续笔直岩壁；这是方向有条件通过，不是岩壁最终美学通过。本轮新增四栋与局部优化见前方新证据。
 
 ## 最小扩展接入点
 
@@ -74,7 +94,7 @@
 
 首轮38425341031远端覆土要求导致4096候选全拒；第二轮38427638986睡眠夹具超时；第三轮38430433184首拐角测试块中心错误；第四轮38433900219第22段被镇口封口护墙阻挡。原日志、失败截图和包均保留，详见[devlog](devlog/2026-10-13-v1.md)。本地Gradle网络下载失败见[evidence/v1/local/recovery-20261014/build.log](evidence/v1/local/recovery-20261014/build.log)。
 
-后续：完成本轮局部地貌及聚落实机回归，交付原图供用户验收；安卓Amethyst地貌、梦境、缆车、性能实机验收；最终正式1.0.0包、完整回归与交付。当前只验证托管Linux软件OpenGL，Windows/PCL2、目标GPU、Sodium/Iris/DH、光影、长时多人未测。
+后续：用户验收本轮岩壁自然度与聚落原图；安卓Amethyst地貌、梦境、缆车、性能实机验收；最终正式1.0.0包、完整回归与交付。当前只验证托管Linux软件OpenGL，Windows/PCL2、目标GPU、Sodium/Iris/DH、光影、长时多人未测。
 
 
-最新安装预览包见[INSTALL-V1.0-PREVIEW.md](INSTALL-V1.0-PREVIEW.md)。本地按ZIP条目比较第五轮与成功专项JAR，差异仅`Phase7Audit.class`、`V1CaptureClient.class`两处隔离测试设施，其他生产类、NBT、纹理与配置逐字节一致；最新JAR与sources包的SHA-256均已实际复核。无需为纯诊断改动重跑已通过的完整两种子空间套件。
+最新安装预览包见[INSTALL-V1.0-PREVIEW.md](INSTALL-V1.0-PREVIEW.md)。前轮preview.1曾本地按ZIP条目比较第五轮与成功专项JAR，差异仅`Phase7Audit.class`、`V1CaptureClient.class`两处隔离测试设施，其他生产类、NBT、纹理与配置逐字节一致；该前轮JAR与sources包校验已复核，纯诊断更新未重复完整空间套件。本轮preview.2改动生产地貌/资源，已重新完成full，当前安装来源以报告顶部为准。
