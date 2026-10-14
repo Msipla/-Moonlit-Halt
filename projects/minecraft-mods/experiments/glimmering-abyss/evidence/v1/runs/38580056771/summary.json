@@ -1,0 +1,28 @@
+{
+  "status": "LIMITED_FINISH_TECHNICAL_PASS",
+  "minecraft": "1.20.1",
+  "layout": 103,
+  "buildings": 11,
+  "release_jar_sha256": "4894fc6e504d74c831d2ae85c9ad7dfcc7e1435b5682d7024fffc09612f51b1f",
+  "seeds": [
+    74102002,
+    -92345
+  ],
+  "real_client": true,
+  "peripheral_walk_legs": 22,
+  "settlement_walk_legs": 43,
+  "original_interior_walk_legs": 69,
+  "completed_buildings": 11,
+  "exploration_stopping_nodes": 3,
+  "legacy_emitter_source_identified": true,
+  "real_residence_sleep": true,
+  "real_server_restart": true,
+  "midride_stop_and_reconnect": false,
+  "early_exit": false,
+  "legacy_layouts_preserved": [
+    102
+  ],
+  "unchanged_mechanisms_baseline": "38500421865",
+  "aesthetic_acceptance": "Android feedback fixes await user review and next physical Amethyst confirmation; V1.0 final acceptance not granted",
+  "limitations": "Hosted Linux software OpenGL; not Windows, PCL2, target GPU, Sodium/Iris/DH or real phone"
+}
