@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "latestStage": "phase75",
-  "updated": "2026-10-13",
+  "latestStage": "v1preview",
+  "updated": "2026-10-14",
   "stages": [
     {
       "id": "phase1",
@@ -486,6 +486,52 @@
         "floor": "天然底面摄影机位，不作为生存行走证明。",
         "descent": "上一轮v0.7.5的有效真实乘车原图；与正式包的游戏条目内容一致。本轮首次动态取景有渲染空隙，未宣布安卓渲染问题已修复，诊断原图见阶段报告。"
       }
+    },
+    {
+      "id": "v1preview",
+      "number": "1.0",
+      "title": "V1.0 · 深渊聚落预览",
+      "short": "V1.0 预览",
+      "description": "天然岩壁与岩台上的11栋暖窗建筑；布局疏散、街巷绕岩，保留巨大冷蓝深渊。preview.3已通过技术验证，正式版待实机验收。",
+      "technical": "预览版技术通过",
+      "technicalState": "passed",
+      "aesthetic": "整体方向获认可，实机待验",
+      "aestheticState": "direction",
+      "verdict": "1.0.0-preview.3（layout102）完成20项Java测试、两个种子、65段生存行走与存档保护验证。用户认可整体美学；安卓/Windows实机和正式1.0.0发布尚未完成。原图来自托管Linux真实Minecraft客户端，非实体手机截图。",
+      "base": "https://raw.githubusercontent.com/Msipla/-Moonlit-Halt/69d973c/projects/minecraft-mods/experiments/glimmering-abyss/evidence/v1/runs/38523047710/screenshots/",
+      "evidenceBase": "https://raw.githubusercontent.com/Msipla/-Moonlit-Halt/69d973c/projects/minecraft-mods/experiments/glimmering-abyss/evidence/v1/runs/38523047710/",
+      "cover": "town-in-abyss.png",
+      "views": [
+        "overview",
+        "street",
+        "cliff",
+        "high",
+        "interior"
+      ],
+      "files": {
+        "overview": "town-in-abyss.png",
+        "street": "east-wall-and-lane.png",
+        "cliff": "north-rock-and-bakehouse.png",
+        "high": "settlement-on-rock-shelves.png",
+        "interior": "settlement-interior-13.png"
+      },
+      "modes": [
+        {
+          "id": "preview",
+          "label": "原版实机原图"
+        }
+      ],
+      "defaultMode": "preview",
+      "defaultView": "overview",
+      "report": "https://github.com/Msipla/-Moonlit-Halt/blob/codex/v1-abyss-world/projects/minecraft-mods/experiments/glimmering-abyss/TEST-REPORT-V1.0.md",
+      "extras": [],
+      "version": "1.0.0-preview.3",
+      "developmentLabel": "V1.0预览 · 实机验收准备",
+      "notes": {
+        "overview": "创造摄影机位；显示深渊与聚落的整体关系，非生存抵达证明。",
+        "street": "东侧街巷与天然岩壁，未经提亮或调色。",
+        "high": "岩台布局摄影机位，真实行走由独立65段记录验证。"
+      }
     }
   ],
   "timeline": [
@@ -542,6 +588,12 @@
       "title": "从洞厅走向洞穴",
       "text": "保留巨型空间、冷蓝基准与原建筑，采用自然岩台、侧洞与起伏底面，补齐内饰、桥对岸停留空间、短暂实景梦境和乘车插值。",
       "state": "Phase 7.5技术已验证 · 安卓与美学待验收"
+    },
+    {
+      "date": "2026.10.14",
+      "title": "从原型走向 V1.0",
+      "text": "preview.3保留冷蓝深渊与暖窗，疏散聚落并优化岩壁；真实客户端技术回归通过，等待用户设备实机验收与正式版冻结。",
+      "state": "预览版技术通过 · 正式1.0未发布"
     }
   ]
 }
