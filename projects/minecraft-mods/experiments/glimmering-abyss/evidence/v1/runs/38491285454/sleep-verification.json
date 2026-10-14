@@ -1,0 +1,22 @@
+[
+  {
+    "night": 1,
+    "day_before": 0,
+    "night_day": 1,
+    "wake_day": 2,
+    "world_ticks_elapsed": 182,
+    "dreams": 1,
+    "real_start_events": 1,
+    "real_stop_events": 1
+  },
+  {
+    "night": 2,
+    "day_before": 2,
+    "night_day": 3,
+    "wake_day": 4,
+    "world_ticks_elapsed": 181,
+    "dreams": 2,
+    "real_start_events": 2,
+    "real_stop_events": 2
+  }
+]
