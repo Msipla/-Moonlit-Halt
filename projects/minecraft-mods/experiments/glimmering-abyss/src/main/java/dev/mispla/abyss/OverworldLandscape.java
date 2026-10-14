@@ -23,9 +23,14 @@ public final class OverworldLandscape {
     private static final int SX=139,SY=143,SZ=180;
     private static short[] naturalTown;
     private static BlockState[] naturalPalette;
-    private static short[] abyssTown;
-    private static BlockState[] abyssPalette;
-    private static int abyssSX,abyssSY,abyssSZ;
+    private static Blueprint abyssTown,settlementTown;
+    private record Blueprint(int sx,int sy,int sz,short[] blocks,BlockState[] palette){
+        BlockState at(int x,int y,int z){
+            int dx=x+180,dy=y+8,dz=z+290;
+            if(dx<0||dx>=sx||dy<0||dy>=sy||dz<0||dz>=sz)return null;
+            int i=blocks[(dx*sz+dz)*sy+dy];return i<0?null:palette[i];
+        }
+    }
     private static final int FLAGS=Block.NOTIFY_LISTENERS|Block.FORCE_STATE;
     private OverworldLandscape(){}
     public static void initialize(){ServerTickEvents.END_SERVER_TICK.register(server->{
@@ -77,10 +82,11 @@ public final class OverworldLandscape {
         if(s.layout>=100&&remote(x,z))cap=Math.min(cap,height(w,s.x+x,s.z+z)-16);
         return cap;
     }
-    private static int routeCap(int x,int z){
+    private static int routeCap(int layout,int x,int z){
         // A sparse blueprint has no claim on the rest of the terrain column.
-        if(abyssTown==null)return -58;
-        for(int y=abyssSY-1-8;y>=-8;y--)if(abyssAt(x,y,z)!=null)return y+4+OverworldSite.OFFSET_Y;
+        var blueprint=layout>=101?settlementTown:abyssTown;
+        if(blueprint==null)return -58;
+        for(int y=blueprint.sy-1-8;y>=-8;y--)if(blueprint.at(x,y,z)!=null)return y+4+OverworldSite.OFFSET_Y;
         return -58;
     }
     private static void tick(ServerWorld w){
@@ -90,7 +96,7 @@ public final class OverworldLandscape {
             if(!(w.getChunkManager().getChunkGenerator() instanceof NoiseChunkGenerator)||w.getBottomY()>-64){
                 s.stage="unavailable";s.reason="Requires a normal height overworld with noise terrain";s.markDirty();return;
             }
-            if(s.layout>=100)loadAbyssTown();
+            if(s.layout>=100)loadAbyssTown(s.layout);
             if(s.stage.equals("search")){
                 if(s.attempt>=4096){s.stage="unavailable";s.reason="No covered, uninhabited candidate in bounded search";s.markDirty();return;}
                 var rng=new Random(w.getSeed()^0x41B155L^(s.attempt*0x9E3779B97F4A7C15L));s.attempt++;
@@ -113,7 +119,7 @@ public final class OverworldLandscape {
                     int h=ground(w,wx,wz)+1; // Bare ground, never count a tree canopy as mountain cover.
                     if(s.layout>=100&&remote(wx-s.x,wz-s.z))top=Math.min(top,h-16);
                     if(s.layout>=100)s.columnCaps[s.capIndex(wx-s.x,wz-s.z)]=top;
-                    if(h<top+10||s.layout>=100&&remote(wx-s.x,wz-s.z)&&top<routeCap(wx-s.x,wz-s.z))valid=false;
+                    if(h<top+10||s.layout>=100&&remote(wx-s.x,wz-s.z)&&top<routeCap(s.layout,wx-s.x,wz-s.z))valid=false;
                     // The painter retains a four-block solid local roof below this cap.
                     // Existing natural caves above it are permitted; requiring every native
                     // voxel to be solid would reject otherwise well-covered mountain sites.
@@ -129,7 +135,7 @@ public final class OverworldLandscape {
                 s.markDirty();return;
             }
             if(s.stage.equals("carve")){
-                loadTown();if(s.layout>=75)loadNaturalTown();if(s.layout>=100)loadAbyssTown();paint(w,s,cx,cz);
+                loadTown();if(s.layout>=75)loadNaturalTown();if(s.layout>=100)loadAbyssTown(s.layout);paint(w,s,cx,cz);
                 if(++s.cursor==s.chunks()){
                     stations(w,s);s.stage="ready";s.markDirty();w.getServer().save(false,true,true);
                     Journey.syncAll(w.getServer());System.out.println("ABYSS_SITE_READY "+s.x+","+s.z+" entry="+s.entryY);
@@ -178,26 +184,28 @@ public final class OverworldLandscape {
         int dx=x+64,dy=y-34,dz=z+106;if(dx<0||dx>=148||dy<0||dy>=46||dz<0||dz>=180)return null;
         int i=naturalTown[(dx*180+dz)*46+dy];return i<0?null:naturalPalette[i];
     }
-    private static void loadAbyssTown()throws Exception{
-        if(abyssTown!=null)return;
-        try(var in=OverworldLandscape.class.getResourceAsStream("/data/glimmeringabyss/structures/abyss_town.nbt")){
-            var n=NbtIo.readCompressed(in);var p=n.getList("palette",NbtElement.COMPOUND_TYPE);
-            var size=n.getList("size",NbtElement.INT_TYPE);abyssSX=size.getInt(0);abyssSY=size.getInt(1);abyssSZ=size.getInt(2);
-            abyssPalette=new BlockState[p.size()];for(int i=0;i<p.size();i++)abyssPalette[i]=NbtHelper.toBlockState(Registries.BLOCK.getReadOnlyWrapper(),p.getCompound(i));
-            abyssTown=new short[abyssSX*abyssSY*abyssSZ];Arrays.fill(abyssTown,(short)-1);
-            var blocks=n.getList("blocks",NbtElement.COMPOUND_TYPE);
-            for(int i=0;i<blocks.size();i++){var row=blocks.getCompound(i);var a=row.getList("pos",NbtElement.INT_TYPE);abyssTown[(a.getInt(0)*abyssSZ+a.getInt(2))*abyssSY+a.getInt(1)]=(short)row.getInt("state");}
+    private static void loadAbyssTown(int layout)throws Exception{
+        if((layout>=101?settlementTown:abyssTown)!=null)return;
+        String name=layout>=101?"settlement_town":"abyss_town";
+        try(var in=OverworldLandscape.class.getResourceAsStream("/data/glimmeringabyss/structures/"+name+".nbt")){
+            var n=NbtIo.readCompressed(in);var p=n.getList("palette",NbtElement.COMPOUND_TYPE);var size=n.getList("size",NbtElement.INT_TYPE);
+            int sx=size.getInt(0),sy=size.getInt(1),sz=size.getInt(2);var palette=new BlockState[p.size()];
+            for(int i=0;i<p.size();i++)palette[i]=NbtHelper.toBlockState(Registries.BLOCK.getReadOnlyWrapper(),p.getCompound(i));
+            var blocks=new short[sx*sy*sz];Arrays.fill(blocks,(short)-1);var rows=n.getList("blocks",NbtElement.COMPOUND_TYPE);
+            for(int i=0;i<rows.size();i++){var row=rows.getCompound(i);var a=row.getList("pos",NbtElement.INT_TYPE);blocks[(a.getInt(0)*sz+a.getInt(2))*sy+a.getInt(1)]=(short)row.getInt("state");}
+            var blueprint=new Blueprint(sx,sy,sz,blocks,palette);if(layout>=101)settlementTown=blueprint;else abyssTown=blueprint;
         }
     }
-    private static BlockState abyssAt(int x,int y,int z){
-        int dx=x+180,dy=y+8,dz=z+290;
-        if(dx<0||dx>=abyssSX||dy<0||dy>=abyssSY||dz<0||dz>=abyssSZ)return null;
-        int i=abyssTown[(dx*abyssSZ+dz)*abyssSY+dy];return i<0?null:abyssPalette[i];
-    }
     private static BlockState abyssExpected(AbyssShape.Column c,int y){
-        var t=abyssAt(c.x(),y,c.z());if(t!=null)return t;
+        var t=(c.layout()>=101?settlementTown:abyssTown).at(c.x(),y,c.z());if(t!=null)return t;
         if(!c.rock(y))return Blocks.AIR.getDefaultState();
         double stratum=y+.16*c.x()+4*Math.sin(c.z()*.021);
+        if(c.layout()>=101&&c.x()>75){
+            stratum+=.25*c.z()+5*Math.sin(c.x()*.044+c.z()*.036);
+            if(Math.floorMod((int)Math.floor(stratum),29)<3)return Blocks.TUFF.getDefaultState();
+            var axis=Math.sin(c.z()*.033+y*.021)>.35?net.minecraft.util.math.Direction.Axis.X:net.minecraft.util.math.Direction.Axis.Y;
+            return Blocks.DEEPSLATE.getDefaultState().with(Properties.AXIS,axis);
+        }
         return (Math.floorMod((int)Math.floor(stratum),29)<2?Blocks.TUFF:Blocks.DEEPSLATE).getDefaultState();
     }
     private static BlockState naturalExpected(CavernShape.Column c,int y){
@@ -239,7 +247,7 @@ public final class OverworldLandscape {
         var pos=new BlockPos.Mutable();
         for(int dx=0;dx<16;dx++)for(int dz=0;dz<16;dz++){
             int x=cx*16+dx-s.x,z=cz*16+dz-s.z;var c=Terrain.column(x,z,Terrain.SEED);var natural=CavernShape.column(x,z);
-            int top=ceiling(w,s,x,z)-OverworldSite.OFFSET_Y;var abyss=AbyssShape.column(x,z,top);
+            int top=ceiling(w,s,x,z)-OverworldSite.OFFSET_Y;var abyss=AbyssShape.column(x,z,top,s.layout);
             for(int y=-63;y<=top;y++){
                 var state=s.layout>=100?abyssExpected(abyss,y):s.layout>=75?naturalExpected(natural,y):expected(c,y);pos.set(s.x+x,y+OverworldSite.OFFSET_Y,s.z+z);
                 if(!w.getBlockState(pos).isOf(Blocks.BEDROCK))w.setBlockState(pos,state,FLAGS);

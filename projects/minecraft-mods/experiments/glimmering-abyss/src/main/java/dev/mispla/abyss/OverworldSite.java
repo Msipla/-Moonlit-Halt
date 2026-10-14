@@ -13,7 +13,7 @@ public final class OverworldSite extends PersistentState {
     public static final int MIN_X=-112, MAX_X=111, MIN_Z=-176, MAX_Z=111, OFFSET_Y=6;
     public static final int CHUNKS=14*18;
     public int x,z,entryY,attempt,cursor,approachLength,approachY;
-    public int layout=100;
+    public int layout=101;
     public int[] columnCaps=new int[0];
     public String stage="search";
     public String reason="";

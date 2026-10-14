@@ -43,6 +43,7 @@ public final class Phase7Audit {
             .then(literal("intrusion").executes(c->intrusion(c.getSource())))
             .then(literal("natural").executes(c->natural(c.getSource())))
             .then(literal("bedtime").executes(c->bedtime(c.getSource())))
+            .then(literal("house-bedtime").executes(c->houseBedtime(c.getSource())))
             .then(literal("sleepstate").then(argument("label",StringArgumentType.word()).executes(c->sleepstate(c.getSource(),StringArgumentType.getString(c,"label")))))
             .then(literal("debugcheck").executes(c->debugcheck(c.getSource())))
             .then(literal("dream").executes(c->{Journey.dream(c.getSource().getPlayerOrThrow());return 1;}))
@@ -80,6 +81,9 @@ public final class Phase7Audit {
             case "gallery" -> {x=-145.5;y=35;z=-205.5;yaw=-20;pitch=8;}
             case "homeward" -> {x=-66.5;y=34;z=-125.5;yaw=-30;pitch=-3;}
             case "route-start" -> {x=47.5;y=47;z=-57.5;yaw=180;pitch=0;}
+            case "settlement-start" -> {x=47.5;y=45;z=-23.5;yaw=-90;pitch=0;}
+            case "east-lane" -> {x=84.5;y=45;z=10.5;yaw=180;pitch=-16;}
+            case "public-nook" -> {x=65.5;y=46;z=-23.5;yaw=180;pitch=-7;}
             case "library" -> {x=-47.5;y=45;z=38.5;yaw=120;pitch=8;}
             case "bridge-destination" -> {x=-29.5;y=45;z=35.5;yaw=90;pitch=-5;}
             case "bedroom" -> {x=38.5;y=51;z=-10.5;yaw=180;pitch=10;}
@@ -125,6 +129,16 @@ public final class Phase7Audit {
         if(w.getTimeOfDay()/24000<=beforeDayTime/24000)throw new IllegalStateException("Native time command did not advance the day");
         var player=source.getPlayerOrThrow();player.changeGameMode(GameMode.SURVIVAL);player.getAbilities().flying=false;player.sendAbilitiesUpdate();player.teleport(w,x+1.5,y,z+.5,90,40);
         var fixture=new JsonObject();fixture.addProperty("bed_x",x);fixture.addProperty("bed_y",y);fixture.addProperty("bed_z",z);fixture.addProperty("player",player.getPos().toString());fixture.addProperty("time_of_day",w.getTimeOfDay());fixture.addProperty("before_day_time",beforeDayTime);fixture.addProperty("before_world_time",beforeWorldTime);fixture.addProperty("world_time",w.getTime());fixture.addProperty("day_before",beforeDayTime/24000);fixture.addProperty("day_after",w.getTimeOfDay()/24000);fixture.addProperty("command","time add 24000; time set absolute-next-day-night");write("sleep-fixture-"+(s.dreams.getOrDefault(player.getUuid(),0)+1),fixture);write("sleep-fixture",fixture);return 1;
+    }
+    private static int houseBedtime(ServerCommandSource source)throws com.mojang.brigadier.exceptions.CommandSyntaxException{
+        var w=source.getServer().getOverworld();var s=OverworldSite.get(w);var pos=s.at(98,41,-26);
+        if(s.layout<101||!w.getBlockState(pos).isOf(Blocks.BLUE_BED)||!w.getBlockState(pos.north()).isOf(Blocks.BLUE_BED))throw new IllegalStateException("Residence bed was not generated");
+        long before=w.getTimeOfDay();var dispatcher=source.getServer().getCommandManager().getDispatcher();
+        dispatcher.execute("time add 24000",source);long day=w.getTimeOfDay()/24000;
+        dispatcher.execute("time set "+(day*24000+13000),source);
+        if(w.getTimeOfDay()/24000<=before/24000)throw new IllegalStateException("Residence fixture did not advance the day");
+        var p=source.getPlayerOrThrow();p.changeGameMode(GameMode.SURVIVAL);p.getAbilities().flying=false;p.sendAbilitiesUpdate();p.teleport(w,pos.getX()-.5,pos.getY(),pos.getZ()+.5,-90,35);
+        var r=new JsonObject();r.addProperty("day_before",before/24000);r.addProperty("day_after",w.getTimeOfDay()/24000);r.addProperty("original_generated_bed",true);r.addProperty("bed",pos.toString());write("house-sleep-fixture",r);return 1;
     }
     private static int sleepstate(ServerCommandSource source,String label)throws com.mojang.brigadier.exceptions.CommandSyntaxException{
         if(!label.matches("[a-zA-Z0-9_-]{1,32}"))return 0;
@@ -205,18 +219,20 @@ public final class Phase7Audit {
                 }
             }
             r.addProperty("water_source_cells",water);r.addProperty("water_basin_contained",fluids);
-            int structures=0,missing=0;
+            int structures=0,missing=0,allWindows=0,allLit=0;
             if(s.layout>=75){
-                var tn=w.getStructureTemplateManager().getTemplate(GlimmeringAbyss.id(s.layout>=100?"abyss_town":"natural_town")).orElseThrow().writeNbt(new NbtCompound());
+                var tn=w.getStructureTemplateManager().getTemplate(GlimmeringAbyss.id(s.layout>=101?"settlement_town":s.layout>=100?"abyss_town":"natural_town")).orElseThrow().writeNbt(new NbtCompound());
                 var tp=tn.getList("palette",NbtElement.COMPOUND_TYPE);var tb=tn.getList("blocks",NbtElement.COMPOUND_TYPE);
                 for(int i=0;i<tb.size();i++){
                     var b=tb.getCompound(i);String id=tp.getCompound(b.getInt("state")).getString("Name");if(id.equals("minecraft:air"))continue;
                     var xyz=b.getList("pos",NbtElement.INT_TYPE);var pos=s.at(xyz.getInt(0)-(s.layout>=100?180:64),xyz.getInt(1)+(s.layout>=100?-8:34),xyz.getInt(2)-(s.layout>=100?290:106));
                     if(s.layout>=100&&pos.getX()>=s.x+18&&pos.getX()<=s.x+33&&pos.getZ()>=s.z+52&&pos.getZ()<=s.z+65&&pos.getY()>=45&&pos.getY()<=52)continue;
                     structures++;if(!net.minecraft.registry.Registries.BLOCK.getId(w.getBlockState(pos).getBlock()).toString().equals(id))missing++;
+                    if(id.equals("glimmeringabyss:warm_window")){allWindows++;if(w.getLightLevel(LightType.BLOCK,pos)==12)allLit++;}
                 }
             }
             r.addProperty("architectural_nonair_blocks",structures);r.addProperty("architectural_missing_or_wrong_blocks",missing);
+            r.addProperty("all_template_warm_windows",allWindows);r.addProperty("all_template_warm_windows_native_12",allLit);
             r.addProperty("player_witness_gold",w.getBlockState(s.at(45,42,8)).isOf(Blocks.GOLD_BLOCK));
             boolean natural=s.layout<75||water==25&&fluids&&missing==0;
             r.addProperty("pass",natural&&(!(label.equals("first")||label.equals("second"))||capMatches==s.chunks())&&windows==128&&preserved==128&&lit==128&&bedrock&&shaft&&blocked&&outside&&sceneMobs==0&&w.getGameRules().getBoolean(GameRules.DO_MOB_SPAWNING));write(label,r);return r.get("pass").getAsBoolean()?1:0;

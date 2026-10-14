@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class AbyssShapeTest {
     @Test void solidCapAndBedrockBufferAcrossExpandedFootprint(){
         for(int x=-208;x<=127;x+=4)for(int z=-320;z<=127;z+=4){
-            var c=AbyssShape.column(x,z);assertTrue(c.rock(-63));assertTrue(c.rock(AbyssShape.ceiling(x,z)));
+            for(int layout:new int[]{100,101}){var c=AbyssShape.column(x,z,AbyssShape.ceiling(x,z),layout);assertTrue(c.rock(-63));assertTrue(c.rock(AbyssShape.ceiling(x,z)));}
         }
     }
     @Test void continuousDescendingRouteHasNoLateralReversal(){
@@ -24,10 +24,17 @@ class AbyssShapeTest {
         for(int i=0;i<=900;i++){
             var p=CableRoute.at(i/900.0,150,100);if(p.y()>80)continue;
             for(int x=(int)Math.floor(p.x()-1.5);x<=Math.floor(p.x()+1.5);x++)for(int z=(int)Math.floor(p.z()-1.5);z<=Math.floor(p.z()+1.5);z++)for(int y=(int)Math.floor(p.y()-6);y<=Math.floor(p.y()+3.3-6);y++)
-                assertFalse(AbyssShape.column(x,z).rock(y),"Cabin obstruction at "+x+","+y+","+z);
+                for(int layout:new int[]{100,101})assertFalse(AbyssShape.column(x,z,AbyssShape.ceiling(x,z),layout).rock(y),"Cabin obstruction at "+x+","+y+","+z);
         }
     }
     @Test void distantVaultsRemainConnectedToCentralRift(){
         for(int[] p:new int[][]{{-42,36,-77},{-78,36,-222},{-167,36,-187},{-153,36,-252}})assertFalse(AbyssShape.column(p[0],p[2]).rock(p[1]));
+    }
+    @Test void localEastWallRevisionPreservesMainRiftAndRemoteVaults(){
+        for(int x=-208;x<=127;x+=5)for(int z=-320;z<=127;z+=5){
+            if(x>72&&Math.abs(z+10)<140)continue;
+            var old=AbyssShape.column(x,z,AbyssShape.ceiling(x,z),100);var next=AbyssShape.column(x,z,AbyssShape.ceiling(x,z),101);
+            for(int y=-63;y<111;y+=3)assertEquals(old.rock(y),next.rock(y),"Changed outside east-wall scope");
+        }
     }
 }

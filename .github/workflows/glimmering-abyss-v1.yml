@@ -43,7 +43,7 @@ jobs:
         working-directory: ${{ env.PROJECT }}
         run: |
           args=()
-          if [[ "${{ inputs.suite || 'mechanics' }}" == mechanics ]]; then args+=(--mechanics-only); fi
+          if [[ "${{ inputs.suite || 'full' }}" == mechanics ]]; then args+=(--mechanics-only); fi
           xvfb-run -a python3 -u tools/run_v1_preview.py --accept-eula --skip-build --output evidence/v1/runs/${{ github.run_id }} "${args[@]}"
       - name: Preserve current-run evidence and build packages
         if: always()
@@ -82,7 +82,7 @@ jobs:
           (out/'provenance.json').write_text(json.dumps(dict(source_commit=os.environ['SOURCE_SHA'],workflow_run=os.environ['RUN_ID'],job_status=os.environ['RUN_STATUS']),indent=2)+'\n')
           for f in (p/'build/test-results/test').glob('TEST-*.xml'):shutil.copy2(f,out/f.name)
           packages={}
-          for f in (p/'build/libs').glob('glimmering-abyss-1.0.0-preview.1*.jar'):
+          for f in (p/'build/libs').glob('glimmering-abyss-1.0.0-preview*.jar'):
               target=out/f.name;shutil.copy2(f,target);packages[f.name]=dict(sha256=hashlib.sha256(f.read_bytes()).hexdigest(),bytes=f.stat().st_size)
           (out/'checksums.json').write_text(json.dumps(dict(source_commit=os.environ['SOURCE_SHA'],artifacts=packages),indent=2)+'\n')
           PY

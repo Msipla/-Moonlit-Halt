@@ -6,17 +6,32 @@ package dev.mispla.abyss;
 public final class AbyssShape {
     private AbyssShape(){}
     private static double sq(double v){return v*v;}
+    private static double smooth(double v){double t=Math.max(0,Math.min(1,v));return t*t*(3-2*t);}
     // x,z,radius,roof,floor. Narrow necks separate the distant vaults.
     private static final double[][] SPINE={{0,64,36,90,-35},{-25,3,72,103,-54},
         {-42,-77,65,96,-55},{-79,-147,39,81,-47},{-78,-222,59,77,-52},{-122,-268,33,58,-39}};
     private static final double[][] WEST={{-56,-102,32,76,-40},{-126,-143,36,68,-35},
         {-167,-187,39,73,-45},{-153,-252,31,57,-32}};
     private static final double[][] LEDGES={{47,40,-60},{47,40,-84},{22,37,-84},{22,37,-100},{-28,31,-100},{-28,31,-124},{-78,27,-124},{-78,25,-148},{-126,24,-148},{-126,20,-184},{-151,20,-184},{-151,16,-214},{-90,16,-214},{-90,22,-176},{-66,22,-176},{-66,27,-124},{-78,27,-124}};
-    public record Column(int x,int z,double floor,double roof,double q,double rough,double ledgeDistance,double ledgeTop){
+    public record Column(int x,int z,double floor,double roof,double q,double rough,double ledgeDistance,double ledgeTop,int layout,double wallWeight){
         public boolean rock(int y){
-            if(y<=floor||y>=roof)return true;
-            double mid=(roof+floor)*.5,half=(roof-floor)*.5;
-            if(q+.12*Math.pow((y-mid)/half,4)>1+rough)return true;
+            if(y<=floor)return true;
+            double localRoof=roof,boundary=q;
+            // Only the east wall changes. Cache the column weight and keep the
+            // historical recipe's hot path free of new geological calculations.
+            if(wallWeight>0){
+                localRoof-=wallWeight*(4+3*Math.sin(z*.055+x*.028)+4*Math.exp(-sq((z+28)/28.0)));
+                double bedding=y+.27*z+.14*x;
+                double recess=13*Math.exp(-sq((bedding-54)/12.0))+9*Math.exp(-sq((bedding-17)/8.0));
+                double shoulder=10*Math.exp(-sq((z-22)/22.0))*Math.exp(-sq((y-58)/20.0));
+                double sway=5*Math.sin(z*.044+y*.017)+3*Math.sin(y*.07-z*.035);
+                boundary-=wallWeight*(recess-shoulder+sway)/43;
+                // Recesses end in solid rock before the unchanged footprint edge.
+                boundary+=wallWeight*.60*smooth((x-109)/17.0);
+            }
+            if(y>=localRoof)return true;
+            double mid=(localRoof+floor)*.5,half=(localRoof-floor)*.5;
+            if(boundary+.12*Math.pow((y-mid)/half,4)>1+rough)return true;
             // Occupied shelves widen into talus and merge with the native floor below.
             if(y<=ledgeTop&&ledgeDistance<7+(ledgeTop-y)*.55)return true;
             // Large attached rock shoulders, not a repeated forest of cylinders.
@@ -34,7 +49,8 @@ public final class AbyssShape {
         }
     }
     public static Column column(int x,int z){return column(x,z,ceiling(x,z));}
-    public static Column column(int x,int z,int cap){
+    public static Column column(int x,int z,int cap){return column(x,z,cap,100);}
+    public static Column column(int x,int z,int cap,int layout){
         double n=Math.sin(x*.034+Math.sin(z*.019))*Math.cos(z*.039)+.25*Math.sin(x*.103-z*.071);
         double[] v={9,-57,45};
         corridor(v,x+4*n,z+3*n,SPINE);corridor(v,x+3*n,z-4*n,WEST);
@@ -49,7 +65,13 @@ public final class AbyssShape {
             double d=Math.hypot(wx-a[0]-dx*t,wz-a[2]-dz*t);
             if(d<distance){distance=d;ledgeTop=a[1]+(b[1]-a[1])*t-2+Math.sin(x*.06+z*.07);}
         }
-        return new Column(x,z,Math.max(-57,v[1]+3*n),Math.min(cap-4,v[2]+3*n),v[0],.05*n,distance,ledgeTop);
+        double weight=layout>=101?smooth((x-72)/40.0)*(1-smooth((Math.abs(z+10)-106)/34.0)):0;
+        double geologicalCap=cap;
+        if(weight>0&&x>111){
+            int innerCap=CavernShape.ceiling(111,z);
+            geologicalCap=Math.min(cap,innerCap+(cap-innerCap)*smooth((x-111)/16.0));
+        }
+        return new Column(x,z,Math.max(-57,v[1]+3*n),Math.min(geologicalCap-4,v[2]+3*n),v[0],.05*n,distance,ledgeTop,layout,weight);
     }
     private static void corridor(double[] best,double x,double z,double[][] points){
         for(int i=1;i<points.length;i++){

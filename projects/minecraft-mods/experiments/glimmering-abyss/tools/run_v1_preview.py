@@ -54,7 +54,8 @@ def run(args):
  try:
   ready();audit('warmup');time.sleep(10);first=audit('first')
   assert first.get('pass'),first
-  assert first['layout']==100 and first['water_source_cells']==25 and first['water_basin_contained']
+  assert first['layout']==101 and first['water_source_cells']==25 and first['water_basin_contained']
+  assert first['all_template_warm_windows']==184 and first['all_template_warm_windows_native_12']==184
   if not args.mechanics_only:
    clear_captures('abyss-v1-captures')
    with (out/'client.log').open('w') as cl:client=launch(cl,phase=7,extra_vm_args=['-Dabyss.capture.phase7=false','-Dabyss.capture.v1=true'])
@@ -67,6 +68,16 @@ def run(args):
    assert all(json.loads((captures/f'dream-{n}.json').read_text())['sleeping_at_capture'] for n in (1,2))
    motion=json.loads((captures/'motion.json').read_text());assert len(motion)>1000
    assert len(json.loads((captures/'walk.json').read_text()))==22
+   town_walk=json.loads((captures/'settlement-walk.json').read_text());assert len(town_walk)==28
+   assert all(r['health']==20 and not r['flying'] for r in town_walk)
+   assert json.loads((captures/'residence-sleep.json').read_text())['real_sleep_observed']
+   for label in ('sleep-house-before','sleep-house-after','house-sleep-fixture'):
+    shutil.copy2(results/('phase7-'+label+'.json'),out/('phase7-'+label+'.json'))
+   house_before=json.loads((out/'phase7-sleep-house-before.json').read_text());house_after=json.loads((out/'phase7-sleep-house-after.json').read_text());house_fixture=json.loads((out/'phase7-house-sleep-fixture.json').read_text())
+   assert house_fixture['original_generated_bed'] and house_fixture['day_after']>house_fixture['day_before']
+   assert house_after['day']>house_before['day'] and house_after['world_time']-house_before['world_time']>=95
+   assert house_after['start_sleep_events']==3 and house_after['stop_sleep_events']==3 and not house_after['sleeping']
+   assert house_after['dreams']==2 and house_after['has_echo'] and house_after['game_mode']=='survival'
    final=audit('client');assert final['pass']
   mode='mechanics' if args.mechanics_only else 'transport'
   clear_captures('abyss-v1-'+mode)
@@ -123,11 +134,12 @@ def run(args):
   shutil.copy2(client/'abyss-v1-captures/captures.json',out/'screenshots/second-captures.json')
   shutil.copy2(client/'launch-provenance.json',out/'client-second-seed-provenance.json')
  finally:stop(p,log)
- # Generate authentic worlds with BOTH shipped prototypes. A real console witness
+ # Generate authentic worlds with both prototypes and the shipped v1 preview.
+ # A real console witness
  # must change the baseline fingerprint before an upgrade can claim preservation.
- for old_version,expected_layout in [('0.7.0',70),('0.7.5',75)]:
+ for old_version,expected_layout in [('0.7.0',70),('0.7.5',75),('1.0.0-preview.1',100)]:
   (server/'mods'/jar.name).unlink()
-  old=ROOT/f'artifacts/glimmering-abyss-{old_version}.jar';shutil.copy2(old,server/'mods'/old.name)
+  old=ROOT/(f'evidence/v1/runs/38491285454/glimmering-abyss-{old_version}.jar' if expected_layout==100 else f'artifacts/glimmering-abyss-{old_version}.jar');shutil.copy2(old,server/'mods'/old.name)
   properties['level-name']='legacy-'+old_version;properties['level-seed']='74102002';config()
   before_log='server-legacy-'+old_version+'.log';tag='legacy'+str(expected_layout);p,log=start(before_log)
   try:
@@ -146,7 +158,7 @@ def run(args):
    assert after['layout']==expected_layout and after['pass'] and after['player_witness_gold'] and before['geometry_sha256']==after['geometry_sha256']
    (out/('legacy-upgrade-'+old_version+'.json')).write_text(json.dumps(dict(pass_=True,old_jar_sha256=hashlib.sha256(old.read_bytes()).hexdigest(),new_jar_sha256=hashlib.sha256(jar.read_bytes()).hexdigest(),authentic_old_world=True,layout=after['layout'],gold_block_in_sample=True,before_geometry=before['geometry_sha256'],after_geometry=after['geometry_sha256']),indent=2)+'\n')
   finally:stop(p,log)
- summary=dict(status='SPATIAL_PREVIEW_TECHNICAL_PASS',minecraft='1.20.1',release_jar_sha256=hashlib.sha256(jar.read_bytes()).hexdigest(),seeds=[74102002,-92345],real_client=True,real_server_restart=True,midride_stop_and_reconnect=True,early_exit=True,aesthetic_acceptance='Pending user confirmation of v1 spatial direction; settlement expansion has not started',limitations='Hosted Linux software OpenGL; not Windows, PCL2, target GPU, Sodium/Iris/DH or real phone')
+ summary=dict(status='SETTLEMENT_PREVIEW_TECHNICAL_PASS',minecraft='1.20.1',layout=101,buildings=11,release_jar_sha256=hashlib.sha256(jar.read_bytes()).hexdigest(),seeds=[74102002,-92345],real_client=True,peripheral_walk_legs=22,settlement_walk_legs=28,real_residence_sleep=True,real_server_restart=True,midride_stop_and_reconnect=True,early_exit=True,legacy_layouts_preserved=[70,75,100],aesthetic_acceptance='Spatial direction conditionally approved; east-wall naturalness and this settlement expansion await review of actual screenshots',limitations='Hosted Linux software OpenGL; not Windows, PCL2, target GPU, Sodium/Iris/DH or real phone')
  (out/'summary.json').write_text(json.dumps(summary,indent=2)+'\n');print(summary,flush=True)
 if __name__=='__main__':
  p=argparse.ArgumentParser(description=__doc__);p.add_argument('--accept-eula',action='store_true');p.add_argument('--skip-build',action='store_true');p.add_argument('--output',required=True);p.add_argument('--mechanics-only',action='store_true');run(p.parse_args())

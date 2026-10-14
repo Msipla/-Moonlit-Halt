@@ -20,7 +20,8 @@ public final class V1CaptureClient implements ClientModInitializer {
     private static final boolean RECONNECT=Boolean.getBoolean("abyss.capture.v1.reconnect");
     private static final Path OUT=Path.of(MECHANICS?"abyss-v1-mechanics":RECONNECT?"abyss-v1-reconnect":TRANSPORT?"abyss-v1-transport":"abyss-v1-captures");
     private static final double[][] ROUTE={{47.5,-57.5},{47.5,-83.5},{22.5,-83.5},{22.5,-99.5},{-27.5,-99.5},{-27.5,-123.5},{-77.5,-123.5},{-77.5,-147.5},{-125.5,-147.5},{-125.5,-183.5},{-150.5,-183.5},{-150.5,-213.5},{-89.5,-213.5},{-89.5,-175.5},{-65.5,-175.5},{-65.5,-123.5},{-77.5,-123.5},{-27.5,-123.5},{-27.5,-99.5},{22.5,-99.5},{22.5,-83.5},{47.5,-83.5},{47.5,-57.5}};
-    private final JsonArray frames=new JsonArray(),motion=new JsonArray(),walks=new JsonArray();
+    private static final double[][] SETTLEMENT={{47.5,-23.5},{65.5,-23.5},{84.5,-23.5},{84.5,-39.5},{68.5,-39.5},{68.5,-55.5},{76.5,-55.5},{82.5,-55.5},{76.5,-55.5},{68.5,-55.5},{68.5,-39.5},{84.5,-39.5},{84.5,-23.5},{94.5,-23.5},{84.5,-23.5},{84.5,21.5},{94.5,21.5},{84.5,21.5},{65.5,21.5},{65.5,35.5},{74.5,35.5},{65.5,35.5},{65.5,21.5},{84.5,21.5},{84.5,-23.5},{65.5,-23.5},{65.5,-29.5},{65.5,-23.5},{47.5,-23.5}};
+    private final JsonArray frames=new JsonArray(),motion=new JsonArray(),walks=new JsonArray(),townWalks=new JsonArray();
     private int state=-1,leg,night;private boolean connected,done,slept,restartReady;private int dreamCaptured;
     private long started,changed;private double walkX,walkZ;
     @Override public void onInitializeClient(){if(Boolean.getBoolean("abyss.capture.v1")){started=changed=System.nanoTime();ClientTickEvents.END_CLIENT_TICK.register(this::tick);}}
@@ -82,17 +83,39 @@ public final class V1CaptureClient implements ClientModInitializer {
             if(state==91){if(!readyFrame(c))return;capture(c,"town-culling-disabled.png");c.chunkCullingEnabled=true;cmd(c,"view rift");next(6);return;}
             if(state>=5&&state<=9){
                 if(!readyFrame(c))return;String[] names={"town-in-abyss.png","main-rift.png","folded-gallery.png","warm-return.png","town-street.png"};String[] views={"rift","gallery","homeward","street"};
-                capture(c,names[state-5]);if(state==5){c.chunkCullingEnabled=false;next(91);return;}if(state<9){cmd(c,"view "+views[state-5]);next(state+1);}else{cmd(c,"view route-start");next(10);}return;
+                capture(c,names[state-5]);if(state==5){c.chunkCullingEnabled=false;next(91);return;}if(state<9){cmd(c,"view "+views[state-5]);next(state+1);}else{cmd(c,"view east-lane");next(15);}return;
             }
+            if(state==15){if(!readyFrame(c))return;capture(c,"east-wall-and-lane.png");cmd(c,"view public-nook");next(16);return;}
+            if(state==16){if(!readyFrame(c))return;capture(c,"sheltered-public-nook.png");cmd(c,"view route-start");next(10);return;}
             if(state==10){if(seconds()<5)return;leg=1;walkX=c.player.getX();walkZ=c.player.getZ();next(11);return;}
             if(state==11){
-                if(leg==ROUTE.length){c.options.forwardKey.setPressed(false);capture(c,"walk-return-to-town.png");cmd(c,"view lower");next(12);return;}
+                if(leg==ROUTE.length){c.options.forwardKey.setPressed(false);capture(c,"walk-return-to-town.png");cmd(c,"view settlement-start");next(20);return;}
                 double dx=JourneyClient.x+ROUTE[leg][0]-c.player.getX(),dz=JourneyClient.z+ROUTE[leg][1]-c.player.getZ();
                 c.player.setYaw((float)Math.toDegrees(Math.atan2(-dx,dz)));c.player.setPitch(0);c.options.forwardKey.setPressed(true);
                 if(Math.hypot(dx,dz)>.4){if(seconds()>60)throw new IllegalStateException("Loop blocked leg "+leg+" at "+c.player.getPos());return;}
                 c.options.forwardKey.setPressed(false);var r=new JsonObject();r.addProperty("leg",leg);r.addProperty("start_x",walkX);r.addProperty("start_z",walkZ);r.addProperty("end_x",c.player.getX());r.addProperty("end_y",c.player.getY());r.addProperty("end_z",c.player.getZ());r.addProperty("health",c.player.getHealth());r.addProperty("flying",c.player.getAbilities().flying);walks.add(r);write("walk.json",walks);
                 if(c.player.getAbilities().flying||c.player.getHealth()<20)throw new IllegalStateException("Unsafe exploration walk");
                 if(leg==9||leg==15)capture(c,"walk-gallery-"+leg+".png");leg++;walkX=c.player.getX();walkZ=c.player.getZ();changed=System.nanoTime();return;
+            }
+            if(state==20){if(seconds()<5)return;leg=1;walkX=c.player.getX();walkZ=c.player.getZ();next(21);return;}
+            if(state==21){
+                if(leg==SETTLEMENT.length){c.options.forwardKey.setPressed(false);cmd(c,"sleepstate house-before");cmd(c,"house-bedtime");next(22);return;}
+                double dx=JourneyClient.x+SETTLEMENT[leg][0]-c.player.getX(),dz=JourneyClient.z+SETTLEMENT[leg][1]-c.player.getZ();
+                c.player.setYaw((float)Math.toDegrees(Math.atan2(-dx,dz)));c.player.setPitch(0);c.options.forwardKey.setPressed(true);
+                if(Math.hypot(dx,dz)>.4){if(seconds()>60)throw new IllegalStateException("Settlement blocked leg "+leg+" at "+c.player.getPos());return;}
+                c.options.forwardKey.setPressed(false);var r=new JsonObject();r.addProperty("leg",leg);r.addProperty("start_x",walkX);r.addProperty("start_z",walkZ);r.addProperty("end_x",c.player.getX());r.addProperty("end_y",c.player.getY());r.addProperty("end_z",c.player.getZ());r.addProperty("health",c.player.getHealth());r.addProperty("flying",c.player.getAbilities().flying);townWalks.add(r);write("settlement-walk.json",townWalks);
+                if(c.player.getAbilities().flying||c.player.getHealth()!=20)throw new IllegalStateException("Unsafe settlement walk");
+                if(leg==7||leg==13||leg==16||leg==20||leg==26){c.player.setPitch(-8);capture(c,"settlement-interior-"+leg+".png");}
+                leg++;walkX=c.player.getX();walkZ=c.player.getZ();changed=System.nanoTime();return;
+            }
+            if(state==22){
+                if(seconds()<3)return;var p=new BlockPos(JourneyClient.x+98,47,JourneyClient.z-26);
+                if(!c.world.getBlockState(p).isOf(net.minecraft.block.Blocks.BLUE_BED))throw new IllegalStateException("New residence has no real bed");
+                c.interactionManager.interactBlock(c.player,Hand.MAIN_HAND,new BlockHitResult(Vec3d.ofCenter(p),Direction.UP,p,false));slept=false;next(23);return;
+            }
+            if(state==23){
+                slept|=c.player.isSleeping();if(!slept||c.player.isSleeping()){if(seconds()>40)throw new IllegalStateException("New residence sleep/wake failed");return;}
+                cmd(c,"sleepstate house-after");var r=new JsonObject();r.addProperty("real_sleep_observed",slept);r.addProperty("health",c.player.getHealth());r.addProperty("flying",c.player.getAbilities().flying);write("residence-sleep.json",r);capture(c,"residence-after-sleep.png");cmd(c,"view lower");next(12);return;
             }
             if(state==12){if(seconds()<4)return;bell(c,false);next(13);return;}
             if(state==13){if(!c.player.hasVehicle()){if(seconds()>10)throw new IllegalStateException("Return boarding failed");return;}next(14);return;}
