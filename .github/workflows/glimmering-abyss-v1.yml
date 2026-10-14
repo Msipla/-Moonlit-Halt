@@ -10,10 +10,10 @@ on:
   workflow_dispatch:
     inputs:
       suite:
-        description: Validation scope (full includes two seeds and legacy upgrades)
+        description: Validation scope (finish checks scoped visual changes and layout101 upgrade)
         type: choice
-        options: [full, mechanics]
-        default: full
+        options: [finish, full, mechanics]
+        default: finish
 permissions:
   contents: write
 concurrency:
@@ -43,7 +43,8 @@ jobs:
         working-directory: ${{ env.PROJECT }}
         run: |
           args=()
-          if [[ "${{ inputs.suite || 'full' }}" == mechanics ]]; then args+=(--mechanics-only); fi
+          if [[ "${{ inputs.suite || 'finish' }}" == mechanics ]]; then args+=(--mechanics-only); fi
+          if [[ "${{ inputs.suite || 'finish' }}" == finish ]]; then args+=(--finish-only); fi
           xvfb-run -a python3 -u tools/run_v1_preview.py --accept-eula --skip-build --output evidence/v1/runs/${{ github.run_id }} "${args[@]}"
       - name: Preserve current-run evidence and build packages
         if: always()

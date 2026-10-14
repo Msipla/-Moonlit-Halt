@@ -23,7 +23,7 @@ public final class OverworldLandscape {
     private static final int SX=139,SY=143,SZ=180;
     private static short[] naturalTown;
     private static BlockState[] naturalPalette;
-    private static Blueprint abyssTown,settlementTown;
+    private static Blueprint abyssTown,settlementTown,settlementFinish;
     private record Blueprint(int sx,int sy,int sz,short[] blocks,BlockState[] palette){
         BlockState at(int x,int y,int z){
             int dx=x+180,dy=y+8,dz=z+290;
@@ -84,7 +84,7 @@ public final class OverworldLandscape {
     }
     private static int routeCap(int layout,int x,int z){
         // A sparse blueprint has no claim on the rest of the terrain column.
-        var blueprint=layout>=101?settlementTown:abyssTown;
+        var blueprint=blueprint(layout);
         if(blueprint==null)return -58;
         for(int y=blueprint.sy-1-8;y>=-8;y--)if(blueprint.at(x,y,z)!=null)return y+4+OverworldSite.OFFSET_Y;
         return -58;
@@ -185,21 +185,30 @@ public final class OverworldLandscape {
         int i=naturalTown[(dx*180+dz)*46+dy];return i<0?null:naturalPalette[i];
     }
     private static void loadAbyssTown(int layout)throws Exception{
-        if((layout>=101?settlementTown:abyssTown)!=null)return;
-        String name=layout>=101?"settlement_town":"abyss_town";
+        if(blueprint(layout)!=null)return;
+        String name=layout>=102?"settlement_finish":layout>=101?"settlement_town":"abyss_town";
         try(var in=OverworldLandscape.class.getResourceAsStream("/data/glimmeringabyss/structures/"+name+".nbt")){
             var n=NbtIo.readCompressed(in);var p=n.getList("palette",NbtElement.COMPOUND_TYPE);var size=n.getList("size",NbtElement.INT_TYPE);
             int sx=size.getInt(0),sy=size.getInt(1),sz=size.getInt(2);var palette=new BlockState[p.size()];
             for(int i=0;i<p.size();i++)palette[i]=NbtHelper.toBlockState(Registries.BLOCK.getReadOnlyWrapper(),p.getCompound(i));
             var blocks=new short[sx*sy*sz];Arrays.fill(blocks,(short)-1);var rows=n.getList("blocks",NbtElement.COMPOUND_TYPE);
             for(int i=0;i<rows.size();i++){var row=rows.getCompound(i);var a=row.getList("pos",NbtElement.INT_TYPE);blocks[(a.getInt(0)*sz+a.getInt(2))*sy+a.getInt(1)]=(short)row.getInt("state");}
-            var blueprint=new Blueprint(sx,sy,sz,blocks,palette);if(layout>=101)settlementTown=blueprint;else abyssTown=blueprint;
+            var blueprint=new Blueprint(sx,sy,sz,blocks,palette);if(layout>=102)settlementFinish=blueprint;else if(layout>=101)settlementTown=blueprint;else abyssTown=blueprint;
         }
     }
+    private static Blueprint blueprint(int layout){return layout>=102?settlementFinish:layout>=101?settlementTown:abyssTown;}
     private static BlockState abyssExpected(AbyssShape.Column c,int y){
-        var t=(c.layout()>=101?settlementTown:abyssTown).at(c.x(),y,c.z());if(t!=null)return t;
+        var t=blueprint(c.layout()).at(c.x(),y,c.z());if(t!=null)return t;
         if(!c.rock(y))return Blocks.AIR.getDefaultState();
         double stratum=y+.16*c.x()+4*Math.sin(c.z()*.021);
+        if(c.layout()>=102&&c.wallWeight()>0){
+            double fold=Terrain.noise(c.z()/22.0,y/18.0,41028);
+            double seam=y+.31*c.z()+.12*c.x()+6*fold;
+            if(Math.abs(seam-49)<2.2&&Terrain.noise(c.z()/27.0,c.x()/18.0,41029)>-.25
+                ||Math.abs(seam-12)<1.6&&fold>.05)return Blocks.TUFF.getDefaultState();
+            var axis=fold>.15?net.minecraft.util.math.Direction.Axis.X:fold<-.25?net.minecraft.util.math.Direction.Axis.Z:net.minecraft.util.math.Direction.Axis.Y;
+            return Blocks.DEEPSLATE.getDefaultState().with(Properties.AXIS,axis);
+        }
         if(c.layout()>=101&&(c.x()>75||c.x()>50&&c.z()>0)){
             stratum+=.25*c.z()+5*Math.sin(c.x()*.044+c.z()*.036);
             if(Math.floorMod((int)Math.floor(stratum),29)<3)return Blocks.TUFF.getDefaultState();

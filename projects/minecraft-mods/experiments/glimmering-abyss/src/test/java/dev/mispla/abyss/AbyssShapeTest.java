@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class AbyssShapeTest {
     @Test void solidCapAndBedrockBufferAcrossExpandedFootprint(){
         for(int x=-208;x<=127;x+=4)for(int z=-320;z<=127;z+=4){
-            for(int layout:new int[]{100,101}){var c=AbyssShape.column(x,z,AbyssShape.ceiling(x,z),layout);assertTrue(c.rock(-63));assertTrue(c.rock(AbyssShape.ceiling(x,z)));}
+            for(int layout:new int[]{100,101,102}){var c=AbyssShape.column(x,z,AbyssShape.ceiling(x,z),layout);assertTrue(c.rock(-63));for(int y=AbyssShape.ceiling(x,z)-(layout>=102?3:0);y<=AbyssShape.ceiling(x,z);y++)assertTrue(c.rock(y),"Roof cover thinned at "+x+","+y+","+z);}
         }
     }
     @Test void continuousDescendingRouteHasNoLateralReversal(){
@@ -24,7 +24,7 @@ class AbyssShapeTest {
         for(int i=0;i<=900;i++){
             var p=CableRoute.at(i/900.0,150,100);if(p.y()>80)continue;
             for(int x=(int)Math.floor(p.x()-1.5);x<=Math.floor(p.x()+1.5);x++)for(int z=(int)Math.floor(p.z()-1.5);z<=Math.floor(p.z()+1.5);z++)for(int y=(int)Math.floor(p.y()-6);y<=Math.floor(p.y()+3.3-6);y++)
-                for(int layout:new int[]{100,101})assertFalse(AbyssShape.column(x,z,AbyssShape.ceiling(x,z),layout).rock(y),"Cabin obstruction at "+x+","+y+","+z);
+                for(int layout:new int[]{100,101,102})assertFalse(AbyssShape.column(x,z,AbyssShape.ceiling(x,z),layout).rock(y),"Cabin obstruction at "+x+","+y+","+z);
         }
     }
     @Test void distantVaultsRemainConnectedToCentralRift(){
@@ -35,6 +35,14 @@ class AbyssShapeTest {
             if(x>72&&Math.abs(z+10)<140||x>50&&z>-10)continue;
             var old=AbyssShape.column(x,z,AbyssShape.ceiling(x,z),100);var next=AbyssShape.column(x,z,AbyssShape.ceiling(x,z),101);
             for(int y=-63;y<111;y+=3)assertEquals(old.rock(y),next.rock(y),"Changed outside east-wall scope");
+        }
+    }
+    @Test void finishingRoundLeavesAcceptedRiftAndWestGalleryExact(){
+        for(int x=-208;x<=81;x+=5)for(int z=-320;z<=127;z+=5){
+            var old=AbyssShape.column(x,z,AbyssShape.ceiling(x,z),101);
+            if(old.wallWeight()>0)continue;
+            var next=AbyssShape.column(x,z,AbyssShape.ceiling(x,z),102);
+            for(int y=-63;y<111;y+=3)assertEquals(old.rock(y),next.rock(y),"Changed accepted core at "+x+","+y+","+z);
         }
     }
 }

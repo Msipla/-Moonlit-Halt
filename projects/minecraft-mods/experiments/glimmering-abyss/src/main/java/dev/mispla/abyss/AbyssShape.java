@@ -13,13 +13,13 @@ public final class AbyssShape {
     private static final double[][] WEST={{-56,-102,32,76,-40},{-126,-143,36,68,-35},
         {-167,-187,39,73,-45},{-153,-252,31,57,-32}};
     private static final double[][] LEDGES={{47,40,-60},{47,40,-84},{22,37,-84},{22,37,-100},{-28,31,-100},{-28,31,-124},{-78,27,-124},{-78,25,-148},{-126,24,-148},{-126,20,-184},{-151,20,-184},{-151,16,-214},{-90,16,-214},{-90,22,-176},{-66,22,-176},{-66,27,-124},{-78,27,-124}};
-    public record Column(int x,int z,double floor,double roof,double q,double rough,double ledgeDistance,double ledgeTop,int layout,double wallWeight){
+    public record Column(int x,int z,double floor,double roof,double q,double rough,double ledgeDistance,double ledgeTop,int layout,double wallWeight,double terraceTop){
         public boolean rock(int y){
             if(y<=floor)return true;
             double localRoof=roof,boundary=q;
             // Only the east wall changes. Cache the column weight and keep the
             // historical recipe's hot path free of new geological calculations.
-            if(wallWeight>0){
+            if(wallWeight>0&&layout==101){
                 localRoof-=wallWeight*(4+3*Math.sin(z*.055+x*.028)+4*Math.exp(-sq((z+28)/28.0)));
                 double bedding=y+.27*z+.14*x;
                 double recess=13*Math.exp(-sq((bedding-54)/12.0))+9*Math.exp(-sq((bedding-17)/8.0));
@@ -33,6 +33,23 @@ public final class AbyssShape {
                 boundary+=side*(11*Math.exp(-sq((z-66)/20.0))*Math.exp(-sq((y-63)/24.0))
                     -8*Math.exp(-sq((z-38)/16.0))*Math.exp(-sq((y-49)/13.0)))/43;
             }
+            if(wallWeight>0&&layout>=102){
+                // Finite, oblique breaks with different lengths and depths, rather
+                // than a repeated height contour extruded around the east wall.
+                double broad=Terrain.noise((z+.24*y)/23.0,y/19.0,41021);
+                double broken=Terrain.noise((z-.38*y)/8.0,(y+.19*z)/11.0,41022);
+                double grain=Terrain.noise((z+.5*y)/4.7,y/5.3,41023);
+                double bedding=y+.32*z+.10*x-3*Terrain.noise(z/31.0,x/24.0,41024);
+                double recess=12*Math.exp(-sq((bedding-48)/8.0))*Math.exp(-sq((z+31)/57.0));
+                double shoulder=15*Math.exp(-sq((z-42+.22*y)/23.0))*Math.exp(-sq((y-56)/26.0));
+                boundary-=wallWeight*(7*broad+4*broken+1.8*grain+recess-shoulder)/43;
+                boundary+=wallWeight*.65*smooth((x-111)/15.0);
+                // Carve downward into the cover, never raise the historical roof.
+                // Rock noses and roof pockets blend in three dimensions below it.
+                double roofBreak=8+6*Terrain.noise((x+.3*z)/18.0,z/21.0,41025)
+                    +3*Terrain.noise(x/7.0,(z-.2*x)/9.0,41026);
+                localRoof-=wallWeight*Math.max(1,roofBreak);
+            }
             if(y>=localRoof)return true;
             double mid=(localRoof+floor)*.5,half=(localRoof-floor)*.5;
             if(boundary+.12*Math.pow((y-mid)/half,4)>1+rough)return true;
@@ -45,9 +62,8 @@ public final class AbyssShape {
             double fold=x+111-.38*(z+178)+6*Math.sin(z*.043+y*.04)+3*Math.sin(y*.08);
             if(z<-158&&z>-254&&fold>0&&fold<15+3*Math.sin(y*.047)&&y>-13)return true;
             // Quiet inhabited terrace narrows at the lip, broadens at its foot.
-            int top=38+(z<=-26?1:0)+(z<=-43?1:0);
-            double depth=Math.max(0,top-y);
-            if(y<=top&&sq((x-62-4*Math.sin(z*.035))/(59+depth*.27))
+            double depth=Math.max(0,terraceTop-y);
+            if(y<=terraceTop&&sq((x-62-4*Math.sin(z*.035))/(59+depth*.27))
                 +sq((z+11+5*Math.sin(x*.03))/(90+depth*.19))<1)return true;
             return y<=38&&sq((x+49)/(25+depth*.17))+sq((z-35)/(22+depth*.13))<1;
         }
@@ -75,7 +91,16 @@ public final class AbyssShape {
             int innerCap=CavernShape.ceiling(111,z);
             geologicalCap=Math.min(cap,innerCap+(cap-innerCap)*smooth((x-111)/16.0));
         }
-        return new Column(x,z,Math.max(-57,v[1]+3*n),Math.min(geologicalCap-4,v[2]+3*n),v[0],.05*n,distance,ledgeTop,layout,weight);
+        double terraceTop=38+(z<=-26?1:0)+(z<=-43?1:0);
+        if(layout>=102&&x>81&&z>-76&&z<53){
+            // Leave living rock in the gaps between the relocated additions.
+            // Sparse house footings and paths override only their own footprints.
+            double relief=5*Math.exp(-sq((x-86)/10.0)-sq((z+47)/15.0))
+                +7*Math.exp(-sq((x-91)/9.0)-sq((z-3)/13.0))
+                +4*Math.exp(-sq((x-87)/11.0)-sq((z-39)/12.0));
+            terraceTop+=smooth((x-81)/6.0)*(relief+1.5*Terrain.noise(x/8.0,z/10.0,41027));
+        }
+        return new Column(x,z,Math.max(-57,v[1]+3*n),Math.min(geologicalCap-4,v[2]+3*n),v[0],.05*n,distance,ledgeTop,layout,weight,terraceTop);
     }
     private static void corridor(double[] best,double x,double z,double[][] points){
         for(int i=1;i<points.length;i++){

@@ -54,21 +54,23 @@ def run(args):
  try:
   ready();audit('warmup');time.sleep(10);first=audit('first')
   assert first.get('pass'),first
-  assert first['layout']==101 and first['water_source_cells']==25 and first['water_basin_contained']
+  assert first['layout']==102 and first['water_source_cells']==25 and first['water_basin_contained']
   assert first['all_template_warm_windows']==184 and first['all_template_warm_windows_native_12']==184
   if not args.mechanics_only:
    clear_captures('abyss-v1-captures')
-   with (out/'client.log').open('w') as cl:client=launch(cl,phase=7,extra_vm_args=['-Dabyss.capture.phase7=false','-Dabyss.capture.v1=true'])
+   with (out/'client.log').open('w') as cl:client=launch(cl,phase=7,extra_vm_args=['-Dabyss.capture.phase7=false','-Dabyss.capture.v1=true']+(['-Dabyss.capture.v1.finish=true'] if args.finish_only else []))
    captures=client/'abyss-v1-captures';(out/'screenshots').mkdir(exist_ok=True)
    for f in captures.iterdir():
     if f.is_file():shutil.copy2(f,(out/'screenshots' if f.suffix=='.png' or f.name=='captures.json' else out)/f.name)
    shutil.copy2(client/'launch-provenance.json',out/'client-launch-provenance.json')
    if (captures/'failure.json').exists():raise AssertionError(json.loads((captures/'failure.json').read_text()))
    assert json.loads((captures/'result.json').read_text())['status']=='SPATIAL_PREVIEW_CAPTURED'
-   assert all(json.loads((captures/f'dream-{n}.json').read_text())['sleeping_at_capture'] for n in (1,2))
-   motion=json.loads((captures/'motion.json').read_text());assert len(motion)>1000
+   if not args.finish_only:
+    assert all(json.loads((captures/f'dream-{n}.json').read_text())['sleeping_at_capture'] for n in (1,2))
+    motion=json.loads((captures/'motion.json').read_text());assert len(motion)>1000
+   else:assert json.loads((captures/'dream-1.json').read_text())['sleeping_at_capture']
    assert len(json.loads((captures/'walk.json').read_text()))==22
-   town_walk=json.loads((captures/'settlement-walk.json').read_text());assert len(town_walk)==28
+   town_walk=json.loads((captures/'settlement-walk.json').read_text());assert len(town_walk)==43
    assert all(r['health']==20 and not r['flying'] for r in town_walk)
    assert json.loads((captures/'residence-sleep.json').read_text())['real_sleep_observed']
    for label in ('sleep-house-before','sleep-house-after','house-sleep-fixture'):
@@ -76,47 +78,51 @@ def run(args):
    house_before=json.loads((out/'phase7-sleep-house-before.json').read_text());house_after=json.loads((out/'phase7-sleep-house-after.json').read_text());house_fixture=json.loads((out/'phase7-house-sleep-fixture.json').read_text())
    assert house_fixture['original_generated_bed'] and house_fixture['day_after']>house_fixture['day_before']
    assert house_after['day']>house_before['day'] and house_after['world_time']-house_before['world_time']>=95
-   assert house_after['start_sleep_events']==3 and house_after['stop_sleep_events']==3 and not house_after['sleeping']
-   assert house_after['dreams']==2 and house_after['has_echo'] and house_after['game_mode']=='survival'
+   expected_events=1 if args.finish_only else 3
+   assert house_after['start_sleep_events']==expected_events and house_after['stop_sleep_events']==expected_events and not house_after['sleeping']
+   assert house_after['dreams']==(1 if args.finish_only else 2) and house_after['has_echo']==(not args.finish_only) and house_after['game_mode']=='survival'
+   if args.finish_only:assert house_after['dream_day']==house_after['day']
    final=audit('client');assert final['pass']
-  mode='mechanics' if args.mechanics_only else 'transport'
-  clear_captures('abyss-v1-'+mode)
-  marker=runtime/('release-client/abyss-v1-'+mode+'/restart-ready.json')
-  def stop_midride(process):
-   deadline=time.time()+300
-   while time.time()<deadline and process.poll() is None:
-    if marker.exists():command(server,'stop');return
-    time.sleep(1)
-  monitor=threading.Thread(target=stop_midride,args=(p,),daemon=True);monitor.start()
-  with (out/('client-'+mode+'.log')).open('w') as cl:launch(cl,phase=7,extra_vm_args=['-Dabyss.capture.phase7=false','-Dabyss.capture.v1=true','-Dabyss.capture.v1.'+mode+'=true'])
-  copy_captures('abyss-v1-'+mode,out/mode)
-  assert json.loads((out/mode/'emergency.json').read_text())['pass']
-  assert json.loads((out/mode/'restart-ready.json').read_text())['riding_before_stop']
-  p.wait(timeout=100);monitor.join(timeout=5)
-  sleep_evidence=[]
-  for n in (1,2):
-   for label in (f'sleep-before-{n}',f'sleep-after-{n}',f'sleep-fixture-{n}'):
-    shutil.copy2(results/('phase7-'+label+'.json'),out/('phase7-'+label+'.json'))
-   before=json.loads((out/f'phase7-sleep-before-{n}.json').read_text());after=json.loads((out/f'phase7-sleep-after-{n}.json').read_text());fixture=json.loads((out/f'phase7-sleep-fixture-{n}.json').read_text())
-   assert fixture['day_after']>fixture['day_before']
-   assert after['day']>before['day'] and after['world_time']-before['world_time']>=95
-   assert after['start_sleep_events']==n and after['stop_sleep_events']==n and not after['sleeping']
-   assert after['dreams']==n and after['dream_day']==after['day'] and after['game_mode']=='survival'
-   assert after['has_echo']==(n==2)
-   sleep_evidence.append(dict(night=n,day_before=before['day'],night_day=fixture['day_after'],wake_day=after['day'],world_ticks_elapsed=after['world_time']-before['world_time'],dreams=after['dreams'],real_start_events=after['start_sleep_events'],real_stop_events=after['stop_sleep_events']))
-  (out/'sleep-verification.json').write_text(json.dumps(sleep_evidence,indent=2)+'\n')
-  if args.mechanics_only:assert all(json.loads((out/mode/f'dream-{n}.json').read_text())['sleeping_at_capture'] for n in (1,2))
+  if not args.finish_only:
+   mode='mechanics' if args.mechanics_only else 'transport'
+   clear_captures('abyss-v1-'+mode)
+   marker=runtime/('release-client/abyss-v1-'+mode+'/restart-ready.json')
+   def stop_midride(process):
+    deadline=time.time()+300
+    while time.time()<deadline and process.poll() is None:
+     if marker.exists():command(server,'stop');return
+     time.sleep(1)
+   monitor=threading.Thread(target=stop_midride,args=(p,),daemon=True);monitor.start()
+   with (out/('client-'+mode+'.log')).open('w') as cl:launch(cl,phase=7,extra_vm_args=['-Dabyss.capture.phase7=false','-Dabyss.capture.v1=true','-Dabyss.capture.v1.'+mode+'=true'])
+   copy_captures('abyss-v1-'+mode,out/mode)
+   assert json.loads((out/mode/'emergency.json').read_text())['pass']
+   assert json.loads((out/mode/'restart-ready.json').read_text())['riding_before_stop']
+   p.wait(timeout=100);monitor.join(timeout=5)
+   sleep_evidence=[]
+   for n in (1,2):
+    for label in (f'sleep-before-{n}',f'sleep-after-{n}',f'sleep-fixture-{n}'):
+     shutil.copy2(results/('phase7-'+label+'.json'),out/('phase7-'+label+'.json'))
+    before=json.loads((out/f'phase7-sleep-before-{n}.json').read_text());after=json.loads((out/f'phase7-sleep-after-{n}.json').read_text());fixture=json.loads((out/f'phase7-sleep-fixture-{n}.json').read_text())
+    assert fixture['day_after']>fixture['day_before']
+    assert after['day']>before['day'] and after['world_time']-before['world_time']>=95
+    assert after['start_sleep_events']==n and after['stop_sleep_events']==n and not after['sleeping']
+    assert after['dreams']==n and after['dream_day']==after['day'] and after['game_mode']=='survival'
+    assert after['has_echo']==(n==2)
+    sleep_evidence.append(dict(night=n,day_before=before['day'],night_day=fixture['day_after'],wake_day=after['day'],world_ticks_elapsed=after['world_time']-before['world_time'],dreams=after['dreams'],real_start_events=after['start_sleep_events'],real_stop_events=after['stop_sleep_events']))
+   (out/'sleep-verification.json').write_text(json.dumps(sleep_evidence,indent=2)+'\n')
+   if args.mechanics_only:assert all(json.loads((out/mode/f'dream-{n}.json').read_text())['sleeping_at_capture'] for n in (1,2))
  finally:stop(p,log)
  p,log=start('server-reload.log')
  try:
   ready();audit('reload-warmup');time.sleep(10);reload=audit('reload');assert reload.get('pass'),reload
   assert first['geometry_sha256']==reload['geometry_sha256'],'Save/restart geometry changed'
-  clear_captures('abyss-v1-reconnect')
-  with (out/'client-reconnect.log').open('w') as cl:launch(cl,phase=7,extra_vm_args=['-Dabyss.capture.phase7=false','-Dabyss.capture.v1=true','-Dabyss.capture.v1.reconnect=true'])
-  copy_captures('abyss-v1-reconnect',out/'reconnect')
-  assert json.loads((out/'reconnect/recovery.json').read_text())['pass']
-  recovered=request('status','phase7-status.json');assert recovered['unfinished_rides']==0
-  (out/'reconnect/site-after-recovery.json').write_text(json.dumps(recovered,indent=2)+'\n')
+  if not args.finish_only:
+   clear_captures('abyss-v1-reconnect')
+   with (out/'client-reconnect.log').open('w') as cl:launch(cl,phase=7,extra_vm_args=['-Dabyss.capture.phase7=false','-Dabyss.capture.v1=true','-Dabyss.capture.v1.reconnect=true'])
+   copy_captures('abyss-v1-reconnect',out/'reconnect')
+   assert json.loads((out/'reconnect/recovery.json').read_text())['pass']
+   recovered=request('status','phase7-status.json');assert recovered['unfinished_rides']==0
+   (out/'reconnect/site-after-recovery.json').write_text(json.dumps(recovered,indent=2)+'\n')
  finally:stop(p,log)
  if args.mechanics_only:
   summary=dict(status='MECHANICS_TECHNICAL_PASS',release_jar_sha256=hashlib.sha256(jar.read_bytes()).hexdigest(),seed=74102002,real_sleep_events=2,cross_day_verified=True,survival_sleep=True,early_exit=True,midride_stop_and_reconnect=True,previous_spatial_validation='38442034346',aesthetic_accepted=False,android_tested=False)
@@ -137,9 +143,10 @@ def run(args):
  # Generate authentic worlds with both prototypes and the shipped v1 preview.
  # A real console witness
  # must change the baseline fingerprint before an upgrade can claim preservation.
- for old_version,expected_layout in [('0.7.0',70),('0.7.5',75),('1.0.0-preview.1',100)]:
+ legacy_versions=[('1.0.0-preview.2',101)] if args.finish_only else [('0.7.0',70),('0.7.5',75),('1.0.0-preview.1',100),('1.0.0-preview.2',101)]
+ for old_version,expected_layout in legacy_versions:
   (server/'mods'/jar.name).unlink()
-  old=ROOT/(f'evidence/v1/runs/38491285454/glimmering-abyss-{old_version}.jar' if expected_layout==100 else f'artifacts/glimmering-abyss-{old_version}.jar');shutil.copy2(old,server/'mods'/old.name)
+  old=ROOT/(f'evidence/v1/runs/38500421865/glimmering-abyss-{old_version}.jar' if expected_layout==101 else f'evidence/v1/runs/38491285454/glimmering-abyss-{old_version}.jar' if expected_layout==100 else f'artifacts/glimmering-abyss-{old_version}.jar');shutil.copy2(old,server/'mods'/old.name)
   properties['level-name']='legacy-'+old_version;properties['level-seed']='74102002';config()
   before_log='server-legacy-'+old_version+'.log';tag='legacy'+str(expected_layout);p,log=start(before_log)
   try:
@@ -159,7 +166,7 @@ def run(args):
    assert after['layout']==expected_layout and after['pass'] and after['player_witness_gold'] and before['geometry_sha256']==after['geometry_sha256']
    (out/('legacy-upgrade-'+old_version+'.json')).write_text(json.dumps(dict(pass_=True,old_jar_sha256=hashlib.sha256(old.read_bytes()).hexdigest(),new_jar_sha256=hashlib.sha256(jar.read_bytes()).hexdigest(),authentic_old_world=True,layout=after['layout'],gold_block_in_sample=True,before_geometry=before['geometry_sha256'],after_geometry=after['geometry_sha256']),indent=2)+'\n')
   finally:stop(p,log)
- summary=dict(status='SETTLEMENT_PREVIEW_TECHNICAL_PASS',minecraft='1.20.1',layout=101,buildings=11,release_jar_sha256=hashlib.sha256(jar.read_bytes()).hexdigest(),seeds=[74102002,-92345],real_client=True,peripheral_walk_legs=22,settlement_walk_legs=28,real_residence_sleep=True,real_server_restart=True,midride_stop_and_reconnect=True,early_exit=True,legacy_layouts_preserved=[70,75,100],aesthetic_acceptance='Spatial direction conditionally approved; east-wall naturalness and this settlement expansion await review of actual screenshots',limitations='Hosted Linux software OpenGL; not Windows, PCL2, target GPU, Sodium/Iris/DH or real phone')
+ summary=dict(status='LIMITED_FINISH_TECHNICAL_PASS' if args.finish_only else 'SETTLEMENT_PREVIEW_TECHNICAL_PASS',minecraft='1.20.1',layout=102,buildings=11,release_jar_sha256=hashlib.sha256(jar.read_bytes()).hexdigest(),seeds=[74102002,-92345],real_client=True,peripheral_walk_legs=22,settlement_walk_legs=43,real_residence_sleep=True,real_server_restart=True,midride_stop_and_reconnect=not args.finish_only,early_exit=not args.finish_only,legacy_layouts_preserved=[n for _,n in legacy_versions],unchanged_mechanisms_baseline='38500421865' if args.finish_only else None,aesthetic_acceptance='preview.2 conditionally approved; limited wall/ceiling and settlement-spacing finish awaits final review of actual screenshots',limitations='Hosted Linux software OpenGL; not Windows, PCL2, target GPU, Sodium/Iris/DH or real phone')
  (out/'summary.json').write_text(json.dumps(summary,indent=2)+'\n');print(summary,flush=True)
 if __name__=='__main__':
- p=argparse.ArgumentParser(description=__doc__);p.add_argument('--accept-eula',action='store_true');p.add_argument('--skip-build',action='store_true');p.add_argument('--output',required=True);p.add_argument('--mechanics-only',action='store_true');run(p.parse_args())
+ p=argparse.ArgumentParser(description=__doc__);p.add_argument('--accept-eula',action='store_true');p.add_argument('--skip-build',action='store_true');p.add_argument('--output',required=True);scope=p.add_mutually_exclusive_group();scope.add_argument('--mechanics-only',action='store_true');scope.add_argument('--finish-only',action='store_true',help='Two-seed finishing review, actual paths/residence sleep, restart and authentic layout101 upgrade; unchanged transport/dream regression uses 38500421865 baseline');run(p.parse_args())
