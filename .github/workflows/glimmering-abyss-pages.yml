@@ -52,7 +52,6 @@ jobs:
           cp site/glimmering-abyss/phase6.html _site/phase6.html
           cp site/glimmering-abyss/phase7.html _site/phase7.html
           cp site/glimmering-abyss/phase75.html _site/phase75.html
-          cp site/glimmering-abyss/v1.html _site/v1.html
           root=projects/minecraft-mods/experiments/glimmering-abyss/evidence/phase1
           cp "$root/summary.json" "$root/audit-glimmer.json" _site/evidence/phase1/
           cp "$root/screenshots/captures.json" _site/evidence/phase1/screenshots/
