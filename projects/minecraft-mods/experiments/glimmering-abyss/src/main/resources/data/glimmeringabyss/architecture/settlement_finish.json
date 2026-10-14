@@ -155,19 +155,24 @@
         -14
       ],
       [
-        89,
+        83,
         39,
         -14
       ],
       [
-        89,
+        83,
         38,
-        12
+        20
       ],
       [
         100,
         38,
-        12
+        20
+      ],
+      [
+        100,
+        39,
+        21
       ],
       [
         100,
@@ -177,12 +182,12 @@
     ],
     [
       [
-        89,
+        83,
         38,
-        12
+        20
       ],
       [
-        89,
+        83,
         38,
         42
       ],
@@ -210,7 +215,7 @@
       ]
     ]
   ],
-  "blocks": 132574,
+  "blocks": 132326,
   "original_building_blocks_preserved": 16032,
   "original_warm_windows_preserved": 128,
   "warm_windows": 184,
@@ -238,5 +243,5 @@
       "footprint_cells": 195
     }
   ],
-  "template_sha256": "301889b7b8a27bb5f443b419167709fa4b98838ae47e87c71d844cfb1f5bc9a2"
+  "template_sha256": "b67e03ab9da0899f41c654a26da396fd147947cdcd0604a2c9c3d2ddbe476b7e"
 }

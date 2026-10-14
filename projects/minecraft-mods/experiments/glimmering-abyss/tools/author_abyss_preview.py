@@ -204,8 +204,8 @@ finish_house('weaving-workshop',71,52,13,15,38,'deepslate_bricks',True)
 # Short branching connections turn around living rock; no new all-town platform.
 town_routes=[[(47,40,-78),(62,40,-78),(62,40,-72),(69,40,-72),(69,40,-85),(78,40,-85)],
  [(47,38,-24),(65,39,-24),(86,39,-24),(86,39,-32),(94,39,-32),(94,40,-39),(103,40,-39)],
- [(86,39,-24),(86,39,-14),(89,39,-14),(89,38,12),(100,38,12),(100,39,26)],
- [(89,38,12),(89,38,42),(78,38,42),(78,38,58)],[(65,39,-24),(65,39,-31)]]
+ [(86,39,-24),(86,39,-14),(83,39,-14),(83,38,20),(100,38,20),(100,39,21),(100,39,26)],
+ [(83,38,20),(83,38,42),(78,38,42),(78,38,58)],[(65,39,-24),(65,39,-31)]]
 street={}
 for path in town_routes:
  for a,c in zip(path,path[1:]):
@@ -229,7 +229,7 @@ for x in range(63,70):
  for z in range(-34,-29):put(x,45,z,'blue_wool' if x%4<2 else 'gray_wool')
 for x,z in [(69,-33),(69,-31)]:put(x,40,z,'barrel',facing='up',open='false')
 seat(63,40,-32);lamp(68,43,-30,True)
-for x,y,z in [(67,44,-73),(92,43,-29),(87,42,11),(79,42,45)]:
+for x,y,z in [(67,44,-73),(92,43,-29),(81,42,20),(79,42,45)]:
  ground=38+(z<=-26)+(z<=-43)
  box(x,ground+1,z,x,y-1,z,'dark_oak_fence',east='false',west='false',north='false',south='false',waterlogged='false');lamp(x,y,z)
 assert all(b[p]==base[p] for p in preserved),'Original building block was overwritten in finishing round'

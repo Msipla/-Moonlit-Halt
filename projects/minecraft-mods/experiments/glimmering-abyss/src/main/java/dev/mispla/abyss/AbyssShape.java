@@ -91,6 +91,20 @@ public final class AbyssShape {
             int innerCap=CavernShape.ceiling(111,z);
             geologicalCap=Math.min(cap,innerCap+(cap-innerCap)*smooth((x-111)/16.0));
         }
+        if(layout>=102&&weight>0){
+            // Ease the inside of the old covered-town cap into the lower outer
+            // rock. The saved cap and native surface remain untouched.
+            if(x>70&&x<84&&z>=-106&&z<=73){
+                double start=70+2*Terrain.noise(z/23.0,4,41030);
+                int outer=CavernShape.ceiling(84,z);
+                geologicalCap=Math.min(geologicalCap,cap+(outer-cap)*smooth((x-start)/(84-start)));
+            }
+            if(z>58&&z<74&&x>=50&&x<=83){
+                double start=58+2*Terrain.noise(x/22.0,7,41031);
+                int outer=CavernShape.ceiling(x,74);
+                geologicalCap=Math.min(geologicalCap,cap+(outer-cap)*smooth((z-start)/(74-start)));
+            }
+        }
         double terraceTop=38+(z<=-26?1:0)+(z<=-43?1:0);
         if(layout>=102&&x>81&&z>-76&&z<53){
             // Leave living rock in the gaps between the relocated additions.
