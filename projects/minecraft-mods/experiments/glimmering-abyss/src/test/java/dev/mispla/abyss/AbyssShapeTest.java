@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class AbyssShapeTest {
     @Test void solidCapAndBedrockBufferAcrossExpandedFootprint(){
         for(int x=-208;x<=127;x+=4)for(int z=-320;z<=127;z+=4){
-            for(int layout:new int[]{100,101,102}){var c=AbyssShape.column(x,z,AbyssShape.ceiling(x,z),layout);assertTrue(c.rock(-63));for(int y=AbyssShape.ceiling(x,z)-(layout>=102?3:0);y<=AbyssShape.ceiling(x,z);y++)assertTrue(c.rock(y),"Roof cover thinned at "+x+","+y+","+z);}
+            for(int layout:new int[]{100,101,102,103}){var c=AbyssShape.column(x,z,AbyssShape.ceiling(x,z),layout);assertTrue(c.rock(-63));for(int y=AbyssShape.ceiling(x,z)-(layout>=102?3:0);y<=AbyssShape.ceiling(x,z);y++)assertTrue(c.rock(y),"Roof cover thinned at "+x+","+y+","+z);}
         }
     }
     @Test void continuousDescendingRouteHasNoLateralReversal(){
@@ -24,7 +24,7 @@ class AbyssShapeTest {
         for(int i=0;i<=900;i++){
             var p=CableRoute.at(i/900.0,150,100);if(p.y()>80)continue;
             for(int x=(int)Math.floor(p.x()-1.5);x<=Math.floor(p.x()+1.5);x++)for(int z=(int)Math.floor(p.z()-1.5);z<=Math.floor(p.z()+1.5);z++)for(int y=(int)Math.floor(p.y()-6);y<=Math.floor(p.y()+3.3-6);y++)
-                for(int layout:new int[]{100,101,102})assertFalse(AbyssShape.column(x,z,AbyssShape.ceiling(x,z),layout).rock(y),"Cabin obstruction at "+x+","+y+","+z);
+                for(int layout:new int[]{100,101,102,103})assertFalse(AbyssShape.column(x,z,AbyssShape.ceiling(x,z),layout).rock(y),"Cabin obstruction at "+x+","+y+","+z);
         }
     }
     @Test void distantVaultsRemainConnectedToCentralRift(){

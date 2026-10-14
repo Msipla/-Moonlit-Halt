@@ -16,13 +16,27 @@ import java.nio.file.*;
 /** Opt-in release-client spatial review. Actual sleep, bell journeys and forward-key loop. */
 public final class V1CaptureClient implements ClientModInitializer {
     private static final boolean FINISH=Boolean.getBoolean("abyss.capture.v1.finish");
+    private static final boolean BEFORE=Boolean.getBoolean("abyss.capture.v1.before");
     private static final boolean MECHANICS=Boolean.getBoolean("abyss.capture.v1.mechanics");
     private static final boolean TRANSPORT=Boolean.getBoolean("abyss.capture.v1.transport");
     private static final boolean RECONNECT=Boolean.getBoolean("abyss.capture.v1.reconnect");
-    private static final Path OUT=Path.of(MECHANICS?"abyss-v1-mechanics":RECONNECT?"abyss-v1-reconnect":TRANSPORT?"abyss-v1-transport":"abyss-v1-captures");
+    private static final Path OUT=Path.of(BEFORE?"abyss-v1-before":MECHANICS?"abyss-v1-mechanics":RECONNECT?"abyss-v1-reconnect":TRANSPORT?"abyss-v1-transport":"abyss-v1-captures");
     private static final double[][] ROUTE={{47.5,-57.5},{47.5,-83.5},{22.5,-83.5},{22.5,-99.5},{-27.5,-99.5},{-27.5,-123.5},{-77.5,-123.5},{-77.5,-147.5},{-125.5,-147.5},{-125.5,-183.5},{-150.5,-183.5},{-150.5,-213.5},{-89.5,-213.5},{-89.5,-175.5},{-65.5,-175.5},{-65.5,-123.5},{-77.5,-123.5},{-27.5,-123.5},{-27.5,-99.5},{22.5,-99.5},{22.5,-83.5},{47.5,-83.5},{47.5,-57.5}};
     private static final double[][] SETTLEMENT={{47.5,-23.5},{47.5,-57.5},{47.5,-77.5},{62.5,-77.5},{62.5,-71.5},{69.5,-71.5},{69.5,-84.5},{78.5,-84.5},{69.5,-84.5},{69.5,-71.5},{62.5,-71.5},{62.5,-77.5},{47.5,-77.5},{47.5,-23.5},{65.5,-23.5},{86.5,-23.5},{86.5,-31.5},{94.5,-31.5},{94.5,-38.5},{103.5,-38.5},{94.5,-38.5},{94.5,-31.5},{86.5,-31.5},{86.5,-23.5},{86.5,-13.5},{83.5,-13.5},{83.5,19.5},{100.5,19.5},{100.5,26.5},{100.5,19.5},{83.5,19.5},{83.5,42.5},{78.5,42.5},{78.5,58.5},{78.5,42.5},{83.5,42.5},{83.5,19.5},{83.5,-13.5},{86.5,-13.5},{86.5,-23.5},{65.5,-23.5},{65.5,-30.5},{65.5,-23.5},{47.5,-23.5}};
-    private final JsonArray frames=new JsonArray(),motion=new JsonArray(),walks=new JsonArray(),townWalks=new JsonArray();
+    private static final String[] ROOM_VIEWS={"workshop-entry","residence-entry","slate-entry","store-entry","tea-entry","clock-entry","library-entry"};
+    private static final String[] ROOM_NAMES={"original-workshop","brick-residence","slate-residence","store-shop","tea-room","clock-reading-room","library-refuge"};
+    private static final float[] ROOM_YAWS={100,180,180,90,170,-140,135};
+    private static final double[][][] ROOMS={
+        {{42.5,44.5},{42.5,36.5},{42.5,28.5},{52.5,28.5},{52.5,20.5},{53.5,20.5},{53.5,28.5},{42.5,28.5},{53.5,28.5},{53.5,20.5},{52.5,20.5},{52.5,28.5},{42.5,28.5},{42.5,44.5}},
+        {{38.5,-3.5},{38.5,-8.5},{40.5,-8.5},{40.5,-18.5},{34.5,-18.5},{34.5,-10.5},{38.5,-10.5},{34.5,-10.5},{34.5,-18.5},{40.5,-18.5},{40.5,-8.5},{38.5,-8.5},{38.5,-3.5}},
+        {{56.5,-3.5},{56.5,-8.5},{59.5,-8.5},{59.5,-17.5},{52.5,-17.5},{52.5,-9.5},{57.5,-9.5},{52.5,-9.5},{52.5,-17.5},{59.5,-17.5},{59.5,-8.5},{56.5,-8.5},{56.5,-3.5}},
+        {{72.5,8.5},{72.5,2.5},{72.5,-3.5},{74.5,-3.5},{72.5,-3.5},{72.5,2.5},{72.5,8.5}},
+        {{32.5,-26.5},{32.5,-30.5},{33.5,-30.5},{33.5,-35.5},{33.5,-30.5},{32.5,-30.5},{32.5,-26.5}},
+        {{58.5,-49.5},{58.5,-54.5},{56.5,-54.5},{56.5,-58.5},{56.5,-54.5},{58.5,-54.5},{58.5,-49.5}},
+        {{-39.5,35.5},{-46.5,35.5},{-46.5,38.5},{-50.5,38.5},{-46.5,38.5},{-46.5,35.5},{-39.5,35.5}}
+    };
+    private final JsonArray frames=new JsonArray(),motion=new JsonArray(),walks=new JsonArray(),townWalks=new JsonArray(),roomWalks=new JsonArray();
+    private int room;private String nodeLabel,roomFrame;
     private int state=-1,leg,night;private boolean connected,done,slept,restartReady;private int dreamCaptured;
     private long started,changed;private double walkX,walkZ;
     @Override public void onInitializeClient(){if(Boolean.getBoolean("abyss.capture.v1")){started=changed=System.nanoTime();ClientTickEvents.END_CLIENT_TICK.register(this::tick);}}
@@ -48,6 +62,14 @@ public final class V1CaptureClient implements ClientModInitializer {
                 if(state==-1){next(100);return;}if(seconds()<12)return;
                 checkLanding(c,true);capture(c,"reconnected-safe-station.png");
                 var r=new JsonObject();r.addProperty("pass",true);r.addProperty("same_offline_identity",true);r.addProperty("health",c.player.getHealth());write("recovery.json",r);finish(c);return;
+            }
+            if(BEFORE){
+                if(state==-1){if(!c.player.hasPermissionLevel(2))return;c.options.hudHidden=true;c.getNetworkHandler().sendChatCommand("gamemode creative");next(200);return;}
+                if(state==200){if(seconds()<2)return;c.player.getAbilities().flying=true;c.player.sendAbilitiesUpdate();c.getNetworkHandler().sendChatCommand("tp @s "+(JourneyClient.x+64.5)+" 48 "+(JourneyClient.z-18.5)+" -129 1");next(201);return;}
+                if(!readyFrame(c))return;
+                if(state==201){capture(c,"orphan-glimmerstone.png");cmd(c,"view cliff");next(202);}
+                else if(state==202){capture(c,"town-cliff.png");cmd(c,"view rift");next(203);}
+                else{capture(c,"main-rift.png");finish(c);}return;
             }
             if(TRANSPORT||MECHANICS&&state>=100){transport(c);return;}
             if(!c.player.isAlive())throw new IllegalStateException("Player died");
@@ -89,7 +111,9 @@ public final class V1CaptureClient implements ClientModInitializer {
             if(state==15){if(!readyFrame(c))return;capture(c,"east-wall-and-lane.png");cmd(c,"view public-nook");next(16);return;}
             if(state==16){if(!readyFrame(c))return;capture(c,"sheltered-public-nook.png");cmd(c,"view settlement-overlook");next(17);return;}
             if(state==17){if(!readyFrame(c))return;capture(c,"settlement-on-rock-shelves.png");cmd(c,"view north-pocket");next(18);return;}
-            if(state==18){if(!readyFrame(c))return;capture(c,"north-rock-and-bakehouse.png");cmd(c,"view route-start");next(10);return;}
+            if(state==18){if(!readyFrame(c))return;capture(c,"north-rock-and-bakehouse.png");cmd(c,"view orphan");next(19);return;}
+            if(state==19){if(!readyFrame(c))return;capture(c,"orphan-glimmerstone.png");cmd(c,"view cliff");next(29);return;}
+            if(state==29){if(!readyFrame(c))return;capture(c,"town-cliff.png");cmd(c,"view route-start");next(10);return;}
             if(state==10){if(seconds()<5)return;leg=1;walkX=c.player.getX();walkZ=c.player.getZ();next(11);return;}
             if(state==11){
                 if(leg==ROUTE.length){c.options.forwardKey.setPressed(false);capture(c,"walk-return-to-town.png");cmd(c,"view settlement-start");next(20);return;}
@@ -98,8 +122,13 @@ public final class V1CaptureClient implements ClientModInitializer {
                 if(Math.hypot(dx,dz)>.4){if(seconds()>60)throw new IllegalStateException("Loop blocked leg "+leg+" at "+c.player.getPos());return;}
                 c.options.forwardKey.setPressed(false);var r=new JsonObject();r.addProperty("leg",leg);r.addProperty("start_x",walkX);r.addProperty("start_z",walkZ);r.addProperty("end_x",c.player.getX());r.addProperty("end_y",c.player.getY());r.addProperty("end_z",c.player.getZ());r.addProperty("health",c.player.getHealth());r.addProperty("flying",c.player.getAbilities().flying);walks.add(r);write("walk.json",walks);
                 if(c.player.getAbilities().flying||c.player.getHealth()<20)throw new IllegalStateException("Unsafe exploration walk");
-                if(leg==9||leg==15)capture(c,"walk-gallery-"+leg+".png");leg++;walkX=c.player.getX();walkZ=c.player.getZ();changed=System.nanoTime();return;
+                int reached=leg;leg++;walkX=c.player.getX();walkZ=c.player.getZ();changed=System.nanoTime();
+                if(reached==10||reached==11||reached==16){
+                    nodeLabel=reached==10?"fault-observation-bay.png":reached==11?"lower-gallery-terminus.png":"signed-homeward-junction.png";
+                    c.player.setYaw(reached==10?90:reached==11?-65:-30);c.player.setPitch(-8);next(50);
+                }return;
             }
+            if(state==50){if(!readyFrame(c))return;capture(c,nodeLabel);next(11);return;}
             if(state==20){if(seconds()<5)return;leg=1;walkX=c.player.getX();walkZ=c.player.getZ();next(21);return;}
             if(state==21){
                 if(leg==SETTLEMENT.length){c.options.forwardKey.setPressed(false);c.options.hudHidden=false;cmd(c,"sleepstate house-before");cmd(c,"house-bedtime");next(22);return;}
@@ -108,7 +137,7 @@ public final class V1CaptureClient implements ClientModInitializer {
                 if(Math.hypot(dx,dz)>.4){if(seconds()>60)throw new IllegalStateException("Settlement blocked leg "+leg+" at "+c.player.getPos());return;}
                 c.options.forwardKey.setPressed(false);var r=new JsonObject();r.addProperty("leg",leg);r.addProperty("start_x",walkX);r.addProperty("start_z",walkZ);r.addProperty("end_x",c.player.getX());r.addProperty("end_y",c.player.getY());r.addProperty("end_z",c.player.getZ());r.addProperty("health",c.player.getHealth());r.addProperty("flying",c.player.getAbilities().flying);townWalks.add(r);write("settlement-walk.json",townWalks);
                 if(c.player.getAbilities().flying||c.player.getHealth()!=20)throw new IllegalStateException("Unsafe settlement walk");
-                if(leg==7||leg==19||leg==28||leg==33||leg==41){c.player.setPitch(-8);capture(c,"settlement-interior-"+leg+".png");}
+                if(leg==7||leg==19||leg==28||leg==33||leg==41){c.player.setPitch(8);capture(c,"settlement-interior-"+leg+".png");}
                 leg++;walkX=c.player.getX();walkZ=c.player.getZ();changed=System.nanoTime();return;
             }
             if(state==22){
@@ -120,7 +149,27 @@ public final class V1CaptureClient implements ClientModInitializer {
                 slept|=c.player.isSleeping();if(!slept||c.player.isSleeping()||DreamScreen.step!=0){if(seconds()>40)throw new IllegalStateException("New residence sleep/wake failed");return;}
                 cmd(c,"sleepstate house-after");var r=new JsonObject();r.addProperty("real_sleep_observed",slept);r.addProperty("health",c.player.getHealth());r.addProperty("flying",c.player.getAbilities().flying);write("residence-sleep.json",r);next(24);return;
             }
-            if(state==24){if(seconds()<1||c.currentScreen instanceof SleepingChatScreen)return;capture(c,"residence-after-sleep.png");if(FINISH){finish(c);}else{cmd(c,"view lower");next(12);}return;}
+            if(state==24){if(seconds()<1||c.currentScreen instanceof SleepingChatScreen)return;capture(c,"residence-after-sleep.png");room=0;next(30);return;}
+            if(state==30){
+                if(room==ROOMS.length){if(FINISH)finish(c);else{cmd(c,"view lower");next(12);}return;}
+                cmd(c,"view "+ROOM_VIEWS[room]);next(31);return;
+            }
+            if(state==31){if(seconds()<3)return;leg=1;walkX=c.player.getX();walkZ=c.player.getZ();next(32);return;}
+            if(state==32){
+                var path=ROOMS[room];
+                if(leg==path.length){c.options.forwardKey.setPressed(false);room++;next(30);return;}
+                double dx=JourneyClient.x+path[leg][0]-c.player.getX(),dz=JourneyClient.z+path[leg][1]-c.player.getZ();
+                c.player.setYaw((float)Math.toDegrees(Math.atan2(-dx,dz)));c.player.setPitch(0);c.options.forwardKey.setPressed(true);
+                if(Math.hypot(dx,dz)>.4){if(seconds()>60)throw new IllegalStateException("Interior blocked "+ROOM_NAMES[room]+" leg "+leg+" at "+c.player.getPos());return;}
+                c.options.forwardKey.setPressed(false);var r=new JsonObject();r.addProperty("room",ROOM_NAMES[room]);r.addProperty("leg",leg);r.addProperty("start_x",walkX);r.addProperty("start_z",walkZ);r.addProperty("end_x",c.player.getX());r.addProperty("end_y",c.player.getY());r.addProperty("end_z",c.player.getZ());r.addProperty("health",c.player.getHealth());r.addProperty("flying",c.player.getAbilities().flying);roomWalks.add(r);write("interior-walk.json",roomWalks);
+                if(c.player.getAbilities().flying||c.player.getHealth()!=20)throw new IllegalStateException("Unsafe interior walk");
+                int reached=leg;leg++;walkX=c.player.getX();walkZ=c.player.getZ();changed=System.nanoTime();
+                if(reached==path.length/2||room==0&&reached==2){
+                    roomFrame=room==0&&reached==2?"interior-original-workshop-ground.png":"interior-"+ROOM_NAMES[room]+".png";
+                    c.player.setYaw(room==0&&reached==2?-75:ROOM_YAWS[room]);c.player.setPitch(8);next(33);
+                }return;
+            }
+            if(state==33){if(!readyFrame(c))return;capture(c,roomFrame);next(32);return;}
             if(state==12){if(seconds()<4)return;bell(c,false);next(13);return;}
             if(state==13){if(!c.player.hasVehicle()){if(seconds()>10)throw new IllegalStateException("Return boarding failed");return;}next(14);return;}
             if(state==14){if(c.player.hasVehicle()){if(seconds()>100)throw new IllegalStateException("Return ride deadline");return;}checkLanding(c,true);write("motion.json",motion);cmd(c,"debugcheck");finish(c);}

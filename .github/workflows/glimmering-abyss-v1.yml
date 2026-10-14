@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
     inputs:
       suite:
-        description: Validation scope (finish checks scoped visual changes and layout101 upgrade)
+        description: Validation scope (finish checks Android feedback fixes and layout102 upgrade)
         type: choice
         options: [finish, full, mechanics]
         default: finish
@@ -64,7 +64,7 @@ jobs:
                   if not f.is_file():continue
                   target=(out/'screenshots' if f.suffix=='.png' or f.name=='captures.json' else out)/f.name
                   if not target.exists():shutil.copy2(f,target)
-          for name in ('mechanics','transport','reconnect'):
+          for name in ('before','mechanics','transport','reconnect'):
               source=p/'.runtime/release-client'/('abyss-v1-'+name)
               if source.is_dir():shutil.copytree(source,out/name,dirs_exist_ok=True)
           reconnect=p/'.runtime/release-client/abyss-phase7-reconnect'

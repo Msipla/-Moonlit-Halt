@@ -12,6 +12,7 @@ import net.minecraft.entity.SpawnGroup;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
+import net.minecraft.registry.Registries;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
@@ -85,6 +86,14 @@ public final class Phase7Audit {
             case "east-lane" -> {x=83.5;y=45;z=19.5;yaw=180;pitch=-16;}
             case "settlement-overlook" -> {x=70.5;y=59;z=71.5;yaw=-169;pitch=18;}
             case "north-pocket" -> {x=63.5;y=47;z=-71.5;yaw=-135;pitch=-10;}
+            case "orphan" -> {x=64.5;y=48;z=-18.5;yaw=-129;pitch=1;}
+            case "workshop-entry" -> {x=42.5;y=45;z=44.5;yaw=180;pitch=0;}
+            case "residence-entry" -> {x=38.5;y=45;z=-3.5;yaw=180;pitch=0;}
+            case "slate-entry" -> {x=56.5;y=45;z=-3.5;yaw=180;pitch=0;}
+            case "store-entry" -> {x=72.5;y=45;z=8.5;yaw=180;pitch=0;}
+            case "tea-entry" -> {x=32.5;y=46;z=-26.5;yaw=180;pitch=0;}
+            case "clock-entry" -> {x=58.5;y=46;z=-49.5;yaw=180;pitch=0;}
+            case "library-entry" -> {x=-39.5;y=45;z=35.5;yaw=90;pitch=0;}
             case "public-nook" -> {x=65.5;y=46;z=-23.5;yaw=180;pitch=-7;}
             case "library" -> {x=-47.5;y=45;z=38.5;yaw=120;pitch=8;}
             case "bridge-destination" -> {x=-29.5;y=45;z=35.5;yaw=90;pitch=-5;}
@@ -102,7 +111,7 @@ public final class Phase7Audit {
             case "entrance" -> {}
             default -> {return 0;}
         }
-        if(java.util.Set.of("rift","gallery","homeward","library","bridge-destination","bedroom","water","west-cave","floor","cliff","overview","surface","settlement-overlook").contains(name)){
+        if(java.util.Set.of("rift","gallery","homeward","library","bridge-destination","bedroom","water","west-cave","floor","cliff","overview","surface","settlement-overlook","orphan").contains(name)){
             p.changeGameMode(GameMode.CREATIVE);p.getAbilities().flying=true;p.sendAbilitiesUpdate();
             boolean clear=false;
             for(int radius=0;radius<=12&&!clear;radius++)for(int dx=-radius;dx<=radius&&!clear;dx++)for(int dz=-radius;dz<=radius&&!clear;dz++){
@@ -223,7 +232,7 @@ public final class Phase7Audit {
             r.addProperty("water_source_cells",water);r.addProperty("water_basin_contained",fluids);
             int structures=0,missing=0,allWindows=0,allLit=0;
             if(s.layout>=75){
-                var tn=w.getStructureTemplateManager().getTemplate(GlimmeringAbyss.id(s.layout>=102?"settlement_finish":s.layout>=101?"settlement_town":s.layout>=100?"abyss_town":"natural_town")).orElseThrow().writeNbt(new NbtCompound());
+                var tn=w.getStructureTemplateManager().getTemplate(GlimmeringAbyss.id(s.layout>=103?"settlement_acceptance":s.layout>=102?"settlement_finish":s.layout>=101?"settlement_town":s.layout>=100?"abyss_town":"natural_town")).orElseThrow().writeNbt(new NbtCompound());
                 var tp=tn.getList("palette",NbtElement.COMPOUND_TYPE);var tb=tn.getList("blocks",NbtElement.COMPOUND_TYPE);
                 for(int i=0;i<tb.size();i++){
                     var b=tb.getCompound(i);String id=tp.getCompound(b.getInt("state")).getString("Name");if(id.equals("minecraft:air"))continue;
@@ -235,9 +244,36 @@ public final class Phase7Audit {
             }
             r.addProperty("architectural_nonair_blocks",structures);r.addProperty("architectural_missing_or_wrong_blocks",missing);
             r.addProperty("all_template_warm_windows",allWindows);r.addProperty("all_template_warm_windows_native_12",allLit);
+            int unsuitableEmitters=0;var emitters=new JsonArray();
+            if(s.layout>=100)for(var f:Terrain.fixtures(Terrain.SEED)){
+                var pos=s.at(f.x(),f.y(),f.z());var actual=w.getBlockState(pos);
+                boolean fits=OverworldLandscape.fixtureFits(s,f);boolean placed=actual.isOf(GlimmeringAbyss.GLIMMER);
+                if(placed&&!fits)unsuitableEmitters++;
+                var row=new JsonObject();row.addProperty("local_x",f.x());row.addProperty("local_y",f.y());row.addProperty("local_z",f.z());
+                row.addProperty("world_position",pos.toShortString());row.addProperty("block_id",Registries.BLOCK.getId(actual.getBlock()).toString());
+                row.addProperty("natural_rock_attachment",fits);row.addProperty("source","Terrain.fixtures legacy calibration coordinates; placed last by OverworldLandscape.paint");
+                var neighbors=new JsonArray();for(var d:net.minecraft.util.math.Direction.values())neighbors.add(w.getBlockState(pos.offset(d)).toString());row.add("neighbor_states",neighbors);emitters.add(row);
+            }
+            r.add("legacy_emitter_samples",emitters);r.addProperty("unsuitable_legacy_emitters",unsuitableEmitters);
+            boolean signs=true;int signCount=0;
+            if(s.layout>=103){
+                var sn=w.getStructureTemplateManager().getTemplate(GlimmeringAbyss.id("settlement_acceptance")).orElseThrow().writeNbt(new NbtCompound());
+                var sb=sn.getList("blocks",NbtElement.COMPOUND_TYPE);
+                for(int i=0;i<sb.size();i++){
+                    var b=sb.getCompound(i);if(!b.contains("nbt"))continue;var xyz=b.getList("pos",NbtElement.INT_TYPE);
+                    var entity=w.getBlockEntity(s.at(xyz.getInt(0)-180,xyz.getInt(1)-8,xyz.getInt(2)-290));
+                    if(entity instanceof net.minecraft.block.entity.SignBlockEntity sign){
+                        var expectedText=b.getCompound("nbt").getCompound("front_text").getList("messages",NbtElement.STRING_TYPE);
+                        for(int line=0;line<4;line++)signs&=sign.getFrontText().getMessage(line,false).getString().equals(Text.Serializer.fromJson(expectedText.getString(line)).getString());
+                    }else signs=false;
+                    signCount++;
+                }
+            }
+            r.addProperty("authored_route_signs",signCount);r.addProperty("route_sign_text_preserved",signs);
             int witnessX=s.layout>=100?48:45;
             r.addProperty("player_witness_x",witnessX);r.addProperty("player_witness_gold",w.getBlockState(s.at(witnessX,42,8)).isOf(Blocks.GOLD_BLOCK));
             boolean natural=s.layout<75||water==25&&fluids&&missing==0;
+            natural&=s.layout<103||unsuitableEmitters==0&&signCount==5&&signs;
             r.addProperty("pass",natural&&(!(label.equals("first")||label.equals("second"))||capMatches==s.chunks())&&windows==128&&preserved==128&&lit==128&&bedrock&&shaft&&blocked&&outside&&sceneMobs==0&&w.getGameRules().getBoolean(GameRules.DO_MOB_SPAWNING));write(label,r);return r.get("pass").getAsBoolean()?1:0;
         }catch(Exception e){e.printStackTrace();return 0;}
     }

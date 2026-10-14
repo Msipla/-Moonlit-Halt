@@ -257,3 +257,143 @@ packed=gzip.compress(b'\x0a\0\0'+payload({'DataVersion':3465,'author':'Mispla / 
 (P/'src/main/resources/data/glimmeringabyss/structures/settlement_finish.nbt').write_bytes(packed)
 (P/'src/main/resources/data/glimmeringabyss/architecture/settlement_finish.json').write_text(json.dumps(dict(layout=102,origin=origin,size=size,buildings=11,additions=buildings,street_routes=town_routes,blocks=len(rows),original_building_blocks_preserved=len(preserved),original_warm_windows_preserved=len(original_windows),warm_windows=sum(v['Name']=='glimmeringabyss:warm_window' for v in b.values()),new_house_footprint_cells=footprint_area,previous_new_house_footprint_cells=844,natural_shelf_attachment=supports,template_sha256=hashlib.sha256(packed).hexdigest()),indent=2)+'\n')
 print('Finishing round:',len(rows),len(packed),'bytes; new house footprints',footprint_area,'vs 844; original blocks',len(preserved),'natural shelf attachment',supports)
+
+# Layout 103 completes the existing rooms and makes the existing loop legible.
+# Keep every shipped recipe above reproducible for old and interrupted worlds.
+accepted=b.copy();entities={};room_changes={};current_room=''
+def furnish(x,y,z,name,**props):
+ old=b.get((x,y,z),{}).get('Name')
+ assert old=='minecraft:air',(current_room,(x,y,z),old,name)
+ put(x,y,z,name,**props);room_changes[current_room]=room_changes.get(current_room,0)+1
+def furniture_box(x1,y1,z1,x2,y2,z2,name,**props):
+ for xx in range(x1,x2+1):
+  for zz in range(z1,z2+1):
+   for yy in range(y1,y2+1):furnish(xx,yy,zz,name,**props)
+def chair(x,y,z,facing):furnish(x,y,z,'dark_oak_stairs',facing=facing,half='bottom',shape='straight',waterlogged='false')
+def desk(x1,y,z1,x2,z2):furniture_box(x1,y,z1,x2,y,z2,'dark_oak_slab',type='top',waterlogged='false')
+def storage(x,y,z,facing='up'):furnish(x,y,z,'barrel',facing=facing,open='false')
+
+# The large original workshop: material/work bays and an upper drafting room.
+current_room='original-workshop'
+desk(35,39,26,37,28);furnish(35,39,30,'grindstone',face='floor',facing='east')
+furnish(37,39,30,'anvil',facing='north');furnish(35,39,32,'stonecutter',facing='east')
+for zz in (32,34,36):storage(54,39,zz,'west')
+desk(46,39,29,49,30);chair(47,39,32,'north');storage(49,39,32)
+furniture_box(35,46,22,35,48,27,'bookshelf')
+furnish(38,46,24,'cartography_table');desk(39,46,24,42,24)
+chair(40,46,26,'north');furnish(46,46,35,'lectern',facing='north',has_book='false',powered='false')
+for xx in range(45,49):storage(xx,46,22)
+# Stair opening is retained; no cabinet closes the entry, stairs or upper landing.
+
+current_room='brick-residence'
+desk(35,39,-9,36,-9);furnish(35,39,-7,'cauldron');storage(41,39,-17)
+desk(40,39,-11,41,-11);chair(41,39,-10,'north')
+furnish(35,40,-9,'potted_fern')
+furniture_box(41,45,-16,41,46,-14,'bookshelf')
+for xx in (38,39):furnish(xx,45,-13,'blue_carpet')
+storage(35,45,-8);chair(40,45,-8,'west')
+
+# The slate residence has a bookbinding work corner and a different sitting plan.
+current_room='slate-residence'
+furniture_box(60,39,-16,60,41,-13,'bookshelf');desk(57,39,-11,59,-11)
+furnish(60,39,-9,'cartography_table');chair(58,39,-10,'north')
+storage(54,39,-9);furnish(54,40,-9,'potted_azalea_bush')
+desk(59,45,-9,60,-9);chair(59,45,-10,'south');storage(60,45,-15)
+
+current_room='store-shop'
+desk(75,39,0,76,0)
+for zz in (-5,-3,-1):storage(66,39,zz,'east');storage(66,40,zz,'east')
+furniture_box(68,39,-5,70,40,-5,'bookshelf')
+storage(75,39,3);furnish(68,39,0,'composter');chair(76,39,2,'north')
+
+current_room='tea-room'
+desk(34,40,-32,35,-32);storage(36,40,-40);storage(36,41,-40)
+desk(32,40,-39,33,-39);chair(32,40,-38,'north')
+furnish(35,41,-32,'potted_fern')
+
+current_room='clock-reading-room'
+furniture_box(56,41,-61,57,43,-61,'bookshelf');desk(58,41,-56,59,-56)
+chair(58,41,-55,'north');furnish(61,41,-59,'crafting_table');storage(61,41,-54)
+
+current_room='library-refuge'
+desk(-50,39,32,-48,33);chair(-51,39,32,'east');chair(-47,39,33,'west')
+furnish(-49,40,32,'lantern',hanging='false',waterlogged='false')
+storage(-54,39,41);furnish(-54,40,41,'potted_fern')
+furnish(-51,39,29,'lectern',facing='south',has_book='false',powered='false')
+
+# The four newer interiors keep their current walls, footprint and entry direction.
+current_room='bakehouse'
+desk(75,41,-81,77,-81);storage(82,41,-83);storage(82,42,-83)
+furnish(83,41,-86,'composter');desk(79,41,-80,81,-80)
+chair(79,41,-82,'south');furnish(76,42,-81,'potted_fern')
+
+current_room='east-residence'
+desk(101,41,-34,103,-34);storage(100,41,-43);storage(100,42,-43)
+furniture_box(107,41,-34,107,42,-34,'bookshelf');chair(104,41,-35,'south')
+for zz in (-36,-35):furnish(105,41,zz,'blue_carpet')
+
+current_room='garden-residence'
+desk(95,40,24,95,27);furnish(95,41,24,'potted_fern');storage(95,40,30)
+desk(98,40,24,99,24);chair(98,40,25,'north')
+for zz in (27,28,29):furnish(98,40,zz,'green_carpet')
+
+current_room='weaving-workshop'
+furnish(82,39,59,'loom',facing='west');desk(74,39,57,76,57)
+storage(73,39,58);furnish(75,39,54,'cauldron')
+furnish(73,39,54,'white_wool');furnish(73,40,54,'light_gray_wool')
+chair(75,39,58,'north');storage(84,39,54,'west')
+
+# One stopping bay on the already traversed west ledge, not a new region.
+# Survey furniture and a sightline make the far end a recognisable destination.
+bay={(x,z) for x in range(-154,-145) for z in range(-187,-179)}
+for x,z in bay:
+ for yy in range(15,21):put(x,yy,z,'deepslate' if yy<20 else 'cobbled_deepslate')
+ for yy in range(21,27):put(x,yy,z,'air')
+# Only perimeter segments outside the existing walk centerline have a parapet.
+rim={(x,z) for x,z in bay if any((x+dx,z+dz) not in bay for dx,dz in [(1,0),(-1,0),(0,1),(0,-1)])
+     and not (z==-184 or x==-151)}
+for x,z in rim:
+ arms={name:('low' if (x+dx,z+dz) in rim else 'none') for dx,dz,name in [(0,-1,'north'),(0,1,'south'),(1,0,'east'),(-1,0,'west')]}
+ put(x,21,z,'cobbled_deepslate_wall',up='true',waterlogged='false',**arms)
+put(-148,21,-182,'cartography_table');put(-147,21,-182,'barrel',facing='up',open='false')
+put(-149,21,-181,'dark_oak_stairs',facing='north',half='bottom',shape='straight',waterlogged='false')
+put(-148,22,-182,'lantern',hanging='false',waterlogged='false')
+def sign(x,y,z,rotation,lines):
+ put(x,y,z,'spruce_sign',rotation=rotation,waterlogged='false')
+ text={'messages':[json.dumps({'text':line},ensure_ascii=False) for line in lines],
+       'color':'black','has_glowing_text':0}
+ entities[x,y,z]={'id':'minecraft:sign','front_text':text,'back_text':text,'is_waxed':1}
+sign(48,41,-72,0,['岩廊环线','断层观测台','沿灯火下行','回镇走东侧坡道'])
+sign(-75,28,-125,12,['西：断层观测台','南：下层岩廊','东：小镇','环线可返回'])
+sign(-149,21,-185,12,['断层观测台','两条裂谷在此交叠','停步望向西侧岩穹','下层尽端在南方'])
+sign(-150,17,-211,8,['下层尽端观景','此处为环线远端','东行接回程上坡','灯火通向小镇'])
+sign(-65,28,-125,12,['已接回镇路','沿东向岩坡上行','前方小镇与钟塔','返程可在此歇脚'])
+# All old architectural solids are retained. Only empty room cells and the
+# explicitly bounded existing observation bay/route hints changed.
+for p,v in accepted.items():
+ if v['Name']!='minecraft:air' and not (p[0],p[2]) in bay and p not in entities:
+  assert b[p]==v,('Accepted solid changed',p)
+assert all(b[p]==v for p,v in original_windows.items())
+assert len(room_changes)==11
+for x,y,z in [(42,39,39),(38,39,-6),(56,39,-7),(72,39,5),(32,40,-29),
+              (58,41,-52),(-43,39,35),(72,41,-85),(99,41,-39),(100,40,22),(78,39,52)]:
+ assert all(b[x,yy,z]['Name']=='minecraft:air' for yy in (y,y+1)),('Entry blocked',x,y,z)
+origin=(-180,-8,-290);size=(292,88,364);palette=[];lookup={};rows=[]
+for pos,state in sorted(b.items()):
+ key=json.dumps(state,sort_keys=True)
+ if key not in lookup:lookup[key]=len(palette);palette.append(state)
+ assert all(0<=v-o<dim for v,o,dim in zip(pos,origin,size)),pos
+ row={'pos':[v-o for v,o in zip(pos,origin)],'state':lookup[key]}
+ if pos in entities:row['nbt']=entities[pos]
+ rows.append(row)
+packed=gzip.compress(b'\x0a\0\0'+payload({'DataVersion':3465,'author':'Mispla / Codex v1 Android feedback finish','size':list(size),'palette':palette,'blocks':rows,'entities':[]})[1],mtime=0)
+(P/'src/main/resources/data/glimmeringabyss/structures/settlement_acceptance.nbt').write_bytes(packed)
+(P/'src/main/resources/data/glimmeringabyss/architecture/settlement_acceptance.json').write_text(json.dumps(dict(
+ layout=103,origin=origin,size=size,buildings=11,additions=buildings,street_routes=town_routes,
+ route=route,exploration_nodes=[{'name':'fault-observation-bay','bounds':[-154,-187,-146,-180],'floor':20},
+ {'name':'lower-gallery-terminus','position':[-151,16,-214]},{'name':'homeward-junction','position':[-66,27,-124]}],
+ room_new_furnishings=room_changes,route_signs=[{'position':list(p),'text':[json.loads(t)['text'] for t in n['front_text']['messages']]} for p,n in entities.items()],
+ blocks=len(rows),warm_windows=sum(v['Name']=='glimmeringabyss:warm_window' for v in b.values()),
+ new_house_footprint_cells=footprint_area,historical_templates_unchanged=True,
+ template_sha256=hashlib.sha256(packed).hexdigest()),indent=2,ensure_ascii=False)+'\n')
+print('Android feedback finish:',len(rows),len(packed),'bytes;',room_changes,'route signs',len(entities))

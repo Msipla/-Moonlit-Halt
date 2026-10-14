@@ -54,7 +54,7 @@ def run(args):
  try:
   ready();audit('warmup');time.sleep(10);first=audit('first')
   assert first.get('pass'),first
-  assert first['layout']==102 and first['water_source_cells']==25 and first['water_basin_contained']
+  assert first['layout']==103 and first['water_source_cells']==25 and first['water_basin_contained']
   assert first['all_template_warm_windows']==184 and first['all_template_warm_windows_native_12']==184
   if not args.mechanics_only:
    clear_captures('abyss-v1-captures')
@@ -70,6 +70,8 @@ def run(args):
     motion=json.loads((captures/'motion.json').read_text());assert len(motion)>1000
    else:assert json.loads((captures/'dream-1.json').read_text())['sleeping_at_capture']
    assert len(json.loads((captures/'walk.json').read_text()))==22
+   interiors=json.loads((captures/'interior-walk.json').read_text());assert len(interiors)==61
+   assert len({r['room'] for r in interiors})==7 and all(r['health']==20 and not r['flying'] for r in interiors)
    town_walk=json.loads((captures/'settlement-walk.json').read_text());assert len(town_walk)==43
    assert all(r['health']==20 and not r['flying'] for r in town_walk)
    assert json.loads((captures/'residence-sleep.json').read_text())['real_sleep_observed']
@@ -143,14 +145,20 @@ def run(args):
  # Generate authentic worlds with both prototypes and the shipped v1 preview.
  # A real console witness
  # must change the baseline fingerprint before an upgrade can claim preservation.
- legacy_versions=[('1.0.0-preview.2',101)] if args.finish_only else [('0.7.0',70),('0.7.5',75),('1.0.0-preview.1',100),('1.0.0-preview.2',101)]
+ legacy_versions=[('1.0.0-preview.3',102)] if args.finish_only else [('0.7.0',70),('0.7.5',75),('1.0.0-preview.1',100),('1.0.0-preview.2',101),('1.0.0-preview.3',102)]
  for old_version,expected_layout in legacy_versions:
   (server/'mods'/jar.name).unlink()
-  old=ROOT/(f'evidence/v1/runs/38500421865/glimmering-abyss-{old_version}.jar' if expected_layout==101 else f'evidence/v1/runs/38491285454/glimmering-abyss-{old_version}.jar' if expected_layout==100 else f'artifacts/glimmering-abyss-{old_version}.jar');shutil.copy2(old,server/'mods'/old.name)
+  old=ROOT/(f'evidence/v1/runs/38523047710/glimmering-abyss-{old_version}.jar' if expected_layout==102 else f'evidence/v1/runs/38500421865/glimmering-abyss-{old_version}.jar' if expected_layout==101 else f'evidence/v1/runs/38491285454/glimmering-abyss-{old_version}.jar' if expected_layout==100 else f'artifacts/glimmering-abyss-{old_version}.jar');shutil.copy2(old,server/'mods'/old.name)
   properties['level-name']='legacy-'+old_version;properties['level-seed']='74102002';config()
   before_log='server-legacy-'+old_version+'.log';tag='legacy'+str(expected_layout);p,log=start(before_log)
   try:
    legacy=ready();baseline=audit(tag+'-warmup');time.sleep(10)
+   if expected_layout==102:
+    assert hashlib.sha256(old.read_bytes()).hexdigest()=='d74739e66507c28f770663d31cdd6c11298e1665d6a8f911d77e203704a30f02'
+    clear_captures('abyss-v1-before')
+    with (out/'client-before-preview3.log').open('w') as cl:launch(cl,phase=7,extra_vm_args=['-Dabyss.capture.phase7=false','-Dabyss.capture.v1=true','-Dabyss.capture.v1.before=true'])
+    copy_captures('abyss-v1-before',out/'before-preview3')
+    assert json.loads((out/'before-preview3/result.json').read_text())['status']=='SPATIAL_PREVIEW_CAPTURED'
    witness_x=48 if expected_layout>=100 else 45
    p.stdin.write(f"forceload add {legacy['x']+witness_x} {legacy['z']+8}\n");p.stdin.flush()
    wait_for(lambda:any(k in (out/before_log).read_text() for k in ('Marked chunk','commands.forceload.added')),45,'Native witness chunk loaded',p)
@@ -166,7 +174,7 @@ def run(args):
    assert after['layout']==expected_layout and after['pass'] and after['player_witness_gold'] and before['geometry_sha256']==after['geometry_sha256']
    (out/('legacy-upgrade-'+old_version+'.json')).write_text(json.dumps(dict(pass_=True,old_jar_sha256=hashlib.sha256(old.read_bytes()).hexdigest(),new_jar_sha256=hashlib.sha256(jar.read_bytes()).hexdigest(),authentic_old_world=True,layout=after['layout'],gold_block_in_sample=True,before_geometry=before['geometry_sha256'],after_geometry=after['geometry_sha256']),indent=2)+'\n')
   finally:stop(p,log)
- summary=dict(status='LIMITED_FINISH_TECHNICAL_PASS' if args.finish_only else 'SETTLEMENT_PREVIEW_TECHNICAL_PASS',minecraft='1.20.1',layout=102,buildings=11,release_jar_sha256=hashlib.sha256(jar.read_bytes()).hexdigest(),seeds=[74102002,-92345],real_client=True,peripheral_walk_legs=22,settlement_walk_legs=43,real_residence_sleep=True,real_server_restart=True,midride_stop_and_reconnect=not args.finish_only,early_exit=not args.finish_only,legacy_layouts_preserved=[n for _,n in legacy_versions],unchanged_mechanisms_baseline='38500421865' if args.finish_only else None,aesthetic_acceptance='preview.2 conditionally approved; limited wall/ceiling and settlement-spacing finish awaits final review of actual screenshots',limitations='Hosted Linux software OpenGL; not Windows, PCL2, target GPU, Sodium/Iris/DH or real phone')
+ summary=dict(status='LIMITED_FINISH_TECHNICAL_PASS' if args.finish_only else 'SETTLEMENT_PREVIEW_TECHNICAL_PASS',minecraft='1.20.1',layout=103,buildings=11,release_jar_sha256=hashlib.sha256(jar.read_bytes()).hexdigest(),seeds=[74102002,-92345],real_client=True,peripheral_walk_legs=22,settlement_walk_legs=43,original_interior_walk_legs=61,completed_buildings=11,exploration_stopping_nodes=3,legacy_emitter_source_identified=True,real_residence_sleep=True,real_server_restart=True,midride_stop_and_reconnect=not args.finish_only,early_exit=not args.finish_only,legacy_layouts_preserved=[n for _,n in legacy_versions],unchanged_mechanisms_baseline='38500421865' if args.finish_only else None,aesthetic_acceptance='Android feedback fixes await user review and next physical Amethyst confirmation; V1.0 final acceptance not granted',limitations='Hosted Linux software OpenGL; not Windows, PCL2, target GPU, Sodium/Iris/DH or real phone')
  (out/'summary.json').write_text(json.dumps(summary,indent=2)+'\n');print(summary,flush=True)
 if __name__=='__main__':
- p=argparse.ArgumentParser(description=__doc__);p.add_argument('--accept-eula',action='store_true');p.add_argument('--skip-build',action='store_true');p.add_argument('--output',required=True);scope=p.add_mutually_exclusive_group();scope.add_argument('--mechanics-only',action='store_true');scope.add_argument('--finish-only',action='store_true',help='Two-seed finishing review, actual paths/residence sleep, restart and authentic layout101 upgrade; unchanged transport/dream regression uses 38500421865 baseline');run(p.parse_args())
+ p=argparse.ArgumentParser(description=__doc__);p.add_argument('--accept-eula',action='store_true');p.add_argument('--skip-build',action='store_true');p.add_argument('--output',required=True);scope=p.add_mutually_exclusive_group();scope.add_argument('--mechanics-only',action='store_true');scope.add_argument('--finish-only',action='store_true',help='Two-seed finishing review, actual paths/residence sleep, restart and authentic layout102 upgrade and matched before/after photography; unchanged transport/dream regression uses 38500421865 baseline');run(p.parse_args())

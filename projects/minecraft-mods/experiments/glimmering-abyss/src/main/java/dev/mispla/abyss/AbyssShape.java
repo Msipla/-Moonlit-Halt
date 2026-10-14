@@ -50,6 +50,20 @@ public final class AbyssShape {
                     +3*Terrain.noise(x/7.0,(z-.2*x)/9.0,41026);
                 localRoof-=wallWeight*Math.max(1,roofBreak);
             }
+            if(layout>=103&&!(x>=-3&&x<=28&&z>=55&&z<=74&&y>=36)){
+                // The old q is a plan-view section extruded through most of the
+                // height. Break only its exposed skin, with finite oblique erosion
+                // at three scales. Keep the occupied shelf, transit clearance,
+                // floor and cover intact.
+                if(q>.52&&q<1.45){
+                    double broad=Terrain.noise((x+.31*y)/26.0,(z-.23*y)/31.0,41040);
+                    double joint=Terrain.noise((x-.46*y)/10.0,(z+.37*y)/13.0,41041);
+                    double grain=Terrain.noise((x+.61*y)/4.0,(z-.51*y)/5.0,41042);
+                    boundary+=.13*broad+.075*joint+.025*grain;
+                }
+                localRoof-=Math.max(0,3+3*Terrain.noise(x/17.0,z/21.0,41043)
+                    +1.5*Terrain.noise((x+.2*z)/7.0,z/9.0,41044));
+            }
             if(y>=localRoof)return true;
             double mid=(localRoof+floor)*.5,half=(localRoof-floor)*.5;
             if(boundary+.12*Math.pow((y-mid)/half,4)>1+rough)return true;
@@ -57,15 +71,20 @@ public final class AbyssShape {
             if(y<=ledgeTop&&ledgeDistance<7+(ledgeTop-y)*.55)return true;
             // Large attached rock shoulders, not a repeated forest of cylinders.
             double fault=x+23+.25*(z+75)+7*Math.sin(z*.024+y*.031)+4*Math.sin(y*.068);
+            if(layout>=103)fault+=3*Terrain.noise((z+.35*y)/13.0,y/17.0,41045);
             double width=(17+4*Math.sin(y*.055+z*.027)+Math.max(0,y-50)*.15)*Math.max(0,Math.sin(Math.PI*(z+143)/87));
             if(z<-56&&z>-143&&fault>0&&fault<width&&y>18+10*Math.sin(z*.032))return true;
             double fold=x+111-.38*(z+178)+6*Math.sin(z*.043+y*.04)+3*Math.sin(y*.08);
+            if(layout>=103)fold+=3*Terrain.noise((z-.25*y)/12.0,y/15.0,41046);
             if(z<-158&&z>-254&&fold>0&&fold<15+3*Math.sin(y*.047)&&y>-13)return true;
             // Quiet inhabited terrace narrows at the lip, broadens at its foot.
             double depth=Math.max(0,terraceTop-y);
+            double skin=layout>=103&&depth>3
+                ?smooth((depth-3)/12.0)*(3.5*Terrain.noise((z+.32*y)/13.0,y/16.0,41047)
+                    +1.5*Terrain.noise((x-.42*y)/5.0,z/7.0,41048)):0;
             if(y<=terraceTop&&sq((x-62-4*Math.sin(z*.035))/(59+depth*.27))
-                +sq((z+11+5*Math.sin(x*.03))/(90+depth*.19))<1)return true;
-            return y<=38&&sq((x+49)/(25+depth*.17))+sq((z-35)/(22+depth*.13))<1;
+                +sq((z+11+5*Math.sin(x*.03))/(90+depth*.19))<1+skin/45)return true;
+            return y<=38&&sq((x+49)/(25+depth*.17))+sq((z-35)/(22+depth*.13))<1+skin/35;
         }
     }
     public static Column column(int x,int z){return column(x,z,ceiling(x,z));}

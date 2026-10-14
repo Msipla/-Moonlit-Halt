@@ -23,8 +23,9 @@ public final class OverworldLandscape {
     private static final int SX=139,SY=143,SZ=180;
     private static short[] naturalTown;
     private static BlockState[] naturalPalette;
-    private static Blueprint abyssTown,settlementTown,settlementFinish;
-    private record Blueprint(int sx,int sy,int sz,short[] blocks,BlockState[] palette){
+    private static Blueprint abyssTown,settlementTown,settlementFinish,settlementAcceptance;
+    private record Blueprint(int sx,int sy,int sz,short[] blocks,BlockState[] palette,
+                             java.util.Map<Long,net.minecraft.nbt.NbtCompound> blockEntities){
         BlockState at(int x,int y,int z){
             int dx=x+180,dy=y+8,dz=z+290;
             if(dx<0||dx>=sx||dy<0||dy>=sy||dz<0||dz>=sz)return null;
@@ -186,20 +187,33 @@ public final class OverworldLandscape {
     }
     private static void loadAbyssTown(int layout)throws Exception{
         if(blueprint(layout)!=null)return;
-        String name=layout>=102?"settlement_finish":layout>=101?"settlement_town":"abyss_town";
+        String name=layout>=103?"settlement_acceptance":layout>=102?"settlement_finish":layout>=101?"settlement_town":"abyss_town";
         try(var in=OverworldLandscape.class.getResourceAsStream("/data/glimmeringabyss/structures/"+name+".nbt")){
             var n=NbtIo.readCompressed(in);var p=n.getList("palette",NbtElement.COMPOUND_TYPE);var size=n.getList("size",NbtElement.INT_TYPE);
             int sx=size.getInt(0),sy=size.getInt(1),sz=size.getInt(2);var palette=new BlockState[p.size()];
             for(int i=0;i<p.size();i++)palette[i]=NbtHelper.toBlockState(Registries.BLOCK.getReadOnlyWrapper(),p.getCompound(i));
             var blocks=new short[sx*sy*sz];Arrays.fill(blocks,(short)-1);var rows=n.getList("blocks",NbtElement.COMPOUND_TYPE);
-            for(int i=0;i<rows.size();i++){var row=rows.getCompound(i);var a=row.getList("pos",NbtElement.INT_TYPE);blocks[(a.getInt(0)*sz+a.getInt(2))*sy+a.getInt(1)]=(short)row.getInt("state");}
-            var blueprint=new Blueprint(sx,sy,sz,blocks,palette);if(layout>=102)settlementFinish=blueprint;else if(layout>=101)settlementTown=blueprint;else abyssTown=blueprint;
+            var entities=new java.util.HashMap<Long,net.minecraft.nbt.NbtCompound>();
+            for(int i=0;i<rows.size();i++){
+                var row=rows.getCompound(i);var a=row.getList("pos",NbtElement.INT_TYPE);
+                blocks[(a.getInt(0)*sz+a.getInt(2))*sy+a.getInt(1)]=(short)row.getInt("state");
+                if(row.contains("nbt"))entities.put(new BlockPos(a.getInt(0)-180,a.getInt(1)-8,a.getInt(2)-290).asLong(),row.getCompound("nbt"));
+            }
+            var blueprint=new Blueprint(sx,sy,sz,blocks,palette,entities);
+            if(layout>=103)settlementAcceptance=blueprint;else if(layout>=102)settlementFinish=blueprint;else if(layout>=101)settlementTown=blueprint;else abyssTown=blueprint;
         }
     }
-    private static Blueprint blueprint(int layout){return layout>=102?settlementFinish:layout>=101?settlementTown:abyssTown;}
+    private static Blueprint blueprint(int layout){return layout>=103?settlementAcceptance:layout>=102?settlementFinish:layout>=101?settlementTown:abyssTown;}
     private static BlockState abyssExpected(AbyssShape.Column c,int y){
         var t=blueprint(c.layout()).at(c.x(),y,c.z());if(t!=null)return t;
         if(!c.rock(y))return Blocks.AIR.getDefaultState();
+        if(c.layout()>=103){
+            double fold=Terrain.noise((c.x()+.27*y)/19.0,(c.z()-.16*y)/23.0,41049);
+            double seam=y+.24*c.z()+.15*c.x()+8*fold;
+            if(Math.abs(seam-34)<1.8&&fold>-.2||Math.abs(seam+13)<2.1&&fold>.25)return Blocks.TUFF.getDefaultState();
+            var axis=fold>.24?net.minecraft.util.math.Direction.Axis.X:fold<-.18?net.minecraft.util.math.Direction.Axis.Z:net.minecraft.util.math.Direction.Axis.Y;
+            return Blocks.DEEPSLATE.getDefaultState().with(Properties.AXIS,axis);
+        }
         double stratum=y+.16*c.x()+4*Math.sin(c.z()*.021);
         if(c.layout()>=102&&c.wallWeight()>0){
             double fold=Terrain.noise(c.z()/22.0,y/18.0,41028);
@@ -261,9 +275,33 @@ public final class OverworldLandscape {
                 var state=s.layout>=100?abyssExpected(abyss,y):s.layout>=75?naturalExpected(natural,y):expected(c,y);pos.set(s.x+x,y+OverworldSite.OFFSET_Y,s.z+z);
                 if(!w.getBlockState(pos).isOf(Blocks.BEDROCK))w.setBlockState(pos,state,FLAGS);
             }
+            if(s.layout>=103)for(var entry:blueprint(s.layout).blockEntities.entrySet()){
+                var local=BlockPos.fromLong(entry.getKey());
+                if(local.getX()!=x||local.getZ()!=z)continue;
+                var actual=s.at(x,local.getY(),z);var entity=w.getBlockEntity(actual);
+                if(entity==null)throw new IllegalStateException("Missing authored block entity at "+actual);
+                var tag=entry.getValue().copy();tag.putInt("x",actual.getX());tag.putInt("y",actual.getY());tag.putInt("z",actual.getZ());
+                entity.readNbt(tag);entity.markDirty();w.updateListeners(actual,w.getBlockState(actual),w.getBlockState(actual),Block.NOTIFY_LISTENERS);
+            }
         }
-        for(var f:Terrain.fixtures(Terrain.SEED))if((s.x+f.x())>>4==cx&&(s.z+f.z())>>4==cz)
+        for(var f:Terrain.fixtures(Terrain.SEED))if((s.x+f.x())>>4==cx&&(s.z+f.z())>>4==cz
+                &&(s.layout<103||fixtureFits(s,f)))
             w.setBlockState(s.at(f.x(),f.y(),f.z()),GlimmeringAbyss.GLIMMER.getDefaultState(),FLAGS);
+    }
+    /** Historical calibration coordinates may now be empty space or a house.
+     * New sites embed emitters only in connected natural rock, never over architecture. */
+    static boolean fixtureFits(OverworldSite s,Terrain.Fixture f){
+        if(blueprint(s.layout)==null)try{loadAbyssTown(s.layout);}catch(Exception e){throw new IllegalStateException(e);}
+        var c=AbyssShape.column(f.x(),f.z(),AbyssShape.ceiling(f.x(),f.z()),s.layout);
+        var state=abyssExpected(c,f.y());
+        if(!state.isOf(Blocks.DEEPSLATE)&&!state.isOf(Blocks.TUFF))return false;
+        if(blueprint(s.layout).at(f.x(),f.y(),f.z())!=null)return false;
+        int joined=0;
+        for(var d:net.minecraft.util.math.Direction.values()){
+            int x=f.x()+d.getOffsetX(),y=f.y()+d.getOffsetY(),z=f.z()+d.getOffsetZ();
+            if(AbyssShape.column(x,z,AbyssShape.ceiling(x,z),s.layout).rock(y))joined++;
+        }
+        return joined>=3;
     }
     private static void set(ServerWorld w,OverworldSite s,int x,int y,int z,Block b){w.setBlockState(new BlockPos(s.x+x,y,s.z+z),b.getDefaultState(),Block.NOTIFY_ALL);}
     private static void stations(ServerWorld w,OverworldSite s){

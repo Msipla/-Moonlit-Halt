@@ -1,0 +1,304 @@
+{
+  "status": "PASS",
+  "preview": false,
+  "deployed_source": "b43c72e4ac6268975a678030c7bdae809f012514",
+  "base": "https://msipla.github.io/-Moonlit-Halt/",
+  "viewports": [
+    {
+      "width": 360,
+      "height": 844,
+      "emulated_mobile": true,
+      "horizontal_overflow": false,
+      "stage_navigation": true,
+      "palette_and_view": true,
+      "lightbox": true,
+      "comparison_slider": true,
+      "touch_targets": [
+        {
+          "label": "观景台",
+          "height": 44
+        },
+        {
+          "label": "通道",
+          "height": 44
+        },
+        {
+          "label": "深渊边缘",
+          "height": 44
+        },
+        {
+          "label": "俯视",
+          "height": 44
+        },
+        {
+          "label": "冷蓝",
+          "height": 44
+        },
+        {
+          "label": "铜金",
+          "height": 44
+        },
+        {
+          "label": "局部暖光",
+          "height": 44
+        },
+        {
+          "label": "放大原图 ↗",
+          "height": 44
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "emulated_mobile": true,
+      "horizontal_overflow": false,
+      "stage_navigation": true,
+      "palette_and_view": true,
+      "lightbox": true,
+      "comparison_slider": true,
+      "touch_targets": [
+        {
+          "label": "观景台",
+          "height": 44
+        },
+        {
+          "label": "通道",
+          "height": 44
+        },
+        {
+          "label": "深渊边缘",
+          "height": 44
+        },
+        {
+          "label": "俯视",
+          "height": 44
+        },
+        {
+          "label": "冷蓝",
+          "height": 44
+        },
+        {
+          "label": "铜金",
+          "height": 44
+        },
+        {
+          "label": "局部暖光",
+          "height": 44
+        },
+        {
+          "label": "放大原图 ↗",
+          "height": 44
+        }
+      ]
+    },
+    {
+      "width": 430,
+      "height": 844,
+      "emulated_mobile": true,
+      "horizontal_overflow": false,
+      "stage_navigation": true,
+      "palette_and_view": true,
+      "lightbox": true,
+      "comparison_slider": true,
+      "touch_targets": [
+        {
+          "label": "观景台",
+          "height": 44
+        },
+        {
+          "label": "通道",
+          "height": 44
+        },
+        {
+          "label": "深渊边缘",
+          "height": 44
+        },
+        {
+          "label": "俯视",
+          "height": 44
+        },
+        {
+          "label": "冷蓝",
+          "height": 44
+        },
+        {
+          "label": "铜金",
+          "height": 44
+        },
+        {
+          "label": "局部暖光",
+          "height": 44
+        },
+        {
+          "label": "放大原图 ↗",
+          "height": 44
+        }
+      ]
+    },
+    {
+      "width": 768,
+      "height": 1000,
+      "emulated_mobile": false,
+      "horizontal_overflow": false,
+      "stage_navigation": true,
+      "palette_and_view": true,
+      "lightbox": true,
+      "comparison_slider": true,
+      "touch_targets": [
+        {
+          "label": "观景台",
+          "height": 44
+        },
+        {
+          "label": "通道",
+          "height": 44
+        },
+        {
+          "label": "深渊边缘",
+          "height": 44
+        },
+        {
+          "label": "俯视",
+          "height": 44
+        },
+        {
+          "label": "冷蓝",
+          "height": 44
+        },
+        {
+          "label": "铜金",
+          "height": 44
+        },
+        {
+          "label": "局部暖光",
+          "height": 44
+        },
+        {
+          "label": "放大原图 ↗",
+          "height": 44
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "height": 1000,
+      "emulated_mobile": false,
+      "horizontal_overflow": false,
+      "stage_navigation": true,
+      "palette_and_view": true,
+      "lightbox": true,
+      "comparison_slider": true,
+      "touch_targets": [
+        {
+          "label": "观景台",
+          "height": 44
+        },
+        {
+          "label": "通道",
+          "height": 44
+        },
+        {
+          "label": "深渊边缘",
+          "height": 44
+        },
+        {
+          "label": "俯视",
+          "height": 44
+        },
+        {
+          "label": "冷蓝",
+          "height": 44
+        },
+        {
+          "label": "铜金",
+          "height": 44
+        },
+        {
+          "label": "局部暖光",
+          "height": 44
+        },
+        {
+          "label": "放大原图 ↗",
+          "height": 44
+        }
+      ]
+    }
+  ],
+  "legacy_links": [
+    {
+      "url": "phase75.html",
+      "status": 200
+    },
+    {
+      "url": "evidence/phase75/latest.json",
+      "status": 200
+    },
+    {
+      "url": "phase7.html",
+      "status": 200
+    },
+    {
+      "url": "evidence/phase7/latest.json",
+      "status": 200
+    },
+    {
+      "url": "phase1.html",
+      "status": 200
+    },
+    {
+      "url": "phase2.html",
+      "status": 200
+    },
+    {
+      "url": "phase3.html",
+      "status": 200
+    },
+    {
+      "url": "phase4.html",
+      "status": 200
+    },
+    {
+      "url": "phase5.html",
+      "status": 200
+    },
+    {
+      "url": "phase6.html",
+      "status": 200
+    },
+    {
+      "url": "evidence/phase6/latest.json",
+      "status": 200
+    },
+    {
+      "url": "evidence/phase5/latest.json",
+      "status": 200
+    },
+    {
+      "url": "evidence/phase4/latest.json",
+      "status": 200
+    },
+    {
+      "url": "evidence/phase1/summary.json",
+      "status": 200
+    },
+    {
+      "url": "evidence/phase2/summary.json",
+      "status": 200
+    },
+    {
+      "url": "evidence/phase1/screenshots/glimmer-platform.png",
+      "status": 200
+    },
+    {
+      "url": "evidence/phase2/screenshots/veil-platform.png",
+      "status": 200
+    },
+    {
+      "url": "evidence/phase3/latest.json",
+      "status": 200
+    }
+  ],
+  "javascript_errors": [],
+  "limit": "Chromium mobile viewport/touch emulation on hosted Linux; not real iQOO, Safari or Windows testing"
+}

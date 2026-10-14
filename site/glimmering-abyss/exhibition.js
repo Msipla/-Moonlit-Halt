@@ -48,6 +48,9 @@ function renderOverview() {
 function renderGallery() {
   const s=currentStage;
   byId('gallery-heading').textContent=s.title;byId('gallery-description').textContent=s.description;byId('stage-verdict').textContent=s.verdict;
+  // Only the V1 preview has an extra download action; historical phase galleries remain unchanged.
+  const download=byId('v1-gallery-download');
+  if(download)download.hidden=s.id!=='v1preview';
   for(const b of document.querySelectorAll('[data-stage-tab]'))b.setAttribute('aria-pressed',b.dataset.stageTab===s.id);
   const views=byId('view-tabs');views.replaceChildren();
   for(const v of s.views){const b=text('button',viewNames[v]);b.dataset.view=v;b.setAttribute('aria-pressed',v===currentView);b.addEventListener('click',()=>{currentView=v;const mode=s.modes.find(x=>x.id===currentMode);if((mode.onlyView&&mode.onlyView!==v)||(mode.views&&!mode.views.includes(v)))currentMode=s.defaultMode;renderGallery();});views.append(b);}
