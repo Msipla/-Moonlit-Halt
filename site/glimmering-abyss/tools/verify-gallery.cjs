@@ -7,16 +7,16 @@ const assert=(value,message)=>{if(!value)throw Error(message);};
 async function ready(page){await page.waitForFunction(()=>document.documentElement.dataset.galleryReady==='true');await page.waitForFunction(()=>['hero-image','gallery-image'].every(id=>{const i=document.getElementById(id);return i.complete&&i.naturalWidth===1280;}));}
 async function overflow(page){return page.evaluate(()=>({viewport:innerWidth,width:document.documentElement.scrollWidth,body:document.body.scrollWidth}));}
 (async()=>{
-  let deployment;
+  let deployment,browser;
+  const results=[];const errors=[];
+  try{
   for(let attempt=0;attempt<18;attempt++){
     const r=await fetch(base+'build-info.json?qa='+Date.now());if(r.ok)deployment=await r.json();
     if(deployment?.commit===process.env.GALLERY_SOURCE_SHA)break;
     await new Promise(resolve=>setTimeout(resolve,10000));
   }
   assert(deployment?.commit===process.env.GALLERY_SOURCE_SHA,'Expected exhibition source is not deployed');
-  const browser=await chromium.launch({headless:true});
-  const results=[];const errors=[];
-  try{
+  browser=await chromium.launch({headless:true});
     for(const width of [360,390,430,768,1440]){
       const mobile=width<768;
       const context=await browser.newContext({viewport:{width,height:mobile?844:1000},deviceScaleFactor:1,isMobile:mobile,hasTouch:mobile,locale:'zh-CN',reducedMotion:'reduce'});
@@ -109,5 +109,5 @@ async function overflow(page){return page.evaluate(()=>({viewport:innerWidth,wid
     const v1=await browser.newPage({viewport:{width:390,height:844}});await v1.goto(base+'v1.html');await v1.waitForFunction(()=>document.documentElement.dataset.v1Ready==='true');await v1.locator('#pictures img').evaluateAll(nodes=>nodes.forEach(i=>i.loading='eager'));await v1.waitForFunction(()=>Array.from(document.querySelectorAll('#pictures img')).every(i=>i.complete&&i.naturalWidth===1280));assert((await overflow(v1)).width<=390,'V1 detail overflow');assert((await v1.locator('#download').getAttribute('href')).includes('38580056771/glimmering-abyss-1.0.0-preview.4.jar'),'Wrong V1 download');await v1.screenshot({path:path.join(out,'v1-detail-390.png'),fullPage:true});await v1.close();
     const report={status:'PASS',preview:!!deployment.preview,deployed_source:deployment.commit,base,viewports:results,legacy_links:links,javascript_errors:errors,limit:'Chromium mobile viewport/touch emulation on hosted Linux; not real iQOO, Safari or Windows testing'};
     fs.writeFileSync(path.join(out,'summary.json'),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report));
-  }catch(error){fs.writeFileSync(path.join(out,'failure.json'),JSON.stringify({status:'FAIL',error:error.message,deployment,results,errors},null,2)+'\n');throw error;}finally{await browser.close();}
+  }catch(error){fs.writeFileSync(path.join(out,'failure.json'),JSON.stringify({status:'FAIL',error:error.message,deployment,results,errors},null,2)+'\n');throw error;}finally{if(browser)await browser.close();}
 })().catch(error=>{console.error(error);process.exitCode=1;});
