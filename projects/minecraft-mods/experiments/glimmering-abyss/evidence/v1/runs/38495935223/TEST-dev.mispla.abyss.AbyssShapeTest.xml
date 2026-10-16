@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="dev.mispla.abyss.AbyssShapeTest" tests="5" skipped="0" failures="0" errors="0" timestamp="2026-10-14T01:31:02" hostname="runnervmmprz5" time="0.191">
+  <properties/>
+  <testcase name="cabinClearanceBelowShaft()" classname="dev.mispla.abyss.AbyssShapeTest" time="0.095"/>
+  <testcase name="continuousDescendingRouteHasNoLateralReversal()" classname="dev.mispla.abyss.AbyssShapeTest" time="0.005"/>
+  <testcase name="distantVaultsRemainConnectedToCentralRift()" classname="dev.mispla.abyss.AbyssShapeTest" time="0.0"/>
+  <testcase name="solidCapAndBedrockBufferAcrossExpandedFootprint()" classname="dev.mispla.abyss.AbyssShapeTest" time="0.032"/>
+  <testcase name="localEastWallRevisionPreservesMainRiftAndRemoteVaults()" classname="dev.mispla.abyss.AbyssShapeTest" time="0.054"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

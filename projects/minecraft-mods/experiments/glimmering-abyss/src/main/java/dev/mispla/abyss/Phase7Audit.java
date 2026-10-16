@@ -12,6 +12,7 @@ import net.minecraft.entity.SpawnGroup;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
+import net.minecraft.registry.Registries;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
@@ -32,6 +33,7 @@ import static net.minecraft.server.command.CommandManager.argument;
 public final class Phase7Audit {
     private static MobEntity entering;
     private static long enteredAt;
+    private static final java.util.Map<java.util.UUID,Integer> sleepStarts=new java.util.HashMap<>(),sleepStops=new java.util.HashMap<>();
     private Phase7Audit(){}
     public static void initialize(){
         CommandRegistrationCallback.EVENT.register((d,a,e)->d.register(literal("abyss").then(literal("phase7")
@@ -42,9 +44,15 @@ public final class Phase7Audit {
             .then(literal("intrusion").executes(c->intrusion(c.getSource())))
             .then(literal("natural").executes(c->natural(c.getSource())))
             .then(literal("bedtime").executes(c->bedtime(c.getSource())))
+            .then(literal("house-bedtime").executes(c->houseBedtime(c.getSource())))
+            .then(literal("sleepstate").then(argument("label",StringArgumentType.word()).executes(c->sleepstate(c.getSource(),StringArgumentType.getString(c,"label")))))
             .then(literal("debugcheck").executes(c->debugcheck(c.getSource())))
             .then(literal("dream").executes(c->{Journey.dream(c.getSource().getPlayerOrThrow());return 1;}))
         )));
+        if(Boolean.getBoolean("abyss.testServer")){
+            net.fabricmc.fabric.api.entity.event.v1.EntitySleepEvents.START_SLEEPING.register((entity,pos)->{if(entity instanceof net.minecraft.server.network.ServerPlayerEntity player)sleepStarts.merge(player.getUuid(),1,Integer::sum);});
+            net.fabricmc.fabric.api.entity.event.v1.EntitySleepEvents.STOP_SLEEPING.register((entity,pos)->{if(entity instanceof net.minecraft.server.network.ServerPlayerEntity player)sleepStops.merge(player.getUuid(),1,Integer::sum);});
+        }
         ServerTickEvents.END_SERVER_TICK.register(server->{
             if(entering!=null&&server.getOverworld().getTime()>enteredAt+5){
                 var r=new JsonObject();r.addProperty("removed_after_crossing",entering.isRemoved());r.addProperty("ticks",server.getOverworld().getTime()-enteredAt);
@@ -70,6 +78,23 @@ public final class Phase7Audit {
         var p=source.getPlayerOrThrow();p.changeGameMode(GameMode.SURVIVAL);p.getAbilities().flying=false;p.sendAbilitiesUpdate();
         double x=6.5,y=s.entryY+1,z=70.5;float yaw=180,pitch=8;
         switch(name){
+            case "rift" -> {x=-45.5;y=55;z=-134.5;yaw=165;pitch=12;}
+            case "gallery" -> {x=-145.5;y=35;z=-205.5;yaw=-20;pitch=8;}
+            case "homeward" -> {x=-66.5;y=34;z=-125.5;yaw=-30;pitch=-3;}
+            case "route-start" -> {x=47.5;y=47;z=-57.5;yaw=180;pitch=0;}
+            case "settlement-start" -> {x=47.5;y=45;z=-23.5;yaw=-90;pitch=0;}
+            case "east-lane" -> {x=83.5;y=45;z=19.5;yaw=180;pitch=-16;}
+            case "settlement-overlook" -> {x=70.5;y=59;z=71.5;yaw=-169;pitch=18;}
+            case "north-pocket" -> {x=63.5;y=47;z=-71.5;yaw=-135;pitch=-10;}
+            case "orphan" -> {x=64.5;y=48;z=-18.5;yaw=-129;pitch=1;}
+            case "workshop-entry" -> {x=42.5;y=45;z=44.5;yaw=180;pitch=0;}
+            case "residence-entry" -> {x=38.5;y=45;z=-3.5;yaw=180;pitch=0;}
+            case "slate-entry" -> {x=56.5;y=45;z=-3.5;yaw=180;pitch=0;}
+            case "store-entry" -> {x=72.5;y=45;z=8.5;yaw=180;pitch=0;}
+            case "tea-entry" -> {x=32.5;y=46;z=-26.5;yaw=180;pitch=0;}
+            case "clock-entry" -> {x=58.5;y=46;z=-49.5;yaw=180;pitch=0;}
+            case "library-entry" -> {x=-39.5;y=45;z=35.5;yaw=90;pitch=0;}
+            case "public-nook" -> {x=65.5;y=46;z=-23.5;yaw=180;pitch=-7;}
             case "library" -> {x=-47.5;y=45;z=38.5;yaw=120;pitch=8;}
             case "bridge-destination" -> {x=-29.5;y=45;z=35.5;yaw=90;pitch=-5;}
             case "bedroom" -> {x=38.5;y=51;z=-10.5;yaw=180;pitch=10;}
@@ -77,7 +102,7 @@ public final class Phase7Audit {
             case "west-cave" -> {x=-83.5;y=36;z=-52.5;yaw=-35;pitch=8;p.changeGameMode(GameMode.CREATIVE);p.getAbilities().flying=true;p.sendAbilitiesUpdate();}
             case "floor" -> {x=-4.5;y=0;z=42.5;yaw=180;pitch=45;p.changeGameMode(GameMode.CREATIVE);p.getAbilities().flying=true;p.sendAbilitiesUpdate();}
             case "approach" -> {x=9.5+s.approachLength;y=s.approachY+1;z=70.5;yaw=90;pitch=0;}
-            case "lower" -> y=45;
+            case "lower" -> {y=45;x=s.dockX()+6.5;z=s.dockZ()+.5;}
             case "street" -> {x=47.5;y=45;z=4.5;yaw=180;pitch=-9;}
             case "cliff" -> {x=-31.5;y=26;z=7.5;yaw=-90;pitch=8;p.changeGameMode(GameMode.CREATIVE);p.getAbilities().flying=true;p.sendAbilitiesUpdate();}
             case "overview" -> {x=-31.5;y=66;z=60.5;yaw=-135;pitch=18;p.changeGameMode(GameMode.CREATIVE);p.getAbilities().flying=true;p.sendAbilitiesUpdate();}
@@ -86,7 +111,7 @@ public final class Phase7Audit {
             case "entrance" -> {}
             default -> {return 0;}
         }
-        if(java.util.Set.of("library","bridge-destination","bedroom","water","west-cave","floor","cliff","overview","surface").contains(name)){
+        if(java.util.Set.of("rift","gallery","homeward","library","bridge-destination","bedroom","water","west-cave","floor","cliff","overview","surface","settlement-overlook","orphan").contains(name)){
             p.changeGameMode(GameMode.CREATIVE);p.getAbilities().flying=true;p.sendAbilitiesUpdate();
             boolean clear=false;
             for(int radius=0;radius<=12&&!clear;radius++)for(int dx=-radius;dx<=radius&&!clear;dx++)for(int dz=-radius;dz<=radius&&!clear;dz++){
@@ -107,12 +132,37 @@ public final class Phase7Audit {
         var bed=Blocks.BLUE_BED.getDefaultState().with(net.minecraft.block.BedBlock.FACING,net.minecraft.util.math.Direction.SOUTH);
         w.setBlockState(new BlockPos(x,y,z),bed.with(net.minecraft.block.BedBlock.PART,net.minecraft.block.enums.BedPart.FOOT));
         w.setBlockState(new BlockPos(x,y,z+1),bed.with(net.minecraft.block.BedBlock.PART,net.minecraft.block.enums.BedPart.HEAD));
-        w.setTimeOfDay((w.getTimeOfDay()/24000+1)*24000+13000);
-        var player=source.getPlayerOrThrow();player.teleport(w,x+1.5,y,z+.5,90,40);return 1;
+        long beforeDayTime=w.getTimeOfDay(),beforeWorldTime=w.getTime();
+        var dispatcher=source.getServer().getCommandManager().getDispatcher();
+        dispatcher.execute("time add 24000",source);
+        long advancedDay=w.getTimeOfDay()/24000;
+        dispatcher.execute("time set "+(advancedDay*24000+13000),source);
+        if(w.getTimeOfDay()/24000<=beforeDayTime/24000)throw new IllegalStateException("Native time command did not advance the day");
+        var player=source.getPlayerOrThrow();player.changeGameMode(GameMode.SURVIVAL);player.getAbilities().flying=false;player.sendAbilitiesUpdate();player.teleport(w,x+1.5,y,z+.5,90,40);
+        var fixture=new JsonObject();fixture.addProperty("bed_x",x);fixture.addProperty("bed_y",y);fixture.addProperty("bed_z",z);fixture.addProperty("player",player.getPos().toString());fixture.addProperty("time_of_day",w.getTimeOfDay());fixture.addProperty("before_day_time",beforeDayTime);fixture.addProperty("before_world_time",beforeWorldTime);fixture.addProperty("world_time",w.getTime());fixture.addProperty("day_before",beforeDayTime/24000);fixture.addProperty("day_after",w.getTimeOfDay()/24000);fixture.addProperty("command","time add 24000; time set absolute-next-day-night");write("sleep-fixture-"+(s.dreams.getOrDefault(player.getUuid(),0)+1),fixture);write("sleep-fixture",fixture);return 1;
+    }
+    private static int houseBedtime(ServerCommandSource source)throws com.mojang.brigadier.exceptions.CommandSyntaxException{
+        var w=source.getServer().getOverworld();var s=OverworldSite.get(w);var pos=s.layout>=102?s.at(106,41,-41):s.at(98,41,-26);
+        if(s.layout<101||!w.getBlockState(pos).isOf(Blocks.BLUE_BED)||!w.getBlockState(pos.north()).isOf(Blocks.BLUE_BED))throw new IllegalStateException("Residence bed was not generated");
+        long before=w.getTimeOfDay();var dispatcher=source.getServer().getCommandManager().getDispatcher();
+        dispatcher.execute("time add 24000",source);long day=w.getTimeOfDay()/24000;
+        dispatcher.execute("time set "+(day*24000+13000),source);
+        if(w.getTimeOfDay()/24000<=before/24000)throw new IllegalStateException("Residence fixture did not advance the day");
+        var p=source.getPlayerOrThrow();p.changeGameMode(GameMode.SURVIVAL);p.getAbilities().flying=false;p.sendAbilitiesUpdate();p.teleport(w,pos.getX()-.5,pos.getY(),pos.getZ()+.5,-90,35);
+        var r=new JsonObject();r.addProperty("day_before",before/24000);r.addProperty("day_after",w.getTimeOfDay()/24000);r.addProperty("original_generated_bed",true);r.addProperty("bed",pos.toString());write("house-sleep-fixture",r);return 1;
+    }
+    private static int sleepstate(ServerCommandSource source,String label)throws com.mojang.brigadier.exceptions.CommandSyntaxException{
+        if(!label.matches("[a-zA-Z0-9_-]{1,32}"))return 0;
+        var player=source.getPlayerOrThrow();var w=player.getServerWorld();var site=OverworldSite.get(source.getServer().getOverworld());var r=new JsonObject();
+        r.addProperty("world_time",w.getTime());r.addProperty("day_time",w.getTimeOfDay());r.addProperty("day",w.getTimeOfDay()/24000);r.addProperty("sleeping",player.isSleeping());
+        r.addProperty("start_sleep_events",sleepStarts.getOrDefault(player.getUuid(),0));r.addProperty("stop_sleep_events",sleepStops.getOrDefault(player.getUuid(),0));
+        r.addProperty("dreams",site.dreams.getOrDefault(player.getUuid(),0));r.addProperty("dream_day",site.dreamDays.getOrDefault(player.getUuid(),-1L));
+        r.addProperty("has_echo",player.getInventory().contains(new net.minecraft.item.ItemStack(Journey.ECHO)));r.addProperty("game_mode",player.interactionManager.getGameMode().getName());
+        write("sleep-"+label,r);return 1;
     }
     private static int intrusion(ServerCommandSource source){
         var w=source.getServer().getOverworld();var s=OverworldSite.get(w);
-        entering=EntityType.ZOMBIE.create(w);entering.setPosition(s.x+115,45,s.z+70);w.spawnEntity(entering);
+        entering=EntityType.ZOMBIE.create(w);entering.setPosition(s.x+s.maxX()+4,45,s.z+70);w.spawnEntity(entering);
         entering.setPosition(s.x+6,45,s.z+70);enteredAt=w.getTime();return 1;
     }
     private static int natural(ServerCommandSource source){
@@ -134,7 +184,7 @@ public final class Phase7Audit {
                 String expected=pal.getCompound(b.getInt("state")).getString("Name");
                 if(expected.equals("glimmeringabyss:warm_window")){windows++;var p=s.at(x,y,z);if(w.getBlockState(p).isOf(GlimmeringAbyss.WARM_WINDOW))preserved++;if(w.getLightLevel(LightType.BLOCK,p)==12)lit++;}
             }
-            int capMatches=0;for(int i=0;i<OverworldSite.CHUNKS;i++){String cap=OverworldLandscape.capHash(w,s,s.x/16-7+i%14,s.z/16-11+i/14);if(i<s.caps.size()&&s.caps.get(i).equals(cap))capMatches++;}
+            int capMatches=0;for(int i=0;i<s.chunks();i++){String cap=OverworldLandscape.capHash(w,s,s.chunkX(i),s.chunkZ(i));if(i<s.caps.size()&&s.caps.get(i).equals(cap))capMatches++;}
             r.addProperty("unchanged_surface_and_bedrock_chunks",capMatches);
             var surface=new JsonArray();
             for(int x=-104;x<112;x+=16)for(int z=-168;z<112;z+=16){
@@ -143,7 +193,7 @@ public final class Phase7Audit {
                 row.addProperty("top",w.getBlockState(new BlockPos(s.x+x,y-1,s.z+z)).toString());row.addProperty("second",w.getBlockState(new BlockPos(s.x+x,y-2,s.z+z)).toString());surface.add(row);
             }
             r.add("native_surface_samples",surface);
-            int samples=0;for(int x=-108;x<108;x+=9)for(int z=-172;z<108;z+=9)for(int y=-63;y<=105;y+=7){
+            int samples=0;for(int x=s.layout>=100?s.minX()+4:-108;x<(s.layout>=100?s.maxX()-4:108);x+=9)for(int z=s.layout>=100?s.minZ()+4:-172;z<(s.layout>=100?s.maxZ()-4:108);z+=9)for(int y=-63;y<=105;y+=7){
                 if(y>OverworldLandscape.ceiling(s,x,z)-OverworldSite.OFFSET_Y)continue;
                 digest.update(w.getBlockState(s.at(x,y,z)).toString().getBytes(java.nio.charset.StandardCharsets.UTF_8));samples++;
             }
@@ -155,17 +205,17 @@ public final class Phase7Audit {
                 }
             }
             var attempts=new JsonArray();boolean blocked=true;
-            for(int[] point:new int[][]{{47,45,4},{-40,26,-60},{4,45,35},{0,-54,-20},{0,85,70},{6,s.entryY+2,70},{9+s.approachLength/2,Math.max(s.entryY,s.approachY)+2,70},{-111,20,-175},{110,20,110}}){
+            for(int[] point:new int[][]{{47,45,4},{-40,26,-60},{4,45,35},{0,-54,-20},{0,85,70},{6,s.entryY+2,70},{9+s.approachLength/2,Math.max(s.entryY,s.approachY)+2,70},{s.minX()+1,20,s.minZ()+1},{s.maxX()-1,20,s.maxZ()-1}}){
                 for(var type:List.of(EntityType.ZOMBIE,EntityType.SKELETON,EntityType.CREEPER,EntityType.PHANTOM,EntityType.BAT,EntityType.COW)){
                     var mob=type.create(w);mob.setPosition(s.x+point[0]+.5,point[1],s.z+point[2]+.5);boolean accepted=w.spawnEntity(mob);blocked&=!accepted;
                     var row=new JsonObject();row.addProperty("type",EntityType.getId(type).toString());row.addProperty("local_x",point[0]);row.addProperty("y",point[1]);row.addProperty("local_z",point[2]);row.addProperty("accepted",accepted);attempts.add(row);if(accepted)mob.discard();
                 }
             }
-            boolean outside=true;for(int[] q:new int[][]{{-114,20,-50},{114,20,-50},{0,20,-179},{0,20,114},{40,130,0},{0,-60,0}}){
+            boolean outside=true;for(int[] q:new int[][]{{s.minX()-2,20,-50},{s.maxX()+2,20,-50},{0,20,s.minZ()-3},{0,20,s.maxZ()+3},{40,130,0},{0,-60,0}}){
                 var mob=EntityType.ZOMBIE.create(w);mob.setPosition(s.x+q[0],q[1],s.z+q[2]);outside&=w.spawnEntity(mob)&&!mob.isRemoved();mob.discard();
             }
             int sceneMobs=0;for(var e:w.iterateEntities())if(e instanceof MobEntity&&SceneSafety.protects(w,e.getX(),e.getY(),e.getZ()))sceneMobs++;
-            boolean bedrock=true;for(int x=-112;x<112;x+=16)for(int z=-176;z<112;z+=16)bedrock&=w.getBlockState(new BlockPos(s.x+x,-64,s.z+z)).isOf(Blocks.BEDROCK);
+            boolean bedrock=true;for(int x=s.minX();x<=s.maxX();x+=16)for(int z=s.minZ();z<=s.maxZ();z+=16)bedrock&=w.getBlockState(new BlockPos(s.x+x,-64,s.z+z)).isOf(Blocks.BEDROCK);
             boolean shaft=true;for(int y=45;y<=s.entryY+3;y++)for(int x=-1;x<=1;x++)for(int z=69;z<=71;z++)shaft&=w.getBlockState(new BlockPos(s.x+x,y,s.z+z)).getCollisionShape(w,new BlockPos(s.x+x,y,s.z+z)).isEmpty();
             r.addProperty("warm_windows",windows);r.addProperty("warm_windows_preserved",preserved);r.addProperty("warm_windows_native_12",lit);r.addProperty("bedrock_intact",bedrock);r.addProperty("shaft_clear",shaft);
             r.addProperty("geometry_sample_count",samples);r.addProperty("geometry_sha256",HexFormat.of().formatHex(digest.digest()));r.add("scene_spawn_attempts",attempts);r.addProperty("scene_insertions_blocked",blocked);r.addProperty("outside_boundary_insertions_allowed",outside);r.addProperty("loaded_scene_mobs",sceneMobs);
@@ -180,20 +230,51 @@ public final class Phase7Audit {
                 }
             }
             r.addProperty("water_source_cells",water);r.addProperty("water_basin_contained",fluids);
-            int structures=0,missing=0;
+            int structures=0,missing=0,allWindows=0,allLit=0;
             if(s.layout>=75){
-                var tn=w.getStructureTemplateManager().getTemplate(GlimmeringAbyss.id("natural_town")).orElseThrow().writeNbt(new NbtCompound());
+                var tn=w.getStructureTemplateManager().getTemplate(GlimmeringAbyss.id(s.layout>=103?"settlement_acceptance":s.layout>=102?"settlement_finish":s.layout>=101?"settlement_town":s.layout>=100?"abyss_town":"natural_town")).orElseThrow().writeNbt(new NbtCompound());
                 var tp=tn.getList("palette",NbtElement.COMPOUND_TYPE);var tb=tn.getList("blocks",NbtElement.COMPOUND_TYPE);
                 for(int i=0;i<tb.size();i++){
                     var b=tb.getCompound(i);String id=tp.getCompound(b.getInt("state")).getString("Name");if(id.equals("minecraft:air"))continue;
-                    var xyz=b.getList("pos",NbtElement.INT_TYPE);var pos=s.at(xyz.getInt(0)-64,xyz.getInt(1)+34,xyz.getInt(2)-106);
+                    var xyz=b.getList("pos",NbtElement.INT_TYPE);var pos=s.at(xyz.getInt(0)-(s.layout>=100?180:64),xyz.getInt(1)+(s.layout>=100?-8:34),xyz.getInt(2)-(s.layout>=100?290:106));
+                    if(s.layout>=100&&pos.getX()>=s.x+18&&pos.getX()<=s.x+33&&pos.getZ()>=s.z+52&&pos.getZ()<=s.z+65&&pos.getY()>=45&&pos.getY()<=52)continue;
                     structures++;if(!net.minecraft.registry.Registries.BLOCK.getId(w.getBlockState(pos).getBlock()).toString().equals(id))missing++;
+                    if(id.equals("glimmeringabyss:warm_window")){allWindows++;if(w.getLightLevel(LightType.BLOCK,pos)==12)allLit++;}
                 }
             }
             r.addProperty("architectural_nonair_blocks",structures);r.addProperty("architectural_missing_or_wrong_blocks",missing);
-            r.addProperty("player_witness_gold",w.getBlockState(s.at(45,42,8)).isOf(Blocks.GOLD_BLOCK));
+            r.addProperty("all_template_warm_windows",allWindows);r.addProperty("all_template_warm_windows_native_12",allLit);
+            int unsuitableEmitters=0;var emitters=new JsonArray();
+            if(s.layout>=100)for(var f:Terrain.fixtures(Terrain.SEED)){
+                var pos=s.at(f.x(),f.y(),f.z());var actual=w.getBlockState(pos);
+                boolean fits=OverworldLandscape.fixtureFits(s,f);boolean placed=actual.isOf(GlimmeringAbyss.GLIMMER);
+                if(placed&&!fits)unsuitableEmitters++;
+                var row=new JsonObject();row.addProperty("local_x",f.x());row.addProperty("local_y",f.y());row.addProperty("local_z",f.z());
+                row.addProperty("world_position",pos.toShortString());row.addProperty("block_id",Registries.BLOCK.getId(actual.getBlock()).toString());
+                row.addProperty("natural_rock_attachment",fits);row.addProperty("source","Terrain.fixtures legacy calibration coordinates; placed last by OverworldLandscape.paint");
+                var neighbors=new JsonArray();for(var d:net.minecraft.util.math.Direction.values())neighbors.add(w.getBlockState(pos.offset(d)).toString());row.add("neighbor_states",neighbors);emitters.add(row);
+            }
+            r.add("legacy_emitter_samples",emitters);r.addProperty("unsuitable_legacy_emitters",unsuitableEmitters);
+            boolean signs=true;int signCount=0;
+            if(s.layout>=103){
+                var sn=w.getStructureTemplateManager().getTemplate(GlimmeringAbyss.id("settlement_acceptance")).orElseThrow().writeNbt(new NbtCompound());
+                var sb=sn.getList("blocks",NbtElement.COMPOUND_TYPE);
+                for(int i=0;i<sb.size();i++){
+                    var b=sb.getCompound(i);if(!b.contains("nbt"))continue;var xyz=b.getList("pos",NbtElement.INT_TYPE);
+                    var entity=w.getBlockEntity(s.at(xyz.getInt(0)-180,xyz.getInt(1)-8,xyz.getInt(2)-290));
+                    if(entity instanceof net.minecraft.block.entity.SignBlockEntity sign){
+                        var expectedText=b.getCompound("nbt").getCompound("front_text").getList("messages",NbtElement.STRING_TYPE);
+                        for(int line=0;line<4;line++)signs&=sign.getFrontText().getMessage(line,false).getString().equals(Text.Serializer.fromJson(expectedText.getString(line)).getString());
+                    }else signs=false;
+                    signCount++;
+                }
+            }
+            r.addProperty("authored_route_signs",signCount);r.addProperty("route_sign_text_preserved",signs);
+            int witnessX=s.layout>=100?48:45;
+            r.addProperty("player_witness_x",witnessX);r.addProperty("player_witness_gold",w.getBlockState(s.at(witnessX,42,8)).isOf(Blocks.GOLD_BLOCK));
             boolean natural=s.layout<75||water==25&&fluids&&missing==0;
-            r.addProperty("pass",natural&&(!(label.equals("first")||label.equals("second"))||capMatches==OverworldSite.CHUNKS)&&windows==128&&preserved==128&&lit==128&&bedrock&&shaft&&blocked&&outside&&sceneMobs==0&&w.getGameRules().getBoolean(GameRules.DO_MOB_SPAWNING));write(label,r);return r.get("pass").getAsBoolean()?1:0;
+            natural&=s.layout<103||unsuitableEmitters==0&&signCount==5&&signs;
+            r.addProperty("pass",natural&&(!(label.equals("first")||label.equals("second"))||capMatches==s.chunks())&&windows==128&&preserved==128&&lit==128&&bedrock&&shaft&&blocked&&outside&&sceneMobs==0&&w.getGameRules().getBoolean(GameRules.DO_MOB_SPAWNING));write(label,r);return r.get("pass").getAsBoolean()?1:0;
         }catch(Exception e){e.printStackTrace();return 0;}
     }
 }

@@ -1,0 +1,2631 @@
+{
+  "layout": 103,
+  "seed": 74102002,
+  "stage": "ready",
+  "x": -7392,
+  "z": -2448,
+  "entry_y": 149,
+  "approach_length": 8,
+  "approach_y": 146,
+  "attempt": 1097,
+  "cursor": 588,
+  "reason": "",
+  "unfinished_rides": 0,
+  "unchanged_surface_and_bedrock_chunks": 544,
+  "native_surface_samples": [
+    {
+      "local_x": -104,
+      "local_z": -168,
+      "y": 115,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": -104,
+      "local_z": -152,
+      "y": 122,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": -104,
+      "local_z": -136,
+      "y": 132,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": -104,
+      "local_z": -120,
+      "y": 144,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d5,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_leaves}[distance\u003d4,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": -104,
+      "local_z": -104,
+      "y": 136,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": -104,
+      "local_z": -88,
+      "y": 146,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d5,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_leaves}[distance\u003d4,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": -104,
+      "local_z": -72,
+      "y": 141,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": -104,
+      "local_z": -56,
+      "y": 150,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": -104,
+      "local_z": -40,
+      "y": 148,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d4,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:air}"
+    },
+    {
+      "local_x": -104,
+      "local_z": -24,
+      "y": 146,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_leaves}[distance\u003d1,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": -104,
+      "local_z": -8,
+      "y": 138,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": -104,
+      "local_z": 8,
+      "y": 134,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": -104,
+      "local_z": 24,
+      "y": 138,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_leaves}[distance\u003d1,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": -104,
+      "local_z": 40,
+      "y": 133,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": -104,
+      "local_z": 56,
+      "y": 129,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": -104,
+      "local_z": 72,
+      "y": 129,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": -104,
+      "local_z": 88,
+      "y": 132,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": -104,
+      "local_z": 104,
+      "y": 119,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": -88,
+      "local_z": -168,
+      "y": 111,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": -88,
+      "local_z": -152,
+      "y": 123,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_leaves}[distance\u003d1,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": -88,
+      "local_z": -136,
+      "y": 119,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": -88,
+      "local_z": -120,
+      "y": 132,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": -88,
+      "local_z": -104,
+      "y": 140,
+      "top": "Block{minecraft:birch_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:birch_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": -88,
+      "local_z": -88,
+      "y": 138,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": -88,
+      "local_z": -72,
+      "y": 155,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d6,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_leaves}[distance\u003d5,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": -88,
+      "local_z": -56,
+      "y": 151,
+      "top": "Block{minecraft:birch_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:birch_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": -88,
+      "local_z": -40,
+      "y": 146,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": -88,
+      "local_z": -24,
+      "y": 143,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": -88,
+      "local_z": -8,
+      "y": 143,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": -88,
+      "local_z": 8,
+      "y": 139,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": -88,
+      "local_z": 24,
+      "y": 147,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": -88,
+      "local_z": 40,
+      "y": 139,
+      "top": "Block{minecraft:birch_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:birch_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": -88,
+      "local_z": 56,
+      "y": 136,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": -88,
+      "local_z": 72,
+      "y": 145,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": -88,
+      "local_z": 88,
+      "y": 140,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d1,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_log}[axis\u003dy]"
+    },
+    {
+      "local_x": -88,
+      "local_z": 104,
+      "y": 130,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": -72,
+      "local_z": -168,
+      "y": 111,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:air}"
+    },
+    {
+      "local_x": -72,
+      "local_z": -152,
+      "y": 126,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": -72,
+      "local_z": -136,
+      "y": 134,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_leaves}[distance\u003d1,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": -72,
+      "local_z": -120,
+      "y": 137,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d4,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:air}"
+    },
+    {
+      "local_x": -72,
+      "local_z": -104,
+      "y": 139,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": -72,
+      "local_z": -88,
+      "y": 137,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": -72,
+      "local_z": -72,
+      "y": 149,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d4,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_leaves}[distance\u003d4,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": -72,
+      "local_z": -56,
+      "y": 144,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": -72,
+      "local_z": -40,
+      "y": 143,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": -72,
+      "local_z": -24,
+      "y": 149,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": -72,
+      "local_z": -8,
+      "y": 151,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": -72,
+      "local_z": 8,
+      "y": 154,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": -72,
+      "local_z": 24,
+      "y": 141,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": -72,
+      "local_z": 40,
+      "y": 144,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": -72,
+      "local_z": 56,
+      "y": 143,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": -72,
+      "local_z": 72,
+      "y": 144,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": -72,
+      "local_z": 88,
+      "y": 143,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": -72,
+      "local_z": 104,
+      "y": 139,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d5,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_leaves}[distance\u003d4,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": -56,
+      "local_z": -168,
+      "y": 117,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": -56,
+      "local_z": -152,
+      "y": 130,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": -56,
+      "local_z": -136,
+      "y": 131,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": -56,
+      "local_z": -120,
+      "y": 143,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d6,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_leaves}[distance\u003d5,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": -56,
+      "local_z": -104,
+      "y": 133,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": -56,
+      "local_z": -88,
+      "y": 141,
+      "top": "Block{minecraft:birch_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:birch_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": -56,
+      "local_z": -72,
+      "y": 135,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": -56,
+      "local_z": -56,
+      "y": 136,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": -56,
+      "local_z": -40,
+      "y": 148,
+      "top": "Block{minecraft:birch_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:birch_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": -56,
+      "local_z": -24,
+      "y": 155,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": -56,
+      "local_z": -8,
+      "y": 154,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": -56,
+      "local_z": 8,
+      "y": 159,
+      "top": "Block{minecraft:birch_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:birch_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": -56,
+      "local_z": 24,
+      "y": 157,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": -56,
+      "local_z": 40,
+      "y": 157,
+      "top": "Block{minecraft:stone}",
+      "second": "Block{minecraft:stone}"
+    },
+    {
+      "local_x": -56,
+      "local_z": 56,
+      "y": 150,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:stone}"
+    },
+    {
+      "local_x": -56,
+      "local_z": 72,
+      "y": 155,
+      "top": "Block{minecraft:birch_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:birch_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": -56,
+      "local_z": 88,
+      "y": 149,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_leaves}[distance\u003d1,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": -56,
+      "local_z": 104,
+      "y": 135,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": -40,
+      "local_z": -168,
+      "y": 130,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d6,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_leaves}[distance\u003d5,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": -40,
+      "local_z": -152,
+      "y": 134,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d5,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_leaves}[distance\u003d4,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": -40,
+      "local_z": -136,
+      "y": 127,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": -40,
+      "local_z": -120,
+      "y": 128,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": -40,
+      "local_z": -104,
+      "y": 128,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": -40,
+      "local_z": -88,
+      "y": 135,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": -40,
+      "local_z": -72,
+      "y": 142,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d1,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_log}[axis\u003dy]"
+    },
+    {
+      "local_x": -40,
+      "local_z": -56,
+      "y": 141,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": -40,
+      "local_z": -40,
+      "y": 155,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": -40,
+      "local_z": -24,
+      "y": 160,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:air}"
+    },
+    {
+      "local_x": -40,
+      "local_z": -8,
+      "y": 168,
+      "top": "Block{minecraft:stone}",
+      "second": "Block{minecraft:stone}"
+    },
+    {
+      "local_x": -40,
+      "local_z": 8,
+      "y": 162,
+      "top": "Block{minecraft:stone}",
+      "second": "Block{minecraft:stone}"
+    },
+    {
+      "local_x": -40,
+      "local_z": 24,
+      "y": 156,
+      "top": "Block{minecraft:stone}",
+      "second": "Block{minecraft:stone}"
+    },
+    {
+      "local_x": -40,
+      "local_z": 40,
+      "y": 161,
+      "top": "Block{minecraft:stone}",
+      "second": "Block{minecraft:stone}"
+    },
+    {
+      "local_x": -40,
+      "local_z": 56,
+      "y": 180,
+      "top": "Block{minecraft:stone}",
+      "second": "Block{minecraft:stone}"
+    },
+    {
+      "local_x": -40,
+      "local_z": 72,
+      "y": 152,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:stone}"
+    },
+    {
+      "local_x": -40,
+      "local_z": 88,
+      "y": 145,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": -40,
+      "local_z": 104,
+      "y": 132,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": -24,
+      "local_z": -168,
+      "y": 117,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": -24,
+      "local_z": -152,
+      "y": 132,
+      "top": "Block{minecraft:birch_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:birch_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": -24,
+      "local_z": -136,
+      "y": 133,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": -24,
+      "local_z": -120,
+      "y": 128,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": -24,
+      "local_z": -104,
+      "y": 132,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d4,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:air}"
+    },
+    {
+      "local_x": -24,
+      "local_z": -88,
+      "y": 129,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": -24,
+      "local_z": -72,
+      "y": 139,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": -24,
+      "local_z": -56,
+      "y": 140,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": -24,
+      "local_z": -40,
+      "y": 163,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d5,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_leaves}[distance\u003d4,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": -24,
+      "local_z": -24,
+      "y": 162,
+      "top": "Block{minecraft:stone}",
+      "second": "Block{minecraft:stone}"
+    },
+    {
+      "local_x": -24,
+      "local_z": -8,
+      "y": 167,
+      "top": "Block{minecraft:stone}",
+      "second": "Block{minecraft:stone}"
+    },
+    {
+      "local_x": -24,
+      "local_z": 8,
+      "y": 190,
+      "top": "Block{minecraft:stone}",
+      "second": "Block{minecraft:stone}"
+    },
+    {
+      "local_x": -24,
+      "local_z": 24,
+      "y": 168,
+      "top": "Block{minecraft:stone}",
+      "second": "Block{minecraft:stone}"
+    },
+    {
+      "local_x": -24,
+      "local_z": 40,
+      "y": 206,
+      "top": "Block{minecraft:stone}",
+      "second": "Block{minecraft:stone}"
+    },
+    {
+      "local_x": -24,
+      "local_z": 56,
+      "y": 194,
+      "top": "Block{minecraft:stone}",
+      "second": "Block{minecraft:stone}"
+    },
+    {
+      "local_x": -24,
+      "local_z": 72,
+      "y": 151,
+      "top": "Block{minecraft:calcite}",
+      "second": "Block{minecraft:calcite}"
+    },
+    {
+      "local_x": -24,
+      "local_z": 88,
+      "y": 136,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": -24,
+      "local_z": 104,
+      "y": 130,
+      "top": "Block{minecraft:jungle_leaves}[distance\u003d4,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:air}"
+    },
+    {
+      "local_x": -8,
+      "local_z": -168,
+      "y": 119,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": -8,
+      "local_z": -152,
+      "y": 125,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": -8,
+      "local_z": -136,
+      "y": 133,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_leaves}[distance\u003d1,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": -8,
+      "local_z": -120,
+      "y": 131,
+      "top": "Block{minecraft:birch_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:birch_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": -8,
+      "local_z": -104,
+      "y": 124,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": -8,
+      "local_z": -88,
+      "y": 130,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d1,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_log}[axis\u003dy]"
+    },
+    {
+      "local_x": -8,
+      "local_z": -72,
+      "y": 136,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d5,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_leaves}[distance\u003d5,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": -8,
+      "local_z": -56,
+      "y": 147,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": -8,
+      "local_z": -40,
+      "y": 146,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": -8,
+      "local_z": -24,
+      "y": 160,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:grass_block}[snowy\u003dfalse]"
+    },
+    {
+      "local_x": -8,
+      "local_z": -8,
+      "y": 171,
+      "top": "Block{minecraft:stone}",
+      "second": "Block{minecraft:stone}"
+    },
+    {
+      "local_x": -8,
+      "local_z": 8,
+      "y": 168,
+      "top": "Block{minecraft:stone}",
+      "second": "Block{minecraft:stone}"
+    },
+    {
+      "local_x": -8,
+      "local_z": 24,
+      "y": 164,
+      "top": "Block{minecraft:stone}",
+      "second": "Block{minecraft:stone}"
+    },
+    {
+      "local_x": -8,
+      "local_z": 40,
+      "y": 164,
+      "top": "Block{minecraft:stone}",
+      "second": "Block{minecraft:stone}"
+    },
+    {
+      "local_x": -8,
+      "local_z": 56,
+      "y": 162,
+      "top": "Block{minecraft:stone}",
+      "second": "Block{minecraft:stone}"
+    },
+    {
+      "local_x": -8,
+      "local_z": 72,
+      "y": 161,
+      "top": "Block{minecraft:stone}",
+      "second": "Block{minecraft:stone}"
+    },
+    {
+      "local_x": -8,
+      "local_z": 88,
+      "y": 133,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:air}"
+    },
+    {
+      "local_x": -8,
+      "local_z": 104,
+      "y": 122,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d4,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": 8,
+      "local_z": -168,
+      "y": 123,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": 8,
+      "local_z": -152,
+      "y": 124,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": 8,
+      "local_z": -136,
+      "y": 131,
+      "top": "Block{minecraft:birch_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": 8,
+      "local_z": -120,
+      "y": 124,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": 8,
+      "local_z": -104,
+      "y": 124,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d4,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:air}"
+    },
+    {
+      "local_x": 8,
+      "local_z": -88,
+      "y": 126,
+      "top": "Block{minecraft:birch_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:birch_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": 8,
+      "local_z": -72,
+      "y": 133,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d4,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:air}"
+    },
+    {
+      "local_x": 8,
+      "local_z": -56,
+      "y": 140,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": 8,
+      "local_z": -40,
+      "y": 140,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": 8,
+      "local_z": -24,
+      "y": 171,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": 8,
+      "local_z": -8,
+      "y": 184,
+      "top": "Block{minecraft:stone}",
+      "second": "Block{minecraft:stone}"
+    },
+    {
+      "local_x": 8,
+      "local_z": 8,
+      "y": 172,
+      "top": "Block{minecraft:stone}",
+      "second": "Block{minecraft:stone}"
+    },
+    {
+      "local_x": 8,
+      "local_z": 24,
+      "y": 159,
+      "top": "Block{minecraft:stone}",
+      "second": "Block{minecraft:stone}"
+    },
+    {
+      "local_x": 8,
+      "local_z": 40,
+      "y": 161,
+      "top": "Block{minecraft:stone}",
+      "second": "Block{minecraft:stone}"
+    },
+    {
+      "local_x": 8,
+      "local_z": 56,
+      "y": 156,
+      "top": "Block{minecraft:stone}",
+      "second": "Block{minecraft:stone}"
+    },
+    {
+      "local_x": 8,
+      "local_z": 72,
+      "y": 150,
+      "top": "Block{minecraft:polished_deepslate}",
+      "second": "Block{minecraft:deepslate_bricks}"
+    },
+    {
+      "local_x": 8,
+      "local_z": 88,
+      "y": 143,
+      "top": "Block{minecraft:jungle_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:jungle_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": 8,
+      "local_z": 104,
+      "y": 135,
+      "top": "Block{minecraft:jungle_leaves}[distance\u003d4,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:air}"
+    },
+    {
+      "local_x": 24,
+      "local_z": -168,
+      "y": 117,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_leaves}[distance\u003d1,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": 24,
+      "local_z": -152,
+      "y": 123,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d4,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:air}"
+    },
+    {
+      "local_x": 24,
+      "local_z": -136,
+      "y": 122,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": 24,
+      "local_z": -120,
+      "y": 121,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": 24,
+      "local_z": -104,
+      "y": 124,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": 24,
+      "local_z": -88,
+      "y": 120,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": 24,
+      "local_z": -72,
+      "y": 132,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": 24,
+      "local_z": -56,
+      "y": 134,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": 24,
+      "local_z": -40,
+      "y": 144,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": 24,
+      "local_z": -24,
+      "y": 168,
+      "top": "Block{minecraft:stone}",
+      "second": "Block{minecraft:stone}"
+    },
+    {
+      "local_x": 24,
+      "local_z": -8,
+      "y": 182,
+      "top": "Block{minecraft:stone}",
+      "second": "Block{minecraft:stone}"
+    },
+    {
+      "local_x": 24,
+      "local_z": 8,
+      "y": 157,
+      "top": "Block{minecraft:stone}",
+      "second": "Block{minecraft:coal_ore}"
+    },
+    {
+      "local_x": 24,
+      "local_z": 24,
+      "y": 158,
+      "top": "Block{minecraft:stone}",
+      "second": "Block{minecraft:stone}"
+    },
+    {
+      "local_x": 24,
+      "local_z": 40,
+      "y": 147,
+      "top": "Block{minecraft:stone}",
+      "second": "Block{minecraft:stone}"
+    },
+    {
+      "local_x": 24,
+      "local_z": 56,
+      "y": 150,
+      "top": "Block{minecraft:calcite}",
+      "second": "Block{minecraft:stone}"
+    },
+    {
+      "local_x": 24,
+      "local_z": 72,
+      "y": 158,
+      "top": "Block{minecraft:jungle_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:jungle_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": 24,
+      "local_z": 88,
+      "y": 128,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d5,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_leaves}[distance\u003d4,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": 24,
+      "local_z": 104,
+      "y": 115,
+      "top": "Block{minecraft:jungle_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:jungle_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": 40,
+      "local_z": -168,
+      "y": 115,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": 40,
+      "local_z": -152,
+      "y": 122,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": 40,
+      "local_z": -136,
+      "y": 121,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": 40,
+      "local_z": -120,
+      "y": 123,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": 40,
+      "local_z": -104,
+      "y": 118,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": 40,
+      "local_z": -88,
+      "y": 125,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_leaves}[distance\u003d1,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": 40,
+      "local_z": -72,
+      "y": 127,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d4,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:air}"
+    },
+    {
+      "local_x": 40,
+      "local_z": -56,
+      "y": 134,
+      "top": "Block{minecraft:birch_leaves}[distance\u003d1,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:birch_log}[axis\u003dy]"
+    },
+    {
+      "local_x": 40,
+      "local_z": -40,
+      "y": 143,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": 40,
+      "local_z": -24,
+      "y": 167,
+      "top": "Block{minecraft:stone}",
+      "second": "Block{minecraft:stone}"
+    },
+    {
+      "local_x": 40,
+      "local_z": -8,
+      "y": 173,
+      "top": "Block{minecraft:stone}",
+      "second": "Block{minecraft:stone}"
+    },
+    {
+      "local_x": 40,
+      "local_z": 8,
+      "y": 170,
+      "top": "Block{minecraft:stone}",
+      "second": "Block{minecraft:stone}"
+    },
+    {
+      "local_x": 40,
+      "local_z": 24,
+      "y": 174,
+      "top": "Block{minecraft:stone}",
+      "second": "Block{minecraft:stone}"
+    },
+    {
+      "local_x": 40,
+      "local_z": 40,
+      "y": 157,
+      "top": "Block{minecraft:stone}",
+      "second": "Block{minecraft:stone}"
+    },
+    {
+      "local_x": 40,
+      "local_z": 56,
+      "y": 150,
+      "top": "Block{minecraft:stone}",
+      "second": "Block{minecraft:stone}"
+    },
+    {
+      "local_x": 40,
+      "local_z": 72,
+      "y": 143,
+      "top": "Block{minecraft:jungle_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:jungle_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": 40,
+      "local_z": 88,
+      "y": 126,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_leaves}[distance\u003d1,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": 40,
+      "local_z": 104,
+      "y": 110,
+      "top": "Block{minecraft:jungle_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:jungle_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": 56,
+      "local_z": -168,
+      "y": 116,
+      "top": "Block{minecraft:birch_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:birch_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": 56,
+      "local_z": -152,
+      "y": 114,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": 56,
+      "local_z": -136,
+      "y": 125,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_leaves}[distance\u003d1,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": 56,
+      "local_z": -120,
+      "y": 118,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": 56,
+      "local_z": -104,
+      "y": 117,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": 56,
+      "local_z": -88,
+      "y": 119,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": 56,
+      "local_z": -72,
+      "y": 121,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": 56,
+      "local_z": -56,
+      "y": 132,
+      "top": "Block{minecraft:birch_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:birch_leaves}[distance\u003d1,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": 56,
+      "local_z": -40,
+      "y": 147,
+      "top": "Block{minecraft:birch_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:birch_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": 56,
+      "local_z": -24,
+      "y": 161,
+      "top": "Block{minecraft:stone}",
+      "second": "Block{minecraft:stone}"
+    },
+    {
+      "local_x": 56,
+      "local_z": -8,
+      "y": 183,
+      "top": "Block{minecraft:stone}",
+      "second": "Block{minecraft:stone}"
+    },
+    {
+      "local_x": 56,
+      "local_z": 8,
+      "y": 186,
+      "top": "Block{minecraft:stone}",
+      "second": "Block{minecraft:stone}"
+    },
+    {
+      "local_x": 56,
+      "local_z": 24,
+      "y": 188,
+      "top": "Block{minecraft:stone}",
+      "second": "Block{minecraft:stone}"
+    },
+    {
+      "local_x": 56,
+      "local_z": 40,
+      "y": 181,
+      "top": "Block{minecraft:stone}",
+      "second": "Block{minecraft:stone}"
+    },
+    {
+      "local_x": 56,
+      "local_z": 56,
+      "y": 159,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d5,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_leaves}[distance\u003d4,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": 56,
+      "local_z": 72,
+      "y": 120,
+      "top": "Block{minecraft:jungle_leaves}[distance\u003d4,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:vine}[east\u003dfalse,north\u003dfalse,south\u003dtrue,up\u003dfalse,west\u003dfalse]"
+    },
+    {
+      "local_x": 56,
+      "local_z": 88,
+      "y": 107,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": 56,
+      "local_z": 104,
+      "y": 121,
+      "top": "Block{minecraft:jungle_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:jungle_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": 72,
+      "local_z": -168,
+      "y": 110,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": 72,
+      "local_z": -152,
+      "y": 113,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": 72,
+      "local_z": -136,
+      "y": 129,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d5,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_leaves}[distance\u003d4,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": 72,
+      "local_z": -120,
+      "y": 120,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d1,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_log}[axis\u003dy]"
+    },
+    {
+      "local_x": 72,
+      "local_z": -104,
+      "y": 122,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_leaves}[distance\u003d1,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": 72,
+      "local_z": -88,
+      "y": 118,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": 72,
+      "local_z": -72,
+      "y": 119,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": 72,
+      "local_z": -56,
+      "y": 138,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": 72,
+      "local_z": -40,
+      "y": 156,
+      "top": "Block{minecraft:birch_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:birch_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": 72,
+      "local_z": -24,
+      "y": 150,
+      "top": "Block{minecraft:stone}",
+      "second": "Block{minecraft:stone}"
+    },
+    {
+      "local_x": 72,
+      "local_z": -8,
+      "y": 159,
+      "top": "Block{minecraft:stone}",
+      "second": "Block{minecraft:stone}"
+    },
+    {
+      "local_x": 72,
+      "local_z": 8,
+      "y": 159,
+      "top": "Block{minecraft:stone}",
+      "second": "Block{minecraft:stone}"
+    },
+    {
+      "local_x": 72,
+      "local_z": 24,
+      "y": 160,
+      "top": "Block{minecraft:stone}",
+      "second": "Block{minecraft:stone}"
+    },
+    {
+      "local_x": 72,
+      "local_z": 40,
+      "y": 157,
+      "top": "Block{minecraft:stone}",
+      "second": "Block{minecraft:stone}"
+    },
+    {
+      "local_x": 72,
+      "local_z": 56,
+      "y": 150,
+      "top": "Block{minecraft:jungle_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:jungle_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": 72,
+      "local_z": 72,
+      "y": 134,
+      "top": "Block{minecraft:jungle_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:jungle_leaves}[distance\u003d1,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": 72,
+      "local_z": 88,
+      "y": 104,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d5,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_leaves}[distance\u003d5,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": 72,
+      "local_z": 104,
+      "y": 104,
+      "top": "Block{minecraft:jungle_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:jungle_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": 88,
+      "local_z": -168,
+      "y": 107,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": 88,
+      "local_z": -152,
+      "y": 114,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": 88,
+      "local_z": -136,
+      "y": 112,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": 88,
+      "local_z": -120,
+      "y": 115,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": 88,
+      "local_z": -104,
+      "y": 118,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": 88,
+      "local_z": -88,
+      "y": 144,
+      "top": "Block{minecraft:jungle_leaves}[distance\u003d6,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:air}"
+    },
+    {
+      "local_x": 88,
+      "local_z": -72,
+      "y": 130,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": 88,
+      "local_z": -56,
+      "y": 144,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": 88,
+      "local_z": -40,
+      "y": 152,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": 88,
+      "local_z": -24,
+      "y": 166,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": 88,
+      "local_z": -8,
+      "y": 159,
+      "top": "Block{minecraft:stone}",
+      "second": "Block{minecraft:stone}"
+    },
+    {
+      "local_x": 88,
+      "local_z": 8,
+      "y": 151,
+      "top": "Block{minecraft:stone}",
+      "second": "Block{minecraft:stone}"
+    },
+    {
+      "local_x": 88,
+      "local_z": 24,
+      "y": 152,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:stone}"
+    },
+    {
+      "local_x": 88,
+      "local_z": 40,
+      "y": 152,
+      "top": "Block{minecraft:jungle_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:jungle_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": 88,
+      "local_z": 56,
+      "y": 151,
+      "top": "Block{minecraft:jungle_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:jungle_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": 88,
+      "local_z": 72,
+      "y": 121,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:air}"
+    },
+    {
+      "local_x": 88,
+      "local_z": 88,
+      "y": 104,
+      "top": "Block{minecraft:jungle_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:jungle_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": 88,
+      "local_z": 104,
+      "y": 94,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": 104,
+      "local_z": -168,
+      "y": 110,
+      "top": "Block{minecraft:birch_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:birch_leaves}[distance\u003d1,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": 104,
+      "local_z": -152,
+      "y": 109,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": 104,
+      "local_z": -136,
+      "y": 120,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_leaves}[distance\u003d1,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": 104,
+      "local_z": -120,
+      "y": 121,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_leaves}[distance\u003d1,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": 104,
+      "local_z": -104,
+      "y": 120,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": 104,
+      "local_z": -88,
+      "y": 136,
+      "top": "Block{minecraft:jungle_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:jungle_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": 104,
+      "local_z": -72,
+      "y": 135,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": 104,
+      "local_z": -56,
+      "y": 151,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d5,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_leaves}[distance\u003d4,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": 104,
+      "local_z": -40,
+      "y": 153,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d6,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_leaves}[distance\u003d5,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": 104,
+      "local_z": -24,
+      "y": 169,
+      "top": "Block{minecraft:grass_block}[snowy\u003dfalse]",
+      "second": "Block{minecraft:dirt}"
+    },
+    {
+      "local_x": 104,
+      "local_z": -8,
+      "y": 165,
+      "top": "Block{minecraft:stone}",
+      "second": "Block{minecraft:stone}"
+    },
+    {
+      "local_x": 104,
+      "local_z": 8,
+      "y": 156,
+      "top": "Block{minecraft:stone}",
+      "second": "Block{minecraft:stone}"
+    },
+    {
+      "local_x": 104,
+      "local_z": 24,
+      "y": 162,
+      "top": "Block{minecraft:jungle_leaves}[distance\u003d2,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:jungle_leaves}[distance\u003d1,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": 104,
+      "local_z": 40,
+      "y": 163,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d6,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_leaves}[distance\u003d5,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": 104,
+      "local_z": 56,
+      "y": 142,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d5,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_leaves}[distance\u003d4,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": 104,
+      "local_z": 72,
+      "y": 118,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": 104,
+      "local_z": 88,
+      "y": 107,
+      "top": "Block{minecraft:oak_leaves}[distance\u003d5,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:oak_leaves}[distance\u003d4,persistent\u003dfalse,waterlogged\u003dfalse]"
+    },
+    {
+      "local_x": 104,
+      "local_z": 104,
+      "y": 111,
+      "top": "Block{minecraft:jungle_leaves}[distance\u003d4,persistent\u003dfalse,waterlogged\u003dfalse]",
+      "second": "Block{minecraft:jungle_leaves}[distance\u003d3,persistent\u003dfalse,waterlogged\u003dfalse]"
+    }
+  ],
+  "warm_windows": 128,
+  "warm_windows_preserved": 128,
+  "warm_windows_native_12": 128,
+  "bedrock_intact": true,
+  "shaft_clear": true,
+  "geometry_sample_count": 34288,
+  "geometry_sha256": "0d8ff54ba233554a6100719eb203d46f8f7c37498fc94a7afd353aaec7cfd697",
+  "scene_spawn_attempts": [
+    {
+      "type": "minecraft:zombie",
+      "local_x": 47,
+      "y": 45,
+      "local_z": 4,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:skeleton",
+      "local_x": 47,
+      "y": 45,
+      "local_z": 4,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:creeper",
+      "local_x": 47,
+      "y": 45,
+      "local_z": 4,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:phantom",
+      "local_x": 47,
+      "y": 45,
+      "local_z": 4,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:bat",
+      "local_x": 47,
+      "y": 45,
+      "local_z": 4,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:cow",
+      "local_x": 47,
+      "y": 45,
+      "local_z": 4,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:zombie",
+      "local_x": -40,
+      "y": 26,
+      "local_z": -60,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:skeleton",
+      "local_x": -40,
+      "y": 26,
+      "local_z": -60,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:creeper",
+      "local_x": -40,
+      "y": 26,
+      "local_z": -60,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:phantom",
+      "local_x": -40,
+      "y": 26,
+      "local_z": -60,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:bat",
+      "local_x": -40,
+      "y": 26,
+      "local_z": -60,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:cow",
+      "local_x": -40,
+      "y": 26,
+      "local_z": -60,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:zombie",
+      "local_x": 4,
+      "y": 45,
+      "local_z": 35,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:skeleton",
+      "local_x": 4,
+      "y": 45,
+      "local_z": 35,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:creeper",
+      "local_x": 4,
+      "y": 45,
+      "local_z": 35,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:phantom",
+      "local_x": 4,
+      "y": 45,
+      "local_z": 35,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:bat",
+      "local_x": 4,
+      "y": 45,
+      "local_z": 35,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:cow",
+      "local_x": 4,
+      "y": 45,
+      "local_z": 35,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:zombie",
+      "local_x": 0,
+      "y": -54,
+      "local_z": -20,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:skeleton",
+      "local_x": 0,
+      "y": -54,
+      "local_z": -20,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:creeper",
+      "local_x": 0,
+      "y": -54,
+      "local_z": -20,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:phantom",
+      "local_x": 0,
+      "y": -54,
+      "local_z": -20,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:bat",
+      "local_x": 0,
+      "y": -54,
+      "local_z": -20,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:cow",
+      "local_x": 0,
+      "y": -54,
+      "local_z": -20,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:zombie",
+      "local_x": 0,
+      "y": 85,
+      "local_z": 70,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:skeleton",
+      "local_x": 0,
+      "y": 85,
+      "local_z": 70,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:creeper",
+      "local_x": 0,
+      "y": 85,
+      "local_z": 70,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:phantom",
+      "local_x": 0,
+      "y": 85,
+      "local_z": 70,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:bat",
+      "local_x": 0,
+      "y": 85,
+      "local_z": 70,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:cow",
+      "local_x": 0,
+      "y": 85,
+      "local_z": 70,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:zombie",
+      "local_x": 6,
+      "y": 151,
+      "local_z": 70,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:skeleton",
+      "local_x": 6,
+      "y": 151,
+      "local_z": 70,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:creeper",
+      "local_x": 6,
+      "y": 151,
+      "local_z": 70,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:phantom",
+      "local_x": 6,
+      "y": 151,
+      "local_z": 70,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:bat",
+      "local_x": 6,
+      "y": 151,
+      "local_z": 70,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:cow",
+      "local_x": 6,
+      "y": 151,
+      "local_z": 70,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:zombie",
+      "local_x": 13,
+      "y": 151,
+      "local_z": 70,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:skeleton",
+      "local_x": 13,
+      "y": 151,
+      "local_z": 70,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:creeper",
+      "local_x": 13,
+      "y": 151,
+      "local_z": 70,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:phantom",
+      "local_x": 13,
+      "y": 151,
+      "local_z": 70,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:bat",
+      "local_x": 13,
+      "y": 151,
+      "local_z": 70,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:cow",
+      "local_x": 13,
+      "y": 151,
+      "local_z": 70,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:zombie",
+      "local_x": -207,
+      "y": 20,
+      "local_z": -319,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:skeleton",
+      "local_x": -207,
+      "y": 20,
+      "local_z": -319,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:creeper",
+      "local_x": -207,
+      "y": 20,
+      "local_z": -319,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:phantom",
+      "local_x": -207,
+      "y": 20,
+      "local_z": -319,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:bat",
+      "local_x": -207,
+      "y": 20,
+      "local_z": -319,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:cow",
+      "local_x": -207,
+      "y": 20,
+      "local_z": -319,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:zombie",
+      "local_x": 126,
+      "y": 20,
+      "local_z": 126,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:skeleton",
+      "local_x": 126,
+      "y": 20,
+      "local_z": 126,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:creeper",
+      "local_x": 126,
+      "y": 20,
+      "local_z": 126,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:phantom",
+      "local_x": 126,
+      "y": 20,
+      "local_z": 126,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:bat",
+      "local_x": 126,
+      "y": 20,
+      "local_z": 126,
+      "accepted": false
+    },
+    {
+      "type": "minecraft:cow",
+      "local_x": 126,
+      "y": 20,
+      "local_z": 126,
+      "accepted": false
+    }
+  ],
+  "scene_insertions_blocked": true,
+  "outside_boundary_insertions_allowed": true,
+  "loaded_scene_mobs": 0,
+  "doMobSpawning": true,
+  "difficulty": "hard",
+  "dark_native_light": 0,
+  "surface_exact_required": false,
+  "water_source_cells": 25,
+  "water_basin_contained": true,
+  "architectural_nonair_blocks": 48254,
+  "architectural_missing_or_wrong_blocks": 0,
+  "all_template_warm_windows": 184,
+  "all_template_warm_windows_native_12": 184,
+  "legacy_emitter_samples": [
+    {
+      "local_x": -78,
+      "local_y": 41,
+      "local_z": 100,
+      "world_position": "-7470, 47, -2348",
+      "block_id": "glimmeringabyss:glimmerstone",
+      "natural_rock_attachment": true,
+      "source": "Terrain.fixtures legacy calibration coordinates; placed last by OverworldLandscape.paint",
+      "neighbor_states": [
+        "Block{minecraft:deepslate}[axis\u003dx]",
+        "Block{minecraft:deepslate}[axis\u003dx]",
+        "Block{minecraft:deepslate}[axis\u003dx]",
+        "Block{minecraft:deepslate}[axis\u003dx]",
+        "Block{minecraft:deepslate}[axis\u003dx]",
+        "Block{minecraft:deepslate}[axis\u003dx]"
+      ]
+    },
+    {
+      "local_x": -3,
+      "local_y": 41,
+      "local_z": 91,
+      "world_position": "-7395, 47, -2357",
+      "block_id": "minecraft:air",
+      "natural_rock_attachment": false,
+      "source": "Terrain.fixtures legacy calibration coordinates; placed last by OverworldLandscape.paint",
+      "neighbor_states": [
+        "Block{minecraft:air}",
+        "Block{minecraft:air}",
+        "Block{minecraft:air}",
+        "Block{minecraft:air}",
+        "Block{minecraft:air}",
+        "Block{minecraft:air}"
+      ]
+    },
+    {
+      "local_x": 3,
+      "local_y": 41,
+      "local_z": 82,
+      "world_position": "-7389, 47, -2366",
+      "block_id": "minecraft:air",
+      "natural_rock_attachment": false,
+      "source": "Terrain.fixtures legacy calibration coordinates; placed last by OverworldLandscape.paint",
+      "neighbor_states": [
+        "Block{minecraft:air}",
+        "Block{minecraft:air}",
+        "Block{minecraft:air}",
+        "Block{minecraft:air}",
+        "Block{minecraft:air}",
+        "Block{minecraft:air}"
+      ]
+    },
+    {
+      "local_x": -16,
+      "local_y": 39,
+      "local_z": 70,
+      "world_position": "-7408, 45, -2378",
+      "block_id": "minecraft:air",
+      "natural_rock_attachment": false,
+      "source": "Terrain.fixtures legacy calibration coordinates; placed last by OverworldLandscape.paint",
+      "neighbor_states": [
+        "Block{minecraft:air}",
+        "Block{minecraft:air}",
+        "Block{minecraft:air}",
+        "Block{minecraft:air}",
+        "Block{minecraft:air}",
+        "Block{minecraft:air}"
+      ]
+    },
+    {
+      "local_x": 16,
+      "local_y": 39,
+      "local_z": 70,
+      "world_position": "-7376, 45, -2378",
+      "block_id": "minecraft:air",
+      "natural_rock_attachment": false,
+      "source": "Terrain.fixtures legacy calibration coordinates; placed last by OverworldLandscape.paint",
+      "neighbor_states": [
+        "Block{minecraft:air}",
+        "Block{minecraft:air}",
+        "Block{minecraft:air}",
+        "Block{minecraft:air}",
+        "Block{minecraft:air}",
+        "Block{minecraft:air}"
+      ]
+    },
+    {
+      "local_x": -48,
+      "local_y": -18,
+      "local_z": -35,
+      "world_position": "-7440, -12, -2483",
+      "block_id": "minecraft:air",
+      "natural_rock_attachment": false,
+      "source": "Terrain.fixtures legacy calibration coordinates; placed last by OverworldLandscape.paint",
+      "neighbor_states": [
+        "Block{minecraft:air}",
+        "Block{minecraft:air}",
+        "Block{minecraft:air}",
+        "Block{minecraft:air}",
+        "Block{minecraft:air}",
+        "Block{minecraft:air}"
+      ]
+    },
+    {
+      "local_x": -48,
+      "local_y": 12,
+      "local_z": -36,
+      "world_position": "-7440, 18, -2484",
+      "block_id": "minecraft:air",
+      "natural_rock_attachment": false,
+      "source": "Terrain.fixtures legacy calibration coordinates; placed last by OverworldLandscape.paint",
+      "neighbor_states": [
+        "Block{minecraft:air}",
+        "Block{minecraft:air}",
+        "Block{minecraft:air}",
+        "Block{minecraft:air}",
+        "Block{minecraft:air}",
+        "Block{minecraft:air}"
+      ]
+    },
+    {
+      "local_x": -48,
+      "local_y": 43,
+      "local_z": -37,
+      "world_position": "-7440, 49, -2485",
+      "block_id": "minecraft:air",
+      "natural_rock_attachment": false,
+      "source": "Terrain.fixtures legacy calibration coordinates; placed last by OverworldLandscape.paint",
+      "neighbor_states": [
+        "Block{minecraft:air}",
+        "Block{minecraft:air}",
+        "Block{minecraft:air}",
+        "Block{minecraft:air}",
+        "Block{minecraft:air}",
+        "Block{minecraft:air}"
+      ]
+    },
+    {
+      "local_x": -24,
+      "local_y": -18,
+      "local_z": -86,
+      "world_position": "-7416, -12, -2534",
+      "block_id": "glimmeringabyss:glimmerstone",
+      "natural_rock_attachment": true,
+      "source": "Terrain.fixtures legacy calibration coordinates; placed last by OverworldLandscape.paint",
+      "neighbor_states": [
+        "Block{minecraft:deepslate}[axis\u003dx]",
+        "Block{minecraft:deepslate}[axis\u003dx]",
+        "Block{minecraft:deepslate}[axis\u003dx]",
+        "Block{minecraft:deepslate}[axis\u003dx]",
+        "Block{minecraft:deepslate}[axis\u003dx]",
+        "Block{minecraft:deepslate}[axis\u003dx]"
+      ]
+    },
+    {
+      "local_x": -24,
+      "local_y": 12,
+      "local_z": -87,
+      "world_position": "-7416, 18, -2535",
+      "block_id": "glimmeringabyss:glimmerstone",
+      "natural_rock_attachment": true,
+      "source": "Terrain.fixtures legacy calibration coordinates; placed last by OverworldLandscape.paint",
+      "neighbor_states": [
+        "Block{minecraft:deepslate}[axis\u003dy]",
+        "Block{minecraft:deepslate}[axis\u003dy]",
+        "Block{minecraft:deepslate}[axis\u003dy]",
+        "Block{minecraft:deepslate}[axis\u003dy]",
+        "Block{minecraft:deepslate}[axis\u003dy]",
+        "Block{minecraft:deepslate}[axis\u003dy]"
+      ]
+    },
+    {
+      "local_x": -24,
+      "local_y": 43,
+      "local_z": -85,
+      "world_position": "-7416, 49, -2533",
+      "block_id": "minecraft:air",
+      "natural_rock_attachment": false,
+      "source": "Terrain.fixtures legacy calibration coordinates; placed last by OverworldLandscape.paint",
+      "neighbor_states": [
+        "Block{minecraft:air}",
+        "Block{minecraft:air}",
+        "Block{minecraft:air}",
+        "Block{minecraft:air}",
+        "Block{minecraft:air}",
+        "Block{minecraft:air}"
+      ]
+    },
+    {
+      "local_x": 36,
+      "local_y": -18,
+      "local_z": -72,
+      "world_position": "-7356, -12, -2520",
+      "block_id": "glimmeringabyss:glimmerstone",
+      "natural_rock_attachment": true,
+      "source": "Terrain.fixtures legacy calibration coordinates; placed last by OverworldLandscape.paint",
+      "neighbor_states": [
+        "Block{minecraft:deepslate}[axis\u003dz]",
+        "Block{minecraft:deepslate}[axis\u003dz]",
+        "Block{minecraft:deepslate}[axis\u003dz]",
+        "Block{minecraft:deepslate}[axis\u003dz]",
+        "Block{minecraft:deepslate}[axis\u003dz]",
+        "Block{minecraft:deepslate}[axis\u003dz]"
+      ]
+    },
+    {
+      "local_x": 36,
+      "local_y": 12,
+      "local_z": -70,
+      "world_position": "-7356, 18, -2518",
+      "block_id": "glimmeringabyss:glimmerstone",
+      "natural_rock_attachment": true,
+      "source": "Terrain.fixtures legacy calibration coordinates; placed last by OverworldLandscape.paint",
+      "neighbor_states": [
+        "Block{minecraft:deepslate}[axis\u003dz]",
+        "Block{minecraft:deepslate}[axis\u003dz]",
+        "Block{minecraft:deepslate}[axis\u003dz]",
+        "Block{minecraft:deepslate}[axis\u003dz]",
+        "Block{minecraft:deepslate}[axis\u003dz]",
+        "Block{minecraft:deepslate}[axis\u003dz]"
+      ]
+    },
+    {
+      "local_x": 36,
+      "local_y": 43,
+      "local_z": -70,
+      "world_position": "-7356, 49, -2518",
+      "block_id": "minecraft:air",
+      "natural_rock_attachment": false,
+      "source": "Terrain.fixtures legacy calibration coordinates; placed last by OverworldLandscape.paint",
+      "neighbor_states": [
+        "Block{minecraft:air}",
+        "Block{minecraft:air}",
+        "Block{minecraft:air}",
+        "Block{minecraft:air}",
+        "Block{minecraft:air}",
+        "Block{minecraft:air}"
+      ]
+    },
+    {
+      "local_x": 69,
+      "local_y": -18,
+      "local_z": -21,
+      "world_position": "-7323, -12, -2469",
+      "block_id": "glimmeringabyss:glimmerstone",
+      "natural_rock_attachment": true,
+      "source": "Terrain.fixtures legacy calibration coordinates; placed last by OverworldLandscape.paint",
+      "neighbor_states": [
+        "Block{minecraft:deepslate}[axis\u003dy]",
+        "Block{minecraft:deepslate}[axis\u003dy]",
+        "Block{minecraft:deepslate}[axis\u003dy]",
+        "Block{minecraft:deepslate}[axis\u003dy]",
+        "Block{minecraft:deepslate}[axis\u003dx]",
+        "Block{minecraft:deepslate}[axis\u003dy]"
+      ]
+    },
+    {
+      "local_x": 69,
+      "local_y": 12,
+      "local_z": -20,
+      "world_position": "-7323, 18, -2468",
+      "block_id": "glimmeringabyss:glimmerstone",
+      "natural_rock_attachment": true,
+      "source": "Terrain.fixtures legacy calibration coordinates; placed last by OverworldLandscape.paint",
+      "neighbor_states": [
+        "Block{minecraft:deepslate}[axis\u003dz]",
+        "Block{minecraft:deepslate}[axis\u003dz]",
+        "Block{minecraft:deepslate}[axis\u003dz]",
+        "Block{minecraft:deepslate}[axis\u003dz]",
+        "Block{minecraft:deepslate}[axis\u003dz]",
+        "Block{minecraft:deepslate}[axis\u003dz]"
+      ]
+    },
+    {
+      "local_x": 69,
+      "local_y": 43,
+      "local_z": -23,
+      "world_position": "-7323, 49, -2471",
+      "block_id": "minecraft:air",
+      "natural_rock_attachment": false,
+      "source": "Terrain.fixtures legacy calibration coordinates; placed last by OverworldLandscape.paint",
+      "neighbor_states": [
+        "Block{minecraft:air}",
+        "Block{minecraft:air}",
+        "Block{minecraft:air}",
+        "Block{minecraft:air}",
+        "Block{minecraft:air}",
+        "Block{minecraft:air}"
+      ]
+    },
+    {
+      "local_x": -72,
+      "local_y": -18,
+      "local_z": 22,
+      "world_position": "-7464, -12, -2426",
+      "block_id": "glimmeringabyss:glimmerstone",
+      "natural_rock_attachment": true,
+      "source": "Terrain.fixtures legacy calibration coordinates; placed last by OverworldLandscape.paint",
+      "neighbor_states": [
+        "Block{minecraft:deepslate}[axis\u003dx]",
+        "Block{minecraft:tuff}",
+        "Block{minecraft:deepslate}[axis\u003dx]",
+        "Block{minecraft:deepslate}[axis\u003dx]",
+        "Block{minecraft:deepslate}[axis\u003dx]",
+        "Block{minecraft:deepslate}[axis\u003dx]"
+      ]
+    },
+    {
+      "local_x": -72,
+      "local_y": 12,
+      "local_z": 19,
+      "world_position": "-7464, 18, -2429",
+      "block_id": "minecraft:air",
+      "natural_rock_attachment": false,
+      "source": "Terrain.fixtures legacy calibration coordinates; placed last by OverworldLandscape.paint",
+      "neighbor_states": [
+        "Block{minecraft:air}",
+        "Block{minecraft:air}",
+        "Block{minecraft:air}",
+        "Block{minecraft:air}",
+        "Block{minecraft:air}",
+        "Block{minecraft:air}"
+      ]
+    },
+    {
+      "local_x": -72,
+      "local_y": 43,
+      "local_z": 20,
+      "world_position": "-7464, 49, -2428",
+      "block_id": "minecraft:air",
+      "natural_rock_attachment": false,
+      "source": "Terrain.fixtures legacy calibration coordinates; placed last by OverworldLandscape.paint",
+      "neighbor_states": [
+        "Block{minecraft:air}",
+        "Block{minecraft:air}",
+        "Block{minecraft:air}",
+        "Block{minecraft:air}",
+        "Block{minecraft:air}",
+        "Block{minecraft:air}"
+      ]
+    },
+    {
+      "local_x": 12,
+      "local_y": -18,
+      "local_z": 12,
+      "world_position": "-7380, -12, -2436",
+      "block_id": "glimmeringabyss:glimmerstone",
+      "natural_rock_attachment": true,
+      "source": "Terrain.fixtures legacy calibration coordinates; placed last by OverworldLandscape.paint",
+      "neighbor_states": [
+        "Block{minecraft:deepslate}[axis\u003dx]",
+        "Block{minecraft:deepslate}[axis\u003dx]",
+        "Block{minecraft:deepslate}[axis\u003dx]",
+        "Block{minecraft:deepslate}[axis\u003dx]",
+        "Block{minecraft:deepslate}[axis\u003dx]",
+        "Block{minecraft:deepslate}[axis\u003dx]"
+      ]
+    },
+    {
+      "local_x": 12,
+      "local_y": 12,
+      "local_z": 13,
+      "world_position": "-7380, 18, -2435",
+      "block_id": "glimmeringabyss:glimmerstone",
+      "natural_rock_attachment": true,
+      "source": "Terrain.fixtures legacy calibration coordinates; placed last by OverworldLandscape.paint",
+      "neighbor_states": [
+        "Block{minecraft:deepslate}[axis\u003dx]",
+        "Block{minecraft:deepslate}[axis\u003dx]",
+        "Block{minecraft:deepslate}[axis\u003dx]",
+        "Block{minecraft:deepslate}[axis\u003dx]",
+        "Block{minecraft:deepslate}[axis\u003dx]",
+        "Block{minecraft:deepslate}[axis\u003dx]"
+      ]
+    },
+    {
+      "local_x": 12,
+      "local_y": 43,
+      "local_z": 14,
+      "world_position": "-7380, 49, -2434",
+      "block_id": "minecraft:air",
+      "natural_rock_attachment": false,
+      "source": "Terrain.fixtures legacy calibration coordinates; placed last by OverworldLandscape.paint",
+      "neighbor_states": [
+        "Block{minecraft:air}",
+        "Block{minecraft:air}",
+        "Block{minecraft:air}",
+        "Block{minecraft:air}",
+        "Block{minecraft:air}",
+        "Block{minecraft:air}"
+      ]
+    },
+    {
+      "local_x": -5,
+      "local_y": -18,
+      "local_z": -34,
+      "world_position": "-7397, -12, -2482",
+      "block_id": "glimmeringabyss:glimmerstone",
+      "natural_rock_attachment": true,
+      "source": "Terrain.fixtures legacy calibration coordinates; placed last by OverworldLandscape.paint",
+      "neighbor_states": [
+        "Block{minecraft:deepslate}[axis\u003dy]",
+        "Block{minecraft:deepslate}[axis\u003dy]",
+        "Block{minecraft:deepslate}[axis\u003dx]",
+        "Block{minecraft:deepslate}[axis\u003dy]",
+        "Block{minecraft:deepslate}[axis\u003dx]",
+        "Block{minecraft:deepslate}[axis\u003dy]"
+      ]
+    },
+    {
+      "local_x": -5,
+      "local_y": 12,
+      "local_z": -32,
+      "world_position": "-7397, 18, -2480",
+      "block_id": "glimmeringabyss:glimmerstone",
+      "natural_rock_attachment": true,
+      "source": "Terrain.fixtures legacy calibration coordinates; placed last by OverworldLandscape.paint",
+      "neighbor_states": [
+        "Block{minecraft:deepslate}[axis\u003dy]",
+        "Block{minecraft:deepslate}[axis\u003dy]",
+        "Block{minecraft:deepslate}[axis\u003dy]",
+        "Block{minecraft:deepslate}[axis\u003dy]",
+        "Block{minecraft:deepslate}[axis\u003dy]",
+        "Block{minecraft:deepslate}[axis\u003dy]"
+      ]
+    },
+    {
+      "local_x": -5,
+      "local_y": 43,
+      "local_z": -33,
+      "world_position": "-7397, 49, -2481",
+      "block_id": "minecraft:air",
+      "natural_rock_attachment": false,
+      "source": "Terrain.fixtures legacy calibration coordinates; placed last by OverworldLandscape.paint",
+      "neighbor_states": [
+        "Block{minecraft:air}",
+        "Block{minecraft:air}",
+        "Block{minecraft:air}",
+        "Block{minecraft:air}",
+        "Block{minecraft:air}",
+        "Block{minecraft:air}"
+      ]
+    }
+  ],
+  "unsuitable_legacy_emitters": 0,
+  "authored_route_signs": 5,
+  "route_sign_text_preserved": true,
+  "player_witness_x": 48,
+  "player_witness_gold": false,
+  "pass": true
+}

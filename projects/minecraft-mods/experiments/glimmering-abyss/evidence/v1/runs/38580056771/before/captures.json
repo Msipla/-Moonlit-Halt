@@ -1,0 +1,674 @@
+[
+  {
+    "file": "orphan-glimmerstone.png",
+    "position": "(-7327.5, 45.0, -2466.5)",
+    "yaw": -129.0,
+    "pitch": 1.0,
+    "health": 20.0,
+    "sleeping": false,
+    "chunk_culling": true,
+    "cavern_backdrop_active": true,
+    "camera_sky_light": 0,
+    "dream_rendered_frames": 0,
+    "chunk_debug": "C: 120/26136 (s) D: 16, pC: 000, pU: 00, aB: 04",
+    "gl_error": 0,
+    "renderer": "llvmpipe (LLVM 20.1.2, 256 bits)",
+    "environment": {
+      "profile": "a",
+      "space_lighting": {
+        "profile": "blue",
+        "active": true,
+        "overworld_local_scope": true,
+        "scene_origin": "-7392, 6, -2448",
+        "shader_ready": true,
+        "terrain_shader_selections": 480,
+        "config_status": "loaded"
+      },
+      "custom_active": false,
+      "world": "minecraft:overworld",
+      "observed_lightmap_writes": 2688,
+      "native_lightmap_0_rgb": [
+        25,
+        25,
+        25
+      ],
+      "display_lightmap_0_rgb": [
+        25,
+        25,
+        25
+      ],
+      "native_lightmap_5_rgb": [
+        99,
+        80,
+        59
+      ],
+      "display_lightmap_5_rgb": [
+        99,
+        80,
+        59
+      ],
+      "native_lightmap_rgb": [
+        [
+          25,
+          25,
+          25
+        ],
+        [
+          39,
+          34,
+          30
+        ],
+        [
+          53,
+          44,
+          37
+        ],
+        [
+          68,
+          55,
+          43
+        ],
+        [
+          83,
+          67,
+          51
+        ],
+        [
+          99,
+          80,
+          59
+        ],
+        [
+          116,
+          94,
+          69
+        ],
+        [
+          132,
+          110,
+          81
+        ],
+        [
+          149,
+          128,
+          95
+        ],
+        [
+          167,
+          146,
+          112
+        ],
+        [
+          184,
+          166,
+          133
+        ],
+        [
+          201,
+          188,
+          160
+        ],
+        [
+          220,
+          211,
+          191
+        ],
+        [
+          241,
+          238,
+          230
+        ],
+        [
+          252,
+          252,
+          252
+        ],
+        [
+          252,
+          252,
+          252
+        ]
+      ],
+      "display_lightmap_rgb": [
+        [
+          25,
+          25,
+          25
+        ],
+        [
+          39,
+          34,
+          30
+        ],
+        [
+          53,
+          44,
+          37
+        ],
+        [
+          68,
+          55,
+          43
+        ],
+        [
+          83,
+          67,
+          51
+        ],
+        [
+          99,
+          80,
+          59
+        ],
+        [
+          116,
+          94,
+          69
+        ],
+        [
+          132,
+          110,
+          81
+        ],
+        [
+          149,
+          128,
+          95
+        ],
+        [
+          167,
+          146,
+          112
+        ],
+        [
+          184,
+          166,
+          133
+        ],
+        [
+          201,
+          188,
+          160
+        ],
+        [
+          220,
+          211,
+          191
+        ],
+        [
+          241,
+          238,
+          230
+        ],
+        [
+          252,
+          252,
+          252
+        ],
+        [
+          252,
+          252,
+          252
+        ]
+      ],
+      "distance_start": 230.4,
+      "distance_end": 256.0,
+      "distance_target_rgba": [
+        0.012,
+        0.033,
+        0.055,
+        1.0
+      ],
+      "surface_microglow": 0.0,
+      "glow_faces_drawn_last_frame": 0
+    }
+  },
+  {
+    "file": "town-cliff.png",
+    "position": "(-7423.5, 26.0, -2440.5)",
+    "yaw": -90.0,
+    "pitch": 8.0,
+    "health": 20.0,
+    "sleeping": false,
+    "chunk_culling": true,
+    "cavern_backdrop_active": true,
+    "camera_sky_light": 0,
+    "dream_rendered_frames": 0,
+    "chunk_debug": "C: 378/26136 (s) D: 16, pC: 000, pU: 00, aB: 04",
+    "gl_error": 0,
+    "renderer": "llvmpipe (LLVM 20.1.2, 256 bits)",
+    "environment": {
+      "profile": "a",
+      "space_lighting": {
+        "profile": "blue",
+        "active": true,
+        "overworld_local_scope": true,
+        "scene_origin": "-7392, 6, -2448",
+        "shader_ready": true,
+        "terrain_shader_selections": 942,
+        "config_status": "loaded"
+      },
+      "custom_active": false,
+      "world": "minecraft:overworld",
+      "observed_lightmap_writes": 5152,
+      "native_lightmap_0_rgb": [
+        25,
+        25,
+        25
+      ],
+      "display_lightmap_0_rgb": [
+        25,
+        25,
+        25
+      ],
+      "native_lightmap_5_rgb": [
+        103,
+        83,
+        61
+      ],
+      "display_lightmap_5_rgb": [
+        103,
+        83,
+        61
+      ],
+      "native_lightmap_rgb": [
+        [
+          25,
+          25,
+          25
+        ],
+        [
+          39,
+          34,
+          31
+        ],
+        [
+          54,
+          45,
+          37
+        ],
+        [
+          70,
+          56,
+          44
+        ],
+        [
+          86,
+          69,
+          52
+        ],
+        [
+          103,
+          83,
+          61
+        ],
+        [
+          120,
+          98,
+          72
+        ],
+        [
+          137,
+          115,
+          84
+        ],
+        [
+          154,
+          133,
+          99
+        ],
+        [
+          171,
+          152,
+          118
+        ],
+        [
+          189,
+          172,
+          140
+        ],
+        [
+          206,
+          194,
+          168
+        ],
+        [
+          225,
+          217,
+          201
+        ],
+        [
+          247,
+          246,
+          243
+        ],
+        [
+          252,
+          252,
+          252
+        ],
+        [
+          252,
+          252,
+          252
+        ]
+      ],
+      "display_lightmap_rgb": [
+        [
+          25,
+          25,
+          25
+        ],
+        [
+          39,
+          34,
+          31
+        ],
+        [
+          54,
+          45,
+          37
+        ],
+        [
+          70,
+          56,
+          44
+        ],
+        [
+          86,
+          69,
+          52
+        ],
+        [
+          103,
+          83,
+          61
+        ],
+        [
+          120,
+          98,
+          72
+        ],
+        [
+          137,
+          115,
+          84
+        ],
+        [
+          154,
+          133,
+          99
+        ],
+        [
+          171,
+          152,
+          118
+        ],
+        [
+          189,
+          172,
+          140
+        ],
+        [
+          206,
+          194,
+          168
+        ],
+        [
+          225,
+          217,
+          201
+        ],
+        [
+          247,
+          246,
+          243
+        ],
+        [
+          252,
+          252,
+          252
+        ],
+        [
+          252,
+          252,
+          252
+        ]
+      ],
+      "distance_start": 230.4,
+      "distance_end": 256.0,
+      "distance_target_rgba": [
+        0.012,
+        0.033,
+        0.055,
+        1.0
+      ],
+      "surface_microglow": 0.0,
+      "glow_faces_drawn_last_frame": 0
+    }
+  },
+  {
+    "file": "main-rift.png",
+    "position": "(-7437.5, 55.0, -2582.5)",
+    "yaw": 165.0,
+    "pitch": 12.0,
+    "health": 20.0,
+    "sleeping": false,
+    "chunk_culling": true,
+    "cavern_backdrop_active": true,
+    "camera_sky_light": 0,
+    "dream_rendered_frames": 0,
+    "chunk_debug": "C: 803/26136 (s) D: 16, pC: 000, pU: 00, aB: 04",
+    "gl_error": 0,
+    "renderer": "llvmpipe (LLVM 20.1.2, 256 bits)",
+    "environment": {
+      "profile": "a",
+      "space_lighting": {
+        "profile": "blue",
+        "active": true,
+        "overworld_local_scope": true,
+        "scene_origin": "-7392, 6, -2448",
+        "shader_ready": true,
+        "terrain_shader_selections": 1572,
+        "config_status": "loaded"
+      },
+      "custom_active": false,
+      "world": "minecraft:overworld",
+      "observed_lightmap_writes": 8480,
+      "native_lightmap_0_rgb": [
+        25,
+        25,
+        25
+      ],
+      "display_lightmap_0_rgb": [
+        25,
+        25,
+        25
+      ],
+      "native_lightmap_5_rgb": [
+        101,
+        82,
+        61
+      ],
+      "display_lightmap_5_rgb": [
+        101,
+        82,
+        61
+      ],
+      "native_lightmap_rgb": [
+        [
+          25,
+          25,
+          25
+        ],
+        [
+          39,
+          34,
+          31
+        ],
+        [
+          54,
+          44,
+          37
+        ],
+        [
+          69,
+          56,
+          44
+        ],
+        [
+          85,
+          68,
+          52
+        ],
+        [
+          101,
+          82,
+          61
+        ],
+        [
+          118,
+          97,
+          71
+        ],
+        [
+          135,
+          113,
+          83
+        ],
+        [
+          152,
+          131,
+          97
+        ],
+        [
+          169,
+          150,
+          115
+        ],
+        [
+          187,
+          170,
+          137
+        ],
+        [
+          204,
+          191,
+          165
+        ],
+        [
+          223,
+          214,
+          197
+        ],
+        [
+          244,
+          242,
+          238
+        ],
+        [
+          252,
+          252,
+          252
+        ],
+        [
+          252,
+          252,
+          252
+        ]
+      ],
+      "display_lightmap_rgb": [
+        [
+          25,
+          25,
+          25
+        ],
+        [
+          39,
+          34,
+          31
+        ],
+        [
+          54,
+          44,
+          37
+        ],
+        [
+          69,
+          56,
+          44
+        ],
+        [
+          85,
+          68,
+          52
+        ],
+        [
+          101,
+          82,
+          61
+        ],
+        [
+          118,
+          97,
+          71
+        ],
+        [
+          135,
+          113,
+          83
+        ],
+        [
+          152,
+          131,
+          97
+        ],
+        [
+          169,
+          150,
+          115
+        ],
+        [
+          187,
+          170,
+          137
+        ],
+        [
+          204,
+          191,
+          165
+        ],
+        [
+          223,
+          214,
+          197
+        ],
+        [
+          244,
+          242,
+          238
+        ],
+        [
+          252,
+          252,
+          252
+        ],
+        [
+          252,
+          252,
+          252
+        ]
+      ],
+      "distance_start": 230.4,
+      "distance_end": 256.0,
+      "distance_target_rgba": [
+        0.012,
+        0.033,
+        0.055,
+        1.0
+      ],
+      "surface_microglow": 0.0,
+      "glow_faces_drawn_last_frame": 0
+    }
+  }
+]

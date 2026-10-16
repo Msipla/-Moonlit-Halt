@@ -1,0 +1,247 @@
+{
+  "layout": 102,
+  "origin": [
+    -180,
+    -8,
+    -290
+  ],
+  "size": [
+    292,
+    88,
+    364
+  ],
+  "buildings": 11,
+  "additions": [
+    {
+      "kind": "bakehouse",
+      "bounds": [
+        72,
+        -92,
+        84,
+        -78
+      ],
+      "floor": 40,
+      "door": [
+        72,
+        -85
+      ],
+      "facing": "west"
+    },
+    {
+      "kind": "east-residence",
+      "bounds": [
+        99,
+        -45,
+        109,
+        -33
+      ],
+      "floor": 40,
+      "door": [
+        99,
+        -39
+      ],
+      "facing": "west"
+    },
+    {
+      "kind": "garden-residence",
+      "bounds": [
+        94,
+        22,
+        106,
+        32
+      ],
+      "floor": 39,
+      "door": [
+        100,
+        22
+      ],
+      "facing": "north"
+    },
+    {
+      "kind": "weaving-workshop",
+      "bounds": [
+        71,
+        52,
+        85,
+        64
+      ],
+      "floor": 38,
+      "door": [
+        78,
+        52
+      ],
+      "facing": "north"
+    }
+  ],
+  "street_routes": [
+    [
+      [
+        47,
+        40,
+        -78
+      ],
+      [
+        62,
+        40,
+        -78
+      ],
+      [
+        62,
+        40,
+        -72
+      ],
+      [
+        69,
+        40,
+        -72
+      ],
+      [
+        69,
+        40,
+        -85
+      ],
+      [
+        78,
+        40,
+        -85
+      ]
+    ],
+    [
+      [
+        47,
+        38,
+        -24
+      ],
+      [
+        65,
+        39,
+        -24
+      ],
+      [
+        86,
+        39,
+        -24
+      ],
+      [
+        86,
+        39,
+        -32
+      ],
+      [
+        94,
+        39,
+        -32
+      ],
+      [
+        94,
+        40,
+        -39
+      ],
+      [
+        103,
+        40,
+        -39
+      ]
+    ],
+    [
+      [
+        86,
+        39,
+        -24
+      ],
+      [
+        86,
+        39,
+        -14
+      ],
+      [
+        83,
+        39,
+        -14
+      ],
+      [
+        83,
+        38,
+        19
+      ],
+      [
+        100,
+        38,
+        19
+      ],
+      [
+        100,
+        39,
+        21
+      ],
+      [
+        100,
+        39,
+        26
+      ]
+    ],
+    [
+      [
+        83,
+        38,
+        19
+      ],
+      [
+        83,
+        38,
+        42
+      ],
+      [
+        78,
+        38,
+        42
+      ],
+      [
+        78,
+        38,
+        58
+      ]
+    ],
+    [
+      [
+        65,
+        39,
+        -24
+      ],
+      [
+        65,
+        39,
+        -31
+      ]
+    ]
+  ],
+  "blocks": 132371,
+  "original_building_blocks_preserved": 16032,
+  "original_warm_windows_preserved": 128,
+  "warm_windows": 184,
+  "new_house_footprint_cells": 676,
+  "previous_new_house_footprint_cells": 844,
+  "natural_shelf_attachment": [
+    {
+      "kind": "bakehouse",
+      "natural_shelf_cells": 195,
+      "footprint_cells": 195
+    },
+    {
+      "kind": "east-residence",
+      "natural_shelf_cells": 143,
+      "footprint_cells": 143
+    },
+    {
+      "kind": "garden-residence",
+      "natural_shelf_cells": 143,
+      "footprint_cells": 143
+    },
+    {
+      "kind": "weaving-workshop",
+      "natural_shelf_cells": 195,
+      "footprint_cells": 195
+    }
+  ],
+  "template_sha256": "6d3fcb1f2e48aa4b0bbe1b7eb03bd40a93fc0dd1ba9e28cabd30f5e427d888d0"
+}

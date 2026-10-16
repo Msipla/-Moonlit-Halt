@@ -1,0 +1,14 @@
+{
+  "layout": 100,
+  "seed": 74102002,
+  "stage": "unavailable",
+  "x": 0,
+  "z": 0,
+  "entry_y": 0,
+  "approach_length": 0,
+  "approach_y": 0,
+  "attempt": 4096,
+  "cursor": 0,
+  "reason": "No covered, uninhabited candidate in bounded search",
+  "unfinished_rides": 0
+}

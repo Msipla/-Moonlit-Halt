@@ -1,0 +1,13 @@
+{
+  "status": "MECHANICS_TECHNICAL_PASS",
+  "release_jar_sha256": "fe03279fcaa00d3f8a7fe2d31448981c3b10810aa92cdb05ed27edd0b1e84077",
+  "seed": 74102002,
+  "real_sleep_events": 2,
+  "cross_day_verified": true,
+  "survival_sleep": true,
+  "early_exit": true,
+  "midride_stop_and_reconnect": true,
+  "previous_spatial_validation": "38442034346",
+  "aesthetic_accepted": false,
+  "android_tested": false
+}

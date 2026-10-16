@@ -69,10 +69,11 @@ public final class Phase7CaptureClient implements ClientModInitializer {
                 if(seconds()<(NATURAL?8:18)||!queues(c))return;
                 capture(c,"second-seed-overview.png");finished=true;c.scheduleStop();return;
             }
-            if(c.currentScreen instanceof DreamScreen dream){
-                if(dream.step>dreamCaptured){
+            if(DreamScreen.step>0&&DreamScreen.alpha()>.75f){
+                int step=DreamScreen.step;
+                if(step>dreamCaptured){
                     if(dreamSeenAt==0)dreamSeenAt=System.nanoTime();
-                    if(System.nanoTime()-dreamSeenAt>400_000_000L){capture(c,"dream-"+dream.step+".png");dreamCaptured=dream.step;dreamSeenAt=0;}
+                    if(System.nanoTime()-dreamSeenAt>400_000_000L){capture(c,"dream-"+step+".png");dreamCaptured=step;dreamSeenAt=0;}
                 }
                 return;
             }

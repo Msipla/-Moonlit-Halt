@@ -1,0 +1,10 @@
+{
+  "pass_": true,
+  "old_jar_sha256": "d74739e66507c28f770663d31cdd6c11298e1665d6a8f911d77e203704a30f02",
+  "new_jar_sha256": "fa0901527ae5c666a1499e296789d496455831863486255e04426a36933f713a",
+  "authentic_old_world": true,
+  "layout": 102,
+  "gold_block_in_sample": true,
+  "before_geometry": "b42600936af41597f8b029151787e8fdacdc1d7c4d99f9391473d22db5e39530",
+  "after_geometry": "b42600936af41597f8b029151787e8fdacdc1d7c4d99f9391473d22db5e39530"
+}
