@@ -1,3 +1,16 @@
+# 2026-10-16 巡检后限定修复与线上复测
+
+**结论：既有Pages展示正常；本轮修复浏览器QA的部署竞态和早期失败留证，不修改HTML、CSS、exhibition.js/json、游戏原图、MOD代码或PR #6。**
+
+- **已查明的失败**：浏览器运行[38597589334](https://github.com/Msipla/-Moonlit-Halt/actions/runs/38597589334)于16:26:48 UTC耗尽约3分钟部署等待，而同源[Pages 38597589003](https://github.com/Msipla/-Moonlit-Halt/actions/runs/38597589003)至16:32:19才成功，尚未进入页面交互。较早[38595302770](https://github.com/Msipla/-Moonlit-Halt/actions/runs/38595302770)为部署服务等待超时，后续成功已取代，未改写历史失败。旧QA的部署断言在try之外，故既无failure.json又导致空目录提交失败。
+- **最小修复**：[2e296b6](https://github.com/Msipla/-Moonlit-Halt/commit/2e296b63554f4f2eb3228ed851bacaada8e72333)使main的QA由成功Pages workflow_run触发，并将checkout/目标SHA固定到该部署的head_sha；原分支预览和手动入口保留。部署/浏览器启动失败写入原有failure.json，空证据不提交。JavaScript语法、工作流触发/来源检查及两种早期失败留证模拟通过；模拟不冒充实际浏览器。
+- **实际部署与浏览器**：[Pages 38895254578](https://github.com/Msipla/-Moonlit-Halt/actions/runs/38895254578)成功；线上build-info核对为上述2e296b6。随后[Chromium 38895348347](https://github.com/Msipla/-Moonlit-Halt/actions/runs/38895348347)及留证/上传步骤全部成功，`preview=false`、`deployed_source=2e296b63554f4f2eb3228ed851bacaada8e72333`。
+- **复测范围**：360/390/430/768/1440px均无横向溢出；九阶段导航、V1十三机位与三组修复前后对照、历史画廊/模式约束、放大窗口和滑块通过；20个永久页面/证据入口HTTP200、页面JavaScript异常0。390px的Phase4–V1详情原图完整载入，下载链接指向既有preview.4，未重新下载或声称校验JAR。已查看390px V1画廊和1440px首页实际截图，未发现本轮需要改动的排版问题。
+- **可复查证据**：[a9e14a1](https://github.com/Msipla/-Moonlit-Halt/commit/a9e14a1fe833ed1e00654c8be3ba29b718ebb4ea)保存[summary.json与25份网页原始截图](../../projects/minecraft-mods/experiments/glimmering-abyss/evidence/website/runs/38895348347/)。本记录的后续文档发布不改变已测展示源码；最终部署来源以线上build-info为准。
+- **边界**：Chromium手机视口/触控模拟不是实体iQOO、Safari或Windows实测；Pages通过不等于MOD安卓Amethyst复验、V1.0最终美学验收、合并草稿PR或正式发布。
+
+---
+
 # V1.0 Snapshot 4 · 手机端交接（2026-10-15）
 
 用户在安卓手机上查看线上 Pages，截图覆盖首页、Phase 1–7.5及V1.0阶段卡片、V1.0画廊、下载区、preview.3→preview.4断崖对照、时间线和页尾。可见图片加载正常、对照分界线与39%滑块显示正常、状态仍为「安卓复验待确认」，未见明显横向溢出。**本次可见页面基本通过，适合暂时停止网页功能开发。**
