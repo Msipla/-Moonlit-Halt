@@ -1,6 +1,9 @@
 # 《微光深渊》专项研究任务书：Alex's Caves 异寂空谷生成机制
 
-**状态**：待启动；研究任务，不授权修改 MOD 源码。  
+**状态**：研究完成（2026-10-16）；不授权修改 MOD 源码或实施建议。
+
+**研究报告**：[源码研究、证据与三项有限建议](../../../../research/technical/glimmering-abyss-forlorn-hollows-worldgen-2026-10-16.md)。
+
 **研究对象**：[AlexModGuy/AlexsCaves](https://github.com/AlexModGuy/AlexsCaves) 的 Forlorn Hollows（异寂空谷）及 Underzealot Borough 聚落。  
 **本工程**：`Msipla/-Moonlit-Halt`，`projects/minecraft-mods/experiments/glimmering-abyss/`。  
 **长期协作资料**：`Msipla/Conversation-Archives`。
