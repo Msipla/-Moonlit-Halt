@@ -213,7 +213,7 @@ el('tagCopyPositive').onclick=()=>copy(el('tagPositive').value);
 el('tagCopyNegative').onclick=()=>copy(el('tagNegative').value);
 el('tagCopyBoth').onclick=()=>copy('正面提示词：\n'+el('tagPositive').value+'\n\n负面提示词：\n'+el('tagNegative').value);
 el('tagExport').onclick=()=>{const b=new Blob(['正面提示词：\n'+el('tagPositive').value+'\n\n负面提示词：\n'+el('tagNegative').value],{type:'text/plain;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=(model==='wai'?'WAI-v16':model==='anima'?'Anima-Base':'Anima-Aesthetic')+'-提示词.txt';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),500)};
-window.__aiBridge={add(tag){const k=normTag(tag),x=dictLookup.get(k)||LIB.find(y=>normTag(y.tag)===k);if(!x||(x.flags||[]).some(f=>/age_term|nonconsent|high_risk/.test(f)))return false;if(!selected.some(y=>normTag(y)===k))toggle(x.tag);return true}};
+window.__aiBridge={add(item){const k=normTag(item.tag);if((item.flags||[]).some(f=>/age_term|nonconsent|high_risk/.test(f)))return false;dictLookup.set(k,{...item,cat:item.cat||'通用待分类'});if(!selected.some(y=>normTag(y)===k))toggle(item.tag);return true}};
 renderCats();renderSelected();renderChoices();generate();
 })();
 </script><script>
@@ -236,7 +236,7 @@ async function load(){
   status('正在加载词库…');
   const raw=/\.gz$/i.test(f.name)?await new Response(f.stream().pipeThrough(new DecompressionStream('gzip'))).text():await f.text();
   const d=JSON.parse(raw);if(d.format!=='prompt-dictionary'||!Array.isArray(d.records))throw Error('词库格式不匹配');
-  rows=d.records.filter(r=>Array.isArray(r)&&r[0]&&!isRisk(r)).map(r=>({tag:r[0],zh:r[1]||'',count:Number(r[3])||0,key:norm([r[0],r[1],...(r[4]||[]),...(r[10]||[]).map(x=>Array.isArray(x)?x[1]:'')].join(' '))}));
+  rows=d.records.filter(r=>Array.isArray(r)&&r[0]&&!isRisk(r)).map(r=>({tag:r[0],zh:r[1]||'',count:Number(r[3])||0,flags:r[8]||[],key:norm([r[0],r[1],...(r[4]||[]),...(r[10]||[]).map(x=>Array.isArray(x)?x[1]:'')].join(' '))}));
   status('已加载 '+rows.length+' 条可推荐标签');return rows;
  })();
  try{return await loading}catch(e){loading=null;throw e}
@@ -247,7 +247,7 @@ function lookup(queries,limit=90){
   for(const t of terms){if(tag===t||zh===t)score+=100;else if(tag.startsWith(t)||zh.startsWith(t))score+=50;else if(r.key.includes(t))score+=15}
   if(score)hits.push({r,score:score+Math.log10(r.count+1)});
  }
- hits.sort((a,b)=>b.score-a.score);return hits.slice(0,limit).map(x=>({tag:x.r.tag,zh:x.r.zh}));
+ hits.sort((a,b)=>b.score-a.score);return hits.slice(0,limit).map(x=>({tag:x.r.tag,zh:x.r.zh,flags:x.r.flags}));
 }
 async function api(messages){
  const key=$('ak').value.trim(),model=$('aid').value.trim()||$('as').value;
@@ -285,7 +285,7 @@ $('ago').onclick=async()=>{
   const area=document.createElement('div');area.style.cssText='display:flex;flex-wrap:wrap;gap:6px;margin-top:10px';div.append(area);
   for(const x of tags){
    const b=document.createElement('button');b.type='button';b.textContent='＋ '+x.tag+(x.zh?' · '+x.zh:'');
-   b.onclick=()=>{if(window.__aiBridge.add(x.tag)){b.textContent='✓ '+x.tag;b.disabled=true;status('已添加 '+x.tag)}else status('该标签仍受原页面限制，或尚未进入标签缓存')};
+   b.onclick=()=>{if(window.__aiBridge.add(x)){b.textContent='✓ '+x.tag;b.disabled=true;status('已添加 '+x.tag)}else status('该标签仍受原页面限制，或尚未进入标签缓存')};
    area.append(b);
   }
   history.push({role:'user',content:idea},{role:'assistant',content:String(result.reply||'')+' 标签：'+tags.map(x=>x.tag).join(', ')});
