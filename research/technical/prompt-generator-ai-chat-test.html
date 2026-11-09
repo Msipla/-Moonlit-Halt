@@ -213,7 +213,7 @@ el('tagCopyPositive').onclick=()=>copy(el('tagPositive').value);
 el('tagCopyNegative').onclick=()=>copy(el('tagNegative').value);
 el('tagCopyBoth').onclick=()=>copy('正面提示词：\n'+el('tagPositive').value+'\n\n负面提示词：\n'+el('tagNegative').value);
 el('tagExport').onclick=()=>{const b=new Blob(['正面提示词：\n'+el('tagPositive').value+'\n\n负面提示词：\n'+el('tagNegative').value],{type:'text/plain;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=(model==='wai'?'WAI-v16':model==='anima'?'Anima-Base':'Anima-Aesthetic')+'-提示词.txt';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),500)};
-window.__aiBridge={add(item){const k=normTag(item.tag);if((item.flags||[]).some(f=>/age_term|nonconsent|high_risk/.test(f)))return false;dictLookup.set(k,{...item,cat:item.cat||'通用待分类'});if(!selected.some(y=>normTag(y)===k))toggle(item.tag);return true}};
+window.__aiBridge={add(item){const k=normTag(item.tag);if((item.flags||[]).some(f=>/age_term|nonconsent|high_risk/.test(f)))return false;dictLookup.set(k,{...item,cat:item.cat||'通用待分类'});if(!selected.some(y=>normTag(y)===k))toggle(item.tag);return true},addMany(items){const safe=items.filter(x=>x&&x.tag&&!(x.flags||[]).some(f=>/age_term|nonconsent|high_risk/.test(f)));const fresh=safe.filter(x=>!selected.some(y=>normTag(y)===normTag(x.tag)));if(!fresh.length)return 0;remember();for(const x of fresh)dictLookup.set(normTag(x.tag),{...x,cat:x.cat||'通用待分类'});selected.push(...fresh.map(x=>x.tag));renderSelected();renderChoices();renderRecommendations();generate();return fresh.length}};
 renderCats();renderSelected();renderChoices();generate();
 })();
 </script><script>
@@ -221,11 +221,16 @@ renderCats();renderSelected();renderChoices();generate();
 const file=document.getElementById('tagCsv'),parent=document.getElementById('tagMaker');
 if(!file||!parent||!window.__aiBridge)return;
 const box=document.createElement('section');box.className='panel';box.style.marginBottom='18px';
-box.innerHTML='<h2>✨ AI 对话式词库助手</h2><p>AI 主导本地词库检索，点击推荐词条直接添加；保留原有风险限制。</p><div style="display:flex;gap:8px;flex-wrap:wrap"><input id="ak" type="password" autocomplete="off" placeholder="硅基流动 API Key" style="flex:2;min-width:180px"><button id="am" type="button">获取模型</button><select id="as" style="flex:2;min-width:180px"><option value="">请选择模型</option></select></div><input id="aid" placeholder="也可手动填写模型 ID（优先）" style="width:100%;margin-top:8px"><div id="alog" style="max-height:380px;overflow:auto;margin:12px 0"></div><textarea id="aiq" rows="3" style="width:100%" placeholder="描述画面，或继续提出修改要求"></textarea><div style="display:flex;gap:8px;align-items:center"><button id="ago" type="button">发送并检索</button><button id="aclear" type="button">清空对话</button><span id="astatus">请先导入完整词库</span></div>';
+box.innerHTML='<h2>✨ AI 对话式词库助手</h2><p>AI 主导本地词库检索，点击推荐词条直接添加；保留原有风险限制。</p><div style="display:flex;gap:8px;flex-wrap:wrap"><input id="ak" type="password" autocomplete="off" placeholder="硅基流动 API Key" style="flex:2;min-width:180px"><button id="am" type="button">获取模型</button><select id="as" style="flex:2;min-width:180px"><option value="">请选择模型</option></select></div><div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:8px"><label><input id="asave" type="checkbox"> 在此浏览器保存密钥</label><button id="aerase" type="button">清除已保存密钥</button><small>密钥仅以明文保存在本机浏览器存储中；共享电脑请勿启用</small></div><input id="aid" placeholder="也可手动填写模型 ID（优先）" style="width:100%;margin-top:8px"><div id="alog" style="max-height:380px;overflow:auto;margin:12px 0"></div><textarea id="aiq" rows="3" style="width:100%" placeholder="描述画面，或继续提出修改要求"></textarea><div style="display:flex;gap:8px;align-items:center"><button id="ago" type="button">发送并检索</button><button id="aclear" type="button">清空对话</button><span id="astatus">请先导入完整词库</span></div>';
 parent.insertBefore(box,parent.firstChild);
 const $=id=>box.querySelector('#'+id),status=s=>$('astatus').textContent=s;
 for(const x of box.querySelectorAll('input,textarea,select')){x.style.background='#101724';x.style.color='#eef4ff';x.style.border='1px solid #40577a';x.style.borderRadius='8px';x.style.padding='9px'}
 let rows=null,loading=null,history=[],busy=false;
+const keyStore='prompt-ai-siliconflow-key-v1';
+try{const old=localStorage.getItem(keyStore);if(old){$('ak').value=old;$('asave').checked=true}}catch{}
+$('ak').addEventListener('input',()=>{try{if($('asave').checked)localStorage.setItem(keyStore,$('ak').value)}catch{status('浏览器不允许保存密钥')}});
+$('asave').addEventListener('change',()=>{try{if($('asave').checked)localStorage.setItem(keyStore,$('ak').value);else localStorage.removeItem(keyStore)}catch{status('浏览器不允许保存密钥')}});
+$('aerase').onclick=()=>{try{localStorage.removeItem(keyStore)}catch{}$('ak').value='';$('asave').checked=false;status('已清除本页密钥及保存记录')};
 file.addEventListener('change',()=>{rows=null;loading=null;status('词库已更换')});
 const norm=s=>String(s||'').normalize('NFKC').toLowerCase().replace(/_/g,' ').replace(/\s+/g,' ').trim();
 const isRisk=r=>Array.isArray(r[8])&&r[8].some(f=>/age_term|nonconsent|high_risk/.test(f));
@@ -283,8 +288,12 @@ $('ago').onclick=async()=>{
   const tags=[...new Set(Array.isArray(result.tags)?result.tags:[])].map(x=>valid.get(x)).filter(Boolean).slice(0,20);
   const div=line('AI',String(result.reply||'这些标签来自已导入词库，点击即可添加：'));
   const area=document.createElement('div');area.style.cssText='display:flex;flex-wrap:wrap;gap:6px;margin-top:10px';div.append(area);
+  const all=document.createElement('button');all.type='button';all.textContent='＋ 一键添加本轮全部 '+tags.length+' 个标签';all.disabled=!tags.length;div.append(all);
+  const buttons=[];
+  all.onclick=()=>{const n=window.__aiBridge.addMany(tags);for(const b of buttons){b.disabled=true;b.textContent='✓ '+b.dataset.tag}all.disabled=true;all.textContent='✓ 本轮批量添加完成（新增 '+n+' 个）';status('本轮新增 '+n+' 个标签；重复标签已跳过')};
   for(const x of tags){
    const b=document.createElement('button');b.type='button';b.textContent='＋ '+x.tag+(x.zh?' · '+x.zh:'');
+   b.dataset.tag=x.tag;buttons.push(b);
    b.onclick=()=>{if(window.__aiBridge.add(x)){b.textContent='✓ '+x.tag;b.disabled=true;status('已添加 '+x.tag)}else status('该标签仍受原页面限制，或尚未进入标签缓存')};
    area.append(b);
   }
