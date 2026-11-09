@@ -1,0 +1,373 @@
+{
+  "stableBlobSha": "83310c41154cde087d5905f4866c1d9a0706326c",
+  "browser": "153.0.8010.0",
+  "runs": [
+    {
+      "mode": "desktop Linux Chromium",
+      "loadWallMs": 2573.491704,
+      "loadWorkerMs": 2385.100000000093,
+      "maxMainThreadTimerGapMs": 137.80000000004657,
+      "memoryBefore": {
+        "heaps": [
+          {
+            "type": "worker",
+            "usedMiB": 0.6874275207519531,
+            "totalMiB": 3,
+            "backingStorageMiB": 0.0052700042724609375
+          },
+          {
+            "type": "page",
+            "usedMiB": 2.796905517578125,
+            "totalMiB": 5.609375,
+            "backingStorageMiB": 0.06226348876953125
+          }
+        ],
+        "usedMiB": 3.484333038330078,
+        "note": "V8 isolate heaps from CDP, before forced GC; excludes total OS/browser RSS."
+      },
+      "memoryAfter": {
+        "heaps": [
+          {
+            "type": "worker",
+            "usedMiB": 180.9439353942871,
+            "totalMiB": 245.86328125,
+            "backingStorageMiB": 68.57937622070312
+          },
+          {
+            "type": "page",
+            "usedMiB": 3.45343017578125,
+            "totalMiB": 5.609375,
+            "backingStorageMiB": 0.06286144256591797
+          }
+        ],
+        "usedMiB": 184.39736557006836,
+        "note": "V8 isolate heaps from CDP, before forced GC; excludes total OS/browser RSS."
+      },
+      "searches": [
+        {
+          "query": "银发",
+          "wallMs": 208.19095900000048,
+          "workerMs": 48.39999999990687
+        },
+        {
+          "query": "silver_hair",
+          "wallMs": 198.646119,
+          "workerMs": 45
+        },
+        {
+          "query": "silver hair",
+          "wallMs": 214.18179599999985,
+          "workerMs": 46.89999999990687
+        },
+        {
+          "query": "夜景",
+          "wallMs": 200.47058899999956,
+          "workerMs": 47.4000000001397
+        },
+        {
+          "query": "running",
+          "wallMs": 217.94092699999965,
+          "workerMs": 54.60000000009313
+        },
+        {
+          "query": "zzzz_missing_tag_123",
+          "wallMs": 193.28021900000022,
+          "workerMs": 43.300000000046566
+        },
+        {
+          "query": "a",
+          "wallMs": 430.9106590000001,
+          "workerMs": 144.9000000001397
+        }
+      ],
+      "layout": {
+        "width": 1440,
+        "scroll": 1440
+      },
+      "errors": []
+    },
+    {
+      "mode": "mobile viewport + CPU 4x (not Android)",
+      "loadWallMs": 3314.5934429999998,
+      "loadWorkerMs": 2789.600000000093,
+      "maxMainThreadTimerGapMs": 352.89999999990687,
+      "memoryBefore": {
+        "heaps": [
+          {
+            "type": "worker",
+            "usedMiB": 0.6917953491210938,
+            "totalMiB": 3,
+            "backingStorageMiB": 0.0052700042724609375
+          },
+          {
+            "type": "page",
+            "usedMiB": 2.7997169494628906,
+            "totalMiB": 5.609375,
+            "backingStorageMiB": 0.062064170837402344
+          }
+        ],
+        "usedMiB": 3.4915122985839844,
+        "note": "V8 isolate heaps from CDP, before forced GC; excludes total OS/browser RSS."
+      },
+      "memoryAfter": {
+        "heaps": [
+          {
+            "type": "worker",
+            "usedMiB": 180.96854400634766,
+            "totalMiB": 246.11328125,
+            "backingStorageMiB": 68.57937622070312
+          },
+          {
+            "type": "page",
+            "usedMiB": 3.3920249938964844,
+            "totalMiB": 5.609375,
+            "backingStorageMiB": 0.06246662139892578
+          }
+        ],
+        "usedMiB": 184.36056900024414,
+        "note": "V8 isolate heaps from CDP, before forced GC; excludes total OS/browser RSS."
+      },
+      "searches": [
+        {
+          "query": "银发",
+          "wallMs": 309.15172600000005,
+          "workerMs": 55
+        },
+        {
+          "query": "silver_hair",
+          "wallMs": 290.8666030000004,
+          "workerMs": 67.69999999995343
+        },
+        {
+          "query": "silver hair",
+          "wallMs": 320.0068310000006,
+          "workerMs": 55.89999999990687
+        },
+        {
+          "query": "夜景",
+          "wallMs": 213.64745599999878,
+          "workerMs": 49
+        },
+        {
+          "query": "running",
+          "wallMs": 324.9366399999999,
+          "workerMs": 58.299999999813735
+        },
+        {
+          "query": "zzzz_missing_tag_123",
+          "wallMs": 212.7887410000003,
+          "workerMs": 48.199999999953434
+        },
+        {
+          "query": "a",
+          "wallMs": 717.543090000001,
+          "workerMs": 173.4000000001397
+        }
+      ],
+      "layout": {
+        "width": 393,
+        "scroll": 393
+      },
+      "errors": []
+    }
+  ],
+  "checks": [
+    {
+      "mode": "desktop",
+      "check": "gzip full load",
+      "passed": true
+    },
+    {
+      "mode": "desktop",
+      "check": "Chinese and English search",
+      "passed": true
+    },
+    {
+      "mode": "desktop",
+      "check": "underscore and space search",
+      "passed": true
+    },
+    {
+      "mode": "desktop",
+      "check": "frequency and relevance ordering",
+      "passed": true
+    },
+    {
+      "mode": "desktop",
+      "check": "selection and positive output",
+      "passed": true
+    },
+    {
+      "mode": "desktop",
+      "check": "favorites survive reload",
+      "passed": true
+    },
+    {
+      "mode": "desktop",
+      "check": "negative output survives reload",
+      "passed": true
+    },
+    {
+      "mode": "desktop",
+      "check": "model presets",
+      "passed": true
+    },
+    {
+      "mode": "desktop",
+      "check": "TXT export",
+      "passed": true
+    },
+    {
+      "mode": "desktop",
+      "check": "display category",
+      "passed": true
+    },
+    {
+      "mode": "desktop",
+      "check": "raw source category",
+      "passed": true
+    },
+    {
+      "mode": "desktop",
+      "check": "restricted source metadata",
+      "passed": true
+    },
+    {
+      "mode": "desktop",
+      "check": "risk flags read only",
+      "passed": true
+    },
+    {
+      "mode": "desktop",
+      "check": "DOM cap",
+      "passed": true
+    },
+    {
+      "mode": "desktop",
+      "check": "no horizontal overflow",
+      "passed": true
+    },
+    {
+      "mode": "desktop",
+      "check": "CSV quoting/header/dedup/multiline",
+      "passed": true
+    },
+    {
+      "mode": "desktop",
+      "check": "bad JSON recovery",
+      "passed": true
+    },
+    {
+      "mode": "desktop",
+      "check": "library reset",
+      "passed": true
+    },
+    {
+      "mode": "desktop",
+      "check": "MOSS regression",
+      "passed": true
+    },
+    {
+      "mode": "mobile",
+      "check": "gzip full load",
+      "passed": true
+    },
+    {
+      "mode": "mobile",
+      "check": "Chinese and English search",
+      "passed": true
+    },
+    {
+      "mode": "mobile",
+      "check": "underscore and space search",
+      "passed": true
+    },
+    {
+      "mode": "mobile",
+      "check": "frequency and relevance ordering",
+      "passed": true
+    },
+    {
+      "mode": "mobile",
+      "check": "selection and positive output",
+      "passed": true
+    },
+    {
+      "mode": "mobile",
+      "check": "favorites survive reload",
+      "passed": true
+    },
+    {
+      "mode": "mobile",
+      "check": "negative output survives reload",
+      "passed": true
+    },
+    {
+      "mode": "mobile",
+      "check": "model presets",
+      "passed": true
+    },
+    {
+      "mode": "mobile",
+      "check": "TXT export",
+      "passed": true
+    },
+    {
+      "mode": "mobile",
+      "check": "display category",
+      "passed": true
+    },
+    {
+      "mode": "mobile",
+      "check": "raw source category",
+      "passed": true
+    },
+    {
+      "mode": "mobile",
+      "check": "restricted source metadata",
+      "passed": true
+    },
+    {
+      "mode": "mobile",
+      "check": "risk flags read only",
+      "passed": true
+    },
+    {
+      "mode": "mobile",
+      "check": "DOM cap",
+      "passed": true
+    },
+    {
+      "mode": "mobile",
+      "check": "no horizontal overflow",
+      "passed": true
+    },
+    {
+      "mode": "mobile",
+      "check": "CSV quoting/header/dedup/multiline",
+      "passed": true
+    },
+    {
+      "mode": "mobile",
+      "check": "bad JSON recovery",
+      "passed": true
+    },
+    {
+      "mode": "mobile",
+      "check": "library reset",
+      "passed": true
+    },
+    {
+      "mode": "mobile",
+      "check": "MOSS regression",
+      "passed": true
+    }
+  ],
+  "environment": {
+    "os": "Linux x86_64",
+    "browser": "153.0.8010.0",
+    "transport": "file:// offline HTML + user-selected gzip file",
+    "launch": "headless Chromium; --no-zygote --single-process --disable-gpu required in this container",
+    "measurement": "Worker/page V8 heaps via CDP Runtime.getHeapUsage; no forced GC. CPU 4x throttling is a page emulation setting, not an Android device benchmark."
+  }
+}

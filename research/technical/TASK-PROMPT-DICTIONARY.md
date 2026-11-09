@@ -1,6 +1,8 @@
 # 提示词生成器：完整公开标签词库整理与独立集成测试
 
-**状态：已授权 Work 执行，尚未执行或验收。**
+**状态：Work 执行与独立浏览器集成测试已完成（2026-11-09）；真实 Android 测试和用户验收待完成。**
+
+**结果入口：** [完整词库与质量报告](prompt-dictionary-report.md) · [独立测试版](prompt-generator-dictionary-test.html) · [测试原始指标](prompt-dictionary-test-results.json)。稳定版 HTML 未改；本任务不再作为待执行入口，正式替换仍需验收确认。
 **目标仓库：** `Msipla/-Moonlit-Halt`
 **现有稳定基线：** `research/technical/prompt-generator.html`（分类词典版，当前 blob SHA `83310c41154cde087d5905f4866c1d9a0706326c`；执行时重新核对）
 **本轮授权：** 完整词库调查、获取、清洗、分类、独立交付，以及**不覆盖稳定版**的集成测试。可自主执行，不必每做一个小样本就停下等待批准。

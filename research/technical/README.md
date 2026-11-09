@@ -16,3 +16,8 @@
 - [开发检查与启动方式](../../projects/moonlit-halt/README.md)
 - [逻辑与几何检查](../../projects/moonlit-halt/tests/check-scene.cjs)
 - [原生 GLES 渲染重放](../../projects/moonlit-halt/tests/render-gles.py)
+
+## 提示词词库
+
+- [完整公开词库整理与独立集成结果](prompt-dictionary-report.md)：343,777 条标签；离线词库、独立测试 HTML、来源许可、中文质量与浏览器性能证据。Work 执行完成，真实 Android 与用户验收待完成。
+- [现有稳定版](prompt-generator.html) 保持不变；[任务书与执行边界](TASK-PROMPT-DICTIONARY.md) 已标记执行结果。
