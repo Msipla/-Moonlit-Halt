@@ -25,7 +25,7 @@
 
 - **仓库结构：** 已建立项目隔离的目录；源码、资源与验证记录已经导入。
 - **《月下小站》：** 已导入可独立启动的 v2.0 网页工程、原始 v1.0 备份、本地材质、同视角实际离屏渲染图及测试工具。逻辑检查与原生 GLES 渲染已通过；v2.0 的真实 iQOO 15 浏览器体验和稳定帧率仍待实测。
-- **Minecraft MOD：** 《微光深渊》v0.5.0 聚焦一栋工坊、安全铁桥、有限局部竖井与短探索路线；用户已认可此前冷蓝与暖窗方向，第五阶段精修和深渊画面另行审阅。历史成果与第二阶段美学否决保留，最新状态以[项目入口](projects/minecraft-mods/experiments/glimmering-abyss/)为准。
+- **Minecraft MOD：** 《微光深渊》main 已交付 Phase 7.5 v0.7.5（工程技术验证通过，安卓及美学复验待完成）；V1.0 preview.4/layout103 已在[草稿 PR #6](https://github.com/Msipla/-Moonlit-Halt/pull/6)完成相关工程验证，**尚未合并或正式发布**，实体安卓 Amethyst 与最终美学验收仍待确认。恢复时以[项目入口](projects/minecraft-mods/experiments/glimmering-abyss/)及[PR 分支 HANDOFF](https://github.com/Msipla/-Moonlit-Halt/blob/codex/v1-abyss-world/projects/minecraft-mods/experiments/glimmering-abyss/HANDOFF.md)为准；旧阶段成果和否决记录保留。
 
 ## 体验与启动
 
