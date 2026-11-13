@@ -1,0 +1,25 @@
+{
+  "status": "SETTLEMENT_PREVIEW_TECHNICAL_PASS",
+  "minecraft": "1.20.1",
+  "layout": 101,
+  "buildings": 11,
+  "release_jar_sha256": "f855057e1fce107df9eeab8c5959c442f839fe939cca1a8456f6aa2c8134a8bf",
+  "seeds": [
+    74102002,
+    -92345
+  ],
+  "real_client": true,
+  "peripheral_walk_legs": 22,
+  "settlement_walk_legs": 28,
+  "real_residence_sleep": true,
+  "real_server_restart": true,
+  "midride_stop_and_reconnect": true,
+  "early_exit": true,
+  "legacy_layouts_preserved": [
+    70,
+    75,
+    100
+  ],
+  "aesthetic_acceptance": "Spatial direction conditionally approved; east-wall naturalness and this settlement expansion await review of actual screenshots",
+  "limitations": "Hosted Linux software OpenGL; not Windows, PCL2, target GPU, Sodium/Iris/DH or real phone"
+}

@@ -1,0 +1,9 @@
+{
+  "state": 91,
+  "leg": 0,
+  "error": "java.lang.IllegalStateException: Unsettled chunks C: 2472/26136 D: 16, pC: 259, pU: 08, aB: 00",
+  "position": "(-7423.5, 66.0, -2387.5)",
+  "permission": true,
+  "sleeping": false,
+  "dream_step": 0
+}

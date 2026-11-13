@@ -1,0 +1,201 @@
+Unpacking 1.20.1/server-1.20.1.jar (versions:1.20.1) to versions/1.20.1/server-1.20.1.jar
+Unpacking com/github/oshi/oshi-core/6.2.2/oshi-core-6.2.2.jar (libraries:com.github.oshi:oshi-core:6.2.2) to libraries/com/github/oshi/oshi-core/6.2.2/oshi-core-6.2.2.jar
+Unpacking com/google/code/gson/gson/2.10/gson-2.10.jar (libraries:com.google.code.gson:gson:2.10) to libraries/com/google/code/gson/gson/2.10/gson-2.10.jar
+Unpacking com/google/guava/failureaccess/1.0.1/failureaccess-1.0.1.jar (libraries:com.google.guava:failureaccess:1.0.1) to libraries/com/google/guava/failureaccess/1.0.1/failureaccess-1.0.1.jar
+Unpacking com/google/guava/guava/31.1-jre/guava-31.1-jre.jar (libraries:com.google.guava:guava:31.1-jre) to libraries/com/google/guava/guava/31.1-jre/guava-31.1-jre.jar
+Unpacking com/mojang/authlib/4.0.43/authlib-4.0.43.jar (libraries:com.mojang:authlib:4.0.43) to libraries/com/mojang/authlib/4.0.43/authlib-4.0.43.jar
+Unpacking com/mojang/brigadier/1.1.8/brigadier-1.1.8.jar (libraries:com.mojang:brigadier:1.1.8) to libraries/com/mojang/brigadier/1.1.8/brigadier-1.1.8.jar
+Unpacking com/mojang/datafixerupper/6.0.8/datafixerupper-6.0.8.jar (libraries:com.mojang:datafixerupper:6.0.8) to libraries/com/mojang/datafixerupper/6.0.8/datafixerupper-6.0.8.jar
+Unpacking com/mojang/logging/1.1.1/logging-1.1.1.jar (libraries:com.mojang:logging:1.1.1) to libraries/com/mojang/logging/1.1.1/logging-1.1.1.jar
+Unpacking commons-io/commons-io/2.11.0/commons-io-2.11.0.jar (libraries:commons-io:commons-io:2.11.0) to libraries/commons-io/commons-io/2.11.0/commons-io-2.11.0.jar
+Unpacking io/netty/netty-buffer/4.1.82.Final/netty-buffer-4.1.82.Final.jar (libraries:io.netty:netty-buffer:4.1.82.Final) to libraries/io/netty/netty-buffer/4.1.82.Final/netty-buffer-4.1.82.Final.jar
+Unpacking io/netty/netty-codec/4.1.82.Final/netty-codec-4.1.82.Final.jar (libraries:io.netty:netty-codec:4.1.82.Final) to libraries/io/netty/netty-codec/4.1.82.Final/netty-codec-4.1.82.Final.jar
+Unpacking io/netty/netty-common/4.1.82.Final/netty-common-4.1.82.Final.jar (libraries:io.netty:netty-common:4.1.82.Final) to libraries/io/netty/netty-common/4.1.82.Final/netty-common-4.1.82.Final.jar
+Unpacking io/netty/netty-handler/4.1.82.Final/netty-handler-4.1.82.Final.jar (libraries:io.netty:netty-handler:4.1.82.Final) to libraries/io/netty/netty-handler/4.1.82.Final/netty-handler-4.1.82.Final.jar
+Unpacking io/netty/netty-resolver/4.1.82.Final/netty-resolver-4.1.82.Final.jar (libraries:io.netty:netty-resolver:4.1.82.Final) to libraries/io/netty/netty-resolver/4.1.82.Final/netty-resolver-4.1.82.Final.jar
+Unpacking io/netty/netty-transport/4.1.82.Final/netty-transport-4.1.82.Final.jar (libraries:io.netty:netty-transport:4.1.82.Final) to libraries/io/netty/netty-transport/4.1.82.Final/netty-transport-4.1.82.Final.jar
+Unpacking io/netty/netty-transport-classes-epoll/4.1.82.Final/netty-transport-classes-epoll-4.1.82.Final.jar (libraries:io.netty:netty-transport-classes-epoll:4.1.82.Final) to libraries/io/netty/netty-transport-classes-epoll/4.1.82.Final/netty-transport-classes-epoll-4.1.82.Final.jar
+Unpacking io/netty/netty-transport-native-epoll/4.1.82.Final/netty-transport-native-epoll-4.1.82.Final-linux-x86_64.jar (libraries:io.netty:netty-transport-native-epoll:4.1.82.Final:linux-x86_64) to libraries/io/netty/netty-transport-native-epoll/4.1.82.Final/netty-transport-native-epoll-4.1.82.Final-linux-x86_64.jar
+Unpacking io/netty/netty-transport-native-epoll/4.1.82.Final/netty-transport-native-epoll-4.1.82.Final-linux-aarch_64.jar (libraries:io.netty:netty-transport-native-epoll:4.1.82.Final:linux-aarch_64) to libraries/io/netty/netty-transport-native-epoll/4.1.82.Final/netty-transport-native-epoll-4.1.82.Final-linux-aarch_64.jar
+Unpacking io/netty/netty-transport-native-unix-common/4.1.82.Final/netty-transport-native-unix-common-4.1.82.Final.jar (libraries:io.netty:netty-transport-native-unix-common:4.1.82.Final) to libraries/io/netty/netty-transport-native-unix-common/4.1.82.Final/netty-transport-native-unix-common-4.1.82.Final.jar
+Unpacking it/unimi/dsi/fastutil/8.5.9/fastutil-8.5.9.jar (libraries:it.unimi.dsi:fastutil:8.5.9) to libraries/it/unimi/dsi/fastutil/8.5.9/fastutil-8.5.9.jar
+Unpacking net/java/dev/jna/jna/5.12.1/jna-5.12.1.jar (libraries:net.java.dev.jna:jna:5.12.1) to libraries/net/java/dev/jna/jna/5.12.1/jna-5.12.1.jar
+Unpacking net/java/dev/jna/jna-platform/5.12.1/jna-platform-5.12.1.jar (libraries:net.java.dev.jna:jna-platform:5.12.1) to libraries/net/java/dev/jna/jna-platform/5.12.1/jna-platform-5.12.1.jar
+Unpacking net/sf/jopt-simple/jopt-simple/5.0.4/jopt-simple-5.0.4.jar (libraries:net.sf.jopt-simple:jopt-simple:5.0.4) to libraries/net/sf/jopt-simple/jopt-simple/5.0.4/jopt-simple-5.0.4.jar
+Unpacking org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar (libraries:org.apache.commons:commons-lang3:3.12.0) to libraries/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar
+Unpacking org/apache/logging/log4j/log4j-api/2.19.0/log4j-api-2.19.0.jar (libraries:org.apache.logging.log4j:log4j-api:2.19.0) to libraries/org/apache/logging/log4j/log4j-api/2.19.0/log4j-api-2.19.0.jar
+Unpacking org/apache/logging/log4j/log4j-core/2.19.0/log4j-core-2.19.0.jar (libraries:org.apache.logging.log4j:log4j-core:2.19.0) to libraries/org/apache/logging/log4j/log4j-core/2.19.0/log4j-core-2.19.0.jar
+Unpacking org/apache/logging/log4j/log4j-slf4j2-impl/2.19.0/log4j-slf4j2-impl-2.19.0.jar (libraries:org.apache.logging.log4j:log4j-slf4j2-impl:2.19.0) to libraries/org/apache/logging/log4j/log4j-slf4j2-impl/2.19.0/log4j-slf4j2-impl-2.19.0.jar
+Unpacking org/joml/joml/1.10.5/joml-1.10.5.jar (libraries:org.joml:joml:1.10.5) to libraries/org/joml/joml/1.10.5/joml-1.10.5.jar
+Unpacking org/slf4j/slf4j-api/2.0.1/slf4j-api-2.0.1.jar (libraries:org.slf4j:slf4j-api:2.0.1) to libraries/org/slf4j/slf4j-api/2.0.1/slf4j-api-2.0.1.jar
+Starting net.fabricmc.loader.impl.game.minecraft.BundlerClassPathCapture
+[05:47:33] [main/INFO]: Loading Minecraft 1.20.1 with Fabric Loader 0.14.25
+[05:47:33] [main/INFO]: Fabric is preparing JARs on first launch, this may take a few seconds...
+[05:47:33] [main/INFO]: Loading 42 mods:
+	- fabric-api 0.85.0+1.20.1
+	   |-- fabric-api-base 0.4.29+b04edc7a77
+	   |-- fabric-api-lookup-api-v1 1.6.34+4d8536c977
+	   |-- fabric-biome-api-v1 13.0.10+b3afc78b77
+	   |-- fabric-block-api-v1 1.0.9+e022e5d177
+	   |-- fabric-blockrenderlayer-v1 1.1.39+b3afc78b77
+	   |-- fabric-client-tags-api-v1 1.1.0+97bb207577
+	   |-- fabric-command-api-v1 1.2.32+f71b366f77
+	   |-- fabric-command-api-v2 2.2.11+b3afc78b77
+	   |-- fabric-commands-v0 0.2.49+df3654b377
+	   |-- fabric-containers-v0 0.1.61+df3654b377
+	   |-- fabric-content-registries-v0 4.0.8+b3afc78b77
+	   |-- fabric-convention-tags-v1 1.5.3+b3afc78b77
+	   |-- fabric-crash-report-info-v1 0.2.18+aeb40ebe77
+	   |-- fabric-data-generation-api-v1 12.1.12+b3afc78b77
+	   |-- fabric-dimensions-v1 2.1.51+b3afc78b77
+	   |-- fabric-entity-events-v1 1.5.21+b3afc78b77
+	   |-- fabric-events-interaction-v0 0.6.0+b3afc78b77
+	   |-- fabric-events-lifecycle-v0 0.2.61+df3654b377
+	   |-- fabric-game-rule-api-v1 1.0.38+b04edc7a77
+	   |-- fabric-item-api-v1 2.1.26+b3afc78b77
+	   |-- fabric-item-group-api-v1 4.0.8+40e50c4677
+	   |-- fabric-key-binding-api-v1 1.0.36+fb8d95da77
+	   |-- fabric-keybindings-v0 0.2.34+df3654b377
+	   |-- fabric-lifecycle-events-v1 2.2.20+b3afc78b77
+	   |-- fabric-loot-api-v2 1.1.38+b3afc78b77
+	   |-- fabric-loot-tables-v1 1.1.42+9e7660c677
+	   |-- fabric-message-api-v1 5.1.6+b3afc78b77
+	   |-- fabric-mining-level-api-v1 2.1.48+b3afc78b77
+	   |-- fabric-models-v0 0.3.35+b3afc78b77
+	   |-- fabric-networking-api-v1 1.3.8+b3afc78b77
+	   |-- fabric-networking-v0 0.3.48+df3654b377
+	   |-- fabric-object-builder-api-v1 11.1.0+6beca84877
+	   |-- fabric-particles-v1 1.1.0+201a23a077
+	   |-- fabric-recipe-api-v1 1.0.18+b3afc78b77
+	   |-- fabric-registry-sync-v0 2.2.6+b3afc78b77
+	   |-- fabric-renderer-api-v1 3.1.0+c154966e77
+	   |-- fabric-renderer-indigo 1.4.0+c154966e77
+	   |-- fabric-renderer-registries-v1 3.2.44+df3654b377
+	   |-- fabric-rendering-data-attachment-v1 0.3.33+b3afc78b77
+	   |-- fabric-rendering-fluids-v1 3.0.26+b3afc78b77
+	   |-- fabric-rendering-v0 1.1.47+df3654b377
+	   |-- fabric-rendering-v1 3.0.6+b3afc78b77
+	   |-- fabric-resource-conditions-api-v1 2.3.5+ea08f9d877
+	   |-- fabric-resource-loader-v0 0.11.8+e3d6ed2577
+	   |-- fabric-screen-api-v1 2.0.6+b3afc78b77
+	   |-- fabric-screen-handler-api-v1 1.3.27+b3afc78b77
+	   |-- fabric-sound-api-v1 1.0.12+b3afc78b77
+	   |-- fabric-transfer-api-v1 3.2.3+43a3fedd77
+	   \-- fabric-transitive-access-wideners-v1 4.2.0+b3afc78b77
+	- fabricloader 0.14.25
+	- glimmeringabyss 1.0.0-preview.3
+	- java 17
+	- minecraft 1.20.1
+[05:47:33] [main/INFO]: SpongePowered MIXIN Subsystem Version=0.8.5 Source=file:/home/runner/work/-Moonlit-Halt/-Moonlit-Halt/projects/minecraft-mods/experiments/glimmering-abyss/.runtime/v1-preview-server-1791956845874218502/libraries/net/fabricmc/sponge-mixin/0.12.5+mixin.0.8.5/sponge-mixin-0.12.5+mixin.0.8.5.jar Service=Knot/Fabric Env=SERVER
+[05:47:33] [main/INFO]: Compatibility level set to JAVA_16
+[05:47:33] [main/INFO]: Compatibility level set to JAVA_17
+[05:47:41] [main/INFO]: Environment: authHost='https://authserver.mojang.com', accountsHost='https://api.mojang.com', sessionHost='https://sessionserver.mojang.com', servicesHost='https://api.minecraftservices.com', name='PROD'
+[05:47:43] [main/INFO]: Loaded 7 recipes
+[05:47:43] [main/INFO]: Loaded 1271 advancements
+[05:47:43] [main/INFO]: Applied 0 biome modifications to 0 of 65 new biomes in 1.973 ms
+[05:47:43] [Server thread/INFO]: Starting minecraft server version 1.20.1
+[05:47:43] [Server thread/INFO]: Loading properties
+[05:47:43] [Server thread/INFO]: Default game type: SURVIVAL
+[05:47:43] [Server thread/INFO]: Generating keypair
+[05:47:44] [Server thread/INFO]: Starting Minecraft server on 127.0.0.1:25585
+[05:47:44] [Server thread/INFO]: Using epoll channel type
+[05:47:44] [Server thread/WARN]: **** SERVER IS RUNNING IN OFFLINE/INSECURE MODE!
+[05:47:44] [Server thread/WARN]: The server will make no attempt to authenticate usernames. Beware.
+[05:47:44] [Server thread/WARN]: While this makes the game possible to play without internet access, it also opens up the ability for hackers to connect with any username they choose.
+[05:47:44] [Server thread/WARN]: To change this, set "online-mode" to "true" in the server.properties file.
+[05:47:44] [Server thread/INFO]: Preparing level "phase7-main"
+[05:47:49] [Server thread/INFO]: Preparing start region for dimension minecraft:overworld
+[05:47:50] [Worker-Main-3/INFO]: Preparing spawn area: 0%
+[05:47:50] [Worker-Main-3/INFO]: Preparing spawn area: 0%
+[05:47:50] [Worker-Main-1/INFO]: Preparing spawn area: 0%
+[05:47:50] [Worker-Main-1/INFO]: Preparing spawn area: 0%
+[05:47:51] [Worker-Main-3/INFO]: Preparing spawn area: 0%
+[05:47:51] [Worker-Main-3/INFO]: Preparing spawn area: 1%
+[05:47:52] [Worker-Main-1/INFO]: Preparing spawn area: 2%
+[05:47:52] [Worker-Main-1/INFO]: Preparing spawn area: 3%
+[05:47:53] [Worker-Main-3/INFO]: Preparing spawn area: 4%
+[05:47:53] [Worker-Main-1/INFO]: Preparing spawn area: 6%
+[05:47:54] [Worker-Main-3/INFO]: Preparing spawn area: 7%
+[05:47:54] [Worker-Main-3/INFO]: Preparing spawn area: 9%
+[05:47:55] [Worker-Main-2/INFO]: Preparing spawn area: 10%
+[05:47:55] [Worker-Main-2/INFO]: Preparing spawn area: 12%
+[05:47:56] [Worker-Main-1/INFO]: Preparing spawn area: 14%
+[05:47:56] [Worker-Main-1/INFO]: Preparing spawn area: 16%
+[05:47:57] [Worker-Main-2/INFO]: Preparing spawn area: 17%
+[05:47:57] [Worker-Main-3/INFO]: Preparing spawn area: 20%
+[05:47:58] [Worker-Main-3/INFO]: Preparing spawn area: 23%
+[05:47:58] [Worker-Main-1/INFO]: Preparing spawn area: 25%
+[05:47:59] [Worker-Main-1/INFO]: Preparing spawn area: 28%
+[05:47:59] [Worker-Main-3/INFO]: Preparing spawn area: 31%
+[05:48:00] [Worker-Main-2/INFO]: Preparing spawn area: 34%
+[05:48:00] [Worker-Main-1/INFO]: Preparing spawn area: 37%
+[05:48:01] [Worker-Main-2/INFO]: Preparing spawn area: 41%
+[05:48:01] [Worker-Main-3/INFO]: Preparing spawn area: 44%
+[05:48:02] [Worker-Main-2/INFO]: Preparing spawn area: 46%
+[05:48:02] [Worker-Main-1/INFO]: Preparing spawn area: 49%
+[05:48:03] [Worker-Main-1/INFO]: Preparing spawn area: 53%
+[05:48:03] [Worker-Main-2/INFO]: Preparing spawn area: 55%
+[05:48:04] [Worker-Main-1/INFO]: Preparing spawn area: 58%
+[05:48:04] [Worker-Main-3/INFO]: Preparing spawn area: 60%
+[05:48:05] [Worker-Main-2/INFO]: Preparing spawn area: 63%
+[05:48:05] [Worker-Main-2/INFO]: Preparing spawn area: 67%
+[05:48:06] [Worker-Main-1/INFO]: Preparing spawn area: 69%
+[05:48:06] [Worker-Main-2/INFO]: Preparing spawn area: 73%
+[05:48:07] [Worker-Main-2/INFO]: Preparing spawn area: 76%
+[05:48:07] [Worker-Main-2/INFO]: Preparing spawn area: 80%
+[05:48:08] [Worker-Main-2/INFO]: Preparing spawn area: 83%
+[05:48:08] [Worker-Main-3/INFO]: Preparing spawn area: 86%
+[05:48:09] [Worker-Main-2/INFO]: Preparing spawn area: 89%
+[05:48:09] [Worker-Main-1/INFO]: Preparing spawn area: 92%
+[05:48:10] [Worker-Main-3/INFO]: Preparing spawn area: 96%
+[05:48:10] [Server thread/INFO]: Time elapsed: 21381 ms
+[05:48:10] [Server thread/INFO]: Done (26.524s)! For help, type "help"
+[05:48:11] [Server thread/INFO]: {"layout":102,"seed":74102002,"stage":"search","x":0,"z":0,"entry_y":0,"approach_length":0,"approach_y":0,"attempt":10,"cursor":0,"reason":"","unfinished_rides":0}
+[05:48:24] [Server thread/INFO]: {"layout":102,"seed":74102002,"stage":"search","x":0,"z":0,"entry_y":0,"approach_length":0,"approach_y":0,"attempt":140,"cursor":0,"reason":"","unfinished_rides":0}
+[05:48:37] [Server thread/INFO]: {"layout":102,"seed":74102002,"stage":"search","x":0,"z":0,"entry_y":0,"approach_length":0,"approach_y":0,"attempt":270,"cursor":0,"reason":"","unfinished_rides":0}
+[05:48:50] [Server thread/INFO]: {"layout":102,"seed":74102002,"stage":"search","x":0,"z":0,"entry_y":0,"approach_length":0,"approach_y":0,"attempt":400,"cursor":0,"reason":"","unfinished_rides":0}
+[05:49:03] [Server thread/INFO]: {"layout":102,"seed":74102002,"stage":"search","x":0,"z":0,"entry_y":0,"approach_length":0,"approach_y":0,"attempt":530,"cursor":0,"reason":"","unfinished_rides":0}
+[05:49:16] [Server thread/INFO]: {"layout":102,"seed":74102002,"stage":"search","x":0,"z":0,"entry_y":0,"approach_length":0,"approach_y":0,"attempt":660,"cursor":0,"reason":"","unfinished_rides":0}
+[05:49:29] [Server thread/INFO]: {"layout":102,"seed":74102002,"stage":"search","x":0,"z":0,"entry_y":0,"approach_length":0,"approach_y":0,"attempt":790,"cursor":0,"reason":"","unfinished_rides":0}
+[05:49:42] [Server thread/INFO]: {"layout":102,"seed":74102002,"stage":"search","x":0,"z":0,"entry_y":0,"approach_length":0,"approach_y":0,"attempt":920,"cursor":0,"reason":"","unfinished_rides":0}
+[05:49:55] [Server thread/INFO]: {"layout":102,"seed":74102002,"stage":"search","x":0,"z":0,"entry_y":0,"approach_length":0,"approach_y":0,"attempt":1050,"cursor":0,"reason":"","unfinished_rides":0}
+[05:50:02] [Server thread/INFO]: [STDOUT]: ABYSS_SITE_CANDIDATE -7392,-2448 attempt=1097
+[05:50:03] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 2493ms or 49 ticks behind
+[05:50:08] [Server thread/INFO]: {"layout":102,"seed":74102002,"stage":"check","x":-7392,"z":-2448,"entry_y":149,"approach_length":8,"approach_y":146,"attempt":1097,"cursor":33,"reason":"","unfinished_rides":0}
+[05:50:20] [Server thread/INFO]: {"layout":102,"seed":74102002,"stage":"check","x":-7392,"z":-2448,"entry_y":149,"approach_length":8,"approach_y":146,"attempt":1097,"cursor":173,"reason":"","unfinished_rides":0}
+[05:50:33] [Server thread/INFO]: {"layout":102,"seed":74102002,"stage":"check","x":-7392,"z":-2448,"entry_y":149,"approach_length":8,"approach_y":146,"attempt":1097,"cursor":303,"reason":"","unfinished_rides":0}
+[05:50:46] [Server thread/INFO]: {"layout":102,"seed":74102002,"stage":"check","x":-7392,"z":-2448,"entry_y":149,"approach_length":8,"approach_y":146,"attempt":1097,"cursor":433,"reason":"","unfinished_rides":0}
+[05:50:58] [Server thread/INFO]: {"layout":102,"seed":74102002,"stage":"check","x":-7392,"z":-2448,"entry_y":149,"approach_length":8,"approach_y":146,"attempt":1097,"cursor":553,"reason":"","unfinished_rides":0}
+[05:51:01] [Server thread/INFO]: [STDOUT]: ABYSS_SITE_PREFLIGHT_PASS -7392,-2448 entry=149
+[05:51:11] [Server thread/INFO]: {"layout":102,"seed":74102002,"stage":"carve","x":-7392,"z":-2448,"entry_y":149,"approach_length":8,"approach_y":146,"attempt":1097,"cursor":95,"reason":"","unfinished_rides":0}
+[05:51:24] [Server thread/INFO]: {"layout":102,"seed":74102002,"stage":"carve","x":-7392,"z":-2448,"entry_y":149,"approach_length":8,"approach_y":146,"attempt":1097,"cursor":225,"reason":"","unfinished_rides":0}
+[05:51:37] [Server thread/INFO]: {"layout":102,"seed":74102002,"stage":"carve","x":-7392,"z":-2448,"entry_y":149,"approach_length":8,"approach_y":146,"attempt":1097,"cursor":355,"reason":"","unfinished_rides":0}
+[05:51:50] [Server thread/INFO]: {"layout":102,"seed":74102002,"stage":"carve","x":-7392,"z":-2448,"entry_y":149,"approach_length":8,"approach_y":146,"attempt":1097,"cursor":485,"reason":"","unfinished_rides":0}
+[05:52:00] [Server thread/INFO]: Saving chunks for level 'ServerLevel[phase7-main]'/minecraft:overworld
+[05:52:00] [Server thread/INFO]: Saving chunks for level 'ServerLevel[phase7-main]'/glimmeringabyss:study
+[05:52:00] [Server thread/INFO]: Saving chunks for level 'ServerLevel[phase7-main]'/minecraft:the_nether
+[05:52:00] [Server thread/INFO]: Saving chunks for level 'ServerLevel[phase7-main]'/minecraft:the_end
+[05:52:00] [Server thread/INFO]: ThreadedAnvilChunkStorage (phase7-main): All chunks are saved
+[05:52:00] [Server thread/INFO]: ThreadedAnvilChunkStorage (study): All chunks are saved
+[05:52:00] [Server thread/INFO]: ThreadedAnvilChunkStorage (DIM-1): All chunks are saved
+[05:52:00] [Server thread/INFO]: ThreadedAnvilChunkStorage (DIM1): All chunks are saved
+[05:52:00] [Server thread/INFO]: ThreadedAnvilChunkStorage: All dimensions are saved
+[05:52:00] [Server thread/INFO]: [STDOUT]: ABYSS_SITE_READY -7392,-2448 entry=149
+[05:52:03] [Server thread/INFO]: {"layout":102,"seed":74102002,"stage":"ready","x":-7392,"z":-2448,"entry_y":149,"approach_length":8,"approach_y":146,"attempt":1097,"cursor":588,"reason":"","unfinished_rides":0}
+[05:52:08] [Server thread/WARN]: Can't keep up! Is the server overloaded? Running 4140ms or 82 ticks behind
+[05:53:01] [Server thread/INFO]: Phase7Tester[/127.0.0.1:48654] logged in with entity id 3203 at (-294.5, 65.0, 10.5)
+[05:53:01] [Server thread/INFO]: Phase7Tester joined the game
+[06:04:21] [Server thread/INFO]: Phase7Tester lost connection: Disconnected
+[06:04:21] [Server thread/INFO]: Phase7Tester left the game
+[06:04:22] [Server thread/INFO]: Stopping server
+[06:04:22] [Server thread/INFO]: Saving players
+[06:04:22] [Server thread/INFO]: Saving worlds
+[06:04:22] [Server thread/INFO]: Saving chunks for level 'ServerLevel[phase7-main]'/minecraft:overworld
+[06:04:23] [Server thread/INFO]: Saving chunks for level 'ServerLevel[phase7-main]'/glimmeringabyss:study
+[06:04:23] [Server thread/INFO]: Saving chunks for level 'ServerLevel[phase7-main]'/minecraft:the_nether
+[06:04:23] [Server thread/INFO]: Saving chunks for level 'ServerLevel[phase7-main]'/minecraft:the_end
+[06:04:23] [Server thread/INFO]: ThreadedAnvilChunkStorage (phase7-main): All chunks are saved
+[06:04:23] [Server thread/INFO]: ThreadedAnvilChunkStorage (study): All chunks are saved
+[06:04:23] [Server thread/INFO]: ThreadedAnvilChunkStorage (DIM-1): All chunks are saved
+[06:04:23] [Server thread/INFO]: ThreadedAnvilChunkStorage (DIM1): All chunks are saved
+[06:04:23] [Server thread/INFO]: ThreadedAnvilChunkStorage: All dimensions are saved

@@ -1,0 +1,9 @@
+{
+  "state": 32,
+  "leg": 6,
+  "error": "java.lang.IllegalStateException: Interior blocked original-workshop leg 6 at (-7338.487623490909, 49.0, -2423.300000011921)",
+  "position": "(-7338.487623490909, 49.0, -2423.300000011921)",
+  "permission": true,
+  "sleeping": false,
+  "dream_step": 0
+}

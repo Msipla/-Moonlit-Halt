@@ -1,0 +1,9 @@
+{
+  "minecraft": "1.20.1",
+  "fabric": "0.14.25",
+  "release_jar": "glimmering-abyss-1.0.0-preview.2.jar",
+  "release_sha256": "b8331b54d7bb57423edff68ce42cf63ebdbc6e5a1ff93d0a3dc495ecb1043864",
+  "development_classes": false,
+  "assets": 3575,
+  "official_manifest_url": "https://piston-meta.mojang.com/v1/packages/a5cf661d31d9dfcd3d1645be80f43954f63f63b0/1.20.1.json"
+}

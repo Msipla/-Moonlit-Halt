@@ -44,7 +44,7 @@ public final class Journey {
         @Override public ActionResult onUse(BlockState state,World w,BlockPos pos,PlayerEntity p,Hand hand,BlockHitResult hit){
             if(w.isClient)return ActionResult.SUCCESS;
             var s=OverworldSite.get(((ServerWorld)w).getServer().getOverworld());
-            if(!w.getRegistryKey().equals(World.OVERWORLD)||!s.ready()||pos.getX()!=s.x+6||pos.getZ()!=s.z+68)return ActionResult.PASS;
+            if(!w.getRegistryKey().equals(World.OVERWORLD)||!s.ready()||(pos.getX()!=s.x+6||pos.getZ()!=s.z+68)&&(pos.getX()!=s.x+s.dockX()+6||pos.getZ()!=s.z+s.dockZ()-2))return ActionResult.PASS;
             board((ServerPlayerEntity)p,s,pos.getY()==s.entryY+1);return ActionResult.CONSUME;
         }
     };
@@ -55,12 +55,20 @@ public final class Journey {
         }
     };
     private static final Map<UUID,Long> sleepStarts=new HashMap<>();
+    private static final java.util.Set<UUID> dreaming=new java.util.HashSet<>();
     private static final Map<UUID,Boolean> pendingLandings=new HashMap<>();
     public static void queueLanding(ServerPlayerEntity p,boolean upper){pendingLandings.put(p.getUuid(),upper);}
     private Journey(){}
     public static void initialize(){
         Registry.register(Registries.BLOCK,GlimmeringAbyss.id("station_bell"),BELL);
         net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents.END_SERVER_TICK.register(server->{
+            // Show the next glimpse during actual sleep, without awarding an interrupted night.
+            for(var player:server.getPlayerManager().getPlayerList()){
+                Long start=sleepStarts.get(player.getUuid());var site=OverworldSite.get(server.getOverworld());
+                if(start!=null&&player.isSleeping()&&player.getWorld().getTime()-start>=20&&site.ready()
+                    &&site.dreams.getOrDefault(player.getUuid(),0)<2&&dreaming.add(player.getUuid()))
+                    previewDream(player,site.dreams.getOrDefault(player.getUuid(),0)+1);
+            }
             var queued=new HashMap<>(pendingLandings);pendingLandings.clear();
             queued.forEach((id,upper)->{var player=server.getPlayerManager().getPlayer(id);if(player!=null){
                 player.stopRiding();pendingLandings.remove(id);
@@ -69,12 +77,14 @@ public final class Journey {
             }});
         });
         Registry.register(Registries.ITEM,GlimmeringAbyss.id("echo_shard"),ECHO);
-        net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents.SERVER_STOPPED.register(server->{sleepStarts.clear();pendingLandings.clear();});
+        net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents.SERVER_STOPPED.register(server->{sleepStarts.clear();dreaming.clear();pendingLandings.clear();});
         EntitySleepEvents.START_SLEEPING.register((e,p)->{if(e instanceof ServerPlayerEntity sp)sleepStarts.put(sp.getUuid(),sp.getWorld().getTime());});
         EntitySleepEvents.STOP_SLEEPING.register((e,p)->{
             if(e instanceof ServerPlayerEntity sp){
                 Long start=sleepStarts.remove(sp.getUuid());
                 if(start!=null&&sp.getWorld().getTime()-start>=95&&sp.getWorld().getTimeOfDay()%24000<1000)dream(sp);
+                else previewDream(sp,0);
+                dreaming.remove(sp.getUuid());
             }
         });
         ServerPlayConnectionEvents.JOIN.register((h,sender,server)->server.execute(()->{
@@ -83,7 +93,7 @@ public final class Journey {
         }));
         ServerPlayConnectionEvents.DISCONNECT.register((h,server)->{
             // Player position can be saved before DISCONNECT. Keep the durable ride record; JOIN owns recovery.
-            sleepStarts.remove(h.player.getUuid());
+            sleepStarts.remove(h.player.getUuid());dreaming.remove(h.player.getUuid());
         });
     }
     public static void syncAll(MinecraftServer server){for(var p:server.getPlayerManager().getPlayerList())sync(p);}
@@ -93,11 +103,10 @@ public final class Journey {
     }
     public static void dream(ServerPlayerEntity p){
         var s=OverworldSite.get(p.getServer().getOverworld());long day=p.getWorld().getTimeOfDay()/24000;
-        if(!s.ready()||s.dreamDays.getOrDefault(p.getUuid(),-1L)==day)return;
+        if(!s.ready()||s.dreams.getOrDefault(p.getUuid(),0)>=2||s.dreamDays.getOrDefault(p.getUuid(),-1L)==day){previewDream(p,0);return;}
         int n=Math.min(2,s.dreams.getOrDefault(p.getUuid(),0)+1);s.dreams.put(p.getUuid(),n);s.dreamDays.put(p.getUuid(),day);s.markDirty();
         System.out.println("ABYSS_DREAM day="+day+" step="+n);
-        previewDream(p,n);
-        p.sendMessage(Text.literal(n==1?"醒来时，还记得蓝色洞穴中的巨柱。":"无人小镇的窗灯还亮着。掌心的微光指向山间站台。"),false);
+        previewDream(p,-n);
         if(n>=2&&!p.getInventory().contains(new ItemStack(ECHO)))p.getInventory().offerOrDrop(new ItemStack(ECHO));
     }
     public static void previewDream(ServerPlayerEntity p,int step){
@@ -105,7 +114,7 @@ public final class Journey {
     }
     public static void guide(ServerPlayerEntity p){
         var s=OverworldSite.get(p.getServer().getOverworld());
-        if(!s.ready()){p.sendMessage(Text.literal(DiscoveryStatus.describe(s.stage,s.cursor,s.attempt,s.reason,s.dreams.getOrDefault(p.getUuid(),0))),true);return;}
+        if(!s.ready()){p.sendMessage(Text.literal(DiscoveryStatus.describe(s.stage,s.cursor,s.attempt,s.reason,s.dreams.getOrDefault(p.getUuid(),0),s.chunks())),true);return;}
         if(!p.getWorld().getRegistryKey().equals(World.OVERWORLD)){p.sendMessage(Text.literal("回响来自主世界的群山。"),true);return;}
         Vec3d target=Vec3d.ofCenter(s.approach());Vec3d delta=target.subtract(p.getPos());
         var dir=new Vec3d(delta.x,0,delta.z).normalize();
@@ -122,7 +131,7 @@ public final class Journey {
         var car=CAR.create(w);car.configure(s,upper);
         if(!w.spawnEntity(car)){p.sendMessage(Text.literal("缆车暂未就绪，请稍后再试。"),true);return;}
         s.journeys.put(p.getUuid(),upper);s.markDirty();w.getPersistentStateManager().save();
-        p.teleport(w,s.x+.5,upper?s.entryY+1:45,s.z+70.5,180,8);
+        p.teleport(w,s.x+.5+(upper?0:s.dockX()),upper?s.entryY+1:45,s.z+.5+(upper?70:s.dockZ()),180,8);
         p.startRiding(car,true);p.sendMessage(Text.literal("玻璃车门已关闭。请欣赏沿途风景；潜行可提前返回安全站台。"),true);
     }
     public static void recover(ServerPlayerEntity p,OverworldSite s,String message){

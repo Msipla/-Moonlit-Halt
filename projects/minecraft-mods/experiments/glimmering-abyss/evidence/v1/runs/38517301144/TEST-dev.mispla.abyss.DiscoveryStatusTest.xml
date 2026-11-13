@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="dev.mispla.abyss.DiscoveryStatusTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-10-14T05:35:41" hostname="runnervmmprz5" time="0.01">
+  <properties/>
+  <testcase name="readyStatesExplainDiscoveryWithoutBlockingACraftedGuide()" classname="dev.mispla.abyss.DiscoveryStatusTest" time="0.001"/>
+  <testcase name="waitingStatesCannotBeMistakenForSleepUnlock()" classname="dev.mispla.abyss.DiscoveryStatusTest" time="0.008"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

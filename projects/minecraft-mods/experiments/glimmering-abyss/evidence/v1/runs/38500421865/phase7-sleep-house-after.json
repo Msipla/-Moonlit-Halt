@@ -1,0 +1,12 @@
+{
+  "world_time": 16096,
+  "day_time": 144001,
+  "day": 6,
+  "sleeping": false,
+  "start_sleep_events": 3,
+  "stop_sleep_events": 3,
+  "dreams": 2,
+  "dream_day": 4,
+  "has_echo": true,
+  "game_mode": "survival"
+}

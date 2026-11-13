@@ -1,0 +1,13 @@
+{
+  "bed_x": -6992,
+  "bed_y": 71,
+  "bed_z": -2378,
+  "player": "(-6990.5, 71.0, -2377.5)",
+  "time_of_day": 85000,
+  "before_day_time": 48021,
+  "before_world_time": 6129,
+  "world_time": 6129,
+  "day_before": 2,
+  "day_after": 3,
+  "command": "time add 24000; time set absolute-next-day-night"
+}

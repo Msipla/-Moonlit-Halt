@@ -93,7 +93,7 @@ public final class Terrain {
 
     private static double sq(double n) { return n * n; }
 
-    private static double noise(double x, double z, long seed) {
+    static double noise(double x, double z, long seed) {
         int ix = (int) Math.floor(x), iz = (int) Math.floor(z);
         double fx = x - ix, fz = z - iz;
         fx = fx * fx * (3 - 2 * fx); fz = fz * fz * (3 - 2 * fz);

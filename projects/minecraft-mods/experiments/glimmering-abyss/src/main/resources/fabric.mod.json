@@ -22,7 +22,8 @@
       "dev.mispla.abyss.Phase5CaptureClient",
       "dev.mispla.abyss.Phase6CaptureClient",
       "dev.mispla.abyss.JourneyClient",
-      "dev.mispla.abyss.Phase7CaptureClient"
+      "dev.mispla.abyss.Phase7CaptureClient",
+      "dev.mispla.abyss.V1CaptureClient"
     ]
   },
   "mixins": [

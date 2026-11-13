@@ -90,6 +90,7 @@ public final class SpaceLighting {
         var origin=JourneyClient.origin();
         shader.getUniformOrDefault("EnvCamera").set((float)(camera.x-(origin==null?0:origin.getX())),(float)(camera.y-(origin==null?0:origin.getY())),(float)(camera.z-(origin==null?0:origin.getZ())));
         shader.getUniformOrDefault("EnvScoped").set(origin==null?0f:1f);
+        shader.getUniformOrDefault("EnvBounds").set(JourneyClient.layout>=100?-208f:-112f,JourneyClient.layout>=100?128f:112f,JourneyClient.layout>=100?-320f:-176f,JourneyClient.layout>=100?128f:112f);
         vecUniform("EnvColor",p.color());vecUniform("EnvDirection",p.direction());vecUniform("EnvAirColor",p.airColor());
         shader.getUniformOrDefault("EnvBase").set(p.base());shader.getUniformOrDefault("EnvRadiance").set(p.radiance());
         float[] a=p.anchor();shader.getUniformOrDefault("EnvAnchor").set(a[0],a[1],a[2],p.radius());
