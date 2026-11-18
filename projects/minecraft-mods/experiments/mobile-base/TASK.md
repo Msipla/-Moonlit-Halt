@@ -66,3 +66,4 @@
 - 飞行阶段先核实 Eureka 自带气囊升力和原生方向控制能否满足最小飞行器。需要额外机制时再看 Clockwork。实测起飞、转向、下降及着陆，重型结构的升力参数仅应用于当前载具。
 - 潜艇阶段先核实目标 Fabric 版本可用的压载与密封舱方案。依照水下启航、下潜、深度保持、推进与上浮的顺序验证，避免把仅能沉底的船标成潜艇。舱内环境与安全解体须单独验收。
 - 本段建立时三种类型的装配器源码和实机适配仍待完成。阶段提交应明确记录实际通过、未验证项、依赖、JAR 和下一个可恢复步骤。
+- 进展续记：陆地阶段的构建产物、实机指标以及下一步记录在 [`codex/mobile-base-vehicles` 分支任务书](https://github.com/Msipla/-Moonlit-Halt/blob/codex/mobile-base-vehicles/projects/minecraft-mods/experiments/mobile-base/TASK.md)。陆地可运行版本及回读证据在提交 `35edfdd071ec5778e257848029e581e6072892d1`。后续飞行器与潜艇也在该实验分支接续。
