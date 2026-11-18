@@ -2,6 +2,7 @@ package dev.mispla.mobilebase;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -28,6 +29,8 @@ public final class MobileBase implements ModInitializer {
                 entries.accept(item);
                 entries.accept(marker);
             });
+        UseBlockCallback.EVENT.register(BoatMarkerItem::useBlock);
+        BoatMarkerItem.registerEdits();
         ServerLifecycleEvents.SERVER_STOPPED.register(server -> BoatCoreBlock.clearPreviews());
     }
 

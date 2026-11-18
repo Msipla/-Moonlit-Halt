@@ -2,10 +2,13 @@
   "schemaVersion": 1,
   "id": "mobilebase",
   "version": "${version}",
-  "name": "Mobile Base Assembler",
-  "description": "Assembles player-built boats with Valkyrien Skies and Eureka.",
+  "name": "移动基地装配器",
+  "description": "使用 Valkyrien Skies 和 Eureka，把玩家建造的结构装配成船。",
   "environment": "*",
-  "entrypoints": {"main": ["dev.mispla.mobilebase.MobileBase"]},
+  "entrypoints": {
+    "main": ["dev.mispla.mobilebase.MobileBase"],
+    "client": ["dev.mispla.mobilebase.MarkerClient"]
+  },
   "mixins": ["mobilebase.mixins.json"],
   "depends": {
     "java": ">=17",
