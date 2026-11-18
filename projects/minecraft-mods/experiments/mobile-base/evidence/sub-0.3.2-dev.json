@@ -1,0 +1,309 @@
+{
+  "date": "2026-11-19",
+  "minecraft": "1.20.1",
+  "defaultHull": {
+    "sourceBlocks": 139,
+    "addedParts": 9,
+    "massKg": 228640,
+    "goldIngotsInBarrelAfterDive": 7
+  },
+  "customHull": {
+    "sourceBlocks": 139,
+    "addedParts": 9,
+    "massKg": 161040,
+    "blockedInvalidFloaterAt": [
+      1,
+      72,
+      -1
+    ],
+    "testedFloaterAt": [
+      12,
+      69,
+      -2
+    ],
+    "installedFloaterConfirmedInShipyard": true,
+    "parkedWithAnchor": true,
+    "restoredBlockCount": 144,
+    "temporaryWallOpenings": 4
+  },
+  "diveDepthChangeBlocks": 6.08,
+  "holdVerticalSpeedBlocksPerSecond": 0.005751896077299534,
+  "turnHorizontalSpeedBlocksPerSecond": 1.736482007724521,
+  "surfacingRiseBlocks": 4.241,
+  "survivalAirTicksUnderwater": 215,
+  "survivalAirTicksFull": 300,
+  "stageNotes": [
+    "Full Minecraft client and dedicated Fabric server in an isolated test world.",
+    "The test pool and hull were prepared with world commands. The marker, both core interactions, mounting and steering were actual client input.",
+    "Survival mode was used while diving, holding depth and turning. Creative mode resumed before surfacing, with flying disabled at all measurements.",
+    "Depth hold was sampled after 2.2 s at neutral. On the surface, the pilot eye and roof were above the water level at y=70.",
+    "The invalid mark at [1,72,-1] was on the first hull and rejected before default assembly. The valid mark on the second hull was subsequently verified as a real Eureka floater.",
+    "The survival cabin lost oxygen. Long submersion and crew movement were not established.",
+    "The second, unballasted-with-gold hull was anchored via the core. The test opened four wall cells for safe outside access, and the surface dock operation verified relocation of the 144 remaining blocks. The unattended first hull later settled on the pool floor after the pilot left without setting the anchor."
+  ],
+  "jarSha256": "e0689efeb9b0315700171c3a3e9f68abb856b3e25b35556f69f1d22b499d66df",
+  "samples": [
+    {
+      "stage": "sub_launch",
+      "id": 3,
+      "position": [
+        0.49842550241284633,
+        71.59811946965678,
+        0.5552834124842334
+      ],
+      "q": {
+        "x": 3.488371919473441e-08,
+        "y": -2.859437789280436e-17,
+        "z": -1.942244749734746e-08,
+        "w": 0.9999999999999993
+      },
+      "velocity": [
+        7.993605777301127e-12,
+        -0.011466744950894281,
+        7.993605777301127e-12
+      ],
+      "pilot": [
+        0.4551415741443634,
+        70.84325124127216,
+        3.2450244780629873
+      ],
+      "flying": false
+    },
+    {
+      "stage": "sub_ready",
+      "id": 3,
+      "position": [
+        0.4984255024322858,
+        71.59269362155484,
+        0.5552834124999753
+      ],
+      "q": {
+        "x": 3.4172654146981445e-08,
+        "y": -1.1788599920145118e-16,
+        "z": -2.1585870616670585e-08,
+        "w": 0.9999999999999993
+      },
+      "velocity": [
+        6.66133814775094e-12,
+        -2.9330266215765736e-05,
+        5.329070518200751e-12
+      ],
+      "pilot": [
+        0.45514095202088356,
+        70.8368383181557,
+        3.2450247537344694
+      ],
+      "flying": false
+    },
+    {
+      "stage": "sub_dive",
+      "id": 3,
+      "position": [
+        0.4984138899064687,
+        66.3300872358152,
+        0.5552614210429352
+      ],
+      "q": {
+        "x": 9.665607957058678e-06,
+        "y": 1.863115531464922e-14,
+        "z": -5.111852057582039e-06,
+        "w": 0.9999999999402226
+      },
+      "velocity": [
+        -8.133531981258102e-06,
+        -1.5098074708021159,
+        -1.544263303898674e-05
+      ],
+      "pilot": [
+        -0.5000195950269699,
+        65.54919911703593,
+        2.499962914735079
+      ],
+      "flying": false
+    },
+    {
+      "stage": "sub_hold",
+      "id": 3,
+      "position": [
+        0.49840357725362167,
+        65.5125304180648,
+        0.555241774555184
+      ],
+      "q": {
+        "x": 1.077448432564632e-05,
+        "y": 1.8322729532370076e-13,
+        "z": -5.69852643533013e-06,
+        "w": 0.9999999999257188
+      },
+      "velocity": [
+        -7.947665192631348e-07,
+        -0.005751896077299534,
+        -1.5348337267795387e-06
+      ],
+      "pilot": [
+        -0.5000308267772198,
+        64.73163915793154,
+        2.499941537156701
+      ],
+      "flying": false
+    },
+    {
+      "stage": "sub_travel",
+      "id": 3,
+      "position": [
+        0.4983971677290309,
+        65.51036075895503,
+        -1.5898573344682292
+      ],
+      "q": {
+        "x": 1.0374095719161307e-05,
+        "y": 6.856837683470084e-06,
+        "z": -6.698771776956668e-06,
+        "w": 0.9999999999002442
+      },
+      "velocity": [
+        -1.1883264039447283e-05,
+        8.916941851566662e-06,
+        -1.4829613260583407
+      ],
+      "pilot": [
+        -0.5000121258199215,
+        64.72947305313286,
+        0.3548567444086075
+      ],
+      "flying": false
+    },
+    {
+      "stage": "sub_turn",
+      "id": 3,
+      "position": [
+        0.03354400377448479,
+        65.50284558779765,
+        -4.539926489954605
+      ],
+      "q": {
+        "x": 0.012033013747195355,
+        "y": 0.3450327805438902,
+        "z": 0.033509160538901836,
+        "w": 0.9379150937533149
+      },
+      "velocity": [
+        -0.788856290113249,
+        -0.009887157443699834,
+        -1.546956856767423
+      ],
+      "pilot": [
+        0.5779134705662727,
+        64.65398832061328,
+        -2.4490838795900345
+      ],
+      "flying": false
+    },
+    {
+      "stage": "sub_rise",
+      "id": 3,
+      "position": [
+        -3.254683044379064,
+        69.32043268566999,
+        -7.735727627889802
+      ],
+      "q": {
+        "x": 0.0020608720053344742,
+        "y": 0.4427015268251178,
+        "z": 0.004208277587567794,
+        "w": 0.8966567912825025
+      },
+      "velocity": [
+        -0.11023096879547724,
+        0.81760349888782,
+        -0.07780565283361796
+      ],
+      "pilot": [
+        -2.313303517177701,
+        68.53030832769582,
+        -5.766456786543131
+      ],
+      "flying": false
+    },
+    {
+      "stage": "sub_surfaced",
+      "id": 3,
+      "position": [
+        -3.355203749463114,
+        69.74344403794379,
+        -7.806197693605564
+      ],
+      "q": {
+        "x": 0.0020608100167080305,
+        "y": 0.4427011691001036,
+        "z": 0.004208694076923765,
+        "w": 0.8966569660877249
+      },
+      "velocity": [
+        -0.057141530216853205,
+        0.05681563775397081,
+        -0.040736987291722926
+      ],
+      "pilot": [
+        -2.4138251654803753,
+        68.95331992016872,
+        -5.8369263000786304
+      ],
+      "flying": false
+    }
+  ],
+  "customHullSamples": [
+    {
+      "stage": "sub_custom_launch",
+      "id": 4,
+      "position": [
+        11.530054632988975,
+        71.70597608757176,
+        0.5735221043993366
+      ],
+      "q": {
+        "x": 6.009672796823023e-08,
+        "y": -3.782442553744084e-17,
+        "z": -4.2293607103910586e-08,
+        "w": 0.9999999999999974
+      },
+      "velocity": [
+        1.2789769243681803e-10,
+        -0.010475262121190099,
+        7.993605777301127e-12
+      ],
+      "pilot": [
+        11.45229485630989,
+        70.84349026154825,
+        3.2433829735964537
+      ],
+      "flying": false
+    },
+    {
+      "stage": "sub_park",
+      "id": 4,
+      "position": [
+        11.530054636638322,
+        71.70103487843842,
+        0.573522104476295
+      ],
+      "q": {
+        "x": 5.449169657485861e-08,
+        "y": -9.500760553074076e-16,
+        "z": -5.348830799570161e-08,
+        "w": 0.9999999999999971
+      },
+      "velocity": [
+        1.2789769243681803e-10,
+        -4.638422979041934e-09,
+        2.6645352591003757e-12
+      ],
+      "pilot": [
+        11.499999761581421,
+        70.83777086935504,
+        3.2499999795109034
+      ],
+      "flying": false
+    }
+  ]
+}

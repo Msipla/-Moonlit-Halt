@@ -27,7 +27,7 @@ import org.valkyrienskies.mod.common.BlockStateInfo;
 import org.valkyrienskies.mod.common.VSGameUtilsKt;
 
 record BoatPlan(Map<BlockPos, BlockState> hull, Map<BlockPos, BlockState> parts, double mass,
-                int wetColumns, int floaters, boolean adapted, int balloons) {
+                int wetColumns, int floaters, boolean adapted, int balloons, boolean submarine) {
     static final int MAX_BLOCKS = 512;
     private static final int RADIUS = 12;
     private static final double STOCK_MASS = 80_000;
@@ -38,8 +38,9 @@ record BoatPlan(Map<BlockPos, BlockState> hull, Map<BlockPos, BlockState> parts,
 
     static BoatPlan scan(ServerLevel level, BlockPos core, Direction coreFacing, Marks marks) throws Rejected {
         boolean air = level.getBlockState(core).is(MobileBase.AIR_CORE);
+        boolean submarine = level.getBlockState(core).is(MobileBase.SUB_CORE);
         if (air && marks.floater() != null || !air && marks.balloon() != null) throw new Rejected("vehicle_marks");
-        var hull = scanHull(level, core, air ? BoatPlan::airSupported : BoatPlan::supported);
+        var hull = scanHull(level, core, air ? BoatPlan::airSupported : submarine ? BoatPlan::subSupported : BoatPlan::supported);
 
         var parts = new LinkedHashMap<BlockPos, BlockState>();
         double hullMass = hull.values().stream().mapToDouble(BoatPlan::massOf).sum();
@@ -181,7 +182,7 @@ record BoatPlan(Map<BlockPos, BlockState> hull, Map<BlockPos, BlockState> parts,
         for (var pos : parts.keySet()) {
             if (!level.getEntities(null, new AABB(pos)).isEmpty()) throw new Rejected("entity");
         }
-        return new BoatPlan(Map.copyOf(hull), Map.copyOf(parts), mass, wetColumns.size(), floaters, adapted, 0);
+        return new BoatPlan(Map.copyOf(hull), Map.copyOf(parts), mass, wetColumns.size(), floaters, adapted || submarine, 0, submarine);
     }
 
     private static BoatPlan fitAir(ServerLevel level, BlockPos core, Map<BlockPos, BlockState> hull,
@@ -211,7 +212,7 @@ record BoatPlan(Map<BlockPos, BlockState> hull, Map<BlockPos, BlockState> parts,
         double mass = hull.values().stream().mapToDouble(BoatPlan::massOf).sum()
             + parts.values().stream().mapToDouble(BoatPlan::massOf).sum();
         if (!Double.isFinite(mass) || mass <= 0) throw new Rejected("mass");
-        return new BoatPlan(Map.copyOf(hull), Map.copyOf(parts), mass, 0, 0, true, installed);
+        return new BoatPlan(Map.copyOf(hull), Map.copyOf(parts), mass, 0, 0, true, installed, false);
     }
 
     private static boolean balloonSlot(ServerLevel level, BlockPos core, Map<BlockPos, BlockState> hull,
@@ -220,6 +221,10 @@ record BoatPlan(Map<BlockPos, BlockState> hull, Map<BlockPos, BlockState> parts,
         return inRange(level, core, pos) && freeAir(level, pos) && !parts.containsKey(pos)
             && !drivingSpace(hull, parts, pos) && below != null && !below.is(part("white_balloon"))
             && below.isFaceSturdy(level, pos.below(), Direction.UP);
+    }
+
+    static boolean subSupported(BlockState state) {
+        return state.is(MobileBase.SUB_CORE) || supported(state);
     }
 
     static boolean airSupported(BlockState state) {
@@ -241,7 +246,7 @@ record BoatPlan(Map<BlockPos, BlockState> hull, Map<BlockPos, BlockState> parts,
             if (!inRange(level, core, pos) || hull.size() >= MAX_BLOCKS) {
                 throw new Rejected("boundary");
             }
-            if (((state.is(MobileBase.CORE) || state.is(MobileBase.LAND_CORE) || state.is(MobileBase.AIR_CORE)) && !pos.equals(core)) || !accepted.test(state)
+            if (((state.is(MobileBase.CORE) || state.is(MobileBase.LAND_CORE) || state.is(MobileBase.AIR_CORE) || state.is(MobileBase.SUB_CORE)) && !pos.equals(core)) || !accepted.test(state)
                     || VSGameUtilsKt.getShipManagingPos(level, pos) != null) {
                 throw new Rejected("unsupported", pos.toShortString());
             }

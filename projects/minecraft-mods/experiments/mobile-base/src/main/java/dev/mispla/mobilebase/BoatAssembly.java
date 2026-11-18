@@ -30,6 +30,7 @@ public final class BoatAssembly {
                 control -> {
                     var equipped = (SurfaceBoat) (Object) control;
                     equipped.mobilebase$adapt(plan.adapted() ? plan.wetColumns() : 0, plan.floaters(), plan.engineScale());
+                    if (plan.submarine()) equipped.mobilebase$fitSub(plan.floaters(), plan.mass());
                     if (plan.balloons() > 0) equipped.mobilebase$fitAir(plan.balloons(), plan.mass());
                 }));
     }

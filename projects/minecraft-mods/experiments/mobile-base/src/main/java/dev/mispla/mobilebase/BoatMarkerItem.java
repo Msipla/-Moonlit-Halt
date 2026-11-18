@@ -89,7 +89,7 @@ final class BoatMarkerItem extends Item {
 
         var state = world.getBlockState(hit.getBlockPos());
         var role = editing(stack, world);
-        if (!user.isShiftKeyDown() && role == null && (state.is(MobileBase.CORE) || state.is(MobileBase.LAND_CORE) || state.is(MobileBase.AIR_CORE))) {
+        if (!user.isShiftKeyDown() && role == null && (state.is(MobileBase.CORE) || state.is(MobileBase.LAND_CORE) || state.is(MobileBase.AIR_CORE) || state.is(MobileBase.SUB_CORE))) {
             BoatCoreBlock.launchWithMarks(world, hit.getBlockPos(), state, user, marks(stack, world));
         } else if (user.isShiftKeyDown() || role == null) {
             open(user);

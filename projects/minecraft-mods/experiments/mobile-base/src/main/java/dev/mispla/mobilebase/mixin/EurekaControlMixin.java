@@ -101,10 +101,41 @@ abstract class EurekaControlMixin implements SurfaceBoat {
 
     @Inject(method = "getBalloonForce", at = @At("RETURN"), cancellable = true)
     private void mobilebase$adaptAirLift(CallbackInfoReturnable<Double> result) {
+        if (mobilebase$ballastBlocks > 0) {
+            // Reuse Eureka's existing vertical speed governor, with lift available only in water.
+            double working = Math.min(1, floaters / (15.0 * mobilebase$ballastBlocks));
+            result.setReturnValue(mobilebase$submerged ? 1.28 * 10 * mobilebase$subMass * working : 0);
+            return;
+        }
         if (mobilebase$airBalloons <= 0 || balloons <= 0) return;
         double stockMass = EurekaConfig.SERVER.getMassPerBalloon() * mobilebase$airBalloons;
         if (stockMass > 0) {
             result.setReturnValue(result.getReturnValue() * Math.max(1, 1.28 * mobilebase$airMass / stockMass));
+        }
+    }
+
+    @Unique
+    @JsonProperty("mobileBaseBallastBlocks")
+    private volatile int mobilebase$ballastBlocks;
+
+    @Unique
+    @JsonProperty("mobileBaseSubMass")
+    private volatile double mobilebase$subMass;
+
+    @Unique
+    @JsonIgnore
+    private boolean mobilebase$submerged;
+
+    @Override
+    public void mobilebase$fitSub(int ballastBlocks, double ratedMass) {
+        mobilebase$subMass = ratedMass;
+        mobilebase$ballastBlocks = ballastBlocks;
+    }
+
+    @Inject(method = "physTick", at = @At("HEAD"))
+    private void mobilebase$observeWater(PhysShip body, PhysLevel level, CallbackInfo callback) {
+        if (mobilebase$ballastBlocks > 0) {
+            mobilebase$submerged = body.getLiquidOverlap() > 0.0001;
         }
     }
 
@@ -133,7 +164,7 @@ abstract class EurekaControlMixin implements SurfaceBoat {
 
     @Inject(method = "onServerTick", at = @At("HEAD"))
     private void mobilebase$useSurfaceBuoyancy(CallbackInfo callback) {
-        if (!mobilebase$managed || ship == null) return;
+        if (!mobilebase$managed || ship == null || mobilebase$ballastBlocks > 0) return;
         var airPocket = ship.getAttachment(BuoyancyHandlerAttachment.class);
         if (airPocket != null) ManagedBoat.of(airPocket).mobilebase$markManaged();
     }
@@ -157,6 +188,10 @@ abstract class EurekaControlMixin implements SurfaceBoat {
 
     @Inject(method = "getFloaterFactor", at = @At("RETURN"), cancellable = true)
     private void mobilebase$adaptHullLift(double mass, CallbackInfoReturnable<Double> result) {
+        if (mobilebase$ballastBlocks > 0) {
+            result.setReturnValue(0.0);
+            return;
+        }
         if (!mobilebase$managed || mobilebase$wetColumns <= 0 || mobilebase$plannedFloaters <= 0 || floaters <= 0) return;
         // Water displacement remains in VS. One rated column targets about half a block of draft.
         double working = Math.min(1, floaters / (15.0 * mobilebase$plannedFloaters));

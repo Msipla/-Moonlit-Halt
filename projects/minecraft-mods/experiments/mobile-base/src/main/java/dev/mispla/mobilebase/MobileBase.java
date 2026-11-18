@@ -19,6 +19,7 @@ public final class MobileBase implements ModInitializer {
     static final Block CORE = new BoatCoreBlock();
     static final Block LAND_CORE = new BoatCoreBlock();
     static final Block AIR_CORE = new BoatCoreBlock();
+    static final Block SUB_CORE = new BoatCoreBlock();
 
     @Override
     public void onInitialize() {
@@ -31,12 +32,16 @@ public final class MobileBase implements ModInitializer {
         var airId = new ResourceLocation("mobilebase", "air_core");
         Registry.register(BuiltInRegistries.BLOCK, airId, AIR_CORE);
         var airItem = Registry.register(BuiltInRegistries.ITEM, airId, new BlockItem(AIR_CORE, new Item.Properties()));
+        var subId = new ResourceLocation("mobilebase", "sub_core");
+        Registry.register(BuiltInRegistries.BLOCK, subId, SUB_CORE);
+        var subItem = Registry.register(BuiltInRegistries.ITEM, subId, new BlockItem(SUB_CORE, new Item.Properties()));
         var marker = Registry.register(BuiltInRegistries.ITEM, new ResourceLocation("mobilebase", "boat_marker"), new BoatMarkerItem());
         ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.REDSTONE_BLOCKS)
             .register(entries -> {
                 entries.accept(item);
                 entries.accept(landItem);
                 entries.accept(airItem);
+                entries.accept(subItem);
                 entries.accept(marker);
             });
         UseBlockCallback.EVENT.register(BoatMarkerItem::useBlock);
@@ -57,6 +62,8 @@ public final class MobileBase implements ModInitializer {
         boolean mobilebase$landCruiseArmed(boolean piloting);
 
         void mobilebase$fitAir(int balloons, double ratedMass);
+
+        void mobilebase$fitSub(int ballastBlocks, double ratedMass);
     }
 
     public interface ManagedBoat {

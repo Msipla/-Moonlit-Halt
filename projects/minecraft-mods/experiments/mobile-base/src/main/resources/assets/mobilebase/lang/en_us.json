@@ -74,5 +74,8 @@
   "mobilebase.air_launched": "飞行器已装配。给引擎加燃料。驾驶时空格上升，V 下降。",
   "mobilebase.error.balloon_space": "找不到可安装气囊的上表面。请在驾驶区外预留空位。",
   "mobilebase.error.marked_balloon": "气囊须标在空旷的船顶表面，并避开驾驶席。",
-  "mobilebase.error.vehicle_marks": "请使用适用于该载具的标记。"
+  "mobilebase.error.vehicle_marks": "请使用适用于该载具的标记。",
+  "block.mobilebase.sub_core": "移动基地核心（潜航）",
+  "mobilebase.sub_preview": "潜航结构共 %s 格，拟补 %s 个部件，约 %s 千克。再次右键确认。",
+  "mobilebase.sub_launched": "潜航结构已装配。给引擎加燃料。驾驶时 V 下潜，空格上浮。"
 }
