@@ -24,7 +24,11 @@
     "installedFloaterConfirmedInShipyard": true,
     "parkedWithAnchor": true,
     "restoredBlockCount": 144,
-    "temporaryWallOpenings": 4
+    "temporaryWallOpenings": 4,
+    "refitBlocks": 145,
+    "refitAddedParts": 0,
+    "refitGlassConfirmed": true,
+    "refitFloaterConfirmed": true
   },
   "diveDepthChangeBlocks": 6.08,
   "holdVerticalSpeedBlocksPerSecond": 0.005751896077299534,
@@ -39,7 +43,8 @@
     "Depth hold was sampled after 2.2 s at neutral. On the surface, the pilot eye and roof were above the water level at y=70.",
     "The invalid mark at [1,72,-1] was on the first hull and rejected before default assembly. The valid mark on the second hull was subsequently verified as a real Eureka floater.",
     "The survival cabin lost oxygen. Long submersion and crew movement were not established.",
-    "The second, unballasted-with-gold hull was anchored via the core. The test opened four wall cells for safe outside access, and the surface dock operation verified relocation of the 144 remaining blocks. The unattended first hull later settled on the pool floor after the pilot left without setting the anchor."
+    "The second, hull without gold weights was anchored via the core. The test opened four wall cells for safe outside access, and the surface dock operation verified relocation of the 144 remaining blocks. The unattended first hull later settled on the pool floor after the pilot left without setting the anchor.",
+    "After docking, the core and marked floater were verified at their terrain positions. A piece of orange glass was added. The 145-block refit reused every part and retained the marked floater and orange glass at their expected shipyard positions."
   ],
   "jarSha256": "e0689efeb9b0315700171c3a3e9f68abb856b3e25b35556f69f1d22b499d66df",
   "samples": [
@@ -302,6 +307,32 @@
         11.499999761581421,
         70.83777086935504,
         3.2499999795109034
+      ],
+      "flying": false
+    },
+    {
+      "stage": "sub_refit",
+      "id": 5,
+      "position": [
+        11.50541796936103,
+        71.70635997378886,
+        0.4602683150139181
+      ],
+      "q": {
+        "x": 1.1266635286269744e-08,
+        "y": -6.594926459429892e-18,
+        "z": -3.2139249539112076e-08,
+        "w": 0.9999999999999996
+      },
+      "velocity": [
+        1.2789769243681803e-10,
+        -0.035972385126115114,
+        9.325873406851315e-12
+      ],
+      "pilot": [
+        11.29999990016222,
+        70.85682897896726,
+        2.6999999955296516
       ],
       "flying": false
     }
