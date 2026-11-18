@@ -81,3 +81,15 @@ VS2 2.4.10 在开放船体测试中把大块船坞区块空气误算为蓄气舱
 [上一版 0.2.0-alpha.1 JAR](artifacts/mobile-base-assembler-0.2.0-alpha.1.jar)
 
 **0.2.1-alpha.1 JAR SHA-256** `0d1b97585ab61ca3164435a1989b88ad6c1016bc940179253869928a291b74d8`
+
+## 陆地载具实验版 0.3.0-dev
+
+[下载陆地实验 JAR](artifacts/mobile-base-assembler-0.3.0-dev.jar)。在独立的 Minecraft 1.20.1 Fabric 实例和测试存档中试用。客户端与专用服使用 Fabric Loader 0.17.2、Fabric API 0.92.6+1.20.1、[Valkyrien Skies 2.4.11](https://modrinth.com/mod/valkyrien-skies/version/qJr3y5vI)、[Eureka 1.6.4](https://modrinth.com/mod/eureka/version/Vim9JR4p)、[Create Fabric 6.0.8.1](https://modrinth.com/mod/create-fabric/version/HAqwA6X1)及 [Trackwork Refabricated 1.2.2](https://modrinth.com/mod/trackwork-refabricated/version/Mh7IDZZC)。使用 JDK 17、Gradle 8.14.3 和 Loom 1.10.5 构建本分支。
+
+1. 在创造模式按测试车的布局搭建横向对称的底板，底板底部与地面之间留两格空气。测试底板宽 5 格、长 9 格。陆地核心放在底板上，核心右侧留给驻车锚，附近留驾驶席和离席通道。
+2. 空手右键陆地核心预览，再右键确认。需要调整时，用标记棒选前轮或后轮，瞄准相应侧面的底板边缘。半透明虚影显示轮位。选中一侧即可自动镜像至另一侧，前后轴至少相隔 3 格。船舵与车头方向沿用标记菜单。
+3. 右键船舵式驾驶席就座，W/S 前进和倒车，A/D 转向，C 巡航。松开方向键可减速，潜行右键核心可驻车。解体前须停车、下车并留出方块落点。车体斜停时使用 Eureka 自带的对齐功能。
+
+实测默认四轮、自定义前轴、避开障碍、前进、转向、离席巡航、车内储物、锁车、解体和改装重装。[数据与测试范围](evidence/land-0.3.0-dev.json)
+
+**0.3.0-dev JAR SHA-256** `dbf52904761b0b7c4463bfa5b8934350c9ba7b83d82739158bbd52330e0a98a0`

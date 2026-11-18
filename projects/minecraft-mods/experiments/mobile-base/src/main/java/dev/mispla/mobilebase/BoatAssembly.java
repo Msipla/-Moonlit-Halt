@@ -38,6 +38,7 @@ public final class BoatAssembly {
 
     static ServerShip launch(ServerLevel level, Map<BlockPos, BlockState> hull, Map<BlockPos, BlockState> parts,
                              Runnable prepare, OnAssembled onAssembled) throws Rejected {
+        boolean land = hull.values().stream().anyMatch(state -> state.is(MobileBase.LAND_CORE));
         var positions = new HashSet<>(hull.keySet());
         positions.addAll(parts.keySet());
         var bounds = ShipAssembler.findMinAndMax(positions);
@@ -65,7 +66,7 @@ public final class BoatAssembly {
             for (var entry : transaction.target.entrySet()) {
                 var actual = SavedBlock.read(level, entry.getKey());
                 var expected = entry.getValue();
-                if (!expected.equals(actual)) {
+                if (!matches(expected, actual, land)) {
                     throw new IllegalStateException("VS changed assembly target " + entry.getKey() + " from "
                         + expected.state() + " to " + actual.state() + " (block entity data equal: "
                         + java.util.Objects.equals(expected.data(), actual.data()) + ")");
@@ -87,7 +88,7 @@ public final class BoatAssembly {
                 }
                 ShipAssembler.INSTANCE.deleteShip(level, transaction.ship, false, false);
             }
-            restore(level, transaction.original);
+            restore(level, transaction.original, land);
             throw new Rejected("rolled_back");
         } finally {
             pending.remove();
@@ -117,10 +118,14 @@ public final class BoatAssembly {
     }
 
     static void restore(ServerLevel level, Map<BlockPos, SavedBlock> snapshot) {
+        restore(level, snapshot, false);
+    }
+
+    static void restore(ServerLevel level, Map<BlockPos, SavedBlock> snapshot, boolean land) {
         for (var entry : snapshot.entrySet()) {
             var pos = entry.getKey();
             var saved = entry.getValue();
-            if (saved.matches(level, pos)) continue;
+            if (matches(saved, SavedBlock.read(level, pos), land)) continue;
             var entity = level.getBlockEntity(pos);
             if (entity != null && level.getBlockState(pos).getBlock() != saved.state().getBlock()) {
                 level.removeBlockEntity(pos);
@@ -136,8 +141,15 @@ public final class BoatAssembly {
             }
         }
         snapshot.forEach((pos, saved) -> {
-            if (!saved.matches(level, pos)) throw new IllegalStateException("Rollback differs at " + pos);
+            if (!matches(saved, SavedBlock.read(level, pos), land)) throw new IllegalStateException("Rollback differs at " + pos);
         });
+    }
+
+    private static boolean matches(SavedBlock expected, SavedBlock actual, boolean land) {
+        if (land && (LandPlan.isWheel(expected.state()) || LandPlan.isMotor(expected.state()))) {
+            return expected.state() == actual.state() && BoatDock.sameChassisData(expected.data(), actual.data());
+        }
+        return expected.equals(actual);
     }
 
     record SavedBlock(BlockState state, CompoundTag data) {

@@ -130,9 +130,35 @@ record BoatDock(Map<BlockPos, BlockPos> moves, Rotation rotation, boolean land) 
             && Math.abs(current.getShipToWorldRotation().dot(previous.getShipToWorldRotation())) > 1 - 1e-8;
     }
 
+    static boolean sameChassisData(net.minecraft.nbt.CompoundTag left, net.minecraft.nbt.CompoundTag right) {
+        return left != null && right != null && detachedChassisData(left).equals(detachedChassisData(right));
+    }
+
+    private static net.minecraft.nbt.CompoundTag detachedChassisData(net.minecraft.nbt.CompoundTag source) {
+        var copy = source.copy();
+        for (var key : java.util.List.of("Speed", "Source", "Network", "Sequence", "NeedsSpeedUpdate", "WheelTravel")) {
+            copy.remove(key);
+        }
+        if (copy.contains("Assembled")) copy.putBoolean("Assembled", false);
+        return copy;
+    }
+
+    private static void restoreChassis(ServerLevel level, BlockPos position, SavedBlock block) {
+        var entity = level.getBlockEntity(position);
+        if (entity == null || block.data() == null) throw new IllegalStateException("Missing restored chassis block");
+        // A wheel and its kinetic network must register at the restored coordinates.
+        var data = detachedChassisData(block.data());
+        entity.load(data);
+        entity.setChanged();
+        if (!sameChassisData(data, entity.saveWithoutMetadata())) {
+            throw new IllegalStateException("Incorrect restored chassis data at " + position);
+        }
+    }
+
     void disassemble(ServerLevel level, LoadedServerShip ship) throws Rejected {
         var originals = BoatAssembly.capture(level, moves.keySet());
         var berth = BoatAssembly.capture(level, moves.values());
+        var setup = land ? ((SurfaceBoat) (Object) ship.getAttachment(EurekaShipControl.class)).mobilebase$land() : null;
         try {
             for (var entry : moves.entrySet()) {
                 RelocationUtilKt.relocateBlock(level, entry.getKey(), entry.getValue(), false, null, rotation);
@@ -143,19 +169,15 @@ record BoatDock(Map<BlockPos, BlockPos> moves, Rotation rotation, boolean land) 
                 if (state.is(MobileBase.CORE) || state.is(MobileBase.LAND_CORE)) state = state.setValue(BlockStateProperties.POWERED, false);
                 if (state.is(BoatPlan.part("anchor"))) state = state.setValue(BlockStateProperties.POWERED, false);
                 var dest = entry.getValue();
-                if (!new SavedBlock(source.state().rotate(rotation), source.data()).matches(level, dest)
-                        || !level.getBlockState(entry.getKey()).isAir()) {
-                    throw new IllegalStateException("Incorrect relocated block at " + dest);
+                var actual = SavedBlock.read(level, dest);
+                boolean chassis = land && (LandPlan.isWheel(state) || LandPlan.isMotor(state));
+                if (source.state().rotate(rotation) != actual.state() || !level.getBlockState(entry.getKey()).isAir()
+                        || !(chassis ? sameChassisData(source.data(), actual.data())
+                            : java.util.Objects.equals(source.data(), actual.data()))) {
+                    throw new IllegalStateException("Incorrect relocated block " + state + " at " + dest);
                 }
                 if (state != level.getBlockState(dest)) level.setBlock(dest, state, Block.UPDATE_CLIENTS);
-                if (land && LandPlan.isWheel(state)) {
-                    var entity = level.getBlockEntity(dest);
-                    if (entity == null || source.data() == null) throw new IllegalStateException("Missing restored wheel");
-                    var data = source.data().copy();
-                    data.putBoolean("Assembled", false);
-                    entity.load(data);
-                    entity.setChanged();
-                }
+                if (chassis) restoreChassis(level, dest, source);
             }
             for (var entry : moves.entrySet()) {
                 var dest = entry.getValue();
@@ -165,7 +187,16 @@ record BoatDock(Map<BlockPos, BlockPos> moves, Rotation rotation, boolean land) 
         } catch (RuntimeException | AssertionError error) {
             MobileBase.LOGGER.error("Disassembly failed, restoring both snapshots", error);
             BoatAssembly.restore(level, berth);
-            BoatAssembly.restore(level, originals);
+            BoatAssembly.restore(level, originals, land);
+            if (setup != null) {
+                var control = EurekaShipControl.Companion.getOrCreate(ship);
+                ((SurfaceBoat) (Object) control).mobilebase$fitLand(setup);
+                originals.forEach((pos, block) -> {
+                    if (LandPlan.isWheel(block.state()) || LandPlan.isMotor(block.state())) {
+                        restoreChassis(level, pos, block);
+                    }
+                });
+            }
             throw new Rejected("rolled_back");
         }
     }
