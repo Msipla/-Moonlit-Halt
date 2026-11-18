@@ -57,5 +57,15 @@
   "mobilebase.marker.stop": "结束选位",
   "mobilebase.marker.removed": "已移除%s标记。",
   "mobilebase.marker.undone": "已撤销上次标记修改。",
-  "mobilebase.marker.occupied": "位置 %s 已被占用。请另选位置。"
+  "mobilebase.marker.occupied": "位置 %s 已被占用。请另选位置。",
+  "block.mobilebase.land_core": "移动基地核心（陆地）",
+  "mobilebase.marker.front_wheel": "前轮",
+  "mobilebase.marker.rear_wheel": "后轮",
+  "mobilebase.land_preview": "陆地装配将补齐 %s 个部件。再次右键确认。",
+  "mobilebase.land_launched": "陆地载具已装配。坐上驾驶席用 W/S 前后行驶，A/D 转向，C 巡航。",
+  "mobilebase.error.land_deps": "陆地载具需要 Create Fabric 和 Trackwork Refabricated。",
+  "mobilebase.error.land_wheels": "找不到两条对称车轴。车轮须在车身外，轴距至少 3 格，轮下留空。",
+  "mobilebase.error.land_extra": "位置 %s 装有未纳入布局的轮组或马达。",
+  "mobilebase.error.land_marks": "陆地核心需要船舵、方向与车轮标记。请移除引擎或浮力块标记。",
+  "mobilebase.error.boat_wheel_marks": "水面船不使用车轮标记。请移除车轮标记或改用陆地核心。"
 }

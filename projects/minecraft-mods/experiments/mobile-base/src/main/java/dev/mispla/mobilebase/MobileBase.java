@@ -17,20 +17,26 @@ import org.slf4j.LoggerFactory;
 public final class MobileBase implements ModInitializer {
     static final Logger LOGGER = LoggerFactory.getLogger("mobilebase");
     static final Block CORE = new BoatCoreBlock();
+    static final Block LAND_CORE = new BoatCoreBlock();
 
     @Override
     public void onInitialize() {
         var id = new ResourceLocation("mobilebase", "boat_core");
         Registry.register(BuiltInRegistries.BLOCK, id, CORE);
         var item = Registry.register(BuiltInRegistries.ITEM, id, new BlockItem(CORE, new Item.Properties()));
+        var landId = new ResourceLocation("mobilebase", "land_core");
+        Registry.register(BuiltInRegistries.BLOCK, landId, LAND_CORE);
+        var landItem = Registry.register(BuiltInRegistries.ITEM, landId, new BlockItem(LAND_CORE, new Item.Properties()));
         var marker = Registry.register(BuiltInRegistries.ITEM, new ResourceLocation("mobilebase", "boat_marker"), new BoatMarkerItem());
         ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.REDSTONE_BLOCKS)
             .register(entries -> {
                 entries.accept(item);
+                entries.accept(landItem);
                 entries.accept(marker);
             });
         UseBlockCallback.EVENT.register(BoatMarkerItem::useBlock);
         BoatMarkerItem.registerEdits();
+        if (LandPlan.available()) LandDrive.register();
         ServerLifecycleEvents.SERVER_STOPPED.register(server -> BoatCoreBlock.clearPreviews());
     }
 
@@ -38,6 +44,12 @@ public final class MobileBase implements ModInitializer {
         void mobilebase$adapt(int wetColumns, int floaters, double engineScale);
 
         boolean mobilebase$isAdaptedBoatAnchored();
+
+        void mobilebase$fitLand(LandDrive.Setup setup);
+
+        LandDrive.Setup mobilebase$land();
+
+        boolean mobilebase$landCruiseArmed(boolean piloting);
     }
 
     public interface ManagedBoat {

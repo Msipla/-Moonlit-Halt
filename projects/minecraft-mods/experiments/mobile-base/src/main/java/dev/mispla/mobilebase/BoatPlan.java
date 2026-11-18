@@ -37,26 +37,7 @@ record BoatPlan(Map<BlockPos, BlockState> hull, Map<BlockPos, BlockState> parts,
     }
 
     static BoatPlan scan(ServerLevel level, BlockPos core, Direction coreFacing, Marks marks) throws Rejected {
-        Map<BlockPos, BlockState> hull = new LinkedHashMap<>();
-        Set<BlockPos> visited = new HashSet<>();
-        var queue = new ArrayDeque<BlockPos>();
-        queue.add(core);
-        while (!queue.isEmpty()) {
-            var pos = queue.remove();
-            if (!visited.add(pos)) continue;
-            if (!loaded(level, pos)) throw new Rejected("unloaded");
-            var state = level.getBlockState(pos);
-            if (state.isAir() || state.getBlock() instanceof LiquidBlock) continue;
-            if (!inRange(level, core, pos) || hull.size() >= MAX_BLOCKS) {
-                throw new Rejected("boundary");
-            }
-            if ((state.is(MobileBase.CORE) && !pos.equals(core)) || !supported(state)
-                    || VSGameUtilsKt.getShipManagingPos(level, pos) != null) {
-                throw new Rejected("unsupported", pos.toShortString());
-            }
-            hull.put(pos, state);
-            for (Direction direction : Direction.values()) queue.add(pos.relative(direction));
-        }
+        var hull = scanHull(level, core, BoatPlan::supported);
 
         var parts = new LinkedHashMap<BlockPos, BlockState>();
         double hullMass = hull.values().stream().mapToDouble(BoatPlan::massOf).sum();
@@ -199,7 +180,32 @@ record BoatPlan(Map<BlockPos, BlockState> hull, Map<BlockPos, BlockState> parts,
         return new BoatPlan(Map.copyOf(hull), Map.copyOf(parts), mass, wetColumns.size(), floaters, adapted);
     }
 
-    private static boolean inRange(ServerLevel level, BlockPos core, BlockPos pos) {
+    static Map<BlockPos, BlockState> scanHull(ServerLevel level, BlockPos core, java.util.function.Predicate<BlockState> accepted)
+            throws Rejected {
+        Map<BlockPos, BlockState> hull = new LinkedHashMap<>();
+        Set<BlockPos> visited = new HashSet<>();
+        var queue = new ArrayDeque<BlockPos>();
+        queue.add(core);
+        while (!queue.isEmpty()) {
+            var pos = queue.remove();
+            if (!visited.add(pos)) continue;
+            if (!loaded(level, pos)) throw new Rejected("unloaded");
+            var state = level.getBlockState(pos);
+            if (state.isAir() || state.getBlock() instanceof LiquidBlock) continue;
+            if (!inRange(level, core, pos) || hull.size() >= MAX_BLOCKS) {
+                throw new Rejected("boundary");
+            }
+            if (((state.is(MobileBase.CORE) || state.is(MobileBase.LAND_CORE)) && !pos.equals(core)) || !accepted.test(state)
+                    || VSGameUtilsKt.getShipManagingPos(level, pos) != null) {
+                throw new Rejected("unsupported", pos.toShortString());
+            }
+            hull.put(pos, state);
+            for (Direction direction : Direction.values()) queue.add(pos.relative(direction));
+        }
+        return hull;
+    }
+
+    static boolean inRange(ServerLevel level, BlockPos core, BlockPos pos) {
         return Math.abs(pos.getX() - core.getX()) <= RADIUS && Math.abs(pos.getY() - core.getY()) <= RADIUS
             && Math.abs(pos.getZ() - core.getZ()) <= RADIUS && level.getWorldBorder().isWithinBounds(pos);
     }
@@ -285,7 +291,7 @@ record BoatPlan(Map<BlockPos, BlockState> hull, Map<BlockPos, BlockState> parts,
         return block.defaultBlockState().setValue(BlockStateProperties.HORIZONTAL_FACING, direction);
     }
 
-    private static double massOf(BlockState state) {
+    static double massOf(BlockState state) {
         var properties = BlockStateInfo.INSTANCE.get(state);
         return properties == null ? Double.NaN : properties.getFirst();
     }

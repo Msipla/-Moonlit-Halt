@@ -21,7 +21,7 @@ import org.valkyrienskies.eureka.ship.EurekaShipControl;
 import org.valkyrienskies.mod.common.VSGameUtilsKt;
 import org.valkyrienskies.mod.util.RelocationUtilKt;
 
-record BoatDock(Map<BlockPos, BlockPos> moves, Rotation rotation) {
+record BoatDock(Map<BlockPos, BlockPos> moves, Rotation rotation, boolean land) {
     static BoatDock inspect(ServerLevel level, LoadedServerShip ship, EurekaShipControl control) throws Rejected {
         if (control.getAnchorsActive() < 1 || control.isCruising() || !isStill(ship, (SurfaceBoat) (Object) control)) {
             throw new Rejected("not_stopped");
@@ -83,7 +83,8 @@ record BoatDock(Map<BlockPos, BlockPos> moves, Rotation rotation) {
         if (!chunksReady[0] || sources.isEmpty() || sources.size() > BoatPlan.MAX_BLOCKS) {
             throw new Rejected("dock_size");
         }
-        if (sources.stream().filter(pos -> level.getBlockState(pos).is(MobileBase.CORE)).count() != 1) {
+        boolean land = ((SurfaceBoat) (Object) control).mobilebase$land() != null;
+        if (sources.stream().filter(pos -> level.getBlockState(pos).is(land ? MobileBase.LAND_CORE : MobileBase.CORE)).count() != 1) {
             throw new Rejected("dock_size");
         }
 
@@ -92,7 +93,7 @@ record BoatDock(Map<BlockPos, BlockPos> moves, Rotation rotation) {
         var local = new Vector3d();
         for (var pos : sources) {
             var state = level.getBlockState(pos);
-            if (!BoatPlan.supported(state)) throw new Rejected("unsupported", pos.toShortString());
+            if (!(land ? LandPlan.supported(state) : BoatPlan.supported(state))) throw new Rejected("unsupported", pos.toShortString());
             // Transform block centers about the same pivot as VS, using the accepted cardinal pose.
             local.set(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5)
                 .sub(transform.getPositionInShip()).rotate(snapped).add(transform.getPositionInWorld());
@@ -103,7 +104,7 @@ record BoatDock(Map<BlockPos, BlockPos> moves, Rotation rotation) {
             if (!BoatPlan.loaded(level, dest) || !level.getWorldBorder().isWithinBounds(dest)
                     || !destinations.add(dest)) throw new Rejected("occupied");
             var previous = level.getBlockState(dest);
-            boolean canReplaceWater = previous.is(Blocks.WATER) && previous.getFluidState().isSource()
+            boolean canReplaceWater = !land && previous.is(Blocks.WATER) && previous.getFluidState().isSource()
                 && state.isCollisionShapeFullBlock(level, pos);
             if ((!previous.isAir() && !canReplaceWater) || level.getBlockEntity(dest) != null
                     || !level.getEntities((Entity) null, new AABB(dest)).isEmpty()) {
@@ -114,7 +115,7 @@ record BoatDock(Map<BlockPos, BlockPos> moves, Rotation rotation) {
             }
             moves.put(pos, dest);
         }
-        return new BoatDock(Map.copyOf(moves), blockRotation);
+        return new BoatDock(Map.copyOf(moves), blockRotation, land);
     }
 
     private static boolean isStill(LoadedServerShip ship, SurfaceBoat control) {
@@ -139,7 +140,7 @@ record BoatDock(Map<BlockPos, BlockPos> moves, Rotation rotation) {
             for (var entry : moves.entrySet()) {
                 var source = originals.get(entry.getKey());
                 var state = source.state().rotate(rotation);
-                if (state.is(MobileBase.CORE)) state = state.setValue(BlockStateProperties.POWERED, false);
+                if (state.is(MobileBase.CORE) || state.is(MobileBase.LAND_CORE)) state = state.setValue(BlockStateProperties.POWERED, false);
                 if (state.is(BoatPlan.part("anchor"))) state = state.setValue(BlockStateProperties.POWERED, false);
                 var dest = entry.getValue();
                 if (!new SavedBlock(source.state().rotate(rotation), source.data()).matches(level, dest)
@@ -147,6 +148,14 @@ record BoatDock(Map<BlockPos, BlockPos> moves, Rotation rotation) {
                     throw new IllegalStateException("Incorrect relocated block at " + dest);
                 }
                 if (state != level.getBlockState(dest)) level.setBlock(dest, state, Block.UPDATE_CLIENTS);
+                if (land && LandPlan.isWheel(state)) {
+                    var entity = level.getBlockEntity(dest);
+                    if (entity == null || source.data() == null) throw new IllegalStateException("Missing restored wheel");
+                    var data = source.data().copy();
+                    data.putBoolean("Assembled", false);
+                    entity.load(data);
+                    entity.setChanged();
+                }
             }
             for (var entry : moves.entrySet()) {
                 var dest = entry.getValue();

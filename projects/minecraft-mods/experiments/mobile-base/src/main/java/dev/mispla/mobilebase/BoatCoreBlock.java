@@ -147,6 +147,21 @@ final class BoatCoreBlock extends HorizontalDirectionalBlock {
     private static void previewLaunch(ServerLevel level, BlockPos pos, BlockState state, ServerPlayer user,
                                       BoatMarkerItem.Marks marks, Preview previous, long now) throws Rejected {
         previews.values().removeIf(preview -> preview.level == level && preview.expires < now);
+        if (state.is(MobileBase.LAND_CORE)) {
+            var plan = LandPlan.scan(level, pos, state.getValue(FACING), marks);
+            if (confirmed(previous, level, pos, now, plan)) {
+                var launched = LandDrive.launch(level, plan);
+                MobileBase.LOGGER.info("Launched land vehicle {} with {} hull blocks and {} parts at up to {} RPM",
+                    launched.getId(), plan.hull().size(), plan.parts().size(), plan.rpm());
+                send(user, "mobilebase.land_launched");
+            } else {
+                previewParts(level, user, plan.hull(), plan.parts());
+                previews.put(user.getUUID(), new Preview(level, pos, now + CONFIRM_TICKS, plan));
+                send(user, "mobilebase.land_preview", plan.parts().size());
+            }
+            return;
+        }
+        if (marks.frontWheel() != null || marks.rearWheel() != null) throw new Rejected("boat_wheel_marks");
         var plan = BoatPlan.scan(level, pos, state.getValue(FACING), marks);
         if (confirmed(previous, level, pos, now, plan)) {
             var launched = BoatAssembly.launch(level, plan);
@@ -155,15 +170,20 @@ final class BoatCoreBlock extends HorizontalDirectionalBlock {
             send(user, plan.adapted() ? "mobilebase.adapted_launched" : "mobilebase.launched");
             return;
         }
-        for (var p : plan.hull().keySet()) {
-            for (var face : Direction.values()) {
-                if (!plan.hull().containsKey(p.relative(face))) surfaceParticle(level, user, p, face);
-            }
-        }
-        plan.parts().keySet().forEach(p -> particle(level, user, p, PART));
+        previewParts(level, user, plan.hull(), plan.parts());
         previews.put(user.getUUID(), new Preview(level, pos, now + CONFIRM_TICKS, plan));
         send(user, plan.adapted() ? "mobilebase.adapted_preview" : "mobilebase.launch_preview",
             plan.hull().size(), plan.parts().size(), Math.round(plan.mass()));
+    }
+
+    private static void previewParts(ServerLevel level, ServerPlayer user, Map<BlockPos, BlockState> hull,
+                                     Map<BlockPos, BlockState> parts) {
+        for (var p : hull.keySet()) {
+            for (var face : Direction.values()) {
+                if (!hull.containsKey(p.relative(face))) surfaceParticle(level, user, p, face);
+            }
+        }
+        parts.keySet().forEach(p -> particle(level, user, p, PART));
     }
 
     private static boolean confirmed(Preview previous, ServerLevel level, BlockPos pos, long now, Object plan) {

@@ -61,7 +61,7 @@ public final class MarkerClient implements ClientModInitializer {
         var heading = marks.heading() == null ? player.getDirection() : marks.heading();
         BlockHitResult hit = editing != null && client.screen == null && client.hitResult instanceof BlockHitResult block
             && block.getType() == HitResult.Type.BLOCK ? block : null;
-        BlockPos target = hit == null ? null : hit.getBlockPos().relative(hit.getDirection());
+        BlockPos target = hit == null ? null : BoatMarkerItem.target(hit, editing);
 
         var camera = context.camera().getPosition();
         var pose = context.matrixStack();
@@ -73,7 +73,7 @@ public final class MarkerClient implements ClientModInitializer {
             if (position == null || position.equals(target) || position.distToCenterSqr(camera.x, camera.y, camera.z) >= 64 * 64
                     || !world.hasChunkAt(position) || !BoatMarkerItem.available(world, role, position)) continue;
             var support = role == Role.FLOATER ? position.above() : position.below();
-            if (!world.getBlockState(support).getCollisionShape(world, support).isEmpty()) {
+            if (role.partId == null || !world.getBlockState(support).getCollisionShape(world, support).isEmpty()) {
                 renderPart(client, pose, models, role, position, heading, 0.4f);
             }
         }
@@ -95,7 +95,7 @@ public final class MarkerClient implements ClientModInitializer {
 
     private static void renderPart(Minecraft client, PoseStack pose, VertexConsumer models, Role role, BlockPos position,
                                    Direction heading, float opacity) {
-        var state = BoatPlan.part(role.partId).defaultBlockState();
+        var state = role.partId == null ? LandPlan.wheelPreview(heading) : BoatPlan.part(role.partId).defaultBlockState();
         if (state.hasProperty(BlockStateProperties.HORIZONTAL_FACING)) {
             state = state.setValue(BlockStateProperties.HORIZONTAL_FACING, role == Role.HELM ? heading.getOpposite() : heading);
         }
@@ -141,7 +141,7 @@ public final class MarkerClient implements ClientModInitializer {
 
     private static final class MarkerScreen extends Screen {
         private static final int PANEL_WIDTH = 282;
-        private static final int PANEL_HEIGHT = 166;
+        private static final int PANEL_HEIGHT = 210;
         private final int slot;
         private final ItemStack stack;
         private final Level world;
@@ -172,10 +172,10 @@ public final class MarkerClient implements ClientModInitializer {
                 row += 22;
             }
             var undo = addRenderableWidget(Button.builder(Component.translatable("mobilebase.marker.undo"),
-                    button -> send(Edit.UNDO, Role.HELM)).bounds(left + 12, top + 136, 125, 20).build());
+                    button -> send(Edit.UNDO, Role.HELM)).bounds(left + 12, top + 180, 125, 20).build());
             undo.active = BoatMarkerItem.canUndo(stack, world);
             addRenderableWidget(Button.builder(Component.translatable("mobilebase.marker.stop"),
-                button -> send(Edit.STOP, Role.HELM)).bounds(left + 145, top + 136, 125, 20).build());
+                button -> send(Edit.STOP, Role.HELM)).bounds(left + 145, top + 180, 125, 20).build());
         }
 
         private void send(Edit edit, Role role) {

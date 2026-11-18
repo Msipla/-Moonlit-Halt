@@ -34,7 +34,7 @@ final class BoatMarkerItem extends Item {
     enum Edit { SELECT, REMOVE, UNDO, STOP }
 
     enum Role {
-        HELM("oak_ship_helm"), ENGINE("engine"), FLOATER("floater"), HEADING(null);
+        HELM("oak_ship_helm"), ENGINE("engine"), FLOATER("floater"), HEADING(null), FRONT_WHEEL(null), REAR_WHEEL(null);
 
         final String partId;
 
@@ -51,8 +51,8 @@ final class BoatMarkerItem extends Item {
         }
     }
 
-    record Marks(BlockPos helm, BlockPos engine, BlockPos floater, Direction heading) {
-        static final Marks DEFAULT = new Marks(null, null, null, null);
+    record Marks(BlockPos helm, BlockPos engine, BlockPos floater, Direction heading, BlockPos frontWheel, BlockPos rearWheel) {
+        static final Marks DEFAULT = new Marks(null, null, null, null, null, null);
 
         BlockPos position(Role role) {
             return switch (role) {
@@ -60,6 +60,8 @@ final class BoatMarkerItem extends Item {
                 case ENGINE -> engine;
                 case FLOATER -> floater;
                 case HEADING -> null;
+                case FRONT_WHEEL -> frontWheel;
+                case REAR_WHEEL -> rearWheel;
             };
         }
     }
@@ -86,7 +88,7 @@ final class BoatMarkerItem extends Item {
 
         var state = world.getBlockState(hit.getBlockPos());
         var role = editing(stack, world);
-        if (!user.isShiftKeyDown() && role == null && state.is(MobileBase.CORE)) {
+        if (!user.isShiftKeyDown() && role == null && (state.is(MobileBase.CORE) || state.is(MobileBase.LAND_CORE))) {
             BoatCoreBlock.launchWithMarks(world, hit.getBlockPos(), state, user, marks(stack, world));
         } else if (user.isShiftKeyDown() || role == null) {
             open(user);
@@ -150,7 +152,7 @@ final class BoatMarkerItem extends Item {
     }
 
     private static void mark(ServerLevel world, ServerPlayer player, ItemStack stack, Role role, BlockHitResult hit) {
-        var target = hit.getBlockPos().relative(hit.getDirection());
+        var target = target(hit, role);
         if (world.getBlockState(hit.getBlockPos()).isAir() || !BoatPlan.loaded(world, target)
                 || !world.getWorldBorder().isWithinBounds(target)) {
             report(player, "mobilebase.marker.surface");
@@ -179,9 +181,16 @@ final class BoatMarkerItem extends Item {
         changed(player);
     }
 
+    static BlockPos target(BlockHitResult hit, Role role) {
+        var adjacent = hit.getBlockPos().relative(hit.getDirection());
+        return role.partId == null && role != Role.HEADING && hit.getDirection().getAxis().isHorizontal()
+            ? adjacent.below() : adjacent;
+    }
+
     static boolean available(Level world, Role role, BlockPos position) {
         if (world.isOutsideBuildHeight(position) || !world.getWorldBorder().isWithinBounds(position)) return false;
         var state = world.getBlockState(position);
+        if (role == Role.FRONT_WHEEL || role == Role.REAR_WHEEL) return state.isAir() || LandPlan.isWheel(state);
         return role == Role.HEADING || state.isAir()
             || (role == Role.FLOATER && state.is(Blocks.WATER))
             || state.is(BoatPlan.part(role.partId))
@@ -212,7 +221,8 @@ final class BoatMarkerItem extends Item {
         if (data == null) return Marks.DEFAULT;
         var direction = Direction.byName(data.getString(Role.HEADING.key()));
         if (direction != null && !direction.getAxis().isHorizontal()) direction = null;
-        return new Marks(read(data, Role.HELM), read(data, Role.ENGINE), read(data, Role.FLOATER), direction);
+        return new Marks(read(data, Role.HELM), read(data, Role.ENGINE), read(data, Role.FLOATER), direction,
+            read(data, Role.FRONT_WHEEL), read(data, Role.REAR_WHEEL));
     }
 
     private static BlockPos read(CompoundTag data, Role role) {

@@ -25,8 +25,21 @@ public final class BoatAssembly {
     private BoatAssembly() {}
 
     static ServerShip launch(ServerLevel level, BoatPlan plan) throws Rejected {
-        var positions = new HashSet<>(plan.hull().keySet());
-        positions.addAll(plan.parts().keySet());
+        return launch(level, plan.hull(), plan.parts(), () -> {}, (ship, target) ->
+            EurekaShipControl.Companion.deferUntilLoaded(ship,
+                control -> ((SurfaceBoat) (Object) control).mobilebase$adapt(
+                    plan.adapted() ? plan.wetColumns() : 0, plan.floaters(), plan.engineScale())));
+    }
+
+    @FunctionalInterface
+    interface OnAssembled {
+        void run(ServerShip ship, Map<BlockPos, SavedBlock> target);
+    }
+
+    static ServerShip launch(ServerLevel level, Map<BlockPos, BlockState> hull, Map<BlockPos, BlockState> parts,
+                             Runnable prepare, OnAssembled onAssembled) throws Rejected {
+        var positions = new HashSet<>(hull.keySet());
+        positions.addAll(parts.keySet());
         var bounds = ShipAssembler.findMinAndMax(positions);
         if (VSGameUtilsKt.getShipsIntersecting(level, new AABB(bounds.getFirst(),
                 bounds.getSecond().offset(1, 1, 1)).inflate(0.1)).iterator().hasNext()) {
@@ -37,12 +50,13 @@ public final class BoatAssembly {
             new LinkedHashMap<>(), new LinkedHashMap<>());
         pending.set(transaction);
         try {
-            for (var part : plan.parts().entrySet()) {
+            for (var part : parts.entrySet()) {
                 if (!level.setBlock(part.getKey(), part.getValue(), Block.UPDATE_CLIENTS)
                         || level.getBlockState(part.getKey()) != part.getValue()) {
                     throw new IllegalStateException("Could not install " + part.getKey());
                 }
             }
+            prepare.run();
             transaction.expected.putAll(capture(level, positions));
             var ship = ShipAssembler.assembleToShip(level, positions, 1.0);
             if (transaction.ship != ship || transaction.target.size() != positions.size()) {
@@ -62,9 +76,7 @@ public final class BoatAssembly {
                     throw new IllegalStateException("VS left a source block at " + pos);
                 }
             }
-            EurekaShipControl.Companion.deferUntilLoaded(ship,
-                control -> ((SurfaceBoat) (Object) control).mobilebase$adapt(
-                    plan.adapted() ? plan.wetColumns() : 0, plan.floaters(), plan.engineScale()));
+            onAssembled.run(ship, transaction.target);
             return ship;
         } catch (RuntimeException | AssertionError error) {
             MobileBase.LOGGER.error("Ship launch failed, restoring snapshot", error);

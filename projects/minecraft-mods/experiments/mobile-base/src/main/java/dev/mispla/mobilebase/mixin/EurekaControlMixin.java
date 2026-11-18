@@ -2,6 +2,7 @@ package dev.mispla.mobilebase.mixin;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import dev.mispla.mobilebase.LandDrive;
 import dev.mispla.mobilebase.MobileBase.ManagedBoat;
 import dev.mispla.mobilebase.MobileBase.SurfaceBoat;
 import org.spongepowered.asm.mixin.Mixin;
@@ -51,6 +52,36 @@ abstract class EurekaControlMixin implements SurfaceBoat {
     @JsonIgnore
     private volatile boolean mobilebase$anchored;
 
+    @Unique
+    @JsonProperty("mobileBaseGroundDrive")
+    private volatile LandDrive.Setup mobilebase$land;
+
+    @Unique
+    @JsonIgnore
+    private boolean mobilebase$groundPilotSeen;
+
+    @Override
+    public boolean mobilebase$landCruiseArmed(boolean piloting) {
+        mobilebase$groundPilotSeen |= piloting;
+        return mobilebase$groundPilotSeen;
+    }
+
+    @Override
+    public void mobilebase$fitLand(LandDrive.Setup setup) {
+        mobilebase$land = setup;
+        mobilebase$markManaged();
+    }
+
+    @Override
+    public LandDrive.Setup mobilebase$land() {
+        return mobilebase$land;
+    }
+
+    @Inject(method = "applyPlayerControl", at = @At("HEAD"), cancellable = true)
+    private void mobilebase$routeGroundDrive(CallbackInfo callback) {
+        if (mobilebase$land != null) callback.cancel();
+    }
+
     @Override
     public void mobilebase$adapt(int wetColumns, int plannedFloaters, double engineScale) {
         mobilebase$plannedFloaters = plannedFloaters;
@@ -89,7 +120,7 @@ abstract class EurekaControlMixin implements SurfaceBoat {
 
     @Inject(method = "physTick", at = @At("RETURN"))
     private void mobilebase$observeAnchor(PhysShip body, PhysLevel level, CallbackInfo callback) {
-        if (mobilebase$wetColumns > 0) mobilebase$anchored = getAnchorsActive() > 0 && body.isStatic();
+        if (mobilebase$wetColumns > 0 || mobilebase$land != null) mobilebase$anchored = getAnchorsActive() > 0 && body.isStatic();
     }
 
     @Redirect(method = "getPlayerForwardVel", at = @At(value = "INVOKE",
