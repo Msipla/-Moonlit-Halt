@@ -167,12 +167,14 @@ final class BoatCoreBlock extends HorizontalDirectionalBlock {
             var launched = BoatAssembly.launch(level, plan);
             MobileBase.LOGGER.info("Launched boat {} with {} hull blocks and {} added parts ({} kg, adapted {})",
                 launched.getId(), plan.hull().size(), plan.parts().size(), Math.round(plan.mass()), plan.adapted());
-            send(user, plan.adapted() ? "mobilebase.adapted_launched" : "mobilebase.launched");
+            send(user, plan.balloons() > 0 ? "mobilebase.air_launched"
+                : plan.adapted() ? "mobilebase.adapted_launched" : "mobilebase.launched");
             return;
         }
         previewParts(level, user, plan.hull(), plan.parts());
         previews.put(user.getUUID(), new Preview(level, pos, now + CONFIRM_TICKS, plan));
-        send(user, plan.adapted() ? "mobilebase.adapted_preview" : "mobilebase.launch_preview",
+        send(user, plan.balloons() > 0 ? "mobilebase.air_preview"
+            : plan.adapted() ? "mobilebase.adapted_preview" : "mobilebase.launch_preview",
             plan.hull().size(), plan.parts().size(), Math.round(plan.mass()));
     }
 

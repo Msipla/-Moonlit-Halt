@@ -84,7 +84,9 @@ record BoatDock(Map<BlockPos, BlockPos> moves, Rotation rotation, boolean land) 
             throw new Rejected("dock_size");
         }
         boolean land = ((SurfaceBoat) (Object) control).mobilebase$land() != null;
-        if (sources.stream().filter(pos -> level.getBlockState(pos).is(land ? MobileBase.LAND_CORE : MobileBase.CORE)).count() != 1) {
+        boolean air = sources.stream().anyMatch(pos -> level.getBlockState(pos).is(MobileBase.AIR_CORE));
+        var core = land ? MobileBase.LAND_CORE : air ? MobileBase.AIR_CORE : MobileBase.CORE;
+        if (sources.stream().filter(pos -> level.getBlockState(pos).is(core)).count() != 1) {
             throw new Rejected("dock_size");
         }
 
@@ -93,7 +95,7 @@ record BoatDock(Map<BlockPos, BlockPos> moves, Rotation rotation, boolean land) 
         var local = new Vector3d();
         for (var pos : sources) {
             var state = level.getBlockState(pos);
-            if (!(land ? LandPlan.supported(state) : BoatPlan.supported(state))) throw new Rejected("unsupported", pos.toShortString());
+            if (!(land ? LandPlan.supported(state) : air ? BoatPlan.airSupported(state) : BoatPlan.supported(state))) throw new Rejected("unsupported", pos.toShortString());
             // Transform block centers about the same pivot as VS, using the accepted cardinal pose.
             local.set(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5)
                 .sub(transform.getPositionInShip()).rotate(snapped).add(transform.getPositionInWorld());
@@ -166,7 +168,7 @@ record BoatDock(Map<BlockPos, BlockPos> moves, Rotation rotation, boolean land) 
             for (var entry : moves.entrySet()) {
                 var source = originals.get(entry.getKey());
                 var state = source.state().rotate(rotation);
-                if (state.is(MobileBase.CORE) || state.is(MobileBase.LAND_CORE)) state = state.setValue(BlockStateProperties.POWERED, false);
+                if (state.is(MobileBase.CORE) || state.is(MobileBase.LAND_CORE) || state.is(MobileBase.AIR_CORE)) state = state.setValue(BlockStateProperties.POWERED, false);
                 if (state.is(BoatPlan.part("anchor"))) state = state.setValue(BlockStateProperties.POWERED, false);
                 var dest = entry.getValue();
                 var actual = SavedBlock.read(level, dest);

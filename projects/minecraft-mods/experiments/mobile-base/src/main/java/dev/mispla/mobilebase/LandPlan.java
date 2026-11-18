@@ -45,7 +45,7 @@ record LandPlan(Map<BlockPos, BlockState> hull, Map<BlockPos, BlockState> parts,
 
     static LandPlan scan(ServerLevel level, BlockPos core, Direction facing, Marks marks) throws Rejected {
         if (!available()) throw new Rejected("land_deps");
-        if (marks.engine() != null || marks.floater() != null) throw new Rejected("land_marks");
+        if (marks.engine() != null || marks.floater() != null || marks.balloon() != null) throw new Rejected("land_marks");
         var hull = BoatPlan.scanHull(level, core, LandPlan::supported);
         var parts = new LinkedHashMap<BlockPos, BlockState>();
         var helm = BoatPlan.part("oak_ship_helm");

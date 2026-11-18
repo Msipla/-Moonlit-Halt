@@ -67,5 +67,12 @@
   "mobilebase.error.land_wheels": "找不到两条对称车轴。车轮须在车身外，轴距至少 3 格，轮下留空。",
   "mobilebase.error.land_extra": "位置 %s 装有未纳入布局的轮组或马达。",
   "mobilebase.error.land_marks": "陆地核心需要船舵、方向与车轮标记。请移除引擎或浮力块标记。",
-  "mobilebase.error.boat_wheel_marks": "水面船不使用车轮标记。请移除车轮标记或改用陆地核心。"
+  "mobilebase.error.boat_wheel_marks": "水面船不使用车轮标记。请移除车轮标记或改用陆地核心。",
+  "block.mobilebase.air_core": "移动基地核心（飞行）",
+  "mobilebase.marker.balloon": "气囊",
+  "mobilebase.air_preview": "飞行器共 %s 格，拟补 %s 个部件，约 %s 千克。再次右键确认。",
+  "mobilebase.air_launched": "飞行器已装配。给引擎加燃料。驾驶时空格上升，V 下降。",
+  "mobilebase.error.balloon_space": "找不到可安装气囊的上表面。请在驾驶区外预留空位。",
+  "mobilebase.error.marked_balloon": "气囊须标在空旷的船顶表面，并避开驾驶席。",
+  "mobilebase.error.vehicle_marks": "请使用适用于该载具的标记。"
 }

@@ -27,8 +27,11 @@ public final class BoatAssembly {
     static ServerShip launch(ServerLevel level, BoatPlan plan) throws Rejected {
         return launch(level, plan.hull(), plan.parts(), () -> {}, (ship, target) ->
             EurekaShipControl.Companion.deferUntilLoaded(ship,
-                control -> ((SurfaceBoat) (Object) control).mobilebase$adapt(
-                    plan.adapted() ? plan.wetColumns() : 0, plan.floaters(), plan.engineScale())));
+                control -> {
+                    var equipped = (SurfaceBoat) (Object) control;
+                    equipped.mobilebase$adapt(plan.adapted() ? plan.wetColumns() : 0, plan.floaters(), plan.engineScale());
+                    if (plan.balloons() > 0) equipped.mobilebase$fitAir(plan.balloons(), plan.mass());
+                }));
     }
 
     @FunctionalInterface

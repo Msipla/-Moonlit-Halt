@@ -141,7 +141,7 @@ public final class MarkerClient implements ClientModInitializer {
 
     private static final class MarkerScreen extends Screen {
         private static final int PANEL_WIDTH = 282;
-        private static final int PANEL_HEIGHT = 210;
+        private static final int PANEL_HEIGHT = 232;
         private final int slot;
         private final ItemStack stack;
         private final Level world;
@@ -172,10 +172,10 @@ public final class MarkerClient implements ClientModInitializer {
                 row += 22;
             }
             var undo = addRenderableWidget(Button.builder(Component.translatable("mobilebase.marker.undo"),
-                    button -> send(Edit.UNDO, Role.HELM)).bounds(left + 12, top + 180, 125, 20).build());
+                    button -> send(Edit.UNDO, Role.HELM)).bounds(left + 12, top + 202, 125, 20).build());
             undo.active = BoatMarkerItem.canUndo(stack, world);
             addRenderableWidget(Button.builder(Component.translatable("mobilebase.marker.stop"),
-                button -> send(Edit.STOP, Role.HELM)).bounds(left + 145, top + 180, 125, 20).build());
+                button -> send(Edit.STOP, Role.HELM)).bounds(left + 145, top + 202, 125, 20).build());
         }
 
         private void send(Edit edit, Role role) {

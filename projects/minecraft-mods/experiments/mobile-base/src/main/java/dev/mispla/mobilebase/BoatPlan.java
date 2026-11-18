@@ -27,7 +27,7 @@ import org.valkyrienskies.mod.common.BlockStateInfo;
 import org.valkyrienskies.mod.common.VSGameUtilsKt;
 
 record BoatPlan(Map<BlockPos, BlockState> hull, Map<BlockPos, BlockState> parts, double mass,
-                int wetColumns, int floaters, boolean adapted) {
+                int wetColumns, int floaters, boolean adapted, int balloons) {
     static final int MAX_BLOCKS = 512;
     private static final int RADIUS = 12;
     private static final double STOCK_MASS = 80_000;
@@ -37,7 +37,9 @@ record BoatPlan(Map<BlockPos, BlockState> hull, Map<BlockPos, BlockState> parts,
     }
 
     static BoatPlan scan(ServerLevel level, BlockPos core, Direction coreFacing, Marks marks) throws Rejected {
-        var hull = scanHull(level, core, BoatPlan::supported);
+        boolean air = level.getBlockState(core).is(MobileBase.AIR_CORE);
+        if (air && marks.floater() != null || !air && marks.balloon() != null) throw new Rejected("vehicle_marks");
+        var hull = scanHull(level, core, air ? BoatPlan::airSupported : BoatPlan::supported);
 
         var parts = new LinkedHashMap<BlockPos, BlockState>();
         double hullMass = hull.values().stream().mapToDouble(BoatPlan::massOf).sum();
@@ -114,6 +116,8 @@ record BoatPlan(Map<BlockPos, BlockState> hull, Map<BlockPos, BlockState> parts,
             throw new Rejected("marked_installed");
         }
 
+        if (air) return fitAir(level, core, hull, parts, marks.balloon());
+
         // Fit floaters on underside cells at the waterline, alternating left and right.
         Map<Long, BlockPos> underside = new HashMap<>();
         for (var pos : hull.keySet()) {
@@ -177,7 +181,49 @@ record BoatPlan(Map<BlockPos, BlockState> hull, Map<BlockPos, BlockState> parts,
         for (var pos : parts.keySet()) {
             if (!level.getEntities(null, new AABB(pos)).isEmpty()) throw new Rejected("entity");
         }
-        return new BoatPlan(Map.copyOf(hull), Map.copyOf(parts), mass, wetColumns.size(), floaters, adapted);
+        return new BoatPlan(Map.copyOf(hull), Map.copyOf(parts), mass, wetColumns.size(), floaters, adapted, 0);
+    }
+
+    private static BoatPlan fitAir(ServerLevel level, BlockPos core, Map<BlockPos, BlockState> hull,
+                                   Map<BlockPos, BlockState> parts, BlockPos marked) throws Rejected {
+        var balloon = part("white_balloon").defaultBlockState();
+        int installed = (int) hull.values().stream().filter(state -> state.is(balloon.getBlock())).count();
+        if (marked != null && hull.get(marked) != balloon) {
+            if (!balloonSlot(level, core, hull, parts, marked)) throw new Rejected("marked_balloon");
+            parts.put(marked, balloon);
+            installed++;
+        }
+        // Eureka applies the combined lift at the body; attach to free roof cells away from the aisle.
+        var slots = hull.keySet().stream().map(BlockPos::above)
+            .filter(pos -> pos.getY() > core.getY() && balloonSlot(level, core, hull, parts, pos))
+            .sorted(Comparator.<BlockPos>comparingInt(BlockPos::getY).reversed()
+                .thenComparingDouble(pos -> -core.distSqr(pos)).thenComparingLong(BlockPos::asLong)).toList();
+        for (var position : slots) {
+            if (installed >= 4) break;
+            parts.put(position, balloon);
+            installed++;
+        }
+        if (installed == 0) throw new Rejected("balloon_space");
+        if (hull.size() + parts.size() > MAX_BLOCKS) throw new Rejected("boundary");
+        for (var pos : parts.keySet()) {
+            if (!level.getEntities(null, new AABB(pos)).isEmpty()) throw new Rejected("entity");
+        }
+        double mass = hull.values().stream().mapToDouble(BoatPlan::massOf).sum()
+            + parts.values().stream().mapToDouble(BoatPlan::massOf).sum();
+        if (!Double.isFinite(mass) || mass <= 0) throw new Rejected("mass");
+        return new BoatPlan(Map.copyOf(hull), Map.copyOf(parts), mass, 0, 0, true, installed);
+    }
+
+    private static boolean balloonSlot(ServerLevel level, BlockPos core, Map<BlockPos, BlockState> hull,
+                                       Map<BlockPos, BlockState> parts, BlockPos pos) {
+        var below = hull.get(pos.below());
+        return inRange(level, core, pos) && freeAir(level, pos) && !parts.containsKey(pos)
+            && !drivingSpace(hull, parts, pos) && below != null && !below.is(part("white_balloon"))
+            && below.isFaceSturdy(level, pos.below(), Direction.UP);
+    }
+
+    static boolean airSupported(BlockState state) {
+        return state.is(MobileBase.AIR_CORE) || state.is(part("white_balloon")) || supported(state);
     }
 
     static Map<BlockPos, BlockState> scanHull(ServerLevel level, BlockPos core, java.util.function.Predicate<BlockState> accepted)
@@ -195,7 +241,7 @@ record BoatPlan(Map<BlockPos, BlockState> hull, Map<BlockPos, BlockState> parts,
             if (!inRange(level, core, pos) || hull.size() >= MAX_BLOCKS) {
                 throw new Rejected("boundary");
             }
-            if (((state.is(MobileBase.CORE) || state.is(MobileBase.LAND_CORE)) && !pos.equals(core)) || !accepted.test(state)
+            if (((state.is(MobileBase.CORE) || state.is(MobileBase.LAND_CORE) || state.is(MobileBase.AIR_CORE)) && !pos.equals(core)) || !accepted.test(state)
                     || VSGameUtilsKt.getShipManagingPos(level, pos) != null) {
                 throw new Rejected("unsupported", pos.toShortString());
             }

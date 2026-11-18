@@ -30,6 +30,9 @@ abstract class EurekaControlMixin implements SurfaceBoat {
     private int floaters;
 
     @Shadow
+    private int balloons;
+
+    @Shadow
     public abstract int getAnchorsActive();
 
     @Unique
@@ -82,6 +85,29 @@ abstract class EurekaControlMixin implements SurfaceBoat {
         if (mobilebase$land != null) callback.cancel();
     }
 
+    @Unique
+    @JsonProperty("mobileBaseAirBalloons")
+    private volatile int mobilebase$airBalloons;
+
+    @Unique
+    @JsonProperty("mobileBaseAirMass")
+    private volatile double mobilebase$airMass;
+
+    @Override
+    public void mobilebase$fitAir(int count, double ratedMass) {
+        mobilebase$airMass = ratedMass;
+        mobilebase$airBalloons = count;
+    }
+
+    @Inject(method = "getBalloonForce", at = @At("RETURN"), cancellable = true)
+    private void mobilebase$adaptAirLift(CallbackInfoReturnable<Double> result) {
+        if (mobilebase$airBalloons <= 0 || balloons <= 0) return;
+        double stockMass = EurekaConfig.SERVER.getMassPerBalloon() * mobilebase$airBalloons;
+        if (stockMass > 0) {
+            result.setReturnValue(result.getReturnValue() * Math.max(1, 1.28 * mobilebase$airMass / stockMass));
+        }
+    }
+
     @Override
     public void mobilebase$adapt(int wetColumns, int plannedFloaters, double engineScale) {
         mobilebase$plannedFloaters = plannedFloaters;
@@ -120,7 +146,7 @@ abstract class EurekaControlMixin implements SurfaceBoat {
 
     @Inject(method = "physTick", at = @At("RETURN"))
     private void mobilebase$observeAnchor(PhysShip body, PhysLevel level, CallbackInfo callback) {
-        if (mobilebase$wetColumns > 0 || mobilebase$land != null) mobilebase$anchored = getAnchorsActive() > 0 && body.isStatic();
+        if (mobilebase$wetColumns > 0 || mobilebase$land != null || mobilebase$airBalloons > 0) mobilebase$anchored = getAnchorsActive() > 0 && body.isStatic();
     }
 
     @Redirect(method = "getPlayerForwardVel", at = @At(value = "INVOKE",

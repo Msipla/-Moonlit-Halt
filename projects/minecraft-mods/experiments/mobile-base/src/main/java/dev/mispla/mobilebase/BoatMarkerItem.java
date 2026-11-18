@@ -34,7 +34,7 @@ final class BoatMarkerItem extends Item {
     enum Edit { SELECT, REMOVE, UNDO, STOP }
 
     enum Role {
-        HELM("oak_ship_helm"), ENGINE("engine"), FLOATER("floater"), HEADING(null), FRONT_WHEEL(null), REAR_WHEEL(null);
+        HELM("oak_ship_helm"), ENGINE("engine"), FLOATER("floater"), HEADING(null), FRONT_WHEEL(null), REAR_WHEEL(null), BALLOON("white_balloon");
 
         final String partId;
 
@@ -51,8 +51,8 @@ final class BoatMarkerItem extends Item {
         }
     }
 
-    record Marks(BlockPos helm, BlockPos engine, BlockPos floater, Direction heading, BlockPos frontWheel, BlockPos rearWheel) {
-        static final Marks DEFAULT = new Marks(null, null, null, null, null, null);
+    record Marks(BlockPos helm, BlockPos engine, BlockPos floater, Direction heading, BlockPos frontWheel, BlockPos rearWheel, BlockPos balloon) {
+        static final Marks DEFAULT = new Marks(null, null, null, null, null, null, null);
 
         BlockPos position(Role role) {
             return switch (role) {
@@ -62,6 +62,7 @@ final class BoatMarkerItem extends Item {
                 case HEADING -> null;
                 case FRONT_WHEEL -> frontWheel;
                 case REAR_WHEEL -> rearWheel;
+                case BALLOON -> balloon;
             };
         }
     }
@@ -88,7 +89,7 @@ final class BoatMarkerItem extends Item {
 
         var state = world.getBlockState(hit.getBlockPos());
         var role = editing(stack, world);
-        if (!user.isShiftKeyDown() && role == null && (state.is(MobileBase.CORE) || state.is(MobileBase.LAND_CORE))) {
+        if (!user.isShiftKeyDown() && role == null && (state.is(MobileBase.CORE) || state.is(MobileBase.LAND_CORE) || state.is(MobileBase.AIR_CORE))) {
             BoatCoreBlock.launchWithMarks(world, hit.getBlockPos(), state, user, marks(stack, world));
         } else if (user.isShiftKeyDown() || role == null) {
             open(user);
@@ -222,7 +223,7 @@ final class BoatMarkerItem extends Item {
         var direction = Direction.byName(data.getString(Role.HEADING.key()));
         if (direction != null && !direction.getAxis().isHorizontal()) direction = null;
         return new Marks(read(data, Role.HELM), read(data, Role.ENGINE), read(data, Role.FLOATER), direction,
-            read(data, Role.FRONT_WHEEL), read(data, Role.REAR_WHEEL));
+            read(data, Role.FRONT_WHEEL), read(data, Role.REAR_WHEEL), read(data, Role.BALLOON));
     }
 
     private static BlockPos read(CompoundTag data, Role role) {
