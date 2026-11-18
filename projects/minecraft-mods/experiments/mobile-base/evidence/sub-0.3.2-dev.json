@@ -336,5 +336,105 @@
       ],
       "flying": false
     }
-  ]
+  ],
+  "nativeSealedCabinExperiment": {
+    "date": "2026-11-19",
+    "serverConnectivityEnabled": true,
+    "serverWorldConnectivityEnabled": false,
+    "serverPocketBuoyancyEnabled": false,
+    "clientConnectivityEnabled": true,
+    "survivalWithoutWaterBreathing": true,
+    "minimumSubmergedSecondsWithAir300": 25,
+    "minimumHullCruiseAfterDismountBlocks": 50,
+    "waterSurfaceY": 70,
+    "heldBodyY": 64.461,
+    "bodyYAfter25Seconds": 64.459,
+    "maximumSampledDepthDriftBlocks": 0.003,
+    "inCabinStrafeBlocksApprox": 1.704,
+    "cruiseSpeedWhileWalkingBlocksPerSecond": 1.183,
+    "dismountVerifiedOnServer": true,
+    "barrelGuiOpenedWhileMoving": true,
+    "goldIngotsInBarrel": 7,
+    "openedTwoRoofCellsSecondsBeforeSample": 3.3,
+    "breachChangedOxygen": false,
+    "notes": [
+      "The same assembled hull was used with VS2 server experimental connectivity enabled only in an isolated world. Creative flight was disabled for all movement and all oxygen tests were in survival with only Night Vision used for visibility.",
+      "A separate outside-water check moved the pilot away from the ship and observed air drop to 234. A short test after opening two full roof cells did not register oxygen loss. Do not infer reliable leak or long-term behavior from this experiment."
+    ],
+    "oxygenSamples": [
+      {
+        "stage": "before_dive",
+        "air": 300,
+        "health": 20.0,
+        "flying": false
+      },
+      {
+        "stage": "at_depth_seated",
+        "air": 300,
+        "health": 20.0,
+        "flying": false
+      },
+      {
+        "stage": "walk_at_depth",
+        "air": 300,
+        "health": 20.0,
+        "flying": false
+      },
+      {
+        "stage": "after_cabin_interaction",
+        "air": 300,
+        "health": 20.0,
+        "flying": false
+      },
+      {
+        "stage": "sealed_after_25_seconds",
+        "air": 300,
+        "health": 20.0,
+        "flying": false
+      },
+      {
+        "stage": "after_hull_breach",
+        "air": 300,
+        "health": 20.0,
+        "flying": false
+      },
+      {
+        "stage": "after_hull_reseal",
+        "air": 300,
+        "health": 20.0,
+        "flying": false
+      },
+      {
+        "stage": "open_water_control",
+        "air": 234,
+        "health": 20.0,
+        "flying": false
+      }
+    ],
+    "shipSamples": [
+      ["sub_launch", 0.5006, 71.6316, 0.553, 0.0, -0.0877, 0.0, 0.4549, 70.8846, 3.2452, false],
+      ["dry_sub_fueled", 0.5006, 71.5944, 0.553, 0.0, -0.0093, 0.0, 0.4549, 70.8419, 3.2452, false],
+      ["dry_dive", 0.5006, 65.4539, 0.5529, -0.0, -1.5054, -0.0, -0.5, 64.6758, 2.5, false],
+      ["dry_hold", 0.5006, 64.4613, 0.5529, -0.0, -0.0076, -0.0, -0.5, 63.6832, 2.4999, false],
+      ["dry_offseat", 0.5006, 64.4585, -1.6177, -0.0, 0.0, -1.094, -0.5, 63.7053, 0.3949, false],
+      ["dry_walk", 0.5006, 64.4585, -2.5046, -0.0, 0.0, -1.1826, 1.204, 63.7053, -0.5067, false],
+      ["dry_elapsed", 0.4967, 64.4587, -52.3344, -0.0003, -0.0, -2.0148, 1.2196, 63.7056, -50.2834, false],
+      ["dry_hull_breach", 0.4871, 64.4507, -87.2863, -0.0006, -0.0, -2.0852, 1.2123, 63.7053, -85.2031, false],
+      ["dry_hull_reseal", 0.4873, 64.4583, -94.2, -0.0006, -0.0, -2.0707, 1.2104, 63.7052, -92.1647, false],
+      ["dry_outside_control", 0.4718, 64.4573, -136.5791, -0.0009, -0.0001, -2.1325, 8.5, 60.475, -94.8019, false]
+    ],
+    "sampleFields": [
+      "stage",
+      "shipX",
+      "shipY",
+      "shipZ",
+      "vx",
+      "vy",
+      "vz",
+      "pilotX",
+      "pilotY",
+      "pilotZ",
+      "creativeFlight"
+    ]
+  }
 }

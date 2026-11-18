@@ -98,6 +98,8 @@ VS2 2.4.10 在开放船体测试中把大块船坞区块空气误算为蓄气舱
 
 [下载飞行器实验 JAR](artifacts/mobile-base-assembler-0.3.1-dev.jar)，依赖版本见陆地实验段。用飞行核心在干燥的测试场地预览、确认装配。给引擎加煤，空格起飞，W/S 行驶，A/D 转向，V 下降。在屋顶用标记棒可以选择气囊位置。各飞行器的实际装配质量只影响自己的升力参数。
 
+合并版 0.3.2-dev 补验了默认气囊布局。用 C 开启直线巡航后可离席走进机舱、打开木桶并回到驾驶席。着陆后抛锚，再从机体外右键核心解体。测试机改装一块玻璃后重装，原有气囊和其他部件全部复用。
+
 [实测数据](evidence/air-0.3.1-dev.json) · **JAR SHA-256** `5a63edf848fc759e54a0ed9e232f160e70efa556f3d53b4ac59199a75db6614f`
 
 ## 潜艇实验版 0.3.2-dev
@@ -106,6 +108,8 @@ VS2 2.4.10 在开放船体测试中把大块船坞区块空气误算为蓄气舱
 
 在深水边搭建方块结构，让底板直接贴着水面并预留驾驶空间。可从底板下方瞄准其底面，用标记棒的「浮力块」指定一处压载位。空手右键使用默认布局，手持已选位的标记棒右键使用自定义布局。先看预览，再右键确认。装配完成后给引擎加煤。
 
-[下潜、定深、转向、上浮和库存实测](evidence/sub-0.3.2-dev.json)。玻璃封闭艇在水下仍会消耗生存模式的氧气，目前用于短时潜航试验。浮出后先用潜行右键核心抛锚，再离开驾驶区。Trackwork 1.2.2 自带的 `med_simple_wheel_part` 配方有一条解析错误日志，创造模式的自动补件和轮组驱动已实测。
+[下潜、定深、转向、上浮和库存实测](evidence/sub-0.3.2-dev.json)。VS2 默认设置下，玻璃封闭艇仍会消耗生存模式的氧气。浮出后先用潜行右键核心抛锚，再离开驾驶区。Trackwork 1.2.2 自带的 `med_simple_wheel_part` 配方有一条解析错误日志，创造模式的自动补件和轮组驱动已实测。
+
+**密封舱可选试验。** 在独立实例内，可用 VS2 2.4.11 自带的实验性连通设置。服务端在 `config/valkyrienskies/vs-core-server.toml` 的 Connectivity Settings 节设 `enableConnectivity = true`，客户端在 `config/valkyrienskies/valkyrienskies-client.toml` 的 Connectivity 节设 `enableClientConnectivity = true`。本次保留 `enableWorldConnectivity = false` 和 `enablePocketBuoyancy = false`。用全方块闭合舱体。重启后用该设置实测生存模式水下巡航离席、步行与开木桶，超过 25 秒保持满氧。舱外氧气正常下降，短时破舱测试中氧气没有下降，破舱判定仍待验证。
 
 **0.3.2-dev JAR SHA-256** `e0689efeb9b0315700171c3a3e9f68abb856b3e25b35556f69f1d22b499d66df`

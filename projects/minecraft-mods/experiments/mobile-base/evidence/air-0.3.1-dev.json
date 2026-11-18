@@ -222,5 +222,59 @@
       ],
       "flying": false
     }
+  },
+  "validationWithCombinedJar": {
+    "date": "2026-11-19",
+    "version": "0.3.2-dev",
+    "jarSha256": "e0689efeb9b0315700171c3a3e9f68abb856b3e25b35556f69f1d22b499d66df",
+    "sourceBlocks": 101,
+    "addedParts": 7,
+    "massKg": 162140,
+    "balloonPlacement": "default",
+    "dismountVerifiedOnServer": true,
+    "inCabinWalk": true,
+    "inCabinStrafeMetersApprox": 1.283,
+    "inCabinVelocityBlocksPerSecond": 1.807,
+    "barrelGuiOpenedWhileMoving": true,
+    "goldIngotsAfterRefit": 7,
+    "remountedThroughClientInput": true,
+    "landed": true,
+    "setAnchorAfterLanding": true,
+    "dockedBlockCount": 108,
+    "refitBlocks": 109,
+    "refitAddedParts": 0,
+    "refitOrangeGlassPreserved": true,
+    "notes": [
+      "The client used actual keys to activate cruise, dismount, walk, remount and land. No creative flying at any measurement.",
+      "The assembly, hull modification, and temporary landing platform were staged with world commands in a new test world. The test moved the player into position after landing to access the core and interact from outside the hull.",
+      "The static landing pad was cleared below the docked vehicle before reassembly to keep it out of the hull scan."
+    ],
+    "samples": [
+      ["default_air_assembled", 0.544, 71.7837, 0.5255, 0.0, 0.0, 0.0, 0.3369, 70.9998, 3.7423, false],
+      ["default_air_fueled", 0.544, 71.7837, 0.5255, 0.0, 0.0, 0.0, 0.3368, 71.0, 3.7423, false],
+      ["air_cabin_above_ground", 0.544, 78.5397, 0.5255, -0.0001, 2.6862, -0.0001, -0.5, 77.731, 2.5, false],
+      ["air_cruise_offseat", 0.5437, 80.3112, -4.1593, -0.0001, 0.0006, -1.7874, -0.5002, 79.5275, -2.1999, false],
+      ["air_cruise_walk", 0.5436, 80.3114, -5.3232, -0.0001, 0.0001, -1.8065, 0.7826, 79.5277, -3.2573, false],
+      ["air_cabin_end", 0.5431, 80.3115, -10.9833, -0.0002, 0.0, -2.1801, 0.7908, 79.5277, -8.912, false],
+      ["air_remounted", 0.3339, 80.3948, -234.17, -0.0075, 0.0015, -3.9686, -0.7064, 79.5744, -232.1983, false],
+      ["air_cabin_landing", 0.3517, 69.7837, -243.4957, 0.0, -0.0, -0.0, -0.6982, 68.975, -241.5243, false],
+      ["air_cabin_landed", 0.3518, 69.7841, -243.4968, 0.0002, 0.0004, -0.003, -0.698, 68.9754, -241.5254, false],
+      ["air_park_before", 0.3521, 69.7843, -243.507, 0.0, 0.0, -0.0, -0.6978, 68.9756, -241.5356, false],
+      ["air_parked", 0.3521, 69.7843, -243.507, 0.0, 0.0, -0.0, 0.2997, 69.0006, -240.6827, false],
+      ["air_refitted", 0.5557, 69.7802, -243.4991, 0.0, 0.0, 0.0, 0.4501, 68.9998, -240.7501, false]
+    ],
+    "sampleFields": [
+      "stage",
+      "shipX",
+      "shipY",
+      "shipZ",
+      "vx",
+      "vy",
+      "vz",
+      "pilotX",
+      "pilotY",
+      "pilotZ",
+      "creativeFlight"
+    ]
   }
 }
