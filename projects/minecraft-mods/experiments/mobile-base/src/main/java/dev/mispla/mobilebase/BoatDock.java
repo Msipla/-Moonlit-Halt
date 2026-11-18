@@ -2,6 +2,7 @@ package dev.mispla.mobilebase;
 
 import dev.mispla.mobilebase.BoatAssembly.SavedBlock;
 import dev.mispla.mobilebase.BoatPlan.Rejected;
+import dev.mispla.mobilebase.MobileBase.SurfaceBoat;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -22,9 +23,7 @@ import org.valkyrienskies.mod.util.RelocationUtilKt;
 
 record BoatDock(Map<BlockPos, BlockPos> moves, Rotation rotation) {
     static BoatDock inspect(ServerLevel level, LoadedServerShip ship, EurekaShipControl control) throws Rejected {
-        if (control.getAnchorsActive() < 1 || control.isCruising()
-                || ship.getVelocity().lengthSquared() > 0.0025
-                || ship.getAngularVelocity().lengthSquared() > 0.0004) {
+        if (control.getAnchorsActive() < 1 || control.isCruising() || !isStill(ship, (SurfaceBoat) (Object) control)) {
             throw new Rejected("not_stopped");
         }
 
@@ -116,6 +115,18 @@ record BoatDock(Map<BlockPos, BlockPos> moves, Rotation rotation) {
             moves.put(pos, dest);
         }
         return new BoatDock(Map.copyOf(moves), blockRotation);
+    }
+
+    private static boolean isStill(LoadedServerShip ship, SurfaceBoat control) {
+        if (ship.getVelocity().lengthSquared() <= 0.0025
+                && ship.getAngularVelocity().lengthSquared() <= 0.0004) return true;
+        // Eureka freezes the physics body without clearing the last velocities published to the server.
+        if (!control.mobilebase$isAdaptedBoatAnchored()) return false;
+        var current = ship.getTransform();
+        var previous = ship.getPrevTickTransform();
+        return previous != null
+            && current.getPositionInWorld().distanceSquared(previous.getPositionInWorld()) < 1e-8
+            && Math.abs(current.getShipToWorldRotation().dot(previous.getShipToWorldRotation())) > 1 - 1e-8;
     }
 
     void disassemble(ServerLevel level, LoadedServerShip ship) throws Rejected {

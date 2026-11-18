@@ -22,9 +22,19 @@ public final class MobileBase implements ModInitializer {
         var id = new ResourceLocation("mobilebase", "boat_core");
         Registry.register(BuiltInRegistries.BLOCK, id, CORE);
         var item = Registry.register(BuiltInRegistries.ITEM, id, new BlockItem(CORE, new Item.Properties()));
+        var marker = Registry.register(BuiltInRegistries.ITEM, new ResourceLocation("mobilebase", "boat_marker"), new BoatMarkerItem());
         ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.REDSTONE_BLOCKS)
-            .register(entries -> entries.accept(item));
+            .register(entries -> {
+                entries.accept(item);
+                entries.accept(marker);
+            });
         ServerLifecycleEvents.SERVER_STOPPED.register(server -> BoatCoreBlock.clearPreviews());
+    }
+
+    public interface SurfaceBoat extends ManagedBoat {
+        void mobilebase$adapt(int wetColumns, int floaters, double engineScale);
+
+        boolean mobilebase$isAdaptedBoatAnchored();
     }
 
     public interface ManagedBoat {

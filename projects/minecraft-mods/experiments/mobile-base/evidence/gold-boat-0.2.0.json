@@ -1,0 +1,197 @@
+{
+  "date": "2026-11-19",
+  "minecraft": "1.20.1",
+  "fabricLoader": "0.17.2",
+  "fabricApi": "0.92.6+1.20.1",
+  "valkyrienSkies": "2.4.10",
+  "eureka": "1.6.3",
+  "gameMode": "creative",
+  "jarSha256": "f95b888581daaaf2c3e21183ce57931c72d5535fe9beb06a78c6d6beb0870283",
+  "video": "Minecraft-heavy-gold-boat-demo.mp4",
+  "scope": "Video covers first launch through anchoring. The final build adds the adapted-boat dock check. Dock and refit were verified on that build after loading the same boat.",
+  "placement": {
+    "heading": "north",
+    "helm": [
+      -1,
+      71,
+      0
+    ],
+    "engine": [
+      2,
+      71,
+      -1
+    ],
+    "floater": [
+      2,
+      69,
+      -1
+    ],
+    "occupiedEngineMarkRejected": true,
+    "originalBlockAndInventoryPreserved": true,
+    "firstPreviewCreatedShip": false
+  },
+  "launch": {
+    "shipId": 6,
+    "sourceBlocks": 144,
+    "autoParts": 9,
+    "massKg": 2012940,
+    "wetColumns": 87,
+    "floaters": 6,
+    "engineFactor": 25.16175,
+    "barrelSlots": {
+      "11": "7 minecraft:gold_ingot",
+      "13": "1 minecraft:book"
+    }
+  },
+  "navigation": {
+    "firstTurnDegrees": 9.48,
+    "storageInteractionSpeedBlocksPerSecond": 1.7,
+    "noDisplacementAfterAnchorSeconds": 20.73,
+    "samples": [
+      {
+        "stage": "straight",
+        "shipPosition": [
+          0.4721,
+          69.8848,
+          0.0769
+        ],
+        "playerShipLocalPosition": [
+          -0.5,
+          70.975,
+          1.5
+        ],
+        "reportedHorizontalSpeedBps": 0.3046,
+        "cruise": false,
+        "activeAnchors": 0,
+        "playerFlying": false
+      },
+      {
+        "stage": "steer",
+        "shipPosition": [
+          0.4682,
+          69.8524,
+          -0.2678
+        ],
+        "playerShipLocalPosition": [
+          -0.5,
+          70.975,
+          1.5
+        ],
+        "reportedHorizontalSpeedBps": 0.5254,
+        "cruise": false,
+        "activeAnchors": 0,
+        "playerFlying": false
+      },
+      {
+        "stage": "off-helm",
+        "shipPosition": [
+          0.1979,
+          69.8758,
+          -1.9068
+        ],
+        "playerShipLocalPosition": [
+          -0.6105,
+          71.0021,
+          3.1961
+        ],
+        "reportedHorizontalSpeedBps": 0.7678,
+        "cruise": true,
+        "activeAnchors": 0,
+        "playerFlying": false
+      },
+      {
+        "stage": "cabin",
+        "shipPosition": [
+          -0.3176,
+          69.8385,
+          -6.7661
+        ],
+        "playerShipLocalPosition": [
+          0.4455,
+          71.0026,
+          -3.1313
+        ],
+        "reportedHorizontalSpeedBps": 1.4604,
+        "cruise": true,
+        "activeAnchors": 0,
+        "playerFlying": false
+      },
+      {
+        "stage": "storage",
+        "shipPosition": [
+          -0.5226,
+          69.8734,
+          -8.7331
+        ],
+        "playerShipLocalPosition": [
+          0.4455,
+          71.004,
+          -3.2396
+        ],
+        "reportedHorizontalSpeedBps": 1.6987,
+        "cruise": true,
+        "activeAnchors": 0,
+        "playerFlying": false
+      },
+      {
+        "stage": "parked",
+        "shipPosition": [
+          -2.3887,
+          69.8416,
+          -26.5602
+        ],
+        "playerShipLocalPosition": [
+          1.4614,
+          71.004,
+          2.1585
+        ],
+        "reportedHorizontalSpeedBps": 2.6765,
+        "cruise": false,
+        "activeAnchors": 1,
+        "playerFlying": false
+      },
+      {
+        "stage": "parked-settled",
+        "shipPosition": [
+          -2.3887,
+          69.8416,
+          -26.5602
+        ],
+        "playerShipLocalPosition": [
+          1.4614,
+          71.004,
+          2.1583
+        ],
+        "reportedHorizontalSpeedBps": 2.6765,
+        "cruise": false,
+        "activeAnchors": 1,
+        "playerFlying": false
+      }
+    ]
+  },
+  "dockAndRefit": {
+    "nativeAlignAndAnchor": true,
+    "aboardCheckRejected": true,
+    "reportedAngularVelocityAtDock": [
+      0.02550294,
+      6.58e-06,
+      0.00484012
+    ],
+    "sourceShipRemoved": true,
+    "relocatedBlocks": 153,
+    "barrelWorldPosition": [
+      -2,
+      70,
+      -35
+    ],
+    "barrelSlots": {
+      "11": "7 minecraft:gold_ingot",
+      "13": "1 minecraft:book"
+    },
+    "addedByPlayer": "minecraft:orange_stained_glass",
+    "relaunchedShipId": 10,
+    "relaunchedSourceBlocks": 154,
+    "relaunchedAutoParts": 0,
+    "glassAndBarrelVerifiedOnNewShip": true
+  }
+}

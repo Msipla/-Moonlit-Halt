@@ -1,7 +1,7 @@
 package dev.mispla.mobilebase;
 
 import dev.mispla.mobilebase.BoatPlan.Rejected;
-import dev.mispla.mobilebase.MobileBase.ManagedBoat;
+import dev.mispla.mobilebase.MobileBase.SurfaceBoat;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -63,7 +63,8 @@ public final class BoatAssembly {
                 }
             }
             EurekaShipControl.Companion.deferUntilLoaded(ship,
-                control -> ManagedBoat.of(control).mobilebase$markManaged());
+                control -> ((SurfaceBoat) (Object) control).mobilebase$adapt(
+                    plan.adapted() ? plan.wetColumns() : 0, plan.floaters(), plan.engineScale()));
             return ship;
         } catch (RuntimeException | AssertionError error) {
             MobileBase.LOGGER.error("Ship launch failed, restoring snapshot", error);

@@ -45,6 +45,10 @@ final class BoatCoreBlock extends HorizontalDirectionalBlock {
         previews.clear();
     }
 
+    static void clearPreview(ServerPlayer player) {
+        previews.remove(player.getUUID());
+    }
+
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(FACING, BlockStateProperties.POWERED);
@@ -101,22 +105,7 @@ final class BoatCoreBlock extends HorizontalDirectionalBlock {
                 send(user, "mobilebase.launch_hint");
                 return;
             }
-            var plan = BoatPlan.scan(level, pos, state.getValue(FACING));
-            if (confirmed(previous, level, pos, now, plan)) {
-                var launched = BoatAssembly.launch(level, plan);
-                MobileBase.LOGGER.info("Launched boat {} with {} hull blocks and {} added parts",
-                    launched.getId(), plan.hull().size(), plan.parts().size());
-                send(user, "mobilebase.launched");
-            } else {
-                for (var p : plan.hull().keySet()) {
-                    for (var face : Direction.values()) {
-                        if (!plan.hull().containsKey(p.relative(face))) surfaceParticle(level, user, p, face);
-                    }
-                }
-                plan.parts().keySet().forEach(p -> particle(level, user, p, PART));
-                previews.put(user.getUUID(), new Preview(level, pos, now + CONFIRM_TICKS, plan));
-                send(user, "mobilebase.launch_preview", plan.hull().size(), plan.parts().size(), Math.round(plan.mass()));
-            }
+            previewLaunch(level, pos, state, user, BoatMarkerItem.Marks.DEFAULT, previous, now);
             return;
         }
 
@@ -142,6 +131,39 @@ final class BoatCoreBlock extends HorizontalDirectionalBlock {
             previews.put(user.getUUID(), new Preview(level, pos, now + CONFIRM_TICKS, docking));
             send(user, "mobilebase.dock_preview", docking.moves().size());
         }
+    }
+
+    static void launchWithMarks(ServerLevel level, BlockPos pos, BlockState state, ServerPlayer user,
+                                BoatMarkerItem.Marks marks) {
+        var previous = previews.remove(user.getUUID());
+        try {
+            if (VSGameUtilsKt.getShipManagingPos(level, pos) != null) throw new Rejected("marker_in_world");
+            previewLaunch(level, pos, state, user, marks, previous, level.getGameTime());
+        } catch (Rejected rejected) {
+            send(user, rejected.key, rejected.arguments);
+        }
+    }
+
+    private static void previewLaunch(ServerLevel level, BlockPos pos, BlockState state, ServerPlayer user,
+                                      BoatMarkerItem.Marks marks, Preview previous, long now) throws Rejected {
+        previews.values().removeIf(preview -> preview.level == level && preview.expires < now);
+        var plan = BoatPlan.scan(level, pos, state.getValue(FACING), marks);
+        if (confirmed(previous, level, pos, now, plan)) {
+            var launched = BoatAssembly.launch(level, plan);
+            MobileBase.LOGGER.info("Launched boat {} with {} hull blocks and {} added parts ({} kg, adapted {})",
+                launched.getId(), plan.hull().size(), plan.parts().size(), Math.round(plan.mass()), plan.adapted());
+            send(user, plan.adapted() ? "mobilebase.adapted_launched" : "mobilebase.launched");
+            return;
+        }
+        for (var p : plan.hull().keySet()) {
+            for (var face : Direction.values()) {
+                if (!plan.hull().containsKey(p.relative(face))) surfaceParticle(level, user, p, face);
+            }
+        }
+        plan.parts().keySet().forEach(p -> particle(level, user, p, PART));
+        previews.put(user.getUUID(), new Preview(level, pos, now + CONFIRM_TICKS, plan));
+        send(user, plan.adapted() ? "mobilebase.adapted_preview" : "mobilebase.launch_preview",
+            plan.hull().size(), plan.parts().size(), Math.round(plan.mass()));
     }
 
     private static boolean confirmed(Preview previous, ServerLevel level, BlockPos pos, long now, Object plan) {
