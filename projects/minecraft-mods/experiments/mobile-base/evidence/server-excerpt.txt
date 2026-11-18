@@ -1,0 +1,21 @@
+[18:36:14] [Server thread/INFO]: Test passed
+[18:36:14] [Server thread/INFO]: -1, 71, 0 has the following block data: [{Slot: 11b, id: "minecraft:diamond", Count: 7b}]
+[18:36:15] [Server thread/INFO]: Test passed
+[18:36:15] [Server thread/INFO]: -1, 71, 0 has the following block data: [{Slot: 11b, id: "minecraft:diamond", Count: 7b}]
+[18:36:16] [Server thread/INFO]: Launched boat 3 with 75 hull blocks and 6 added parts
+[18:36:29] [Server thread/INFO]: -28669952, 128, 12290049 has the following block data: {Heat: 7.329552f, FuelLeft: 3176, x: -28669952, y: 128, FuelSlot: {id: "minecraft:coal", Count: 7b}, z: 12290049, id: "vs_eureka:engine", PrevFuelTotal: 3200}
+[18:36:35] [Server thread/INFO]: -28669952, 128, 12290049 has the following block data: {Heat: 35.051155f, FuelLeft: 3056, x: -28669952, y: 128, FuelSlot: {id: "minecraft:coal", Count: 7b}, z: 12290049, id: "vs_eureka:engine", PrevFuelTotal: 3200}
+[18:38:00] [Server thread/INFO]: Teleported 1 ships to minecraftoverworld (0.55 71.25 0.63), rotation (0 0 0 1), velocity (0 0 0)!
+[18:38:03] [Server thread/INFO]: Test passed
+[18:38:03] [Server thread/INFO]: -28669953, 128, 12290047 has the following block data: [{Slot: 11b, id: "minecraft:diamond", Count: 7b}]
+[18:38:04] [Server thread/INFO]: Docked boat 3 and verified 81 relocated blocks
+[18:38:05] [Server thread/INFO]: -1, 71, 0 has the following block data: [{Slot: 11b, id: "minecraft:diamond", Count: 7b}]
+[18:38:05] [Server thread/INFO]: Test passed
+[18:38:05] [Server thread/INFO]: Test passed
+[18:38:07] [Server thread/INFO]: Launched boat 4 with 82 hull blocks and 0 added parts
+[18:38:09] [Server thread/INFO]: -28665857, 128, 12290047 has the following block data: [{Slot: 11b, id: "minecraft:diamond", Count: 7b}]
+[18:38:09] [Server thread/INFO]: Test passed
+[18:40:43] [Server thread/INFO]: Teleported 1 ships to minecraftoverworld (0.55 71.25 0.63), rotation (0 0 0 1), velocity (0 0 0)!
+[18:42:42] [Server thread/INFO]: Docked boat 4 and verified 82 relocated blocks
+[18:42:43] [Server thread/INFO]: -1, 71, 0 has the following block data: [{Slot: 11b, id: "minecraft:diamond", Count: 7b}]
+[18:42:43] [Server thread/INFO]: Test passed

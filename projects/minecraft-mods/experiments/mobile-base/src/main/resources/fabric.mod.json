@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "id": "mobilebase",
+  "version": "${version}",
+  "name": "Mobile Base Assembler",
+  "description": "Assembles player-built boats with Valkyrien Skies and Eureka.",
+  "environment": "*",
+  "entrypoints": {"main": ["dev.mispla.mobilebase.MobileBase"]},
+  "mixins": ["mobilebase.mixins.json"],
+  "depends": {
+    "java": ">=17",
+    "minecraft": "1.20.1",
+    "fabricloader": ">=0.17.2",
+    "fabric-api": "*",
+    "valkyrienskies": "=2.4.10",
+    "vs_eureka": "=1.6.3"
+  }
+}

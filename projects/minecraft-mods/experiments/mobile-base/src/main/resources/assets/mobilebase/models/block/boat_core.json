@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/orientable_with_bottom",
+  "textures": {
+    "top": "minecraft:block/weathered_copper",
+    "front": "minecraft:block/lodestone_top",
+    "side": "minecraft:block/cut_copper",
+    "bottom": "minecraft:block/cut_copper"
+  }
+}

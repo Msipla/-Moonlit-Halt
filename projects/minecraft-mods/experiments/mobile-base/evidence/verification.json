@@ -1,0 +1,131 @@
+{
+  "artifact_sha256": "0e9e618b85f0c1b2d70c5bd6b6f7adf443437e0b9b21c847446918e2a06ec045",
+  "fixture": {
+    "minecraft": "1.20.1",
+    "loader": "0.17.2",
+    "vs2": "2.4.10",
+    "eureka": "1.6.3",
+    "server": "isolated dedicated server",
+    "client": "Minecraft Java client with software OpenGL",
+    "deck": [
+      5,
+      9
+    ],
+    "screenshot": "chest-underway.png"
+  },
+  "unpowered_W_2_7_seconds": {
+    "before": [
+      0.5598464986231224,
+      71.22777192900094,
+      0.6281060058995913
+    ],
+    "after": [
+      0.5620249519970291,
+      71.26415267781658,
+      0.6282927355452195
+    ],
+    "horizontal_delta": 0.002186441644051287
+  },
+  "fueled_W_2_7_seconds": {
+    "before": [
+      0.56733870004145,
+      71.2658684468949,
+      0.6285933640042363
+    ],
+    "after": [
+      0.5678671851881403,
+      71.23518073451754,
+      -1.6429975267304116
+    ],
+    "horizontal_delta": 2.271590952210626
+  },
+  "walking_during_cruise": {
+    "passenger": [
+      {
+        "label": "after dismount",
+        "pos": [
+          -0.489253755658865,
+          70.94772535283118,
+          -4.338987775146961
+        ],
+        "onGround": false,
+        "flying": false
+      },
+      {
+        "label": "after forward walk",
+        "pos": [
+          -0.4928754232823849,
+          71.08234305290213,
+          -8.62285784445703
+        ],
+        "onGround": false,
+        "flying": false
+      }
+    ],
+    "ship_before": [
+      0.5644148912322924,
+      71.25292095255935,
+      -8.269005370442034
+    ],
+    "ship_after": [
+      0.559947774831371,
+      71.23868966041917,
+      -11.971949056730637
+    ]
+  },
+  "container_open_during_cruise": {
+    "passenger_before_click": {
+      "pos": [
+        -0.6964390985667706,
+        71.04273464978905,
+        0.13591629917644735
+      ],
+      "onGround": true,
+      "flying": false
+    },
+    "passenger_after_click": {
+      "pos": [
+        -0.6966622285544872,
+        71.05298029672122,
+        -4.41111870482564
+      ],
+      "onGround": false,
+      "flying": false
+    },
+    "ship_before_click": [
+      0.5592275978065011,
+      71.24116719526734,
+      -2.4308464006312653
+    ],
+    "ship_after_click": [
+      0.5586628185904654,
+      71.25085386216307,
+      -7.10539196183874
+    ],
+    "velocity_after_click": [
+      -0.0005099858801926871,
+      -0.0007826472483429825,
+      -3.296006708022148
+    ],
+    "cruise_after_click": true
+  },
+  "berth": {
+    "scenario": "Operator reset stopped vessel pose to the grid to isolate goal-space occupancy checks.",
+    "parked_anchor_count": 1,
+    "stopped_pose": [
+      0.55,
+      71.25,
+      0.63
+    ],
+    "ships_after_disassembly": [],
+    "reassembled_ship_id": 4
+  },
+  "helm_and_natural_berth": {
+    "yaw_degrees_before_steering": 0.0007414165519950613,
+    "yaw_degrees_after_A_0_9_seconds": 30.708311747733838,
+    "original_helm_disassembly_request_started": false,
+    "yaw_degrees_after_eureka_align": -0.26299015963796835,
+    "original_helm_align_active": true,
+    "ships_after_core_disassembly": []
+  }
+}
