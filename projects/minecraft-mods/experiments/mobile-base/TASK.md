@@ -44,3 +44,10 @@
 - 首型选择 Minecraft 1.20.1 Fabric 船舶，锁定 VS2 2.4.10 与 Eureka 1.6.3。源码证据、依赖版本、安装和构建步骤集中在 [README.md](README.md)。
 - 真实客户端和专用服验证了接岸拒绝、预览确认、原生燃料推进、离开驾驶位后的巡航及箱子交互、抛锚、泊位占用拒绝、安全解除、编辑重装和 7 颗钻石的槽位保留。占用保护测试使用预先摆正的泊位。另用真实按键转向，再通过 Eureka 原生对齐、核心抛锚和确认完成第二次解除。
 - [候选 JAR](artifacts/mobile-base-assembler-0.1.0-alpha.1.jar) 的存档、测量与交接证据见 [README 验证记录](README.md#游戏内验证)。候选版待 Windows 玩家实例验收。房车保留为后续支线，等待 Create 传动与 Trackwork 实际轮组验证。
+
+## 房车实机可行性验证（2026-11-19）
+
+- 使用单独的 Minecraft Java 1.20.1 测试实例，Fabric Loader 0.17.2、Fabric API 0.92.6、[Valkyrien Skies 2.4.11](https://modrinth.com/mod/valkyrien-skies/version/qJr3y5vI)、[Eureka 1.6.4](https://modrinth.com/mod/eureka/version/Vim9JR4p)、[Create Fabric 6.0.8.1](https://modrinth.com/mod/create-fabric/version/HAqwA6X1)和 [Trackwork Refabricated 1.2.2](https://modrinth.com/mod/trackwork-refabricated/version/Mh7IDZZC)。7×17 房车装配 426 格，舱内有独立驾驶区、客厅、厨房、卧室和储物。Eureka 原生船舵执行组装。四轮悬挂采用 Trackwork，传动采用 Create 创造马达、齿轮箱、反向齿轮和离合器。驾驶操作由车内拉杆和转向按钮完成。
+- 成品房车在专用服实测直行、左转、右转及平路停车。方向键对应的红石按钮使横向速度从约 −0.67 变为 +0.61 格/秒。设定 30 RPM 时，稳定直行约 2.44 格/秒。完整录像从静止启动后约 14 格离席，徒步经过客厅、厨房与卧室，从木桶取出书并由服务端确认进入物品栏，回到驾驶座断开离合。离席到停稳约 71 格。最后两次速度采样低于 0.001 格/秒，全程玩家飞行状态关闭。用户侧实录文件为 `Minecraft-living-RV-tour.mp4`。
+- 一次在已入座时用测试指令复位车体，随后离席回到旧位置。成片在上车前完成复位。录像内的行驶、离席、步行、储物与停车均通过原生游戏操作完成。坡道驻车、转弯时舱内走动以及长时多人兼容性待验。陆地自动装配核心、选位补件和解体回收待后续产品化。
+- 预制组件先评估 [Create 原生滑门](https://create.fandom.com/wiki/Sliding_Door)和[现有 NBT 蓝图](https://github.com/Creators-of-Create/Create/wiki/create-schematics)。独立车厢或拖挂可参考 [VMod 约束](https://valkyrienskies.org/addons/vmod)，需要先验证断开、重载和碰撞。此轮为资料调查。
