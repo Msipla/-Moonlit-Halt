@@ -1,0 +1,18 @@
+{
+  "music.import.title": "Import redstone music",
+  "music.import.empty": "No matching NBT and JSON files in the import folder",
+  "music.import.name": "Deployment item name",
+  "music.import.create": "Create deployment item",
+  "music.import.refresh": "Refresh",
+  "music.deploy.missing": "Project unavailable. Restore the matching NBT and JSON to the import folder.",
+  "music.deploy.bounds": "The project reaches unloaded chunks or exceeds the world border or build height.",
+  "music.deploy.occupied": "An existing block at %s, %s, %s blocks placement.",
+  "music.deploy.entities": "An entity occupies the destination. Placement cancelled.",
+  "music.deploy.placed": "Placed %s. Start each machine with its wooden button.",
+  "music.deploy.failed": "Could not place %s.",
+  "music.deploy.inventory": "Make room in your inventory and try again.",
+  "music.info.instruments": "Vanilla note-block instruments",
+  "music.info.vanilla": "Vanilla sounds. No resource pack required.",
+  "music.info.pack": "Optional pack: %s %s. Verify that it is enabled.",
+  "music.info.link": "View resource pack link"
+}

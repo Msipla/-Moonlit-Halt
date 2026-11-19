@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "id": "redstone_music",
+  "version": "${version}",
+  "name": "Redstone Music Deployer",
+  "description": "Place prepared vanilla note-block circuits in creative singleplayer.",
+  "environment": "client",
+  "entrypoints": {
+    "client": ["dev.mispla.redstonemusic.MusicDeployClient"]
+  },
+  "depends": {
+    "fabricloader": ">=0.17.2",
+    "minecraft": "1.20.1",
+    "java": ">=17",
+    "fabric-api": ">=0.92.6+1.20.1"
+  }
+}

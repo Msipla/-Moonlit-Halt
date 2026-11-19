@@ -1,0 +1,18 @@
+{
+  "music.import.title": "导入红石音乐工程",
+  "music.import.empty": "此文件夹中没有成对的 NBT 和 JSON 文件",
+  "music.import.name": "工程道具名称",
+  "music.import.create": "生成工程道具",
+  "music.import.refresh": "刷新",
+  "music.deploy.missing": "找不到对应工程，请将 NBT 与 JSON 放回导入文件夹。",
+  "music.deploy.bounds": "工程超出世界边界、高度，或有区块尚未加载。",
+  "music.deploy.occupied": "目标范围内已有方块（%s，%s，%s），工程未放置。",
+  "music.deploy.entities": "目标范围内有玩家或实体，工程未放置。",
+  "music.deploy.placed": "已放置 %s。按动各区的木按钮开始演奏。",
+  "music.deploy.failed": "放置 %s 失败。",
+  "music.deploy.inventory": "物品栏已满，腾出一格后重试。",
+  "music.info.instruments": "原版音符盒音色",
+  "music.info.vanilla": "使用原版音色，无需资源包。",
+  "music.info.pack": "工程标注的可选资源包：%s %s（请自行确认是否启用）",
+  "music.info.link": "查看资源包下载链接"
+}
