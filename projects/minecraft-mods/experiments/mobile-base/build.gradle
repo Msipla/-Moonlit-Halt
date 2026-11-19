@@ -3,7 +3,7 @@ plugins {
 }
 
 group = 'dev.mispla'
-version = '0.3.3-dev'
+version = '0.3.4-dev'
 def createFabric = 'maven.modrinth:create-fabric:HAqwA6X1'
 
 configurations {

@@ -174,5 +174,106 @@
     "staticShaftPreserved": true,
     "goldIngotsInRestoredBarrel": 7
   },
-  "video": "Minecraft-car-train-gantry-demo.mp4"
+  "video": "Minecraft-car-train-gantry-demo.mp4",
+  "markerLocalizationFollowup": {
+    "build": "0.3.4-dev",
+    "jarSha256": "c5f5b7f06d872706d1b0906a1cf938310f96b5f56c822fb50a0814f67c10fb76",
+    "locale": "zh_cn",
+    "verifiedTextKeys": 94,
+    "missingPreviousTestAssets": [
+      "minecraft:include/unifont",
+      "pack.mcmeta"
+    ],
+    "coreAt": [
+      -1,
+      71,
+      1
+    ],
+    "coreFacing": "north",
+    "markedHeading": "south",
+    "driverPosition": [
+      1,
+      71,
+      2
+    ],
+    "driverBlockFacing": "north",
+    "frontMarked": [
+      2,
+      69,
+      2
+    ],
+    "rearMarked": [
+      2,
+      69,
+      -1
+    ],
+    "mirroredWheels": [
+      [
+        -2,
+        69,
+        2
+      ],
+      [
+        -2,
+        69,
+        -1
+      ]
+    ],
+    "rearRemovalAndUndoPassed": true,
+    "previewMatchedAssembly": true,
+    "glassConflictPreservedBlockAndCargo": true,
+    "barrelGoldIngotsAfterAssembly": 7,
+    "samples": [
+      {
+        "stage": "marked_car_assembled",
+        "id": 3,
+        "position": [
+          0.4940796828071615,
+          72.24317418028033,
+          -0.49357818936217956
+        ],
+        "quaternion": {
+          "x": -0.0501929142740088,
+          "y": -6.155644331832045e-05,
+          "z": -0.000168914808013422,
+          "w": 0.9987395251191745
+        },
+        "velocity": [
+          -0.0008932374266912292,
+          -0.2302298779568446,
+          -0.032239945134904247
+        ],
+        "pilotData": [
+          "[0.5002986937761307d, 71.62551745577528d, 3.636275712400675d]",
+          "0b"
+        ]
+      },
+      {
+        "stage": "marked_drive_south",
+        "id": 3,
+        "position": [
+          0.49361974473444925,
+          72.18839029995674,
+          4.881020419089521
+        ],
+        "quaternion": {
+          "x": -0.07161122687650641,
+          "y": 3.7208144031778515e-05,
+          "z": -1.2977609115877138e-05,
+          "w": 0.997432619595117
+        },
+        "velocity": [
+          0.009637283768512793,
+          0.0749063460303655,
+          1.9950266014147937
+        ],
+        "pilotData": [
+          "[1.500180121511221d, 71.38939560949802d, 6.929515378549695d]",
+          "0b"
+        ]
+      }
+    ],
+    "textChecked": "Chinese role menu, coordinates, ghost selection, removal, undo, obstruction rejection and assembly confirmation",
+    "video": "Minecraft-car-markers-zh-cn.mp4"
+  }
 }
