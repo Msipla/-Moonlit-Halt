@@ -436,5 +436,134 @@
       "pilotZ",
       "creativeFlight"
     ]
+  },
+  "publicResearchBlueprintTest": {
+    "version": "0.3.4-dev",
+    "artifactCommit": "a1c1b32dcb6eb1804bf5ba54d9ec8e41811516ab",
+    "sourceUrl": "https://www.mc-planner.com/schematics/research-submarine",
+    "sourcePaletteVanillaOnly": true,
+    "adaptation": {
+      "title": "Research submarine",
+      "author": "MC Planner",
+      "originalSize": [
+        37,
+        14,
+        19
+      ],
+      "originalNonAirBlocks": 1275,
+      "originalSha256": "5d6319ae2432e4be17a91f050eecf7a32bf636a23ee7e98e779ba6caaabefe9a",
+      "seabedOmitted": 730,
+      "detachedDetailsOmitted": 128,
+      "bodyBeforeAdaptation": 417,
+      "testHullBeforeCore": 493,
+      "sealedAdded": 76,
+      "decorativeSubstitutions": [
+        [[10, 3, 7], "minecraft:white_bed", "minecraft:white_wool"],
+        [[11, 3, 7], "minecraft:white_bed", "minecraft:white_wool"],
+        [[12, 3, 7], "minecraft:white_bed", "minecraft:white_wool"],
+        [[13, 3, 7], "minecraft:white_bed", "minecraft:white_wool"],
+        [[15, 3, 11], "minecraft:smoker", "minecraft:polished_deepslate"],
+        [[16, 3, 11], "minecraft:water_cauldron", "minecraft:cauldron"],
+        [[20, 11, 9], "minecraft:iron_trapdoor", "minecraft:glass"],
+        [[22, 3, 7], "minecraft:lectern", "minecraft:oak_planks"]
+      ],
+      "keptStorage": [
+        [
+          10,
+          3,
+          11
+        ],
+        [
+          11,
+          3,
+          11
+        ]
+      ],
+      "worldOffset": [
+        -17,
+        69,
+        -9
+      ]
+    },
+    "assembly": {
+      "hullIncludingCore": 494,
+      "addedParts": 9,
+      "totalBlocks": 503,
+      "automaticParts": {
+        "helm": 1,
+        "fuelEngine": 1,
+        "anchor": 1,
+        "floaters": 6
+      },
+      "massKg": 1089115
+    },
+    "isolatedServerSettings": {
+      "enableConnectivity": true,
+      "enableClientConnectivity": true,
+      "enableWorldConnectivity": false,
+      "enablePocketBuoyancy": false,
+      "waterSurfaceY": 70
+    },
+    "firstRun": "The hull cruised beyond the short test pool and fell after leaving the water. The second fixture extended the eastbound pool from X56 to X147.",
+    "secondRun": {
+      "survivalDuringDivingCruiseWalkStorageAndSurfacing": true,
+      "fullySubmergedAtOrBelowY": 64.46,
+      "offseatHorizontalTravelBlocks": 45.489,
+      "fullySubmergedBetweenObservedDiveAndHelmRemountSecondsApprox": 29,
+      "barrelOpenDuringCruise": true,
+      "originalBarrelGoldIngotCountAfterMooring": 7,
+      "returnedToHelmUsingNormalInputs": true,
+      "surfaceAfterRiseCenterY": 74.867,
+      "anchorToggledUsingCoreInCreative": true,
+      "mooredSpeedBlocksPerSecond": 5.073473138089455e-09,
+      "oxygen": [
+        {"stage": "before_dive", "air": 300, "health": 20.0},
+        {"stage": "depth_hold", "air": 300, "health": 20.0},
+        {"stage": "underwater_walk", "air": 300, "health": 20.0},
+        {"stage": "after_barrel", "air": 300, "health": 20.0},
+        {"stage": "before_return_to_helm", "air": 300, "health": 20.0},
+        {"stage": "after_surfacing", "air": 300, "health": 20.0},
+        {"stage": "surface_with_deck_exposed", "air": 300, "health": 20.0}
+      ],
+      "sampleFields": [
+        "stage",
+        "centerX",
+        "centerY",
+        "centerZ",
+        "velocityX",
+        "velocityY",
+        "velocityZ",
+        "bottomY",
+        "topY",
+        "pilotX",
+        "pilotY",
+        "pilotZ",
+        "creativeFlight"
+      ],
+      "samples": [
+        ["public_before_pilot", 1.914176, 73.712618, 0.535056, 0.0, -0.0, 0.0, 68.834136, 82.834137, -1.750001, 71.854137, -0.499999, true],
+        ["public_diving", 1.913865, 56.133579, 0.535032, -6.6e-05, -1.724133, -5e-06, 51.254563, 65.255778, -1.500409, 54.23027, 1.499968, false],
+        ["public_depth_hold", 1.913789, 55.337628, 0.535026, -1.5e-05, -0.026289, -1e-06, 50.458596, 64.459848, -1.500488, 53.434324, 1.499962, false],
+        ["public_underwater_offseat", 3.131298, 55.32606, 0.535025, 0.813674, -3e-05, -0.0, 50.447037, 64.448268, -0.325044, 53.447771, 1.499963, false],
+        ["public_underwater_walk", 5.029535, 55.325999, 0.535024, 1.145277, -3.2e-05, -0.0, 50.446997, 64.448181, 0.035924, 53.447781, 1.066587, false],
+        ["public_after_storage", 12.465999, 55.325854, 0.535019, 1.916164, -2.8e-05, -2e-06, 50.446995, 64.447852, 7.184925, 53.447576, 0.994802, false],
+        ["public_sustained_before_return", 43.386427, 55.325866, 0.534909, 2.40426, 3.7e-05, -1.5e-05, 50.446762, 64.447875, 38.08655, 53.447154, 0.994717, false],
+        ["public_back_at_pilot", 48.619877, 55.32596, 0.534874, 2.425365, 5e-05, -1.7e-05, 50.446662, 64.448121, 44.0644, 53.447222, 0.342461, false],
+        ["public_surfacing", 66.774747, 62.842949, 0.534422, 0.61957, 0.894365, -3.4e-05, 57.963422, 71.965798, 63.360443, 60.939804, 1.499576, false],
+        ["public_after_surface", 67.928166, 63.278816, 0.534353, 0.368598, 0.004463, -2.4e-05, 58.399264, 72.401698, 64.513859, 61.375679, 1.499513, false],
+        ["public_surface_level", 68.385211, 74.866953, 0.534402, 1e-05, 0.015396, 1e-06, 69.987586, 83.9896, 64.970939, 72.963756, 1.499566, false],
+        ["public_park_verified", 68.385222, 74.874508, 0.534403, 0.0, 0.0, 0.0, 69.99514, 83.997154, 66.991046, 73.996166, 1.499437, false]
+      ]
+    },
+    "recording": {
+      "name": "Minecraft-public-research-submarine-test.mp4",
+      "url": "https://chatgpt.com/library?file_id=libfile_a2c43843cf1c8191b6fc1a92d586aaef&account_id=personal",
+      "sha256": "d7aa20e7877850b25ecbb445346b2bd522773ec04a4586a1c8252fba5e91344b"
+    },
+    "limits": [
+      "Private test adaptation only. The original and adapted NBT files are not redistributed.",
+      "Sleeping, cooking, long-term sealed habitation, and breach response were not tested.",
+      "The recording skips portions of steady cruising and the camera setup between surfaced shots."
+    ]
   }
 }
