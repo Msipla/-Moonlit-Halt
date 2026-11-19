@@ -34,7 +34,7 @@ final class BoatMarkerItem extends Item {
     enum Edit { SELECT, REMOVE, UNDO, STOP }
 
     enum Role {
-        HELM("oak_ship_helm"), ENGINE("engine"), FLOATER("floater"), HEADING(null), FRONT_WHEEL(null), REAR_WHEEL(null), BALLOON("white_balloon");
+        HELM("oak_ship_helm"), ENGINE("engine"), FLOATER("floater"), HEADING(null), FRONT_WHEEL(null), REAR_WHEEL(null), BALLOON("white_balloon"), CREATE_FRAME(null);
 
         final String partId;
 
@@ -63,6 +63,7 @@ final class BoatMarkerItem extends Item {
                 case FRONT_WHEEL -> frontWheel;
                 case REAR_WHEEL -> rearWheel;
                 case BALLOON -> balloon;
+                case CREATE_FRAME -> null;
             };
         }
     }
@@ -94,7 +95,8 @@ final class BoatMarkerItem extends Item {
         } else if (user.isShiftKeyDown() || role == null) {
             open(user);
         } else {
-            mark(world, user, stack, role, hit);
+            if (role == Role.CREATE_FRAME) BoatCoreBlock.previewCreate(world, hit.getBlockPos(), user);
+            else mark(world, user, stack, role, hit);
         }
         return InteractionResult.CONSUME;
     }
@@ -117,7 +119,7 @@ final class BoatMarkerItem extends Item {
                         draft.putString("dimension", dimension(level));
                         draft.putInt("role", type);
                         stack.getOrCreateTag().put(DRAFT, draft);
-                        report(player, "mobilebase.marker.mode", role.label());
+                        report(player, role == Role.CREATE_FRAME ? "mobilebase.create_select" : "mobilebase.marker.mode", role.label());
                     }
                     case REMOVE -> {
                         var data = inDimension(stack, MARKS, level);

@@ -1,0 +1,178 @@
+{
+  "date": "2026-11-19",
+  "minecraft": "1.20.1",
+  "jarSha256": "050a55f51e1b9d6f35ad7aba4c843030da7a4a71c4d32e1d50be531d9f213b54",
+  "testScope": "Separate Fabric client and dedicated server in a fresh local flat world. World commands staged rail, static hulls, cargo and kinetic power. Preview, confirmation, mounting, buttons and road/train input were performed in the real client.",
+  "compactCar": {
+    "deck": [
+      3,
+      7
+    ],
+    "coreOffsetFromAxleCenterlineBlocks": 1,
+    "bodyBlocks": 41,
+    "addedParts": 10,
+    "wheelsVerified": 4,
+    "forwardSpeedBlocksPerSecond": 2.947,
+    "stoppedHorizontalSpeedBlocksPerSecond": 0.02,
+    "goldIngotsInAssembledBarrel": 7,
+    "samples": [
+      {
+        "stage": "compact_launch",
+        "id": 3,
+        "position": [
+          0.49366574139497366,
+          72.3601297448499,
+          -0.4891489447124231
+        ],
+        "quaternion": {
+          "x": -0.01673911009715568,
+          "y": -1.0973353011198193e-06,
+          "z": 2.5380231318456256e-05,
+          "w": 0.9998598909586259
+        },
+        "velocity": [
+          -0.000479641832917821,
+          -0.13014913724873622,
+          -0.007230464952101557
+        ],
+        "pilotData": [
+          "[0.500684104859829d, 71.44652000884525d, 3.6458989903330803d]",
+          "0b"
+        ]
+      },
+      {
+        "stage": "compact_drive",
+        "id": 3,
+        "position": [
+          0.4852503431149492,
+          72.33698836375706,
+          -8.278164310131741
+        ],
+        "quaternion": {
+          "x": -0.0184824875279825,
+          "y": 0.0002928182031667904,
+          "z": 0.00023503341245828337,
+          "w": 0.9998291137347287
+        },
+        "velocity": [
+          -0.003283784373753207,
+          -0.0004040032308694208,
+          -2.946740823755789
+        ],
+        "pilotData": [
+          "[1.4939183630049229d, 71.3643541233032d, -5.275829119607806d]",
+          "0b"
+        ]
+      },
+      {
+        "stage": "compact_turn",
+        "id": 3,
+        "position": [
+          0.2167839723995303,
+          72.33958935649508,
+          -12.872316032665358
+        ],
+        "quaternion": {
+          "x": -0.019114724330810615,
+          "y": 0.07334710789018378,
+          "z": -0.0005793637331197851,
+          "w": 0.9971231084553038
+        },
+        "velocity": [
+          -0.3472113434645707,
+          0.004117872208553308,
+          -2.2436261502427612
+        ],
+        "pilotData": [
+          "[1.6479283832013607d, 71.36574951861985d, -10.047266159206629d]",
+          "0b"
+        ]
+      },
+      {
+        "stage": "compact_stop",
+        "id": 3,
+        "position": [
+          -0.017749922664491956,
+          72.35053669687741,
+          -14.062546853720372
+        ],
+        "quaternion": {
+          "x": -0.020129995276664463,
+          "y": 0.0918983477613644,
+          "z": 0.0020441598181748415,
+          "w": 0.9955628048393184
+        },
+        "velocity": [
+          -0.0010530859839860685,
+          0.010836566161742667,
+          0.020157907758999727
+        ],
+        "pilotData": [
+          "[1.5223776549100876d, 71.38833191373851d, -11.291335176676512d]",
+          "0b"
+        ]
+      }
+    ]
+  },
+  "train": {
+    "assemblyType": "single Create carriage, two bogeys",
+    "initialGlueEntities": 0,
+    "addedGlueEntities": 1,
+    "autoControls": [
+      41,
+      71,
+      0
+    ],
+    "controlsFacing": "east",
+    "nativeStationButtonUsed": true,
+    "initialNativeEntityPosition": [
+      41.5,
+      69.0,
+      0.5
+    ],
+    "nativeEntityPositionWithPlayerDriveInput": [
+      31.165,
+      69.0,
+      0.5
+    ],
+    "nativeEndPosition": [
+      27.0,
+      69.0,
+      0.5
+    ],
+    "goldIngotsInPersistedNativeTrainData": 7,
+    "invalidThreeBogeyCarriageRejected": true,
+    "temporaryControlsAndGlueRolledBack": true,
+    "invalidBodyBarrelStillHasGoldIngots": 7
+  },
+  "gantryCabin": {
+    "stationaryRail": "native horizontal Create gantry shaft",
+    "cabinIsSuspended": true,
+    "nativeController": "Create creative motor",
+    "startCarriageBlock": [
+      43,
+      75,
+      25
+    ],
+    "positionsDuringMovement": [
+      [
+        43.9375,
+        75,
+        25
+      ],
+      [
+        46.03125,
+        75,
+        25
+      ]
+    ],
+    "endCarriageBlock": [
+      59,
+      75,
+      25
+    ],
+    "staticShaftPreserved": true,
+    "goldIngotsInRestoredBarrel": 7
+  },
+  "video": "Minecraft-car-train-gantry-demo.mp4"
+}

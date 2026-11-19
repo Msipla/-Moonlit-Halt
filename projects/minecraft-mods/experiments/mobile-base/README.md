@@ -113,3 +113,15 @@ VS2 2.4.10 在开放船体测试中把大块船坞区块空气误算为蓄气舱
 **密封舱可选试验。** 在独立实例内，可用 VS2 2.4.11 自带的实验性连通设置。服务端在 `config/valkyrienskies/vs-core-server.toml` 的 Connectivity Settings 节设 `enableConnectivity = true`，客户端在 `config/valkyrienskies/valkyrienskies-client.toml` 的 Connectivity 节设 `enableClientConnectivity = true`。本次保留 `enableWorldConnectivity = false` 和 `enablePocketBuoyancy = false`。用全方块闭合舱体。重启后用该设置实测生存模式水下巡航离席、步行与开木桶，超过 25 秒保持满氧。舱外氧气正常下降，短时破舱测试中氧气没有下降，破舱判定仍待验证。
 
 **0.3.2-dev JAR SHA-256** `e0689efeb9b0315700171c3a3e9f68abb856b3e25b35556f69f1d22b499d66df`
+
+## 小车、列车与水平缆车 0.3.3-dev
+
+[下载实验 JAR](artifacts/mobile-base-assembler-0.3.3-dev.jar)。沿用陆地实验版所列依赖。
+
+- **小车。** 装配器优先使用核心所在的中心线，找不到合适轮位时再向两侧寻找可用底板。实测三格宽、七格长、核心偏置一格的小车。轮组和动力仍由 Trackwork 与 Create 提供。空手右键陆地核心预览，再右键确认。
+- **列车。** 在 Create 车站进入装配模式，在第一个蓝色位置安装转向架，用方块连起这节车厢。打开装配标记棒，选「列车／缆车装配」，右键车站预览，再右键确认。装配器补齐缺失的朝前驾驶台和强力胶。换空手打开原生车站，点组装列车。首轮验证一节直轨车厢、两组转向架。
+- **缆车。** 先铺水平 Create 齿条轴，安装朝下的齿条滑架，把吊舱连到滑架下面。电机未启动时，用同一选项右键滑架预览和确认。装配器会补强力胶。之后给齿条轴输入转速，Create 原生滑架负责运输吊舱，到线端恢复为方块。
+
+装配器调用 Create 核对实际捕获的方块。若与预览不同或原生规则拒绝，撤掉本次添加的强力胶和驾驶台。车体应与站台或支架隔开。车站、轨道、转向架、齿条轴和动力由玩家放置。多节车厢、斜跨地形的索道和自动调度仍待验证。
+
+[实机采样与回滚证据](evidence/road-train-cable-0.3.3-dev.json) · **JAR SHA-256** `050a55f51e1b9d6f35ad7aba4c843030da7a4a71c4d32e1d50be531d9f213b54`

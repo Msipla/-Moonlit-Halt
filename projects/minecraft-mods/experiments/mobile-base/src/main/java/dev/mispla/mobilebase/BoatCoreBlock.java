@@ -180,6 +180,26 @@ final class BoatCoreBlock extends HorizontalDirectionalBlock {
             plan.hull().size(), plan.parts().size(), Math.round(plan.mass()));
     }
 
+    static void previewCreate(ServerLevel level, BlockPos pos, ServerPlayer user) {
+        long now = level.getGameTime();
+        previews.values().removeIf(preview -> preview.level == level && preview.expires < now);
+        var previous = previews.remove(user.getUUID());
+        try {
+            if (!net.fabricmc.loader.api.FabricLoader.getInstance().isModLoaded("create")) throw new Rejected("create_missing");
+            var plan = CreateAssembly.scan(level, pos);
+            if (confirmed(previous, level, pos, now, plan)) {
+                boolean train = plan.prepare(level);
+                send(user, train ? "mobilebase.create_train_ready" : "mobilebase.create_cabin_ready");
+            } else {
+                previewParts(level, user, plan.body(), plan.parts());
+                previews.put(user.getUUID(), new Preview(level, pos, now + CONFIRM_TICKS, plan));
+                send(user, "mobilebase.create_preview", plan.body().size(), plan.parts().size());
+            }
+        } catch (Rejected rejected) {
+            send(user, rejected.key, rejected.arguments);
+        }
+    }
+
     private static void previewParts(ServerLevel level, ServerPlayer user, Map<BlockPos, BlockState> hull,
                                      Map<BlockPos, BlockState> parts) {
         for (var p : hull.keySet()) {

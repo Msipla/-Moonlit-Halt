@@ -123,6 +123,21 @@ record LandPlan(Map<BlockPos, BlockState> hull, Map<BlockPos, BlockState> parts,
             Map<BlockPos, BlockState> hull, Marks marks, Block wheel, Block motor) throws Rejected {
         var origin = core.below(2);
         var side = heading.getClockWise();
+        // Prefer the original centerline, then fit the wheelbase to nearby floor columns.
+        for (int distance = 0; distance <= 12; distance++) {
+            var right = axlesOnLine(level, core, origin.relative(side, distance), heading, hull, marks, wheel, motor);
+            if (!right.isEmpty()) return right;
+            if (distance > 0) {
+                var left = axlesOnLine(level, core, origin.relative(side, -distance), heading, hull, marks, wheel, motor);
+                if (!left.isEmpty()) return left;
+            }
+        }
+        throw new Rejected("land_wheels");
+    }
+
+    private static List<Map<BlockPos, BlockState>> axlesOnLine(ServerLevel level, BlockPos core, BlockPos origin,
+            Direction heading, Map<BlockPos, BlockState> hull, Marks marks, Block wheel, Block motor) {
+        var side = heading.getClockWise();
         for (int width = 2; width <= 8; width++) {
             var fronts = new java.util.ArrayList<Integer>();
             var rears = new java.util.ArrayList<Integer>();
@@ -143,7 +158,7 @@ record LandPlan(Map<BlockPos, BlockState> hull, Map<BlockPos, BlockState> parts,
                 }
             }
         }
-        throw new Rejected("land_wheels");
+        return List.of();
     }
 
     private static boolean matches(Map<BlockPos, BlockState> axle, BlockPos position) {

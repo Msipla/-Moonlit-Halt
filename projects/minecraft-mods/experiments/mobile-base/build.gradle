@@ -3,7 +3,12 @@ plugins {
 }
 
 group = 'dev.mispla'
-version = '0.3.2-dev'
+version = '0.3.3-dev'
+def createFabric = 'maven.modrinth:create-fabric:HAqwA6X1'
+
+configurations {
+    createArchive { transitive = false }
+}
 
 repositories {
     mavenCentral()
@@ -21,7 +26,16 @@ dependencies {
     modImplementation 'net.fabricmc.fabric-api:fabric-api:0.92.6+1.20.1'
     modImplementation('maven.modrinth:valkyrien-skies:qJr3y5vI') { transitive = false }
     modImplementation('maven.modrinth:eureka:Vim9JR4p') { transitive = false }
-    modCompileOnly('maven.modrinth:create-fabric:HAqwA6X1') { transitive = false }
+    modCompileOnly(createFabric) { transitive = false }
+    createArchive createFabric
+    // Loom does not add these bundled Create API types to the compile classpath.
+    modCompileOnly files(configurations.createArchive.elements.map { jars ->
+        zipTree(jars.iterator().next().asFile).matching {
+            include 'META-INF/jars/Ponder-Fabric-*.jar'
+            include 'META-INF/jars/base-2.3.13+1.20.1.jar'
+            include 'META-INF/jars/entity-2.3.13+1.20.1.jar'
+        }.files
+    })
 }
 
 loom {

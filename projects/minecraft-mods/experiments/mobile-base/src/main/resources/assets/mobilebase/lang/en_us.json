@@ -77,5 +77,20 @@
   "mobilebase.error.vehicle_marks": "请使用适用于该载具的标记。",
   "block.mobilebase.sub_core": "移动基地核心（潜航）",
   "mobilebase.sub_preview": "潜航结构共 %s 格，拟补 %s 个部件，约 %s 千克。再次右键确认。",
-  "mobilebase.sub_launched": "潜航结构已装配。给引擎加燃料。驾驶时 V 下潜，空格上浮。"
+  "mobilebase.sub_launched": "潜航结构已装配。给引擎加燃料。驾驶时 V 下潜，空格上浮。",
+  "mobilebase.marker.create_frame": "列车／缆车装配",
+  "mobilebase.create_select": "右键装配模式下的 Create 车站，或右键朝下的水平齿条滑架。",
+  "mobilebase.create_preview": "车体 %s 格，补 %s 个部件。再次右键确认粘接。",
+  "mobilebase.create_train_ready": "车厢已准备好。在 Create 车站点击组装列车。",
+  "mobilebase.create_cabin_ready": "吊舱已粘接到滑架。给 Create 齿条轴输入转速以运行。",
+  "mobilebase.error.create_missing": "请先安装对应版本的 Create Fabric。",
+  "mobilebase.error.create_target": "请选择装配模式下的 Create 车站，或朝下且安装在水平齿条轴上的滑架。",
+  "mobilebase.error.create_bogey": "请先在车站蓝色装配区的第一个位置安装转向架。",
+  "mobilebase.error.create_body": "请把车厢接到转向架或滑架上。",
+  "mobilebase.error.create_controls": "找不到空闲的驾驶台位置，请在车厢地板上留出一格。",
+  "mobilebase.error.create_overlap": "车厢范围内有额外方块（%s）。请把站台与车厢隔开。",
+  "mobilebase.error.create_glue_boundary": "已有粘接超出了车厢范围。请先用强力胶移除该区域。",
+  "mobilebase.error.create_glue": "未能放置 Create 强力胶。",
+  "mobilebase.error.create_capture": "Create 识别的车体与预览不同。请检查车体间隙和附着方块。",
+  "mobilebase.error.create_native": "Create 拒绝装配。%s"
 }

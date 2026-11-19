@@ -61,7 +61,7 @@ public final class MarkerClient implements ClientModInitializer {
         var heading = marks.heading() == null ? player.getDirection() : marks.heading();
         BlockHitResult hit = editing != null && client.screen == null && client.hitResult instanceof BlockHitResult block
             && block.getType() == HitResult.Type.BLOCK ? block : null;
-        BlockPos target = hit == null ? null : BoatMarkerItem.target(hit, editing);
+        BlockPos target = hit == null || editing == Role.CREATE_FRAME ? null : BoatMarkerItem.target(hit, editing);
 
         var camera = context.camera().getPosition();
         var pose = context.matrixStack();
@@ -169,7 +169,7 @@ public final class MarkerClient implements ClientModInitializer {
                 var remove = addRenderableWidget(Button.builder(Component.translatable("mobilebase.marker.remove"),
                         button -> send(Edit.REMOVE, role)).bounds(left + 222, row, 48, 19).build());
                 remove.active = location != null;
-                row += 22;
+                row += 20;
             }
             var undo = addRenderableWidget(Button.builder(Component.translatable("mobilebase.marker.undo"),
                     button -> send(Edit.UNDO, Role.HELM)).bounds(left + 12, top + 202, 125, 20).build());
