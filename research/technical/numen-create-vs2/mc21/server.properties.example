@@ -1,0 +1,15 @@
+# Isolated loopback lab only. RCON value is the local fixture constant.
+server-ip=127.0.0.1
+server-port=25586
+enable-rcon=true
+rcon.port=25587
+rcon.password=isolated-numen-test
+online-mode=false
+enforce-secure-profile=false
+gamemode=creative
+force-gamemode=true
+level-type=minecraft\:flat
+spawn-protection=0
+simulation-distance=4
+view-distance=4
+max-tick-time=-1

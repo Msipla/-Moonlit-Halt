@@ -1,0 +1,43 @@
+RCON labspawn => Fixture LabBot spawned
+
+RCON tp LabBot 8.5 -60 5.5 => Teleported LabBot to 8.500000, -60.000000, 5.500000
+
+LUA return numen.build.place({{name="aeronautics:levitite",pos={x=7,y=-58,z=1}},{name="aeronautics:levitite",pos={x=7,y=-58,z=2}},{name="aeronautics:levitite",pos={x=7,y=-58,z=3}},{name="aeronautics:levitite",pos={x=8,y=-58,z=1}},{name="minecraft:oak_planks",pos={x=8,y=-58,z=2}},{name="aeronautics:levitite",pos={x=8,y=-58,z=3}},{name="aeronautics:levitite",pos={x=9,y=-58,z=1}},{name="aeronautics:levitite",pos={x=9,y=-58,z=2}},{name="aeronautics:levitite",pos={x=9,y=-58,z=3}},{name="simulated:physics_assembler[face=floor,facing=north]",pos={x=8,y=-57,z=2}}}) => [18:58:55] [Server thread/INFO] [minecraft/MinecraftServer]: LabBot: ok · 1 call · 25 s
+stderr:
+line 1 numen.build.place: built 10/10 block(s); placed 10 (3 written straight in: a hand could not put them in that shape from where you stand), cleared 0 (all requested cells match)
+returned: {cleared = 0, completed = 10, left = 0, placed = 10, replaced = 0, requested = 10, set_directly = 3, site = {{x = 7, y = -58, z = 1}, {x = 9, y = -57, z = 3}}, unplaced = {}, walk_dug_at = {}, walk_placed_at = {}}
+stdout:
+receipt_1
+LUA local x=aerolab.craft.motion(); print("SUBLEVELS",#x); assert(#x==0) => [18:58:56] [Server thread/INFO] [minecraft/MinecraftServer]: LabBot: ok · 1 call · 0 s
+stdout:
+receipt_2
+SUBLEVELS	0
+LUA return numen.use.block({x=8,y=-57,z=2}, {hold=2}) => [18:59:00] [Server thread/INFO] [minecraft/MinecraftServer]: LabBot: ok · 1 call · 4 s
+stderr:
+line 1 numen.use.block: right-clicked 8,-57,2 — but nothing visibly changed (inventory, health, riding, aimed block, nearby entities all as before). If you expected an effect, reposition or rethink. En route I had to place 2 cobblestone (8,-60,4; 8,-59,4). I also took a stack of cobblestone from the creative inventory.
+returned: {aim = {x = 8, y = -57, z = 2}, block = {name = "physics_assembler", pos = {x = 8, y = -57, z = 2}}, button = "right", changes = {}}
+stdout:
+receipt_3
+LUA local x=aerolab.craft.motion(); print("SUBLEVELS_AFTER_CLICK",#x); assert(#x==0) => [18:59:00] [Server thread/INFO] [minecraft/MinecraftServer]: LabBot: ok · 1 call · 0 s
+stdout:
+receipt_4
+SUBLEVELS_AFTER_CLICK	0
+LUA local a=aerolab.craft.assemble({x=8,y=-57,z=2}); print("ASSEMBLY",a.accepted,a.problem); assert(a.accepted); return aerolab.craft.motion() => [18:59:00] [Server thread/INFO] [minecraft/MinecraftServer]: LabBot: ok · 2 calls · 0 s
+returned: {{id = "bfaca346-ea3e-461d-ad17-a119c75e8c9c", mass = 1.5, vx = 0, vy = -0.5481493473053, vz = 0, x = 8.5, y = -56.930782318115, z = 2.5}}
+stdout:
+receipt_5
+ASSEMBLY	true
+LUA return aerolab.craft.motion() => [18:59:02] [Server thread/INFO] [minecraft/MinecraftServer]: LabBot: ok · 1 call · 0 s
+returned: {{id = "bfaca346-ea3e-461d-ad17-a119c75e8c9c", mass = 1.5, vx = -0.0000099114449767512, vy = -0.00000062226865793491, vz = -0.000021745829144493, x = 8.5000114440918, y = -58.91930770874, z = 2.5000088214874}}
+stdout:
+receipt_6
+SABLE MOTION {
+  id: 'bfaca346-ea3e-461d-ad17-a119c75e8c9c',
+  y: -56.930782318115,
+  vy: -0.5481493473053
+} {
+  id: 'bfaca346-ea3e-461d-ad17-a119c75e8c9c',
+  y: -58.91930770874,
+  vy: -6.2226865793491e-7
+} deltaY -1.988525390625
+AERONAUTICS STATIC BUILD, STOCK CLICK CONTROL, ASSEMBLY AND REAL MOTION PASSED

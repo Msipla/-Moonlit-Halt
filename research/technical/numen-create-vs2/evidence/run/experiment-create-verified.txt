@@ -1,0 +1,69 @@
+RCON op LabOwner => Nothing changed. The player already is an operator
+RCON tp LabOwner 8.5 -60 5.5 => Teleported LabOwner to 8.500000, -60.000000, 5.500000
+RCON execute as LabOwner at @s run numen player summon LabBot => Summoned companion 'LabBot' (1024bebc-98eb-438e-b032-ddf2faae5eb1)
+RCON gamemode creative LabBot => Set LabBot's game mode to Creative Mode
+RCON execute as LabOwner at @s run numen permission mode LabBot bypass => LabBot: permission mode set to bypass
+RCON tp LabBot 8.5 -60 5.5 => Teleported LabBot to 8.500000, -60.000000, 5.500000
+LUA return numen.status.self() => [19:03:40] [Server thread/INFO]: LabBot: ok · 1 call · 0 s
+returned: {air = 300, backpack_slots = {total = 41, used = 0}, biome = "minecraft:plains", …(21 fields in all; read one by its name, or loop over the table and filter before you print), pos = {x = 8.5, y = -60, z = 5.5}, saturation = 5, structures = {}}
+stdout:
+receipt_1
+RCON tp LabOwner 15.5 -60 7.5 => Teleported LabOwner to 15.500000, -60.000000, 7.500000
+LUA return numen.build.place({{name="minecraft:barrel[facing=up]",pos={x=8,y=-59,z=1}},{name="minecraft:hopper[facing=down]",pos={x=8,y=-58,z=1}},{name="create:water_wheel[facing=east]",pos={x=6,y=-57,z=0}},{name="create:shaft[axis=x]",pos={x=7,y=-57,z=0}},{name="create:crushing_wheel[axis=x]",pos={x=8,y=-57,z=0}},{name="create:water_wheel[facing=west]",pos={x=10,y=-57,z=2}},{name="create:shaft[axis=x]",pos={x=9,y=-57,z=2}},{name="create:crushing_wheel[axis=x]",pos={x=8,y=-57,z=2}},{name="minecraft:stone",pos={x=5,y=-60,z=1}},{name="minecraft:stone",pos={x=7,y=-60,z=1}},{name="minecraft:stone",pos={x=6,y=-60,z=0}},{name="minecraft:stone",pos={x=6,y=-60,z=2}},{name="minecraft:stone",pos={x=5,y=-59,z=1}},{name="minecraft:stone",pos={x=7,y=-59,z=1}},{name="minecraft:stone",pos={x=6,y=-59,z=0}},{name="minecraft:stone",pos={x=6,y=-59,z=2}},{name="minecraft:stone",pos={x=5,y=-58,z=1}},{name="minecraft:stone",pos={x=7,y=-58,z=1}},{name="minecraft:stone",pos={x=6,y=-58,z=0}},{name="minecraft:stone",pos={x=6,y=-58,z=2}},{name="minecraft:stone",pos={x=5,y=-57,z=1}},{name="minecraft:stone",pos={x=7,y=-57,z=1}},{name="minecraft:stone",pos={x=6,y=-57,z=2}},{name="minecraft:stone",pos={x=5,y=-56,z=1}},{name="minecraft:stone",pos={x=7,y=-56,z=1}},{name="minecraft:stone",pos={x=6,y=-56,z=0}},{name="minecraft:stone",pos={x=6,y=-56,z=2}},{name="minecraft:stone",pos={x=9,y=-60,z=1}},{name="minecraft:stone",pos={x=11,y=-60,z=1}},{name="minecraft:stone",pos={x=10,y=-60,z=0}},{name="minecraft:stone",pos={x=10,y=-60,z=2}},{name="minecraft:stone",pos={x=9,y=-59,z=1}},{name="minecraft:stone",pos={x=11,y=-59,z=1}},{name="minecraft:stone",pos={x=10,y=-59,z=0}},{name="minecraft:stone",pos={x=10,y=-59,z=2}},{name="minecraft:stone",pos={x=9,y=-58,z=1}},{name="minecraft:stone",pos={x=11,y=-58,z=1}},{name="minecraft:stone",pos={x=10,y=-58,z=0}},{name="minecraft:stone",pos={x=10,y=-58,z=2}},{name="minecraft:stone",pos={x=9,y=-57,z=1}},{name="minecraft:stone",pos={x=11,y=-57,z=1}},{name="minecraft:stone",pos={x=10,y=-57,z=0}},{name="minecraft:stone",pos={x=9,y=-56,z=1}},{name="minecraft:stone",pos={x=11,y=-56,z=1}},{name="minecraft:stone",pos={x=10,y=-56,z=0}},{name="minecraft:stone",pos={x=10,y=-56,z=2}}}) => [19:04:34] [Server thread/INFO]: LabBot: ok · 1 call · 53 s
+stderr:
+line 1 numen.build.place: built 46/46 block(s); placed 46 (11 written straight in: a hand could not put them in that shape from where you stand), cleared 0 (all requested cells match) En route I had to place 7 cobblestone (4,-60,1; 9,-60,4; 4,-59,1; 4,-58,1; 3,-58,1; 4,-57,1; +1 more). I also took a stack of cobblestone from the creative inventory.
+returned: {cleared = 0, completed = 46, left = 0, placed = 46, replaced = 0, requested = 46, set_directly = 11, site = {{x = 5, y = -60, z = 0}, {x = 11, y = -56, z = 2}}, unplaced = {}, walk_dug_at = {}, walk_placed_at = {{x = 4, y = -60, z = 1}, {x = 9, y = -60, z = 4}, {x = 4, y = -59, z = 1}, {x = 4, y = -58, z = 1}, {x = 3, y = -58, z = 1}, {x = 4, y = -57, z = 1}, {x = 8, y = -56, z = 1}}}
+stdout:
+receipt_2
+RCON setblock 8 -56 3 minecraft:stone => Changed the block at 8, -56, 3
+RCON tp LabBot 8.5 -55 3.5 => Teleported LabBot to 8.500000, -55.000000, 3.500000
+LUA return numen.build.place({{name="minecraft:hopper[facing=down]",pos={x=8,y=-56,z=1}}}) => [19:04:35] [Server thread/INFO]: LabBot: ok · 1 call · 0 s
+stderr:
+line 1 numen.build.place: built 1/1 block(s); placed 1 (1 replacing what stood there), cleared 1 (all requested cells match)
+returned: {cleared = 1, completed = 1, left = 0, placed = 1, replaced = 1, requested = 1, set_directly = 0, site = {{x = 8, y = -56, z = 1}, {x = 8, y = -56, z = 1}}, unplaced = {}, walk_dug_at = {}, walk_placed_at = {}}
+stdout:
+receipt_3
+RCON data get block 8 -58 1 => 8, -58, 1 has the following block data: {TransferCooldown: 0, x: 8, y: -58, Items: [], z: 1, id: "minecraft:hopper"}
+RCON data get block 8 -57 1 => 8, -57, 1 has the following block data: {Speed: 0.0f, x: 8, y: -57, z: 1, id: "create:crushing_wheel_controller", Inventory: {AppliedRecipe: 0b, ProcessingTime: 0.0f, RecipeTime: 0.0f, Size: 32, Items: []}}
+RCON data get entity @e[type=item,x=8,y=-57,z=1,distance=..4,limit=1,sort=nearest] => No entity was found
+RCON setblock 6 -56 1 minecraft:water => Changed the block at 6, -56, 1
+RCON setblock 10 -56 1 minecraft:water => Changed the block at 10, -56, 1
+LUA local i=createlab.machine.inspect; local w=i({x=6,y=-57,z=0}).kinetics; local a=i({x=8,y=-57,z=0}).kinetics; local b=i({x=8,y=-57,z=2}).kinetics; local c=i({x=8,y=-57,z=1}).crusher; print("RPM",w.rpm,a.rpm,b.rpm,"SU",a.stress,a.capacity,"VALID",c.valid,c.facing,c.processing_speed); assert(w.rpm==8 and a.rpm==8 and b.rpm==-8 and a.stress==64 and a.capacity==256 and not a.overstressed and c.valid and c.facing=="down") => [19:04:39] [Server thread/INFO]: LabBot: ok · 4 calls · 0 s
+stdout:
+receipt_4
+RPM	8	8	-8	SU	64	256	VALID	true	down	0.15999999642372
+RCON item replace block 8 -56 1 container.0 with minecraft:gravel 1 => Replaced a slot at 8, -56, 1 with [Gravel]
+RCON data get block 8 -56 1 => 8, -56, 1 has the following block data: {TransferCooldown: 0, x: 8, y: -56, Items: [], z: 1, id: "minecraft:hopper"}
+RCON data get block 8 -57 1 => 8, -57, 1 has the following block data: {Speed: 0.16f, x: 8, y: -57, z: 1, id: "create:crushing_wheel_controller", Inventory: {AppliedRecipe: 0b, ProcessingTime: 0.0f, RecipeTime: 0.0f, Size: 32, Items: []}}
+RCON data get block 8 -58 1 => 8, -58, 1 has the following block data: {TransferCooldown: 1, x: 8, y: -58, Items: [], z: 1, id: "minecraft:hopper"}
+BARREL 8, -59, 1 has the following block data: {x: 8, y: -59, Items: [{Slot: 0b, id: "minecraft:sand", Count: 1b}], z: 1, id: "minecraft:barrel"}
+RCON setblock 9 -57 2 minecraft:air => Changed the block at 9, -57, 2
+RCON setblock 9 -57 2 create:shaft[axis=y] => Changed the block at 9, -57, 2
+LUA local i=createlab.machine.inspect; local w=i({x=6,y=-57,z=0}).kinetics; local a=i({x=8,y=-57,z=0}).kinetics; local b=i({x=8,y=-57,z=2}).kinetics; local c=i({x=8,y=-57,z=1}).crusher; print("RPM",w.rpm,a.rpm,b.rpm,"SU",a.stress,a.capacity,"VALID",c.valid,c.facing,c.processing_speed); local s=numen.scan.block({x=9,y=-57,z=2}); print("SHAFT_AXIS",s.properties.axis); assert(w.rpm==8 and a.rpm==8 and b.rpm==0 and not c.valid and s.properties.axis=="y") => [19:04:45] [Server thread/INFO]: LabBot: ok · 5 calls · 0 s
+stdout:
+receipt_5
+RPM	8	8	0	SU	64	256	VALID	false	down	0
+SHAFT_AXIS	y
+RCON setblock 9 -58 3 minecraft:stone => Changed the block at 9, -58, 3
+RCON tp LabBot 9.5 -57 3.5 => Teleported LabBot to 9.500000, -57.000000, 3.500000
+LUA local i=createlab.machine.inspect; local a=i({x=10,y=-57,z=2}).kinetics; local b=i({x=8,y=-57,z=2}).kinetics; local s=numen.scan.block({x=9,y=-57,z=2}); if a.rpm~=0 and b.rpm==0 and s.name=="create:shaft" and s.properties.axis~="x" then numen.build.place({{name="minecraft:air",pos=s.pos}}); assert(numen.scan.block(s.pos).is_air); return numen.build.place({{name="create:shaft[axis=x]",pos=s.pos}}) end; error("unexpected diagnosis") => [19:04:46] [Server thread/INFO]: LabBot: ok · 6 calls · 0 s
+stderr:
+line 1 numen.build.place: built 1/1 block(s); placed 0, cleared 1 (all requested cells match)
+line 1 numen.build.place: built 1/1 block(s); placed 1, cleared 0 (all requested cells match)
+returned: {cleared = 0, completed = 1, left = 0, placed = 1, replaced = 0, requested = 1, set_directly = 0, site = {{x = 9, y = -57, z = 2}, {x = 9, y = -57, z = 2}}, unplaced = {}, walk_dug_at = {}, walk_placed_at = {}}
+stdout:
+receipt_6
+LUA local i=createlab.machine.inspect; local w=i({x=6,y=-57,z=0}).kinetics; local a=i({x=8,y=-57,z=0}).kinetics; local b=i({x=8,y=-57,z=2}).kinetics; local c=i({x=8,y=-57,z=1}).crusher; print("RPM",w.rpm,a.rpm,b.rpm,"SU",a.stress,a.capacity,"VALID",c.valid,c.facing,c.processing_speed); assert(a.rpm==8 and b.rpm==-8 and c.valid and c.facing=="down") => [19:04:47] [Server thread/INFO]: LabBot: ok · 4 calls · 0 s
+stdout:
+receipt_7
+RPM	8	8	-8	SU	64	256	VALID	true	down	0.15999999642372
+RCON item replace block 8 -56 1 container.0 with minecraft:gravel 1 => Replaced a slot at 8, -56, 1 with [Gravel]
+RCON data get block 8 -56 1 => 8, -56, 1 has the following block data: {TransferCooldown: 0, x: 8, y: -56, Items: [], z: 1, id: "minecraft:hopper"}
+RCON data get block 8 -57 1 => 8, -57, 1 has the following block data: {Speed: 0.16f, x: 8, y: -57, z: 1, id: "create:crushing_wheel_controller", Inventory: {AppliedRecipe: 0b, ProcessingTime: 0.0f, RecipeTime: 0.0f, Size: 32, Items: []}}
+RCON data get block 8 -58 1 => 8, -58, 1 has the following block data: {TransferCooldown: 2, x: 8, y: -58, Items: [], z: 1, id: "minecraft:hopper"}
+BARREL 8, -59, 1 has the following block data: {x: 8, y: -59, Items: [{Slot: 0b, id: "minecraft:sand", Count: 2b}], z: 1, id: "minecraft:barrel"}
+LUA return numen.scan.container({x=8,y=-59,z=1}) => [19:04:50] [Server thread/INFO]: LabBot: ok · 1 call · 0 s
+returned: {block = {name = "minecraft:barrel", pos = {x = 8, y = -59, z = 1}}, storage = {"items (sides: all,down,up,north,south,west,east), 27 slots:", "  slot 0: minecraft:sand x2"}}
+stdout:
+receipt_8
+CREATE BUILD, DIAGNOSIS, REPAIR AND TWO RECIPE OUTPUTS PASSED

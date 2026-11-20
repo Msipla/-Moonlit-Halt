@@ -1,0 +1,15 @@
+target	sha256	download_url
+mc20/server-launch.jar	3642abbefda9612df3991beb83e40a5724a7cecc5e1326b4bd1cda888bdca39a	https://meta.fabricmc.net/v2/versions/loader/1.20.1/0.17.2/1.1.0/server/jar
+mc20/mods/numen.jar	11be402a4ae071b43678cb3a15972c17c5a804d85050e8123306a51b70713749	https://github.com/Dwinovo/minecraft-numen/releases/download/v0.1.5-1.20.1-beta/numen-fabric-1.20.1-0.1.5.jar
+mc20/mods/create.jar	a613603fb08d967c5a4138d1adb7374c4a347b91e489fe21579a4cff4f40105a	https://cdn.modrinth.com/data/Xbc0uyRg/versions/HAqwA6X1/create-fabric-6.0.8.1%2Bbuild.1744-mc1.20.1.jar
+mc20/mods/fabric-api.jar	0ece50476da3692111ab04b75945c5458e70d98cd069eefc044ab3e57977deeb	https://cdn.modrinth.com/data/P7dR8mSH/versions/UapVHwiP/fabric-api-0.92.6%2B1.20.1.jar
+extra20/vs.jar	5854dc163849f010e57a2b01e94c4c67127df07668bfb647735e07bc7e4c45d4	https://cdn.modrinth.com/data/V5ujR2yw/versions/qJr3y5vI/valkyrienskies-120-2.4.11.jar
+extra20/eureka.jar	f56c4af199b1e1700c0898622bdac26bdb0d833058bb33668acdf1f220108148	https://cdn.modrinth.com/data/EO8aSHxh/versions/Vim9JR4p/eureka-1201-1.6.4.jar
+extra20/trackwork.jar	8362cce69bd43de17827c8034344bddb9bc45d0cdb80b1883223355bc48ff407	https://cdn.modrinth.com/data/mwafJvtx/versions/Mh7IDZZC/trackwork-fabric-1.2.2%2Bmc1.20.1.jar
+extra20/interactive.jar	5b8046bd9f5cb4c3d2af6e1cbe1bf4f51da776b56bf2d8d164b91dfd6f5851ac	https://cdn.modrinth.com/data/MyfCcqiE/versions/3YezVMe3/create_interactive-1.2.1_1.20.1-fabric.jar
+extra20/clockwork056.jar	3918338367f937cdb1fe5720b2bbdf23df5b9614f0e0899cc2bb0713d6579ce7	https://cdn.modrinth.com/data/84USeAvk/versions/6V352Hop/clockwork-0.5.6.jar
+mc21/installer247.jar	6fa14629491a796d75a39bc31b6e65eb3636b6ba2e1368577c061ba0591e8be4	https://maven.neoforged.net/releases/net/neoforged/neoforge/21.1.247/neoforge-21.1.247-installer.jar
+mc21/mods/numen.jar	db9dbfea03cb20c3f1444b558bc082224d4f698111a4b19c215ccf6cd7886b94	https://github.com/Dwinovo/minecraft-numen/releases/download/v0.1.5-1.21.1-beta/numen-neoforge-1.21.1-0.1.5.jar
+mc21/mods/create.jar	ef87fe5709f1ba1f5b8bb20a2925b5afb4669e178fd6d8bf10c167759eefe37a	https://cdn.modrinth.com/data/LNytGWDc/versions/UjX6dr61/create-1.21.1-6.0.10.jar
+mc21/mods/aeronautics.jar	f430c52eedc1a20f7458c9f5b07cc212fe90869bd302c69c6dedf7b75a2a5c9f	https://cdn.modrinth.com/data/oWaK0Q19/versions/demX2roU/create-aeronautics-bundled-1.21.1-1.3.3.jar
+mc21/mods/sable.jar	9c199157843bf953a47dff625fc5bb41c01a90538d35ad18e6996bbcb8a617c2	https://cdn.modrinth.com/data/T9PomCSv/versions/fg9dTRz9/sable-neoforge-1.21.1-2.0.6.jar

@@ -1,0 +1,49 @@
+RCON op LabOwner => Nothing changed. The player already is an operator
+RCON tp LabOwner 8.5 -60 5.5 => Teleported LabOwner to 8.500000, -60.000000, 5.500000
+RCON execute as LabOwner at @s run numen player summon LabBot => Summoned companion 'LabBot' (3ebcad0c-bb35-4b6b-b920-f590c91dfbad)
+RCON gamemode creative LabBot => 
+RCON execute as LabOwner at @s run numen permission mode LabBot bypass => LabBot: permission mode set to bypass
+RCON tp LabBot 8.5 -60 5.5 => Teleported LabBot to 8.500000, -60.000000, 5.500000
+LUA return numen.status.self() => [19:00:27] [Server thread/INFO]: LabBot: ok · 1 call · 0 s
+returned: {air = 300, backpack_slots = {total = 41, used = 1}, biome = "minecraft:plains", …(21 fields in all; read one by its name, or loop over the table and filter before you print), pos = {x = 8.5, y = -60, z = 5.5}, saturation = 5, structures = {}}
+stdout:
+receipt_1
+RCON setblock 8 -56 3 minecraft:stone => Could not set the block
+RCON tp LabOwner 15.5 -60 7.5 => Teleported LabOwner to 15.500000, -60.000000, 7.500000
+RCON tp LabBot 8.5 -55 3.5 => Teleported LabBot to 8.500000, -55.000000, 3.500000
+RCON data get block 8 -59 1 => 8, -59, 1 has the following block data: {x: 8, y: -59, Items: [{Slot: 0b, id: "minecraft:sand", Count: 1b}], z: 1, id: "minecraft:barrel"}
+RCON setblock 9 -57 2 minecraft:air => Changed the block at 9, -57, 2
+RCON setblock 9 -57 2 create:shaft[axis=y] => Changed the block at 9, -57, 2
+LUA local i=createlab.machine.inspect; local w=i({x=6,y=-57,z=0}).kinetics; local a=i({x=8,y=-57,z=0}).kinetics; local b=i({x=8,y=-57,z=2}).kinetics; local c=i({x=8,y=-57,z=1}).crusher; print("RPM",w.rpm,a.rpm,b.rpm,"SU",a.stress,a.capacity,"VALID",c.valid,c.facing,c.processing_speed); local s=numen.scan.block({x=9,y=-57,z=2}); print("SHAFT_AXIS",s.properties.axis); assert(w.rpm==8 and a.rpm==8 and b.rpm==0 and not c.valid and s.properties.axis=="y") => [19:00:31] [Server thread/INFO]: LabBot: ok · 5 calls · 0 s
+stdout:
+receipt_2
+RPM	8	8	0	SU	64	256	VALID	false	down	0
+SHAFT_AXIS	y
+RCON setblock 9 -58 3 minecraft:stone => Changed the block at 9, -58, 3
+RCON tp LabBot 9.5 -57 3.5 => Teleported LabBot to 9.500000, -57.000000, 3.500000
+DRIVE MISSING local i=createlab.machine.inspect; local a=i({x=10,y=-57,z=2}).kinetics; local b=i({x=8,y=-57,z=2}).kinetics; local s=numen.scan.block({x=9,y=-57,z=2}); if a.rpm~=0 and b.rpm==0 and s.name=="create:shaft" and s.properties.axis~="x" then numen.work.dig(s.pos); return numen.build.place({{name="create:shaft[axis=x]",pos=s.pos}}) end; error("unexpected diagnosis")  was corrected from null to its default, 12. 
+[19:00:47] [Thread-2/WARN]: Incorrect key equipment.toolboxRange was corrected from null to its default, 10. 
+[19:00:47] [Thread-2/WARN]: Incorrect key equipment.airInBacktank was corrected from null to its default, 900. 
+[19:00:47] [Thread-2/WARN]: Incorrect key equipment.enchantedBacktankCapacity was corrected from null to its default, 300. 
+[19:00:47] [Thread-2/WARN]: Incorrect key equipment.maxExtendoGripActions was corrected from null to its default, 1000. 
+[19:00:47] [Thread-2/WARN]: Incorrect key equipment.maxPotatoCannonShots was corrected from null to its default, 200. 
+[19:00:47] [Thread-2/WARN]: Incorrect key equipment.potatoCannonWorldModification was corrected from null to its default, true. 
+[19:00:47] [Thread-2/WARN]: Incorrect key trains was corrected from null to its default, SimpleCommentedConfig:{}. 
+[19:00:47] [Thread-2/WARN]: Incorrect key trains.trainsCauseDamage was corrected from null to its default, true. 
+[19:00:47] [Thread-2/WARN]: Incorrect key trains.maxTrackPlacementLength was corrected from null to its default, 32. 
+[19:00:47] [Thread-2/WARN]: Incorrect key trains.maxAssemblyLength was corrected from null to its default, 128. 
+[19:00:47] [Thread-2/WARN]: Incorrect key trains.maxBogeyCount was corrected from null to its default, 20. 
+[19:00:47] [Thread-2/WARN]: Incorrect key trains.manualTrainSpeedModifier was corrected from null to its default, 0.75. 
+[19:00:47] [Thread-2/WARN]: Incorrect key trains.trainStats was corrected from null to its default, SimpleCommentedConfig:{}. 
+[19:00:47] [Thread-2/WARN]: Incorrect key trains.trainStats.trainTopSpeed was corrected from null to its default, 28.0. 
+[19:00:47] [Thread-2/WARN]: Incorrect key trains.trainStats.trainTurningTopSpeed was corrected from null to its default, 14.0. 
+[19:00:47] [Thread-2/WARN]: Incorrect key trains.trainStats.trainAcceleration was corrected from null to its default, 3.0. 
+[19:00:47] [Thread-2/WARN]: Incorrect key trains.poweredTrainStats was corrected from null to its default, SimpleCommentedConfig:{}. 
+[19:00:47] [Thread-2/WARN]: Incorrect key trains.poweredTrainStats.poweredTrainTopSpeed was corrected from null to its default, 40.0. 
+[19:00:47] [Thread-2/WARN]: Incorrect key trains.poweredTrainStats.poweredTrainTurningTopSpeed was corrected from null to its default, 20.0. 
+[19:00:47] [Thread-2/WARN]: Incorrect key trains.poweredTrainStats.poweredTrainAcceleration was corrected from null to its default, 3.0. 
+
+Error: timed out
+    at poll (/workspace/scratch/d263229ee747/numen-research/mc20/lab-repair.cjs:21:9)
+    at async drive (/workspace/scratch/d263229ee747/numen-research/mc20/lab-repair.cjs:33:15)
+    at async main (/workspace/scratch/d263229ee747/numen-research/mc20/lab-repair.cjs:117:16)

@@ -1,0 +1,25 @@
+RCON op LabOwner => Nothing changed. The player already is an operator
+RCON tp LabOwner 8.5 -60 5.5 => Teleported LabOwner to 8.500000, -60.000000, 5.500000
+RCON execute as LabOwner at @s run numen player summon LabBot => Summoned companion 'LabBot' (091de43a-86cc-41f7-8d73-88e6c478f8ca)
+RCON gamemode creative LabBot => Set LabBot's game mode to Creative Mode
+RCON execute as LabOwner at @s run numen permission mode LabBot bypass => LabBot: permission mode set to bypass
+RCON tp LabBot 8.5 -60 5.5 => Teleported LabBot to 8.500000, -60.000000, 5.500000
+RCON tp LabOwner 15.5 -60 7.5 => Teleported LabOwner to 15.500000, -60.000000, 7.500000
+LUA return numen.build.place({{name="create:creative_motor[facing=east]",pos={x=7,y=-59,z=3}},{name="create:mechanical_bearing[facing=east]",pos={x=8,y=-59,z=3}},{name="minecraft:slime_block",pos={x=9,y=-59,z=3}},{name="minecraft:oak_planks",pos={x=9,y=-58,z=3}}}) => [19:02:46] [Server thread/INFO]: LabBot: ok · 1 call · 0 s
+stderr:
+line 1 numen.build.place: built 4/4 block(s); placed 4 (4 written straight in: a hand could not put them in that shape from where you stand), cleared 0 (all requested cells match)
+returned: {cleared = 0, completed = 4, left = 0, placed = 4, replaced = 0, requested = 4, set_directly = 4, site = {{x = 7, y = -59, z = 3}, {x = 9, y = -58, z = 3}}, unplaced = {}, walk_dug_at = {}, walk_placed_at = {}}
+stdout:
+receipt_1
+RCON item replace entity LabBot weapon.mainhand with minecraft:air => Replaced a slot on LabBot with [Air]
+RCON data get block 8 -59 3 Running => 8, -59, 3 has the following block data: 1b
+LUA return numen.use.block({x=8,y=-59,z=3}) => [19:02:47] [Server thread/INFO]: LabBot: ok · 1 call · 0 s
+stderr:
+line 1 numen.use.block: right-clicked 8,-59,3 — but nothing visibly changed (inventory, health, riding, aimed block, nearby entities all as before). If you expected an effect, reposition or rethink.
+returned: {aim = {x = 8, y = -59, z = 3}, block = {name = "mechanical_bearing", pos = {x = 8, y = -59, z = 3}}, button = "right", changes = {}}
+stdout:
+receipt_2
+RCON data get block 8 -59 3 => 8, -59, 3 has the following block data: {Speed: 16.0f, Owner: [I; 152953914, -2033434121, -1921808154, -998704950], Angle: 62.399994f, Network: {Capacity: 262144.0f, Size: 2, AddedStress: 4.0f, Id: 1924145364933L, Stress: 64.0f}, Running: 1b, x: 8, y: -59, ScrollValue: 0, z: 3, id: "create:mechanical_bearing", Source: {X: 7, Y: -59, Z: 3}}
+RCON data get block 8 -59 3 => 8, -59, 3 has the following block data: {Speed: 16.0f, Owner: [I; 152953914, -2033434121, -1921808154, -998704950], Angle: 120.00003f, Network: {Capacity: 262144.0f, Size: 2, AddedStress: 4.0f, Id: 1924145364933L, Stress: 64.0f}, Running: 1b, x: 8, y: -59, ScrollValue: 0, z: 3, id: "create:mechanical_bearing", Source: {X: 7, Y: -59, Z: 3}}
+RCON execute if entity @e[type=create:stationary_contraption,limit=1] => Test passed, count: 1
+CREATE SINGLE BEARING REAL ROTATION PASSED 62.399994 120.00003

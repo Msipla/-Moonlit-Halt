@@ -1,0 +1,12 @@
+RCON op LabOwner => Nothing changed. The player already is an operator
+RCON tp LabOwner 8.5 -60 5.5 => Teleported LabOwner to 8.500000, -60.000000, 5.500000
+RCON execute as LabOwner at @s run numen player summon LabBot => Summoned companion 'LabBot' (93beaa06-f688-4fdd-ae90-6e7066564f99)
+RCON gamemode creative LabBot => Set LabBot's game mode to Creative Mode
+RCON execute as LabOwner at @s run numen permission mode LabBot bypass => LabBot: permission mode set to bypass
+RCON tp LabBot 8.5 -60 5.5 => Teleported LabBot to 8.500000, -60.000000, 5.500000
+RCON tp LabOwner 15.5 -60 7.5 => Teleported LabOwner to 15.500000, -60.000000, 7.500000
+LUA local ok=createlab.machine.skill_available(); print("SKILL_AVAILABLE",ok); assert(ok) => [19:06:29] [Server thread/INFO]: LabBot: ok · 1 call · 0 s
+stdout:
+receipt_1
+SKILL_AVAILABLE	true
+SKILL REGISTRY AND PROMPT INDEX PASSED

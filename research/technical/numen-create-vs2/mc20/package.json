@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "minecraft-protocol": "^1.68.0",
+    "rcon-client": "^5.0.0"
+  }
+}

@@ -1,0 +1,37 @@
+RCON op LabOwner => Nothing changed. The player already is an operator
+RCON tp LabOwner 8.5 -60 5.5 => Teleported LabOwner to 8.500000, -60.000000, 5.500000
+RCON execute as LabOwner at @s run numen player summon LabBot => Summoned companion 'LabBot' (700c6cdc-85d5-4aec-9ce6-1dd284415247)
+RCON gamemode creative LabBot => Set LabBot's game mode to Creative Mode
+RCON execute as LabOwner at @s run numen permission mode LabBot bypass => LabBot: permission mode set to bypass
+RCON tp LabBot 8.5 -60 5.5 => Teleported LabBot to 8.500000, -60.000000, 5.500000
+RCON fill 6 -55 5 9 -55 7 minecraft:stone => Successfully filled 12 block(s)
+RCON fill 6 -56 7 9 -56 7 minecraft:stone => Successfully filled 4 block(s)
+RCON tp LabOwner 15.5 -60 7.5 => Teleported LabOwner to 15.500000, -60.000000, 7.500000
+RCON tp LabBot 8.5 -54 5.5 => Teleported LabBot to 8.500000, -54.000000, 5.500000
+LUA return numen.build.place({{name="minecraft:oak_planks",pos={x=7,y=-54,z=1}},{name="minecraft:oak_planks",pos={x=7,y=-54,z=2}},{name="minecraft:oak_planks",pos={x=7,y=-54,z=3}},{name="minecraft:oak_planks",pos={x=8,y=-54,z=1}},{name="minecraft:oak_planks",pos={x=8,y=-54,z=2}},{name="minecraft:oak_planks",pos={x=8,y=-54,z=3}},{name="minecraft:oak_planks",pos={x=9,y=-54,z=1}},{name="minecraft:oak_planks",pos={x=9,y=-54,z=2}},{name="minecraft:oak_planks",pos={x=9,y=-54,z=3}},{name="vs_eureka:oak_ship_helm[facing=south]",pos={x=8,y=-53,z=2}}}) => [19:01:19] [Server thread/INFO]: LabBot: ok · 1 call · 25 s
+stderr:
+line 1 numen.build.place: built 10/10 block(s); placed 10 (2 written straight in: a hand could not put them in that shape from where you stand), cleared 0 (all requested cells match)
+returned: {cleared = 0, completed = 10, left = 0, placed = 10, replaced = 0, requested = 10, set_directly = 2, site = {{x = 7, y = -54, z = 1}, {x = 9, y = -53, z = 3}}, unplaced = {}, walk_dug_at = {}, walk_placed_at = {}}
+stdout:
+receipt_1
+LUA local x=vslab.ship.motion(); print("SHIPS",#x); assert(#x==0) => [19:01:19] [Server thread/INFO]: LabBot: ok · 1 call · 0 s
+stdout:
+receipt_2
+SHIPS	0
+LUA return numen.use.block({x=8,y=-53,z=2}, {sneak=true}) => [19:01:19] [Server thread/INFO]: LabBot: ok · 1 call · 0 s
+stderr:
+line 1 numen.use.block: right-clicked 8,-53,2 while sneaking — but nothing visibly changed (inventory, health, riding, aimed block, nearby entities all as before). If you expected an effect, reposition or rethink.
+returned: {block = {name = "oak_ship_helm", pos = {x = 8, y = -53, z = 2}}, data = {}, menu = "ShipHelmScreenMenu", slots = {}}
+stdout:
+receipt_3
+LUA local a=vslab.ship.assemble({x=8,y=-53,z=2}); print("ASSEMBLY",a.accepted); assert(a.accepted); return vslab.ship.motion() => [19:01:20] [Server thread/INFO]: LabBot: ok · 2 calls · 1 s
+returned: {{id = "3", vx = 0, vy = 0, vz = 0, x = 8.4999999888241, y = -53.318181818182, z = 2.5000000149012}}
+stdout:
+receipt_4
+ASSEMBLY	true
+LUA return vslab.ship.motion() => [19:01:22] [Server thread/INFO]: LabBot: ok · 1 call · 0 s
+returned: {{id = "3", vx = -0.0000017576064477893, vy = -0.0000002436877821427, vz = -0.0000022392534917661, x = 8.5041620885604, y = -59.318189625398, z = 2.4968413739568}}
+stdout:
+receipt_5
+VS MOTION { id: '3', y: -53.318181818182, vy: 0 } { id: '3', y: -59.318189625398, vy: -2.436877821427e-7 } deltaY -6.000007807216001
+VS2 STATIC BUILD, EUREKA MENU ASSEMBLY AND REAL MOTION PASSED

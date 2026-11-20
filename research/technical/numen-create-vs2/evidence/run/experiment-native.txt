@@ -1,0 +1,58 @@
+RCON op LabOwner => Nothing changed. The player already is an operator
+RCON tp LabOwner 8.5 -60 5.5 => Teleported LabOwner to 8.500000, -60.000000, 5.500000
+RCON execute as LabOwner at @s run numen player summon LabBot => Summoned companion 'LabBot' (19d90722-1504-4525-9be9-6d8f4d7c1a3a)
+RCON gamemode creative LabBot => Set LabBot's game mode to Creative Mode
+RCON execute as LabOwner at @s run numen permission mode LabBot bypass => LabBot: permission mode set to bypass
+RCON tp LabBot 8.5 -60 5.5 => Teleported LabBot to 8.500000, -60.000000, 5.500000
+LUA return numen.status.self() => [18:53:53] [Server thread/INFO]: LabBot: ok · 1 call · 0 s
+returned: {air = 300, backpack_slots = {total = 41, used = 0}, biome = "minecraft:plains", …(21 fields in all; read one by its name, or loop over the table and filter before you print), pos = {x = 8.5, y = -60, z = 5.5}, saturation = 5, structures = {}}
+stdout:
+receipt_1
+LUA return numen.build.place({{name="minecraft:barrel[facing=up]",pos={x=8,y=-59,z=1}},{name="minecraft:hopper[facing=down]",pos={x=8,y=-58,z=1}},{name="create:water_wheel[facing=east]",pos={x=6,y=-57,z=0}},{name="create:shaft[axis=x]",pos={x=7,y=-57,z=0}},{name="create:crushing_wheel[axis=x]",pos={x=8,y=-57,z=0}},{name="create:water_wheel[facing=west]",pos={x=10,y=-57,z=2}},{name="create:shaft[axis=x]",pos={x=9,y=-57,z=2}},{name="create:crushing_wheel[axis=x]",pos={x=8,y=-57,z=2}},{name="minecraft:stone",pos={x=5,y=-60,z=1}},{name="minecraft:stone",pos={x=7,y=-60,z=1}},{name="minecraft:stone",pos={x=6,y=-60,z=0}},{name="minecraft:stone",pos={x=6,y=-60,z=2}},{name="minecraft:stone",pos={x=5,y=-59,z=1}},{name="minecraft:stone",pos={x=7,y=-59,z=1}},{name="minecraft:stone",pos={x=6,y=-59,z=0}},{name="minecraft:stone",pos={x=6,y=-59,z=2}},{name="minecraft:stone",pos={x=5,y=-58,z=1}},{name="minecraft:stone",pos={x=7,y=-58,z=1}},{name="minecraft:stone",pos={x=6,y=-58,z=0}},{name="minecraft:stone",pos={x=6,y=-58,z=2}},{name="minecraft:stone",pos={x=5,y=-57,z=1}},{name="minecraft:stone",pos={x=7,y=-57,z=1}},{name="minecraft:stone",pos={x=6,y=-57,z=2}},{name="minecraft:stone",pos={x=5,y=-56,z=1}},{name="minecraft:stone",pos={x=7,y=-56,z=1}},{name="minecraft:stone",pos={x=6,y=-56,z=0}},{name="minecraft:stone",pos={x=6,y=-56,z=2}},{name="minecraft:stone",pos={x=9,y=-60,z=1}},{name="minecraft:stone",pos={x=11,y=-60,z=1}},{name="minecraft:stone",pos={x=10,y=-60,z=0}},{name="minecraft:stone",pos={x=10,y=-60,z=2}},{name="minecraft:stone",pos={x=9,y=-59,z=1}},{name="minecraft:stone",pos={x=11,y=-59,z=1}},{name="minecraft:stone",pos={x=10,y=-59,z=0}},{name="minecraft:stone",pos={x=10,y=-59,z=2}},{name="minecraft:stone",pos={x=9,y=-58,z=1}},{name="minecraft:stone",pos={x=11,y=-58,z=1}},{name="minecraft:stone",pos={x=10,y=-58,z=0}},{name="minecraft:stone",pos={x=10,y=-58,z=2}},{name="minecraft:stone",pos={x=9,y=-57,z=1}},{name="minecraft:stone",pos={x=11,y=-57,z=1}},{name="minecraft:stone",pos={x=10,y=-57,z=0}},{name="minecraft:stone",pos={x=9,y=-56,z=1}},{name="minecraft:stone",pos={x=11,y=-56,z=1}},{name="minecraft:stone",pos={x=10,y=-56,z=0}},{name="minecraft:stone",pos={x=10,y=-56,z=2}}}) => [18:54:47] [Server thread/INFO]: LabBot: ok · 1 call · 54 s
+stderr:
+line 1 numen.build.place: built 46/46 block(s); placed 46 (15 written straight in: a hand could not put them in that shape from where you stand), cleared 0 (all requested cells match) En route I had to place 7 cobblestone (4,-60,1; 9,-60,4; 4,-59,1; 4,-58,1; 3,-58,1; 4,-57,1; +1 more). I also took a stack of cobblestone from the creative inventory.
+returned: {cleared = 0, completed = 46, left = 0, placed = 46, replaced = 0, requested = 46, set_directly = 15, site = {{x = 5, y = -60, z = 0}, {x = 11, y = -56, z = 2}}, unplaced = {}, walk_dug_at = {}, walk_placed_at = {{x = 4, y = -60, z = 1}, {x = 9, y = -60, z = 4}, {x = 4, y = -59, z = 1}, {x = 4, y = -58, z = 1}, {x = 3, y = -58, z = 1}, {x = 4, y = -57, z = 1}, {x = 8, y = -56, z = 1}}}
+stdout:
+receipt_2
+LUA for _, p in ipairs({{x=6,y=-57,z=0},{x=10,y=-57,z=2},{x=8,y=-57,z=0},{x=8,y=-57,z=2},{x=8,y=-57,z=1}}) do local b=numen.scan.block(p); print(b.name,b.properties); end; return numen.scan.container({x=8,y=-57,z=1}) => [18:54:47] [Server thread/INFO]: LabBot: The script stopped at line 1 after 6 calls: numen.scan.container: not_found — the block at 8,-57,1 is air — nothing to read
+stderr:
+line 1 numen.scan.container: not_found — the block at 8,-57,1 is air — nothing to read
+stdout:
+receipt_3
+create:water_wheel	{facing = "east"}
+create:water_wheel	{facing = "west"}
+create:crushing_wheel	{axis = "x"}
+create:crushing_wheel	{axis = "x"}
+create:crushing_wheel_controller	{facing = "down", valid = "false"}
+
+STATE dry
+RCON data get block 6 -57 0 => 6, -57, 0 has the following block data: {Speed: 0.0f, Owner: [I; 433653538, 352601381, -1679200881, 1299978810], x: 6, y: -57, Material: {Name: "minecraft:spruce_planks"}, z: 0, id: "create:water_wheel", FlowScore: 0}
+RCON data get block 10 -57 2 => 10, -57, 2 has the following block data: {Speed: 0.0f, Owner: [I; 433653538, 352601381, -1679200881, 1299978810], x: 10, y: -57, Material: {Name: "minecraft:spruce_planks"}, z: 2, id: "create:water_wheel", FlowScore: 0}
+RCON data get block 8 -57 0 => 8, -57, 0 has the following block data: {Speed: 0.0f, Owner: [I; 433653538, 352601381, -1679200881, 1299978810], x: 8, y: -57, z: 0, id: "create:crushing_wheel"}
+RCON data get block 8 -57 2 => 8, -57, 2 has the following block data: {Speed: 0.0f, Owner: [I; 433653538, 352601381, -1679200881, 1299978810], x: 8, y: -57, z: 2, id: "create:crushing_wheel"}
+RCON data get block 8 -57 1 => 8, -57, 1 has the following block data: {Speed: 0.0f, x: 8, y: -57, z: 1, id: "create:crushing_wheel_controller", Inventory: {AppliedRecipe: 0b, ProcessingTime: 0.0f, RecipeTime: 0.0f, Size: 32, Items: []}}
+RCON data get block 8 -59 1 => 8, -59, 1 has the following block data: {x: 8, y: -59, Items: [], z: 1, id: "minecraft:barrel"}
+RCON setblock 6 -56 1 minecraft:water => Changed the block at 6, -56, 1
+RCON setblock 10 -56 1 minecraft:water => Changed the block at 10, -56, 1
+
+STATE wet
+RCON data get block 6 -57 0 => 6, -57, 0 has the following block data: {Speed: 8.0f, Owner: [I; 433653538, 352601381, -1679200881, 1299978810], Network: {Capacity: 256.0f, Size: 3, AddedCapacity: 32.0f, Id: 1649267445703L, Stress: 64.0f}, x: 6, y: -57, Material: {Name: "minecraft:spruce_planks"}, z: 0, id: "create:water_wheel", FlowScore: 1}
+RCON data get block 10 -57 2 => 10, -57, 2 has the following block data: {Speed: -8.0f, Owner: [I; 433653538, 352601381, -1679200881, 1299978810], Network: {Capacity: 256.0f, Size: 3, AddedCapacity: 32.0f, Id: 2748779081671L, Stress: 64.0f}, x: 10, y: -57, Material: {Name: "minecraft:spruce_planks"}, z: 2, id: "create:water_wheel", FlowScore: -1}
+RCON data get block 8 -57 0 => 8, -57, 0 has the following block data: {Speed: 8.0f, Owner: [I; 433653538, 352601381, -1679200881, 1299978810], Network: {Capacity: 256.0f, Size: 3, AddedStress: 8.0f, Id: 1649267445703L, Stress: 64.0f}, x: 8, y: -57, z: 0, id: "create:crushing_wheel", Source: {X: 7, Y: -57, Z: 0}}
+RCON data get block 8 -57 2 => 8, -57, 2 has the following block data: {Speed: -8.0f, Owner: [I; 433653538, 352601381, -1679200881, 1299978810], Network: {Capacity: 256.0f, Size: 3, AddedStress: 8.0f, Id: 2748779081671L, Stress: 64.0f}, x: 8, y: -57, z: 2, id: "create:crushing_wheel", Source: {X: 9, Y: -57, Z: 2}}
+RCON data get block 8 -57 1 => 8, -57, 1 has the following block data: {Speed: 0.16f, x: 8, y: -57, z: 1, id: "create:crushing_wheel_controller", Inventory: {AppliedRecipe: 0b, ProcessingTime: 0.0f, RecipeTime: 0.0f, Size: 32, Items: []}}
+RCON data get block 8 -59 1 => 8, -59, 1 has the following block data: {x: 8, y: -59, Items: [], z: 1, id: "minecraft:barrel"}
+RCON summon minecraft:item 8.5 -55.3 1.5 {Item:{id:"minecraft:gravel",Count:1b},PickupDelay:80s} => Summoned new Gravel
+
+STATE processed
+RCON data get block 6 -57 0 => 6, -57, 0 has the following block data: {Speed: 8.0f, Owner: [I; 433653538, 352601381, -1679200881, 1299978810], Network: {Capacity: 256.0f, Size: 3, AddedCapacity: 32.0f, Id: 1649267445703L, Stress: 64.0f}, x: 6, y: -57, Material: {Name: "minecraft:spruce_planks"}, z: 0, id: "create:water_wheel", FlowScore: 1}
+RCON data get block 10 -57 2 => 10, -57, 2 has the following block data: {Speed: -8.0f, Owner: [I; 433653538, 352601381, -1679200881, 1299978810], Network: {Capacity: 256.0f, Size: 3, AddedCapacity: 32.0f, Id: 2748779081671L, Stress: 64.0f}, x: 10, y: -57, Material: {Name: "minecraft:spruce_planks"}, z: 2, id: "create:water_wheel", FlowScore: -1}
+RCON data get block 8 -57 0 => 8, -57, 0 has the following block data: {Speed: 8.0f, Owner: [I; 433653538, 352601381, -1679200881, 1299978810], Network: {Capacity: 256.0f, Size: 3, AddedStress: 8.0f, Id: 1649267445703L, Stress: 64.0f}, x: 8, y: -57, z: 0, id: "create:crushing_wheel", Source: {X: 7, Y: -57, Z: 0}}
+RCON data get block 8 -57 2 => 8, -57, 2 has the following block data: {Speed: -8.0f, Owner: [I; 433653538, 352601381, -1679200881, 1299978810], Network: {Capacity: 256.0f, Size: 3, AddedStress: 8.0f, Id: 2748779081671L, Stress: 64.0f}, x: 8, y: -57, z: 2, id: "create:crushing_wheel", Source: {X: 9, Y: -57, Z: 2}}
+RCON data get block 8 -57 1 => 8, -57, 1 has the following block data: {Speed: 0.16f, x: 8, y: -57, z: 1, id: "create:crushing_wheel_controller", Inventory: {AppliedRecipe: 0b, ProcessingTime: 0.0f, RecipeTime: 0.0f, Size: 32, Items: []}}
+RCON data get block 8 -59 1 => 8, -59, 1 has the following block data: {x: 8, y: -59, Items: [], z: 1, id: "minecraft:barrel"}
+LUA return numen.scan.container({x=8,y=-59,z=1}) => [18:54:58] [Server thread/INFO]: LabBot: ok · 1 call · 0 s
+returned: {block = {name = "minecraft:barrel", pos = {x = 8, y = -59, z = 1}}, storage = {"items (sides: all,down,up,north,south,west,east), 27 slots:", "  (all 27 slots empty)"}}
+stdout:
+receipt_4
+MACHINE RUN FINISHED

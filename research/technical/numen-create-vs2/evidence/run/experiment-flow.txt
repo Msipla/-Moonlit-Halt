@@ -1,0 +1,61 @@
+RCON op LabOwner => Nothing changed. The player already is an operator
+RCON tp LabOwner 8.5 -60 5.5 => Teleported LabOwner to 8.500000, -60.000000, 5.500000
+RCON execute as LabOwner at @s run numen player summon LabBot => Summoned companion 'LabBot' (3ebcad0c-bb35-4b6b-b920-f590c91dfbad)
+RCON gamemode creative LabBot => 
+RCON execute as LabOwner at @s run numen permission mode LabBot bypass => LabBot: permission mode set to bypass
+RCON tp LabBot 8.5 -60 5.5 => Teleported LabBot to 8.500000, -60.000000, 5.500000
+LUA return numen.status.self() => [18:59:18] [Server thread/INFO]: LabBot: ok · 1 call · 0 s
+returned: {air = 300, backpack_slots = {total = 41, used = 1}, biome = "minecraft:plains", …(21 fields in all; read one by its name, or loop over the table and filter before you print), pos = {x = 8.5, y = -60, z = 5.5}, saturation = 5, structures = {}}
+stdout:
+receipt_1
+RCON setblock 8 -56 3 minecraft:stone => Changed the block at 8, -56, 3
+RCON tp LabOwner 15.5 -60 7.5 => Teleported LabOwner to 15.500000, -60.000000, 7.500000
+RCON tp LabBot 8.5 -55 3.5 => Teleported LabBot to 8.500000, -55.000000, 3.500000
+LUA return numen.build.place({{name="minecraft:hopper[facing=down]",pos={x=8,y=-56,z=1}}}) => [18:59:19] [Server thread/INFO]: LabBot: ok · 1 call · 0 s
+stderr:
+line 1 numen.build.place: built 1/1 block(s); placed 1 (1 replacing what stood there), cleared 1 (all requested cells match) I am still flying, hovering in the air.
+returned: {cleared = 1, completed = 1, left = 0, placed = 1, replaced = 1, requested = 1, set_directly = 0, site = {{x = 8, y = -56, z = 1}, {x = 8, y = -56, z = 1}}, unplaced = {}, walk_dug_at = {}, walk_placed_at = {}}
+stdout:
+receipt_2
+FEED BUILD true
+RCON data get block 8 -58 1 => 8, -58, 1 has the following block data: {TransferCooldown: 0, x: 8, y: -58, Items: [], z: 1, id: "minecraft:hopper"}
+RCON data get block 8 -57 1 => 8, -57, 1 has the following block data: {Speed: 0.16f, x: 8, y: -57, z: 1, id: "create:crushing_wheel_controller", Inventory: {AppliedRecipe: 0b, ProcessingTime: 0.0f, RecipeTime: 0.0f, Size: 32, Items: []}}
+RCON data get entity @e[type=item,x=8,y=-57,z=1,distance=..4,limit=1,sort=nearest] => No entity was found
+RCON kill @e[type=item,x=8,y=-57,z=1,distance=..4] => No entity was found
+RCON setblock 6 -56 1 minecraft:water => Could not set the block
+RCON setblock 10 -56 1 minecraft:water => Could not set the block
+LUA local i=createlab.machine.inspect; local w=i({x=6,y=-57,z=0}).kinetics; local a=i({x=8,y=-57,z=0}).kinetics; local b=i({x=8,y=-57,z=2}).kinetics; local c=i({x=8,y=-57,z=1}).crusher; print("RPM",w.rpm,a.rpm,b.rpm,"SU",a.stress,a.capacity,"VALID",c.valid,c.facing,c.processing_speed); assert(w.rpm==8 and a.rpm==8 and b.rpm==-8 and a.stress==64 and a.capacity==256 and not a.overstressed and c.valid and c.facing=="down") => [18:59:23] [Server thread/INFO]: LabBot: ok · 4 calls · 0 s
+stdout:
+receipt_3
+RPM	8	8	-8	SU	64	256	VALID	true	down	0.15999999642372
+RCON item replace block 8 -56 1 container.0 with minecraft:gravel 1 => Replaced a slot at 8, -56, 1 with [Gravel]
+RCON data get block 8 -56 1 => 8, -56, 1 has the following block data: {TransferCooldown: 0, x: 8, y: -56, Items: [], z: 1, id: "minecraft:hopper"}
+RCON data get block 8 -57 1 => 8, -57, 1 has the following block data: {Speed: 0.16f, x: 8, y: -57, z: 1, id: "create:crushing_wheel_controller", Inventory: {AppliedRecipe: 0b, ProcessingTime: 0.0f, RecipeTime: 0.0f, Size: 32, Items: []}}
+RCON data get block 8 -58 1 => 8, -58, 1 has the following block data: {TransferCooldown: 2, x: 8, y: -58, Items: [], z: 1, id: "minecraft:hopper"}
+BARREL 8, -59, 1 has the following block data: {x: 8, y: -59, Items: [{Slot: 0b, id: "minecraft:sand", Count: 1b}], z: 1, id: "minecraft:barrel"}
+RCON setblock 9 -57 2 create:shaft[axis=y] => Changed the block at 9, -57, 2
+LUA local i=createlab.machine.inspect; local w=i({x=6,y=-57,z=0}).kinetics; local a=i({x=8,y=-57,z=0}).kinetics; local b=i({x=8,y=-57,z=2}).kinetics; local c=i({x=8,y=-57,z=1}).crusher; print("RPM",w.rpm,a.rpm,b.rpm,"SU",a.stress,a.capacity,"VALID",c.valid,c.facing,c.processing_speed); local s=numen.scan.block({x=9,y=-57,z=2}); print("SHAFT_AXIS",s.properties.axis); assert(w.rpm==8 and a.rpm==8 and b.rpm==0 and not c.valid and s.properties.axis=="y") => [18:59:27] [Server thread/INFO]: LabBot: The script stopped at line 1 after 5 calls: lua:1: assertion failed!
+stdout:
+receipt_4
+RPM	8	8	-8	SU	64	256	VALID	true	down	0.15999999642372
+SHAFT_AXIS	y
+AssertionError [ERR_ASSERTION]: The input did not match the regular expression /ok .*5 calls/. Input:
+
+'[18:59:27] [Server thread/INFO]: LabBot: The script stopped at line 1 after 5 calls: lua:1: assertion failed!\n' +
+  'stdout:\n' +
+  'receipt_4\n' +
+  'RPM\t8\t8\t-8\tSU\t64\t256\tVALID\ttrue\tdown\t0.15999999642372\n' +
+  'SHAFT_AXIS\ty'
+
+    at main (/workspace/scratch/d263229ee747/numen-research/mc20/lab-flow.cjs:120:10) {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: '[18:59:27] [Server thread/INFO]: LabBot: The script stopped at line 1 after 5 calls: lua:1: assertion failed!\n' +
+    'stdout:\n' +
+    'receipt_4\n' +
+    'RPM\t8\t8\t-8\tSU\t64\t256\tVALID\ttrue\tdown\t0.15999999642372\n' +
+    'SHAFT_AXIS\ty',
+  expected: /ok .*5 calls/,
+  operator: 'match',
+  diff: 'simple'
+}

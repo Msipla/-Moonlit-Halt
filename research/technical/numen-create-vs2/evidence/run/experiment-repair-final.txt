@@ -1,0 +1,32 @@
+RCON op LabOwner => Nothing changed. The player already is an operator
+RCON tp LabOwner 8.5 -60 5.5 => Teleported LabOwner to 8.500000, -60.000000, 5.500000
+RCON execute as LabOwner at @s run numen player summon LabBot => Summoned companion 'LabBot' (3ebcad0c-bb35-4b6b-b920-f590c91dfbad)
+RCON gamemode creative LabBot => 
+RCON execute as LabOwner at @s run numen permission mode LabBot bypass => LabBot: permission mode set to bypass
+RCON tp LabBot 8.5 -60 5.5 => Teleported LabBot to 8.500000, -60.000000, 5.500000
+DRIVE MISSING return numen.status.self()  was corrected from null to its default, 12. 
+[19:02:38] [Thread-2/WARN]: Incorrect key equipment.toolboxRange was corrected from null to its default, 10. 
+[19:02:38] [Thread-2/WARN]: Incorrect key equipment.airInBacktank was corrected from null to its default, 900. 
+[19:02:38] [Thread-2/WARN]: Incorrect key equipment.enchantedBacktankCapacity was corrected from null to its default, 300. 
+[19:02:38] [Thread-2/WARN]: Incorrect key equipment.maxExtendoGripActions was corrected from null to its default, 1000. 
+[19:02:38] [Thread-2/WARN]: Incorrect key equipment.maxPotatoCannonShots was corrected from null to its default, 200. 
+[19:02:38] [Thread-2/WARN]: Incorrect key equipment.potatoCannonWorldModification was corrected from null to its default, true. 
+[19:02:38] [Thread-2/WARN]: Incorrect key trains was corrected from null to its default, SimpleCommentedConfig:{}. 
+[19:02:38] [Thread-2/WARN]: Incorrect key trains.trainsCauseDamage was corrected from null to its default, true. 
+[19:02:38] [Thread-2/WARN]: Incorrect key trains.maxTrackPlacementLength was corrected from null to its default, 32. 
+[19:02:38] [Thread-2/WARN]: Incorrect key trains.maxAssemblyLength was corrected from null to its default, 128. 
+[19:02:38] [Thread-2/WARN]: Incorrect key trains.maxBogeyCount was corrected from null to its default, 20. 
+[19:02:38] [Thread-2/WARN]: Incorrect key trains.manualTrainSpeedModifier was corrected from null to its default, 0.75. 
+[19:02:38] [Thread-2/WARN]: Incorrect key trains.trainStats was corrected from null to its default, SimpleCommentedConfig:{}. 
+[19:02:38] [Thread-2/WARN]: Incorrect key trains.trainStats.trainTopSpeed was corrected from null to its default, 28.0. 
+[19:02:38] [Thread-2/WARN]: Incorrect key trains.trainStats.trainTurningTopSpeed was corrected from null to its default, 14.0. 
+[19:02:38] [Thread-2/WARN]: Incorrect key trains.trainStats.trainAcceleration was corrected from null to its default, 3.0. 
+[19:02:38] [Thread-2/WARN]: Incorrect key trains.poweredTrainStats was corrected from null to its default, SimpleCommentedConfig:{}. 
+[19:02:38] [Thread-2/WARN]: Incorrect key trains.poweredTrainStats.poweredTrainTopSpeed was corrected from null to its default, 40.0. 
+[19:02:38] [Thread-2/WARN]: Incorrect key trains.poweredTrainStats.poweredTrainTurningTopSpeed was corrected from null to its default, 20.0. 
+[19:02:38] [Thread-2/WARN]: Incorrect key trains.poweredTrainStats.poweredTrainAcceleration was corrected from null to its default, 3.0. 
+
+Error: timed out
+    at poll (/workspace/scratch/d263229ee747/numen-research/mc20/lab-repair-final.cjs:21:9)
+    at async drive (/workspace/scratch/d263229ee747/numen-research/mc20/lab-repair-final.cjs:33:15)
+    at async main (/workspace/scratch/d263229ee747/numen-research/mc20/lab-repair-final.cjs:85:3)
