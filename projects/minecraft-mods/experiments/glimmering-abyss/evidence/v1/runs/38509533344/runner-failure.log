@@ -1,0 +1,12 @@
+2026-10-14T04:15:48.1820927Z Traceback (most recent call last):
+2026-10-14T04:15:48.1822703Z   File "/home/runner/work/-Moonlit-Halt/-Moonlit-Halt/projects/minecraft-mods/experiments/glimmering-abyss/tools/run_v1_preview.py", line 172, in <module>
+2026-10-14T04:15:48.1827885Z     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--accept-eula',action='store_true');p.add_argument('--skip-build',action='store_true');p.add_argument('--output',required=True);scope=p.add_mutually_exclusive_group();scope.add_argument('--mechanics-only',action='store_true');scope.add_argument('--finish-only',action='store_true',help='Two-seed finishing review, actual paths/residence sleep, restart and authentic layout101 upgrade; unchanged transport/dream regression uses 38500421865 baseline');run(p.parse_args())
+2026-10-14T04:15:48.1838928Z                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      ^^^^^^^^^^^^^^^^^^^
+2026-10-14T04:15:48.1840488Z   File "/home/runner/work/-Moonlit-Halt/-Moonlit-Halt/projects/minecraft-mods/experiments/glimmering-abyss/tools/run_v1_preview.py", line 55, in run
+2026-10-14T04:15:48.1841315Z     ready();audit('warmup');time.sleep(10);first=audit('first')
+2026-10-14T04:15:48.1841675Z     ^^^^^^^
+2026-10-14T04:15:48.1842338Z   File "/home/runner/work/-Moonlit-Halt/-Moonlit-Halt/projects/minecraft-mods/experiments/glimmering-abyss/tools/run_v1_preview.py", line 40, in ready
+2026-10-14T04:15:48.1843344Z     if s['stage']=='unavailable':raise AssertionError(s)
+2026-10-14T04:15:48.1843697Z                                  ^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-14T04:15:48.1844778Z AssertionError: {'layout': 102, 'seed': 74102002, 'stage': 'unavailable', 'x': 5488, 'z': -5344, 'entry_y': 114, 'approach_length': 8, 'approach_y': 117, 'attempt': 4096, 'cursor': 0, 'reason': 'No covered, uninhabited candidate in bounded search', 'unfinished_rides': 0}
+2026-10-14T04:15:48.2004805Z ##[error]Process completed with exit code 1.

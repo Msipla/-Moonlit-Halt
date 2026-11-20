@@ -21,9 +21,10 @@ public final class CableCarEntity extends Entity {
     private boolean fromUpper,arriving;
     private int progress,topY,originX,originZ,layout;
     private double lerpX,lerpY,lerpZ;
+    private float lerpYaw;
     private int lerpTicks;
     public CableCarEntity(EntityType<? extends CableCarEntity> type,World w){super(type,w);setNoGravity(true);setInvulnerable(true);}
-    public void configure(OverworldSite s,boolean upper){originX=s.x;originZ=s.z;topY=s.entryY+1;layout=s.layout;fromUpper=upper;setPosition(s.x+.5,upper?topY:45,s.z+70.5);}
+    public void configure(OverworldSite s,boolean upper){originX=s.x;originZ=s.z;topY=s.entryY+1;layout=s.layout;fromUpper=upper;setYaw(layout>=100?(upper?-116.565f:63.435f):180);setPosition(s.x+.5+(upper?0:s.dockX()),upper?topY:45,s.z+.5+(upper?70:s.dockZ()));}
     @Override protected void initDataTracker(){}
     @Override protected void readCustomDataFromNbt(NbtCompound n){originX=n.getInt("x");originZ=n.getInt("z");topY=n.getInt("top");layout=n.contains("layout")?n.getInt("layout"):70;fromUpper=n.getBoolean("upper");progress=n.getInt("progress");}
     @Override protected void writeCustomDataToNbt(NbtCompound n){n.putInt("layout",layout);n.putInt("x",originX);n.putInt("z",originZ);n.putInt("top",topY);n.putBoolean("upper",fromUpper);n.putInt("progress",progress);}
@@ -35,11 +36,11 @@ public final class CableCarEntity extends Entity {
     @Override public void updateTrackedPositionAndAngles(double x,double y,double z,float yaw,float pitch,int steps,boolean interpolate){
         // Base Entity snaps every network update. A vehicle needs client tick interpolation,
         // followed by the renderer's usual partial-tick interpolation, also for its passenger.
-        lerpX=x;lerpY=y;lerpZ=z;lerpTicks=3;
+        lerpX=x;lerpY=y;lerpZ=z;lerpYaw=yaw;lerpTicks=3;
     }
     @Override public void tick(){
         super.tick();if(getWorld().isClient){
-            if(lerpTicks>0){setPosition(getX()+(lerpX-getX())/lerpTicks,getY()+(lerpY-getY())/lerpTicks,getZ()+(lerpZ-getZ())/lerpTicks);lerpTicks--;}
+            if(lerpTicks>0){setYaw(net.minecraft.util.math.MathHelper.lerpAngleDegrees(1f/lerpTicks,getYaw(),lerpYaw));setPosition(getX()+(lerpX-getX())/lerpTicks,getY()+(lerpY-getY())/lerpTicks,getZ()+(lerpZ-getZ())/lerpTicks);lerpTicks--;}
             return;
         }
         if(!hasPassengers()){discard();return;}

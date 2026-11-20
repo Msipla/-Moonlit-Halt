@@ -1,0 +1,59 @@
+2026-10-14T05:41:01.2491550Z Traceback (most recent call last):
+2026-10-14T05:41:01.2492786Z   File "/home/runner/work/-Moonlit-Halt/-Moonlit-Halt/projects/minecraft-mods/experiments/glimmering-abyss/tools/run_v1_preview.py", line 172, in <module>
+2026-10-14T05:41:01.2496324Z     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--accept-eula',action='store_true');p.add_argument('--skip-build',action='store_true');p.add_argument('--output',required=True);scope=p.add_mutually_exclusive_group();scope.add_argument('--mechanics-only',action='store_true');scope.add_argument('--finish-only',action='store_true',help='Two-seed finishing review, actual paths/residence sleep, restart and authentic layout101 upgrade; unchanged transport/dream regression uses 38500421865 baseline');run(p.parse_args())
+2026-10-14T05:41:01.2502409Z                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      ^^^^^^^^^^^^^^^^^^^
+2026-10-14T05:41:01.2504599Z   File "/home/runner/work/-Moonlit-Halt/-Moonlit-Halt/projects/minecraft-mods/experiments/glimmering-abyss/tools/run_v1_preview.py", line 61, in run
+2026-10-14T05:41:01.2506400Z     with (out/'client.log').open('w') as cl:client=launch(cl,phase=7,extra_vm_args=['-Dabyss.capture.phase7=false','-Dabyss.capture.v1=true']+(['-Dabyss.capture.v1.finish=true'] if args.finish_only else []))
+2026-10-14T05:41:01.2508426Z                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-14T05:41:01.2509408Z   File "/home/runner/work/-Moonlit-Halt/-Moonlit-Halt/projects/minecraft-mods/experiments/glimmering-abyss/tools/launch_release_client.py", line 55, in launch
+2026-10-14T05:41:01.2510531Z     list(pool.map(lambda h:download('https://resources.download.minecraft.net/'+h[:2]+'/'+h,assets/'objects'/h[:2]/h,h),hashes))
+2026-10-14T05:41:01.2511231Z   File "/usr/lib/python3.12/concurrent/futures/_base.py", line 619, in result_iterator
+2026-10-14T05:41:01.2514104Z     yield _result_or_cancel(fs.pop())
+2026-10-14T05:41:01.2514567Z           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-14T05:41:01.2515254Z   File "/usr/lib/python3.12/concurrent/futures/_base.py", line 317, in _result_or_cancel
+2026-10-14T05:41:01.2516047Z     return fut.result(timeout)
+2026-10-14T05:41:01.2516905Z            ^^^^^^^^^^^^^^^^^^^
+2026-10-14T05:41:01.2517477Z   File "/usr/lib/python3.12/concurrent/futures/_base.py", line 456, in result
+2026-10-14T05:41:01.2518119Z     return self.__get_result()
+2026-10-14T05:41:01.2520878Z            ^^^^^^^^^^^^^^^^^^^
+2026-10-14T05:41:01.2521475Z   File "/usr/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+2026-10-14T05:41:01.2522154Z     raise self._exception
+2026-10-14T05:41:01.2522714Z   File "/usr/lib/python3.12/concurrent/futures/thread.py", line 58, in run
+2026-10-14T05:41:01.2582294Z     result = self.fn(*self.args, **self.kwargs)
+2026-10-14T05:41:01.2582824Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-14T05:41:01.2584040Z   File "/home/runner/work/-Moonlit-Halt/-Moonlit-Halt/projects/minecraft-mods/experiments/glimmering-abyss/tools/launch_release_client.py", line 55, in <lambda>
+2026-10-14T05:41:01.2585240Z     list(pool.map(lambda h:download('https://resources.download.minecraft.net/'+h[:2]+'/'+h,assets/'objects'/h[:2]/h,h),hashes))
+2026-10-14T05:41:01.2587563Z                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-14T05:41:01.2588917Z   File "/home/runner/work/-Moonlit-Halt/-Moonlit-Halt/projects/minecraft-mods/experiments/glimmering-abyss/tools/launch_release_client.py", line 14, in download
+2026-10-14T05:41:01.2589654Z     raw=get(url)
+2026-10-14T05:41:01.2590617Z         ^^^^^^^^
+2026-10-14T05:41:01.2591694Z   File "/home/runner/work/-Moonlit-Halt/-Moonlit-Halt/projects/minecraft-mods/experiments/glimmering-abyss/tools/launch_release_client.py", line 10, in get
+2026-10-14T05:41:01.2593078Z     with urllib.request.urlopen(url,timeout=90) as r:return r.read()
+2026-10-14T05:41:01.2593742Z          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-14T05:41:01.2594107Z   File "/usr/lib/python3.12/urllib/request.py", line 215, in urlopen
+2026-10-14T05:41:01.2657152Z     return opener.open(url, data, timeout)
+2026-10-14T05:41:01.2658276Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-14T05:41:01.2659067Z   File "/usr/lib/python3.12/urllib/request.py", line 515, in open
+2026-10-14T05:41:01.2662680Z     response = self._open(req, data)
+2026-10-14T05:41:01.2663267Z                ^^^^^^^^^^^^^^^^^^^^^
+2026-10-14T05:41:01.2663803Z   File "/usr/lib/python3.12/urllib/request.py", line 532, in _open
+2026-10-14T05:41:01.2664888Z     result = self._call_chain(self.handle_open, protocol, protocol +
+2026-10-14T05:41:01.2665988Z              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-14T05:41:01.2666806Z   File "/usr/lib/python3.12/urllib/request.py", line 492, in _call_chain
+2026-10-14T05:41:01.2667739Z     result = func(*args)
+2026-10-14T05:41:01.2668169Z              ^^^^^^^^^^^
+2026-10-14T05:41:01.2668689Z   File "/usr/lib/python3.12/urllib/request.py", line 1392, in https_open
+2026-10-14T05:41:01.2711442Z     return self.do_open(http.client.HTTPSConnection, req,
+2026-10-14T05:41:01.2712224Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-14T05:41:01.2713024Z   File "/usr/lib/python3.12/urllib/request.py", line 1348, in do_open
+2026-10-14T05:41:01.2715457Z     r = h.getresponse()
+2026-10-14T05:41:01.2716016Z         ^^^^^^^^^^^^^^^
+2026-10-14T05:41:01.2716932Z   File "/usr/lib/python3.12/http/client.py", line 1457, in getresponse
+2026-10-14T05:41:01.2784939Z     response.begin()
+2026-10-14T05:41:01.2785583Z   File "/usr/lib/python3.12/http/client.py", line 336, in begin
+2026-10-14T05:41:01.2786911Z     version, status, reason = self._read_status()
+2026-10-14T05:41:01.2788157Z                               ^^^^^^^^^^^^^^^^^^^
+2026-10-14T05:41:01.2788956Z   File "/usr/lib/python3.12/http/client.py", line 305, in _read_status
+2026-10-14T05:41:01.2790147Z     raise RemoteDisconnected("Remote end closed connection without"
+2026-10-14T05:41:01.2791268Z http.client.RemoteDisconnected: Remote end closed connection without response
+2026-10-14T05:41:01.3136471Z ##[error]Process completed with exit code 1.

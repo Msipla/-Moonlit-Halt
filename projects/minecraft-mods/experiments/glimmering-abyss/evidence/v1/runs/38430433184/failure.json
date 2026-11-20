@@ -1,0 +1,9 @@
+{
+  "state": 11,
+  "leg": 1,
+  "error": "java.lang.IllegalStateException: Loop blocked leg 1 at (-7344.5, 47.0, -2531.949999988079)",
+  "position": "(-7344.5, 47.0, -2531.949999988079)",
+  "permission": true,
+  "sleeping": false,
+  "dream_step": 0
+}

@@ -1,0 +1,24 @@
+{
+  "status": "LIMITED_FINISH_TECHNICAL_PASS",
+  "minecraft": "1.20.1",
+  "layout": 102,
+  "buildings": 11,
+  "release_jar_sha256": "d74739e66507c28f770663d31cdd6c11298e1665d6a8f911d77e203704a30f02",
+  "seeds": [
+    74102002,
+    -92345
+  ],
+  "real_client": true,
+  "peripheral_walk_legs": 22,
+  "settlement_walk_legs": 43,
+  "real_residence_sleep": true,
+  "real_server_restart": true,
+  "midride_stop_and_reconnect": false,
+  "early_exit": false,
+  "legacy_layouts_preserved": [
+    101
+  ],
+  "unchanged_mechanisms_baseline": "38500421865",
+  "aesthetic_acceptance": "preview.2 conditionally approved; limited wall/ceiling and settlement-spacing finish awaits final review of actual screenshots",
+  "limitations": "Hosted Linux software OpenGL; not Windows, PCL2, target GPU, Sodium/Iris/DH or real phone"
+}

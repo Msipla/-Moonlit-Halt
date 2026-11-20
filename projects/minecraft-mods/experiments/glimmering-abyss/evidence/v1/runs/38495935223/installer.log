@@ -1,0 +1,18 @@
+Loading Fabric Installer: 1.0.3
+Installing Fabric Loader 0.14.25(1.20.1) on the server
+Downloading required files
+Downloading library net.fabricmc:tiny-mappings-parser:0.3.0+build.17
+Downloading library net.fabricmc:sponge-mixin:0.12.5+mixin.0.8.5
+Downloading library net.fabricmc:tiny-remapper:0.8.2
+Downloading library net.fabricmc:access-widener:2.1.0
+Downloading library org.ow2.asm:asm:9.6
+Downloading library org.ow2.asm:asm-analysis:9.6
+Downloading library org.ow2.asm:asm-commons:9.6
+Downloading library org.ow2.asm:asm-tree:9.6
+Downloading library org.ow2.asm:asm-util:9.6
+Downloading library net.fabricmc:intermediary:1.20.1
+Downloading library net.fabricmc:fabric-loader:0.14.25
+Generating server launch JAR
+Downloading Minecraft server
+Done
+Done, start server by running fabric-server-launch.jar

@@ -3,11 +3,20 @@ No development mapping/classes, launcher accounts or external credentials are us
 Local offline identity connects only to the isolated localhost test server.
 """
 from pathlib import Path
-import concurrent.futures,hashlib,json,os,subprocess,urllib.request,zipfile
+import concurrent.futures,hashlib,http.client,json,os,subprocess,time,urllib.error,urllib.request,zipfile
 ROOT=Path(__file__).resolve().parents[1]
 RUNTIME=ROOT/'.runtime/release-client'
 def get(url):
- with urllib.request.urlopen(url,timeout=90) as r:return r.read()
+ for attempt in range(4):
+  try:
+   with urllib.request.urlopen(url,timeout=90) as r:return r.read()
+  except urllib.error.HTTPError as error:
+   if error.code not in (408,429,500,502,503,504):raise
+   failure=error
+  except (urllib.error.URLError,OSError,http.client.HTTPException) as error:failure=error
+  if attempt==3:raise failure
+  print('OFFICIAL_DOWNLOAD_RETRY',attempt+1,type(failure).__name__,url,flush=True)
+  time.sleep(1+attempt*2)
 def download(url,target,sha1=None):
  target=Path(target)
  if target.exists() and (sha1 is None or hashlib.sha1(target.read_bytes()).hexdigest()==sha1):return target

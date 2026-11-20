@@ -15,6 +15,7 @@ uniform float EnvAirMax;
 uniform vec4 EnvDepth;
 uniform float AlphaCutoff;
 uniform float EnvScoped;
+uniform vec4 EnvBounds;
 in vec4 materialColor;
 in vec2 texCoord;
 in vec3 scenePosition;
@@ -34,7 +35,7 @@ void main() {
     float facing=0.16+0.84*max(dot(normal,normalize(toAnchor+vec3(0.0001))),0.0);
     vec3 irradiance=clamp(EnvColor*(EnvBase*hemisphere+EnvRadiance*field*facing),vec3(0),vec3(1));
     vec3 nativeLight=originalLight;
-    float scope=EnvScoped<.5?1.0:smoothstep(0.0,5.0,min(min(scenePosition.x+112.0,112.0-scenePosition.x),min(scenePosition.z+176.0,112.0-scenePosition.z)))*(1.0-smoothstep(103.0,111.0,scenePosition.y));
+    float scope=EnvScoped<.5?1.0:smoothstep(0.0,5.0,min(min(scenePosition.x-EnvBounds.x,EnvBounds.y-scenePosition.x),min(scenePosition.z-EnvBounds.z,EnvBounds.w-scenePosition.z)))*(1.0-smoothstep(103.0,111.0,scenePosition.y));
     float protection=(1.0-smoothstep(0.3,1.0,clamp(lightCoord.x/15.0,0.0,1.0)))*scope;
     vec3 illumination=mix(nativeLight,max(nativeLight,irradiance),protection);
     vec3 lit=surface.rgb*illumination;
