@@ -107,6 +107,8 @@ def summarize(run):
     metering = collections.Counter()
     builds = []
     tool_replies, calls = set(), collections.Counter()
+    loaded_skill = False
+    probe_programs = 0
     cost = 0
     for row in request_trace:
         metering.update({k: v for k, v in row.get("usage", {}).items() if isinstance(v, int)})
@@ -117,10 +119,20 @@ def summarize(run):
         amounts = [usage.get(k, 0) for k in ("prompt_cache_hit_tokens", "prompt_cache_miss_tokens", "completion_tokens")]
         cost += (2 if peak else 1) * sum(rate * amount for rate, amount in zip(rates, amounts)) / 1_000_000
         calls.update(call["name"] for call in row["calls"])
+        for call in row["calls"]:
+            if call["name"] == "lua":
+                try:
+                    code = json.loads(call["arguments"]).get("code", "")
+                except (ValueError, AttributeError):
+                    continue
+                if re.search(r"createlab\.machine\.inspect\b", code):
+                    probe_programs += 1
         for item in row["context"]:
             if item["role"] == "tool" and item["tool_call_id"] not in tool_replies:
                 tool_replies.add(item["tool_call_id"])
-                builds.extend(written(item["content"] or ""))
+                receipt = item["content"] or ""
+                loaded_skill |= '<skill_content name="create_kinetics">' in receipt
+                builds.extend(written(receipt))
     snapshot_events = [event for event in events if event["type"] == "snapshot"]
     server_log = (run / "minecraft.log").read_text()
     walking = re.findall(r"\[numen-path\].*?结局 .*?走了 (\d+) 步 挖 (\d+) 放 (\d+) 开关门", server_log)
@@ -131,12 +143,14 @@ def summarize(run):
     result = {
         "run": run.name, "requests": len(request_trace), "calls": calls,
         "models": sorted({r["model"] for r in request_trace}),
+        "httpStatus": collections.Counter(str(r.get("status", "unavailable")) for r in request_trace),
+        "receivedCreateSkill": loaded_skill, "luaProgramsReferencingProbe": probe_programs,
         "reportedUsage": {key: val for key,val in metering.items() if isinstance(val,int)},
         "estimatedUsd": round(cost, 8), "successfulBuildReceipts": builds,
         "serverDispatchErrors": len(dispatch_errors),
         "agentCommandWriteReceipts": {"setblockChanges":len(command_setblock), "fillChanges":sum(command_fill)},
         "walkingFromPathReceipts": dict(zip(("steps","dug","placed"),walk_counts)),
-        "results": [e for e in events if e["type"] in ("create_result","feed_result","feed_skipped","agent_timeout","agent_return","error")],
+        "results": [e for e in events if e["type"] in ("create_result","feed_result","feed_skipped","agent_timeout","agent_return","scope_result","skill_baseline","error")],
     }
     request_times=[dt.datetime.fromisoformat(e["utc"]) for e in events if e["type"]=="chat"]
     if request_times and snapshot_events and dt.datetime.fromisoformat(snapshot_events[-1]["utc"]) >= request_times[0]:

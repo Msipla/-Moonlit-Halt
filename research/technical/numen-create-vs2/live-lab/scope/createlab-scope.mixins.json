@@ -1,0 +1,7 @@
+{
+  "required": true,
+  "package": "lab.scope",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": ["BlockBounds"],
+  "injectors": { "defaultRequire": 1 }
+}

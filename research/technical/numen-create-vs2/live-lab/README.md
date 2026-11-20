@@ -118,3 +118,114 @@ A、B、C 均从相同世界种子、超平坦施工区、空局面和创造权�
 - 档案绑定与游戏聊天由 1.20.1 发布对应提交的 `BindingCommands`、`ConversationCommands#sayOnce`、`ProviderLibrary#profileFromJson` 和 `Keychain` 提供。关键类的固定源码位置见 [源码索引](../SOURCE-MAP.md)。
 - 原生建造回执中的“written straight in”来自 `BuildCompanionTask#tally`。直接写入分支由 `BuildPlacer#setDirectly` 执行 `setBlock(..., Block.UPDATE_ALL)`，再走放置回调与邻块更新。
 - C 组只读探针来自 [CreateProbe.java](../fabric-probe/src/lab/CreateProbe.java)，仍通过原有插件登记，不需修改 Numen 发布包。
+
+## 2026-11-21 Create Skill 迭代与实机对照
+
+基线为 [任务书提交 5b30f06](https://github.com/Msipla/-Moonlit-Halt/commit/5b30f06a9b4e369de42aa6a0c5a52ec88142d2f9)。本阶段采用 [Skill 迭代任务书](../TASK-SKILL-ITERATION.md)，复用上一阶段的 Minecraft、探针、只读世界取样和真实 DeepSeek 接入。旧试验的结论与原始证据可通过上文访问。查看 [本轮独立取样和 API 计量](evidence/skill-iteration.json)。
+
+本阶段只改现有 `create_kinetics`。将上一轮记录到的大范围填地、空转和错轴误判分别落成五个检查步骤：最小施工、水车运行、支路传动、控制器有效、产物和清理。增加了最小的状态名与读取接口说明，继续由模型自行选位置和写 Lua。精确 diff 见本次提交。对照用的旧文件临时从基线取出。历史 `probe-skill.jar` 的固定措辞测试用基线 Skill 复现。本轮全程用只含 `inspect` 的 `probe.jar`。
+
+### 从空场建造
+
+Minecraft Java 1.20.1、Fabric Loader 0.17.2、Create Fabric 6.0.8.1（build 1744）、Numen 0.1.5-beta。两组均使用未修改的 `fabric-probe/probe.jar`、`deepseek-flash`（关闭思考，同一流式中继）、种子 192834、同样场地和中文目标、创造模式、同样的 OP 房主与 `bypass`。输出上限为每次请求 4,096 token，Lua 引擎每段最多 200 次调用。建造等待上限 340 秒，未通过时有一次 270 秒的续试。施工边界补丁另测。每组独立游戏世界各一次，未复用对话。
+
+| 指标 | 旧 Skill | 新 Skill |
+| --- | ---: | ---: |
+| 水车运行 | 14 台中 1 台到 −8 RPM | 1 台，0 RPM |
+| 粉碎轮有效 RPM | 两台均为 0 | 未放置 |
+| 控制器有效、试车产沙 | 无控制器，未投料 | 无控制器，未投料 |
+| 自主建造成功率 | **0/1** | **0/1** |
+| 取样区最终净变更 | 289 格 | 46 格 |
+| 取样区内的越界变更 | 5 格，含 3 根轴 | 7 格，均低于施工面 |
+| 最终新增水格 | 133 格，另有 2 格草地被水替换 | 0 格，先前有水，试验最后使用了海绵 |
+| 实际取得 Skill 正文 | 1 次 | 1 次 |
+| 引用同一探针的 Lua 提交 | 12 段 | 5 段 |
+| 寻路结果报告的步数 / 挖 / 放 | 148 / 6 / 4 | 486 / 5 / 7 |
+| 从目标到最后取样 | 610.4 秒 | 610.7 秒 |
+| API 请求 / token / 估算美元 | 60 / 1,261,725 / 0.01703 | 51 / 1,033,503 / 0.01299 |
+
+旧组在末次读盘出现水车转速，但之前模型扫描的多台水车一直读到 0 RPM，未实现通向两台粉碎轮的有效传动。新组围绕单台水车反复尝试桶操作、走位、架块和清水。探针实际输出过 `flow_score=0`、`rpm=0`。模型出现过命名空间写错、挖掘被流体安全规则拒绝和尝试不存在的 `/look`。截止时仍停在动力源一步。两组均未出现可用控制器，未获得试车、产物和从本次新建机器注障的机会。两组本轮都没有成功的 `setblock` 或 `fill` 模型命令写入回执，越界可由原生建造、寻路后的世界变化发生。
+
+新版这次缩小了净施工面，减少 243 格变更，同时增加了走位和低于施工面的越界数。单组一次的随机实测无法证明成功率或成本有稳定差异。净变更取自 `save-all flush` 后的 Anvil 快照，独立取样区 X/Z ±24、Y −64..−35。有效 RPM、应力和容量沿用上一阶段的独立读盘口径。探针频率以生成的 Lua 段计，包含失败调用和一段内多次读取。完整回执在日志包中可核查。
+
+### 独立施工边界测试
+
+原生世界边界只约束水平位置，旧组也实际写到了 Z=21。Numen 的现有命令权限按命令根名裁决。本轮使用可选的 [Fabric 服务器测试补丁](scope/BlockBounds.java)，在 1.20.1 的 `World.setBlockState` 拦住施工区外或其他维度的写入。模型对话开始前移除实验房主 OP，原版 `commandModificationBlockLimit` 限制管理员一次批量命令的体积为 64。Numen 发布包和只读探针沿用原件。
+
+| 独立实机检查 | 结果 |
+| --- | --- |
+| 管理员在界内 `fill` 两格 | 命令成功，读盘确认两格石头 |
+| 管理员 `fill` 一百格 | 原版拒绝并报上限 64，读盘无目标块 |
+| 管理员在 Y=−62 或 X=21 `setblock` | 两次均被阻止，读盘无目标块 |
+| 取消房主 OP 后由 Numen 执行命令 | `fill` 和 `execute` 回执均为拒绝 |
+| Numen 原生建造 | 界内成功放一格木板。可达的 Y=−39 目标回执放置数为 0，读盘无目标块 |
+| 从 X=20 放水 | 读盘共有 64 格水，全部位于允许范围内 |
+
+本组使用管理员 `numen drive` 发出明确测试动作，未产生模型用量。首个验证实例在等待异步回执且地下目标寻路时超时。调整为从服务端控制台收回执，并给越界目标设置近处可达平台后，全部断言通过。补丁限制已测试的运行时写入路径。原生建造每任务目标数仍沿用 Numen 自身限制，原版命令的 64 格上限不适用于原生建造任务。规划可以对越界请求继续寻路。其他模组直接改区块、区块生成及生产服使用不在本次验收范围。
+
+### 已有机器的错轴补测
+
+另复制两份已验证的机器，启用相同施工边界、取消房主 OP，并使用同样的 `LAB_REPAIR_UNOWNED=1`。两侧先实际将一颗 `minecraft:gravel` 粉碎，桶内沙由 2 增到 3。独立读盘确认两侧原始粉碎轮为 ±8 RPM，网络均为 64/256 SU。随后同样把 `(9,-57,2)` 的轴从 X 改为 Y，受影响粉碎轮变为 0 RPM，另一侧仍为 +8，控制器无效。两组模型各有 340 秒排障，代码独立核对原轴向和再次产物。
+
+| 指标 | 旧 Skill | 新 Skill |
+| --- | ---: | ---: |
+| 原轴向恢复 | 否，Y 轴被水填充 | 否，最终仍是 Y 轴 |
+| 最终两侧粉碎轮 | 0 / 0 RPM | +8 / 0 RPM |
+| 控制器和产出 | 无效，未二次投料，桶内为 3 | 无效，未二次投料，桶内为 3 |
+| 错轴修复成功率 | **0/1** | **0/1** |
+| 注障之后的净格变更 | 275 格，其中 206 格最终为水 | 139 格，其中 94 格最终为水 |
+| 取样区越界变更 | 0 | 0 |
+| 实际取得 Skill 正文 / 引用探针的 Lua 段 | 1 / 5 | 1 / 9 |
+| 用时 / API 请求 / token / 估算美元 | 340.4 秒 / 20 / 290,242 / 0.00524 | 340.3 秒 / 42 / 763,123 / 0.01076 |
+
+旧组读到了水车仍有动力和故障支路归零，随后依然反复加水和换材料，最后原本正常的一边也失去转速。新组读到轴向不符并拆了正确的轴，但反复把 `axis` 放进设计项的独立 `properties` 字段，回执显示放置成功，实际轴仍是 Y。该接口需要在方块状态串中表达朝向，例如 `create:shaft[axis=x]`。原生任务的放置回执证实了目标格被写入。最终轴向和是否恢复动力仍取自独立存档。
+
+### 本轮总用量及交付
+
+四组实测均收到 HTTP 200，共 173 次模型请求，合计 **3,348,593 token**。输入 3,321,252，输出 27,341。输入包含缓存命中 3,187,584、未命中 133,668。按 UTC 请求时间适用的 DeepSeek Flash 平峰价估算 **0.04602 美元**。此值只计 API usage 回包，实际扣费以账单为准。[DeepSeek 计价](https://api-docs.deepseek.com/quick_start/pricing/)
+
+完整日志、Lua 回执、独立快照和最终试验世界见随任务交付的 `Numen-Create-Skill-Iteration.zip`。仓库记录已编译边界补丁、服务器实际启动和 API 已收到回包等证据。玩家实机验收待进行。
+
+### 本轮复现
+
+下面的两个正式组要在研究目录分开启动，并需要私有运行时 `DEEPSEEK_API_KEY`。为避免把旧 Skill 写回当前项目，从 Git 读取到临时文件：
+
+```bash
+base=5b30f06a9b4e369de42aa6a0c5a52ec88142d2f9
+skill=mc20/config/numen/server/skills/createlab/create_kinetics/SKILL.md
+old=$(mktemp)
+git show "$base:research/technical/numen-create-vs2/$skill" > "$old"
+
+LAB_JAVA_HEAP=1200m LAB_SKILL_FILE="$old" LAB_RUNS="$PWD/runs/old" node live-lab/run.cjs C
+LAB_JAVA_HEAP=1200m LAB_SKILL_FILE="$PWD/$skill" LAB_RUNS="$PWD/runs/new" node live-lab/run.cjs C
+```
+
+复用已经启动过的 Fabric 1.20.1 服务端及其 intermediary JAR 编译测试护栏。下列命令在同一目录执行：
+
+```bash
+mkdir -p /tmp/createlab-scope-classes
+mcjar=mc20/.fabric/remappedJars/minecraft-1.20.1-0.17.2/server-intermediary.jar
+mixin=$(find mc20/libraries/net/fabricmc/sponge-mixin -name '*.jar' -print -quit)
+javac -proc:none --release 17 -cp "$mcjar:$mixin" -d /tmp/createlab-scope-classes live-lab/scope/BlockBounds.java
+jar --create --file /tmp/createlab-scope.jar -C /tmp/createlab-scope-classes . \
+  -C live-lab/scope fabric.mod.json -C live-lab/scope createlab-scope.mixins.json
+
+LAB_SCOPE_JAR=/tmp/createlab-scope.jar LAB_RUNS="$PWD/runs/guard" node live-lab/run.cjs guard-check
+```
+
+错轴补测用前一轮包里的 `fixtures/Create-Verified` 作为第二个参数。对两种 Skill 分别运行：
+
+```bash
+LAB_SCOPE_JAR=/tmp/createlab-scope.jar LAB_REPAIR_UNOWNED=1 \
+  LAB_JAVA_HEAP=1000m LAB_SKILL_FILE="$old" LAB_RUNS="$PWD/runs/repair-old" \
+  node live-lab/run.cjs C /path/to/fixtures/Create-Verified
+LAB_SCOPE_JAR=/tmp/createlab-scope.jar LAB_REPAIR_UNOWNED=1 \
+  LAB_JAVA_HEAP=1000m LAB_SKILL_FILE="$PWD/$skill" LAB_RUNS="$PWD/runs/repair-new" \
+  node live-lab/run.cjs C /path/to/fixtures/Create-Verified
+
+python3 live-lab/summarize.py runs/*/*/
+```
+
+### 下一步
+
+下一轮补一个隔离施工区内的定点放水动作。让模型选一个格，执行侧单格放水并回传实际水源落点和邻近水车的 RPM，先验收一台水车稳定起转。此次空场的共同问题发生在动力源与传动接合前后，现阶段的通过率不足以扩大到更长的 Create 施工任务。

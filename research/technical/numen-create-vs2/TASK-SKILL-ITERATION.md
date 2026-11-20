@@ -1,6 +1,6 @@
 # Numen × Create Skill 迭代与真实复测｜Work 任务书
 
-**状态：待执行（2026-11-20）**  
+**状态：已执行（2026-11-21）。旧新两组空场和错轴修复均未通过，独立施工边界测试通过。见 [实测报告](live-lab/README.md#2026-11-21-create-skill-迭代与实机对照)。**
 **仓库/基线分支：** `Msipla/-Moonlit-Halt` / `codex/numen-deepseek-live-test`  
 **任务目录：** `research/technical/numen-create-vs2/`  
 **任务性质：** 在既有 Numen + DeepSeek + Create 实验上做一次最小范围 Skill 改进及可归因对照测试；不替换现有 AI 工程助手或移动基地 Mod。

@@ -3,10 +3,12 @@ const fs = require('node:fs');
 const path = require('node:path');
 const assert = require('node:assert/strict');
 const {createRequire} = require('node:module');
+const {createHash} = require('node:crypto');
 const {snapshot} = require('./world.cjs');
 
 const phase = process.argv[2];
-assert(['smoke','A','B','C','boat'].includes(phase), 'Choose smoke, A, B, C or boat');
+assert(['smoke','A','B','C','boat','guard-check'].includes(phase), 'Choose smoke, A, B, C, boat or guard-check');
+const guardCheck = phase === 'guard-check';
 const root = path.resolve(__dirname, '..');
 const base = path.resolve(process.env.LAB_MC20 || path.join(root, 'mc20'));
 const fixtureDir = process.argv[3] || process.env.LAB_KNOWN_FAULT;
@@ -25,8 +27,15 @@ const relayPort = serverPort + 2;
 const {Rcon} = createRequire(path.join(base, 'lab.cjs'))('rcon-client');
 const java = process.env.LAB_JAVA || path.join(root, 'jdk17/bin/java');
 const probe = process.env.LAB_PROBE || path.join(root,'fabric-probe/probe.jar');
+const skillFile = process.env.LAB_SKILL_FILE;
+const scopeJar = process.env.LAB_SCOPE_JAR;
+assert(!skillFile || ['B','C'].includes(phase), 'LAB_SKILL_FILE requires a Skill phase');
+assert(!guardCheck || scopeJar, 'Set LAB_SCOPE_JAR to the compiled test mod');
+assert(!scopeJar || phase === 'C' || guardCheck, 'LAB_SCOPE_JAR is only used in C and guard-check');
+const runOnlySkill = path.join('skills','createlab','create_kinetics','SKILL.md');
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 const box = [-24,-64,-24,24,-35,24];
+const construction = [-20,-61,-20,20,-40,20];
 const evidence = path.join(run,'model.jsonl');
 const events = path.join(run, 'events.jsonl');
 const world = path.join(run,'world');
@@ -86,6 +95,11 @@ function prepare() {
     fs.cpSync(path.join(base,'config/numen/server/skills/createlab'),path.join(config,'skills/createlab'),{recursive:true});
   }
   fs.writeFileSync(evidence,'');
+  if (skillFile) {
+    const dest = path.join(config, runOnlySkill);
+    fs.copyFileSync(skillFile, dest);
+    mark('skill_baseline',{skillSha256:createHash('sha256').update(fs.readFileSync(dest)).digest('hex')});
+  }
   console.log('RUN',run);
 }
 
@@ -223,23 +237,80 @@ async function faultAndRepair(state, notice) {
   if (fixture(broken)) return mark('create_result',{initial:true,faultInjected:false,repaired:false,reason:'Independent check did not confirm a stall'});
   await chat(notice);
   const recovery=await save('after-agent-repair');
+  const restored = recovery.blocks[coords];
+  const axisRestored = restored?.Name === Name && restored?.Properties?.axis === axis;
   const second=await feed('second-feed',recovery);
-  mark('create_result',{initial:true,faultInjected:true,repaired:Boolean(second&&second.output>0),axisFault:{pos:coords,block:Name,originalAxis:axis,newAxis}});
+  mark('create_result',{initial:true,faultInjected:true,axisRestored,
+    repaired:Boolean(axisRestored&&second&&second.output>0),axisFault:{pos:coords,block:Name,originalAxis:axis,newAxis}});
+}
+
+async function verifyScope() {
+  await cmd('deop LabOwner');
+  await cmd('gamerule commandModificationBlockLimit 64');
+  await cmd('setblock 0 -62 1 minecraft:diamond_block');
+  await cmd('setblock 21 -60 2 minecraft:diamond_block');
+  await cmd('fill 0 -59 0 19 -59 4 minecraft:diamond_block');
+  await cmd('fill 1 -60 5 2 -60 5 minecraft:stone');
+
+  const native = [
+    'local fill=pcall(numen.mc.run,"fill 1 -60 8 2 -60 8 minecraft:diamond_block")',
+    'local execute=pcall(numen.mc.run,"execute run setblock 2 -60 9 minecraft:diamond_block")',
+    'print("scope-command-denied", tostring(fill), tostring(execute))',
+    'local state=numen.build.place({{name="minecraft:oak_planks",pos={x=0,y=-60,z=8}}})',
+    'print("scope-native-finished",state.placed)',
+  ].join(';');
+  mark('scope_drive',{program:native});
+  server.stdin.write('numen drive LabBot '+native+'\n');
+  await until(()=>output.includes('scope-native-finished'),25000);
+
+  // Put the body next to an accessible target just above the permitted height.
+  await cmd('fill -1 -41 7 1 -41 9 minecraft:stone');
+  await cmd('setblock 0 -40 8 minecraft:stone');
+  await cmd('tp LabBot 0.5 -40 9.5');
+  const outside='local r=numen.build.place({{name="minecraft:diamond_block",pos={x=0,y=-39,z=8}}});print("scope-outside-receipt",r.placed)';
+  mark('scope_drive',{program:outside});
+  server.stdin.write('numen drive LabBot '+outside+'\n');
+  await until(()=>output.includes('scope-outside-receipt'),30000);
+  await cmd('setblock 20 -60 -10 minecraft:water');
+  await delay(6500);
+  const s = await save('scope-verified');
+  const id = (...p)=>s.blocks[p]?.Name;
+  assert.match(output,/scope-command-denied\s+false\s+false/);
+  assert.equal(id(0,-60,8),'minecraft:oak_planks');
+  assert.equal(id(0,-39,8),undefined);
+  assert.match(output,/scope-outside-receipt\s+0/);
+  assert.equal(id(0,-62,1),'minecraft:dirt');
+  assert.equal(id(21,-60,2),undefined);
+  assert.equal(id(1,-60,5),'minecraft:stone');
+  assert.equal(id(2,-60,5),'minecraft:stone');
+  assert(!Object.values(s.blocks).some(b=>b.Name==='minecraft:diamond_block'));
+  assert.equal(id(20,-60,-10),'minecraft:water');
+  const flow = Object.entries(s.blocks).filter(([,block])=>block.Name==='minecraft:water');
+  assert(flow.length>1,'Check flowing water as well as the source');
+  assert(flow.every(([p])=>p.split(',').map(Number).every((n,i)=>n>=construction[i]&&n<=construction[i+3])));
+  mark('scope_result',{passed:true,maximumCommandVolume:64,waterCellsInScope:flow.length});
 }
 
 async function main() {
   prepare();
   const relayEnv={...process.env};
-  assert(relayEnv.DEEPSEEK_API_KEY,'Set DEEPSEEK_API_KEY in the runtime');
-  relay=spawn('python3',[path.join(__dirname,'relay.py'),String(relayPort),evidence],{env:relayEnv,stdio:['ignore','pipe','pipe']});
+  if (!guardCheck) {
+    assert(relayEnv.DEEPSEEK_API_KEY,'Set DEEPSEEK_API_KEY in the runtime');
+    relay=spawn('python3',[path.join(__dirname,'relay.py'),String(relayPort),evidence],{env:relayEnv,stdio:['ignore','pipe','pipe']});
+    const relayLog=fs.createWriteStream(path.join(run,'relay.log'));
+    let ready=false;
+    relay.stdout.on('data',data=>{relayLog.write(data);if(data.toString().includes('relay ready')) ready=true;});
+    relay.stderr.pipe(relayLog,{end:false});
+    await until(()=>ready,5000);
+  }
   delete relayEnv.DEEPSEEK_API_KEY;
-  const relayLog=fs.createWriteStream(path.join(run,'relay.log'));
-  let ready=false;
-  relay.stdout.on('data',data=>{relayLog.write(data);if(data.toString().includes('relay ready')) ready=true;});
-  relay.stderr.pipe(relayLog,{end:false});
-  await until(()=>ready,5000);
   const args=['-XX:ActiveProcessorCount=4','-Xms512m','-Xmx'+(process.env.LAB_JAVA_HEAP || '1700m')];
-  if(phase==='C') args.push('-Dfabric.addMods='+probe);
+  const extraMods = phase === 'C' ? [probe] : [];
+  if (scopeJar) {
+    extraMods.push(path.resolve(scopeJar));
+    args.push('-Dcreatelab.scope='+construction.join(','));
+  }
+  if (extraMods.length) args.push('-Dfabric.addMods='+extraMods.join(path.delimiter));
   args.push('-jar','server-launch.jar','nogui');
   server=spawn(java,args,{cwd:run,env:relayEnv,stdio:['pipe','pipe','pipe']});
   const log=fs.createWriteStream(path.join(run,'minecraft.log'));
@@ -261,7 +332,16 @@ async function main() {
   await cmd('gamemode creative LabBot');
   await cmd(cmdAs+'numen permission mode LabBot bypass');
   await cmd('tp LabBot 0.5 -59 11.5');
+  if (guardCheck) {
+    await save('baseline');
+    await verifyScope();
+    return;
+  }
   await cmd(cmdAs+'numen companion LabBot profile lab:deepseek');
+  if (scopeJar) {
+    await cmd('deop LabOwner');
+    await cmd('gamerule commandModificationBlockLimit 64');
+  }
   if (phase==='smoke') {
     await cmd('setblock 3 -59 3 minecraft:emerald_block');
     await chat('请先实际读取坐标 (3,-59,3) 的方块，然后报告观测到的精确 ID 和坐标。不要放置或破坏任何方块。',120000);
