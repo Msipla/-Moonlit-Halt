@@ -1,6 +1,6 @@
 # Numen × DeepSeek 真实自主建造｜下一阶段 Work 任务书
 
-**状态：** 待执行；本文件仅授权本阶段隔离实验与必要的最小原型改动，尚未测试或验收。
+**状态：** 2026-11-20 已执行。各项实测、未验收条件及复现步骤见 [真实模型实验记录](live-lab/README.md)。
 **仓库：** `Msipla/-Moonlit-Halt`
 **研究基线：** `codex/numen-create-research` 的 `research/technical/numen-create-vs2/`，研究提交 `d19cec9`。
 **目标环境：** Minecraft 1.20.1 / Fabric / Numen 0.1.5-beta / Create Fabric 6.0.8.1；具体锁定依赖以 `dependencies.tsv` 和现有复现记录为准。
