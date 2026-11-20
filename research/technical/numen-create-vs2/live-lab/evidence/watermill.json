@@ -8835,5 +8835,678 @@
     "prompt_cache_miss_tokens": 213034,
     "reasoning_tokens": 16578
   },
-  "requests": 135
+  "requests": 135,
+  "autonomousComparison": {
+    "patchouliSource": "b1d929fe9bcf0a3901b396f4d03aae3e3a265913",
+    "archiveHttpStatus": 403,
+    "baselineWorldSha256": "90e8182594567e518fa7717a31510de16c504e33a6926fb2dfad93575e91edb3",
+    "revisedSkillSha256": "cf1fd53f6d3e47b41ec476355587ee4cbde6d08fe37acf658e2820f8cb524bf9",
+    "firstRetestConnection": {
+      "failed": true,
+      "run": "watermill-1795204632672",
+      "error": "URLError",
+      "usageReported": false
+    },
+    "baseline": {
+      "run": "watermill-1795201263613",
+      "luaCallLimitHits": [
+        10,
+        15,
+        16,
+        17
+      ],
+      "worldWrites": [
+        {
+          "request": 21,
+          "secondsAtRequestStart": 283.484,
+          "action": "work.dig",
+          "receipt": "ok · 2 calls · 3 s\nstderr:\nline 3 numen.work.dig: dug 1 cell(s) of millstone. Drops: 2 wheat_flour landed at {x = 2, y = -58, z = 0}; 1 wheat_seeds landed at {x = 2, y = -58, z = -1}. En route I had to break 1 cobblestone (1,-58,3).\nstdout:\nnow at\t2\t-58\t0\t=\tminecraft:air"
+        },
+        {
+          "request": 24,
+          "secondsAtRequestStart": 318.484,
+          "action": "build.place",
+          "receipt": "ok · 2 calls · 2 s\nstderr:\nline 3 numen.build.place: built 1/1 block(s); placed 1, cleared 0 (all requested cells match)\nstdout:\nrestored (1,-58,3) =\tminecraft:cobblestone"
+        }
+      ],
+      "skillsLoaded": [
+        {
+          "request": 1,
+          "args": {
+            "skill": "create_kinetics"
+          }
+        },
+        {
+          "request": 2,
+          "args": {
+            "file": "references/watermill.md",
+            "skill": "create_kinetics"
+          }
+        }
+      ],
+      "requests": 28,
+      "events": [
+        {
+          "utc": "2026-11-20T19:08:22.614Z",
+          "type": "agent_timeout",
+          "calls": 28,
+          "reason": "No matching event within 420000 ms"
+        },
+        {
+          "utc": "2026-11-20T19:08:22.762Z",
+          "type": "autonomous_inspection",
+          "elapsed": 420.098,
+          "interventions": 0,
+          "result": {
+            "millCount": 0,
+            "mill": null,
+            "moved": false,
+            "onlyOriginalWheel": false,
+            "route": [],
+            "flour": 0,
+            "preserved": {
+              "floorChanges": [],
+              "roofChanges": [
+                "4,-55,-1",
+                "4,-56,0",
+                "1,-53,0",
+                "2,-53,0",
+                "3,-53,0",
+                "4,-53,0"
+              ],
+              "passed": false,
+              "entrance": true,
+              "water": true,
+              "wheel": true
+            },
+            "accessCheck": null,
+            "usePosition": null,
+            "passesLayout": false
+          },
+          "outsideChanges": [],
+          "changes": [
+            {
+              "pos": "2,-58,0",
+              "before": {
+                "Name": "create:millstone"
+              }
+            },
+            {
+              "pos": "4,-57,-1",
+              "after": {
+                "Name": "minecraft:cobblestone"
+              }
+            },
+            {
+              "pos": "4,-55,-1",
+              "after": {
+                "Name": "minecraft:cobblestone"
+              }
+            },
+            {
+              "pos": "5,-59,0",
+              "after": {
+                "Name": "minecraft:cobblestone"
+              }
+            },
+            {
+              "pos": "4,-56,0",
+              "after": {
+                "Name": "minecraft:cobblestone"
+              }
+            },
+            {
+              "pos": "1,-53,0",
+              "after": {
+                "Name": "minecraft:cobblestone"
+              }
+            },
+            {
+              "pos": "2,-53,0",
+              "after": {
+                "Name": "minecraft:cobblestone"
+              }
+            },
+            {
+              "pos": "3,-53,0",
+              "after": {
+                "Name": "minecraft:cobblestone"
+              }
+            },
+            {
+              "pos": "4,-53,0",
+              "after": {
+                "Name": "minecraft:cobblestone"
+              }
+            }
+          ]
+        },
+        {
+          "utc": "2026-11-20T19:08:22.763Z",
+          "type": "autonomous_result",
+          "passed": false,
+          "feed": "not-run",
+          "elapsed": 420.098
+        }
+      ],
+      "counts": {
+        "http200": 28,
+        "skill": 2,
+        "lua": 35,
+        "blockClusterScripts": 8,
+        "singleBlockScripts": 16,
+        "isolatedSingleBlockCalls": 1439,
+        "todo": 2,
+        "work.digScripts": 1,
+        "work.collectScripts": 2,
+        "build.placeScripts": 1,
+        "move.walkScripts": 1,
+        "move.flyScripts": 1,
+        "scanGroupsObserved": 23
+      },
+      "usage": {
+        "prompt_tokens": 547062,
+        "completion_tokens": 9714,
+        "total_tokens": 556776,
+        "prompt_cache_hit_tokens": 507392,
+        "prompt_cache_miss_tokens": 39670
+      },
+      "httpSeconds": 280.691
+    },
+    "retest": {
+      "run": "watermill-1795205533975",
+      "luaCallLimitHits": [
+        5,
+        6,
+        9,
+        10,
+        14,
+        15
+      ],
+      "worldWrites": [
+        {
+          "request": 22,
+          "secondsAtRequestStart": 264.975,
+          "action": "work.dig",
+          "receipt": "ok · 2 calls · 3 s\nstderr:\nline 5 numen.work.dig: dug 1 cell(s) of millstone. Drops: 1 wheat_seeds landed at {x = 2, y = -58, z = 0}; 2 wheat_flour landed at {x = 2, y = -59, z = 1}. En route I had to break 1 cobblestone (1,-58,3).\nline 9 numen.work.dig: dug 1 cell(s) of gearbox. Nothing dropped.\nstdout:\ndig "
+        },
+        {
+          "request": 23,
+          "secondsAtRequestStart": 275.975,
+          "action": "build.place",
+          "receipt": "ok · 1 call · 2 s\nstderr:\nline 3 numen.build.place: built 3/3 block(s); placed 3 (2 written straight in: a hand could not put them in that shape from where you stand), cleared 0 (all requested cells match) En route I had to break 1 cobblestone (1,-59,4)."
+        },
+        {
+          "request": 24,
+          "secondsAtRequestStart": 284.975,
+          "action": "build.place",
+          "receipt": "ok · 1 call · 0 s\nstderr:\nline 2 numen.build.place: built 1/1 block(s); placed 1, cleared 0 (all requested cells match)"
+        },
+        {
+          "request": 26,
+          "secondsAtRequestStart": 298.975,
+          "action": "build.place",
+          "receipt": "ok · 1 call · 1 s\nstderr:\nline 2 numen.build.place: built 2/2 block(s); placed 2, cleared 0 (all requested cells match)"
+        },
+        {
+          "request": 31,
+          "secondsAtRequestStart": 341.975,
+          "action": "work.dig",
+          "receipt": "ok · 2 calls · 1 s\nstderr:\nline 2 numen.work.dig: dug 1 cell(s) of cobblestone. Nothing dropped. En route I put away what was in my hand.\nline 3 numen.work.dig: dug 1 cell(s) of cobblestone. Nothing dropped."
+        },
+        {
+          "request": 33,
+          "secondsAtRequestStart": 358.975,
+          "action": "work.dig",
+          "receipt": "The script stopped at line 7 after 4 calls: numen.work.dig: not_found — the 1 cell(s) given hold nothing to dig — air or fluid — so I did not start\nstderr:\nline 6 numen.work.dig: dug 1 cell(s) of cobblestone. Nothing dropped. En route I had to break 1 cobblestone (0,-58,1). I also put away what was in my hand"
+        },
+        {
+          "request": 40,
+          "secondsAtRequestStart": 419.975,
+          "action": "work.dig",
+          "receipt": ""
+        }
+      ],
+      "skillsLoaded": [
+        {
+          "request": 1,
+          "args": {
+            "skill": "create_kinetics"
+          }
+        },
+        {
+          "request": 8,
+          "args": {
+            "skill": "create_kinetics",
+            "file": "references/watermill.md"
+          }
+        }
+      ],
+      "requests": 40,
+      "events": [
+        {
+          "utc": "2026-11-20T20:19:31.054Z",
+          "type": "agent_timeout",
+          "calls": 39,
+          "reason": "No matching event within 420000 ms"
+        },
+        {
+          "utc": "2026-11-20T20:19:31.227Z",
+          "type": "autonomous_inspection",
+          "elapsed": 420.03,
+          "interventions": 0,
+          "result": {
+            "millCount": 1,
+            "mill": [
+              0,
+              -58,
+              0
+            ],
+            "moved": true,
+            "onlyOriginalWheel": true,
+            "route": [
+              {
+                "id": "create:millstone",
+                "pos": [
+                  0,
+                  -58,
+                  0
+                ],
+                "rpm": -8,
+                "network": [
+                  256,
+                  4037
+                ],
+                "stress": 32,
+                "capacity": 256
+              },
+              {
+                "id": "create:gearbox",
+                "pos": [
+                  0,
+                  -59,
+                  0
+                ],
+                "rpm": 8,
+                "network": [
+                  256,
+                  4037
+                ],
+                "stress": 32,
+                "capacity": 256
+              },
+              {
+                "id": "create:simple_kinetic",
+                "pos": [
+                  1,
+                  -59,
+                  0
+                ],
+                "rpm": 8,
+                "network": [
+                  256,
+                  4037
+                ],
+                "stress": 32,
+                "capacity": 256
+              },
+              {
+                "id": "create:simple_kinetic",
+                "pos": [
+                  2,
+                  -59,
+                  0
+                ],
+                "rpm": 8,
+                "network": [
+                  256,
+                  4037
+                ],
+                "stress": 32,
+                "capacity": 256
+              },
+              {
+                "id": "create:simple_kinetic",
+                "pos": [
+                  3,
+                  -59,
+                  0
+                ],
+                "rpm": 8,
+                "network": [
+                  256,
+                  4037
+                ],
+                "stress": 32,
+                "capacity": 256
+              },
+              {
+                "id": "create:water_wheel",
+                "pos": [
+                  4,
+                  -59,
+                  0
+                ],
+                "rpm": 8,
+                "network": [
+                  256,
+                  4037
+                ],
+                "stress": 32,
+                "capacity": 256
+              }
+            ],
+            "flour": 0,
+            "processing": 0,
+            "preserved": {
+              "floorChanges": [],
+              "roofChanges": [],
+              "passed": true,
+              "entrance": true,
+              "water": true,
+              "wheel": true
+            },
+            "accessCheck": {
+              "standReachable": true,
+              "walkableCells": 21,
+              "roofCovered": 25,
+              "interior": 25,
+              "millTopClear": true,
+              "entranceMoved": true,
+              "passed": true
+            },
+            "usePosition": [
+              -1,
+              -59,
+              0
+            ],
+            "passesLayout": true
+          },
+          "outsideChanges": [],
+          "changes": [
+            {
+              "pos": "2,-59,0",
+              "before": {
+                "Properties": {
+                  "axis": "z"
+                },
+                "Name": "create:gearbox"
+              },
+              "after": {
+                "Properties": {
+                  "waterlogged": "false",
+                  "axis": "x"
+                },
+                "Name": "create:shaft"
+              }
+            },
+            {
+              "pos": "2,-58,0",
+              "before": {
+                "Name": "create:millstone"
+              }
+            },
+            {
+              "pos": "0,-59,0",
+              "after": {
+                "Properties": {
+                  "axis": "z"
+                },
+                "Name": "create:gearbox"
+              }
+            },
+            {
+              "pos": "1,-59,0",
+              "after": {
+                "Properties": {
+                  "waterlogged": "false",
+                  "axis": "x"
+                },
+                "Name": "create:shaft"
+              }
+            },
+            {
+              "pos": "0,-59,1",
+              "after": {
+                "Name": "minecraft:cobblestone"
+              }
+            },
+            {
+              "pos": "0,-58,0",
+              "after": {
+                "Name": "create:millstone"
+              }
+            }
+          ]
+        },
+        {
+          "utc": "2026-11-20T20:19:42.375Z",
+          "type": "autonomous_result",
+          "passed": true,
+          "produced": 1,
+          "final": {
+            "millCount": 1,
+            "mill": [
+              0,
+              -58,
+              0
+            ],
+            "moved": true,
+            "onlyOriginalWheel": true,
+            "route": [
+              {
+                "id": "create:millstone",
+                "pos": [
+                  0,
+                  -58,
+                  0
+                ],
+                "rpm": -8,
+                "network": [
+                  256,
+                  4037
+                ],
+                "stress": 32,
+                "capacity": 256
+              },
+              {
+                "id": "create:gearbox",
+                "pos": [
+                  0,
+                  -59,
+                  0
+                ],
+                "rpm": 8,
+                "network": [
+                  256,
+                  4037
+                ],
+                "stress": 32,
+                "capacity": 256
+              },
+              {
+                "id": "create:simple_kinetic",
+                "pos": [
+                  1,
+                  -59,
+                  0
+                ],
+                "rpm": 8,
+                "network": [
+                  256,
+                  4037
+                ],
+                "stress": 32,
+                "capacity": 256
+              },
+              {
+                "id": "create:simple_kinetic",
+                "pos": [
+                  2,
+                  -59,
+                  0
+                ],
+                "rpm": 8,
+                "network": [
+                  256,
+                  4037
+                ],
+                "stress": 32,
+                "capacity": 256
+              },
+              {
+                "id": "create:simple_kinetic",
+                "pos": [
+                  3,
+                  -59,
+                  0
+                ],
+                "rpm": 8,
+                "network": [
+                  256,
+                  4037
+                ],
+                "stress": 32,
+                "capacity": 256
+              },
+              {
+                "id": "create:water_wheel",
+                "pos": [
+                  4,
+                  -59,
+                  0
+                ],
+                "rpm": 8,
+                "network": [
+                  256,
+                  4037
+                ],
+                "stress": 32,
+                "capacity": 256
+              }
+            ],
+            "flour": 1,
+            "processing": 0,
+            "preserved": {
+              "floorChanges": [],
+              "roofChanges": [],
+              "passed": true,
+              "entrance": true,
+              "water": true,
+              "wheel": true
+            },
+            "accessCheck": {
+              "standReachable": true,
+              "walkableCells": 22,
+              "roofCovered": 25,
+              "interior": 25,
+              "millTopClear": true,
+              "entranceMoved": true,
+              "passed": true
+            },
+            "usePosition": [
+              -1,
+              -59,
+              0
+            ],
+            "passesLayout": true
+          },
+          "elapsed": 420.03,
+          "assaySeconds": 11.32000000000005
+        }
+      ],
+      "counts": {
+        "http200": 40,
+        "skill": 2,
+        "lua": 41,
+        "blockClusterScripts": 3,
+        "singleBlockScripts": 20,
+        "isolatedSingleBlockCalls": 1738,
+        "todo": 1,
+        "work.digScripts": 4,
+        "build.placeScripts": 3,
+        "move.walkScripts": 4,
+        "scanGroupsObserved": 3
+      },
+      "usage": {
+        "prompt_tokens": 895825,
+        "completion_tokens": 11513,
+        "total_tokens": 907338,
+        "prompt_cache_hit_tokens": 843904,
+        "prompt_cache_miss_tokens": 51921
+      },
+      "httpSeconds": 318.991,
+      "postAssayNetBlockChanges": {
+        "0,-58,0": [
+          null,
+          {
+            "Name": "create:millstone"
+          }
+        ],
+        "0,-59,0": [
+          null,
+          {
+            "Properties": {
+              "axis": "z"
+            },
+            "Name": "create:gearbox"
+          }
+        ],
+        "1,-59,0": [
+          null,
+          {
+            "Properties": {
+              "waterlogged": "false",
+              "axis": "x"
+            },
+            "Name": "create:shaft"
+          }
+        ],
+        "2,-58,0": [
+          {
+            "Name": "create:millstone"
+          },
+          null
+        ],
+        "2,-59,0": [
+          {
+            "Properties": {
+              "axis": "z"
+            },
+            "Name": "create:gearbox"
+          },
+          {
+            "Properties": {
+              "waterlogged": "false",
+              "axis": "x"
+            },
+            "Name": "create:shaft"
+          }
+        ]
+      },
+      "preAssayInput": {
+        "Size": 1,
+        "Items": []
+      },
+      "preAssayOutput": {
+        "Size": 9,
+        "Items": []
+      },
+      "postAssayOutput": {
+        "Size": 9,
+        "Items": [
+          {
+            "Slot": 0,
+            "id": "create:wheat_flour",
+            "Count": 1
+          },
+          {
+            "Slot": 1,
+            "id": "minecraft:wheat_seeds",
+            "Count": 1
+          }
+        ]
+      }
+    }
+  }
 }

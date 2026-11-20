@@ -386,3 +386,64 @@ node live-lab/run.cjs watermill
 `watermill` 在 `mill_plan_review` 暂停并输出审核文件路径。检查草案中的方块、轴线、隔水格、地板、门洞和通路后，在该路径写 `{"approved":true,"reason":"审图意见"}` 放行，或者写 `{"approved":false,"reason":"具体几何问题"}` 退回。单轮至多给一次定向修改。已验收的屋体可用 `LAB_MILL_WORLD` 指向完整地表存档，用 `LAB_MILL_REVIEWED` 指向初始审图轮的 `events.jsonl`，并通过 `LAB_MILL_VARIANT=1` 仅执行改造。夹具先从副本独立核验基础动力、可达性和已产面粉。需要接续已生成设计时可用 `LAB_MILL_DRAFT` 给出原始模型 JSON，仍经过同一审图。历史证据包中的基础存档早于归属传递修正。仅复现历史改造时，将 `ownership-repair/numen_placed.dat` 放进该存档的副本，在 `LAB_MILL_DRAFT` 指定包内的 `reviewed-variant-draft.json`。保留原地表区域文件。若从原传动已退役的实测存档继续，另用 `LAB_MILL_BEFORE` 指向验收时的 `initial-fed.json`，以原始地板和屋顶校验副本。所有轮次均按独立运行目录记录。
 
 用于复核关键结果的事件包括 `mill_plan_review`、`mill_review_decision`、`mill_powered`、`mill_built` 和 `mill_result`。原始记录中，`model.jsonl` 的工具 ID 可在后续请求的 `context[].tool_call_id` 中找到回执，`*-fed.json` 记录真实磨石方块实体，`accepted-world/` 保存通过磨粉验收的原始水磨坊地表存档。建筑保护由改造前后逐格比较地板和屋顶一带的方块状态判定。
+
+## 2026-11-21 PatchouliAI 静态审查与 Numen 自主复测
+
+### PatchouliAI 1.6.6
+
+最初的临时下载请求返回 HTTP 403，未收到 RAR。响应头包含 Cloudflare 请求 ID，拒绝的具体规则未知。随后按用户提供的 GitHub 源码仓库检出 `b1d929fe9bcf0a3901b396f4d03aae3e3a265913`，共有 751 个跟踪文件、15.31 MiB，`git fsck --no-reflogs --full` 通过。所见内容是该提交的源码，无法与最初的 RAR 核对同一性。此次采用源码、配置与测试用例静态阅读。 [源码快照](https://github.com/Msipla/PatchouliAI-source/tree/b1d929fe9bcf0a3901b396f4d03aae3e3a265913)
+
+| 目录 | 作用 |
+| --- | --- |
+| `src/main/java/com/cuptu/patchouliai` | Java 模组主体。 `llm` 管对话、模型请求及特殊建造入口，`tasks` 管建造 DSL、蓝图、执行及恢复，`pathfinding` 管移动，`client` 和 `network` 管界面与同步，`voice` 管语音。 |
+| `src/main/resources`、`src/test` | Fabric 元数据、Mixin 和游戏资源，以及 JUnit 源码测试。 |
+| `runtime/f5tts`、`vendor`、`docs` | Python F5-TTS 运行时源码，三份本地 JAR，游玩指南。该 Git 检出没有 `vendor/localvoice` 的模型文件。 |
+
+构建配置指定 Minecraft 26.1.2、Java 25、Fabric Loader 0.19.3、Fabric API 0.152.1+26.1.2、Loom 1.15.5 和 Gradle Wrapper 9.5.1。还有 Java-WebSocket、音频 JNI、sherpa-onnx 及 Python F5-TTS 组件。语音依赖与建造调用链分离。模组元数据显示作者 Cuptu、Anrry，声明 MIT，仓库未找到独立模组 LICENSE 正文。第三方依赖仍各自适用其许可。当前 Numen 试验在 Minecraft 1.20.1 / Java 17 上，源码移植涉及游戏及加载器 API 版本差异。 [版本配置](https://github.com/Msipla/PatchouliAI-source/blob/b1d929fe9bcf0a3901b396f4d03aae3e3a265913/gradle.properties) · [构建依赖](https://github.com/Msipla/PatchouliAI-source/blob/b1d929fe9bcf0a3901b396f4d03aae3e3a265913/build.gradle) · [模组元数据](https://github.com/Msipla/PatchouliAI-source/blob/b1d929fe9bcf0a3901b396f4d03aae3e3a265913/src/main/resources/fabric.mod.json)
+
+1. **从设计到清单。** `BuildCommandInterceptor.tryIntercept` 识别建造意图，`ConversationManager` 将文本建造送入 `FourPhaseBuild.generate`。主体、立面与屋面、室内和场地逐批生成，每批只增补程序，沿用同一原点和前序函数。 `BuildCodeInterpreter` 解释受限的类 JavaScript 几何 DSL，把 `fill`、`setBlock` 和形状函数展开成 `Placement`，图片另有分层蓝图通道。 `MultiPlaceTask.parseBuildCodePlacements` 将相对坐标加到世界原点，处理注册表 ID 与方块状态，同坐标保留最后一次写入。 [文本建造入口](https://github.com/Msipla/PatchouliAI-source/blob/b1d929fe9bcf0a3901b396f4d03aae3e3a265913/src/main/java/com/cuptu/patchouliai/llm/ConversationManager.java#L681) · [四阶段](https://github.com/Msipla/PatchouliAI-source/blob/b1d929fe9bcf0a3901b396f4d03aae3e3a265913/src/main/java/com/cuptu/patchouliai/tasks/FourPhaseBuild.java#L57) · [坐标转换](https://github.com/Msipla/PatchouliAI-source/blob/b1d929fe9bcf0a3901b396f4d03aae3e3a265913/src/main/java/com/cuptu/patchouliai/tasks/MultiPlaceTask.java#L1052)
+2. **高速施工。** `MultiPlaceTask.tickMassBuild` 在作弊模式且工程达到 50,000 格时可走巨型通道。它从已编译清单中按服务端 tick 直接调用 `ServerLevel.setBlock`，跳过逐块寻路和到达。基础预算是每任务 2,048 格/tick，另有全服写入额度、扫描额度、区块渐进加载和挂起队列。普通模式仍有逐块移动，普通作弊分支基础预算 20 格/tick。这里的速度是源码预算，实际吞吐未跑测。主路径的 `fill` 是 DSL 的几何操作，直接写入由模组 Java 代码负责。 [模式切换](https://github.com/Msipla/PatchouliAI-source/blob/b1d929fe9bcf0a3901b396f4d03aae3e3a265913/src/main/java/com/cuptu/patchouliai/tasks/MultiPlaceTask.java#L1963) · [巨型批处理](https://github.com/Msipla/PatchouliAI-source/blob/b1d929fe9bcf0a3901b396f4d03aae3e3a265913/src/main/java/com/cuptu/patchouliai/tasks/MultiPlaceTask.java#L2316) · [实际写入与回读](https://github.com/Msipla/PatchouliAI-source/blob/b1d929fe9bcf0a3901b396f4d03aae3e3a265913/src/main/java/com/cuptu/patchouliai/tasks/MultiPlaceTask.java#L3322)
+3. **感知、恢复和进度。** `QueryExecutor` 提供观察和搜索，`SpatialPerceptionTool` 提供周围地形图，`PathNavigator` 与 Baritone 相关移动代码服务于普通移动。建造侧由 `BuildWorksite` 切分与认领工作单元，`BuildProgressTracker` 向 HUD 发阶段和计数，`BuildBatchSession` 保存程序及带 SHA-256 校验的蓝图，已保存批次可复用。本地修复以建筑几何为主。方块已是期望状态会跳过写入，而写入后的快速校验仅比较方块类型。解析失败时还有建筑材料替换。Create 的轴向、动力传递及产物需要独立验收。 [感知入口](https://github.com/Msipla/PatchouliAI-source/blob/b1d929fe9bcf0a3901b396f4d03aae3e3a265913/src/main/java/com/cuptu/patchouliai/llm/QueryExecutor.java#L104) · [工地分配](https://github.com/Msipla/PatchouliAI-source/blob/b1d929fe9bcf0a3901b396f4d03aae3e3a265913/src/main/java/com/cuptu/patchouliai/tasks/BuildWorksite.java#L354) · [蓝图及恢复](https://github.com/Msipla/PatchouliAI-source/blob/b1d929fe9bcf0a3901b396f4d03aae3e3a265913/src/main/java/com/cuptu/patchouliai/tasks/BuildBatchSession.java#L145) · [进度](https://github.com/Msipla/PatchouliAI-source/blob/b1d929fe9bcf0a3901b396f4d03aae3e3a265913/src/main/java/com/cuptu/patchouliai/tasks/BuildProgressTracker.java#L38)
+
+对 Numen 有直接参考价值的是把一次设计变成小批次操作，区分规划、真实放置和功能验收，并依据回执只检查受影响的位置。Numen 已能在 Lua 中构造 `numen.build.place` 清单，创造模式下也有直接状态落位的原生路径。本轮仅在原 `create_kinetics/SKILL.md` 加入定位与局部采样、主传动优先、失败后依据回执换办法三条通用原则。PatchouliAI 的巨型执行器适合高吞吐建筑，照搬它会改变现有 Numen 的交互、权限和放置语义，小改造的实测也无需引入该依赖。
+
+### 同条件自主改造复测
+
+上轮和本轮使用同一份起始存档、相同自然语言指令、DeepSeek V4 Pro 非思考模式、同一夹具和施工边界，模型时限均为 420 秒。比较程序核对了起始方块和方块实体以及原始指令完全相同。唯一实验改动是 `create_kinetics` 的三条原则。夹具发送一次任务，模型自行选择位置和工具，现场人工干预为零。复测首次启动在首个模型请求遇到中继 `URLError`，未取得模型响应或用量。重新确认连接后完成一轮计分复测。 [验收记录](evidence/watermill.json)
+
+| 指标 | 上轮 | 本轮 |
+| --- | ---: | ---: |
+| 独立功能验收 | 无新磨石 | 通过，1 小麦生成 1 面粉 |
+| 模型终态 | 420.1 秒超时 | 420.0 秒超时 |
+| 人工干预次数 | 0 | 0 |
+| 引擎记录的批量搜索次数 | 23 | 3 |
+| 含逐格读块的 Lua 脚本数 | 16 | 20 |
+| 仅含逐格读块且可由回执计数的调用 | 至少 1,439 | 至少 1,738 |
+| 触及 Lua 200 次调用上限的脚本数 | 4 | 6 |
+| 拾取脚本数 | 2 | 0 |
+| 模型请求数（HTTP 200） | 28 | 40 |
+| 总 token | 556,776 | 907,338 |
+| 有记录的 HTTP 累计时间 | 280.691 秒 | 318.991 秒 |
+| 最终机械以外的方块差异 | 多出 8 格圆石 | 0 |
+
+本轮模型先拆掉旧磨石和齿轮箱，随即用一次 `numen.build.place` 装上 3 个传动部件。回执耗时 2 秒，其中 2 格使用 Numen 原生直接写入。模型随后装好磨石，并用只读探针自行测到跨 6 个部件的连通传动。寻路误挖的 2 格圆石后来由模型补回。模型自己的试投未在新磨石留下可验收的产物，随后继续尝试投料和清理垫块。
+
+420 秒时，独立验收已确认旧磨石格为空、新磨石向室内移动两格，原水轮沿 X 轴驱动它。同一转动网络上，原水轮、轴和齿轮箱均为 +8 RPM，磨石 −8 RPM，负载 32/256 SU。原入口可达机旁，投料空间、供水、入口、地板和屋顶符合保留条件。截止时有 39 次已记录响应，随后在途的第 40 次响应清除最后一格垫块，于验收阶段入账。该段游戏写入只有垫块清理，无模型投料。独立投料前，磨石的配方计时、输入和输出库存均为空，取样区无掉落小麦。夹具投下 1 粒小麦后约 11.3 秒读到 1 份 `create:wheat_flour` 和 1 份种子。因此机械独立验收通过，模型在时限内交出完成回执这项未达到。终验快照与基准相比只差 5 个改造所需的机械格。
+
+本轮保护了机械主任务的推进，扫描效率和用量尚未改善。批量搜索已能定位机械，代理后来仍反复扩大逐格观察。实际安放批次耗时远少于勘察和行动选择。下一步最小改进是在现有参考内给出明确的勘察停止条件。批量结果拿到组件位置、轴向和相邻净空后，用现有 `build.diff` 就候选局部布局验证一次并进入施工。继续读取同一区域只针对计划所缺的一项信息。
+
+### 复现与原始证据
+
+沿用原 [水磨坊报告](#2026-11-21-水磨坊-skill-与连续工具调用) 的版本、探针、护栏编译方法与基准存档。复测包中的 `trial.cjs` 是上轮原样复用的临时入口，`run/` 保存本轮事件、模型响应、原始 NBT 快照与最终世界，`comparison.json` 含基准和复测的实际记录。仓库数据含精简验收记录。测试在私有运行时通过 `DEEPSEEK_API_KEY` 调用模型。
+
+```bash
+# 把交付包中的 trial.cjs 放到研究目录的 autonomous-mill/ 下
+export LAB_SCOPE_JAR=/path/to/scope.jar
+export LAB_MILL_WORLD=/path/to/copy-of-accepted-world
+export LAB_MILL_REVIEWED=/path/to/initial-reviewed-run/events.jsonl
+export LAB_RUNS="$PWD/runs/watermill-autonomous"
+export LAB_JAVA_HEAP=1200m
+NODE_OPTIONS="--require=$PWD/autonomous-mill/trial.cjs" node live-lab/run.cjs watermill
+```
+
+基准存档副本沿用上轮包中的原始四格放置归属数据 `ownership-repair/numen_placed.dat`。复测包还保留固定输入 SHA-256，以及最初 RAR下载失败的响应头。
