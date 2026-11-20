@@ -1,5 +1,6 @@
 """Loopback transport for Numen's native streaming Chat Completions client."""
 import argparse
+from hashlib import sha256
 import json
 import os
 import time
@@ -17,6 +18,7 @@ def main():
     parser.add_argument("evidence", type=Path)
     args = parser.parse_args()
     key = os.environ["DEEPSEEK_API_KEY"]
+    thinking = os.environ.get("LAB_THINKING") == "1"
     trace = args.evidence.open("a", encoding="utf-8")
 
     class Relay(BaseHTTPRequestHandler):
@@ -32,11 +34,12 @@ def main():
                 self.send_error(404)
                 return
             body = json.loads(self.rfile.read(int(self.headers["Content-Length"])))
-            body["thinking"] = {"type": "disabled"}
-            body.pop("reasoning_effort", None)
+            if not thinking:
+                body["thinking"] = {"type": "disabled"}
+                body.pop("reasoning_effort", None)
             body["stream"] = True
             body["stream_options"] = {"include_usage": True}
-            body["max_tokens"] = 4096
+            body["max_tokens"] = min(body.get("max_tokens") or 8192, 8192) if thinking else 4096
             messages = body.get("messages", [])
             started = time.time()
             event = {"utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(started)),
@@ -46,6 +49,17 @@ def main():
                                   "tool_call_id": m.get("tool_call_id")}
                                  for m in messages[-4:] if m.get("role") in ("tool", "user")]}
             calls = {}
+            reasoning = sha256()
+            reasoning_bytes = 0
+            if thinking:
+                # Verify exact replay without recording private reasoning text.
+                event["thinking"] = body.get("thinking")
+                event["reasoningEffort"] = body.get("reasoning_effort")
+                event["maxTokens"] = body["max_tokens"]
+                event["replayedReasoning"] = [
+                    {"ids": [c["id"] for c in m["tool_calls"]],
+                     "sha256": sha256((m.get("reasoning_content") or "").encode()).hexdigest()}
+                    for m in messages if m.get("role") == "assistant" and m.get("tool_calls")]
             request = urllib.request.Request(
                 ENDPOINT, json.dumps(body).encode(),
                 {"Content-Type": "application/json", "Authorization": "Bearer " + key}, method="POST")
@@ -67,6 +81,10 @@ def main():
                                 if choice.get("finish_reason"):
                                     event["finish"] = choice["finish_reason"]
                                 delta = choice.get("delta", {})
+                                if thinking:
+                                    chunk = (delta.get("reasoning_content") or "").encode()
+                                    reasoning.update(chunk)
+                                    reasoning_bytes += len(chunk)
                                 event["content"] += delta.get("content") or ""
                                 for call in delta.get("tool_calls") or []:
                                     entry = calls.setdefault(call["index"], {"id": "", "name": "", "arguments": ""})
@@ -90,6 +108,9 @@ def main():
                     self.send_error(502, "Upstream connection failed")
             finally:
                 event["calls"] = [calls[i] for i in sorted(calls)]
+                if thinking:
+                    event["reasoningBytes"] = reasoning_bytes
+                    event["reasoningSha256"] = reasoning.hexdigest()
                 event["seconds"] = round(time.time() - started, 3)
                 self.record(event)
 

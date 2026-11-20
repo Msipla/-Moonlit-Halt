@@ -12,8 +12,12 @@ const basicWater = phase === 'basic-water';
 const basicAxis = phase === 'basic-axis';
 const basicAction = basicWater || basicAxis;
 const basic = basicCheck || basicAction;
-assert(basic || ['smoke','A','B','C','boat','guard-check'].includes(phase),
-  'Choose smoke, A, B, C, boat, guard-check, basic-check, basic-water or basic-axis');
+const thinkSmoke = phase === 'think-smoke';
+const watermill = phase === 'watermill';
+const thinking = process.env.LAB_THINKING === '1';
+assert(basic || watermill || ['smoke','think-smoke','A','B','C','boat','guard-check'].includes(phase),
+  'Choose smoke, think-smoke, watermill, A, B, C, boat, guard-check, basic-check, basic-water or basic-axis');
+assert(!thinkSmoke || thinking, 'think-smoke requires LAB_THINKING=1');
 const guardCheck = phase === 'guard-check';
 const root = path.resolve(__dirname, '..');
 const base = path.resolve(process.env.LAB_MC20 || path.join(root, 'mc20'));
@@ -22,10 +26,11 @@ const knownFault = fixtureDir && path.resolve(fixtureDir);
 assert(!knownFault || ['B','C'].includes(phase), 'Only B and C are used for the separate known-fixture repair comparison');
 const boatMode = phase === 'boat' ? process.env.LAB_BOAT_MODE : undefined;
 const boatResume = boatMode === 'pro' && process.env.LAB_BOAT_RESUME ? path.resolve(process.env.LAB_BOAT_RESUME) : null;
+const millResume = watermill && process.env.LAB_MILL_WORLD ? path.resolve(process.env.LAB_MILL_WORLD) : null;
 const focusedBoat = ['focused','pro'].includes(boatMode);
 const basicModel = basicWater && process.env.LAB_BASIC_MODEL;
 assert(!basicModel || ['deepseek-flash','deepseek-v4-pro'].includes(basicModel), 'Unknown basic-water model');
-const model = basicModel || (boatMode === 'pro' ? 'deepseek-v4-pro' : 'deepseek-flash');
+const model = basicModel || (boatMode === 'pro' || watermill ? 'deepseek-v4-pro' : 'deepseek-flash');
 const repairUnowned = Boolean(knownFault && process.env.LAB_REPAIR_UNOWNED === '1');
 const runLabel = knownFault ? (repairUnowned ? 'repair-unowned-' : 'repair-') + phase : boatResume ? 'boat-pro-finish' : focusedBoat ? 'boat-' + boatMode : phase;
 const run = path.resolve(process.env.LAB_RUNS || path.join(__dirname, 'runs'), runLabel + '-' + Date.now());
@@ -37,11 +42,11 @@ const java = process.env.LAB_JAVA || path.join(root, 'jdk17/bin/java');
 const probe = process.env.LAB_PROBE || path.join(root,'fabric-probe/probe.jar');
 const skillFile = process.env.LAB_SKILL_FILE;
 const scopeJar = process.env.LAB_SCOPE_JAR;
-const waterAction = process.env.LAB_BASIC_WATER_ACTION === '1';
-assert(!waterAction || basicCheck || basicWater, 'The water action is only used in basic-check and basic-water');
+const waterAction = watermill || process.env.LAB_BASIC_WATER_ACTION === '1';
+assert(!waterAction || basicCheck || basicWater || watermill, 'The water action requires a water laboratory phase');
 assert(!skillFile || basicAction || ['B','C'].includes(phase), 'LAB_SKILL_FILE requires a Skill phase');
-assert(!(guardCheck || basic) || scopeJar, 'Set LAB_SCOPE_JAR to the compiled test mod');
-assert(!scopeJar || phase === 'C' || guardCheck || basic, 'LAB_SCOPE_JAR requires a guarded phase');
+assert(!(guardCheck || basic || watermill) || scopeJar, 'Set LAB_SCOPE_JAR to the compiled test mod');
+assert(!scopeJar || phase === 'C' || guardCheck || basic || watermill, 'LAB_SCOPE_JAR requires a guarded phase');
 const runOnlySkill = path.join('skills','createlab','create_kinetics','SKILL.md');
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 const box = [-24,-64,-24,24,-35,24];
@@ -66,7 +71,7 @@ function prepare() {
     fs.symlinkSync(path.join(base,name),path.join(run,name));
   }
   fs.copyFileSync(path.join(base,'eula.txt'),path.join(run,'eula.txt'));
-  const startingWorld = knownFault || boatResume;
+  const startingWorld = knownFault || boatResume || millResume;
   if (boatResume) {
     const original = path.join(boatResume,'..','baseline.json');
     if (fs.existsSync(original)) fs.copyFileSync(original,path.join(run,'original-flat.json'));
@@ -77,6 +82,11 @@ function prepare() {
     for (const name of ['region','entities','poi']) {
       const source = path.join(startingWorld,name);
       if (fs.existsSync(source)) fs.cpSync(source,path.join(world,name),{recursive:true});
+    }
+    const placements = path.join(startingWorld,'data','numen_placed.dat');
+    if (millResume && fs.existsSync(placements)) {
+      fs.mkdirSync(path.join(world,'data'),{recursive:true});
+      fs.copyFileSync(placements,path.join(world,'data','numen_placed.dat'));
     }
   }
   fs.writeFileSync(path.join(run,'server.properties'), [
@@ -97,11 +107,12 @@ function prepare() {
   }
   fs.writeFileSync(path.join(config,'provider/lab/deepseek.json'), stringify({
     provider:'deepseek', protocol:'chat', model,
-    base_url:'http://127.0.0.1:'+relayPort, reasoning_effort:'off', ctx:65536,
+    base_url:'http://127.0.0.1:'+relayPort, reasoning_effort:thinking?'high':'off', ctx:65536,
+    ...(thinking ? {max_tokens:8192} : {}),
   }));
   const cache = path.join(base,'config/numen/server/cache/models-dev.json');
   if (fs.existsSync(cache)) fs.copyFileSync(cache,path.join(config,'cache/models-dev.json'));
-  if (basicAction || ['B','C'].includes(phase)) {
+  if (basicAction || watermill || ['B','C'].includes(phase)) {
     fs.cpSync(path.join(base,'config/numen/server/skills/createlab'),path.join(config,'skills/createlab'),{recursive:true});
   }
   fs.writeFileSync(evidence,'');
@@ -135,12 +146,19 @@ const rows = () => fs.readFileSync(evidence,'utf8').trim().split('\n').filter(Bo
 async function chat(text, timeout = 340000) {
   const baseCount = rows().length;
   mark('chat',{text,baseCount});
-  await cmd(cmdAs+'numen chat LabBot '+text);
+  const command=cmdAs+'numen chat LabBot '+text;
+  if (watermill) {
+    // A reviewed plan can exceed the RCON packet limit.
+    assert(!/[\r\n]/.test(command),'The watermill chat must fit one console line');
+    server.stdin.write(command+'\n');
+  } else {
+    await cmd(command);
+  }
   try {
     return await until(() => {
       const recent = rows().slice(baseCount);
       // Basic cases may have a pending summon or fixture-completion event.
-      if (basicAction && !recent.some(row=>row.context.some(item=>item.role==='user'&&item.content?.includes(text)))) {
+      if ((basicAction || thinkSmoke || watermill) && !recent.some(row=>row.context.some(item=>item.role==='user'&&item.content?.includes(text)))) {
         return null;
       }
       const last = recent.at(-1);
@@ -459,7 +477,7 @@ async function main() {
   }
   delete relayEnv.DEEPSEEK_API_KEY;
   const args=['-XX:ActiveProcessorCount=4','-Xms512m','-Xmx'+(process.env.LAB_JAVA_HEAP || '1700m')];
-  const extraMods = phase === 'C' || basic ? [probe] : [];
+  const extraMods = phase === 'C' || basic || watermill ? [probe] : [];
   if (scopeJar) {
     extraMods.push(path.resolve(scopeJar));
     args.push('-Dcreatelab.scope='+construction.join(','));
@@ -499,7 +517,13 @@ async function main() {
   }
   if (basicCheck) return waterAction ? verifyWaterAction() : verifyBasicNative();
   if (basicAction) return testBasic();
-  if (phase==='smoke') {
+  if (watermill) return require('./watermill.cjs').test({chat,cmd,save,mark,run,inScope});
+  if (thinkSmoke) {
+    await cmd('setblock 3 -59 3 minecraft:emerald_block');
+    await cmd('setblock 4 -59 3 minecraft:gold_block');
+    await chat('请在第一轮 Lua 仅读坐标 (3,-59,3) 的方块并等待回执。如果回执是绿宝石块，请在第二轮单独调用 Lua 读取 (4,-59,3)；否则读取 (5,-59,3)。向我报告两个实际上读到的方块 ID。每轮只读一个格，不施工。',90000);
+    await save('thinking-smoke');
+  } else if (phase==='smoke') {
     await cmd('setblock 3 -59 3 minecraft:emerald_block');
     await chat('请先实际读取坐标 (3,-59,3) 的方块，然后报告观测到的精确 ID 和坐标。不要放置或破坏任何方块。',120000);
     await save('smoke');
