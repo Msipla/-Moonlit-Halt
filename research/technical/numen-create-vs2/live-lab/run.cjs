@@ -7,7 +7,13 @@ const {createHash} = require('node:crypto');
 const {snapshot} = require('./world.cjs');
 
 const phase = process.argv[2];
-assert(['smoke','A','B','C','boat','guard-check'].includes(phase), 'Choose smoke, A, B, C, boat or guard-check');
+const basicCheck = phase === 'basic-check';
+const basicWater = phase === 'basic-water';
+const basicAxis = phase === 'basic-axis';
+const basicAction = basicWater || basicAxis;
+const basic = basicCheck || basicAction;
+assert(basic || ['smoke','A','B','C','boat','guard-check'].includes(phase),
+  'Choose smoke, A, B, C, boat, guard-check, basic-check, basic-water or basic-axis');
 const guardCheck = phase === 'guard-check';
 const root = path.resolve(__dirname, '..');
 const base = path.resolve(process.env.LAB_MC20 || path.join(root, 'mc20'));
@@ -17,7 +23,9 @@ assert(!knownFault || ['B','C'].includes(phase), 'Only B and C are used for the 
 const boatMode = phase === 'boat' ? process.env.LAB_BOAT_MODE : undefined;
 const boatResume = boatMode === 'pro' && process.env.LAB_BOAT_RESUME ? path.resolve(process.env.LAB_BOAT_RESUME) : null;
 const focusedBoat = ['focused','pro'].includes(boatMode);
-const model = boatMode === 'pro' ? 'deepseek-v4-pro' : 'deepseek-flash';
+const basicModel = basicWater && process.env.LAB_BASIC_MODEL;
+assert(!basicModel || ['deepseek-flash','deepseek-v4-pro'].includes(basicModel), 'Unknown basic-water model');
+const model = basicModel || (boatMode === 'pro' ? 'deepseek-v4-pro' : 'deepseek-flash');
 const repairUnowned = Boolean(knownFault && process.env.LAB_REPAIR_UNOWNED === '1');
 const runLabel = knownFault ? (repairUnowned ? 'repair-unowned-' : 'repair-') + phase : boatResume ? 'boat-pro-finish' : focusedBoat ? 'boat-' + boatMode : phase;
 const run = path.resolve(process.env.LAB_RUNS || path.join(__dirname, 'runs'), runLabel + '-' + Date.now());
@@ -29,9 +37,11 @@ const java = process.env.LAB_JAVA || path.join(root, 'jdk17/bin/java');
 const probe = process.env.LAB_PROBE || path.join(root,'fabric-probe/probe.jar');
 const skillFile = process.env.LAB_SKILL_FILE;
 const scopeJar = process.env.LAB_SCOPE_JAR;
-assert(!skillFile || ['B','C'].includes(phase), 'LAB_SKILL_FILE requires a Skill phase');
-assert(!guardCheck || scopeJar, 'Set LAB_SCOPE_JAR to the compiled test mod');
-assert(!scopeJar || phase === 'C' || guardCheck, 'LAB_SCOPE_JAR is only used in C and guard-check');
+const waterAction = process.env.LAB_BASIC_WATER_ACTION === '1';
+assert(!waterAction || basicCheck || basicWater, 'The water action is only used in basic-check and basic-water');
+assert(!skillFile || basicAction || ['B','C'].includes(phase), 'LAB_SKILL_FILE requires a Skill phase');
+assert(!(guardCheck || basic) || scopeJar, 'Set LAB_SCOPE_JAR to the compiled test mod');
+assert(!scopeJar || phase === 'C' || guardCheck || basic, 'LAB_SCOPE_JAR requires a guarded phase');
 const runOnlySkill = path.join('skills','createlab','create_kinetics','SKILL.md');
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 const box = [-24,-64,-24,24,-35,24];
@@ -91,7 +101,7 @@ function prepare() {
   }));
   const cache = path.join(base,'config/numen/server/cache/models-dev.json');
   if (fs.existsSync(cache)) fs.copyFileSync(cache,path.join(config,'cache/models-dev.json'));
-  if (['B','C'].includes(phase)) {
+  if (basicAction || ['B','C'].includes(phase)) {
     fs.cpSync(path.join(base,'config/numen/server/skills/createlab'),path.join(config,'skills/createlab'),{recursive:true});
   }
   fs.writeFileSync(evidence,'');
@@ -129,6 +139,10 @@ async function chat(text, timeout = 340000) {
   try {
     return await until(() => {
       const recent = rows().slice(baseCount);
+      // Basic cases may have a pending summon or fixture-completion event.
+      if (basicAction && !recent.some(row=>row.context.some(item=>item.role==='user'&&item.content?.includes(text)))) {
+        return null;
+      }
       const last = recent.at(-1);
       if (last && (!last.finish || last.finish !== 'tool_calls')) {
         return mark('agent_return',{calls:recent.length, finish:last.finish, status:last.status, content:last.content}) || last;
@@ -291,10 +305,150 @@ async function verifyScope() {
   mark('scope_result',{passed:true,maximumCommandVolume:64,waterCellsInScope:flow.length});
 }
 
+async function drive(program, marker) {
+  const offset = output.length;
+  mark('basic_drive',{program});
+  server.stdin.write('numen drive LabBot '+program+'\n');
+  await until(()=>output.slice(offset).includes(marker),30000);
+}
+
+const axisTarget = [0,-60,9];
+const luaPos = ([x,y,z]) => `{x=${x},y=${y},z=${z}}`;
+const inScope = ([x,y,z]) => [x,y,z].every((n,i)=>n>=construction[i]&&n<=construction[i+3]);
+
+async function startWrongAxis() {
+  const pos = luaPos(axisTarget);
+  await drive(`local r=numen.build.place({{name="create:shaft",pos=${pos},properties={axis="x"}}});print("basic-wrong-axis",r.placed,numen.scan.block(${pos}).properties.axis)`,
+    'basic-wrong-axis');
+  assert.match(output,/basic-wrong-axis\s+1\s+y/);
+}
+
+async function waterSample(label, baseline) {
+  const time = await cmd('time query gametime');
+  const tick = Number(time.match(/\d+$/)?.[0]);
+  assert(Number.isInteger(tick), 'Game time not found: '+time);
+  const state = await save(label);
+  const water = Object.entries(state.blocks)
+    .filter(([,b])=>b.Name==='minecraft:water')
+    .map(([cell,b])=>({pos:cell.split(',').map(Number),level:Number(b.Properties.level)}));
+  const wheels = state.blockEntities
+    .filter(e=>e.id==='create:water_wheel')
+    .map(e=>({pos:[e.x,e.y,e.z],rpm:effectiveRpm(e),flowScore:e.FlowScore}));
+  const outside = [...new Set([...Object.keys(baseline.blocks),...Object.keys(state.blocks)])]
+    .filter(cell=>!inScope(cell.split(',').map(Number)) && stringify(baseline.blocks[cell])!==stringify(state.blocks[cell]));
+  const sample = {tick,wheels,water,outside};
+  mark('basic_water_sample',{label,...sample});
+  return sample;
+}
+
+async function waitForGameTicks(start, ticks) {
+  const deadline = Date.now()+20000;
+  do {
+    await delay(1000);
+    const time = await rcon.send('time query gametime');
+    const tick = Number(time.match(/\d+$/)?.[0]);
+    if (tick>=start+ticks) return;
+  } while (Date.now()<deadline);
+  throw new Error('Game ticks did not advance');
+}
+
+async function verifyBasicNative() {
+  await startWrongAxis();
+  const wrong = await save('axis-wrong-format');
+  assert.equal(wrong.blocks[axisTarget]?.Properties?.axis,'y');
+  const pos = luaPos(axisTarget);
+  await drive(`local r=numen.build.place({{name="create:shaft[axis=x]",pos=${pos}}});print("basic-correct-axis",r.placed,numen.scan.block(${pos}).properties.axis)`,
+    'basic-correct-axis');
+  const correct = await save('axis-correct-format');
+  assert.equal(correct.blocks[axisTarget]?.Properties?.axis,'x');
+
+  // A dry, isolated vertical rim from the archived working water-wheel layout.
+  // These administrator blocks belong only to the no-model calibration.
+  await cmd('setblock 6 -57 0 create:water_wheel[facing=east]');
+  await cmd('fill 5 -60 1 5 -56 1 minecraft:stone');
+  await cmd('fill 7 -60 1 7 -56 1 minecraft:stone');
+  await cmd('fill 6 -60 2 6 -56 2 minecraft:stone');
+  await cmd('fill 6 -60 0 6 -58 0 minecraft:stone');
+  await cmd('setblock 6 -58 -2 minecraft:stone');
+  await cmd('tp LabBot 6.5 -57 -1.5');
+  const dry = await save('calibration-dry');
+  assert.equal(effectiveRpm(dry.blockEntities.find(e=>e.id==='create:water_wheel')),0);
+  await drive('local r=numen.build.place({{name="minecraft:water",pos={x=6,y=-56,z=1}}});print("basic-liquid-design",r.placed)',
+    'basic-liquid-design');
+  assert.match(output,/basic-liquid-design\s+0/);
+  await drive('numen.creative.give("minecraft:water_bucket",{count=1});numen.use.block({x=6,y=-56,z=2},{item="minecraft:water_bucket"});local b=numen.scan.block({x=6,y=-56,z=1});print("basic-native-rim",b.name,b.properties and b.properties.level)',
+    'basic-native-rim');
+  await delay(4000);
+  const rim = await waterSample('calibration-rim',dry);
+  mark('basic_native_result',{
+    wrongAxis:'y',correctAxis:'x',designPlaced:0,
+    sourceAtIntendedCell:rim.water.some(w=>String(w.pos)==='6,-56,1'&&w.level===0),
+    wheel:rim.wheels[0],
+  });
+}
+
+async function verifyWaterAction() {
+  await cmd('setblock 20 -57 -10 create:water_wheel[facing=east]');
+  await cmd('setblock 19 -57 -9 minecraft:stone');
+  await cmd('setblock 20 -56 -9 minecraft:stone');
+  const baseline = await save('action-before');
+  const operation = 'createlab_water.source.place';
+  const wheel = '{x=20,y=-57,z=-10}';
+  const target = '{x=20,y=-56,z=-9}';
+  await drive(`local o=${operation}({x=21,y=-56,z=-9},${wheel});local s=${operation}(${target},${wheel});local a=${operation}({x=19,y=-56,z=-10},${wheel});print("basic-action-rejections",o.reason,s.reason,a.reason)`,
+    'basic-action-rejections');
+  assert.match(output,/basic-action-rejections\s+outside_construction_scope\s+target_not_air\s+source_must_be_above_rim/);
+  const rejected = await save('action-rejected');
+  assert.deepEqual(rejected.blocks,baseline.blocks);
+  await cmd('setblock 20 -56 -9 minecraft:air');
+  await drive(`local r=${operation}(${target},${wheel});local b=numen.scan.block(${target});print("basic-action-placed",r.placed,r.reason,r.landed_at.x,r.landed_at.y,r.landed_at.z,r.rpm_now,b.name,b.properties.level)`,
+    'basic-action-placed');
+  assert.match(output,/basic-action-placed\s+true\s+placed\s+20\s+-56\s+-9\s+0\s+minecraft:water\s+0/);
+  await delay(5000);
+  const after = await waterSample('action-edge',baseline);
+  const sources = after.water.filter(w=>w.level===0);
+  assert.deepEqual(sources,[{pos:[20,-56,-9],level:0}]);
+  assert(after.water.some(w=>w.level>0));
+  assert.equal(after.outside.length,0);
+  mark('basic_action_result',{passed:true,rejectedWritesUnchanged:true,sources,totalWater:after.water.length,
+    wheel:after.wheels[0],outside:after.outside});
+}
+
+async function testBasic() {
+  if (basicAxis) await startWrongAxis();
+  const baseline = await save('baseline');
+  if (basicAxis) {
+    assert.equal(baseline.blocks[axisTarget]?.Properties?.axis,'y');
+    await chat('把坐标 (0,-60,9) 的 Create 传动轴改成 X 轴（东西向）。请参考 create_kinetics，实际操作，再用扫描核对真实轴向并报告。只改该坐标。',150000);
+    const after = await save('axis');
+    const state = after.blocks[axisTarget];
+    const changed = [...new Set([...Object.keys(baseline.blocks),...Object.keys(after.blocks)])]
+      .filter(cell=>stringify(baseline.blocks[cell])!==stringify(after.blocks[cell]));
+    mark('basic_axis_result',{pos:axisTarget,before:baseline.blocks[axisTarget],after:state,changed,
+      passed:state?.Name==='create:shaft'&&state.Properties?.axis==='x'&&changed.length===1});
+    return;
+  }
+  const pour = waterAction ? '干态 RPM 验证后，使用启用的 createlab_water.source.place 只放一个水源，水源和轮心坐标由你填写。'
+    : '读到干态 RPM 后，用水桶对水道旁的墙面只放一个水源。';
+  await chat('在身边的空平地让一台小型机械动力水车稳定起转。参考 create_kinetics，自行选坐标和朝向。先造干的水轮和单格落水通道，围好下方接水槽，保持接近水道的路线干燥。'+pour+'再读回实际水源、经过轮缘的流动和 RPM。无需整地或扫描整片区域，不接轴或负载。施工边界 x/z 各 -20 至 20，y=-61 至 -40。',waterAction ? 270000 : 210000);
+  const first = await waterSample('water-1',baseline);
+  await waitForGameTicks(first.tick,80);
+  const second = await waterSample('water-2',baseline);
+  await waitForGameTicks(second.tick,80);
+  const last = await waterSample('water-3',baseline);
+  const passed = first.wheels.length===1 && Boolean(first.wheels[0].rpm) &&
+    [first,second,last].every(s=>s.outside.length===0&&s.wheels.length===1&&
+      stringify(s.wheels[0])===stringify(first.wheels[0])&&
+      s.water.filter(w=>w.level===0).length===1&&s.water.some(w=>w.level>0)&&
+      stringify(s.water)===stringify(first.water));
+  mark('basic_water_result',{passed,ticks:[first.tick,second.tick,last.tick],wheel:last.wheels[0],
+    sources:last.water.filter(w=>w.level===0),flowing:last.water.filter(w=>w.level>0).length,outside:last.outside});
+}
+
 async function main() {
   prepare();
   const relayEnv={...process.env};
-  if (!guardCheck) {
+  if (!(guardCheck || basicCheck)) {
     assert(relayEnv.DEEPSEEK_API_KEY,'Set DEEPSEEK_API_KEY in the runtime');
     relay=spawn('python3',[path.join(__dirname,'relay.py'),String(relayPort),evidence],{env:relayEnv,stdio:['ignore','pipe','pipe']});
     const relayLog=fs.createWriteStream(path.join(run,'relay.log'));
@@ -305,11 +459,12 @@ async function main() {
   }
   delete relayEnv.DEEPSEEK_API_KEY;
   const args=['-XX:ActiveProcessorCount=4','-Xms512m','-Xmx'+(process.env.LAB_JAVA_HEAP || '1700m')];
-  const extraMods = phase === 'C' ? [probe] : [];
+  const extraMods = phase === 'C' || basic ? [probe] : [];
   if (scopeJar) {
     extraMods.push(path.resolve(scopeJar));
     args.push('-Dcreatelab.scope='+construction.join(','));
   }
+  if (waterAction) args.push('-Dcreatelab.water=true');
   if (extraMods.length) args.push('-Dfabric.addMods='+extraMods.join(path.delimiter));
   args.push('-jar','server-launch.jar','nogui');
   server=spawn(java,args,{cwd:run,env:relayEnv,stdio:['pipe','pipe','pipe']});
@@ -337,11 +492,13 @@ async function main() {
     await verifyScope();
     return;
   }
-  await cmd(cmdAs+'numen companion LabBot profile lab:deepseek');
+  if (!basicCheck) await cmd(cmdAs+'numen companion LabBot profile lab:deepseek');
   if (scopeJar) {
     await cmd('deop LabOwner');
     await cmd('gamerule commandModificationBlockLimit 64');
   }
+  if (basicCheck) return waterAction ? verifyWaterAction() : verifyBasicNative();
+  if (basicAction) return testBasic();
   if (phase==='smoke') {
     await cmd('setblock 3 -59 3 minecraft:emerald_block');
     await chat('请先实际读取坐标 (3,-59,3) 的方块，然后报告观测到的精确 ID 和坐标。不要放置或破坏任何方块。',120000);

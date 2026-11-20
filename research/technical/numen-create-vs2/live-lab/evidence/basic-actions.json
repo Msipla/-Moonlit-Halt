@@ -1,0 +1,3121 @@
+{
+  "minecraft": "1.20.1",
+  "fabricLoader": "0.17.2",
+  "create": "6.0.8.1+build.1744",
+  "numen": "0.1.5-beta",
+  "seed": 192834,
+  "constructionBounds": [
+    -20,
+    -61,
+    -20,
+    20,
+    -40,
+    20
+  ],
+  "sampleBounds": [
+    -24,
+    -64,
+    -24,
+    24,
+    -35,
+    24
+  ],
+  "scopeWithActionJarSha256": "5f8b7f2f7f329dc37c7815169231014ffd8c0ed46228bc74f83aac58e21fa252",
+  "nativeTrialsScopeJarSha256": "9288f3f1ebca43884bdf2916d147443e0ae89743f87c52725603306d1cd01ca3",
+  "calibrationScopeJarSha256": "f4ec4a5098919c784ed4c67b7329f9018ccd95b3ee2b35386f03b50c24d11f1d",
+  "probeJarSha256": "03590122bd22a761ce1c5e6b45377fab2c0a98039c2b2407121f1e8d95035e11",
+  "runs": [
+    {
+      "run": "basic-axis-1795193846771",
+      "requests": 1,
+      "calls": {},
+      "models": [
+        "deepseek-flash"
+      ],
+      "httpStatus": {
+        "200": 1
+      },
+      "receivedCreateSkill": false,
+      "luaProgramsReferencingProbe": 0,
+      "reportedUsage": {
+        "prompt_tokens": 10781,
+        "completion_tokens": 14,
+        "total_tokens": 10795,
+        "prompt_cache_hit_tokens": 10368,
+        "prompt_cache_miss_tokens": 413
+      },
+      "estimatedUsd": 0.00010145,
+      "successfulBuildReceipts": [],
+      "serverDispatchErrors": 0,
+      "agentCommandWriteReceipts": {
+        "setblockChanges": 0,
+        "fillChanges": 0
+      },
+      "walkingFromPathReceipts": {
+        "steps": 0,
+        "dug": 0,
+        "placed": 0
+      },
+      "results": [
+        {
+          "utc": "2026-11-20T16:57:50.803Z",
+          "type": "agent_return",
+          "calls": 1,
+          "finish": "stop",
+          "status": 200,
+          "content": "I'm here and ready — what would you like me to do?"
+        }
+      ],
+      "secondsFromFirstChatToLastSnapshot": 6.481,
+      "snapshots": [
+        {
+          "label": "axis",
+          "create": [
+            {
+              "id": "create:simple_kinetic",
+              "x": 0,
+              "y": -60,
+              "z": 9,
+              "savedRpm": 0,
+              "effectiveRpm": 0
+            }
+          ],
+          "control": [],
+          "sand": {
+            "total": 0,
+            "stored": [],
+            "loose": []
+          },
+          "changedBlocks": 0,
+          "outside": [],
+          "addedKinds": {},
+          "removedKinds": {},
+          "replacedKinds": {}
+        }
+      ],
+      "events": [
+        {
+          "utc": "2026-11-20T16:57:43.549Z",
+          "type": "basic_drive",
+          "program": "local r=numen.build.place({{name=\"create:shaft\",pos={x=0,y=-60,z=9},properties={axis=\"x\"}}});print(\"basic-wrong-axis\",r.placed,numen.scan.block({x=0,y=-60,z=9}).properties.axis)"
+        },
+        {
+          "utc": "2026-11-20T16:57:44.396Z",
+          "type": "chat",
+          "text": "把坐标 (0,-60,9) 的 Create 传动轴改成 X 轴（东西向）。请参考 create_kinetics，实际操作，再用扫描核对真实轴向并报告。只改该坐标。",
+          "baseCount": 0
+        },
+        {
+          "utc": "2026-11-20T16:57:50.899Z",
+          "type": "basic_axis_result",
+          "pos": [
+            0,
+            -60,
+            9
+          ],
+          "before": {
+            "Properties": {
+              "waterlogged": "false",
+              "axis": "y"
+            },
+            "Name": "create:shaft"
+          },
+          "after": {
+            "Properties": {
+              "waterlogged": "false",
+              "axis": "y"
+            },
+            "Name": "create:shaft"
+          },
+          "changed": [],
+          "passed": false
+        }
+      ],
+      "samples": [],
+      "skillSha256": "59914b0f3b5670a521fdfeb762ae8524162de6a14665f5af69b898f90a5c345f",
+      "consoleReceipts": [
+        "basic-wrong-axis\t1\ty"
+      ],
+      "keyModelCalls": [],
+      "statusOfHarness": "INVALID: warmup completion mistaken for construction reply; a following model turn was interrupted before metering was captured"
+    },
+    {
+      "run": "basic-axis-1795194120982",
+      "requests": 5,
+      "calls": {
+        "skill": 1,
+        "lua": 2
+      },
+      "models": [
+        "deepseek-flash"
+      ],
+      "httpStatus": {
+        "200": 5
+      },
+      "receivedCreateSkill": true,
+      "luaProgramsReferencingProbe": 0,
+      "reportedUsage": {
+        "prompt_tokens": 57274,
+        "completion_tokens": 268,
+        "total_tokens": 57542,
+        "prompt_cache_hit_tokens": 54272,
+        "prompt_cache_miss_tokens": 3002
+      },
+      "estimatedUsd": 0.00077392,
+      "successfulBuildReceipts": [
+        {
+          "completed": 1,
+          "target": 1,
+          "placed": 1,
+          "direct": 1,
+          "cleared": 1
+        }
+      ],
+      "serverDispatchErrors": 0,
+      "agentCommandWriteReceipts": {
+        "setblockChanges": 0,
+        "fillChanges": 0
+      },
+      "walkingFromPathReceipts": {
+        "steps": 0,
+        "dug": 0,
+        "placed": 0
+      },
+      "results": [
+        {
+          "utc": "2026-11-20T17:02:49.355Z",
+          "type": "agent_return",
+          "calls": 5,
+          "finish": "stop",
+          "status": 200,
+          "content": "改好了，那根传动轴现在朝东西向。我刚重新扫了那个坐标，确认轴向是 X,周围其他东西都没动。"
+        }
+      ],
+      "secondsFromFirstChatToLastSnapshot": 29.684,
+      "snapshots": [
+        {
+          "label": "axis",
+          "create": [
+            {
+              "id": "create:simple_kinetic",
+              "x": 0,
+              "y": -60,
+              "z": 9,
+              "savedRpm": 0,
+              "effectiveRpm": 0
+            }
+          ],
+          "control": [],
+          "sand": {
+            "total": 0,
+            "stored": [],
+            "loose": []
+          },
+          "changedBlocks": 1,
+          "outside": [],
+          "addedKinds": {},
+          "removedKinds": {},
+          "replacedKinds": {
+            "create:shaft -> create:shaft": 1
+          }
+        }
+      ],
+      "events": [
+        {
+          "utc": "2026-11-20T17:02:18.869Z",
+          "type": "basic_drive",
+          "program": "local r=numen.build.place({{name=\"create:shaft\",pos={x=0,y=-60,z=9},properties={axis=\"x\"}}});print(\"basic-wrong-axis\",r.placed,numen.scan.block({x=0,y=-60,z=9}).properties.axis)"
+        },
+        {
+          "utc": "2026-11-20T17:02:19.728Z",
+          "type": "chat",
+          "text": "把坐标 (0,-60,9) 的 Create 传动轴改成 X 轴（东西向）。请参考 create_kinetics，实际操作，再用扫描核对真实轴向并报告。只改该坐标。",
+          "baseCount": 0
+        },
+        {
+          "utc": "2026-11-20T17:02:49.424Z",
+          "type": "basic_axis_result",
+          "pos": [
+            0,
+            -60,
+            9
+          ],
+          "before": {
+            "Properties": {
+              "waterlogged": "false",
+              "axis": "y"
+            },
+            "Name": "create:shaft"
+          },
+          "after": {
+            "Properties": {
+              "waterlogged": "false",
+              "axis": "x"
+            },
+            "Name": "create:shaft"
+          },
+          "changed": [
+            "0,-60,9"
+          ],
+          "passed": true
+        }
+      ],
+      "samples": [],
+      "skillSha256": "648d9da6e36081fcf5019a80ef1fd184bbabe5b232ed49ba742e613f480c549b",
+      "consoleReceipts": [
+        "basic-wrong-axis\t1\ty"
+      ],
+      "keyModelCalls": [
+        {
+          "request": 3,
+          "tool": "lua",
+          "args": {
+            "code": "local pos = {x=0, y=-60, z=9}\nlocal b = numen.scan.block(pos)\nprint(\"before\", b and b.name, b and b.properties)\nnumen.build.place({{name=\"create:shaft[axis=x]\", pos=pos}})\nlocal a = numen.scan.block(pos)\nprint(\"after\", a.name, a.properties)\nreturn a.properties"
+          },
+          "receipt": "ok · 3 calls · 0 s\nstderr:\nline 4 numen.build.place: built 1/1 block(s); placed 1 (1 written straight in: a hand could not put them in that shape from where you stand) (1 replacing what stood there), cleared 1 (all requested cells match)\nreturned: {axis = \"x\", waterlogged = \"false\"}\nstdout:\nbefore\tcreate:shaft\t{axis = \"y\", waterlogged = \"false\"}\nafter\tcreate:shaft\t{axis = \"x\", waterlogged = \"false\"}"
+        }
+      ],
+      "statusOfHarness": "COMPLETE"
+    },
+    {
+      "run": "basic-check-1795193793127",
+      "requests": 0,
+      "calls": {},
+      "models": [],
+      "httpStatus": {},
+      "receivedCreateSkill": false,
+      "luaProgramsReferencingProbe": 0,
+      "reportedUsage": {},
+      "estimatedUsd": 0,
+      "successfulBuildReceipts": [],
+      "serverDispatchErrors": 0,
+      "agentCommandWriteReceipts": {
+        "setblockChanges": 0,
+        "fillChanges": 0
+      },
+      "walkingFromPathReceipts": {
+        "steps": 0,
+        "dug": 0,
+        "placed": 0
+      },
+      "results": [],
+      "events": [
+        {
+          "utc": "2026-11-20T16:56:51.142Z",
+          "type": "basic_drive",
+          "program": "local r=numen.build.place({{name=\"create:shaft\",pos={x=0,y=-60,z=9},properties={axis=\"x\"}}});print(\"basic-wrong-axis\",r.placed,numen.scan.block({x=0,y=-60,z=9}).properties.axis)"
+        },
+        {
+          "utc": "2026-11-20T16:56:51.723Z",
+          "type": "basic_drive",
+          "program": "local r=numen.build.place({{name=\"create:shaft[axis=x]\",pos={x=0,y=-60,z=9}}});print(\"basic-correct-axis\",r.placed,numen.scan.block({x=0,y=-60,z=9}).properties.axis)"
+        },
+        {
+          "utc": "2026-11-20T16:56:52.152Z",
+          "type": "basic_drive",
+          "program": "local r=numen.build.place({{name=\"minecraft:water\",pos={x=6,y=-56,z=1}}});print(\"basic-liquid-design\",r.placed)"
+        },
+        {
+          "utc": "2026-11-20T16:56:52.278Z",
+          "type": "basic_drive",
+          "program": "numen.creative.give(\"minecraft:water_bucket\",{count=1});numen.use.block({x=6,y=-56,z=2},{item=\"minecraft:water_bucket\"});local b=numen.scan.block({x=6,y=-56,z=1});print(\"basic-native-rim\",b.name,b.properties and b.properties.level)"
+        },
+        {
+          "utc": "2026-11-20T16:56:56.652Z",
+          "type": "basic_native_result",
+          "wrongAxis": "y",
+          "correctAxis": "x",
+          "designPlaced": 0,
+          "sourceAtIntendedCell": true,
+          "wheel": {
+            "pos": [
+              6,
+              -57,
+              0
+            ],
+            "rpm": -8,
+            "flowScore": -1
+          }
+        }
+      ],
+      "samples": [
+        {
+          "utc": "2026-11-20T16:56:56.652Z",
+          "type": "basic_water_sample",
+          "label": "calibration-rim",
+          "tick": 151,
+          "wheels": [
+            {
+              "pos": [
+                6,
+                -57,
+                0
+              ],
+              "rpm": -8,
+              "flowScore": -1
+            }
+          ],
+          "outside": [],
+          "levels": {
+            "0": 1,
+            "1": 4,
+            "2": 8,
+            "3": 9,
+            "4": 13,
+            "5": 17,
+            "6": 23,
+            "7": 27,
+            "8": 8
+          },
+          "sourceCells": [
+            [
+              6,
+              -56,
+              1
+            ]
+          ],
+          "rimWater": [
+            {
+              "pos": [
+                6,
+                -57,
+                -1
+              ],
+              "level": 8
+            },
+            {
+              "pos": [
+                6,
+                -57,
+                1
+              ],
+              "level": 8
+            },
+            {
+              "pos": [
+                6,
+                -56,
+                0
+              ],
+              "level": 1
+            }
+          ],
+          "waterBounds": [
+            [
+              -1,
+              -60,
+              -8
+            ],
+            [
+              13,
+              -56,
+              4
+            ]
+          ]
+        }
+      ],
+      "consoleReceipts": [
+        "basic-wrong-axis\t1\ty",
+        "basic-correct-axis\t1\tx",
+        "basic-liquid-design\t0",
+        "line 1 numen.use.block: right-clicked 6,-56,2 — but nothing visibly changed (inventory, health, riding, aimed block, nearby entities all as before). If you expected an effect, reposition or rethink.",
+        "basic-native-rim\tminecraft:water\t0"
+      ],
+      "keyModelCalls": [],
+      "statusOfHarness": "COMPLETE"
+    },
+    {
+      "run": "basic-check-1795194880537",
+      "requests": 0,
+      "calls": {},
+      "models": [],
+      "httpStatus": {},
+      "receivedCreateSkill": false,
+      "luaProgramsReferencingProbe": 0,
+      "reportedUsage": {},
+      "estimatedUsd": 0,
+      "successfulBuildReceipts": [],
+      "serverDispatchErrors": 0,
+      "agentCommandWriteReceipts": {
+        "setblockChanges": 0,
+        "fillChanges": 0
+      },
+      "walkingFromPathReceipts": {
+        "steps": 0,
+        "dug": 0,
+        "placed": 0
+      },
+      "results": [
+        {
+          "utc": "2026-11-20T17:14:52.128Z",
+          "type": "error",
+          "message": "Minecraft process exited with code 0"
+        }
+      ],
+      "events": [],
+      "samples": [],
+      "consoleReceipts": [],
+      "keyModelCalls": [],
+      "statusOfHarness": "INVALID: Fabric startup rejected a normal entrypoint in the Mixin package. No model usage."
+    },
+    {
+      "run": "basic-check-1795194917915",
+      "requests": 0,
+      "calls": {},
+      "models": [],
+      "httpStatus": {},
+      "receivedCreateSkill": false,
+      "luaProgramsReferencingProbe": 0,
+      "reportedUsage": {},
+      "estimatedUsd": 0,
+      "successfulBuildReceipts": [],
+      "serverDispatchErrors": 0,
+      "agentCommandWriteReceipts": {
+        "setblockChanges": 0,
+        "fillChanges": 0
+      },
+      "walkingFromPathReceipts": {
+        "steps": 0,
+        "dug": 0,
+        "placed": 0
+      },
+      "results": [],
+      "events": [
+        {
+          "utc": "2026-11-20T17:15:36.503Z",
+          "type": "basic_drive",
+          "program": "local o=createlab_water.source.place({x=21,y=-56,z=-9},{x=20,y=-57,z=-10});local s=createlab_water.source.place({x=20,y=-56,z=-9},{x=20,y=-57,z=-10});local a=createlab_water.source.place({x=19,y=-56,z=-10},{x=20,y=-57,z=-10});print(\"basic-action-rejections\",o.reason,s.reason,a.reason)"
+        },
+        {
+          "utc": "2026-11-20T17:15:36.824Z",
+          "type": "basic_drive",
+          "program": "local r=createlab_water.source.place({x=20,y=-56,z=-9},{x=20,y=-57,z=-10});local b=numen.scan.block({x=20,y=-56,z=-9});print(\"basic-action-placed\",r.placed,r.reason,r.landed_at.x,r.landed_at.y,r.landed_at.z,r.rpm_now,b.name,b.properties.level)"
+        },
+        {
+          "utc": "2026-11-20T17:15:42.169Z",
+          "type": "basic_action_result",
+          "passed": true,
+          "rejectedWritesUnchanged": true,
+          "sources": [
+            {
+              "pos": [
+                20,
+                -56,
+                -9
+              ],
+              "level": 0
+            }
+          ],
+          "totalWater": 80,
+          "wheel": {
+            "pos": [
+              20,
+              -57,
+              -10
+            ],
+            "rpm": 8,
+            "flowScore": 1
+          },
+          "outside": []
+        }
+      ],
+      "samples": [
+        {
+          "utc": "2026-11-20T17:15:42.168Z",
+          "type": "basic_water_sample",
+          "label": "action-edge",
+          "tick": 160,
+          "wheels": [
+            {
+              "pos": [
+                20,
+                -57,
+                -10
+              ],
+              "rpm": 8,
+              "flowScore": 1
+            }
+          ],
+          "outside": [],
+          "levels": {
+            "0": 1,
+            "1": 5,
+            "2": 6,
+            "3": 8,
+            "4": 10,
+            "5": 12,
+            "6": 14,
+            "7": 16,
+            "8": 8
+          },
+          "sourceCells": [
+            [
+              20,
+              -56,
+              -9
+            ]
+          ],
+          "rimWater": [
+            {
+              "pos": [
+                20,
+                -57,
+                -9
+              ],
+              "level": 8
+            }
+          ],
+          "waterBounds": [
+            [
+              13,
+              -60,
+              -16
+            ],
+            [
+              20,
+              -56,
+              -1
+            ]
+          ]
+        }
+      ],
+      "consoleReceipts": [
+        "basic-action-rejections\toutside_construction_scope\ttarget_not_air\tsource_must_be_above_rim",
+        "basic-action-placed\ttrue\tplaced\t20\t-56\t-9\t0\tminecraft:water\t0"
+      ],
+      "keyModelCalls": [],
+      "statusOfHarness": "COMPLETE"
+    },
+    {
+      "run": "basic-water-1795193879082",
+      "requests": 18,
+      "calls": {
+        "skill": 1,
+        "lua": 18
+      },
+      "models": [
+        "deepseek-flash"
+      ],
+      "httpStatus": {
+        "200": 18
+      },
+      "receivedCreateSkill": true,
+      "luaProgramsReferencingProbe": 5,
+      "reportedUsage": {
+        "prompt_tokens": 256623,
+        "completion_tokens": 2492,
+        "total_tokens": 259115,
+        "prompt_cache_hit_tokens": 242304,
+        "prompt_cache_miss_tokens": 14319
+      },
+      "estimatedUsd": 0.00436996,
+      "successfulBuildReceipts": [
+        {
+          "completed": 1,
+          "target": 1,
+          "placed": 1,
+          "direct": 1,
+          "cleared": 0
+        },
+        {
+          "completed": 3,
+          "target": 3,
+          "placed": 3,
+          "direct": 0,
+          "cleared": 3
+        }
+      ],
+      "serverDispatchErrors": 6,
+      "agentCommandWriteReceipts": {
+        "setblockChanges": 0,
+        "fillChanges": 0
+      },
+      "walkingFromPathReceipts": {
+        "steps": 285,
+        "dug": 1,
+        "placed": 22
+      },
+      "results": [
+        {
+          "utc": "2026-11-20T17:01:46.213Z",
+          "type": "agent_timeout",
+          "calls": 18,
+          "reason": "No matching event within 210000 ms"
+        }
+      ],
+      "secondsFromFirstChatToLastSnapshot": 218.725,
+      "snapshots": [
+        {
+          "label": "water-1",
+          "create": [
+            {
+              "id": "create:water_wheel",
+              "x": 3,
+              "y": -59,
+              "z": 10,
+              "savedRpm": 0,
+              "effectiveRpm": 0
+            }
+          ],
+          "control": [],
+          "sand": {
+            "total": 0,
+            "stored": [],
+            "loose": []
+          },
+          "changedBlocks": 180,
+          "outside": [],
+          "addedKinds": {
+            "minecraft:cobblestone": 23,
+            "minecraft:water": 134,
+            "create:water_wheel": 1
+          },
+          "removedKinds": {
+            "minecraft:grass_block": 1
+          },
+          "replacedKinds": {
+            "minecraft:grass_block -> minecraft:dirt": 18,
+            "minecraft:grass_block -> minecraft:cobblestone": 3
+          }
+        },
+        {
+          "label": "water-2",
+          "create": [
+            {
+              "id": "create:water_wheel",
+              "x": 3,
+              "y": -59,
+              "z": 10,
+              "savedRpm": 0,
+              "effectiveRpm": 0
+            }
+          ],
+          "control": [],
+          "sand": {
+            "total": 0,
+            "stored": [],
+            "loose": []
+          },
+          "changedBlocks": 181,
+          "outside": [],
+          "addedKinds": {
+            "minecraft:cobblestone": 24,
+            "minecraft:water": 134,
+            "create:water_wheel": 1
+          },
+          "removedKinds": {
+            "minecraft:grass_block": 1
+          },
+          "replacedKinds": {
+            "minecraft:grass_block -> minecraft:dirt": 18,
+            "minecraft:grass_block -> minecraft:cobblestone": 3
+          }
+        },
+        {
+          "label": "water-3",
+          "create": [
+            {
+              "id": "create:water_wheel",
+              "x": 3,
+              "y": -59,
+              "z": 10,
+              "savedRpm": 0,
+              "effectiveRpm": 0
+            }
+          ],
+          "control": [],
+          "sand": {
+            "total": 0,
+            "stored": [],
+            "loose": []
+          },
+          "changedBlocks": 182,
+          "outside": [],
+          "addedKinds": {
+            "minecraft:cobblestone": 25,
+            "minecraft:water": 133,
+            "create:water_wheel": 1
+          },
+          "removedKinds": {
+            "minecraft:grass_block": 1
+          },
+          "replacedKinds": {
+            "minecraft:grass_block -> minecraft:dirt": 19,
+            "minecraft:grass_block -> minecraft:cobblestone": 3
+          }
+        }
+      ],
+      "events": [
+        {
+          "utc": "2026-11-20T16:58:15.799Z",
+          "type": "chat",
+          "text": "在平地上让一台小型机械动力水车稳定起转。参考 create_kinetics。你自行选择位置并规划一个受控水源和水流，高度 y=-61 至 -40，x/z 各 -20 至 20，优先在你身边建。只做单台水车，不接轴或负载，不批量整地。先确认干态，再实际读回水源位置、流动和水车 RPM。",
+          "baseCount": 0
+        },
+        {
+          "utc": "2026-11-20T17:01:54.553Z",
+          "type": "basic_water_result",
+          "passed": false,
+          "ticks": [
+            4249,
+            4332,
+            4414
+          ],
+          "wheel": {
+            "pos": [
+              3,
+              -59,
+              10
+            ],
+            "rpm": 0,
+            "flowScore": 0
+          },
+          "sources": [
+            {
+              "pos": [
+                3,
+                -59,
+                11
+              ],
+              "level": 0
+            }
+          ],
+          "flowing": 132,
+          "outside": []
+        }
+      ],
+      "samples": [
+        {
+          "utc": "2026-11-20T17:01:46.332Z",
+          "type": "basic_water_sample",
+          "label": "water-1",
+          "tick": 4249,
+          "wheels": [
+            {
+              "pos": [
+                3,
+                -59,
+                10
+              ],
+              "rpm": 0,
+              "flowScore": 0
+            }
+          ],
+          "outside": [],
+          "levels": {
+            "0": 1,
+            "1": 11,
+            "2": 12,
+            "3": 14,
+            "4": 18,
+            "5": 22,
+            "6": 25,
+            "7": 27,
+            "8": 4
+          },
+          "sourceCells": [
+            [
+              3,
+              -59,
+              11
+            ]
+          ],
+          "rimWater": [
+            {
+              "pos": [
+                3,
+                -60,
+                10
+              ],
+              "level": 1
+            },
+            {
+              "pos": [
+                3,
+                -59,
+                11
+              ],
+              "level": 0
+            }
+          ],
+          "waterBounds": [
+            [
+              -5,
+              -60,
+              4
+            ],
+            [
+              11,
+              -59,
+              19
+            ]
+          ]
+        },
+        {
+          "utc": "2026-11-20T17:01:50.455Z",
+          "type": "basic_water_sample",
+          "label": "water-2",
+          "tick": 4332,
+          "wheels": [
+            {
+              "pos": [
+                3,
+                -59,
+                10
+              ],
+              "rpm": 0,
+              "flowScore": 0
+            }
+          ],
+          "outside": [],
+          "levels": {
+            "0": 1,
+            "1": 11,
+            "2": 12,
+            "3": 14,
+            "4": 18,
+            "5": 22,
+            "6": 25,
+            "7": 27,
+            "8": 4
+          },
+          "sourceCells": [
+            [
+              3,
+              -59,
+              11
+            ]
+          ],
+          "rimWater": [
+            {
+              "pos": [
+                3,
+                -60,
+                10
+              ],
+              "level": 1
+            },
+            {
+              "pos": [
+                3,
+                -59,
+                11
+              ],
+              "level": 0
+            }
+          ],
+          "waterBounds": [
+            [
+              -5,
+              -60,
+              4
+            ],
+            [
+              11,
+              -59,
+              19
+            ]
+          ]
+        },
+        {
+          "utc": "2026-11-20T17:01:54.553Z",
+          "type": "basic_water_sample",
+          "label": "water-3",
+          "tick": 4414,
+          "wheels": [
+            {
+              "pos": [
+                3,
+                -59,
+                10
+              ],
+              "rpm": 0,
+              "flowScore": 0
+            }
+          ],
+          "outside": [],
+          "levels": {
+            "0": 1,
+            "1": 11,
+            "2": 12,
+            "3": 14,
+            "4": 18,
+            "5": 22,
+            "6": 25,
+            "7": 26,
+            "8": 4
+          },
+          "sourceCells": [
+            [
+              3,
+              -59,
+              11
+            ]
+          ],
+          "rimWater": [
+            {
+              "pos": [
+                3,
+                -60,
+                10
+              ],
+              "level": 1
+            },
+            {
+              "pos": [
+                3,
+                -59,
+                11
+              ],
+              "level": 0
+            }
+          ],
+          "waterBounds": [
+            [
+              -5,
+              -60,
+              4
+            ],
+            [
+              11,
+              -59,
+              19
+            ]
+          ]
+        }
+      ],
+      "skillSha256": "59914b0f3b5670a521fdfeb762ae8524162de6a14665f5af69b898f90a5c345f",
+      "consoleReceipts": [],
+      "keyModelCalls": [
+        {
+          "request": 6,
+          "tool": "lua",
+          "args": {
+            "code": "local ok, m = pcall(numen.createlab.machine.inspect, {x=3, y=-59, z=10})\nprint(ok, m)"
+          },
+          "receipt": "The script stopped at line 1 after 0 calls: no_function — there is no group or module numen.createlab; numen has: api, build, creative, fight, gear, gui, info_source, inv, locate, mc, module, move, permission, recipes_source, scan, shape, status, task, time, use, uses_source, work\nhint: the <api> index lists every group."
+        },
+        {
+          "request": 8,
+          "tool": "lua",
+          "args": {
+            "code": "numen.creative.give(\"create:water_wheel\", {count = 1})\nnumen.creative.give(\"minecraft:water_bucket\", {count = 1})\nnumen.creative.give(\"minecraft:cobblestone\", {count = 64})\nnumen.build.place({\n  {name=\"create:water_wheel[facing=north]\", pos={x=3, y=-59, z=10}},\n})\nlocal ok, s = pcall(numen.createlab.machine.inspect, {x=3,y=-59,z=10})\nprint(ok, s and s.kinetics and s.kinetics.rpm)\nreturn numen.scan.block({x=3,y=-59,z=10})"
+          },
+          "receipt": "The script stopped at line 7 after 4 calls: no_function — there is no group or module numen.createlab; numen has: api, build, creative, fight, gear, gui, info_source, inv, locate, mc, module, move, permission, recipes_source, scan, shape, status, task, time, use, uses_source, work\nhint: the <api> index lists every group.\nstderr:\nline 4 numen.build.place: built 1/1 block(s); placed 1 (1 written straight in: a hand could not put them in that shape from where you stand), cleared 0 (all requested cells match)"
+        },
+        {
+          "request": 11,
+          "tool": "lua",
+          "args": {
+            "code": "local pw = {x=3,y=-59,z=11}\nnumen.move.walk({x=3,y=-60,z=15})\nnumen.gear.hold(\"minecraft:water_bucket\")\nlocal ok, err = pcall(numen.use.block, {x=3,y=-59,z=10}, {item=\"minecraft:water_bucket\"})\nprint(\"pour\", ok, err and tostring(err))\nreturn numen.scan.block(pw)"
+          },
+          "receipt": "ok · 4 calls · 1 s\nstderr:\nline 2 numen.move.walk: reached 4,-60,16.\nline 3 numen.gear.hold: holding water_bucket in main hand\nline 4 numen.use.block: right-clicked 3,-59,10 — but nothing visibly changed (inventory, health, riding, aimed block, nearby entities all as before). If you expected an effect, reposition or rethink.\nreturned: {current_hand_correct_tool = false, distance = 4.3, estimated_mining_ticks = 3000, hardness = 100, in_reach = true, is_air = false, is_liquid = true, is_solid = false, name = \"minecraft:water\", needs_correct_tool = false, pos = {x = 3, y = -59, z = 11}, properties = {level = \"0\"}, unbreakable = false}\nstdout:\npour\ttrue\ttable: 4ef75d8d"
+        },
+        {
+          "request": 12,
+          "tool": "lua",
+          "args": {
+            "code": "return createlab.machine.inspect({x=3,y=-59,z=10})"
+          },
+          "receipt": "ok · 1 call · 0 s\nreturned: {kind = \"kinetic\", kinetics = {capacity = 0, flow_score = 0, generated_rpm = 0, overstressed = false, rpm = 0, stress = 0, theoretical_rpm = 0}}"
+        },
+        {
+          "request": 15,
+          "tool": "lua",
+          "args": {
+            "code": "numen.build.place({\n {name=\"minecraft:cobblestone\", pos={x=5,y=-61,z=9}},\n {name=\"minecraft:cobblestone\", pos={x=5,y=-61,z=8}},\n {name=\"minecraft:cobblestone\", pos={x=5,y=-61,z=11}},\n})\nnumen.move.walk({x=1,y=-60,z=12})\nnumen.gear.hold(\"minecraft:water_bucket\")\nnumen.use.block({x=2,y=-60,z=11}, {item=\"minecraft:water_bucket\"})\nnumen.time.wait(3)\nreturn numen.scan.block({x=2,y=-60,z=11})"
+          },
+          "receipt": "The script stopped at line 6 after 2 calls: numen.move.walk: no_path — blocked: got within 8.1 blocks of 1,-60,12 (now on the ground at y=-59). found no path to target (from 2, -59, 4 toward 1, -60, 12, about 8 blocks away; the search used up its budget before finding one, so this is not proof there is none; nearest to the target, stepping diagonally at 0,-60,16 (water) was ruled out: this walk keeps out of that kind of cell; going to a nearer place in that direction first gets further). En route I had to break 1 grass_block (-6,-61,5) and place 10 cobblestone (-4,-60,12; -3,-60,12; -2,-60,12; 10,-60,16; 10,-60,9; 9,-60,9; +4 more). I also put away what was in my hand and switched to cobblestone in my hotbar. Refused on the way: change dirt at -6,-62,5 (the rules: the server would not let it happen).\nstderr:\nline 1 numen.build.place: built 3/3 block(s); placed 3 (3 replacing what stood there), cleared 3 (all requested cells match) En route I had to place 2 cobblestone (8,-60,8; 7,-60,8). I also switched to cobblestone in my hotbar.\nline 6 numen.move.walk: no_path — blocked: got within 8.1 blocks of 1,-60,12 (now on the ground at y=-59). found no path to target (from 2, -59, 4 toward 1, -60, 12, about 8 blocks away; the search used up its budget before finding one, so this is not proof there is none; nearest to the target, stepping diagonally at 0,-60,16 (water) was ruled out: this walk keeps out of that kind of cell; going to a nearer place in that direction first gets further). En route I had to break 1 grass_block (-6,-61,5) and place 10 cobblestone (-4,-60,12; -3,-60,12; -2,-60,12; 10,-60,16; 10,-60,9; 9,-60,9; +4 more). I also put away what was in my hand and switched to cobblestone in my hotbar. Refused on the way: change dirt at -6,-62,5 (the rules: the server would not let it happen)."
+        },
+        {
+          "request": 17,
+          "tool": "lua",
+          "args": {
+            "code": "numen.move.walk({x=3,y=-60,z=15})\nlocal p = numen.status.self().pos\nprint(p)\nnumen.gear.hold(\"minecraft:water_bucket\")\nlocal ok, err = pcall(numen.use.block, {x=2,y=-60,z=11}, {item=\"minecraft:water_bucket\"})\nprint(ok, err and tostring(err))\nnumen.time.wait(4)\nfor _, c in ipairs({{x=2,y=-60,z=11},{x=3,y=-60,z=11},{x=2,y=-59,z=11},{x=1,y=-60,z=11},{x=2,y=-60,z=10}}) do\n  local b = numen.scan.block(c); print(c.x,c.y,c.z,b.name,b.properties and b.properties.level)\nend\nreturn createlab.machine.inspect({x=3,y=-59,z=10})"
+          },
+          "receipt": "The script stopped at line 1 after 1 call: numen.move.walk: no_path — blocked: got within 36.3 blocks of 3,-60,15 (now on the ground at y=-59). found no path to target (from 18, -59, -18 toward 3, -60, 15, about 36 blocks away; the search used up its budget before finding one, so this is not proof there is none; nearest to the target, digging down at 16,-3,-21 (air) was ruled out: changing it is refused; going to a nearer place in that direction first gets further). En route I had to place 10 cobblestone (2,-60,5; 2,-60,6; 2,-60,7; 2,-60,8; 3,-60,8; -10,-60,16; +4 more).\nstderr:\nline 1 numen.move.walk: no_path — blocked: got within 36.3 blocks of 3,-60,15 (now on the ground at y=-59). found no path to target (from 18, -59, -18 toward 3, -60, 15, about 36 blocks away; the search used up its budget before finding one, so this is not proof there is none; nearest to the target, digging down at 16,-3,-21 (air) was ruled out: changing it is refused; going to a nearer place in that direction first gets further). En route I had to place 10 cobblestone (2,-60,5; 2,-60,6; 2,-60,7; 2,-60,8; 3,-60,8; -10,-60,16; +4 more)."
+        },
+        {
+          "request": 18,
+          "tool": "lua",
+          "args": {
+            "code": "local p = numen.status.self().pos\nprint(p)\nnumen.move.walk({x=3,y=-60,z=15})\nlocal p2 = numen.status.self().pos\nprint(p2)\nnumen.gear.hold(\"minecraft:water_bucket\")\nlocal ok, err = pcall(numen.use.block, {x=2,y=-60,z=11}, {item=\"minecraft:water_bucket\"})\nprint(ok, err and tostring(err))\nnumen.time.wait(4)\nfor _, c in ipairs({{x=2,y=-60,z=11},{x=3,y=-60,z=11},{x=2,y=-59,z=11},{x=3,y=-59,z=11},{x=4,y=-60,z=11}}) do\n  local b = numen.scan.block(c); print(c.x,c.y,c.z,b.name,b.properties and b.properties.level)\nend\nreturn createlab.machine.inspect({x=3,y=-59,z=10})"
+          },
+          "receipt": null
+        }
+      ],
+      "statusOfHarness": "COMPLETE"
+    },
+    {
+      "run": "basic-water-1795194209505",
+      "requests": 20,
+      "calls": {
+        "skill": 2,
+        "lua": 18
+      },
+      "models": [
+        "deepseek-flash"
+      ],
+      "httpStatus": {
+        "200": 20
+      },
+      "receivedCreateSkill": true,
+      "luaProgramsReferencingProbe": 5,
+      "reportedUsage": {
+        "prompt_tokens": 336804,
+        "completion_tokens": 2647,
+        "total_tokens": 339451,
+        "prompt_cache_hit_tokens": 318464,
+        "prompt_cache_miss_tokens": 18340
+      },
+      "estimatedUsd": 0.00529459,
+      "successfulBuildReceipts": [
+        {
+          "completed": 170,
+          "target": 170,
+          "placed": 125,
+          "direct": 0,
+          "cleared": 85
+        },
+        {
+          "completed": 36,
+          "target": 36,
+          "placed": 27,
+          "direct": 17,
+          "cleared": 7
+        },
+        {
+          "completed": 6,
+          "target": 6,
+          "placed": 6,
+          "direct": 1,
+          "cleared": 6
+        }
+      ],
+      "serverDispatchErrors": 1,
+      "agentCommandWriteReceipts": {
+        "setblockChanges": 0,
+        "fillChanges": 0
+      },
+      "walkingFromPathReceipts": {
+        "steps": 44,
+        "dug": 0,
+        "placed": 0
+      },
+      "results": [
+        {
+          "utc": "2026-11-20T17:07:20.042Z",
+          "type": "agent_timeout",
+          "calls": 19,
+          "reason": "No matching event within 210000 ms"
+        }
+      ],
+      "secondsFromFirstChatToLastSnapshot": 218.589,
+      "snapshots": [
+        {
+          "label": "water-1",
+          "create": [
+            {
+              "id": "create:simple_kinetic",
+              "x": 0,
+              "y": -55,
+              "z": 9,
+              "savedRpm": 0,
+              "effectiveRpm": 0
+            },
+            {
+              "id": "create:simple_kinetic",
+              "x": 0,
+              "y": -56,
+              "z": 9,
+              "savedRpm": 0,
+              "effectiveRpm": 0
+            },
+            {
+              "id": "create:simple_kinetic",
+              "x": 0,
+              "y": -57,
+              "z": 9,
+              "savedRpm": 0,
+              "effectiveRpm": 0
+            },
+            {
+              "id": "create:water_wheel",
+              "x": 0,
+              "y": -60,
+              "z": 7,
+              "savedRpm": 0,
+              "effectiveRpm": 0
+            },
+            {
+              "id": "create:simple_kinetic",
+              "x": 0,
+              "y": -58,
+              "z": 9,
+              "savedRpm": 0,
+              "effectiveRpm": 0
+            },
+            {
+              "id": "create:water_wheel",
+              "x": 0,
+              "y": -60,
+              "z": 8,
+              "savedRpm": 0,
+              "effectiveRpm": 0
+            },
+            {
+              "id": "create:simple_kinetic",
+              "x": 0,
+              "y": -59,
+              "z": 9,
+              "savedRpm": 0,
+              "effectiveRpm": 0
+            },
+            {
+              "id": "create:water_wheel",
+              "x": 0,
+              "y": -60,
+              "z": 9,
+              "savedRpm": 0,
+              "effectiveRpm": 0
+            },
+            {
+              "id": "create:water_wheel",
+              "x": 0,
+              "y": -60,
+              "z": 10,
+              "savedRpm": 0,
+              "effectiveRpm": 0
+            },
+            {
+              "id": "create:water_wheel",
+              "x": 0,
+              "y": -60,
+              "z": 11,
+              "savedRpm": 0,
+              "effectiveRpm": 0
+            },
+            {
+              "id": "create:simple_kinetic",
+              "x": 0,
+              "y": -54,
+              "z": 9,
+              "savedRpm": 0,
+              "effectiveRpm": 0
+            }
+          ],
+          "control": [],
+          "sand": {
+            "total": 0,
+            "stored": [],
+            "loose": []
+          },
+          "changedBlocks": 150,
+          "outside": [],
+          "addedKinds": {
+            "create:andesite_scaffolding": 16,
+            "minecraft:mossy_stone_bricks": 38,
+            "create:shaft": 6,
+            "create:water_wheel": 5
+          },
+          "removedKinds": {
+            "minecraft:grass_block": 5
+          },
+          "replacedKinds": {
+            "minecraft:grass_block -> minecraft:mossy_stone_bricks": 40,
+            "minecraft:grass_block -> minecraft:stone_bricks": 40
+          }
+        },
+        {
+          "label": "water-2",
+          "create": [
+            {
+              "id": "create:simple_kinetic",
+              "x": 0,
+              "y": -55,
+              "z": 9,
+              "savedRpm": 0,
+              "effectiveRpm": 0
+            },
+            {
+              "id": "create:simple_kinetic",
+              "x": 0,
+              "y": -56,
+              "z": 9,
+              "savedRpm": 0,
+              "effectiveRpm": 0
+            },
+            {
+              "id": "create:simple_kinetic",
+              "x": 0,
+              "y": -57,
+              "z": 9,
+              "savedRpm": 0,
+              "effectiveRpm": 0
+            },
+            {
+              "id": "create:water_wheel",
+              "x": 0,
+              "y": -60,
+              "z": 7,
+              "savedRpm": 0,
+              "effectiveRpm": 0
+            },
+            {
+              "id": "create:simple_kinetic",
+              "x": 0,
+              "y": -58,
+              "z": 9,
+              "savedRpm": 0,
+              "effectiveRpm": 0
+            },
+            {
+              "id": "create:water_wheel",
+              "x": 0,
+              "y": -60,
+              "z": 8,
+              "savedRpm": 0,
+              "effectiveRpm": 0
+            },
+            {
+              "id": "create:simple_kinetic",
+              "x": 0,
+              "y": -59,
+              "z": 9,
+              "savedRpm": 0,
+              "effectiveRpm": 0
+            },
+            {
+              "id": "create:water_wheel",
+              "x": 0,
+              "y": -60,
+              "z": 9,
+              "savedRpm": 0,
+              "effectiveRpm": 0
+            },
+            {
+              "id": "create:water_wheel",
+              "x": 0,
+              "y": -60,
+              "z": 10,
+              "savedRpm": 0,
+              "effectiveRpm": 0
+            },
+            {
+              "id": "create:water_wheel",
+              "x": 0,
+              "y": -60,
+              "z": 11,
+              "savedRpm": 0,
+              "effectiveRpm": 0
+            },
+            {
+              "id": "create:simple_kinetic",
+              "x": 0,
+              "y": -54,
+              "z": 9,
+              "savedRpm": 0,
+              "effectiveRpm": 0
+            }
+          ],
+          "control": [],
+          "sand": {
+            "total": 0,
+            "stored": [],
+            "loose": []
+          },
+          "changedBlocks": 150,
+          "outside": [],
+          "addedKinds": {
+            "create:andesite_scaffolding": 16,
+            "minecraft:mossy_stone_bricks": 38,
+            "create:shaft": 6,
+            "create:water_wheel": 5
+          },
+          "removedKinds": {
+            "minecraft:grass_block": 5
+          },
+          "replacedKinds": {
+            "minecraft:grass_block -> minecraft:mossy_stone_bricks": 40,
+            "minecraft:grass_block -> minecraft:stone_bricks": 40
+          }
+        },
+        {
+          "label": "water-3",
+          "create": [
+            {
+              "id": "create:simple_kinetic",
+              "x": 0,
+              "y": -55,
+              "z": 9,
+              "savedRpm": 0,
+              "effectiveRpm": 0
+            },
+            {
+              "id": "create:simple_kinetic",
+              "x": 0,
+              "y": -56,
+              "z": 9,
+              "savedRpm": 0,
+              "effectiveRpm": 0
+            },
+            {
+              "id": "create:simple_kinetic",
+              "x": 0,
+              "y": -57,
+              "z": 9,
+              "savedRpm": 0,
+              "effectiveRpm": 0
+            },
+            {
+              "id": "create:water_wheel",
+              "x": 0,
+              "y": -60,
+              "z": 7,
+              "savedRpm": 0,
+              "effectiveRpm": 0
+            },
+            {
+              "id": "create:simple_kinetic",
+              "x": 0,
+              "y": -58,
+              "z": 9,
+              "savedRpm": 0,
+              "effectiveRpm": 0
+            },
+            {
+              "id": "create:water_wheel",
+              "x": 0,
+              "y": -60,
+              "z": 8,
+              "savedRpm": 0,
+              "effectiveRpm": 0
+            },
+            {
+              "id": "create:simple_kinetic",
+              "x": 0,
+              "y": -59,
+              "z": 9,
+              "savedRpm": 0,
+              "effectiveRpm": 0
+            },
+            {
+              "id": "create:water_wheel",
+              "x": 0,
+              "y": -60,
+              "z": 9,
+              "savedRpm": 0,
+              "effectiveRpm": 0
+            },
+            {
+              "id": "create:water_wheel",
+              "x": 0,
+              "y": -60,
+              "z": 10,
+              "savedRpm": 0,
+              "effectiveRpm": 0
+            },
+            {
+              "id": "create:water_wheel",
+              "x": 0,
+              "y": -60,
+              "z": 11,
+              "savedRpm": 0,
+              "effectiveRpm": 0
+            },
+            {
+              "id": "create:simple_kinetic",
+              "x": 0,
+              "y": -54,
+              "z": 9,
+              "savedRpm": 0,
+              "effectiveRpm": 0
+            }
+          ],
+          "control": [],
+          "sand": {
+            "total": 0,
+            "stored": [],
+            "loose": []
+          },
+          "changedBlocks": 223,
+          "outside": [],
+          "addedKinds": {
+            "create:andesite_scaffolding": 16,
+            "minecraft:mossy_stone_bricks": 38,
+            "minecraft:water": 73,
+            "create:shaft": 6,
+            "create:water_wheel": 5
+          },
+          "removedKinds": {
+            "minecraft:grass_block": 5
+          },
+          "replacedKinds": {
+            "minecraft:grass_block -> minecraft:mossy_stone_bricks": 40,
+            "minecraft:grass_block -> minecraft:stone_bricks": 40
+          }
+        }
+      ],
+      "events": [
+        {
+          "utc": "2026-11-20T17:03:49.749Z",
+          "type": "chat",
+          "text": "在身边的空平地让一台小型机械动力水车稳定起转。参考 create_kinetics，自行选坐标和朝向。先造干的水轮和单格落水通道，围好下方接水槽，保持接近水道的路线干燥。读到干态 RPM 后，用水桶对水道旁的墙面只放一个水源，再读回实际水源、经过轮缘的流动和 RPM。无需整地或扫描整片区域，不接轴或负载。施工边界 x/z 各 -20 至 20，y=-61 至 -40。",
+          "baseCount": 0
+        },
+        {
+          "utc": "2026-11-20T17:07:28.359Z",
+          "type": "basic_water_result",
+          "passed": false,
+          "ticks": [
+            4259,
+            4342,
+            4424
+          ],
+          "wheel": {
+            "pos": [
+              0,
+              -60,
+              7
+            ],
+            "rpm": 0,
+            "flowScore": 0
+          },
+          "sources": [],
+          "flowing": 73,
+          "outside": []
+        }
+      ],
+      "samples": [
+        {
+          "utc": "2026-11-20T17:07:20.182Z",
+          "type": "basic_water_sample",
+          "label": "water-1",
+          "tick": 4259,
+          "wheels": [
+            {
+              "pos": [
+                0,
+                -60,
+                7
+              ],
+              "rpm": 0,
+              "flowScore": 0
+            },
+            {
+              "pos": [
+                0,
+                -60,
+                8
+              ],
+              "rpm": 0,
+              "flowScore": 0
+            },
+            {
+              "pos": [
+                0,
+                -60,
+                9
+              ],
+              "rpm": 0,
+              "flowScore": 0
+            },
+            {
+              "pos": [
+                0,
+                -60,
+                10
+              ],
+              "rpm": 0,
+              "flowScore": 0
+            },
+            {
+              "pos": [
+                0,
+                -60,
+                11
+              ],
+              "rpm": 0,
+              "flowScore": 0
+            }
+          ],
+          "outside": [],
+          "levels": {},
+          "sourceCells": [],
+          "rimWater": [],
+          "waterBounds": null
+        },
+        {
+          "utc": "2026-11-20T17:07:24.280Z",
+          "type": "basic_water_sample",
+          "label": "water-2",
+          "tick": 4342,
+          "wheels": [
+            {
+              "pos": [
+                0,
+                -60,
+                7
+              ],
+              "rpm": 0,
+              "flowScore": 0
+            },
+            {
+              "pos": [
+                0,
+                -60,
+                8
+              ],
+              "rpm": 0,
+              "flowScore": 0
+            },
+            {
+              "pos": [
+                0,
+                -60,
+                9
+              ],
+              "rpm": 0,
+              "flowScore": 0
+            },
+            {
+              "pos": [
+                0,
+                -60,
+                10
+              ],
+              "rpm": 0,
+              "flowScore": 0
+            },
+            {
+              "pos": [
+                0,
+                -60,
+                11
+              ],
+              "rpm": 0,
+              "flowScore": 0
+            }
+          ],
+          "outside": [],
+          "levels": {},
+          "sourceCells": [],
+          "rimWater": [],
+          "waterBounds": null
+        },
+        {
+          "utc": "2026-11-20T17:07:28.359Z",
+          "type": "basic_water_sample",
+          "label": "water-3",
+          "tick": 4424,
+          "wheels": [
+            {
+              "pos": [
+                0,
+                -60,
+                7
+              ],
+              "rpm": 0,
+              "flowScore": 0
+            },
+            {
+              "pos": [
+                0,
+                -60,
+                8
+              ],
+              "rpm": 0,
+              "flowScore": 0
+            },
+            {
+              "pos": [
+                0,
+                -60,
+                9
+              ],
+              "rpm": 0,
+              "flowScore": 0
+            },
+            {
+              "pos": [
+                0,
+                -60,
+                10
+              ],
+              "rpm": 0,
+              "flowScore": 0
+            },
+            {
+              "pos": [
+                0,
+                -60,
+                11
+              ],
+              "rpm": 0,
+              "flowScore": 0
+            }
+          ],
+          "outside": [],
+          "levels": {
+            "1": 2,
+            "2": 5,
+            "3": 7,
+            "4": 9,
+            "5": 13,
+            "6": 17,
+            "7": 20
+          },
+          "sourceCells": [],
+          "rimWater": [
+            {
+              "pos": [
+                -1,
+                -60,
+                7
+              ],
+              "level": 7
+            },
+            {
+              "pos": [
+                -1,
+                -60,
+                11
+              ],
+              "level": 7
+            },
+            {
+              "pos": [
+                0,
+                -60,
+                6
+              ],
+              "level": 5
+            },
+            {
+              "pos": [
+                1,
+                -60,
+                7
+              ],
+              "level": 3
+            },
+            {
+              "pos": [
+                1,
+                -60,
+                8
+              ],
+              "level": 2
+            },
+            {
+              "pos": [
+                1,
+                -60,
+                9
+              ],
+              "level": 1
+            },
+            {
+              "pos": [
+                1,
+                -60,
+                10
+              ],
+              "level": 2
+            },
+            {
+              "pos": [
+                1,
+                -60,
+                11
+              ],
+              "level": 3
+            },
+            {
+              "pos": [
+                0,
+                -60,
+                12
+              ],
+              "level": 5
+            }
+          ],
+          "waterBounds": [
+            [
+              -1,
+              -60,
+              3
+            ],
+            [
+              9,
+              -60,
+              15
+            ]
+          ]
+        }
+      ],
+      "skillSha256": "648d9da6e36081fcf5019a80ef1fd184bbabe5b232ed49ba742e613f480c549b",
+      "consoleReceipts": [],
+      "keyModelCalls": [
+        {
+          "request": 10,
+          "tool": "lua",
+          "args": {
+            "code": "local cells={}\nlocal function add(n,p) cells[#cells+1]={name=n,pos=p} end\n-- water wheel: axis x, center (0,-60,9), y -61..-59, z 7..11\nfor y=-61,-59 do for z=7,11 do add(\"minecraft:air\",{x=0,y=y,z=z}) end end\nfor z=7,11 do add(\"create:water_wheel[facing=north]\",{x=0,y=-60,z=z}) end\n-- derrick frame: posts x=-2 & x=2 at z=9, y=-60..-55\nfor _,x in ipairs({-2,2}) do for y=-60,-55 do add(\"create:andesite_scaffolding\",{x=x,y=y,z=9}) end end\n-- top beam x -2..2 at y=-54 between posts (y=-54 spans the x=0 column above water-wheel axle top)\nfor x=-2,2 do add(\"create:andesite_scaffolding\",{x=x,y=-54,z=9}) end\n-- axle support at center: andesite casing under wheel? not needed: wheel hangs from beam through chain:\n-- place a small cogwheel on the wheel axle face and a shaft up? keep dry reads simple: use andesite casing chain\nfor y=-59,-55 do add(\"create:andesite_casing\",{x=0,y=y,z=9}) end\nlocal r=numen.build.place(cells)\nprint(r.completed, r.left)"
+          },
+          "receipt": "ok · 1 call · 29 s\nstderr:\nline 13 numen.build.place: built 36/36 block(s); placed 27 (17 written straight in: a hand could not put them in that shape from where you stand) (2 replacing what stood there), cleared 7 (all requested cells match)\nstdout:\n36\t0"
+        },
+        {
+          "request": 11,
+          "tool": "lua",
+          "args": {
+            "code": "local ok,err = pcall(function() return createlab.machine.inspect({x=0,y=-60,z=9}) end)\nprint(ok, err)\nif ok then print(numen.api.help(\"createlab.machine.inspect\")) end"
+          },
+          "receipt": "ok · 2 calls · 0 s\nstdout:\ntrue\t{kind = \"kinetic\", kinetics = {capacity = 0, flow_score = 0, generated_rpm = 0, overstressed = false, rpm = 0, stress = 0, theoretical_rpm = 0}}\n---Report signed RPM, stress and capacity, or the crusher controller's live state.\n---@param cell Pos A loaded test cell.\n---@return createlab.Sample\nfunction createlab.machine.inspect(cell) end\n\n---@class createlab.Sample\n---@field kind string\n---@field kinetics? createlab.Kinetics\n---@field crusher? createlab.Crusher\n\n---@class createlab.Kinetics\n---@field rpm number\n---@field theoretical_rpm number\n---@field generated_rpm number\n---@field overstressed boolean\n---@field stress number\n---@field capacity number\n---@field flow_score? integer\n\n---@class createlab.Crusher\n---@field valid boolean\n---@field facing string\n---@field processing_speed number\n---@field occupied boolean"
+        },
+        {
+          "request": 13,
+          "tool": "lua",
+          "args": {
+            "code": "local ok,err = pcall(function() return createlab.machine.inspect({x=0,y=-59,z=9}) end)\nprint(ok, err)"
+          },
+          "receipt": "ok · 1 call · 0 s\nstdout:\ntrue\t{kind = \"missing\"}"
+        },
+        {
+          "request": 14,
+          "tool": "lua",
+          "args": {
+            "code": "for _,p in ipairs({{0,-55,9},{0,-54,9},{-1,-54,9},{2,-60,9},{-2,-60,9}}) do\n  local ok,r = pcall(function() return createlab.machine.inspect({x=p[1],y=p[2],z=p[3]}) end)\n  print(p[1],p[2],p[3], ok, ok and (r.kind..\" \"..tostring(r.kinetics and r.kinetics.rpm)) or tostring(r))\nend"
+          },
+          "receipt": "ok · 5 calls · 0 s\nstdout:\n0\t-55\t9\ttrue\tmissing nil\n0\t-54\t9\ttrue\tmissing nil\n-1\t-54\t9\ttrue\tmissing nil\n2\t-60\t9\ttrue\tmissing nil\n-2\t-60\t9\ttrue\tmissing nil"
+        },
+        {
+          "request": 15,
+          "tool": "lua",
+          "args": {
+            "code": "for y=-59,-54 do\n  local ok,r = pcall(function() return createlab.machine.inspect({x=0,y=y,z=9}) end)\n  print(y, ok and r.kind or tostring(r))\nend\nlocal ok2,r2 = pcall(function() return createlab.machine.inspect({x=0,y=-60,z=7}) end)\nprint(\"w7\", ok2, ok2 and r2.kind, ok2 and r2.kinetics and r2.kinetics.rpm)\nprint(numen.mc.run and \"has mc\" or \"\")"
+          },
+          "receipt": "ok · 7 calls · 0 s\nstdout:\n-59\tmissing\n-58\tmissing\n-57\tmissing\n-56\tmissing\n-55\tmissing\n-54\tmissing\nw7\ttrue\tkinetic\t0\nhas mc"
+        },
+        {
+          "request": 16,
+          "tool": "lua",
+          "args": {
+            "code": "local cells={}\nfor y=-59,-54 do cells[#cells+1]={name=\"create:shaft[axis=y]\",pos={x=0,y=y,z=9}} end\nlocal r=numen.build.place(cells)\nprint(r.completed, r.left)\nlocal ok,r2 = pcall(function() return createlab.machine.inspect({x=0,y=-60,z=9}) end)\nprint(r2 and r2.kinetics and r2.kinetics.rpm)"
+          },
+          "receipt": "ok · 2 calls · 1 s\nstderr:\nline 3 numen.build.place: built 6/6 block(s); placed 6 (1 written straight in: a hand could not put them in that shape from where you stand) (6 replacing what stood there), cleared 6 (all requested cells match)\nstdout:\n6\t0\n0"
+        },
+        {
+          "request": 18,
+          "tool": "lua",
+          "args": {
+            "code": "local r = numen.inv.give and \"inv.give\" or nil\nprint(r)\nlocal ok,e = pcall(numen.creative.give,\"minecraft:water_bucket\",{count=1})\nprint(ok, ok and \"ok\" or tostring(e))"
+          },
+          "receipt": "ok · 1 call · 0 s\nstdout:\ninv.give\ntrue\tok"
+        },
+        {
+          "request": 20,
+          "tool": "lua",
+          "args": {
+            "code": "local ok,r = pcall(numen.use.block,{x=2,y=-60,z=9},{item=\"minecraft:water_bucket\"})\nprint(ok, ok and \"used\" or tostring(r))\nlocal c = numen.scan.block({x=1,y=-60,z=9})\nprint(c.name, c.properties)"
+          },
+          "receipt": null
+        }
+      ],
+      "statusOfHarness": "COMPLETE"
+    },
+    {
+      "run": "basic-water-1795194454368",
+      "requests": 19,
+      "calls": {
+        "skill": 1,
+        "lua": 19
+      },
+      "models": [
+        "deepseek-v4-pro"
+      ],
+      "httpStatus": {
+        "200": 19
+      },
+      "receivedCreateSkill": true,
+      "luaProgramsReferencingProbe": 3,
+      "reportedUsage": {
+        "prompt_tokens": 322489,
+        "completion_tokens": 4281,
+        "total_tokens": 326770,
+        "prompt_cache_hit_tokens": 276608,
+        "prompt_cache_miss_tokens": 45881
+      },
+      "estimatedUsd": 0.04484322,
+      "successfulBuildReceipts": [
+        {
+          "completed": 3,
+          "target": 3,
+          "placed": 3,
+          "direct": 3,
+          "cleared": 0
+        },
+        {
+          "completed": 11,
+          "target": 11,
+          "placed": 11,
+          "direct": 5,
+          "cleared": 0
+        }
+      ],
+      "serverDispatchErrors": 3,
+      "agentCommandWriteReceipts": {
+        "setblockChanges": 0,
+        "fillChanges": 0
+      },
+      "walkingFromPathReceipts": {
+        "steps": 32,
+        "dug": 0,
+        "placed": 7
+      },
+      "results": [
+        {
+          "utc": "2026-11-20T17:11:21.804Z",
+          "type": "agent_timeout",
+          "calls": 18,
+          "reason": "No matching event within 210000 ms"
+        }
+      ],
+      "secondsFromFirstChatToLastSnapshot": 218.575,
+      "snapshots": [
+        {
+          "label": "water-1",
+          "create": [
+            {
+              "id": "create:simple_kinetic",
+              "x": -1,
+              "y": -58,
+              "z": 4,
+              "savedRpm": -8,
+              "effectiveRpm": -8,
+              "network": {
+                "Capacity": 256,
+                "Size": 3,
+                "Id": [
+                  0,
+                  20422
+                ],
+                "Stress": 0
+              },
+              "source": {
+                "X": 0,
+                "Y": -58,
+                "Z": 4
+              }
+            },
+            {
+              "id": "create:water_wheel",
+              "x": 0,
+              "y": -58,
+              "z": 4,
+              "savedRpm": -8,
+              "effectiveRpm": -8,
+              "network": {
+                "Capacity": 256,
+                "Size": 3,
+                "AddedCapacity": 32,
+                "Id": [
+                  0,
+                  20422
+                ],
+                "Stress": 0
+              }
+            },
+            {
+              "id": "create:simple_kinetic",
+              "x": 1,
+              "y": -58,
+              "z": 4,
+              "savedRpm": -8,
+              "effectiveRpm": -8,
+              "network": {
+                "Capacity": 256,
+                "Size": 3,
+                "Id": [
+                  0,
+                  20422
+                ],
+                "Stress": 0
+              },
+              "source": {
+                "X": 0,
+                "Y": -58,
+                "Z": 4
+              }
+            }
+          ],
+          "control": [],
+          "sand": {
+            "total": 0,
+            "stored": [],
+            "loose": []
+          },
+          "changedBlocks": 217,
+          "outside": [],
+          "addedKinds": {
+            "minecraft:water": 190,
+            "minecraft:cobblestone": 18,
+            "create:shaft": 2,
+            "create:water_wheel": 1
+          },
+          "removedKinds": {},
+          "replacedKinds": {
+            "minecraft:grass_block -> minecraft:dirt": 6
+          }
+        },
+        {
+          "label": "water-2",
+          "create": [
+            {
+              "id": "create:simple_kinetic",
+              "x": -1,
+              "y": -58,
+              "z": 4,
+              "savedRpm": -8,
+              "effectiveRpm": -8,
+              "network": {
+                "Capacity": 256,
+                "Size": 3,
+                "Id": [
+                  0,
+                  20422
+                ],
+                "Stress": 0
+              },
+              "source": {
+                "X": 0,
+                "Y": -58,
+                "Z": 4
+              }
+            },
+            {
+              "id": "create:water_wheel",
+              "x": 0,
+              "y": -58,
+              "z": 4,
+              "savedRpm": -8,
+              "effectiveRpm": -8,
+              "network": {
+                "Capacity": 256,
+                "Size": 3,
+                "AddedCapacity": 32,
+                "Id": [
+                  0,
+                  20422
+                ],
+                "Stress": 0
+              }
+            },
+            {
+              "id": "create:simple_kinetic",
+              "x": 1,
+              "y": -58,
+              "z": 4,
+              "savedRpm": -8,
+              "effectiveRpm": -8,
+              "network": {
+                "Capacity": 256,
+                "Size": 3,
+                "Id": [
+                  0,
+                  20422
+                ],
+                "Stress": 0
+              },
+              "source": {
+                "X": 0,
+                "Y": -58,
+                "Z": 4
+              }
+            }
+          ],
+          "control": [],
+          "sand": {
+            "total": 0,
+            "stored": [],
+            "loose": []
+          },
+          "changedBlocks": 217,
+          "outside": [],
+          "addedKinds": {
+            "minecraft:water": 190,
+            "minecraft:cobblestone": 18,
+            "create:shaft": 2,
+            "create:water_wheel": 1
+          },
+          "removedKinds": {},
+          "replacedKinds": {
+            "minecraft:grass_block -> minecraft:dirt": 6
+          }
+        },
+        {
+          "label": "water-3",
+          "create": [
+            {
+              "id": "create:simple_kinetic",
+              "x": -1,
+              "y": -58,
+              "z": 4,
+              "savedRpm": -8,
+              "effectiveRpm": -8,
+              "network": {
+                "Capacity": 256,
+                "Size": 3,
+                "Id": [
+                  0,
+                  20422
+                ],
+                "Stress": 0
+              },
+              "source": {
+                "X": 0,
+                "Y": -58,
+                "Z": 4
+              }
+            },
+            {
+              "id": "create:water_wheel",
+              "x": 0,
+              "y": -58,
+              "z": 4,
+              "savedRpm": -8,
+              "effectiveRpm": -8,
+              "network": {
+                "Capacity": 256,
+                "Size": 3,
+                "AddedCapacity": 32,
+                "Id": [
+                  0,
+                  20422
+                ],
+                "Stress": 0
+              }
+            },
+            {
+              "id": "create:simple_kinetic",
+              "x": 1,
+              "y": -58,
+              "z": 4,
+              "savedRpm": -8,
+              "effectiveRpm": -8,
+              "network": {
+                "Capacity": 256,
+                "Size": 3,
+                "Id": [
+                  0,
+                  20422
+                ],
+                "Stress": 0
+              },
+              "source": {
+                "X": 0,
+                "Y": -58,
+                "Z": 4
+              }
+            }
+          ],
+          "control": [],
+          "sand": {
+            "total": 0,
+            "stored": [],
+            "loose": []
+          },
+          "changedBlocks": 217,
+          "outside": [],
+          "addedKinds": {
+            "minecraft:water": 190,
+            "minecraft:cobblestone": 18,
+            "create:shaft": 2,
+            "create:water_wheel": 1
+          },
+          "removedKinds": {},
+          "replacedKinds": {
+            "minecraft:grass_block -> minecraft:dirt": 6
+          }
+        }
+      ],
+      "events": [
+        {
+          "utc": "2026-11-20T17:07:51.505Z",
+          "type": "chat",
+          "text": "在身边的空平地让一台小型机械动力水车稳定起转。参考 create_kinetics，自行选坐标和朝向。先造干的水轮和单格落水通道，围好下方接水槽，保持接近水道的路线干燥。读到干态 RPM 后，用水桶对水道旁的墙面只放一个水源，再读回实际水源、经过轮缘的流动和 RPM。无需整地或扫描整片区域，不接轴或负载。施工边界 x/z 各 -20 至 20，y=-61 至 -40。",
+          "baseCount": 0
+        },
+        {
+          "utc": "2026-11-20T17:11:30.106Z",
+          "type": "basic_water_result",
+          "passed": false,
+          "ticks": [
+            4246,
+            4328,
+            4410
+          ],
+          "wheel": {
+            "pos": [
+              0,
+              -58,
+              4
+            ],
+            "rpm": -8,
+            "flowScore": -1
+          },
+          "sources": [
+            {
+              "pos": [
+                0,
+                -57,
+                1
+              ],
+              "level": 0
+            },
+            {
+              "pos": [
+                0,
+                -56,
+                2
+              ],
+              "level": 0
+            }
+          ],
+          "flowing": 188,
+          "outside": []
+        }
+      ],
+      "samples": [
+        {
+          "utc": "2026-11-20T17:11:21.924Z",
+          "type": "basic_water_sample",
+          "label": "water-1",
+          "tick": 4246,
+          "wheels": [
+            {
+              "pos": [
+                0,
+                -58,
+                4
+              ],
+              "rpm": -8,
+              "flowScore": -1
+            }
+          ],
+          "outside": [],
+          "levels": {
+            "0": 2,
+            "1": 21,
+            "2": 14,
+            "3": 19,
+            "4": 22,
+            "5": 26,
+            "6": 30,
+            "7": 34,
+            "8": 22
+          },
+          "sourceCells": [
+            [
+              0,
+              -57,
+              1
+            ],
+            [
+              0,
+              -56,
+              2
+            ]
+          ],
+          "rimWater": [
+            {
+              "pos": [
+                0,
+                -58,
+                3
+              ],
+              "level": 8
+            }
+          ],
+          "waterBounds": [
+            [
+              -8,
+              -60,
+              -7
+            ],
+            [
+              9,
+              -56,
+              9
+            ]
+          ]
+        },
+        {
+          "utc": "2026-11-20T17:11:26.026Z",
+          "type": "basic_water_sample",
+          "label": "water-2",
+          "tick": 4328,
+          "wheels": [
+            {
+              "pos": [
+                0,
+                -58,
+                4
+              ],
+              "rpm": -8,
+              "flowScore": -1
+            }
+          ],
+          "outside": [],
+          "levels": {
+            "0": 2,
+            "1": 21,
+            "2": 14,
+            "3": 19,
+            "4": 22,
+            "5": 26,
+            "6": 30,
+            "7": 34,
+            "8": 22
+          },
+          "sourceCells": [
+            [
+              0,
+              -57,
+              1
+            ],
+            [
+              0,
+              -56,
+              2
+            ]
+          ],
+          "rimWater": [
+            {
+              "pos": [
+                0,
+                -58,
+                3
+              ],
+              "level": 8
+            }
+          ],
+          "waterBounds": [
+            [
+              -8,
+              -60,
+              -7
+            ],
+            [
+              9,
+              -56,
+              9
+            ]
+          ]
+        },
+        {
+          "utc": "2026-11-20T17:11:30.106Z",
+          "type": "basic_water_sample",
+          "label": "water-3",
+          "tick": 4410,
+          "wheels": [
+            {
+              "pos": [
+                0,
+                -58,
+                4
+              ],
+              "rpm": -8,
+              "flowScore": -1
+            }
+          ],
+          "outside": [],
+          "levels": {
+            "0": 2,
+            "1": 21,
+            "2": 14,
+            "3": 19,
+            "4": 22,
+            "5": 26,
+            "6": 30,
+            "7": 34,
+            "8": 22
+          },
+          "sourceCells": [
+            [
+              0,
+              -57,
+              1
+            ],
+            [
+              0,
+              -56,
+              2
+            ]
+          ],
+          "rimWater": [
+            {
+              "pos": [
+                0,
+                -58,
+                3
+              ],
+              "level": 8
+            }
+          ],
+          "waterBounds": [
+            [
+              -8,
+              -60,
+              -7
+            ],
+            [
+              9,
+              -56,
+              9
+            ]
+          ]
+        }
+      ],
+      "skillSha256": "648d9da6e36081fcf5019a80ef1fd184bbabe5b232ed49ba742e613f480c549b",
+      "consoleReceipts": [],
+      "keyModelCalls": [
+        {
+          "request": 6,
+          "tool": "lua",
+          "args": {
+            "code": "print(numen.api.help(\"createlab.machine.inspect\"))"
+          },
+          "receipt": "ok · 1 call · 0 s\nstdout:\n---Report signed RPM, stress and capacity, or the crusher controller's live state.\n---@param cell Pos A loaded test cell.\n---@return createlab.Sample\nfunction createlab.machine.inspect(cell) end\n\n---@class createlab.Sample\n---@field kind string\n---@field kinetics? createlab.Kinetics\n---@field crusher? createlab.Crusher\n\n---@class createlab.Kinetics\n---@field rpm number\n---@field theoretical_rpm number\n---@field generated_rpm number\n---@field overstressed boolean\n---@field stress number\n---@field capacity number\n---@field flow_score? integer\n\n---@class createlab.Crusher\n---@field valid boolean\n---@field facing string\n---@field processing_speed number\n---@field occupied boolean"
+        },
+        {
+          "request": 10,
+          "tool": "lua",
+          "args": {
+            "code": "-- First give myself the blocks (creative)\nnumen.creative.give(\"create:water_wheel\", {count=4})\nnumen.creative.give(\"create:shaft\", {count=8})\nnumen.creative.give(\"minecraft:water_bucket\", {count=1})\n-- check what came\nlocal inv = numen.inv.items()\nfor _,s in ipairs(inv) do print(s.item, s.count) end"
+          },
+          "receipt": "ok · 4 calls · 0 s\nstdout:\ncreate:water_wheel\t4\ncreate:shaft\t8\nminecraft:water_bucket\t1"
+        },
+        {
+          "request": 11,
+          "tool": "lua",
+          "args": {
+            "code": "-- wheel center at (0,-58,4), facing east/west (axle along x)\nlocal design = {\n  {name=\"create:water_wheel[facing=east]\", pos={x=0,y=-58,z=4}},\n  {name=\"create:shaft[axis=x]\", pos={x=-1,y=-58,z=4}},\n  {name=\"create:shaft[axis=x]\", pos={x=1,y=-58,z=4}},\n}\nlocal r = numen.build.place(design)\nprint(\"placed\", r.placed, \"unplaced\", r.left)"
+          },
+          "receipt": "ok · 1 call · 1 s\nstderr:\nline 7 numen.build.place: built 3/3 block(s); placed 3 (3 written straight in: a hand could not put them in that shape from where you stand), cleared 0 (all requested cells match)\nstdout:\nplaced\t3\tunplaced\t0"
+        },
+        {
+          "request": 12,
+          "tool": "lua",
+          "args": {
+            "code": "local s = createlab.machine.inspect({x=0,y=-58,z=4})\nprint(\"kind\", s.kind)\nif s.kinetics then\n  print(\"rpm\", s.kinetics.rpm, \"generated\", s.kinetics.generated_rpm, \"theoretical\", s.kinetics.theoretical_rpm, \"flow_score\", s.kinetics.flow_score)\nend"
+          },
+          "receipt": "ok · 1 call · 0 s\nstdout:\nkind\tkinetic\nrpm\t0\tgenerated\t0\ttheoretical\t0\tflow_score\t0"
+        },
+        {
+          "request": 14,
+          "tool": "lua",
+          "args": {
+            "code": "local s = createlab.machine.inspect({x=0,y=-58,z=4})\nprint(\"dry rpm\", s.kinetics and s.kinetics.rpm, \"flow\", s.kinetics and s.kinetics.flow_score)"
+          },
+          "receipt": "ok · 1 call · 0 s\nstdout:\ndry rpm\t0\tflow\t0"
+        },
+        {
+          "request": 15,
+          "tool": "lua",
+          "args": {
+            "code": "-- place a single water source by clicking the north wall face (0,-57,2) aiming south... \n-- actually aim AT the wall face adjacent to source cell: click wall (0,-57,2) from the source side\nnumen.use.block({x=0, y=-57, z=2}, {item=\"minecraft:water_bucket\"})\n-- read back the source cell\nlocal c = numen.scan.block({x=0,y=-57,z=3})\nprint(\"cell\", c.name, c.properties and c.properties.level)"
+          },
+          "receipt": "ok · 2 calls · 0 s\nstderr:\nline 3 numen.use.block: right-clicked 0,-57,2 — but nothing visibly changed (inventory, health, riding, aimed block, nearby entities all as before). If you expected an effect, reposition or rethink.\nstdout:\ncell\tminecraft:air\tnil"
+        },
+        {
+          "request": 17,
+          "tool": "lua",
+          "args": {
+            "code": "-- walk to stand just south of the source cell, then click the north wall\nnumen.move.walk({x=0, y=-57, z=4})\nlocal r = numen.use.block({x=0, y=-57, z=2}, {item=\"minecraft:water_bucket\"})\nif r then print(\"clicked\", r and r.aimed) end\nlocal c = numen.scan.block({x=0,y=-57,z=3})\nprint(\"source cell\", c.name, c.properties and c.properties.level)"
+          },
+          "receipt": "ok · 3 calls · 6 s\nstderr:\nline 2 numen.move.walk: reached 0,-57,4. En route I had to place 5 cobblestone (5,-60,5; 4,-60,5; 3,-60,5; 2,-60,5; 2,-59,5). I also switched to cobblestone in my hotbar.\nline 3 numen.use.block: right-clicked 0,-57,2 — but nothing visibly changed (inventory, health, riding, aimed block, nearby entities all as before). If you expected an effect, reposition or rethink.\nstdout:\nclicked\tnil\nsource cell\tminecraft:air\tnil"
+        }
+      ],
+      "statusOfHarness": "COMPLETE"
+    },
+    {
+      "run": "basic-water-1795194982842",
+      "requests": 25,
+      "calls": {
+        "skill": 1,
+        "lua": 22,
+        "todo": 2
+      },
+      "models": [
+        "deepseek-v4-pro"
+      ],
+      "httpStatus": {
+        "200": 25
+      },
+      "receivedCreateSkill": true,
+      "luaProgramsReferencingProbe": 4,
+      "reportedUsage": {
+        "prompt_tokens": 433392,
+        "completion_tokens": 5658,
+        "total_tokens": 439050,
+        "prompt_cache_hit_tokens": 388224,
+        "prompt_cache_miss_tokens": 45168
+      },
+      "estimatedUsd": 0.04955465,
+      "successfulBuildReceipts": [
+        {
+          "completed": 1,
+          "target": 1,
+          "placed": 1,
+          "direct": 1,
+          "cleared": 0
+        },
+        {
+          "completed": 1,
+          "target": 1,
+          "placed": 1,
+          "direct": 1,
+          "cleared": 1
+        },
+        {
+          "completed": 3,
+          "target": 3,
+          "placed": 3,
+          "direct": 1,
+          "cleared": 0
+        },
+        {
+          "completed": 13,
+          "target": 13,
+          "placed": 10,
+          "direct": 4,
+          "cleared": 0
+        }
+      ],
+      "serverDispatchErrors": 2,
+      "agentCommandWriteReceipts": {
+        "setblockChanges": 0,
+        "fillChanges": 0
+      },
+      "walkingFromPathReceipts": {
+        "steps": 10,
+        "dug": 0,
+        "placed": 9
+      },
+      "results": [
+        {
+          "utc": "2026-11-20T17:20:50.455Z",
+          "type": "agent_return",
+          "calls": 25,
+          "finish": "stop",
+          "status": 200,
+          "content": "小型水车已经稳稳转起来了。\n\n干态时检查是 0 RPM,放了一个水源后水流过轮缘,现在读回 +8 RPM、流动评分 1,水源在同一格(level 0),轮缘那格是流动水(level 8)。施工区没动多余的地,接水槽在下面兜着,轴两端和来路都保持干燥。"
+        }
+      ],
+      "secondsFromFirstChatToLastSnapshot": 259.119,
+      "snapshots": [
+        {
+          "label": "water-1",
+          "create": [
+            {
+              "id": "create:water_wheel",
+              "x": 4,
+              "y": -52,
+              "z": 11,
+              "savedRpm": 8,
+              "effectiveRpm": 8,
+              "network": {
+                "Capacity": 256,
+                "Size": 1,
+                "AddedCapacity": 32,
+                "Id": [
+                  256,
+                  49100
+                ],
+                "Stress": 0
+              }
+            }
+          ],
+          "control": [],
+          "sand": {
+            "total": 0,
+            "stored": [],
+            "loose": []
+          },
+          "changedBlocks": 171,
+          "outside": [],
+          "addedKinds": {
+            "minecraft:water": 146,
+            "minecraft:cobblestone": 22,
+            "create:water_wheel": 1
+          },
+          "removedKinds": {},
+          "replacedKinds": {
+            "minecraft:grass_block -> minecraft:dirt": 2
+          }
+        },
+        {
+          "label": "water-2",
+          "create": [
+            {
+              "id": "create:water_wheel",
+              "x": 4,
+              "y": -52,
+              "z": 11,
+              "savedRpm": 8,
+              "effectiveRpm": 8,
+              "network": {
+                "Capacity": 256,
+                "Size": 1,
+                "AddedCapacity": 32,
+                "Id": [
+                  256,
+                  49100
+                ],
+                "Stress": 0
+              }
+            }
+          ],
+          "control": [],
+          "sand": {
+            "total": 0,
+            "stored": [],
+            "loose": []
+          },
+          "changedBlocks": 171,
+          "outside": [],
+          "addedKinds": {
+            "minecraft:water": 146,
+            "minecraft:cobblestone": 22,
+            "create:water_wheel": 1
+          },
+          "removedKinds": {},
+          "replacedKinds": {
+            "minecraft:grass_block -> minecraft:dirt": 2
+          }
+        },
+        {
+          "label": "water-3",
+          "create": [
+            {
+              "id": "create:water_wheel",
+              "x": 4,
+              "y": -52,
+              "z": 11,
+              "savedRpm": 8,
+              "effectiveRpm": 8,
+              "network": {
+                "Capacity": 256,
+                "Size": 1,
+                "AddedCapacity": 32,
+                "Id": [
+                  256,
+                  49100
+                ],
+                "Stress": 0
+              }
+            }
+          ],
+          "control": [],
+          "sand": {
+            "total": 0,
+            "stored": [],
+            "loose": []
+          },
+          "changedBlocks": 171,
+          "outside": [],
+          "addedKinds": {
+            "minecraft:water": 146,
+            "minecraft:cobblestone": 22,
+            "create:water_wheel": 1
+          },
+          "removedKinds": {},
+          "replacedKinds": {
+            "minecraft:grass_block -> minecraft:dirt": 2
+          }
+        }
+      ],
+      "events": [
+        {
+          "utc": "2026-11-20T17:16:39.589Z",
+          "type": "chat",
+          "text": "在身边的空平地让一台小型机械动力水车稳定起转。参考 create_kinetics，自行选坐标和朝向。先造干的水轮和单格落水通道，围好下方接水槽，保持接近水道的路线干燥。干态 RPM 验证后，使用启用的 createlab_water.source.place 只放一个水源，水源和轮心坐标由你填写。再读回实际水源、经过轮缘的流动和 RPM。无需整地或扫描整片区域，不接轴或负载。施工边界 x/z 各 -20 至 20，y=-61 至 -40。",
+          "baseCount": 0
+        },
+        {
+          "utc": "2026-11-20T17:20:58.732Z",
+          "type": "basic_water_result",
+          "passed": true,
+          "ticks": [
+            5063,
+            5145,
+            5227
+          ],
+          "wheel": {
+            "pos": [
+              4,
+              -52,
+              11
+            ],
+            "rpm": 8,
+            "flowScore": 1
+          },
+          "sources": [
+            {
+              "pos": [
+                4,
+                -51,
+                10
+              ],
+              "level": 0
+            }
+          ],
+          "flowing": 145,
+          "outside": []
+        }
+      ],
+      "samples": [
+        {
+          "utc": "2026-11-20T17:20:50.550Z",
+          "type": "basic_water_sample",
+          "label": "water-1",
+          "tick": 5063,
+          "wheels": [
+            {
+              "pos": [
+                4,
+                -52,
+                11
+              ],
+              "rpm": 8,
+              "flowScore": 1
+            }
+          ],
+          "outside": [],
+          "levels": {
+            "0": 1,
+            "1": 8,
+            "2": 10,
+            "3": 13,
+            "4": 18,
+            "5": 22,
+            "6": 26,
+            "7": 30,
+            "8": 18
+          },
+          "sourceCells": [
+            [
+              4,
+              -51,
+              10
+            ]
+          ],
+          "rimWater": [
+            {
+              "pos": [
+                4,
+                -53,
+                11
+              ],
+              "level": 1
+            },
+            {
+              "pos": [
+                4,
+                -52,
+                10
+              ],
+              "level": 8
+            },
+            {
+              "pos": [
+                4,
+                -52,
+                12
+              ],
+              "level": 8
+            },
+            {
+              "pos": [
+                4,
+                -51,
+                11
+              ],
+              "level": 1
+            }
+          ],
+          "waterBounds": [
+            [
+              -3,
+              -60,
+              4
+            ],
+            [
+              11,
+              -51,
+              19
+            ]
+          ]
+        },
+        {
+          "utc": "2026-11-20T17:20:54.634Z",
+          "type": "basic_water_sample",
+          "label": "water-2",
+          "tick": 5145,
+          "wheels": [
+            {
+              "pos": [
+                4,
+                -52,
+                11
+              ],
+              "rpm": 8,
+              "flowScore": 1
+            }
+          ],
+          "outside": [],
+          "levels": {
+            "0": 1,
+            "1": 8,
+            "2": 10,
+            "3": 13,
+            "4": 18,
+            "5": 22,
+            "6": 26,
+            "7": 30,
+            "8": 18
+          },
+          "sourceCells": [
+            [
+              4,
+              -51,
+              10
+            ]
+          ],
+          "rimWater": [
+            {
+              "pos": [
+                4,
+                -53,
+                11
+              ],
+              "level": 1
+            },
+            {
+              "pos": [
+                4,
+                -52,
+                10
+              ],
+              "level": 8
+            },
+            {
+              "pos": [
+                4,
+                -52,
+                12
+              ],
+              "level": 8
+            },
+            {
+              "pos": [
+                4,
+                -51,
+                11
+              ],
+              "level": 1
+            }
+          ],
+          "waterBounds": [
+            [
+              -3,
+              -60,
+              4
+            ],
+            [
+              11,
+              -51,
+              19
+            ]
+          ]
+        },
+        {
+          "utc": "2026-11-20T17:20:58.731Z",
+          "type": "basic_water_sample",
+          "label": "water-3",
+          "tick": 5227,
+          "wheels": [
+            {
+              "pos": [
+                4,
+                -52,
+                11
+              ],
+              "rpm": 8,
+              "flowScore": 1
+            }
+          ],
+          "outside": [],
+          "levels": {
+            "0": 1,
+            "1": 8,
+            "2": 10,
+            "3": 13,
+            "4": 18,
+            "5": 22,
+            "6": 26,
+            "7": 30,
+            "8": 18
+          },
+          "sourceCells": [
+            [
+              4,
+              -51,
+              10
+            ]
+          ],
+          "rimWater": [
+            {
+              "pos": [
+                4,
+                -53,
+                11
+              ],
+              "level": 1
+            },
+            {
+              "pos": [
+                4,
+                -52,
+                10
+              ],
+              "level": 8
+            },
+            {
+              "pos": [
+                4,
+                -52,
+                12
+              ],
+              "level": 8
+            },
+            {
+              "pos": [
+                4,
+                -51,
+                11
+              ],
+              "level": 1
+            }
+          ],
+          "waterBounds": [
+            [
+              -3,
+              -60,
+              4
+            ],
+            [
+              11,
+              -51,
+              19
+            ]
+          ]
+        }
+      ],
+      "skillSha256": "e5b94068396f8423428c68fbd250d889a4c0355fe57f8d4364d685018694410f",
+      "consoleReceipts": [],
+      "keyModelCalls": [
+        {
+          "request": 9,
+          "tool": "lua",
+          "args": {
+            "code": "return numen.api.help(\"createlab.machine.inspect\")"
+          },
+          "receipt": "ok · 1 call · 0 s\nreturned: ---Report signed RPM, stress and capacity, or the crusher controller's live state.\n---@param cell Pos A loaded test cell.\n---@return createlab.Sample\nfunction createlab.machine.inspect(cell) end\n\n---@class createlab.Sample\n---@field kind string\n---@field kinetics? createlab.Kinetics\n---@field crusher? createlab.Crusher\n\n---@class createlab.Kinetics\n---@field rpm number\n---@field theoretical_rpm number\n---@field generated_rpm number\n---@field overstressed boolean\n---@field stress number\n---@field capacity number\n---@field flow_score? integer\n\n---@class createlab.Crusher\n---@field valid boolean\n---@field facing string\n---@field processing_speed number\n---@field occupied boolean"
+        },
+        {
+          "request": 9,
+          "tool": "lua",
+          "args": {
+            "code": "return numen.api.help(\"createlab_water.source.place\")"
+          },
+          "receipt": "ok · 1 call · 0 s\nreturned: ---Place a single water source in the specified empty cell. The RPM and flow score are live samples at return; inspect again after the stream settles.\n---@param cell Pos Exact empty cell above a horizontal wheel rim.\n---@param wheel Pos Center of the nearby small water wheel.\n---@return createlab_water.Result\nfunction createlab_water.source.place(cell, wheel) end\n\n---@class createlab_water.Result\n---@field placed boolean\n---@field reason string\n---@field landed_at? Pos\n---@field wheel Pos\n---@field rpm_now? number\n---@field flow_score_now? integer"
+        },
+        {
+          "request": 12,
+          "tool": "lua",
+          "args": {
+            "code": "-- Choose wheel center. Place shaft axis=x at center, wheel facing east.\n-- Small water wheel: block \"create:water_wheel[facing=east]\"\n-- For east/west facing wheel, source goes 1 up and 1 north of center (same X).\nlocal cx, cy, cz = 4, -52, 11\n\n-- First: shaft at center with axis=x\nlocal design = {\n  {name = \"create:shaft[axis=x]\", pos = {x=cx, y=cy, z=cz}},\n}\nlocal r = numen.build.place(design)\nprint(\"shaft placed\", r.placed, \"left\", r.left)\nif r.unplaced and #r.unplaced>0 then\n  for _,u in ipairs(r.unplaced) do print(\"  unplaced\", u.kind, u.says) end\nend"
+          },
+          "receipt": "ok · 1 call · 2 s\nstderr:\nline 10 numen.build.place: built 1/1 block(s); placed 1 (1 written straight in: a hand could not put them in that shape from where you stand), cleared 0 (all requested cells match) En route I had to place 2 cobblestone (2,-60,11; 2,-59,11). I also took a stack of cobblestone from the creative inventory.\nstdout:\nshaft placed\t1\tleft\t0"
+        },
+        {
+          "request": 13,
+          "tool": "lua",
+          "args": {
+            "code": "-- Check what the water wheel block needs. The shaft axis is x (east-west).\n-- Water wheel: create:water_wheel with facing (horizontal). For axis=x, wheel faces east or west.\n-- Place the wheel block at center, replacing? Actually the water wheel encircles the shaft.\n-- In Create, a small water wheel is placed as a single block that the shaft goes through.\n-- Let me place the water wheel at the shaft position to check naming.\nlocal cx, cy, cz = 4, -52, 11\n-- Inspect current shaft\nlocal b = numen.scan.block({x=cx,y=cy,z=cz})\nprint(\"shaft block\", b.name)\nprint(\"props\", b.properties and b.properties.axis)"
+          },
+          "receipt": "ok · 1 call · 0 s\nstdout:\nshaft block\tcreate:shaft\nprops\tx"
+        },
+        {
+          "request": 15,
+          "tool": "lua",
+          "args": {
+            "code": "local cx, cy, cz = 4, -52, 11\n-- The water wheel block itself occupies the center (replacing shaft? No - shaft stays).\n-- Water wheel is create:water_wheel, placed at center with facing=east.\n-- But first I should understand: shaft is at center. The wheel goes around it.\n-- Place water wheel at center position.\nlocal design = {\n  {name = \"create:water_wheel[facing=east]\", pos = {x=cx, y=cy, z=cz}},\n}\nlocal r = numen.build.place(design)\nprint(\"wheel placed\", r.placed, \"left\", r.left)\nfor _,u in ipairs(r.unplaced or {}) do print(\"  unplaced\", u.kind, u.says) end\nif r.replaced then print(\"replaced\", r.replaced) end"
+          },
+          "receipt": "ok · 1 call · 0 s\nstderr:\nline 9 numen.build.place: built 1/1 block(s); placed 1 (1 written straight in: a hand could not put them in that shape from where you stand) (1 replacing what stood there), cleared 1 (all requested cells match)\nstdout:\nwheel placed\t1\tleft\t0\nreplaced\t1"
+        },
+        {
+          "request": 20,
+          "tool": "lua",
+          "args": {
+            "code": "local cx, cy, cz = 4, -52, 11\nlocal s = createlab.machine.inspect({x=cx,y=cy,z=cz})\nprint(\"kind\", s.kind)\nif s.kinetics then\n  print(\"rpm\", s.kinetics.rpm)\n  print(\"theoretical\", s.kinetics.theoretical_rpm)\n  print(\"generated\", s.kinetics.generated_rpm)\n  print(\"overstressed\", s.kinetics.overstressed)\n  print(\"flow_score\", s.kinetics.flow_score)\nend"
+          },
+          "receipt": "ok · 1 call · 0 s\nstdout:\nkind\tkinetic\nrpm\t0\ntheoretical\t0\ngenerated\t0\noverstressed\tfalse\nflow_score\t0"
+        },
+        {
+          "request": 21,
+          "tool": "lua",
+          "args": {
+            "code": "local source_cell = {x=4, y=-51, z=10}  -- one up, one north of wheel center (4,-52,11)\nlocal wheel = {x=4, y=-52, z=11}\nlocal res = createlab_water.source.place(source_cell, wheel)\nprint(\"placed\", res.placed)\nprint(\"reason\", res.reason)\nif res.landed_at then print(\"landed_at\", res.landed_at.x, res.landed_at.y, res.landed_at.z) end\nprint(\"rpm_now\", res.rpm_now)\nprint(\"flow_score_now\", res.flow_score_now)"
+          },
+          "receipt": "ok · 1 call · 0 s\nstdout:\nplaced\ttrue\nreason\tplaced\nlanded_at\t4\t-51\t10\nrpm_now\t0\nflow_score_now\t0"
+        },
+        {
+          "request": 22,
+          "tool": "lua",
+          "args": {
+            "code": "numen.time.wait(2)\nlocal cx, cy, cz = 4, -52, 11\nlocal s = createlab.machine.inspect({x=cx,y=cy,z=cz})\nprint(\"rpm\", s.kinetics.rpm)\nprint(\"theoretical\", s.kinetics.theoretical_rpm)\nprint(\"generated\", s.kinetics.generated_rpm)\nprint(\"flow_score\", s.kinetics.flow_score)\nprint(\"overstressed\", s.kinetics.overstressed)"
+          },
+          "receipt": "ok · 2 calls · 2 s\nstderr:\nline 1 numen.time.wait: waited 2.0s\nstdout:\nrpm\t8\ntheoretical\t8\ngenerated\t8\nflow_score\t1\noverstressed\tfalse"
+        },
+        {
+          "request": 23,
+          "tool": "lua",
+          "args": {
+            "code": "-- Read actual source cell\nlocal src = numen.scan.block({x=4, y=-51, z=10})\nprint(\"source cell:\", src.name)\nif src.properties then\n  for k,v in pairs(src.properties) do print(\"  \", k, \"=\", v) end\nend\n\n-- Check the flowing cell at rim (one below source, beside wheel rim)\nlocal flow = numen.scan.block({x=4, y=-52, z=10})\nprint(\"rim cell:\", flow.name)\nif flow.properties then\n  for k,v in pairs(flow.properties) do print(\"  \", k, \"=\", v) end\nend\n\n-- Wheel RPM readback\nlocal s = createlab.machine.inspect({x=4, y=-52, z=11})\nprint(\"final rpm\", s.kinetics.rpm, \"flow_score\", s.kinetics.flow_score)"
+          },
+          "receipt": "ok · 3 calls · 0 s\nstdout:\nsource cell:\tminecraft:water\n  \tlevel\t=\t0\nrim cell:\tminecraft:water\n  \tlevel\t=\t8\nfinal rpm\t8\tflow_score\t1"
+        }
+      ],
+      "statusOfHarness": "COMPLETE"
+    },
+    {
+      "run": "guard-check-1795194177633",
+      "requests": 0,
+      "calls": {},
+      "models": [],
+      "httpStatus": {},
+      "receivedCreateSkill": false,
+      "luaProgramsReferencingProbe": 0,
+      "reportedUsage": {},
+      "estimatedUsd": 0,
+      "successfulBuildReceipts": [],
+      "serverDispatchErrors": 0,
+      "agentCommandWriteReceipts": {
+        "setblockChanges": 0,
+        "fillChanges": 0
+      },
+      "walkingFromPathReceipts": {
+        "steps": 0,
+        "dug": 0,
+        "placed": 0
+      },
+      "results": [
+        {
+          "utc": "2026-11-20T17:03:23.570Z",
+          "type": "scope_result",
+          "passed": true,
+          "maximumCommandVolume": 64,
+          "waterCellsInScope": 64
+        }
+      ],
+      "snapshots": [
+        {
+          "label": "scope-verified",
+          "create": [],
+          "control": [],
+          "sand": {
+            "total": 0,
+            "stored": [],
+            "loose": []
+          },
+          "changedBlocks": 77,
+          "outside": [],
+          "addedKinds": {
+            "minecraft:stone": 12,
+            "minecraft:oak_planks": 1,
+            "minecraft:water": 64
+          },
+          "removedKinds": {},
+          "replacedKinds": {}
+        }
+      ],
+      "events": [],
+      "samples": [],
+      "consoleReceipts": [],
+      "keyModelCalls": [],
+      "statusOfHarness": "COMPLETE"
+    },
+    {
+      "run": "guard-check-1795194950375",
+      "requests": 0,
+      "calls": {},
+      "models": [],
+      "httpStatus": {},
+      "receivedCreateSkill": false,
+      "luaProgramsReferencingProbe": 0,
+      "reportedUsage": {},
+      "estimatedUsd": 0,
+      "successfulBuildReceipts": [],
+      "serverDispatchErrors": 0,
+      "agentCommandWriteReceipts": {
+        "setblockChanges": 0,
+        "fillChanges": 0
+      },
+      "walkingFromPathReceipts": {
+        "steps": 0,
+        "dug": 0,
+        "placed": 0
+      },
+      "results": [
+        {
+          "utc": "2026-11-20T17:16:14.501Z",
+          "type": "scope_result",
+          "passed": true,
+          "maximumCommandVolume": 64,
+          "waterCellsInScope": 64
+        }
+      ],
+      "snapshots": [
+        {
+          "label": "scope-verified",
+          "create": [],
+          "control": [],
+          "sand": {
+            "total": 0,
+            "stored": [],
+            "loose": []
+          },
+          "changedBlocks": 79,
+          "outside": [],
+          "addedKinds": {
+            "minecraft:stone": 12,
+            "minecraft:oak_planks": 1,
+            "minecraft:water": 64
+          },
+          "removedKinds": {},
+          "replacedKinds": {
+            "minecraft:grass_block -> minecraft:dirt": 2
+          }
+        }
+      ],
+      "events": [],
+      "samples": [],
+      "consoleReceipts": [],
+      "keyModelCalls": [],
+      "statusOfHarness": "COMPLETE"
+    }
+  ]
+}

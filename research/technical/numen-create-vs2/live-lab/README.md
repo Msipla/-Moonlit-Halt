@@ -229,3 +229,87 @@ python3 live-lab/summarize.py runs/*/*/
 ### 下一步
 
 下一轮补一个隔离施工区内的定点放水动作。让模型选一个格，执行侧单格放水并回传实际水源落点和邻近水车的 RPM，先验收一台水车稳定起转。此次空场的共同问题发生在动力源与传动接合前后，现阶段的通过率不足以扩大到更长的 Create 施工任务。
+
+## 2026-11-21 Create 基础动作闭环
+
+[本轮任务书](../TASK-BASIC-ACTIONS.md) · [独立读盘、模型实际 Lua 和用量](evidence/basic-actions.json)
+
+Minecraft 1.20.1、Fabric Loader 0.17.2、Fabric API 0.92.6、Numen 0.1.5-beta、Create Fabric 6.0.8.1 build 1744。沿用种子 192834 的隔离创造服、已发布的只读探针和施工护栏。本轮修改 `create_kinetics` 中的轴向和注水说明、隔离服测试脚本和可选的受限单格水源动作。每个模型样本用独立世界，使用官方 DeepSeek Flash 和 V4 Pro，均关闭思考。模型发问前取消房主 OP，原版单次命令上限 64，服务器端施工范围 X/Z −20..20、Y −61..−40。夹具通过 Anvil 独立取样至 X/Z ±24、Y −64..−35。
+
+### 原生能力校准
+
+- **放水。** 上轮 `skill-iteration` 的新版空场记录中，Lua 正常返回或点击回执无变化的同时，有时目标邻格才出现水。瞄准空气与空点正前方右键都无法指定实际受水面，积水还会让步行搜索报 `WOULD_FLOOD` 或 `no_path`。Numen 的 `BuildApi.place` 明确排除液体，`UseApi.block` 经 `BlockActionOps.interactAt` 执行模拟玩家的右键。原版桶射线决定受水面，`numen.scan.block` 能读实际落点。校准中，模型之外的固定 Lua 先用 `numen.build.place` 尝试水方块，回执 `placed=0`。随后用 `numen.use.block({x=6,y=-56,z=2},{item="minecraft:water_bucket"})` 点墙，回执说墙未改变，但相邻 `(6,-56,1)` 扫描和读盘均为水源 `level=0`，水轮由 0 达到 −8 RPM、`FlowScore=-1`。有合适站位和墙面时，原生桶可以完成注水。该无模型校准渠未完全围合，取样发现 110 格水且均在护栏内。正式任务仍需模型自己做接水槽。
+- **轴向。** 上轮新版错轴补测请求 7 和 10 使用了独立的 `properties={axis="x"}`，放置回执各为 1，读盘仍是 Y。Numen 的 `Design.CODEC.decode` 只从每项读坐标和 `name`，`BuildStates.resolve` 用原版方块状态解析器读取 `name`。本轮无模型校准中，独立 `properties` 复现了相同的成功回执和 Y 轴。把轴向改写到 `name="create:shaft[axis=x]"` 后，回执和 Anvil 均确认 X。施工模型只接手由夹具置入的 Y 轴，正式改成 X 的操作由模型发起。读取探针仍用 `createlab.machine.inspect` 的实时 `getSpeed()` 和 `flowScore`。
+
+### 定点动作和护栏实测
+
+无模型校准证明原生桶可以把水倒进特定邻格。三次真实原生组暴露了可靠性缺口。尤其是 Pro 两次瞄准同一墙，转向与站位变化会让桶落到墙背或墙顶。Numen 原生接口参数只有瞄准格，未提供受水面参数。水轮虽能被意外水流带转，源点与水域仍未受控。
+
+沿用原有护栏增加可选动作 [`createlab_water.source.place(cell, wheel)`](scope/WaterAction.java)。它只在显式启用且施工范围已配置的隔离创造服登记。它检查主世界、施工范围、已加载区块、小型水轮轴向和轮缘上方一格空气，调用 Numen 现有放置权限，获得许可后再次核对条件。执行侧用原版 `setBlock` 单格写入 `minecraft:water[level=0]`，邻块和流动由游戏 tick 处理。回执读取实际落点、即时有效 RPM 和流分数。即时转速可能为 0，待水流稳定后使用原只读探针复验。首次打包把入口放进了 Mixin 专用包，Fabric 拒绝启动。移到普通包并重新编译后通过校验，失败实例没有模型调用。
+
+无模型边界校准的三种拒绝回执分别为 `outside_construction_scope`、`target_not_air` 和 `source_must_be_above_rim`，拒绝前后的方块快照完全一致。边缘合法目标 `(20,-56,-9)` 回执为 `placed=true`，即时 RPM 0，原生扫描返回 `minecraft:water`、`level="0"`。5 秒后读盘只有该水源，合计 80 格水均在边界内，轮心 `(20,-57,-10)` 为 +8 RPM。重新编译的护栏另跑原有 `guard-check`，命令权限、64 格上限、原生方块写入和边界扩散复测均通过。原版命令的 64 格限制与原生建造的批量上限各自生效。
+
+### 模型实测
+
+| 独立样本 | 读盘结果 | 判定 | HTTP 200 / token / 估算美元 |
+| --- | --- | --- | ---: |
+| Flash · 原生水桶初试 | 1 台水轮，0 RPM。水源在轴端 `(3,-59,11)`。最终 132 格流动水 | 失败。放水位置错，积水令寻路耗尽预算 | 18 / 259,115 / 0.00437 |
+| Flash · 澄清轮缘与接水后 | 5 台轮均为 0 RPM。末次读盘无水源，73 格流动水 | 失败。读取了通用建筑 Skill，扩建 15 格长的槽并尝试多轮，超时 | 20 / 339,451 / 0.00529 |
+| Pro · 原生水桶 | 轮心 `(0,-58,4)` 三次均为 −8 RPM。墙背 `(0,-57,1)`、墙顶 `(0,-56,2)` 各有一处源头，188 格流动水 | 失败。实际起转，预定源点 `(0,-57,3)` 在终点只是 level 8 流动水，另外接了两根轴 | 19 / 326,770 / 0.04484 |
+| Pro · 启用单格动作 | 轮心 `(4,-52,11)` 三次均为 **+8 RPM**、流分数 +1。唯一水源 `(4,-51,10)`，轮缘 `(4,-52,10)` 的流动水为 level 8 | **通过基本动作**。取样无越界，槽内水仍溢流 | 25 / 439,050 / 0.04955 |
+| Flash · 传动轴 | `(0,-60,9)` 从 Y 改为 X，读盘净变化仅这一格 | **通过**。模型重新扫描确认 X | 5 / 57,542 / 0.00077 |
+
+水轮原生组三次均未达到单水源验收。启用单格动作和相应 Skill 后的一次 Pro 样本通过。此轮样本量和指令差异只支持单次可行性结论。轴向有一个有效样本并通过。首次轴向运行的夹具把求模前的就绪回复误判成任务完成，随后关停，中断了下一轮模型处理。已修复等待逻辑，要求先见到当前目标，再接受该轮结束。误判样本原始日志留存，排除在轴向验收分母外。
+
+Pro 自行选址和安排轮缘水道，从空场建造。它先放了一个临时轴并以水轮替换，独立存档无额外传动轴。它发现向下迭代的 Lua 缺少负步长后修正水道侧壁，读到干态 0，再实际调用下列接口：
+
+```lua
+local source_cell = {x=4, y=-51, z=10}
+local wheel = {x=4, y=-52, z=11}
+local res = createlab_water.source.place(source_cell, wheel)
+```
+
+第 21 个模型请求发出放水调用。回执为 `placed=true`、`landed_at=(4,-51,10)`、`rpm_now=0`。下一次 Lua 等待 2 秒后读到有效、理论和生成转速均 +8 RPM。第 23 个请求重读水源、轮缘和转速。夹具在游戏刻 **5063、5145、5227** 分别刷新并独立读取 Anvil，三次都记录 **+8 RPM** 和相同水域，首末间隔 164 游戏刻。档内共有 146 格水，其中 145 格为流动水，水域外包范围为 X −3..11、Y −60..−51、Z 4..19。水从接水槽流到地面平层，取样区发现两处草块变为泥土，另有 22 格圆石。模型称接水槽完全兜住，读盘显示该项仍有缺陷。最后一次取样距发问 259.1 秒。
+
+轴向组先有 Y 轴的固定注障夹具。随后模型在其第 3 个请求执行 `numen.build.place({{name="create:shaft[axis=x]",pos=pos}})`，原生回执显示替换并直接写入 1 格，同段扫描读到 `axis="x"`，第 4 个请求单独读取了 `numen.scan.block(pos).properties.axis`，第 5 个请求向玩家报告 X。夹具只负责注障、采样和计时。最后一次取样距发问 29.7 秒。
+
+本轮中继共记录 88 次 HTTP 200、**1,432,723 token**。输入 1,417,363，其中缓存命中 1,290,240、未命中 127,123，输出 15,360。按请求 UTC 时间和各模型平峰价估算 **0.10494 美元**，包含无效轴向组的 1 次有计量的就绪请求和超时后观察窗口内完成的请求。早期轴向中断的模型请求未取得 usage，无法确定是否计费。实际账单以提供商为准。[DeepSeek 计价](https://api-docs.deepseek.com/quick_start/pricing/)
+
+两项基本动作已有服务器和真实 API 证据。单格水源动作及护栏用 JDK 17 编译并在 Fabric 服务端启动。玩家实机验收待进行。下一阶段具备尝试单水车、单轴、单片粉碎轮联动的基础，先修正接水槽的溢流，再实测三段 RPM 和应力。完整双轮粉碎机留待联动通过后再评估。
+
+### 复现
+
+从研究目录运行以下命令。配置沿用已启动过的 Minecraft 1.20.1 Fabric 服务端、`npm ci --prefix mc20` 的 Node 依赖和上阶段的只读探针。旧阶段的实验及编译命令应在旧阶段提交执行。
+
+```bash
+build=$(mktemp -d)
+mcjar=mc20/.fabric/remappedJars/minecraft-1.20.1-0.17.2/server-intermediary.jar
+loader=$(find mc20/libraries/net/fabricmc/fabric-loader -name '*.jar' -print -quit)
+mixin=$(find mc20/libraries/net/fabricmc/sponge-mixin -name '*.jar' -print -quit)
+unzip -p mc20/mods/numen.jar META-INF/jars/numen_api-fabric-1.20.1-0.1.5.jar > "$build/api.jar"
+unzip -p mc20/mods/create.jar META-INF/jars/base-2.3.13+1.20.1.jar > "$build/base.jar"
+unzip -p mc20/mods/create.jar META-INF/jars/Ponder-Fabric-1.20.1-1.0.91.jar > "$build/ponder.jar"
+mkdir "$build/classes"
+javac -proc:none --release 17 \
+  -cp "$mcjar:$loader:$mixin:$build/api.jar:mc20/mods/create.jar:$build/base.jar:$build/ponder.jar" \
+  -d "$build/classes" live-lab/scope/*.java
+jar --create --file "$build/scope.jar" -C "$build/classes" . \
+  -C live-lab/scope fabric.mod.json -C live-lab/scope createlab-scope.mixins.json
+
+export LAB_SCOPE_JAR="$build/scope.jar"
+export LAB_RUNS="$PWD/runs/basic-actions"
+export LAB_JAVA_HEAP=1200m
+
+node live-lab/run.cjs basic-check
+LAB_BASIC_WATER_ACTION=1 node live-lab/run.cjs basic-check
+node live-lab/run.cjs guard-check
+
+# 以下模型测试使用私有运行时环境变量 DEEPSEEK_API_KEY。
+node live-lab/run.cjs basic-axis
+node live-lab/run.cjs basic-water
+LAB_BASIC_MODEL=deepseek-v4-pro node live-lab/run.cjs basic-water
+LAB_BASIC_MODEL=deepseek-v4-pro LAB_BASIC_WATER_ACTION=1 node live-lab/run.cjs basic-water
+python3 live-lab/summarize.py "$LAB_RUNS"/*/
+```
+
+`events.jsonl` 的 `basic_water_sample` 给出相隔至少 80 游戏刻的独立水域状态，`basic_water_result` 给出单轮、单水源、稳定非零 RPM 和边界检查的合并结果。`basic_axis_result` 记录原状态、新状态及取样区净变动坐标。`model.jsonl` 的 `calls[].id` 与后续请求的 `context[].tool_call_id` 对应工具参数和回执。完整日志、Anvil 快照及地表存档见随本轮交付的 `Numen-Create-Basic-Actions.zip`。

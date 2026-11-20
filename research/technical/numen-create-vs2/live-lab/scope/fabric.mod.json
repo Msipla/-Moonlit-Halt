@@ -1,9 +1,10 @@
 {
   "schemaVersion": 1,
   "id": "createlab_scope",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "name": "Create Lab Block Bounds",
   "environment": "server",
+  "entrypoints": { "main": ["lab.createlab.WaterAction"] },
   "mixins": ["createlab-scope.mixins.json"],
-  "depends": { "minecraft": "1.20.1", "java": ">=17" }
+  "depends": { "minecraft": "1.20.1", "java": ">=17", "numen": "0.1.5", "create": "6.0.8.1" }
 }

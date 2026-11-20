@@ -1,6 +1,6 @@
 # Numen × Create 基础施工动作闭环｜Work 任务书
 
-**状态：待执行（2026-11-21）**  
+**状态：已执行（2026-11-21）。定点单水源起转和原生 X 轴修正通过服务器实测，接水槽仍有区内溢流。[实测报告](live-lab/README.md#2026-11-21-create-基础动作闭环)**  
 **目标仓库/分支：** `Msipla/-Moonlit-Halt` / `codex/numen-create-basic-actions`  
 **任务位置：** `research/technical/numen-create-vs2/`
 
