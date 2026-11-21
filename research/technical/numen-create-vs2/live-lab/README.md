@@ -866,3 +866,5 @@ LAB_SKILL_FILE="$press_skill" LAB_MILL_AUTONOMOUS=press LAB_ENGINEERING_RECEIPT=
 据此，本轮前面反复出现的"右键点不到盆""溜槽喂不进去""要征求同意"都是**症状**，真正的根因在结构：进料口没对准容器，动力源也没转起来。这也说明模型的空间推理在"相邻一格"级别的对齐上并不可靠，而它自己没有通过读数发现这一点——它始终没有报出"水车 0 RPM"这个关键事实。
 
 四类判定：自主施工 有、模型自验 无、独立验收 不通过、按时回执 无。
+
+补充（供只读诊断）：本轮委托原文、时间线、四条原始报错（consent 过期、gui 无窗口、模型自述）、以及"模型全程未读取水车 RPM"这一事实，均已记入 `evidence/local-lab-feed-2026-11-21.json` 的 `mixerTrial` 字段（`taskText`、`timeline`、`keyLogLines`、`monitoredFacts`）。

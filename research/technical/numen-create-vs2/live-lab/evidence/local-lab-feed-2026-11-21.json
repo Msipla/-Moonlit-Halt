@@ -419,6 +419,30 @@
       "modelSelfVerified": false,
       "independentAcceptance": false,
       "replyBeforeDeadline": false
+    },
+    "site": "grass area around -40,-58,-50, chosen by the model",
+    "taskText": "在这里自己设计并造一套机械搅拌装置：用水车提供动力，带动搅拌机，最终生产出安山合金。材料用创造模式取，自己搭水道、自己装机器，产出后读回产物告诉我。",
+    "timeline": [
+      "20:35 client relaunched for this round",
+      "20:42:22 first final reply: water wheel, mixer and basin built, water channel filled, but the basin cannot be fed",
+      "20:46 gui.put attempt failed with GuiItemsCompanionTask FAILED(UNSUPPORTED) no window is open",
+      "21:25-21:29 three drop attempts each hit owner consent and expired after 2 minutes (主人不在场,无法征得同意)",
+      "21:29 consent remembered; the dropped ingot then landed in the water beside the basin",
+      "21:31-21:36 further retries, no product",
+      "21:39 offline inspection of the saved world"
+    ],
+    "keyLogLines": [
+      "[numen-consent] ask #6: drop 1 andesite: drop(*)",
+      "[numen-consent] #6 expired: 主人不在场,无法征得同意",
+      "DropCompanionTask FAILED(REFUSED) did not drop andesite: refused by the owner",
+      "GuiItemsCompanionTask FAILED(UNSUPPORTED) no window is open: open a chest, a furnace or a machine first",
+      "LabBot: 两种方法我都试了：溜槽加漏斗已经贴着盆装好，但往漏斗里点物品没反应；空手右键盆也打不开界面",
+      "LabBot: 主人，我脚下这块空地上从零建好了……（上一轮成功轮的原话，用于对比）"
+    ],
+    "monitoredFacts": {
+      "ownerManualRightClick": "the owner also could not open the basin; F3 showed the targeted block was create:chute at -36,-58,-50, not the basin",
+      "modelNeverReportedRpm": "across the whole round the model never read or reported water wheel RPM, so it never noticed Speed 0.0",
+      "acceptanceInput": "world copied from the client save into mc20/accepted4 and inspected with the dedicated server (RCON data get block + execute if block)"
     }
   }
 }
