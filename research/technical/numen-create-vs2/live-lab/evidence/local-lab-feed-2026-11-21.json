@@ -1,6 +1,6 @@
 {
   "kind": "local-lab-environment-and-native-feed-calibration",
-  "revision": 9,
+  "revision": 10,
   "date": "2026-11-21",
   "branch": "codex/numen-create-basic-actions",
   "provenance": {
@@ -383,5 +383,42 @@
       "The first attempt shows the model choosing to reuse an existing structure unless told otherwise; the clarification is recorded as an intervention.",
       "The client process hung at about 20:25 and had to be killed; the save from 20:27 was intact and served as the acceptance input."
     ]
+  },
+  "mixerTrial": {
+    "date": "2026-11-21",
+    "task": "build a mixer station powered by a water wheel and produce andesite alloy",
+    "result": "failed - no product, and the cause is structural, not interaction",
+    "offlineInspection": {
+      "waterWheel": "-40,-60,-50 create:water_wheel, Speed 0.0 (not turning)",
+      "shafts": [
+        "-40,-59,-50",
+        "-40,-58,-50",
+        "-39,-58,-50",
+        "-38,-58,-50 all Speed 0.0"
+      ],
+      "mixer": "-37,-58,-50 create:mechanical_mixer, Speed 0.0",
+      "basin": "-37,-59,-50 create:basin (correctly under the mixer)",
+      "chute": "-36,-58,-50 create:chute facing=down",
+      "chuteVsBasin": "the chute is one block east of the basin: items fall to -36,-59,-50, not into the basin at -37,-59,-50, which is why the dropped ingot ended up in the water",
+      "water": "41 water blocks within a 7x7x7 box around the wheel, yet the wheel Speed is 0"
+    },
+    "diagnosis": [
+      "two independent structural errors: the feed chute is misaligned with the basin by one block in X",
+      "the water wheel is not turning even though water is present nearby, so the power chain never started",
+      "the earlier interaction problems (right-click on chute, consent) were symptoms at the wrong layer: the structure itself was wrong"
+    ],
+    "interventions": [
+      "one /tp",
+      "one clarification to build fresh",
+      "one tool hint about chute feeding",
+      "one consent remember"
+    ],
+    "turnsAndTokens": "over 60 model turns, about 74k tokens, no product",
+    "fourCategories": {
+      "modelActed": true,
+      "modelSelfVerified": false,
+      "independentAcceptance": false,
+      "replyBeforeDeadline": false
+    }
   }
 }
