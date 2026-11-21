@@ -1,12 +1,13 @@
 {
   "kind": "local-lab-environment-and-native-feed-calibration",
+  "revision": 2,
   "date": "2026-11-21",
   "branch": "codex/numen-create-basic-actions",
   "provenance": {
-    "machine": "local Windows (same host as the DeepSeek Harness session)",
-    "note": "Not the ChatGPT Work cloud machine. This world is a new minimal equivalent fixture, not the original variant-ready-world.",
+    "machine": "local Windows host (same machine as the DeepSeek Harness session)",
+    "note": "Not the ChatGPT Work cloud machine. Worlds here are new minimal fixtures, not the original variant-ready-world.",
     "reuses": "Java 17, Fabric loader, Minecraft 1.20.1 server runtime and Create 6.0.8.1 from the local Minecraft AI engineer project; that project and its saves were not modified.",
-    "excluded": "The original lab worlds, reviewed events and the model harness were not available locally."
+    "excluded": "Original lab worlds, reviewed events and the model harness were not available locally."
   },
   "environment": {
     "java": { "path": "D:/Android/openjdk/jdk-17.0.12/bin/java.exe", "version": "17.0.12" },
@@ -15,54 +16,131 @@
     "fabricApi": "0.92.12+1.20.1",
     "create": "6.0.8.1+build.1744",
     "numen": "0.1.5 (fabric, release v0.1.5-1.20.1-beta)",
-    "node": "22.23.5 (portable, used only for the offline client)",
+    "node": "22.23.5 (portable; offline client only)",
     "serverRoot": "D:/NumenLab/mc20",
-    "world": "numen-lab (superflat, creative, offline mode, RCON 25576, Numen MCP 8799)",
-    "modsLoaded": ["fabric-api", "create", "numen"]
+    "world": "numen-lab (superflat, creative, offline mode)",
+    "listeners": [
+      { "port": 25575, "address": "127.0.0.1", "purpose": "game" },
+      { "port": 25576, "address": "127.0.0.1", "purpose": "rcon" },
+      { "port": 8799, "address": "127.0.0.1", "purpose": "numen mcp" }
+    ]
+  },
+  "authenticationCheck": {
+    "scheme": "Numen MCP bearer token, token store config/numen/server/mcp_tokens.json (sha256 of the token, role, owner, scope, expiry)",
+    "results": [
+      { "token": "absent", "http": 401 },
+      { "token": "unknown value", "http": 401 },
+      { "token": "provisioned value", "http": 200, "role": "BRAIN" }
+    ],
+    "officialIssuance": {
+      "command": "/numen token create (brain|channel), player-only, shown once",
+      "headlessAttempt": "The offline client sent `numen token create brain` itself through the chat_command packet as an operator; the server answered command.unknown.command, so a real Minecraft client is required for official issuance.",
+      "fallback": "One locally written BRAIN entry was added to the token store with the same hash format. It is loopback-only, documented here, and is not a secret that protects anything beyond this disposable world.",
+      "rcon": "RCON is loopback-only with a lab password; it is not exposed beyond 127.0.0.1."
+    }
   },
   "method": {
     "driver": "Numen MCP tools/call lua with a fixed program; no language model in the loop",
     "why": "The published evidence could not separate 'the model never fed the depot' from 'the native call cannot reach the depot top face'.",
-    "fixture": {
-      "press": "create:mechanical_press at 0,-58,0 facing=east, driven by create:creative_motor at 1,-58,0 facing=west",
+    "stage1Fixture": {
+      "press": "create:mechanical_press at 0,-58,0 facing=east driven by create:creative_motor at 1,-58,0",
       "pressSpeedRpm": -16.0,
-      "gap": "0,-59,0 kept as air",
       "depot": "create:depot at 0,-60,0",
-      "companion": "LabBot, teleported to 0.5,-60,2.5"
+      "gap": "0,-59,0 air",
+      "companionStance": "0.5,-60,2.5 (feet level with the ground surface, depot at floor level)"
+    },
+    "stage2Fixture": {
+      "source": "watermill.json generalEngineering.trials[3] (run watermill-1795249042182)",
+      "recovered": {
+        "press": [-1, -57, 4],
+        "pressFacing": "south",
+        "driveRpm": 8,
+        "depot": [-1, -59, 4],
+        "gap": [-1, -58, 4],
+        "stress": "96/256 SU"
+      },
+      "rebuilt": "press -1,-57,4 facing=south, depot -1,-59,4, gap air, creative motor -1,-57,3 facing=south giving +16 RPM (same sign as the recorded +8)",
+      "note": "The original water wheel and eleven-block gear route were not rebuilt; the purpose was to isolate geometry, stance and call shape."
     }
   },
   "trials": [
     {
+      "stage": 1,
       "id": "feed-1",
       "stance": "adjacent, facing the depot",
       "program": "numen.use.block({x=0,y=-60,z=0},{item=\"minecraft:iron_ingot\"})",
       "receipt": "right-clicked 0,-60,0 - inventory: -1 minecraft:iron_ingot",
-      "depotAfter": "HeldItem id=minecraft:iron_ingot",
-      "processedAfterSeconds": 5,
-      "result": "HeldItem id=create:iron_sheet, press Finished=1, Ticks=242",
-      "verdict": "pass - feed and pressing both happened"
+      "result": "depot HeldItem became create:iron_sheet within 5 s; press Finished=1, Ticks=242",
+      "verdict": "pass"
     },
     {
+      "stage": 1,
       "id": "feed-2",
       "stance": "adjacent, facing away (yaw 180)",
       "program": "numen.use.block({x=0,y=-60,z=0},{item=\"minecraft:iron_ingot\"})",
-      "receipt": "right-clicked 0,-60,0 - inventory: -1 minecraft:iron_ingot, +1 create:iron_sheet",
-      "verdict": "pass - the same block-targeted call still reached the depot while the companion faced away"
+      "result": "same block-targeted call still reached the depot top surface",
+      "verdict": "pass"
+    },
+    {
+      "stage": 2,
+      "id": "A-low",
+      "stance": "-0.5,-60,5.5 (feet on the floor, depot raised one block above the floor)",
+      "program": "numen.gear.hold(\"minecraft:iron_ingot\"); numen.use.block({x=-1,y=-59,z=4})",
+      "receipt": "right-clicked -1,-59,4 - but nothing visibly changed (inventory, health, riding, aimed block, nearby entities all as before)",
+      "depotAfter": "no HeldItem, OutputBuffer empty",
+      "inventoryAfter": "iron ingot still in slot 0",
+      "verdict": "fail - exact reproduction of the historical request 19 receipt"
+    },
+    {
+      "stage": 2,
+      "id": "B-low",
+      "stance": "same low stance",
+      "program": "numen.use.block({x=-1,y=-59,z=4},{item=\"minecraft:iron_ingot\"})",
+      "receipt": "right-clicked -1,-59,4 - nothing visibly changed",
+      "depotAfter": "no HeldItem",
+      "verdict": "fail - the item argument alone does not help"
+    },
+    {
+      "stage": 2,
+      "id": "B-high",
+      "stance": "-0.5,-59,5.5 (feet one block higher, eye above the depot top)",
+      "program": "numen.use.block({x=-1,y=-59,z=4},{item=\"minecraft:iron_ingot\"})",
+      "receipt": "right-clicked -1,-59,4 - inventory: -1 minecraft:iron_ingot",
+      "depotAfter": "HeldItem minecraft:iron_ingot, then create:iron_sheet after pressing",
+      "verdict": "pass"
+    },
+    {
+      "stage": 2,
+      "id": "A-high",
+      "stance": "same elevated stance",
+      "program": "numen.gear.hold(\"minecraft:iron_ingot\"); numen.use.block({x=-1,y=-59,z=4})",
+      "receipt": "right-clicked -1,-59,4 - inventory: -1 minecraft:iron_ingot",
+      "depotAfter": "HeldItem create:iron_sheet; press Finished=1, Ticks=202",
+      "verdict": "pass"
     }
   ],
+  "matrix": {
+    "rows": ["low stance", "elevated stance"],
+    "columns": ["gear.hold only", "item argument"],
+    "values": [
+      ["fail", "fail"],
+      ["pass", "pass"]
+    ]
+  },
   "findings": [
-    "No hit-face or aim parameter is needed for this depot: the block-targeted right-click placed the item on the top surface in both stances.",
-    "The press converted iron_ingot to create:iron_sheet within about 5 seconds at -16 RPM with the depot two blocks below.",
-    "Therefore the earlier depot feed failures cannot be explained by a missing face/aim capability in the native interface. The remaining candidates are press or depot geometry, actual rotation of the press at the time of the click, or the model never issuing the click at a usable stance.",
-    "This contradicts the stronger wording in the earlier report that the interface 'has no way to specify the hit face'; it has no such parameter, but the behaviour still succeeds."
+    "Stance height, not the call shape, decides whether the depot receives the item. With the eye at or below the depot top surface the right-click produces no effect; one block higher it succeeds.",
+    "The item argument is not required for success and does not fix the low stance. gear.hold plus a bare use.block works once the stance is right.",
+    "The historical failure at requests 19, 23, 31 and 33 is therefore reproduced by geometry and stance alone, without any model involvement.",
+    "The earlier statement that the interface 'cannot specify the hit face' remains true as an API description, but it is not the cause of the observed failure."
   ],
   "limits": [
-    "Two no-model trials only; not a statistical success rate.",
-    "Different world and different build than the press round recorded in watermill.json, so this is not a same-condition reproduction.",
-    "The model's own press structure was not rebuilt here, so the exact cause of that failure is still unconfirmed."
+    "The rebuilt press used a creative motor at +16 RPM instead of the original water wheel, eleven gearboxes and +8 RPM chain, so this is not a same-condition reproduction.",
+    "The exact stance used by the model was not recorded; the low stance here is an inference from the floor geometry, not measured evidence.",
+    "The world is a new minimal fixture, not the original variant-ready-world.",
+    "Two trials per cell; this is a mechanism demonstration, not a success-rate measurement."
   ],
   "nextSteps": [
-    "Replay the model's last press layout from watermill.json geometry in this lab and run the same fixed-lua feed against it.",
-    "Only if that reproduction also fails, add the smallest capable check (or a bounded lab action) rather than a new framework."
+    "Record stance height in the Skill or the survey receipt so the companion checks its eye level against the depot top before feeding.",
+    "Re-run one model trial only after the stance fact is available, and keep separating build, self-verification and independent acceptance."
   ]
 }
