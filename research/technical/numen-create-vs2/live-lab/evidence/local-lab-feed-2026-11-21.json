@@ -444,5 +444,217 @@
       "modelNeverReportedRpm": "across the whole round the model never read or reported water wheel RPM, so it never noticed Speed 0.0",
       "acceptanceInput": "world copied from the client save into mc20/accepted4 and inspected with the dedicated server (RCON data get block + execute if block)"
     }
+  },
+  "mixerFollowup": {
+    "baseCommit": "d1aa7ecc3abaf9cddcaf91379edbbfa62dd0cc43",
+    "priorRecordCorrection": {
+      "basin": "The archived basin at y=-59 is one block too high for the mixer at y=-58; the mixer looks two cells below.",
+      "wheel": "The snapshot confirms zero saved RPM; the exact rim flow behavior was not captured.",
+      "feed": "The archived downward chute is horizontally displaced by one X cell."
+    },
+    "environment": {
+      "host": "Work isolated lab",
+      "minecraft": "1.20.1",
+      "fabricLoader": "0.17.2",
+      "numen": "0.1.5",
+      "create": "6.0.8.1+build.1744-mc1.20.1",
+      "mediumSpeed": {
+        "rpm": 30,
+        "source": "config/create-server.toml"
+      },
+      "scopeJarSha256": "5f8b7f2f7f329dc37c7815169231014ffd8c0ed46228bc74f83aac58e21fa252",
+      "probeSha256": "03590122bd22a761ce1c5e6b45377fab2c0a98039c2b2407121f1e8d95035e11"
+    },
+    "calibration": {
+      "run": "watermill-1795274037222",
+      "kind": "fixture-only",
+      "modelRequests": 0,
+      "gap": {
+        "mixer": [
+          5,
+          -55,
+          2
+        ],
+        "basin": [
+          5,
+          -57,
+          2
+        ],
+        "gap": [
+          5,
+          -56,
+          2
+        ],
+        "basinId": "create:basin",
+        "gapId": "minecraft:air"
+      },
+      "wheelsBeforeWater": [
+        {
+          "id": "create:water_wheel",
+          "x": 0,
+          "y": -57,
+          "z": 0,
+          "savedRpm": 0,
+          "effectiveRpm": 0
+        }
+      ],
+      "wheelsAfterWater": [
+        {
+          "id": "create:water_wheel",
+          "x": 0,
+          "y": -57,
+          "z": 0,
+          "savedRpm": 8,
+          "effectiveRpm": 8,
+          "network": {
+            "Capacity": 256,
+            "Size": 1,
+            "AddedCapacity": 32,
+            "Id": [
+              0,
+              4039
+            ],
+            "Stress": 0
+          }
+        }
+      ],
+      "routeBlockAndSignedRpm": [
+        "create:water_wheel 8",
+        "create:shaft 8",
+        "create:gearbox 8",
+        "create:large_cogwheel 8",
+        "create:cogwheel -16",
+        "create:large_cogwheel -16",
+        "create:cogwheel 32",
+        "create:mechanical_mixer -32"
+      ],
+      "stress": 128,
+      "capacity": 256,
+      "nativeFeed": {
+        "utc": "2026-11-21T15:14:16.546Z",
+        "type": "rcon",
+        "command": "numen drive LabBot local h={x=5,y=-57,z=3}; print(\"calibration-feed\",numen.creative.give(\"minecraft:andesite\",{count=1}),numen.inv.store(h,\"minecraft:andesite\",1),numen.creative.give(\"minecraft:iron_nugget\",{count=1}),numen.inv.store(h,\"minecraft:iron_nugget\",1)); numen.time.wait(6); print(\"calibration-basin\",numen.scan.container({x=5,y=-57,z=2}).storage)",
+        "response": ""
+      },
+      "result": {
+        "utc": "2026-11-21T15:14:33.619Z",
+        "passed": true,
+        "produced": 1,
+        "left": [
+          0,
+          0
+        ],
+        "blockChanges": []
+      },
+      "basinOutput": [
+        {
+          "Slot": 0,
+          "id": "create:andesite_alloy",
+          "Count": 1
+        }
+      ]
+    },
+    "autonomous": {
+      "run": "watermill-1795274074013",
+      "initialSnapshotSha256": "f51eac27f02beae84f13e4207456b30ac08f1568ad09c682ea633807416ea524",
+      "skillSha256": "c83687ed029890b455e31f9ea8f49839330aaddce607003263f4518f2d8b8c81",
+      "terminal": {
+        "utc": "2026-11-21T15:21:49.947Z",
+        "type": "agent_timeout",
+        "calls": 9,
+        "reason": "No matching event within 419999.811582 ms"
+      },
+      "inspection": {
+        "utc": "2026-11-21T15:21:50.075Z",
+        "type": "mixer_inspection",
+        "elapsed": 420.002278893,
+        "changes": [],
+        "outside": [],
+        "alloy": 0,
+        "wheels": [],
+        "mixers": [],
+        "otherPower": [],
+        "station": null
+      },
+      "isolation": {
+        "utc": "2026-11-21T15:21:49.986Z",
+        "type": "agent_isolated",
+        "durationMs": 38,
+        "online": "There are 1 of a max of 20 players online: LabOwner"
+      },
+      "assay": {
+        "utc": "2026-11-21T15:21:50.075Z",
+        "type": "mixer_result",
+        "passed": false,
+        "reason": "kinetics-layout-or-scope"
+      },
+      "requests": 9,
+      "usage": {
+        "prompt_tokens": 125176,
+        "completion_tokens": 5424,
+        "total_tokens": 130600,
+        "prompt_cache_hit_tokens": 96896,
+        "prompt_cache_miss_tokens": 28280
+      },
+      "counts": {
+        "http200": 9,
+        "skill": 2,
+        "lua": 5,
+        "luaApiCallsFromReceipts": 6,
+        "todo": 2,
+        "singleBlockLowerBound": 2
+      },
+      "turnsEndingInLength": [
+        9
+      ],
+      "model": "deepseek-v4-pro",
+      "reasoningEffort": "off",
+      "taskText": "在这里自己设计并造一套机械搅拌装置：用水车提供动力，带动搅拌机，最终生产出安山合金。材料用创造模式取，自己搭水道、自己装机器，产出后读回产物告诉我。",
+      "start": {
+        "utc": "2026-11-21T15:14:49.945Z",
+        "type": "mixer_start",
+        "stage": "autonomous",
+        "minimum": {
+          "rpm": 30,
+          "source": "config/create-server.toml"
+        },
+        "limitSeconds": 420,
+        "interventions": 0,
+        "ownerMessages": 1
+      },
+      "classification": {
+        "modelConstructed": false,
+        "modelSelfVerified": false,
+        "independentAcceptance": false,
+        "independentAssay": "not run: independent post-isolation read found no installed station",
+        "replyBeforeDeadline": false,
+        "manualInterventionsDuringModel": 0,
+        "constructionRequestObserved": false,
+        "limitingEvent": "Request 9 used 4096 completion tokens, finished with length and no tool calls, and no later request was observed before the deadline.",
+        "worldBlocksChanged": 0,
+        "worldSnapshotUnchanged": true
+      },
+      "importantToolReceipts": [
+        {
+          "request": 1,
+          "atSecondsApprox": 0.055,
+          "responseEndSecondsApprox": 10.428,
+          "type": [
+            "skillRead"
+          ],
+          "id": "call_00_ifKIEmDvhUCUA4Hverkk2777",
+          "code": "",
+          "receipt": "<skill_content name=\"create_kinetics\">\nFor a watermill workshop or a millstone powered by a water wheel, load `references/watermill.md` with the skill tool before planning. It gives the drive and access rules for a working mill. The crusher workflow below applies to crushing wheels.\n\n## Building or retrofitting machinery\n\nFor a local retrofit, use the installed read-only owner module to get the parts, axes and local floor in one receipt. Choose the IDs and load for the job. Example for the watermill drive:\n\n```lua\nprint(my.create_survey.observe({ids={\"create:water_wheel\",\"create:shaft\",\"create:gearbox\",\"create:millstone\"}, load=\"create:millstone\"}))\n```\n\nYou can supply an observed `anchor` (machine position), or `floor` (floor tile). The inferred floor is a solid tile below the load and its connected outline may include adjoining space. After choosing a layout, run `print(my.create_survey.observe({cells=cells}))` on your own short placement list. An air entry checks a required clear cell, including when it is far. If the owner module is unavailable, use `numen.scan.blocks` for the mechanical parts and `numen.build.diff` for the candidate.\n\n- **Stop surveying when you can build.** With the ports and intended clearance checked, execute the local change. Leave the untouched shell and supply out of the scan. Only read a specific missing detail that could change the plan.\n- **Finish from the measured result.** Restore incidental construction changes and remove temporary feed hardw"
+        }
+      ],
+      "lastLengthResponse": {
+        "request": 9,
+        "atSecondsApprox": 76.055,
+        "seconds": 60.921,
+        "completionTokens": 4096,
+        "toolCalls": 0,
+        "textExcerpt": "/large cog at `(3,-57,15)`.\n\nHmm wait, but actually cogs meshing: a small cog (axis x) at (2,-57,15) — its axis is X, so it extends transmission along X direction, at the line (y=-57, z=15). Good.\n\n- Large cog `(3,-57,15)` axis_x [16 RPM]\n- Small cog `(3,-56,16)` axis_x [32 RPM]\n- Shaft `(4,-56,16)` axis_x [32 RPM]\n- Gearbox `(5,-56,16)` axis_z [turns X→Y, 32 RPM]\n- Vertical shaft `(5,-55,16)` axis_y up to mixer\n- Mixer at `(6,-55,16)`? The mixer meshes with a small cog (axis y) horizontally adjacent. So small cog (axis y) at `(5,-55,16)` (on the vertical shaft) meshes with mixer at `(6,-55,16)`.\n\nWait, but the small cog at (5,-55,16) on the vertical shaft: a small cogwheel with axis y. It meshes with the mixer horizontally adjacent (offset +1 X). Mixer at (6,-55,16).\n\nActually a small cog (axis y) at (5,-55,16) and mixer at (6,-55,16): they're horizontally adjacent, mesh directly. The cog transmits the Y-axis rotation to the mixer's side.\n\nThe mixer at 32 RPM. Basin below mixer.\n\nThis is a workable full design! But it's complex and I should verify each stage. Let me also double check: does a small cogwheel (axis x) at (2,-57,15) properly mesh with large cog (axis x) at (2,-58,14)? Offset is (0, +1, +1) = diagonal up and +z. Yes that's the \"1.5 block\" diagonal mesh for large↔small.\n\nActually, I want to verify my understanding of large↔small diagonal. Let me recall: Large cogwheel has radius ~1.5, small cog radius ~1. So large cog at center O meshes with small cog center at O + (1,1) diagonal (the small's center is 1.5 away, matching large radius 1.5 + small radius... no).\n\nStandard Create: large cog and small cog mesh when their centers are at a diagonal offset of (1,0,1) or (0,1,1) etc in the perpendicular plane — specifically the large cog's center to small cog center is a knight-move diagonal (1 block in each of two axes).\n\nYes, large↔small is a (1,1) diagonal in the perpendicular plane. Two small cogs mesh at (1,0) or (0,1). Two large cogs at (2,0)... etc.\n\nSo my chain is correct: large cog (axis x) at (2,-58,14), small cog (axis x) at (2,-57,15) = offset (0,1,1) = diagonal(1,1). ✓ Doubles.\n\nLarge cog at (3,-57,15), small cog at (3,-56,16) = offset (0,1,1). ✓ Doubles to 32.\n\nGood. But wait — is there a cleaner way to get 4x with a gearbox? A gearbox itself"
+      }
+    }
   }
 }

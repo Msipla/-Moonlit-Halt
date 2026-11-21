@@ -1,6 +1,6 @@
 ---
 name: create_kinetics
-description: Build, inspect, and repair Create 6.0.8.1 water-powered mills and crushing wheels on Fabric 1.20.1 using real kinetics and recipe outputs.
+description: Build, inspect, and repair Create 6.0.8.1 water-powered mills, mixers and crushing wheels on Fabric 1.20.1 using real kinetics and recipe outputs.
 ---
 
 For a watermill workshop or a millstone powered by a water wheel, load `references/watermill.md` with the skill tool before planning. It gives the drive and access rules for a working mill. The crusher workflow below applies to crushing wheels.
@@ -25,3 +25,10 @@ You can supply an observed `anchor` (machine position), or `floor` (floor tile).
 3. **Prove transmission on each side.** Connect the water wheel's axle face to a shaft and to the crushing wheel's axle face along the same line. The shaft and crushing wheel each use `axis`. If the water wheel turns but the crushing wheel is at zero, read the cells along that branch in order. Look for the first zero-RPM part, wrong axis, missing contact or overstress. Correct one offending cell and reread it. Leave water alone while the source spins. Keep the opposite branch independent and give it opposite flow.
 4. **Prove the controller.** The two parallel crushing wheels are two cells apart across their axes. Leave the single middle cell empty so Create can generate the controller. With X axles separated along Z, north +8 and south −8 give downward feed. Inspect both crushing wheels for opposite nonzero effective RPM, then require `createlab.machine.inspect(gap).crusher.valid` and `facing == "down"`. If the gap holds a shaft or another block, clear the obstruction. Keep intake above and outlet below clear for hoppers.
 5. **Prove output and clean up.** Feed one `minecraft:gravel` through the intake hopper and check for new `minecraft:sand` in the collection hopper or barrel with `numen.scan.container`. If the owner is feeding, report ready only after the preceding readings pass and wait for the test. Check approach blocks and unintended water, and remove unnecessary changes. Report the failing check if a measured condition is still unmet. A placement receipt confirms placement only.
+
+
+## Water-powered mixing
+
+- **Verify the wheel before adding the load.** Use the horizontal-axle rim-flow procedure above. Check the actual source, flowing rim and signed RPM after the water settles. A small water wheel supplies 8 RPM. If it stays at zero, inspect its actual axle and rim flow before extending the drive.
+- **Match ports and speed.** A mechanical mixer takes gear drive on its sides, not a shaft. Use a same-height, horizontally adjacent Y-axis small cog to mesh with it. Large-to-small mesh doubles speed; it uses a diagonal in the plane perpendicular to the shared axis. A gearbox's state axis has no shaft ports. Choose your own route and speed changes. The default mixer threshold is 30 RPM in absolute value, so aim for 32 RPM and verify actual speed and stress with `createlab.machine.inspect(pos).kinetics` if available. Locate the first dead or under-speed stage before feeding.
+- **Verify actual cells, then feed once.** Place a basin two block cells below the mixer with an air cell between. Read those actual cells and the feed outlet with `numen.scan.block`. A down-facing chute sends items below itself. A side hopper must point into the basin. Read the basin storage first, put one andesite and one iron nugget into a GUI-capable feed hopper with `numen.inv.store`, and wait for the basin to show a new `create:andesite_alloy`. Report observed speeds and the inventory delta. If the ingredients never arrive, check the feed outlet; if they stay in the basin, check the gap, mixer speed and recipe. A basin has no storage GUI.

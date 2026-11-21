@@ -868,3 +868,44 @@ LAB_SKILL_FILE="$press_skill" LAB_MILL_AUTONOMOUS=press LAB_ENGINEERING_RECEIPT=
 四类判定：自主施工 有、模型自验 无、独立验收 不通过、按时回执 无。
 
 补充（供只读诊断）：本轮委托原文、时间线、四条原始报错（consent 过期、gui 无窗口、模型自述）、以及"模型全程未读取水车 RPM"这一事实，均已记入 `evidence/local-lab-feed-2026-11-21.json` 的 `mixerTrial` 字段（`taskText`、`timeline`、`keyLogLines`、`monitoredFacts`）。
+
+### 水车搅拌站最小复核（2026-11-21）
+
+对上一轮记录作两处静态勘误。搅拌机在 `y=-58` 时按 `BasinOperatingBlockEntity.getBasin()` 查找 `y=-60` 的盆，上一轮的 `y=-59` 高了一格。其水车保存转速为 0 确实成立，附近水格总数无法定位轮缘的实际停转原因。下向溜槽横向偏离一格的观察保留。
+
+对 Create Fabric 6.0.8.1 build 1744 的 JAR、源码和实验服配置核对。搅拌机无直轴端，Y 轴小齿轮可在同高侧面啮合。搅拌机速度门槛调用 `MEDIUM`，本轮两个隔离实例的 `mediumSpeed` 均为 30 RPM。大齿轮驱动同轴向、同平面对角的小齿轮时速度幅值加倍。现有 `create_kinetics` Skill 增加搅拌段，要求先回读水车、传动与应力，再核对盆与进料口的实际格位，最后用库存前后差证明产物。建造、布置和排障仍由模型自行决定。
+
+无模型校准在独立新建平地。夹具布置供水、两级增速和侧接漏斗，实际读取为干水车 0 RPM、湿水车 +8 RPM、`FlowScore=1`、中段 −16 RPM、末段小齿轮 +32 RPM、搅拌机 −32 RPM，网络应力 128／256。夹具通过 Numen 原生 `creative.give` 与 `inv.store` 向漏斗各交付一份安山岩和铁粒，实际快照从零到一份安山合金，两种原料均消耗，投料期间块状态一致。此轮没有模型请求。
+
+#### 自主实机轮
+
+- 无模型校准 `watermill-1795274037222`。独立自主轮 `watermill-1795274074013`，使用另一份空白平地存档，开场快照与校准完全一致。
+- DeepSeek V4 Pro，关闭思考，限时 420 秒。沿用施工护栏。模型只收到一条自然语言目标、现有 Skill 和真实工具回执。人工干预 0 次，无人工审图、坐标提示、代建或代排障。
+- 前八次请求读取 Skill 和水磨参考、勘察及更新任务清单。第九次请求约在第 76 秒发出，耗时 60.921 秒，回复描述了 8→16→32 RPM 和侧齿轮驱动的思路，但在 4,096 个完成 token 处以 `finish=length` 结束，没有工具调用。后续至截止没有新的模型请求。
+- 9 个 API 请求均返回 HTTP 200。共 130,600 token（输入 125,176，输出 5,424，命中输入缓存 96,896）。工具调用为 2 次 Skill、5 次 Lua 和 2 次任务清单更新，其中可从回执识别出至少 6 个 Lua API 调用和至少 2 次单格读取。
+
+| 验收项 | 实际结果 |
+| --- | --- |
+| 自主施工 | 未进入施工。没有发出放置请求，前后存档快照逐字节一致，范围内外均无方块变化。 |
+| 模型自验 | 未发生。没有实测动力、投料或库存差。 |
+| 独立实机验收 | 截止后先将 LabBot 踢出并检查在线名单，隔离耗时 38 毫秒。读档未发现水车、搅拌机或合金。无机器可供独立投料，功能验收未通过。 |
+| 按时回执 | 没有收到游戏内完成回执，耗满 420 秒。 |
+
+校准证明这条传动与投料路径在当前环境可用。模型轨迹证明它读到了关键机械条件并形成了一条可行的传动思路。自主轮在把方案转为第一次工具动作之前中断，因此无法据此评价后续装配或排障。若继续，优先试验可回读的一段式开工策略，让模型先完成并测量水车动力，再规划传动和投料。保留总时限和独立验收，对照首次施工时间、是否再出现截断与最终产物。
+
+#### 复现与证据
+
+从研究运行目录使用现有 Java、Create/Numen、只读动力探针和施工护栏。从证据包提取 `test-fixture/trial.cjs` 并设置其绝对路径。夹具复用既有启动、聊天回执、截止隔离和读档机制。安装后的 `create_kinetics/SKILL.md` 与实验加载的版本逐字节一致。
+
+```bash
+export LAB_SCOPE_JAR=/path/to/existing-scope.jar
+export LAB_RUNS="$PWD/runs/mixer-verification"
+export LAB_JAVA_HEAP=1200m
+export LAB_SKILL_FILE="$PWD/mc20/config/numen/server/skills/createlab/create_kinetics/SKILL.md"
+export NODE_OPTIONS="--require /path/to/test-fixture/trial.cjs"
+unset LAB_MILL_WORLD LAB_MILL_DECISION LAB_ENGINEERING_RECEIPT
+LAB_MIXER_STAGE=calibration LAB_MILL_AUTONOMOUS=side-check node live-lab/run.cjs watermill
+LAB_MIXER_STAGE=autonomous LAB_MILL_AUTONOMOUS=side-drive LAB_THINKING=0 node live-lab/run.cjs watermill
+```
+
+模型轮从执行环境读取既有模型授权。校准阶段的机器坐标仅用于夹具布置。证据 JSON 的 `mixerFollowup` 附实际校准读数、请求统计和截止结果，旧 `mixerTrial` 原始条目保留。
