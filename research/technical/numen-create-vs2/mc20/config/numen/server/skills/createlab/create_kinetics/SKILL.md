@@ -3,6 +3,8 @@ name: create_kinetics
 description: Build, inspect, and repair Create 6.0.8.1 water-powered mills, mixers and crushing wheels on Fabric 1.20.1 using real kinetics and recipe outputs.
 ---
 
+**Start a new water-powered build at the source.** Make one local check for ground and clearance. Once you find a safe spot, use the next Lua call to place the water wheel or the first blocks of its channel with `numen.build.place`. Keep room at an axle end for the drive. Build the channel in small batches using the power-source procedure below. Read the actual wheel RPM and correct zero RPM before extending the drive. Use each measured result to choose the next connection. Put the local plan in the tool arguments and use only the reference for the requested load.
+
 For a watermill workshop or a millstone powered by a water wheel, load `references/watermill.md` with the skill tool before planning. It gives the drive and access rules for a working mill. The crusher workflow below applies to crushing wheels.
 
 ## Building or retrofitting machinery
