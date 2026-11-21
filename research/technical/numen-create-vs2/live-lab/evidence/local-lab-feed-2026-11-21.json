@@ -1,6 +1,6 @@
 {
   "kind": "local-lab-environment-and-native-feed-calibration",
-  "revision": 3,
+  "revision": 4,
   "date": "2026-11-21",
   "branch": "codex/numen-create-basic-actions",
   "provenance": {
@@ -213,5 +213,48 @@
     "file": "mc20/config/numen/server/skills/createlab/create_kinetics/SKILL.md",
     "change": "one bullet: stand with the eyes above the depot top surface before right-clicking it",
     "rationale": "the stance variable alone reproduced the historical feed failure"
+  },
+  "clientInstance": {
+    "date": "2026-11-21",
+    "path": "D:/NumenLab/client",
+    "base": "derived from work/client-yacht/client-yacht.args of the local Minecraft AI engineer project; same client jar, libraries, assets and natives",
+    "mods": [
+      "fabric-api-0.92.12+1.20.1.jar",
+      "create-fabric-6.0.8.1+build.1744-mc1.20.1.jar",
+      "numen-fabric-1.20.1-0.1.5.jar"
+    ],
+    "world": "copied from the dedicated lab world D:/NumenLab/mc20/world into saves/NumenLab, level name rewritten with nbtlib, gamemode creative, allowCommands true",
+    "launch": "java @numen-client.args with --quickPlaySingleplayer NumenLab",
+    "integratedServerEvidence": [
+      "[numen] registered 4 tool(s)",
+      "Numen mod initialised on Fabric.",
+      "[numen-config] wrote default template to D:/NumenLab/client/config/numen.json",
+      "[numen-task] scheduler heartbeat online (first server tick)",
+      "EngineerLab joined the game"
+    ],
+    "compatibilityFinding": "Numen 0.1.5 loads and initialises on the Minecraft integrated (single-player) server without errors in this run. No gameplay behaviour was exercised, so this is a load/initialise result only."
+  },
+  "guiBlocker": {
+    "date": "2026-11-21",
+    "goal": "bind provider/model through the Numen client settings screen",
+    "result": "blocked by input delivery in this remote session",
+    "detail": "Synthetic mouse clicks and key presses did not reach the LWJGL window: the accessibility prompt ignored clicks, and after entering the world the T key never opened chat, so /numen settings could not be reached.",
+    "impact": "No model binding, no model request, no token spent.",
+    "next": "a human at the physical console opens /numen settings once and binds provider deepseek, model and key; afterwards the client can be launched headless by the same args file"
+  },
+  "oldProjectSideEffect": {
+    "what": "the first client launch kept the original --gameDir because the args parser kept quotes, so it opened work/client-yacht/saves/Engineer-Yacht-Lab",
+    "when": "2026-11-21 19:02:27-19:02:37",
+    "files": [
+      "level.dat",
+      "session.lock",
+      "region/r.0.0.mca",
+      "region/r.7.-1.mca",
+      "region/r.7.0.mca",
+      "region/r.8.-1.mca",
+      "region/r.8.0.mca"
+    ],
+    "mitigation": "the process was stopped about a minute after launch, before the 5 minute autosave; no commands were run in that world",
+    "status": "disclosed, not restored; restoration needs a decision because any restore would itself write to the old project"
   }
 }

@@ -767,3 +767,15 @@ LAB_SKILL_FILE="$press_skill" LAB_MILL_AUTONOMOUS=press LAB_ENGINEERING_RECEIPT=
 进一步确认：`/numen settings` 与 `/numen debug` 都返回 `This needs the Numen client, and yours does not have it`。也就是说，服务商绑定（provider/model）是**由 Numen 客户端 GUI 写入的每玩家设置**，仅靠服务端密钥不足以让内置大脑工作。本机只有服务端，没有运行带 Numen 客户端的真实客户端，因此本阶段没有完成模型轮次，也没有消耗任何 token。
 
 后续有两条路，需要选择其一：安装 Numen 客户端并在真实客户端里绑定一次模型；或改由 MCP 大脑桥接驱动模型。后者可以复用同一套工具与 guide，但传输层与原实验不同，结论必须按不同条件标注。
+
+### 真实客户端实例、单机兼容性与绑定阻塞
+
+按方案一建立了独立客户端实例 `D:\NumenLab\client`，复用本机旧工程已有的 Minecraft 客户端 jar、libraries、assets 与 natives，只替换游戏目录，并放入三个模组：Fabric API 0.92.12、Create 6.0.8.1、Numen 0.1.5。测试世界由专用服存档复制而来，用 nbtlib 改写 `LevelName`，创造模式并允许命令，用 `--quickPlaySingleplayer` 直接进入。
+
+**单机集成服务端兼容性（本轮可验证的部分）**：Numen 0.1.5 在集成服务端正常初始化，日志依次出现 `[numen] registered 4 tool(s)`、`Numen mod initialised on Fabric.`、`[numen-config] wrote default template`、`[numen-task] scheduler heartbeat online`，玩家正常加入。这只是加载与初始化结论，未做任何游戏内行为验证。
+
+**阻塞**：模型绑定需要在客户端 `numen settings` 界面里选择服务商与模型并填入密钥，而本次远程会话下合成鼠标与键盘输入没有送达 LWJGL 窗口——辅助功能提示页点不动，进入世界后按 T 也打不开聊天栏，因此无法到达 `/numen settings`。模型仍未绑定，未发出任何模型请求，未消耗 token。
+
+下一步需要有人在物理机前打开一次 `numen settings`，绑定 provider=deepseek、模型与密钥；完成绑定后同一份参数文件即可重复启动，不需要再改环境。
+
+**需要披露的副作用**：第一次启动时参数文件的引号导致 `--gameDir` 未被替换，客户端实际以旧工程的 `client-yacht` 目录启动，加载了 `saves/Engineer-Yacht-Lab`。进程在约一分钟后被终止，未在该世界执行任何命令，也早于 5 分钟自动保存；但 `level.dat`、`session.lock` 与若干 region 文件的时间戳与写回已经发生（19:02:27–19:02:37）。是否恢复需要另行决定，因为任何恢复动作本身也会写入旧工程。
