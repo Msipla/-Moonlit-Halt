@@ -1,6 +1,6 @@
 {
   "kind": "local-lab-environment-and-native-feed-calibration",
-  "revision": 6,
+  "revision": 7,
   "date": "2026-11-21",
   "branch": "codex/numen-create-basic-actions",
   "provenance": {
@@ -297,7 +297,7 @@
     "fourCategories": {
       "modelActed": true,
       "modelSelfVerified": true,
-      "independentAcceptance": "pending - needs the saved world inspected without the companion",
+      "independentAcceptance": "inconclusive - the depot already held a sheet from earlier calibration, so the model may have picked that up instead of pressing a new one",
       "replyBeforeDeadline": true
     },
     "behaviour": [
@@ -309,6 +309,14 @@
       "The structure already existed, so this trial validates feeding, pressing and self-verification, not autonomous construction",
       "Independent acceptance has not been performed yet",
       "Environment interventions were required, so this is not an unassisted run"
-    ]
+    ],
+    "independentCheck": {
+      "method": "world saved at 19:53, copied to the dedicated server, inspected offline via RCON, companion playerdata read with nbtlib",
+      "companionInventory": "create:iron_sheet x1, no iron ingot",
+      "depotAt0": "create:iron_sheet held",
+      "pressAt0": "Speed -16, Finished 1, Ticks 242",
+      "problem": "the depot at 0,-60,0 still held an iron sheet from the earlier no-model calibration, and an occupied depot returns its item when right-clicked. The observed sheet in the companion inventory is therefore not attributable to a new pressing.",
+      "conclusion": "the environmental error (blocked give, wrong position) and the model behaviour are documented, but the product claim is not independently confirmed; a clean rerun with an empty depot is required"
+    }
   }
 }
