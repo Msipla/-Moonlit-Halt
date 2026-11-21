@@ -790,3 +790,11 @@ LAB_SKILL_FILE="$press_skill" LAB_MILL_AUTONOMOUS=press LAB_ENGINEERING_RECEIPT=
 - 但合成输入没有送达 Minecraft 的 LWJGL 窗口：`GetForegroundWindow` 返回的就是 `Minecraft* 1.20.1 - 单人游戏`，而 Escape、F3、T 都没有反应，游戏画面内点击也无效果；同一条输入通道对普通窗口却有效。
 
 因此这不是“缺少桌面控制能力”，而是该游戏窗口在当前会话下不接受合成输入。模型绑定仍然需要在物理机前完成一次：打开 `numen settings`，绑定 provider=deepseek、模型与密钥。本轮没有修改 Numen 源码，也没有另建 MCP 模型循环。
+
+### 模型绑定的存储位置与可移植性
+
+由用户在真实客户端完成绑定后，配置落在**客户端实例**的 `config/numen/server/` 下：`provider/my/deepseek.json`（`{"provider":"deepseek","model":"deepseek-flash","reasoning_effort":"off"}`）与 `keys/deepseek.key`。绑定条件为非思考档，与历史基线一致。
+
+把这两份文件原样复制到专用实验服的同一路径后，同伴大脑仍然报 `can't reach the model: 没绑模型配置`；在 `players/<uuid>/prefs.json` 中补 provider/model 字段并重启也没有改变该结果。因此这套绑定不能在服务端之间直接搬运，模型轮次只能在持有客户端绑定的单人存档里运行。
+
+这也意味着：模型轮次必须由真实客户端发起对话（`/numen player summon` 与 `/numen chat`），而本会话的合成输入无法送达游戏窗口，需要物理机前的键盘输入配合。
