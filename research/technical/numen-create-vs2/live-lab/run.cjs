@@ -14,6 +14,8 @@ const basicAction = basicWater || basicAxis;
 const basic = basicCheck || basicAction;
 const thinkSmoke = phase === 'think-smoke';
 const watermill = phase === 'watermill';
+const autonomousMill = watermill && process.env.LAB_MILL_AUTONOMOUS === '1';
+const checkMillIsolation = watermill && process.env.LAB_MILL_AUTONOMOUS === 'check';
 const thinking = process.env.LAB_THINKING === '1';
 assert(basic || watermill || ['smoke','think-smoke','A','B','C','boat','guard-check'].includes(phase),
   'Choose smoke, think-smoke, watermill, A, B, C, boat, guard-check, basic-check, basic-water or basic-axis');
@@ -58,6 +60,7 @@ const cmdAs = 'execute as LabOwner at @s run ';
 const labPassword = 'isolated-local-rcon';
 const stringify = value => JSON.stringify(value, (_, v) => typeof v === 'bigint' ? v.toString() : v);
 let rcon, owner, relay, server, output = '';
+const ownerReplies = [];
 
 function mark(type, more = {}) {
   const record = stringify({utc:new Date().toISOString(),type,...more});
@@ -125,13 +128,13 @@ function prepare() {
 }
 
 async function until(fn, ms) {
-  const end = Date.now()+ms;
-  while (Date.now()<end) {
+  const end = performance.now()+ms;
+  while (performance.now()<end) {
     const value = fn();
     if (value) return value;
     if (server && server.exitCode !== null) throw new Error('Minecraft process exited with code '+server.exitCode);
     if (relay && relay.exitCode !== null) throw new Error('Relay process exited with code '+relay.exitCode);
-    await delay(125);
+    await delay(Math.min(125, Math.max(0, end-performance.now())));
   }
   throw new Error('No matching event within '+ms+' ms');
 }
@@ -143,10 +146,22 @@ async function cmd(command) {
 }
 
 const rows = () => fs.readFileSync(evidence,'utf8').trim().split('\n').filter(Boolean).map(JSON.parse);
+async function isolateMillAgent() {
+  const started = performance.now();
+  const kicked = await cmd('kick LabBot Autonomous trial ended');
+  const online = await cmd('list');
+  assert.match(kicked,/\bKicked LabBot\b/i,'The game must acknowledge removal of LabBot');
+  assert.match(online,/\bLabOwner\b/,'The game must return the player list');
+  assert.doesNotMatch(online,/\bLabBot\b/,'LabBot is still in the assay world');
+  mark('agent_isolated',{durationMs:Math.round(performance.now()-started),online});
+}
+
 async function chat(text, timeout = 340000) {
   const baseCount = rows().length;
   mark('chat',{text,baseCount});
   const command=cmdAs+'numen chat LabBot '+text;
+  const started = performance.now();
+  const deadline = started+timeout;
   if (watermill) {
     // A reviewed plan can exceed the RCON packet limit.
     assert(!/[\r\n]/.test(command),'The watermill chat must fit one console line');
@@ -166,11 +181,20 @@ async function chat(text, timeout = 340000) {
       if (watermill && last?.error && (!last.status || last.status >= 500 || [408,409,429].includes(last.status))) {
         return null;
       }
+      if (autonomousMill && last?.status === 200) {
+        if (last.error || last.finish !== 'stop' || !last.content?.trim()) return null;
+        const reply = ownerReplies.find(r=>r.at>=started && r.at<=deadline
+          && r.text.endsWith('<LabBot> '+last.content.trim()));
+        if (!reply) return null;
+        mark('agent_return',{calls:recent.length,finish:last.finish,status:last.status,content:last.content,
+          deliveredSeconds:(reply.at-started)/1000});
+        return last;
+      }
       if (last && (!last.finish || last.finish !== 'tool_calls')) {
         return mark('agent_return',{calls:recent.length, finish:last.finish, status:last.status, content:last.content}) || last;
       }
       return null;
-    }, timeout);
+    }, Math.max(0,deadline-performance.now()));
   } catch (error) {
     mark('agent_timeout',{calls:rows().length-baseCount,reason:error.message});
     return null;
@@ -470,7 +494,7 @@ async function testBasic() {
 async function main() {
   prepare();
   const relayEnv={...process.env};
-  if (!(guardCheck || basicCheck)) {
+  if (!(guardCheck || basicCheck || checkMillIsolation)) {
     assert(relayEnv.DEEPSEEK_API_KEY,'Set DEEPSEEK_API_KEY in the runtime');
     relay=spawn('python3',[path.join(__dirname,'relay.py'),String(relayPort),evidence],{env:relayEnv,stdio:['ignore','pipe','pipe']});
     const relayLog=fs.createWriteStream(path.join(run,'relay.log'));
@@ -494,7 +518,13 @@ async function main() {
   for (const stream of [server.stdout,server.stderr]) stream.on('data',data=>{log.write(data);output+=data.toString();});
   await until(()=>output.includes('scheduler heartbeat online'),120000);
   rcon=await Rcon.connect({host:'127.0.0.1',port:rconPort,password:labPassword,timeout:12000});
-  owner=spawn(process.execPath,[path.join(base,'connect.cjs'),String(serverPort)],{env:relayEnv,stdio:'ignore'});
+  const captureOwner = autonomousMill || checkMillIsolation;
+  owner=spawn(process.execPath,[path.join(base,'connect.cjs'),String(serverPort)],{
+    env:relayEnv,stdio:captureOwner ? ['ignore','ignore','ignore','ipc'] : 'ignore',
+  });
+  if (captureOwner) owner.on('message',text=>{
+    if (typeof text==='string' && text.includes('<LabBot> ')) ownerReplies.push({text,at:performance.now()});
+  });
   await until(()=>output.includes('LabOwner joined the game'),22000);
   await cmd('op LabOwner');
   await cmd('gamerule doMobSpawning false');
@@ -514,14 +544,26 @@ async function main() {
     await verifyScope();
     return;
   }
-  if (!basicCheck) await cmd(cmdAs+'numen companion LabBot profile lab:deepseek');
+  if (!(basicCheck || checkMillIsolation)) await cmd(cmdAs+'numen companion LabBot profile lab:deepseek');
   if (scopeJar) {
     await cmd('deop LabOwner');
     await cmd('gamerule commandModificationBlockLimit 64');
   }
   if (basicCheck) return waterAction ? verifyWaterAction() : verifyBasicNative();
   if (basicAction) return testBasic();
-  if (watermill) return require('./watermill.cjs').test({chat,cmd,save,mark,run,inScope});
+  if (watermill) {
+    const mill = require('./watermill.cjs');
+    const lab = {chat,cmd,save,mark,run,inScope,isolateMillAgent,
+      waitForLog:(marker,ms)=>until(()=>output.includes(marker),ms)};
+    if (checkMillIsolation) {
+      const testReply = '<LabBot> local packet check';
+      await cmd('tellraw LabOwner '+JSON.stringify({text:testReply}));
+      await until(()=>ownerReplies.some(r=>r.text===testReply),3000);
+      mark('owner_reply_check',{passed:true});
+      return mill.checkIsolation(lab);
+    }
+    return autonomousMill ? mill.testAutonomous(lab) : mill.test(lab);
+  }
   if (thinkSmoke) {
     await cmd('setblock 3 -59 3 minecraft:emerald_block');
     await cmd('setblock 4 -59 3 minecraft:gold_block');

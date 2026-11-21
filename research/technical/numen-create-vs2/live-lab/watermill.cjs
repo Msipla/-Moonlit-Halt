@@ -318,4 +318,126 @@ async function test(lab) {
   if (initial) await build(lab,'revised',initial.world,initial.plan);
 }
 
-module.exports={test};
+const pos = (entity) => [entity.x, entity.y, entity.z];
+const itemCount = (entity,id) => (entity?.OutputInventory?.Items ?? [])
+  .filter(item => item.id === id).reduce((sum,item) => sum + item.Count,0);
+const water = (state) => Object.entries(state.blocks).filter(([,b])=>b.Name==='minecraft:water')
+  .map(([cell,b])=>[cell,b.Properties.level]).sort();
+const block = (state,position) => state.blocks[position]?.Name ?? 'minecraft:air';
+
+function measure(state, start, original) {
+  const mills = state.blockEntities.filter(e => e.id === 'create:millstone');
+  const mill = mills.length === 1 ? mills[0] : null;
+  const machineCells = new Map(state.blockEntities.map(e => [pos(e).join(),e]));
+  const route = [];
+  const seen = new Set();
+  for (let part = mill; part && !seen.has(pos(part).join());) {
+    seen.add(pos(part).join());
+    route.push({id:part.id,pos:pos(part),rpm:part.Speed,network:part.Network?.Id,
+      stress:part.Network?.Stress,capacity:part.Network?.Capacity});
+    if (same(pos(part),original.wheel) || !part.Source) break;
+    part = machineCells.get([part.Source.X,part.Source.Y,part.Source.Z].join());
+  }
+  const wheel = route.at(-1);
+  const onlyOriginalWheel = state.blockEntities.filter(e=>e.id==='create:water_wheel').length===1
+    && wheel?.id === 'create:water_wheel' && same(wheel.pos,original.wheel)
+    && wheel.network !== undefined && route.every(e => same(e.network,wheel.network)
+      && Number.isFinite(e.rpm) && e.rpm !== 0 && e.stress <= e.capacity);
+  const [x0,z0,x1,z1] = original.bounds;
+  const depth = ([x,,z]) => Math.min(x-x0,x1-x,z-z0,z1-z);
+  const moved = Boolean(mill && depth(pos(mill))>depth(original.mill)
+    && block(state,original.mill)==='minecraft:air');
+  const door = [original.door,[original.door[0],original.door[1]+1,original.door[2]]];
+  const preserved = {
+    ...retainedShell(start,state,original),
+    entrance:door.every(cell=>same(start.blocks[cell],state.blocks[cell])),
+    water:same(water(start),water(state)),
+    wheel:same(start.blocks[original.wheel],state.blocks[original.wheel]),
+  };
+  let accessCheck=null, usePosition=null;
+  if (mill) {
+    for (const [dx,dz] of [[1,0],[-1,0],[0,1],[0,-1]]) {
+      const stand = [mill.x+dx, original.door[1], mill.z+dz];
+      if (depth(stand)<=0 || Math.abs(stand[1]-mill.y)>1) continue;
+      const result = access(state,{...original,mill:pos(mill),stand},null);
+      if (result.passed) { accessCheck=result; usePosition=stand; break; }
+    }
+  }
+  return {millCount:mills.length,mill:mill&&pos(mill),moved,onlyOriginalWheel,route,
+    flour:itemCount(mill,'create:wheat_flour'),processing:mill?.Timer,preserved,accessCheck,usePosition,
+    passesLayout:moved&&onlyOriginalWheel&&Object.values(preserved).slice(2).every(Boolean)&&Boolean(accessCheck)};
+}
+
+async function testAutonomous(lab) {
+  await lab.cmd('gamerule randomTickSpeed 0');
+  const before = await lab.save('autonomous-before');
+  const original = reviewedPlan(process.env.LAB_MILL_REVIEWED,lab);
+  assert(inspection(before,original).passed && access(before,original,null).passed,
+    'The inherited watermill needs to pass the read-only control');
+  const prompt = '把这座已经能磨粉的水磨坊做一次小改造：把现在的磨石从靠外墙的位置搬到室内更靠中央的位置，原磨石那一格腾空。保留原来的水轮、供水、入口、地板和屋顶，仍然只用原水轮带动磨石。从原入口走进去要能使用新磨石，磨石上方要能投料。你可以按需查现有 create_kinetics 机械参考。请自己勘察、设计、施工和检查，发现问题就按现场反馈自行修复。完成后告诉我你实际验证了什么。';
+  lab.mark('autonomous_start',{interventions:0,ownerMessages:1,limitSeconds:420});
+  const started = performance.now();
+  const answer = await lab.chat(prompt,420000);
+  const elapsed = (performance.now()-started)/1000;
+  await lab.isolateMillAgent();
+  const final = await lab.save('autonomous-after');
+  const result = measure(final,before,original);
+  const outsideChanges = [...new Set([...Object.keys(before.blocks),...Object.keys(final.blocks)])]
+    .filter(cell=>!lab.inScope(cell.split(',').map(Number))&&!same(before.blocks[cell],final.blocks[cell]));
+  const changes = [...new Set([...Object.keys(before.blocks),...Object.keys(final.blocks)])]
+    .filter(cell=>!same(before.blocks[cell],final.blocks[cell]))
+    .map(cell=>({pos:cell,before:before.blocks[cell],after:final.blocks[cell]}));
+  const incidentalChanges = changes.filter(c=>[c.before,c.after].some(b=>b&&!b.Name.startsWith('create:')));
+  lab.mark('autonomous_inspection',{elapsed,finish:answer?.finish,status:answer?.status,
+    interventions:0,result,outsideChanges,incidentalChanges,changes});
+  if (!result.passesLayout || outsideChanges.length) {
+    lab.mark('autonomous_result',{passed:false,feed:'not-run',elapsed});
+    return;
+  }
+  // A finished agent may have left a wheat item falling toward the mill.
+  const looseWheat = final.items.filter(e=>e.item.id==='minecraft:wheat').length;
+  if (looseWheat) {
+    await lab.cmd('kill @e[type=minecraft:item,x=-24,y=-64,z=-24,dx=48,dy=29,dz=48,nbt={Item:{id:"minecraft:wheat"}}]');
+  }
+  const assayStart = looseWheat ? await lab.save('autonomous-assay-start') : final;
+  const assayMill = assayStart.blockEntities.find(e=>e.id==='create:millstone');
+  const wheatPending = assayStart.items.some(e=>e.item.id==='minecraft:wheat')
+    || assayStart.blockEntities.some(e=>(e.Items ?? []).some(item=>item.id==='minecraft:wheat'))
+    || assayMill.Timer>0 || assayMill.InputInventory?.Items?.length>0;
+  if (wheatPending) {
+    lab.mark('autonomous_result',{passed:false,feed:'pending-agent-wheat',elapsed,looseWheat});
+    return;
+  }
+  const [x,y,z] = result.mill;
+  await lab.cmd(`summon minecraft:item ${x+.5} ${y+1.35} ${z+.5} {Item:{id:"minecraft:wheat",Count:1b},PickupDelay:32767s}`);
+  await wait(11000);
+  const fedState = await lab.save('autonomous-fed');
+  const fed = measure(fedState,before,original);
+  const produced = fed.flour-itemCount(assayMill,'create:wheat_flour');
+  const changesDuringAssay = [...new Set([...Object.keys(assayStart.blocks),...Object.keys(fedState.blocks)])]
+    .filter(cell=>!same(assayStart.blocks[cell],fedState.blocks[cell]));
+  lab.mark('autonomous_result',{passed:fed.passesLayout&&produced>0&&!changesDuringAssay.length,
+    produced,final:fed,elapsed,looseWheat,changesDuringAssay,
+    assaySeconds:(performance.now()-started)/1000-elapsed});
+}
+
+async function checkIsolation(lab) {
+  const initial = await lab.save('isolation-before');
+  const first = [0,-59,12], late = [0,-59,13];
+  assert(!initial.blocks[first]&&!initial.blocks[late], 'Test cells must start empty');
+  await lab.cmd('numen drive LabBot numen.build.place({{name="minecraft:gold_block",pos={x=0,y=-59,z=12}}}) '+
+    'numen.time.wait(6) numen.build.place({{name="minecraft:gold_block",pos={x=0,y=-59,z=13}}})');
+  await lab.waitForLog('on the server (',5000);
+  await wait(1600);
+  const pending = await lab.save('isolation-pending');
+  assert.equal(pending.blocks[first]?.Name,'minecraft:gold_block','The Lua program must perform its first write');
+  assert(!pending.blocks[late], 'The late write must still be pending');
+  await lab.isolateMillAgent();
+  await wait(6500);
+  const isolated = await lab.save('isolation-after');
+  assert(!isolated.blocks[late], 'The kicked companion performed the late write');
+  assert(same(pending.blocks, isolated.blocks), 'Blocks changed during isolation');
+  lab.mark('isolation_check',{passed:true,initialWrite:first,blockedLateWrite:late,sameBlocks:true});
+}
+
+module.exports={test,testAutonomous,checkIsolation};

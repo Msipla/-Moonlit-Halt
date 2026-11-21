@@ -7,10 +7,62 @@ For a watermill workshop or a millstone powered by a water wheel, load `referenc
 
 ## Building or retrofitting machinery
 
-- **Locate the connected parts in one search.** `local hits = numen.scan.blocks({"create:water_wheel", "create:shaft", "create:gearbox", "create:millstone"}, {radius=16})`. Read all members with `for _, h in ipairs(hits) do for _, b in ipairs(h.blocks) do print(b.name, b.pos.x, b.pos.y, b.pos.z) end end`. Touching IDs can share a cluster. Use `numen.scan.block(b.pos).properties` only for the relevant axle or port states.
-- **Stop surveying when you can build.** Once the drive and load are located and their relevant axes, contacts and local clearance are known, propose the smallest change and call `numen.build.diff(cells)` on the candidate placement list. Then execute the necessary dig or place. Leave an intact shell, roof and supply out of the survey when the change leaves them alone. Read only the specific unresolved cell or access point that could change the plan. A scan hitting its call limit calls for a smaller question.
-- **Find the room from its floor.** For an indoor relocation, read one known floor tile beside the existing machine. Set `floor` to that observed tile. In `numen.scan.blocks(numen.scan.block(floor).name, {radius=16})`, find the cluster whose `h.blocks` includes `floor`. Take the X/Z bounds of its members on `floor.y`, with the actual floor level as the reference. Choose a candidate inward from the old load and check its working and service cells. A clearance conflict calls for another nearby candidate. The connected floor is enough to start a local plan in a compact room.
-- **Get the main system working first.** Install or reconnect the drive and load in small batches, then read back the states and verify real motion or output. Defer collecting old drops, removing temporary blocks and other cleanup until the system works, except where something prevents access or operation. After cleanup, recheck the machine and surrounding structure.
+For a local retrofit, read the machine and its floor in one short report. Adapt the part IDs and load type, or supply an observed floor tile. If no tile is supplied, the first solid non-machine block within three cells below the load is a possible floor. Its cluster gives an outline, which may include adjoining space.
+
+Run this Lua once to survey. After you choose a layout, set `cells` to your short list and run it again for the diff only. Use an air entry to check a required clear cell. Review any reported dig before acting.
+
+```lua
+local ids = {"create:water_wheel", "create:shaft", "create:gearbox", "create:millstone"}
+local loadId, floor, cells = "create:millstone", nil, {}
+if #cells > 0 then
+  local d = numen.build.diff(cells)
+  print("candidate", d.left, "dig", d.dig, "far", d.far,
+        "unsupported", d.unheld, "skipped", d.skipped, "liquid", d.liquid)
+else
+  local parts, load, count = {}, nil, 0
+  for _, id in ipairs(ids) do parts[id] = true end
+  for _, group in ipairs(numen.scan.blocks(ids, {radius=16})) do
+    for _, part in ipairs(group.blocks) do
+      local p = part.pos
+      if part.name == loadId and not load then load = p end
+      if count < 16 then
+        local state = numen.scan.block(p).properties or {}
+        print(part.name, p.x, p.y, p.z, state.axis or state.facing or "-")
+      end
+      count = count + 1
+    end
+  end
+  print("parts found", count)
+  if not floor and load then
+    for depth = 1, 3 do
+      local p = {x=load.x, y=load.y-depth, z=load.z}
+      local b = numen.scan.block(p)
+      if b.is_solid and not parts[b.name] then floor = p; break end
+    end
+  end
+  if floor then
+    for _, group in ipairs(numen.scan.blocks(numen.scan.block(floor).name, {radius=16})) do
+      local xmin,xmax,zmin,zmax = floor.x,floor.x,floor.z,floor.z
+      local anchored = false
+      for _, part in ipairs(group.blocks) do
+        local p = part.pos
+        if p.y == floor.y then
+          anchored = anchored or (p.x == floor.x and p.z == floor.z)
+          xmin,xmax = math.min(xmin,p.x),math.max(xmax,p.x)
+          zmin,zmax = math.min(zmin,p.z),math.max(zmax,p.z)
+        end
+      end
+      if anchored then
+        print("floor y / x range / z range", floor.y,xmin,xmax,zmin,zmax)
+        break
+      end
+    end
+  end
+end
+```
+
+- **Stop surveying when you can build.** With the ports and intended clearance checked, execute the local change. Leave the untouched shell and supply out of the scan. Only read a specific missing detail that could change the plan.
+- **Finish from the measured result.** Restore incidental construction changes and remove temporary feed hardware. Print the load’s storage directly with `print(numen.scan.container(load).storage)` before and after feeding. The entries are text lines. Compare the load’s own output to establish the new product. Once the required function and restoration are verified, send the measurements in the next reply. Loose old drops and closing the todo list can wait.
 - **Act on the receipt.** Read back uncertain placements and any incidental digs or scaffolding. If the same action fails, change the approach or arguments using the returned reason. Move on from a blocked secondary task and resume the main job.
 
 1. **Build only the machine.** Use the existing ground. Choose one compact site with room above and below the intake. Skip leveling, floors, broad scans and spreading water across an area. Use small batches. For an X-axis shaft at `pos={x=…,y=…,z=…}`, use `numen.build.place({{name="create:shaft[axis=x]",pos=pos}})`. Put the axis in the state name. An independent `properties` input is ignored. Verify the placed axis with `numen.scan.block(pos).properties.axis`.
