@@ -162,6 +162,10 @@ async function chat(text, timeout = 340000) {
         return null;
       }
       const last = recent.at(-1);
+      // The agent can retry a transport failure inside the original experiment window.
+      if (watermill && last?.error && (!last.status || last.status >= 500 || [408,409,429].includes(last.status))) {
+        return null;
+      }
       if (last && (!last.finish || last.finish !== 'tool_calls')) {
         return mark('agent_return',{calls:recent.length, finish:last.finish, status:last.status, content:last.content}) || last;
       }
