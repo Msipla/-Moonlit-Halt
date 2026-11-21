@@ -1,6 +1,6 @@
 {
   "kind": "local-lab-environment-and-native-feed-calibration",
-  "revision": 2,
+  "revision": 3,
   "date": "2026-11-21",
   "branch": "codex/numen-create-basic-actions",
   "provenance": {
@@ -10,7 +10,10 @@
     "excluded": "Original lab worlds, reviewed events and the model harness were not available locally."
   },
   "environment": {
-    "java": { "path": "D:/Android/openjdk/jdk-17.0.12/bin/java.exe", "version": "17.0.12" },
+    "java": {
+      "path": "D:/Android/openjdk/jdk-17.0.12/bin/java.exe",
+      "version": "17.0.12"
+    },
     "minecraft": "1.20.1",
     "fabricLoader": "0.17.2",
     "fabricApi": "0.92.12+1.20.1",
@@ -20,17 +23,39 @@
     "serverRoot": "D:/NumenLab/mc20",
     "world": "numen-lab (superflat, creative, offline mode)",
     "listeners": [
-      { "port": 25575, "address": "127.0.0.1", "purpose": "game" },
-      { "port": 25576, "address": "127.0.0.1", "purpose": "rcon" },
-      { "port": 8799, "address": "127.0.0.1", "purpose": "numen mcp" }
+      {
+        "port": 25575,
+        "address": "127.0.0.1",
+        "purpose": "game"
+      },
+      {
+        "port": 25576,
+        "address": "127.0.0.1",
+        "purpose": "rcon"
+      },
+      {
+        "port": 8799,
+        "address": "127.0.0.1",
+        "purpose": "numen mcp"
+      }
     ]
   },
   "authenticationCheck": {
     "scheme": "Numen MCP bearer token, token store config/numen/server/mcp_tokens.json (sha256 of the token, role, owner, scope, expiry)",
     "results": [
-      { "token": "absent", "http": 401 },
-      { "token": "unknown value", "http": 401 },
-      { "token": "provisioned value", "http": 200, "role": "BRAIN" }
+      {
+        "token": "absent",
+        "http": 401
+      },
+      {
+        "token": "unknown value",
+        "http": 401
+      },
+      {
+        "token": "provisioned value",
+        "http": 200,
+        "role": "BRAIN"
+      }
     ],
     "officialIssuance": {
       "command": "/numen token create (brain|channel), player-only, shown once",
@@ -52,11 +77,23 @@
     "stage2Fixture": {
       "source": "watermill.json generalEngineering.trials[3] (run watermill-1795249042182)",
       "recovered": {
-        "press": [-1, -57, 4],
+        "press": [
+          -1,
+          -57,
+          4
+        ],
         "pressFacing": "south",
         "driveRpm": 8,
-        "depot": [-1, -59, 4],
-        "gap": [-1, -58, 4],
+        "depot": [
+          -1,
+          -59,
+          4
+        ],
+        "gap": [
+          -1,
+          -58,
+          4
+        ],
         "stress": "96/256 SU"
       },
       "rebuilt": "press -1,-57,4 facing=south, depot -1,-59,4, gap air, creative motor -1,-57,3 facing=south giving +16 RPM (same sign as the recorded +8)",
@@ -120,11 +157,23 @@
     }
   ],
   "matrix": {
-    "rows": ["low stance", "elevated stance"],
-    "columns": ["gear.hold only", "item argument"],
+    "rows": [
+      "low stance",
+      "elevated stance"
+    ],
+    "columns": [
+      "gear.hold only",
+      "item argument"
+    ],
     "values": [
-      ["fail", "fail"],
-      ["pass", "pass"]
+      [
+        "fail",
+        "fail"
+      ],
+      [
+        "pass",
+        "pass"
+      ]
     ]
   },
   "findings": [
@@ -142,5 +191,27 @@
   "nextSteps": [
     "Record stance height in the Skill or the survey receipt so the companion checks its eye level against the depot top before feeding.",
     "Re-run one model trial only after the stance fact is available, and keep separating build, self-verification and independent acceptance."
-  ]
+  ],
+  "modelTrial": {
+    "date": "2026-11-21",
+    "goal": "one model-driven closed loop after the stance fact was added to the Skill",
+    "attempt": [
+      "server-side provider key saved with /numen key deepseek ... (response: Saved your deepseek key)",
+      "dismissed the old companion and summoned a fresh one from the player context",
+      "owner sent two chat queries through /numen chat"
+    ],
+    "result": "blocked before any API request",
+    "serverLog": "can't reach the model: 没绑模型配置",
+    "diagnosis": "/numen settings and /numen debug both answer \"This needs the Numen client, and yours does not have it\": the model binding is a per-player setting written by the Numen client GUI.",
+    "impact": "No DeepSeek request was made, so no token was spent.",
+    "options": [
+      "install the Numen client mod in a real Minecraft client and bind the model once through the GUI",
+      "or run the model loop through the MCP brain bridge instead of the built-in brain, accepting that it changes the transport"
+    ]
+  },
+  "skillChange": {
+    "file": "mc20/config/numen/server/skills/createlab/create_kinetics/SKILL.md",
+    "change": "one bullet: stand with the eyes above the depot top surface before right-clicking it",
+    "rationale": "the stance variable alone reproduced the historical feed failure"
+  }
 }

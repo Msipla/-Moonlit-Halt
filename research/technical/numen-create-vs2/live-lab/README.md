@@ -753,3 +753,17 @@ LAB_SKILL_FILE="$press_skill" LAB_MILL_AUTONOMOUS=press LAB_ENGINEERING_RECEIPT=
 这也修正了上一小节容易读偏的地方：接口确实没有命中面形参，但失败原因不是「缺少命中面参数」。模型当时站在地面高度，置物台比地面高一格，视线够不到台面。
 
 限制：未重建原水轮与齿轮链，只证明机制；模型当时的精确站位没有记录，低站位是依据地板几何的推断而非实测。下一步应把「视线需高于置物台顶面」这一事实写进勘察回执或 Skill，再做一次模型轮次验证。
+
+### 站位事实写入 Skill 与模型轮次的前置阻塞
+
+按上节结论，只改一处文字：在 `create_kinetics/SKILL.md` 的既有条目后加一条「Stand above a depot to feed it」，说明视线要高于置物台顶面、置物台放在地面时应站高一层，不新增接口或机制。
+
+随后尝试一次模型自主轮次，但在发出任何 API 请求前就被阻断。实际步骤与结果：
+
+1. 通过 `/numen key deepseek …` 保存服务端密钥，回执 `Saved your deepseek key`。
+2. 解散旧同伴，改由玩家上下文重新召唤一个全新同伴，避免先前 MCP 会话留下的 `halt EXTERNAL` 状态。
+3. 房主连续两次发出聊天查询，同伴队列确实开轮，但服务端报 `can't reach the model: 没绑模型配置`。
+
+进一步确认：`/numen settings` 与 `/numen debug` 都返回 `This needs the Numen client, and yours does not have it`。也就是说，服务商绑定（provider/model）是**由 Numen 客户端 GUI 写入的每玩家设置**，仅靠服务端密钥不足以让内置大脑工作。本机只有服务端，没有运行带 Numen 客户端的真实客户端，因此本阶段没有完成模型轮次，也没有消耗任何 token。
+
+后续有两条路，需要选择其一：安装 Numen 客户端并在真实客户端里绑定一次模型；或改由 MCP 大脑桥接驱动模型。后者可以复用同一套工具与 guide，但传输层与原实验不同，结论必须按不同条件标注。
