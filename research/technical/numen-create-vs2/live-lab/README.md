@@ -715,3 +715,24 @@ LAB_SKILL_FILE="$press_skill" LAB_MILL_AUTONOMOUS=press LAB_ENGINEERING_RECEIPT=
 第一份压制参考使用一句加工面提示，代替从 `Use block coordinates` 到 `reading its storage.` 的三句坐标规则。其原文为 `For depot or belt processing, the item surface belongs two block positions below the press, with a clear cell between them.`。两份参考的实际哈希均见证据 JSON。
 
 现场模型实建诊断使用证据包的 `diagnostic-fixtures/assay-built-only.cjs`，以 `NODE_OPTIONS=--require…` 加载。将 `LAB_MILL_WORLD` 指向已离场的实建轮 `world`，`LAB_PRESS_DIAGNOSTIC_BASELINE` 指向同轮原始 `press-before.json`，再运行 `LAB_MILL_AUTONOMOUS=press-check`。这次诊断只测试既有施工的加工功能，保护判据结果沿用原模型实测。置物台重投校准使用已成功的无模型世界与 `diagnostic-fixtures/assay-reuse.cjs`，选择同一无模型模式。
+
+## 2026-11-21 本机隔离环境与首次原生上料校准
+
+原 Work 云电脑的存档与运行环境本地不可得。本机改用现有 Java 17、Fabric Loader 0.17.2、Minecraft 1.20.1 服务端与 Create 6.0.8.1 搭建隔离服，补装 Numen 0.1.5；旧 Minecraft AI 工程助手及其存档未改动。实验世界是新建的最小等效场景，**不是**原始 `variant-ready-world`，因此本段结论不构成严格同条件复现。
+
+驱动方式为 Numen MCP 的 `lua` 工具执行固定程序，全程没有语言模型参与，因此可以与模型能力分开单独归因。
+
+夹具：`create:mechanical_press` 在 `0,-58,0`（`facing=east`）由 `create:creative_motor` 在 `1,-58,0` 驱动，实测 `Speed=-16.0`；`create:depot` 在 `0,-60,0`；中间 `0,-59,0` 保持空气。LabBot 站在 `0.5,-60,2.5`。
+
+| 试次 | 站位 | 回执 | 置物台结果 |
+| --- | --- | --- | --- |
+| 面向置物台 | 相邻、平视 | `right-clicked 0,-60,0 — inventory: -1 minecraft:iron_ingot` | 5 秒后 `HeldItem` 变为 `create:iron_sheet`，压机 `Finished=1`、`Ticks=242` |
+| 背对置物台 | 相邻、`yaw=180` | 同格右键，`-1 iron_ingot` | 同样命中置物台，回执出现 `+1 create:iron_sheet` |
+
+两次都能把物品放到置物台顶面并完成压制，说明**这个场景不需要命中面参数**。`numen.use.block` 虽然没有显式 face 形参，但以方块格为目标时仍然把物品送到了台面。因此此前“置物台上料失败”不能归因于接口缺少命中面能力；剩余候选是压机与置物台的相对几何、点击时刻压机的真实转速，或模型根本没有在可用站位发出点击。上一轮压制记录里的 `inventory: -1` 与本次成功回执同形，也更像是“物品已放上台，但没有产物”，需要按几何与转速复看。
+
+限制：仅两次无模型试次，不等于成功率；世界与结构均与 `watermill.json` 那轮不同，尚未重建模型当时的压机布局。
+
+下一步：在本机按 `watermill.json` 最后一轮的压机几何重建，再用同一固定 Lua 复测；只有复现失败才考虑最小扩展。
+
+证据：[local-lab-feed-2026-11-21.json](evidence/local-lab-feed-2026-11-21.json)

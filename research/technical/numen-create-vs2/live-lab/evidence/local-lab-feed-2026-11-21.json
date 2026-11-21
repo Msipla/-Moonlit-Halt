@@ -1,0 +1,68 @@
+{
+  "kind": "local-lab-environment-and-native-feed-calibration",
+  "date": "2026-11-21",
+  "branch": "codex/numen-create-basic-actions",
+  "provenance": {
+    "machine": "local Windows (same host as the DeepSeek Harness session)",
+    "note": "Not the ChatGPT Work cloud machine. This world is a new minimal equivalent fixture, not the original variant-ready-world.",
+    "reuses": "Java 17, Fabric loader, Minecraft 1.20.1 server runtime and Create 6.0.8.1 from the local Minecraft AI engineer project; that project and its saves were not modified.",
+    "excluded": "The original lab worlds, reviewed events and the model harness were not available locally."
+  },
+  "environment": {
+    "java": { "path": "D:/Android/openjdk/jdk-17.0.12/bin/java.exe", "version": "17.0.12" },
+    "minecraft": "1.20.1",
+    "fabricLoader": "0.17.2",
+    "fabricApi": "0.92.12+1.20.1",
+    "create": "6.0.8.1+build.1744",
+    "numen": "0.1.5 (fabric, release v0.1.5-1.20.1-beta)",
+    "node": "22.23.5 (portable, used only for the offline client)",
+    "serverRoot": "D:/NumenLab/mc20",
+    "world": "numen-lab (superflat, creative, offline mode, RCON 25576, Numen MCP 8799)",
+    "modsLoaded": ["fabric-api", "create", "numen"]
+  },
+  "method": {
+    "driver": "Numen MCP tools/call lua with a fixed program; no language model in the loop",
+    "why": "The published evidence could not separate 'the model never fed the depot' from 'the native call cannot reach the depot top face'.",
+    "fixture": {
+      "press": "create:mechanical_press at 0,-58,0 facing=east, driven by create:creative_motor at 1,-58,0 facing=west",
+      "pressSpeedRpm": -16.0,
+      "gap": "0,-59,0 kept as air",
+      "depot": "create:depot at 0,-60,0",
+      "companion": "LabBot, teleported to 0.5,-60,2.5"
+    }
+  },
+  "trials": [
+    {
+      "id": "feed-1",
+      "stance": "adjacent, facing the depot",
+      "program": "numen.use.block({x=0,y=-60,z=0},{item=\"minecraft:iron_ingot\"})",
+      "receipt": "right-clicked 0,-60,0 - inventory: -1 minecraft:iron_ingot",
+      "depotAfter": "HeldItem id=minecraft:iron_ingot",
+      "processedAfterSeconds": 5,
+      "result": "HeldItem id=create:iron_sheet, press Finished=1, Ticks=242",
+      "verdict": "pass - feed and pressing both happened"
+    },
+    {
+      "id": "feed-2",
+      "stance": "adjacent, facing away (yaw 180)",
+      "program": "numen.use.block({x=0,y=-60,z=0},{item=\"minecraft:iron_ingot\"})",
+      "receipt": "right-clicked 0,-60,0 - inventory: -1 minecraft:iron_ingot, +1 create:iron_sheet",
+      "verdict": "pass - the same block-targeted call still reached the depot while the companion faced away"
+    }
+  ],
+  "findings": [
+    "No hit-face or aim parameter is needed for this depot: the block-targeted right-click placed the item on the top surface in both stances.",
+    "The press converted iron_ingot to create:iron_sheet within about 5 seconds at -16 RPM with the depot two blocks below.",
+    "Therefore the earlier depot feed failures cannot be explained by a missing face/aim capability in the native interface. The remaining candidates are press or depot geometry, actual rotation of the press at the time of the click, or the model never issuing the click at a usable stance.",
+    "This contradicts the stronger wording in the earlier report that the interface 'has no way to specify the hit face'; it has no such parameter, but the behaviour still succeeds."
+  ],
+  "limits": [
+    "Two no-model trials only; not a statistical success rate.",
+    "Different world and different build than the press round recorded in watermill.json, so this is not a same-condition reproduction.",
+    "The model's own press structure was not rebuilt here, so the exact cause of that failure is still unconfirmed."
+  ],
+  "nextSteps": [
+    "Replay the model's last press layout from watermill.json geometry in this lab and run the same fixed-lua feed against it.",
+    "Only if that reproduction also fails, add the smallest capable check (or a bounded lab action) rather than a new framework."
+  ]
+}
