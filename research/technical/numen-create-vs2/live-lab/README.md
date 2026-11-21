@@ -977,3 +977,42 @@ node live-lab/direct.cjs milling
 ```
 
 每次启动保存在独立的新目录，默认 `live-lab/runs/`，可通过 `LAB_RUNS` 改位置。已有 `mc20` 路径和 Java 路径可通过 `LAB_MC20`、`LAB_JAVA` 指定。服默认用本地 25586，RCON 使用后一端口。首次失败、两次通过的指令、用量、关键回执及独立快照摘录见[既有证据文件](evidence/local-lab-feed-2026-11-21.json)中的 `directBuildPrototype`。
+
+## 复杂产线、盲修、VS 与游戏内原型（2026-11-22）
+
+在新建隔离服使用 Minecraft 1.20.1、Java 17、Fabric Loader 0.17.2、Fabric API 0.92.6、Create Fabric 6.0.8.1 build 1744。真实模型均为 DeepSeek V4 Pro。游戏内组复用 Numen 0.1.5-beta 和 `numen_api` 0.1.5。VS 装配组实际加载 VS2 2.4.11、Eureka 1.6.4（声明 VS2 `^2.4.10`）及 Fabric Language Kotlin 1.11.0。源码审查版本、许可证和依赖区别见上一节。全部新建试验世界，未修改原存档。计时从任务发出到对应验收，不含服务器冷启动。
+
+| 试验 | 真正执行与验收 | 模型消耗 |
+| --- | --- | --- |
+| 固定产线校准 | 只在入料桶加 3 份小麦。漏斗、磨石、智能溜槽、水洗工位和成品桶完成自动转运。独立校准一轮产 5 面团，后续盲修所用夹具先产 4 面团。结束时小麦与面粉均为 0。 | 无模型 |
+| 从空地自主产线 | 两轮完整布局被非法状态、越界或同格冲突挡住。思考档一轮请求超时，延长 transport 后两次均 `finish_reason=length` 且无可执行动作。按动力优先分批的最后一轮在 8.101 秒首次提交 9 格，磨石最终 64 RPM，风扇 0 RPM。横向传动用了 X 轴无接头的齿轮箱，朝西风扇的接轴面也与传动错开。未投料。 | 两轮 8 次／15,584 token／56.065 秒、12 次／48,678 token／95.944 秒。思考档超时轮用量未知，截断轮 2 次／13,818 token／142.880 秒。分批轮 12 次／63,976 token／81.933 秒 |
+| 产线盲修 | 夹具移除电机下游一根 Z 轴传动轴、确认两个负载均为 0 RPM，再只交给模型故障描述。首次模型改错齿轮箱，未恢复。加入读取电机输出端相邻两格的现场回执后，模型自行定位。它请求 7 格，只有缺轴那一格发生实际写入。电机 64、磨石 64、风扇 −64 RPM，三者同动力网，应力 384／1,048,576。模型自验 3 麦→6 面团，独立复验 3 麦→4 面团，均无剩余小麦或面粉。最终方块快照与故障前一致。固定产线与断轴由测试程序布置，模型任务期间人工介入 0 次。 | 首轮 5 次／13,646 token／33.500 秒。通过轮 4 次／11,769 token，76.288 秒回执，112.969 秒完成独立验收 |
+| VS/Eureka 飞行载具 | 模型自行画出船体并提交施工。最终实测装配出原生船 ID `3`，1 舵、5 气球、1 锚。实际位置 `[8.5,-56.004624,9.077279]`、旋转四元数 `[0,0,0,1]`。两次控制位移为 0，速度为 0，锚停读数也未达标。早期服日志出现船坞区块未开始 tick，最后一次读到物理管线运行及 15 个 voxel chunks，仍不能证明控制链有效。历史同版本原生舵菜单测试已观测被动下落约 6 格，可作对照。最新协议观察者复查发现客户端无法解码 VS 环境的命令树，以 `impossibleCommandTree` 断开，未触发新的模型请求。 | 最后一次模型轮 8 次／13,534 token／60.398 秒，未通过 |
+| 游戏内工具 | 从连接的房主协议客户端向 Numen 发自然语言目标。非 OP 房主的伴侣自主选址、建造、读 RPM、导出标准 NBT 并异地重建。两台风扇均独立读到 −16 RPM，导出结构 `1×1×2`、2 格、无实体及方块实体 NBT，施工前备份 2 份。越界写入和生存调用被拒绝，世界未变。验收前伴侣下线，最终边界外差异 0。 | 12 次模型请求、16 个工具调用、162,050 token，104.059 秒游戏内回执，人工代建 0 次 |
+
+游戏内初版直写成功但 Numen 未登记施工归属，模型尝试拆改自己放的方块被拒。改为调用 Numen 的 `PlacedBlocks.placedBy`／`forget`。第二轮两台风扇均 16 RPM、NBT 往返成功，但草地受原版邻格更新变成泥土，严格边界验收判失败。最后用石材地基排除草地变化后通过。实测使用连接的房主协议客户端和专服。图形客户端界面、大型产线的游戏内接入及正式存档部署尚未验收。
+
+[direct.cjs](direct.cjs) 与 [line.cjs](line.cjs) 复用已有隔离施工，新增有类型的溜槽过滤器、实际模型回执和独立流转验收。[repair-fixture.cjs](repair-fixture.cjs) 只用于固定产线的校准及盲修，结构与故障位置均不注入模型。[ship-bridge](ship-bridge/) 用 Eureka `ShipAssembler.collectBlocks`、VS `LoadedServerShip`、`SeatedControllingPlayer` 和 Eureka 锚状态做受限试验，它目前只能证明装配及回读。[game-bridge](game-bridge/) 通过 Numen 插件 SDK 注册 `engineering.site.apply`、`inspect`、`export`、`import_at`，沿用原版放置更新、Create `KineticBlockEntity` 与原版 `StructureTemplate`。它默认关闭，只授权显式指定的创造区域，检查旧状态、限制 64 格一批、调用 Numen 动作授权、保存原生结构备份，不授予模型通用命令或原始 NBT 写入。批次异常时尝试恢复方块状态，完整方块实体恢复仍需使用备份。隔离夹具用 Numen bypass 运行，故本轮通过的是插件范围/模式约束和非 OP 路径。服务端保护插件组合、权限和客户机图形交互需要单独实测。
+
+回归中重放上一阶段磨石的 3 个冻结响应，在新的真实世界重新施工、自验和投料。22.675 秒独立复验通过，两轮输出库存 0→1→3，磨石 32 RPM，无新 API 请求。未重跑上一阶段模型实验。
+
+### 复现与接续
+
+复用上一节环境和运行时凭据。运行如下命令时默认各自创建独立存档，产线从空地运行，盲修从已校准固定夹具运行。
+
+```bash
+export LAB_MC20=/absolute/path/to/mc20
+node live-lab/direct.cjs line
+node live-lab/direct.cjs repair
+
+export LAB_VS_MODS=/absolute/path/to/vs-mods
+bash live-lab/ship-bridge/build.sh
+node live-lab/direct.cjs ship
+
+bash live-lab/game-bridge/build.sh
+LAB_GAME_BRIDGE="$PWD/live-lab/game-bridge/game-bridge.jar" node live-lab/run.cjs engineering
+```
+
+`LAB_VS_MODS` 下使用 `vs.jar`、`eureka.jar`、`kotlin.jar`。游戏内试验同时依赖已有 `mc20/connect.cjs` 和 Numen 配置，试验启动器设置 `-Dengineering.site=-7,-60,5,8,-55,20`，部署时由服主设定授权范围。原始读取数据由每一轮的 `events.jsonl`、`model.jsonl`（游戏内组）和验收快照产生。仓库[证据](evidence/local-lab-feed-2026-11-21.json)的 `engineeringNext` 收录关键原始记录与运行 ID。
+
+产线下一步只补原生接轴面的闭环回执。使用已失败方案证明断口两侧实际接轴面，再让模型自行修正，共用动力测通后再接入物料。VS 先复用已经验证过的原生舵菜单路径和实际乘坐状态，对照当前直写船坞区块的 tick 与控制附件再验证位移。语音和外围功能留待核心阶段通过。

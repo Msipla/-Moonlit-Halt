@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "id": "engineering_site_lab",
+  "version": "0.1.0",
+  "name": "Engineering site research bridge",
+  "environment": "server",
+  "entrypoints": {"main": ["lab.EngineeringSite"]},
+  "depends": {"minecraft":"1.20.1","numen_api":"0.1.5","create":"6.0.8.1"}
+}

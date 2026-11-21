@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "id": "engineering_ship_lab",
+  "version": "0.1.0",
+  "name": "Engineering research ship bridge",
+  "environment": "server",
+  "entrypoints": {"main": ["lab.LabShips"]},
+  "depends": {"minecraft":"1.20.1","fabric-api":"*","valkyrienskies":"2.4.11","vs_eureka":"1.6.4"}
+}

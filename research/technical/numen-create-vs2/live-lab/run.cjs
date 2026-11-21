@@ -7,6 +7,7 @@ const {createHash} = require('node:crypto');
 const {snapshot} = require('./world.cjs');
 
 const phase = process.argv[2];
+const engineering = phase === 'engineering';
 const basicCheck = phase === 'basic-check';
 const basicWater = phase === 'basic-water';
 const basicAxis = phase === 'basic-axis';
@@ -25,7 +26,7 @@ assert(!engineeringReceipt || (watermill && ['side-drive','press'].includes(mill
   'LAB_ENGINEERING_RECEIPT requires an isolated engineering model trial');
 assert(!decisionCheckpoint || (watermill && millMode === 'side-drive'),
   'LAB_MILL_DECISION requires the side-drive model trial');
-assert(basic || watermill || ['smoke','think-smoke','A','B','C','boat','guard-check'].includes(phase),
+assert(basic || watermill || engineering || ['smoke','think-smoke','A','B','C','boat','guard-check'].includes(phase),
   'Choose smoke, think-smoke, watermill, A, B, C, boat, guard-check, basic-check, basic-water or basic-axis');
 assert(!thinkSmoke || thinking, 'think-smoke requires LAB_THINKING=1');
 const guardCheck = phase === 'guard-check';
@@ -40,7 +41,7 @@ const millResume = watermill && process.env.LAB_MILL_WORLD ? path.resolve(proces
 const focusedBoat = ['focused','pro'].includes(boatMode);
 const basicModel = basicWater && process.env.LAB_BASIC_MODEL;
 assert(!basicModel || ['deepseek-flash','deepseek-v4-pro'].includes(basicModel), 'Unknown basic-water model');
-const model = basicModel || (boatMode === 'pro' || watermill ? 'deepseek-v4-pro' : 'deepseek-flash');
+const model = basicModel || (boatMode === 'pro' || watermill || engineering ? 'deepseek-v4-pro' : 'deepseek-flash');
 const repairUnowned = Boolean(knownFault && process.env.LAB_REPAIR_UNOWNED === '1');
 const runLabel = knownFault ? (repairUnowned ? 'repair-unowned-' : 'repair-') + phase : boatResume ? 'boat-pro-finish' : focusedBoat ? 'boat-' + boatMode : phase;
 const run = path.resolve(process.env.LAB_RUNS || path.join(__dirname, 'runs'), runLabel + '-' + Date.now());
@@ -52,6 +53,8 @@ const java = process.env.LAB_JAVA || path.join(root, 'jdk17/bin/java');
 const probe = process.env.LAB_PROBE || path.join(root,'fabric-probe/probe.jar');
 const skillFile = process.env.LAB_SKILL_FILE;
 const scopeJar = process.env.LAB_SCOPE_JAR;
+const gameBridge=process.env.LAB_GAME_BRIDGE;
+assert(!engineering || gameBridge,'Set LAB_GAME_BRIDGE to the compiled game prototype');
 const waterAction = watermill || process.env.LAB_BASIC_WATER_ACTION === '1';
 assert(!waterAction || basicCheck || basicWater || watermill, 'The water action requires a water laboratory phase');
 assert(!skillFile || basicAction || ['B','C'].includes(phase) || (watermill && millMode === 'press'),
@@ -192,7 +195,7 @@ async function chat(text, timeout = 340000) {
     return await until(() => {
       const recent = rows().slice(baseCount);
       // Basic cases may have a pending summon or fixture-completion event.
-      if ((basicAction || thinkSmoke || watermill) && !recent.some(row=>row.context.some(item=>item.role==='user'&&item.content?.includes(text)))) {
+      if ((basicAction || thinkSmoke || watermill || engineering) && !recent.some(row=>row.context.some(item=>item.role==='user'&&item.content?.includes(text)))) {
         return null;
       }
       const last = recent.at(-1);
@@ -200,7 +203,7 @@ async function chat(text, timeout = 340000) {
       if (watermill && last?.error && (!last.status || last.status >= 500 || [408,409,429].includes(last.status))) {
         return null;
       }
-      if (autonomousMill && last?.status === 200) {
+      if ((autonomousMill || engineering) && last?.status === 200) {
         if (last.error || last.finish !== 'stop' || !last.content?.trim()) return null;
         const reply = ownerReplies.find(r=>r.at>=started && r.at<=deadline
           && r.text.endsWith('<LabBot> '+last.content.trim()));
@@ -530,6 +533,10 @@ async function main() {
     args.push('-Dcreatelab.scope='+construction.join(','));
   }
   if (waterAction) args.push('-Dcreatelab.water=true');
+  if (engineering) {
+    extraMods.push(path.resolve(gameBridge));
+    args.push('-Dengineering.site=-7,-60,5,8,-55,20');
+  }
   if (extraMods.length) args.push('-Dfabric.addMods='+extraMods.join(path.delimiter));
   args.push('-jar','server-launch.jar','nogui');
   server=spawn(java,args,{cwd:run,env:relayEnv,stdio:['pipe','pipe','pipe']});
@@ -537,7 +544,7 @@ async function main() {
   for (const stream of [server.stdout,server.stderr]) stream.on('data',data=>{log.write(data);output+=data.toString();});
   await until(()=>output.includes('scheduler heartbeat online'),120000);
   rcon=await Rcon.connect({host:'127.0.0.1',port:rconPort,password:labPassword,timeout:12000});
-  const captureOwner = autonomousMill || checkMillIsolation;
+  const captureOwner = autonomousMill || checkMillIsolation || engineering;
   owner=spawn(process.execPath,[path.join(base,'connect.cjs'),String(serverPort)],{
     env:relayEnv,stdio:captureOwner ? ['ignore','ignore','ignore','ipc'] : 'ignore',
   });
@@ -570,6 +577,8 @@ async function main() {
   }
   if (basicCheck) return waterAction ? verifyWaterAction() : verifyBasicNative();
   if (basicAction) return testBasic();
+  if (engineering) return require('./game-bridge/check.cjs')({run,base,save,mark,drive,chat,cmd,
+    isolate:isolateMillAgent,output:()=>output});
   if (watermill) {
     const mill = require('./watermill.cjs');
     const lab = {chat,cmd,save,mark,run,inScope,isolateMillAgent,

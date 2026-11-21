@@ -1482,5 +1482,1768 @@
         }
       }
     ]
+  },
+  "engineeringNext": {
+    "schema": 1,
+    "baseline": "54e713de7d3c9d21ff5ff98704be9391d42d2f9c",
+    "date": "2026-11-22",
+    "provenance": {
+      "machine": "Work isolated server",
+      "freshWorldPerRun": true,
+      "model": "deepseek-v4-pro",
+      "minecraft": "1.20.1",
+      "loader": "Fabric 0.17.2",
+      "fabricApi": "0.92.6",
+      "java": 17,
+      "create": "6.0.8.1 build 1744",
+      "vs": "2.4.11",
+      "eureka": "1.6.4",
+      "numen": "0.1.5-beta",
+      "numenApi": "0.1.5",
+      "manualModelTaskInterventions": 0
+    },
+    "line": {
+      "goal": "从空地自主建造 Create 自动面团产线。用同一台创造马达驱动磨石和水洗风扇。用原料桶自动进料，磨石将小麦变为面粉，传输到水洗工位，再把面团自动存进另一个桶。处理至少三份小麦，期间不要人工转移物料。请用实际库存和动力读数自验。",
+      "fixedFixture": {
+        "modelBuilt": false,
+        "run": "repair-gD8zBR",
+        "assay": {
+          "passed": true,
+          "feed": [
+            2,
+            7,
+            0
+          ],
+          "out": [
+            0,
+            1,
+            0
+          ],
+          "inserted": 3,
+          "outputBefore": 0,
+          "outputAfter": 5,
+          "flow": [
+            {
+              "input": 2,
+              "intermediate": 1,
+              "finished": 0,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 5,
+              "finished": 0,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 5,
+              "finished": 0,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 4,
+              "finished": 1,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 4,
+              "finished": 1,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 3,
+              "finished": 2,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 3,
+              "finished": 2,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 2,
+              "finished": 3,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 2,
+              "finished": 3,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 2,
+              "finished": 3,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 1,
+              "finished": 4,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 1,
+              "finished": 4,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 0,
+              "finished": 5,
+              "inputBarrel": 0
+            }
+          ]
+        }
+      },
+      "fullLayoutTrials": [
+        {
+          "run": "line-TnWgT7",
+          "passed": false,
+          "closedByModel": false,
+          "requests": 8,
+          "seconds": 56.065,
+          "usage": {
+            "prompt_tokens": 14044,
+            "completion_tokens": 1540,
+            "total_tokens": 15584,
+            "prompt_cache_hit_tokens": 12544
+          },
+          "outside": [],
+          "modelReplySeconds": null,
+          "firstBuild": null,
+          "rejectedActions": [
+            {
+              "turn": 1,
+              "error": "invalid or unsupported block state"
+            },
+            {
+              "turn": 3,
+              "error": "invalid or unsupported block state"
+            },
+            {
+              "turn": 5,
+              "error": "invalid or unsupported block state"
+            },
+            {
+              "turn": 7,
+              "error": "invalid or unsupported block state"
+            }
+          ]
+        },
+        {
+          "run": "line-sbVSTw",
+          "passed": false,
+          "closedByModel": false,
+          "requests": 12,
+          "seconds": 95.944,
+          "usage": {
+            "prompt_tokens": 43482,
+            "completion_tokens": 5196,
+            "total_tokens": 48678,
+            "prompt_cache_hit_tokens": 41600
+          },
+          "outside": [],
+          "modelReplySeconds": null,
+          "firstBuild": null,
+          "rejectedActions": [
+            {
+              "turn": 1,
+              "error": "cell [4,-1,0] is outside work box; allowed x,z -7..7, y 0..7"
+            },
+            {
+              "turn": 2,
+              "error": "cell [4,1,0] has conflicting states create:depot and create:smart_chute[powered=false]; provide one final state for that cell"
+            },
+            {
+              "turn": 3,
+              "error": "cell [4,-1,0] is outside work box; allowed x,z -7..7, y 0..7"
+            },
+            {
+              "turn": 4,
+              "error": "cell [4,1,0] has conflicting states create:depot and create:smart_chute[powered=false]; provide one final state for that cell"
+            },
+            {
+              "turn": 5,
+              "error": "cell [4,-1,0] is outside work box; allowed x,z -7..7, y 0..7"
+            },
+            {
+              "turn": 6,
+              "error": "cell [4,1,0] has conflicting states create:depot and create:smart_chute[powered=false]; provide one final state for that cell"
+            },
+            {
+              "turn": 7,
+              "error": "cell [4,-1,0] is outside work box; allowed x,z -7..7, y 0..7"
+            },
+            {
+              "turn": 8,
+              "error": "cell [4,1,0] has conflicting states create:depot and create:smart_chute[powered=false]; provide one final state for that cell"
+            },
+            {
+              "turn": 9,
+              "error": "cell [4,-1,0] is outside work box; allowed x,z -7..7, y 0..7"
+            },
+            {
+              "turn": 10,
+              "error": "cell [4,1,0] has conflicting states create:depot and create:smart_chute[powered=false]; provide one final state for that cell"
+            },
+            {
+              "turn": 11,
+              "error": "cell [4,-1,0] is outside work box; allowed x,z -7..7, y 0..7"
+            },
+            {
+              "turn": 12,
+              "error": "cell [4,1,0] has conflicting states create:depot and create:smart_chute[powered=false]; provide one final state for that cell"
+            }
+          ]
+        }
+      ],
+      "thinkingTrials": [
+        {
+          "run": "line-T7t6U1",
+          "requestAttempts": 1,
+          "usage": null,
+          "error": "spawnSync python3 ETIMEDOUT",
+          "timeoutSeconds": 75
+        },
+        {
+          "run": "line-C261Hl",
+          "passed": false,
+          "closedByModel": false,
+          "requests": 2,
+          "seconds": 142.88,
+          "usage": {
+            "prompt_tokens": 2218,
+            "completion_tokens": 11600,
+            "total_tokens": 13818,
+            "prompt_cache_hit_tokens": 2048
+          },
+          "outside": [],
+          "modelReplySeconds": null,
+          "firstBuild": null,
+          "rejectedActions": [
+            {
+              "turn": 1,
+              "error": "Unexpected end of JSON input"
+            },
+            {
+              "turn": 2,
+              "error": "Unexpected end of JSON input"
+            }
+          ],
+          "upstreamFinishReasons": [
+            "length",
+            "length"
+          ]
+        }
+      ],
+      "stagedTrial": {
+        "run": "line-9oaB2e",
+        "passed": false,
+        "closedByModel": false,
+        "requests": 12,
+        "seconds": 81.933,
+        "usage": {
+          "prompt_tokens": 61765,
+          "completion_tokens": 2211,
+          "total_tokens": 63976,
+          "prompt_cache_hit_tokens": 53760
+        },
+        "outside": [],
+        "modelReplySeconds": null,
+        "firstBuild": {
+          "seconds": 8.101,
+          "writes": 9
+        },
+        "rejectedActions": [],
+        "noSampleFed": true,
+        "loadReadbacks": [
+          {
+            "at": [
+              6,
+              4,
+              0
+            ],
+            "id": "create:encased_fan",
+            "state": {
+              "facing": "west"
+            },
+            "rpm": 0
+          },
+          {
+            "at": [
+              5,
+              4,
+              0
+            ],
+            "id": "create:gearbox",
+            "state": {
+              "axis": "x"
+            },
+            "rpm": 0
+          },
+          {
+            "at": [
+              4,
+              4,
+              0
+            ],
+            "id": "create:shaft",
+            "state": {
+              "waterlogged": "false",
+              "axis": "x"
+            },
+            "rpm": 0
+          },
+          {
+            "at": [
+              3,
+              4,
+              0
+            ],
+            "id": "create:gearbox",
+            "state": {
+              "axis": "x"
+            },
+            "rpm": 0
+          },
+          {
+            "at": [
+              0,
+              2,
+              0
+            ],
+            "id": "create:creative_motor",
+            "state": {
+              "facing": "up"
+            },
+            "rpm": 64,
+            "configuredRpm": 64,
+            "network": [
+              0,
+              4038
+            ],
+            "stress": 256,
+            "capacity": 1048576
+          },
+          {
+            "at": [
+              2,
+              4,
+              0
+            ],
+            "id": "create:shaft",
+            "state": {
+              "waterlogged": "false",
+              "axis": "x"
+            },
+            "rpm": 0
+          },
+          {
+            "at": [
+              0,
+              3,
+              0
+            ],
+            "id": "create:shaft",
+            "state": {
+              "waterlogged": "false",
+              "axis": "y"
+            },
+            "rpm": 64,
+            "source": [
+              0,
+              2,
+              0
+            ],
+            "network": [
+              0,
+              4038
+            ],
+            "stress": 256,
+            "capacity": 1048576
+          },
+          {
+            "at": [
+              1,
+              4,
+              0
+            ],
+            "id": "create:gearbox",
+            "state": {
+              "axis": "x"
+            },
+            "rpm": 0
+          },
+          {
+            "at": [
+              0,
+              4,
+              0
+            ],
+            "id": "create:shaft",
+            "state": {
+              "waterlogged": "false",
+              "axis": "y"
+            },
+            "rpm": 64,
+            "source": [
+              0,
+              3,
+              0
+            ],
+            "network": [
+              0,
+              4038
+            ],
+            "stress": 256,
+            "capacity": 1048576
+          },
+          {
+            "at": [
+              0,
+              5,
+              0
+            ],
+            "id": "create:shaft",
+            "state": {
+              "waterlogged": "false",
+              "axis": "y"
+            },
+            "rpm": 64,
+            "source": [
+              0,
+              4,
+              0
+            ],
+            "network": [
+              0,
+              4038
+            ],
+            "stress": 256,
+            "capacity": 1048576
+          },
+          {
+            "at": [
+              0,
+              6,
+              0
+            ],
+            "id": "create:millstone",
+            "rpm": 64,
+            "source": [
+              0,
+              5,
+              0
+            ],
+            "network": [
+              0,
+              4038
+            ],
+            "stress": 256,
+            "capacity": 1048576
+          }
+        ]
+      }
+    },
+    "repair": {
+      "goal": "这条自动面团产线停产了。观察真实现场，定位故障，进行最小维修并保持正常部分不动。请让它再次处理一批小麦并按实际结果报告。",
+      "firstTrial": {
+        "run": "repair-nqzWNQ",
+        "passed": false,
+        "closedByModel": false,
+        "requests": 5,
+        "seconds": 33.5,
+        "usage": {
+          "prompt_tokens": 13354,
+          "completion_tokens": 292,
+          "total_tokens": 13646,
+          "prompt_cache_hit_tokens": 9344
+        },
+        "outside": [],
+        "modelReplySeconds": null,
+        "firstBuild": {
+          "seconds": 12.705,
+          "writes": 2
+        },
+        "rejectedActions": [],
+        "integrity": {
+          "type": "repair_integrity",
+          "utc": "2026-11-21T17:28:03.852Z",
+          "passed": false,
+          "changedComparedToHealthy": [
+            "0,-56,-4",
+            "0,-56,-3",
+            "0,-55,-3"
+          ]
+        }
+      },
+      "successfulTrial": {
+        "run": "repair-SqNZEW",
+        "passed": true,
+        "closedByModel": true,
+        "requests": 4,
+        "seconds": 112.969,
+        "usage": {
+          "prompt_tokens": 11459,
+          "completion_tokens": 310,
+          "total_tokens": 11769,
+          "prompt_cache_hit_tokens": 6400
+        },
+        "outside": [],
+        "modelReplySeconds": 76.288,
+        "firstBuild": {
+          "seconds": 13.666,
+          "writes": 7
+        },
+        "rejectedActions": [],
+        "fault": {
+          "type": "fixture_fault",
+          "utc": "2026-11-21T17:30:54.952Z",
+          "cell": [
+            0,
+            4,
+            -4
+          ],
+          "original": {
+            "Properties": {
+              "waterlogged": "false",
+              "axis": "z"
+            },
+            "Name": "create:shaft"
+          },
+          "newState": {
+            "Name": "minecraft:air"
+          },
+          "observed": {
+            "shared": false,
+            "devices": [
+              {
+                "at": [
+                  0,
+                  4,
+                  -2
+                ],
+                "id": "create:encased_fan",
+                "state": {
+                  "facing": "south"
+                },
+                "rpm": 0
+              },
+              {
+                "at": [
+                  0,
+                  5,
+                  -1
+                ],
+                "id": "create:shaft",
+                "state": {
+                  "waterlogged": "false",
+                  "axis": "z"
+                },
+                "rpm": 0
+              },
+              {
+                "at": [
+                  0,
+                  4,
+                  -3
+                ],
+                "id": "create:gearbox",
+                "state": {
+                  "axis": "x"
+                },
+                "rpm": 0
+              },
+              {
+                "at": [
+                  0,
+                  5,
+                  -2
+                ],
+                "id": "create:shaft",
+                "state": {
+                  "waterlogged": "false",
+                  "axis": "z"
+                },
+                "rpm": 0
+              },
+              {
+                "at": [
+                  0,
+                  5,
+                  -3
+                ],
+                "id": "create:gearbox",
+                "state": {
+                  "axis": "x"
+                },
+                "rpm": 0
+              },
+              {
+                "at": [
+                  0,
+                  4,
+                  -5
+                ],
+                "id": "create:creative_motor",
+                "state": {
+                  "facing": "south"
+                },
+                "rpm": 64,
+                "configuredRpm": 64,
+                "network": [
+                  63,
+                  -16440
+                ],
+                "stress": 0,
+                "capacity": 1048576
+              },
+              {
+                "at": [
+                  0,
+                  5,
+                  0
+                ],
+                "id": "create:gearbox",
+                "state": {
+                  "axis": "x"
+                },
+                "rpm": 0
+              },
+              {
+                "at": [
+                  1,
+                  6,
+                  0
+                ],
+                "id": "create:millstone",
+                "rpm": 0
+              },
+              {
+                "at": [
+                  0,
+                  6,
+                  0
+                ],
+                "id": "create:cogwheel",
+                "state": {
+                  "waterlogged": "false",
+                  "axis": "y"
+                },
+                "rpm": 0
+              }
+            ]
+          }
+        },
+        "beforeFault": {
+          "passed": true,
+          "feed": [
+            2,
+            7,
+            0
+          ],
+          "out": [
+            0,
+            1,
+            0
+          ],
+          "inserted": 3,
+          "outputBefore": 0,
+          "outputAfter": 4,
+          "flow": [
+            {
+              "input": 2,
+              "intermediate": 1,
+              "finished": 0,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 4,
+              "finished": 0,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 4,
+              "finished": 0,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 3,
+              "finished": 1,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 3,
+              "finished": 1,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 2,
+              "finished": 2,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 2,
+              "finished": 2,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 1,
+              "finished": 3,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 1,
+              "finished": 3,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 1,
+              "finished": 3,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 0,
+              "finished": 4,
+              "inputBarrel": 0
+            }
+          ]
+        },
+        "observedMotorPorts": [
+          {
+            "motor": [
+              0,
+              4,
+              -5
+            ],
+            "shaftFace": "south",
+            "sample": [
+              {
+                "at": [
+                  0,
+                  4,
+                  -4
+                ],
+                "id": "minecraft:air"
+              },
+              {
+                "at": [
+                  0,
+                  4,
+                  -3
+                ],
+                "id": "create:gearbox",
+                "state": {
+                  "axis": "x"
+                },
+                "rpm": 0
+              }
+            ]
+          }
+        ],
+        "requestedWrites": 7,
+        "writeReplies": [
+          "Changed the block at 0, -56, -4",
+          "Could not set the block",
+          "Could not set the block",
+          "Could not set the block",
+          "Could not set the block",
+          "Could not set the block",
+          "Could not set the block"
+        ],
+        "selfAssay": {
+          "passed": true,
+          "feed": [
+            2,
+            7,
+            0
+          ],
+          "out": [
+            0,
+            1,
+            0
+          ],
+          "inserted": 3,
+          "outputBefore": 4,
+          "outputAfter": 10,
+          "flow": [
+            {
+              "input": 2,
+              "intermediate": 3,
+              "finished": 0,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 6,
+              "finished": 0,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 6,
+              "finished": 0,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 5,
+              "finished": 1,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 5,
+              "finished": 1,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 4,
+              "finished": 2,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 4,
+              "finished": 2,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 3,
+              "finished": 3,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 3,
+              "finished": 3,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 3,
+              "finished": 3,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 2,
+              "finished": 4,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 2,
+              "finished": 4,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 1,
+              "finished": 5,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 1,
+              "finished": 5,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 0,
+              "finished": 6,
+              "inputBarrel": 0
+            }
+          ]
+        },
+        "independentAssay": {
+          "passed": true,
+          "feed": [
+            2,
+            7,
+            0
+          ],
+          "out": [
+            0,
+            1,
+            0
+          ],
+          "inserted": 3,
+          "outputBefore": 10,
+          "outputAfter": 14,
+          "flow": [
+            {
+              "input": 2,
+              "intermediate": 2,
+              "finished": 0,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 4,
+              "finished": 0,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 4,
+              "finished": 0,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 3,
+              "finished": 1,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 3,
+              "finished": 1,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 2,
+              "finished": 2,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 2,
+              "finished": 2,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 1,
+              "finished": 3,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 1,
+              "finished": 3,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 1,
+              "finished": 3,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 0,
+              "finished": 4,
+              "inputBarrel": 0
+            }
+          ]
+        },
+        "finalPower": [
+          {
+            "at": [
+              0,
+              4,
+              -2
+            ],
+            "id": "create:encased_fan",
+            "state": {
+              "facing": "south"
+            },
+            "rpm": -64,
+            "source": [
+              0,
+              4,
+              -3
+            ],
+            "network": [
+              63,
+              -16440
+            ],
+            "stress": 384,
+            "capacity": 1048576
+          },
+          {
+            "at": [
+              0,
+              4,
+              -5
+            ],
+            "id": "create:creative_motor",
+            "state": {
+              "facing": "south"
+            },
+            "rpm": 64,
+            "configuredRpm": 64,
+            "network": [
+              63,
+              -16440
+            ],
+            "stress": 384,
+            "capacity": 1048576
+          },
+          {
+            "at": [
+              1,
+              6,
+              0
+            ],
+            "id": "create:millstone",
+            "rpm": -64,
+            "source": [
+              0,
+              6,
+              0
+            ],
+            "network": [
+              63,
+              -16440
+            ],
+            "stress": 384,
+            "capacity": 1048576
+          }
+        ],
+        "integrity": {
+          "type": "repair_integrity",
+          "utc": "2026-11-21T17:32:47.925Z",
+          "passed": true,
+          "changedComparedToHealthy": []
+        },
+        "modelReply": "修复了传动轴缺失问题：在电机与齿轮箱之间补上水平轴，恢复了从电机到风扇、磨石的全线动力。测试输入3小麦，输出桶新增6面团，产线恢复正常。"
+      }
+    },
+    "ship": {
+      "goal": "从空场自主建造一台可控制、能停下的 Eureka 小型飞行载具。用真正的 VS 船体装配和控制，读取船 ID、位置、转向变换、位移和停止数据后回报。",
+      "previousTrials": [
+        {
+          "run": "ship-7jFxHc",
+          "passed": false,
+          "closedByModel": false,
+          "requests": 8,
+          "seconds": 56.849,
+          "usage": {
+            "prompt_tokens": 10481,
+            "completion_tokens": 545,
+            "total_tokens": 11026,
+            "prompt_cache_hit_tokens": 8832
+          },
+          "outside": [],
+          "modelReplySeconds": null,
+          "firstBuild": {
+            "seconds": 8.306,
+            "writes": 15
+          },
+          "rejectedActions": []
+        },
+        {
+          "run": "ship-yG6xFm",
+          "passed": false,
+          "closedByModel": false,
+          "requests": 8,
+          "seconds": 63.872,
+          "usage": {
+            "prompt_tokens": 21053,
+            "completion_tokens": 1545,
+            "total_tokens": 22598,
+            "prompt_cache_hit_tokens": 19456
+          },
+          "outside": [],
+          "modelReplySeconds": null,
+          "firstBuild": {
+            "seconds": 14.399,
+            "writes": 54
+          },
+          "rejectedActions": []
+        },
+        {
+          "run": "ship-ZVIHgX",
+          "passed": false,
+          "closedByModel": false,
+          "requests": 4,
+          "seconds": 33.732,
+          "usage": {
+            "prompt_tokens": 9361,
+            "completion_tokens": 1699,
+            "total_tokens": 11060,
+            "prompt_cache_hit_tokens": 8320
+          },
+          "outside": [],
+          "modelReplySeconds": null,
+          "firstBuild": {
+            "seconds": 15.35,
+            "writes": 63
+          },
+          "rejectedActions": [
+            {
+              "turn": 2,
+              "error": "Unexpected token 'E', \"Error exec\"... is not valid JSON"
+            },
+            {
+              "turn": 3,
+              "error": "exactly one helm required"
+            },
+            {
+              "turn": 4,
+              "error": "Unexpected token 'E', \"Error exec\"... is not valid JSON"
+            }
+          ]
+        }
+      ],
+      "lastModelTrial": {
+        "run": "ship-vUhHwi",
+        "passed": false,
+        "closedByModel": false,
+        "requests": 8,
+        "seconds": 60.398,
+        "usage": {
+          "prompt_tokens": 12610,
+          "completion_tokens": 924,
+          "total_tokens": 13534,
+          "prompt_cache_hit_tokens": 11264
+        },
+        "outside": [],
+        "modelReplySeconds": null,
+        "firstBuild": {
+          "seconds": 16.375,
+          "writes": 15
+        },
+        "rejectedActions": [
+          {
+            "turn": 1,
+            "error": "cell [0,3,0] has conflicting states vs_eureka:oak_ship_helm and minecraft:oak_planks; provide one final state for that cell"
+          }
+        ],
+        "receipts": [
+          {
+            "error": "cell [0,3,0] has conflicting states vs_eureka:oak_ship_helm and minecraft:oak_planks; provide one final state for that cell"
+          },
+          {
+            "writes": 15,
+            "seconds": 0.5444015870000003,
+            "mismatches": [],
+            "responses": [
+              "Changed the block at 8, -55, 8",
+              "Changed the block at 9, -55, 8",
+              "Changed the block at 7, -55, 8",
+              "Changed the block at 8, -55, 9",
+              "Changed the block at 8, -55, 7",
+              "Changed the block at 8, -56, 8",
+              "Changed the block at 9, -56, 8",
+              "Changed the block at 7, -56, 8",
+              "Changed the block at 8, -56, 9",
+              "Changed the block at 8, -56, 7",
+              "Changed the block at 8, -57, 8",
+              "Changed the block at 8, -57, 9",
+              "Changed the block at 8, -57, 7",
+              "Changed the block at 9, -57, 8",
+              "Changed the block at 7, -57, 8"
+            ],
+            "kinetics": [
+              {
+                "at": [
+                  0,
+                  3,
+                  0
+                ],
+                "id": "vs_eureka:oak_ship_helm",
+                "state": {
+                  "facing": "north"
+                }
+              }
+            ]
+          },
+          {
+            "assembly": {
+              "id": "3",
+              "pinnedChunks": 4
+            },
+            "ship": {
+              "id": "3",
+              "p": [
+                8.5,
+                -56.004624,
+                9.077279
+              ],
+              "v": [
+                0,
+                0,
+                0
+              ],
+              "rotation": [
+                0,
+                0,
+                0,
+                1
+              ],
+              "static": false,
+              "helms": 1,
+              "balloons": 5,
+              "anchors": 1,
+              "physicsRunning": true,
+              "voxelChunks": 15
+            }
+          },
+          {
+            "before": {
+              "id": "3",
+              "p": [
+                8.5,
+                -56.004624,
+                9.077279
+              ],
+              "v": [
+                0,
+                0,
+                0
+              ],
+              "rotation": [
+                0,
+                0,
+                0,
+                1
+              ],
+              "static": false,
+              "helms": 1,
+              "balloons": 5,
+              "anchors": 1,
+              "physicsRunning": true,
+              "voxelChunks": 15
+            },
+            "after": {
+              "id": "3",
+              "p": [
+                8.5,
+                -56.004624,
+                9.077279
+              ],
+              "v": [
+                0,
+                0,
+                0
+              ],
+              "rotation": [
+                0,
+                0,
+                0,
+                1
+              ],
+              "static": false,
+              "helms": 1,
+              "balloons": 5,
+              "anchors": 1,
+              "physicsRunning": true,
+              "voxelChunks": 15
+            },
+            "horizontal": 0,
+            "vertical": 0,
+            "along": 0,
+            "passed": false
+          },
+          {
+            "id": "3",
+            "p": [
+              8.5,
+              -56.004624,
+              9.077279
+            ],
+            "v": [
+              0,
+              0,
+              0
+            ],
+            "rotation": [
+              0,
+              0,
+              0,
+              1
+            ],
+            "static": false,
+            "helms": 1,
+            "balloons": 5,
+            "anchors": 1,
+            "physicsRunning": true,
+            "voxelChunks": 15
+          },
+          {
+            "before": {
+              "id": "3",
+              "p": [
+                8.5,
+                -56.004624,
+                9.077279
+              ],
+              "v": [
+                0,
+                0,
+                0
+              ],
+              "rotation": [
+                0,
+                0,
+                0,
+                1
+              ],
+              "static": false,
+              "helms": 1,
+              "balloons": 5,
+              "anchors": 1,
+              "physicsRunning": true,
+              "voxelChunks": 15
+            },
+            "after": {
+              "id": "3",
+              "p": [
+                8.5,
+                -56.004624,
+                9.077279
+              ],
+              "v": [
+                0,
+                0,
+                0
+              ],
+              "rotation": [
+                0,
+                0,
+                0,
+                1
+              ],
+              "static": false,
+              "helms": 1,
+              "balloons": 5,
+              "anchors": 1,
+              "physicsRunning": true,
+              "voxelChunks": 15
+            },
+            "horizontal": 0,
+            "vertical": 0,
+            "along": 0,
+            "passed": false
+          },
+          {
+            "id": "3",
+            "p": [
+              8.5,
+              -56.004624,
+              9.077279
+            ],
+            "v": [
+              0,
+              0,
+              0
+            ],
+            "rotation": [
+              0,
+              0,
+              0,
+              1
+            ],
+            "static": false,
+            "helms": 1,
+            "balloons": 5,
+            "anchors": 1,
+            "physicsRunning": true,
+            "voxelChunks": 15
+          },
+          {
+            "before": {
+              "id": "3",
+              "p": [
+                8.5,
+                -56.004624,
+                9.077279
+              ],
+              "v": [
+                0,
+                0,
+                0
+              ],
+              "rotation": [
+                0,
+                0,
+                0,
+                1
+              ],
+              "static": false,
+              "helms": 1,
+              "balloons": 5,
+              "anchors": 1,
+              "physicsRunning": true,
+              "voxelChunks": 15
+            },
+            "after": {
+              "id": "3",
+              "p": [
+                8.5,
+                -56.004624,
+                9.077279
+              ],
+              "v": [
+                0,
+                0,
+                0
+              ],
+              "rotation": [
+                0,
+                0,
+                0,
+                1
+              ],
+              "static": false,
+              "helms": 1,
+              "balloons": 5,
+              "anchors": 1,
+              "physicsRunning": true,
+              "voxelChunks": 15
+            },
+            "passed": false
+          }
+        ]
+      },
+      "firstNativeWarning": {
+        "run": "ship-7jFxHc",
+        "text": "[01:17:55] [Server thread/WARN]: Chunks that were supposed to be ticking: [[-1791873, 768126], [-1791872, 768126], [-1791872, 768127], [-1791873, 768127]]"
+      },
+      "observerOnlyDiagnostic": {
+        "run": "ship-OKkkr0",
+        "error": "impossibleCommandTree",
+        "modelRequests": 0,
+        "note": "protocol client disconnected while decoding modded recipes and command tree"
+      },
+      "earlierPassiveMotionEvidence": "../../evidence/run/experiment-vs-motion.txt"
+    },
+    "game": {
+      "goal": "在授权创造施工区内给我造一台会转的 Create 风扇，先在 X=-6..-1、Y=-60..-55、Z=9..13 自选格建造。创造马达的轴端在 facing 一侧，风扇只在 facing 的反面接轴。直接用 engineering.site.apply(cells)，无需取物。cells 是由 {pos={x=...,y=...,z=...},state=\"create:...\"} 组成的列表，空地默认无需 expected。用 engineering.site.inspect(pos) 回读实际转速。用 engineering.site.export(\"fan_demo\",最小角,最大角) 保存紧包围原件的标准 NBT，再用 engineering.site.import_at(\"fan_demo\",{x=3,y=-60,z=9}) 在空区重建。检查两台风扇的实际转速后用中文回执。",
+      "client": "connected 1.20.1 protocol client, no graphical verification",
+      "priorTrials": [
+        {
+          "run": "engineering-1795282120005",
+          "requests": 20,
+          "toolCalls": 25,
+          "usage": {
+            "prompt_tokens": 314399,
+            "completion_tokens": 6791,
+            "total_tokens": 321190,
+            "prompt_cache_hit_tokens": 274176
+          },
+          "guards": {
+            "utc": "2026-11-21T17:28:57.624Z",
+            "type": "engineering_guards",
+            "outOfScopeRejected": true,
+            "survivalRejected": true,
+            "worldUnchanged": true
+          },
+          "result": {
+            "utc": "2026-11-21T17:32:17.706Z",
+            "type": "engineering_result",
+            "passed": false,
+            "fans": [
+              {
+                "at": [
+                  -2,
+                  -58,
+                  11
+                ],
+                "rpm": 0
+              },
+              {
+                "at": [
+                  -2,
+                  -59,
+                  11
+                ],
+                "rpm": 0
+              },
+              {
+                "at": [
+                  -6,
+                  -57,
+                  11
+                ],
+                "rpm": 0
+              },
+              {
+                "at": [
+                  -1,
+                  -55,
+                  9
+                ],
+                "rpm": 0
+              }
+            ],
+            "backups": 5,
+            "outside": [],
+            "modelReturned": false
+          },
+          "reply": null,
+          "agentIsolated": {
+            "utc": "2026-11-21T17:32:17.638Z",
+            "type": "agent_isolated",
+            "durationMs": 13,
+            "online": "There are 1 of a max of 20 players online: LabOwner"
+          }
+        },
+        {
+          "run": "engineering-1795282287832",
+          "requests": 12,
+          "toolCalls": 14,
+          "usage": {
+            "prompt_tokens": 167659,
+            "completion_tokens": 2006,
+            "total_tokens": 169665,
+            "prompt_cache_hit_tokens": 150144
+          },
+          "guards": {
+            "utc": "2026-11-21T17:31:43.573Z",
+            "type": "engineering_guards",
+            "outOfScopeRejected": true,
+            "survivalRejected": true,
+            "worldUnchanged": true
+          },
+          "result": {
+            "utc": "2026-11-21T17:33:13.573Z",
+            "type": "engineering_result",
+            "passed": false,
+            "fans": [
+              {
+                "at": [
+                  -2,
+                  -60,
+                  11
+                ],
+                "rpm": 16,
+                "network": [
+                  -192,
+                  49092
+                ],
+                "source": {
+                  "X": -3,
+                  "Y": -60,
+                  "Z": 11
+                }
+              },
+              {
+                "at": [
+                  4,
+                  -60,
+                  9
+                ],
+                "rpm": 16,
+                "network": [
+                  192,
+                  40900
+                ],
+                "source": {
+                  "X": 3,
+                  "Y": -60,
+                  "Z": 9
+                }
+              }
+            ],
+            "structure": {
+              "size": [
+                2,
+                1,
+                1
+              ],
+              "version": 3465,
+              "nativeBlocks": 2,
+              "registry": [
+                "create:creative_motor",
+                "create:encased_fan"
+              ],
+              "noEntityData": true
+            },
+            "backups": 2,
+            "outside": [
+              "-2,-61,11"
+            ],
+            "modelReturned": true
+          },
+          "reply": {
+            "utc": "2026-11-21T17:33:13.488Z",
+            "type": "agent_return",
+            "calls": 12,
+            "finish": "stop",
+            "status": 200,
+            "deliveredSeconds": 89.869233297
+          },
+          "agentIsolated": {
+            "utc": "2026-11-21T17:33:13.504Z",
+            "type": "agent_isolated",
+            "durationMs": 15,
+            "online": "There are 1 of a max of 20 players online: LabOwner"
+          }
+        }
+      ],
+      "successfulTrial": {
+        "run": "engineering-1795282503829",
+        "requests": 12,
+        "toolCalls": 16,
+        "usage": {
+          "prompt_tokens": 158932,
+          "completion_tokens": 3118,
+          "total_tokens": 162050,
+          "prompt_cache_hit_tokens": 147456
+        },
+        "guards": {
+          "utc": "2026-11-21T17:35:21.829Z",
+          "type": "engineering_guards",
+          "outOfScopeRejected": true,
+          "survivalRejected": true,
+          "worldUnchanged": true
+        },
+        "result": {
+          "utc": "2026-11-21T17:37:06.064Z",
+          "type": "engineering_result",
+          "passed": true,
+          "fans": [
+            {
+              "at": [
+                -4,
+                -57,
+                11
+              ],
+              "rpm": -16,
+              "network": [
+                -256,
+                53191
+              ],
+              "source": {
+                "X": -4,
+                "Y": -57,
+                "Z": 12
+              }
+            },
+            {
+              "at": [
+                3,
+                -60,
+                9
+              ],
+              "rpm": -16,
+              "network": [
+                192,
+                44996
+              ],
+              "source": {
+                "X": 3,
+                "Y": -60,
+                "Z": 10
+              }
+            }
+          ],
+          "structure": {
+            "size": [
+              1,
+              1,
+              2
+            ],
+            "version": 3465,
+            "nativeBlocks": 2,
+            "registry": [
+              "create:encased_fan",
+              "create:creative_motor"
+            ],
+            "noEntityData": true
+          },
+          "backups": 2,
+          "outside": [],
+          "modelReturned": true
+        },
+        "reply": {
+          "utc": "2026-11-21T17:37:05.977Z",
+          "type": "agent_return",
+          "calls": 12,
+          "finish": "stop",
+          "status": 200,
+          "content": "Both fans are confirmed working. Here's the report in Chinese:\n\n造好了,两台会转的 Create 风扇都正常工作。\n\n第一台放在马达和风扇相邻的位置:创造马达在 Z=12 那格,面向北,轴端对着风扇;风扇在 Z=11 那格,面向北,风扇自己的轴接在面向的反面(即马达那侧)。实际读到的转速是 16 RPM(显示为 -16,负号只是转向),没有过载。\n\n接着把这两格的紧包围结构导出成标准 NBT(名字 fan_demo),再在空区 (3,-60,9) 重建。读到的也一样:风扇 16 RPM 在转,马达 16 RPM 正常驱动,同样没有过载。\n\n两台风扇转速都是 16 RPM,都转得起来。",
+          "deliveredSeconds": 104.058927507
+        },
+        "agentIsolated": {
+          "utc": "2026-11-21T17:37:05.991Z",
+          "type": "agent_isolated",
+          "durationMs": 13,
+          "online": "There are 1 of a max of 20 players online: LabOwner"
+        }
+      },
+      "fixturePermission": "Non-op creative owner, Numen companion in bypass mode with bounded plugin checks",
+      "inertStoneFloorPreventsVanillaGrassDecay": true
+    },
+    "regression": {
+      "run": "milling-lwkTNv",
+      "passed": true,
+      "closedByModel": true,
+      "requests": 3,
+      "seconds": 22.675,
+      "usage": {
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "total_tokens": 0,
+        "prompt_cache_hit_tokens": 0
+      },
+      "outside": [],
+      "modelReplySeconds": 11.602,
+      "firstBuild": {
+        "seconds": 0.547,
+        "writes": 19
+      },
+      "rejectedActions": [],
+      "newModelRequests": 0,
+      "replayedFrozenToolActions": 3,
+      "selfAssay": {
+        "passed": true,
+        "at": [
+          0,
+          4,
+          0
+        ],
+        "inputBefore": 0,
+        "inputAfter": 0,
+        "outputBefore": 0,
+        "outputAfter": 1,
+        "live": true,
+        "configured": true
+      },
+      "independentAssay": {
+        "passed": true,
+        "at": [
+          0,
+          4,
+          0
+        ],
+        "inputBefore": 0,
+        "inputAfter": 0,
+        "outputBefore": 1,
+        "outputAfter": 3,
+        "live": true,
+        "configured": true
+      },
+      "rpm": 32,
+      "baselineModelRun": "milling-QPgxbA"
+    }
   }
 }
