@@ -1,6 +1,6 @@
 {
   "kind": "local-lab-environment-and-native-feed-calibration",
-  "revision": 8,
+  "revision": 9,
   "date": "2026-11-21",
   "branch": "codex/numen-create-basic-actions",
   "provenance": {
@@ -340,5 +340,48 @@
         "replyBeforeDeadline": true
       }
     }
+  },
+  "autonomousBuildTrial": {
+    "date": "2026-11-21",
+    "site": "31,-59,31 area, empty grass, chosen by the model",
+    "task": "build a working mechanical press from scratch, solve power yourself, press one iron ingot into a sheet, read the product back and report",
+    "timeline": [
+      "20:02:48 first attempt started and got stuck: it tried to reuse the old fixture area and looped on a path to 6,-61,7 (underground)",
+      "20:03:55 human teleport to 31,-60,31 plus one clarification to build fresh instead of reusing the old press",
+      "20:05:49 build.place started at 31,-60,31",
+      "20:14:00 model reported the finished station and the sheet on the depot",
+      "20:25-20:27 client froze with the pause screenshot; world had already saved",
+      "20:29 offline acceptance on the dedicated server"
+    ],
+    "interventions": [
+      "one /tp",
+      "one clarification to build fresh, not reuse the existing press"
+    ],
+    "structureVerifiedOffline": {
+      "creativeMotor": [
+        "28,-60,31 Speed 16",
+        "28,-59,31 Speed 16"
+      ],
+      "shafts": [
+        "29,-60,31 Speed 16",
+        "30,-60,31 Speed 16",
+        "30,-59,31 Speed 16",
+        "31,-58,31"
+      ],
+      "press": "31,-59,31 Speed 16, Finished 1, Ticks 242, Source 30,-59,31",
+      "gap": "31,-60,31 empty as required",
+      "depot": "31,-61,31, HeldItem create:iron_sheet"
+    },
+    "fourCategories": {
+      "modelActed": true,
+      "modelSelfVerified": true,
+      "independentAcceptance": true,
+      "replyBeforeDeadline": true
+    },
+    "notes": [
+      "The station is new: the depot did not exist before this round, so the sheet on it can only come from this pressing.",
+      "The first attempt shows the model choosing to reuse an existing structure unless told otherwise; the clarification is recorded as an intervention.",
+      "The client process hung at about 20:25 and had to be killed; the save from 20:27 was intact and served as the acceptance input."
+    ]
   }
 }
