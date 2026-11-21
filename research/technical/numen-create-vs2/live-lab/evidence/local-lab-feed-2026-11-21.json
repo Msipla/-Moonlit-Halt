@@ -1,6 +1,6 @@
 {
   "kind": "local-lab-environment-and-native-feed-calibration",
-  "revision": 7,
+  "revision": 8,
   "date": "2026-11-21",
   "branch": "codex/numen-create-basic-actions",
   "provenance": {
@@ -317,6 +317,28 @@
       "pressAt0": "Speed -16, Finished 1, Ticks 242",
       "problem": "the depot at 0,-60,0 still held an iron sheet from the earlier no-model calibration, and an occupied depot returns its item when right-clicked. The observed sheet in the companion inventory is therefore not attributable to a new pressing.",
       "conclusion": "the environmental error (blocked give, wrong position) and the model behaviour are documented, but the product claim is not independently confirmed; a clean rerun with an empty depot is required"
+    },
+    "cleanRerun": {
+      "preparation": [
+        "19:56:13 /data remove block 0 -60 0 HeldItem",
+        "19:56:22 /clear LabBot"
+      ],
+      "taskDelivered": "19:56:28 natural-language request to fetch an ingot, press it and read the product",
+      "completed": "19:56:35, about 7 seconds, 5 model turns, cumulative 23,849 tokens",
+      "modelReply": "压好了——置物台上现在躺着一粒铁板，铁锭已经消耗掉了",
+      "independentCheck": {
+        "method": "saved at the main menu, world copied to the dedicated server, inspected offline",
+        "depotAt0": "create:iron_sheet held (the depot was empty before the run)",
+        "companionInventory": "empty - the sheet was left on the depot, so it was not picked up",
+        "pressAt0": "Finished 1, Ticks 242",
+        "verdict": "pass - with an empty depot and empty inventory beforehand, the sheet on the depot can only come from this pressing"
+      },
+      "fourCategories": {
+        "modelActed": true,
+        "modelSelfVerified": true,
+        "independentAcceptance": true,
+        "replyBeforeDeadline": true
+      }
     }
   }
 }
