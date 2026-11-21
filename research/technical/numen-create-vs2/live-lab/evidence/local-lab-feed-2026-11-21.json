@@ -1,6 +1,6 @@
 {
   "kind": "local-lab-environment-and-native-feed-calibration",
-  "revision": 5,
+  "revision": 6,
   "date": "2026-11-21",
   "branch": "codex/numen-create-basic-actions",
   "provenance": {
@@ -269,5 +269,46 @@
     ],
     "impact": "model binding through the in-game settings screen cannot be completed from this session; no Numen source change was made and no alternative loop was built",
     "need": "one physical-console interaction: open numen settings, bind provider deepseek plus model and key"
+  },
+  "firstModelTrial": {
+    "date": "2026-11-21",
+    "where": "single-player integrated server (client instance D:/NumenLab/client), because the binding only exists there",
+    "modelBinding": {
+      "provider": "deepseek",
+      "model": "deepseek-flash",
+      "reasoning_effort": "off"
+    },
+    "task": "put one iron ingot on the mechanical press depot, let it press a sheet, read the product back and report",
+    "timeline": [
+      "19:49:37 task delivered",
+      "19:47-19:48 (before teleport) companion reported it was falling at high altitude with nothing around",
+      "19:50:23 found the press and the depot, reported it had no iron ingot and asked for material",
+      "19:51:25 creative.give refused: the companion was still in survival",
+      "19:52:11 gamemode changed to creative",
+      "19:52:17 goal re-sent",
+      "19:52:18 ingot obtained, placed on the depot, press produced a sheet",
+      "19:52:23 model reported success and that it now holds create:iron_sheet, ingot gone"
+    ],
+    "interventions": [
+      "one /tp to repair the companion position (it had been left at y=106723 by earlier fixtures)",
+      "one /gamemode creative LabBot (companions spawn in survival)",
+      "two environment clarifications in chat: that creative give exists, and that the goal resumes after the gamemode change"
+    ],
+    "fourCategories": {
+      "modelActed": true,
+      "modelSelfVerified": true,
+      "independentAcceptance": "pending - needs the saved world inspected without the companion",
+      "replyBeforeDeadline": true
+    },
+    "behaviour": [
+      "Refused to fake success: twice reported a real blocker (wrong position, no material, survival mode) instead of claiming completion",
+      "Located the press and the depot on its own and described their relative geometry correctly",
+      "Recovered immediately once the environment was corrected"
+    ],
+    "limits": [
+      "The structure already existed, so this trial validates feeding, pressing and self-verification, not autonomous construction",
+      "Independent acceptance has not been performed yet",
+      "Environment interventions were required, so this is not an unassisted run"
+    ]
   }
 }
