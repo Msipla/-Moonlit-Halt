@@ -16,8 +16,12 @@ const thinkSmoke = phase === 'think-smoke';
 const watermill = phase === 'watermill';
 const millMode = process.env.LAB_MILL_AUTONOMOUS;
 const autonomousMill = watermill && ['1','side-drive'].includes(millMode);
-const checkMillIsolation = watermill && process.env.LAB_MILL_AUTONOMOUS === 'check';
+const checkMillIsolation = watermill && millMode === 'check';
+const checkSideDrive = watermill && millMode === 'side-check';
 const thinking = process.env.LAB_THINKING === '1';
+const decisionCheckpoint = process.env.LAB_MILL_DECISION === '1';
+assert(!decisionCheckpoint || (watermill && millMode === 'side-drive'),
+  'LAB_MILL_DECISION requires the side-drive model trial');
 assert(basic || watermill || ['smoke','think-smoke','A','B','C','boat','guard-check'].includes(phase),
   'Choose smoke, think-smoke, watermill, A, B, C, boat, guard-check, basic-check, basic-water or basic-axis');
 assert(!thinkSmoke || thinking, 'think-smoke requires LAB_THINKING=1');
@@ -505,7 +509,7 @@ async function testBasic() {
 async function main() {
   prepare();
   const relayEnv={...process.env};
-  if (!(guardCheck || basicCheck || checkMillIsolation)) {
+  if (!(guardCheck || basicCheck || checkMillIsolation || checkSideDrive)) {
     assert(relayEnv.DEEPSEEK_API_KEY,'Set DEEPSEEK_API_KEY in the runtime');
     relay=spawn('python3',[path.join(__dirname,'relay.py'),String(relayPort),evidence],{env:relayEnv,stdio:['ignore','pipe','pipe']});
     const relayLog=fs.createWriteStream(path.join(run,'relay.log'));
@@ -555,7 +559,7 @@ async function main() {
     await verifyScope();
     return;
   }
-  if (!(basicCheck || checkMillIsolation)) await cmd(cmdAs+'numen companion LabBot profile lab:deepseek');
+  if (!(basicCheck || checkMillIsolation || checkSideDrive)) await cmd(cmdAs+'numen companion LabBot profile lab:deepseek');
   if (scopeJar) {
     await cmd('deop LabOwner');
     await cmd('gamerule commandModificationBlockLimit 64');
@@ -573,6 +577,7 @@ async function main() {
       mark('owner_reply_check',{passed:true});
       return mill.checkIsolation(lab);
     }
+    if (checkSideDrive) return mill.checkSideDrive(lab);
     return autonomousMill ? mill.testAutonomous(lab,millMode==='side-drive') : mill.test(lab);
   }
   if (thinkSmoke) {

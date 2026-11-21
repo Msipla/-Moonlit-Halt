@@ -14868,5 +14868,1370 @@
         "strictPass": false
       }
     ]
+  },
+  "decisionTransfer": {
+    "taskBookHead": "534046b7d824975d6249ed9a554935d973e4092b",
+    "previousImplementationHead": "b0c75bc5b3d54bc773c1900f43ebbfb85fff1f19",
+    "environment": {
+      "minecraft": "1.20.1",
+      "fabricLoader": "0.17.2",
+      "create": "6.0.8.1+build.1744-mc1.20.1",
+      "numen": "0.1.5",
+      "java": "Temurin 17.0.21.1+2",
+      "scopeJarSha256": "5f8b7f2f7f329dc37c7815169231014ffd8c0ed46228bc74f83aac58e21fa252"
+    },
+    "model": "deepseek-v4-pro",
+    "thinking": "disabled",
+    "modelDeadlineSeconds": 420,
+    "maxOutputTokens": 4096,
+    "ownerPrompt": "请改造这座能工作的 Create 磨坊。磨石留在原位置，改用一个和磨石同高、水平相邻的小齿轮从侧面直接带动它，动力仍只能来自原来的水轮。保留原供水、入口、地板和屋顶，让人还能从原入口进入、使用磨石并从上方投料。自行勘察、规划和施工，用实际动力链以及投料前后的新产物验证改造，修复施工时误改的地方。最后告诉我你在游戏里验证了什么。",
+    "sameStartingSnapshotSha256": "90e8182594567e518fa7717a31510de16c504e33a6926fb2dfad93575e91edb3",
+    "sameOwnerModuleSha256": "19f833ce530dcbfe6aa8049d55a5ab718ce4aeca90b668ac0af355f3d657de4d",
+    "physicalControl": {
+      "run": "watermill-1795244717439",
+      "modelRequests": 0,
+      "setup": {
+        "utc": "2026-11-21T07:05:33.347Z",
+        "type": "side_drive_control",
+        "mode": "fixture-only",
+        "interventions": 3
+      },
+      "setupCommands": [
+        {
+          "utc": "2026-11-21T07:05:33.357Z",
+          "type": "rcon",
+          "command": "setblock 2 -59 0 create:shaft[axis=x]",
+          "response": "Changed the block at 2, -59, 0"
+        },
+        {
+          "utc": "2026-11-21T07:05:33.360Z",
+          "type": "rcon",
+          "command": "setblock 1 -59 0 create:gearbox[axis=z]",
+          "response": "Changed the block at 1, -59, 0"
+        },
+        {
+          "utc": "2026-11-21T07:05:33.362Z",
+          "type": "rcon",
+          "command": "setblock 1 -58 0 create:cogwheel[axis=y]",
+          "response": "Changed the block at 1, -58, 0"
+        }
+      ],
+      "isolation": {
+        "utc": "2026-11-21T07:05:34.174Z",
+        "type": "agent_isolated",
+        "durationMs": 11,
+        "online": "There are 1 of a max of 20 players online: LabOwner"
+      },
+      "inspection": {
+        "utc": "2026-11-21T07:05:34.259Z",
+        "type": "autonomous_inspection",
+        "elapsed": 0.8156407340000024,
+        "interventions": 3,
+        "result": {
+          "millCount": 1,
+          "mill": [
+            2,
+            -58,
+            0
+          ],
+          "moved": false,
+          "onlyOriginalWheel": true,
+          "route": [
+            {
+              "id": "create:millstone",
+              "pos": [
+                2,
+                -58,
+                0
+              ],
+              "rpm": 8,
+              "network": [
+                256,
+                4037
+              ],
+              "stress": 32,
+              "capacity": 256
+            },
+            {
+              "id": "create:simple_kinetic",
+              "pos": [
+                1,
+                -58,
+                0
+              ],
+              "rpm": -8,
+              "network": [
+                256,
+                4037
+              ],
+              "stress": 32,
+              "capacity": 256
+            },
+            {
+              "id": "create:gearbox",
+              "pos": [
+                1,
+                -59,
+                0
+              ],
+              "rpm": 8,
+              "network": [
+                256,
+                4037
+              ],
+              "stress": 32,
+              "capacity": 256
+            },
+            {
+              "id": "create:simple_kinetic",
+              "pos": [
+                2,
+                -59,
+                0
+              ],
+              "rpm": 8,
+              "network": [
+                256,
+                4037
+              ],
+              "stress": 32,
+              "capacity": 256
+            },
+            {
+              "id": "create:simple_kinetic",
+              "pos": [
+                3,
+                -59,
+                0
+              ],
+              "rpm": 8,
+              "network": [
+                256,
+                4037
+              ],
+              "stress": 32,
+              "capacity": 256
+            },
+            {
+              "id": "create:water_wheel",
+              "pos": [
+                4,
+                -59,
+                0
+              ],
+              "rpm": 8,
+              "network": [
+                256,
+                4037
+              ],
+              "stress": 32,
+              "capacity": 256
+            }
+          ],
+          "flour": 2,
+          "processing": 0,
+          "preserved": {
+            "floorChanges": [],
+            "roofChanges": [],
+            "passed": true,
+            "entrance": true,
+            "water": true,
+            "wheel": true
+          },
+          "accessCheck": {
+            "standReachable": true,
+            "walkableCells": 23,
+            "roofCovered": 25,
+            "interior": 25,
+            "millTopClear": true,
+            "entranceMoved": true,
+            "passed": true
+          },
+          "usePosition": [
+            2,
+            -59,
+            1
+          ],
+          "sideCog": [
+            1,
+            -58,
+            0
+          ],
+          "passesLayout": true
+        },
+        "outsideChanges": [],
+        "incidentalChanges": [],
+        "changes": [
+          {
+            "pos": "2,-59,0",
+            "before": {
+              "Properties": {
+                "axis": "z"
+              },
+              "Name": "create:gearbox"
+            },
+            "after": {
+              "Properties": {
+                "waterlogged": "false",
+                "axis": "x"
+              },
+              "Name": "create:shaft"
+            }
+          },
+          {
+            "pos": "1,-59,0",
+            "after": {
+              "Properties": {
+                "axis": "z"
+              },
+              "Name": "create:gearbox"
+            }
+          },
+          {
+            "pos": "1,-58,0",
+            "after": {
+              "Properties": {
+                "waterlogged": "false",
+                "axis": "y"
+              },
+              "Name": "create:cogwheel"
+            }
+          }
+        ]
+      },
+      "independentFeed": {
+        "utc": "2026-11-21T07:05:34.263Z",
+        "type": "rcon",
+        "command": "summon minecraft:item 2.5 -56.65 0.5 {Item:{id:\"minecraft:wheat\",Count:1b},PickupDelay:32767s}",
+        "response": "Summoned new Wheat"
+      },
+      "assay": {
+        "utc": "2026-11-21T07:05:45.334Z",
+        "type": "autonomous_result",
+        "passed": true,
+        "produced": 1,
+        "final": {
+          "millCount": 1,
+          "mill": [
+            2,
+            -58,
+            0
+          ],
+          "moved": false,
+          "onlyOriginalWheel": true,
+          "route": [
+            {
+              "id": "create:millstone",
+              "pos": [
+                2,
+                -58,
+                0
+              ],
+              "rpm": 8,
+              "network": [
+                256,
+                4037
+              ],
+              "stress": 32,
+              "capacity": 256
+            },
+            {
+              "id": "create:simple_kinetic",
+              "pos": [
+                1,
+                -58,
+                0
+              ],
+              "rpm": -8,
+              "network": [
+                256,
+                4037
+              ],
+              "stress": 32,
+              "capacity": 256
+            },
+            {
+              "id": "create:gearbox",
+              "pos": [
+                1,
+                -59,
+                0
+              ],
+              "rpm": 8,
+              "network": [
+                256,
+                4037
+              ],
+              "stress": 32,
+              "capacity": 256
+            },
+            {
+              "id": "create:simple_kinetic",
+              "pos": [
+                2,
+                -59,
+                0
+              ],
+              "rpm": 8,
+              "network": [
+                256,
+                4037
+              ],
+              "stress": 32,
+              "capacity": 256
+            },
+            {
+              "id": "create:simple_kinetic",
+              "pos": [
+                3,
+                -59,
+                0
+              ],
+              "rpm": 8,
+              "network": [
+                256,
+                4037
+              ],
+              "stress": 32,
+              "capacity": 256
+            },
+            {
+              "id": "create:water_wheel",
+              "pos": [
+                4,
+                -59,
+                0
+              ],
+              "rpm": 8,
+              "network": [
+                256,
+                4037
+              ],
+              "stress": 32,
+              "capacity": 256
+            }
+          ],
+          "flour": 3,
+          "processing": 0,
+          "preserved": {
+            "floorChanges": [],
+            "roofChanges": [],
+            "passed": true,
+            "entrance": true,
+            "water": true,
+            "wheel": true
+          },
+          "accessCheck": {
+            "standReachable": true,
+            "walkableCells": 23,
+            "roofCovered": 25,
+            "interior": 25,
+            "millTopClear": true,
+            "entranceMoved": true,
+            "passed": true
+          },
+          "usePosition": [
+            2,
+            -59,
+            1
+          ],
+          "sideCog": [
+            1,
+            -58,
+            0
+          ],
+          "passesLayout": true
+        },
+        "elapsed": 0.8156407340000024,
+        "looseWheat": 0,
+        "changesDuringAssay": [],
+        "assaySeconds": 11.172036408
+      }
+    },
+    "newTrialsTotalTokens": 852553,
+    "trials": [
+      {
+        "run": "watermill-1795242701952",
+        "requests": 18,
+        "usage": {
+          "prompt_tokens": 327748,
+          "completion_tokens": 8980,
+          "total_tokens": 336728,
+          "prompt_cache_hit_tokens": 293248,
+          "prompt_cache_miss_tokens": 34500
+        },
+        "counts": {
+          "http200": 18,
+          "skill": 2,
+          "lua": 18,
+          "ownerModuleScripts": 2,
+          "luaApiCallsFromReceipts": 1370,
+          "scan.containerScripts": 1,
+          "surveyScripts": 14,
+          "scan.blockScripts": 12,
+          "isolatedSingleBlockCalls": 1319,
+          "scan.blocksScripts": 1,
+          "scanGroupsObserved": 2
+        },
+        "apiSeconds": 219.792,
+        "limitHits": [
+          3,
+          5,
+          10,
+          12,
+          13
+        ],
+        "terminal": {
+          "utc": "2026-11-21T06:38:57.215Z",
+          "type": "agent_timeout",
+          "calls": 18,
+          "reason": "No matching event within 419999.886613 ms"
+        },
+        "isolation": {
+          "utc": "2026-11-21T06:38:57.252Z",
+          "type": "agent_isolated",
+          "durationMs": 36,
+          "online": "There are 1 of a max of 20 players online: LabOwner"
+        },
+        "inspection": {
+          "utc": "2026-11-21T06:38:57.419Z",
+          "type": "autonomous_inspection",
+          "elapsed": 420.002325577,
+          "interventions": 0,
+          "result": {
+            "millCount": 1,
+            "mill": [
+              2,
+              -58,
+              0
+            ],
+            "moved": false,
+            "onlyOriginalWheel": true,
+            "route": [
+              {
+                "id": "create:millstone",
+                "pos": [
+                  2,
+                  -58,
+                  0
+                ],
+                "rpm": -8,
+                "network": [
+                  256,
+                  4037
+                ],
+                "stress": 32,
+                "capacity": 256
+              },
+              {
+                "id": "create:gearbox",
+                "pos": [
+                  2,
+                  -59,
+                  0
+                ],
+                "rpm": 8,
+                "network": [
+                  256,
+                  4037
+                ],
+                "stress": 32,
+                "capacity": 256
+              },
+              {
+                "id": "create:simple_kinetic",
+                "pos": [
+                  3,
+                  -59,
+                  0
+                ],
+                "rpm": 8,
+                "network": [
+                  256,
+                  4037
+                ],
+                "stress": 32,
+                "capacity": 256
+              },
+              {
+                "id": "create:water_wheel",
+                "pos": [
+                  4,
+                  -59,
+                  0
+                ],
+                "rpm": 8,
+                "network": [
+                  256,
+                  4037
+                ],
+                "stress": 32,
+                "capacity": 256
+              }
+            ],
+            "flour": 2,
+            "processing": 0,
+            "preserved": {
+              "floorChanges": [],
+              "roofChanges": [],
+              "passed": true,
+              "entrance": true,
+              "water": true,
+              "wheel": true
+            },
+            "accessCheck": {
+              "standReachable": true,
+              "walkableCells": 24,
+              "roofCovered": 25,
+              "interior": 25,
+              "millTopClear": true,
+              "entranceMoved": true,
+              "passed": true
+            },
+            "usePosition": [
+              1,
+              -59,
+              0
+            ],
+            "sideCog": null,
+            "passesLayout": false
+          },
+          "outsideChanges": [],
+          "incidentalChanges": [],
+          "changes": []
+        },
+        "assay": {
+          "utc": "2026-11-21T06:38:57.419Z",
+          "type": "autonomous_result",
+          "passed": false,
+          "feed": "not-run",
+          "elapsed": 420.002325577
+        },
+        "lengthResponses": [
+          {
+            "request": 18,
+            "secondsAtStartApprox": 231.786,
+            "requestSeconds": 57.207,
+            "completionTokens": 4096,
+            "calls": 0,
+            "opening": "I have all the info I need. Let me plan the retrofit carefully.\n\n**Current machine:** water wheel (4,-59,0, east, x-axis, 8RPM) → shaft x-axis (3,-59,0) → gearbox axis=z (2,-59,0) → millstone (2,-58,0) from **bottom**.\n\n**Goal:** power millstone from the **side** with a small cogwheel at same height (y=-58), horizontally adjacent.\n\nThe millstone at (2,-58,0) has these adjacent cells at y=-58:\n- we"
+          }
+        ],
+        "variant": "historical-baseline",
+        "scope": "same fixture, one original owner request, zero human interventions",
+        "hashes": {
+          "SKILL.md": "aa8c632875dcadff9a0d54951766cde87fbed6117ef4d0649eb0d753c977c42b",
+          "references/watermill.md": "84bc50e75b9da3935c0d6cb614e5b91c198b0324238061e524a2988c1c117779"
+        },
+        "firstCompleteSurvey": {
+          "request": 2,
+          "secondsAtStartApprox": 8.786,
+          "receipt": "ok · 35 calls · 2 s\nstdout:\ncreate:gearbox 2,-59,0 z\ncreate:millstone 2,-58,0 -\ncreate:shaft 3,-59,0 x\ncreate:water_wheel 4,-59,0 east\nparts 4\nfloor minecraft:oak_planks y=-60 x=-3..3 z=-3..3 count=49\ntwo-high floor-edge openings 1: 0,-59,-3"
+        },
+        "checkpoint": [],
+        "firstExecutableCandidate": null,
+        "firstLocalDiff": null,
+        "firstConfirmedWorldWrite": null,
+        "modelSelfVerification": null,
+        "mechanicalReasoning": {
+          "request": 18,
+          "secondsAtRequestStartApprox": 231.786,
+          "secondsAtResponseEndApprox": 288.993,
+          "note": "Truncated planning mixed horizontal and vertical cog axes; no complete checked layout or tool call."
+        }
+      },
+      {
+        "run": "watermill-1795244766582",
+        "requests": 12,
+        "usage": {
+          "prompt_tokens": 221220,
+          "completion_tokens": 8073,
+          "total_tokens": 229293,
+          "prompt_cache_hit_tokens": 175616,
+          "prompt_cache_miss_tokens": 45604
+        },
+        "counts": {
+          "http200": 12,
+          "skill": 3,
+          "lua": 17,
+          "luaApiCallsFromReceipts": 921,
+          "ownerModuleScripts": 3,
+          "surveyScripts": 11,
+          "scan.blocksScripts": 1,
+          "scan.blockScripts": 10,
+          "isolatedSingleBlockCalls": 808,
+          "scanGroupsObserved": 7
+        },
+        "apiSeconds": 174.719,
+        "limitHits": [
+          7,
+          8,
+          9
+        ],
+        "terminal": {
+          "utc": "2026-11-21T07:13:22.997Z",
+          "type": "agent_timeout",
+          "calls": 12,
+          "reason": "No matching event within 419999.887765 ms"
+        },
+        "isolation": {
+          "utc": "2026-11-21T07:13:23.013Z",
+          "type": "agent_isolated",
+          "durationMs": 15,
+          "online": "There are 1 of a max of 20 players online: LabOwner"
+        },
+        "inspection": {
+          "utc": "2026-11-21T07:13:23.163Z",
+          "type": "autonomous_inspection",
+          "elapsed": 420.002790913,
+          "interventions": 0,
+          "result": {
+            "millCount": 1,
+            "mill": [
+              2,
+              -58,
+              0
+            ],
+            "moved": false,
+            "onlyOriginalWheel": true,
+            "route": [
+              {
+                "id": "create:millstone",
+                "pos": [
+                  2,
+                  -58,
+                  0
+                ],
+                "rpm": -8,
+                "network": [
+                  256,
+                  4037
+                ],
+                "stress": 32,
+                "capacity": 256
+              },
+              {
+                "id": "create:gearbox",
+                "pos": [
+                  2,
+                  -59,
+                  0
+                ],
+                "rpm": 8,
+                "network": [
+                  256,
+                  4037
+                ],
+                "stress": 32,
+                "capacity": 256
+              },
+              {
+                "id": "create:simple_kinetic",
+                "pos": [
+                  3,
+                  -59,
+                  0
+                ],
+                "rpm": 8,
+                "network": [
+                  256,
+                  4037
+                ],
+                "stress": 32,
+                "capacity": 256
+              },
+              {
+                "id": "create:water_wheel",
+                "pos": [
+                  4,
+                  -59,
+                  0
+                ],
+                "rpm": 8,
+                "network": [
+                  256,
+                  4037
+                ],
+                "stress": 32,
+                "capacity": 256
+              }
+            ],
+            "flour": 2,
+            "processing": 0,
+            "preserved": {
+              "floorChanges": [],
+              "roofChanges": [],
+              "passed": true,
+              "entrance": true,
+              "water": true,
+              "wheel": true
+            },
+            "accessCheck": {
+              "standReachable": true,
+              "walkableCells": 24,
+              "roofCovered": 25,
+              "interior": 25,
+              "millTopClear": true,
+              "entranceMoved": true,
+              "passed": true
+            },
+            "usePosition": [
+              1,
+              -59,
+              0
+            ],
+            "sideCog": null,
+            "passesLayout": false
+          },
+          "outsideChanges": [],
+          "incidentalChanges": [],
+          "changes": []
+        },
+        "assay": {
+          "utc": "2026-11-21T07:13:23.163Z",
+          "type": "autonomous_result",
+          "passed": false,
+          "feed": "not-run",
+          "elapsed": 420.002790913
+        },
+        "lengthResponses": [
+          {
+            "request": 12,
+            "secondsAtStartApprox": 164.004,
+            "requestSeconds": 57.804,
+            "completionTokens": 4096,
+            "calls": 0,
+            "opening": "I now understand the full picture. Let me plan the retrofit carefully.\n\n**Current drive chain (bottom-drive):**\nWater wheel (4,-59,0) facing east → shaft (3,-59,0) X-axis → gearbox (2,-59,0) axis=z → millstone (2,-58,0) via bottom.\n\n**Goal:** Millstone (2,-58,0) stays. Drive it from the **side** using a **small cogwheel at same height (y=-58)**, horizontally adjacent. Power still from water wheel."
+          }
+        ],
+        "variant": "decision-checkpoint",
+        "scope": "same fixture, one original owner request, zero human interventions",
+        "hashes": {
+          "SKILL.md": "aa8c632875dcadff9a0d54951766cde87fbed6117ef4d0649eb0d753c977c42b",
+          "references/watermill.md": "84bc50e75b9da3935c0d6cb614e5b91c198b0324238061e524a2988c1c117779"
+        },
+        "firstCompleteSurvey": {
+          "request": 2,
+          "secondsAtStartApprox": 10.004,
+          "receipt": "ok · 35 calls · 2 s\nstdout:\ncreate:gearbox 2,-59,0 z\ncreate:millstone 2,-58,0 -\ncreate:shaft 3,-59,0 x\ncreate:water_wheel 4,-59,0 east\nparts 4\nfloor minecraft:oak_planks y=-60 x=-3..3 z=-3..3 count=49\ntwo-high floor-edge openings 1: 0,-59,-3"
+        },
+        "checkpoint": [
+          {
+            "request": 3,
+            "secondsAtStartApprox": 20.004,
+            "status": 200,
+            "content": "I have the layout. Let me survey with more detail including the entrance, water supply, and check the current state of everything around the mill.",
+            "calls": [
+              {
+                "id": "call_00_fxkuy0e02N1hHPceME1b0040",
+                "name": "lua",
+                "arguments": "{\"code\": \"-- Full picture of the machine area\\nlocal obs = my.create_survey.observe({ids={\\\"create:water_wheel\\\",\\\"create:shaft\\\",\\\"create:gearbox\\\",\\\"create:millstone\\\",\\\"create:cogwheel\\\",\\\"create:large_cogwheel\\\",\\\"create:small_cogwheel\\\",\\\"create:fluid_pipe\\\",\\\"create:mechanical_pump\\\",\\\"create:andesite_casing\\\"}, load=\\\"create:millstone\\\"})\\nprint(obs)\\n\\n-- Scan surrounding blocks to understand structure\\nprint(\\\"---- blocks around mill ----\\\")\\nlocal parts = numen.scan.blocks(\\\"create:water_wheel\\\",\\\"create:shaft\\\",\\\"create:gearbox\\\",\\\"create:millstone\\\",\\\"create:cogwheel\\\",\\\"create:large_cogwheel\\\",\\\"create:fluid_pipe\\\",\\\"create:mechanical_pump\\\")\\nfor _,p in ipairs(parts) do print(p.name, p.pos.x, p.pos.y, p.pos.z) end\"}"
+              },
+              {
+                "id": "call_01_4Etz32hppeYN8PpCEbrE3352",
+                "name": "lua",
+                "arguments": "{\"code\": \"-- Inspect kinetics of each part\\nfor _,pos in ipairs({{4,-59,0},{3,-59,0},{2,-59,0},{2,-58,0}}) do\\n  local r = createlab.machine.inspect({x=pos[1],y=pos[2],z=pos[3]})\\n  print(pos[1],pos[2],pos[3], r.kinetics and r.kinetics.rpm_now or \\\"no kinetics\\\")\\nend\"}"
+              }
+            ]
+          }
+        ],
+        "firstExecutableCandidate": null,
+        "firstLocalDiff": null,
+        "firstConfirmedWorldWrite": null,
+        "modelSelfVerification": null,
+        "mechanicalReasoning": {
+          "request": 11,
+          "secondsAtRequestStartApprox": 148.004,
+          "secondsAtResponseEndApprox": 162.01,
+          "note": "Agent quoted the side-drive sentence but misread it as a horizontal cog axis."
+        }
+      },
+      {
+        "run": "watermill-1795245205185",
+        "requests": 30,
+        "usage": {
+          "prompt_tokens": 613960,
+          "completion_tokens": 9300,
+          "total_tokens": 623260,
+          "prompt_cache_hit_tokens": 564096,
+          "prompt_cache_miss_tokens": 49864
+        },
+        "counts": {
+          "http200": 30,
+          "skill": 2,
+          "lua": 27,
+          "ownerModuleScripts": 2,
+          "luaApiCallsFromReceipts": 793,
+          "surveyScripts": 14,
+          "scan.blockScripts": 12,
+          "isolatedSingleBlockCalls": 702,
+          "todo": 3,
+          "build.placeScripts": 5,
+          "scan.containerScripts": 2,
+          "inv.storeScripts": 1,
+          "scanGroupsObserved": 2
+        },
+        "apiSeconds": 300.65,
+        "limitHits": [
+          10,
+          11
+        ],
+        "terminal": {
+          "utc": "2026-11-21T07:19:42.250Z",
+          "type": "agent_return",
+          "calls": 30,
+          "finish": "stop",
+          "status": 200,
+          "content": "改造完成,验证也过了。我在游戏里实际验证的内容如下:\n\n- **传动链**:水轮(+8 RPM)→ 轴 → 齿轮箱 → 侧驱小齿轮(−8 RPM)→ 磨石(+8 RPM),整条链都在转、无过载。从原来的底部直连改成了同高度水平相邻的小齿轮从侧面带动,磨石位置没动。\n- **产物**:投料前磨石里已有 2 份面粉,投入 1 个小麦后读数变成 3 份,确认新传动下磨石能产面粉。\n- **原结构保留**:磨石正上方仍是空位(可从上方投料)、入口畅通、地板是橡木木板、供水那两格水还在、屋顶和墙壁没改。\n\n施工中临时加的漏斗已经拆掉,旧齿轮箱已换成轴。有 7 个小麦留在我身上,是刚才测试给的,需要的话我清掉或还你。",
+          "deliveredSeconds": 361.01232028
+        },
+        "isolation": {
+          "utc": "2026-11-21T07:19:42.263Z",
+          "type": "agent_isolated",
+          "durationMs": 12,
+          "online": "There are 1 of a max of 20 players online: LabOwner"
+        },
+        "inspection": {
+          "utc": "2026-11-21T07:19:42.403Z",
+          "type": "autonomous_inspection",
+          "elapsed": 361.095876939,
+          "finish": "stop",
+          "status": 200,
+          "interventions": 0,
+          "result": {
+            "millCount": 1,
+            "mill": [
+              2,
+              -58,
+              0
+            ],
+            "moved": false,
+            "onlyOriginalWheel": true,
+            "route": [
+              {
+                "id": "create:millstone",
+                "pos": [
+                  2,
+                  -58,
+                  0
+                ],
+                "rpm": 8,
+                "network": [
+                  256,
+                  4037
+                ],
+                "stress": 32,
+                "capacity": 256
+              },
+              {
+                "id": "create:simple_kinetic",
+                "pos": [
+                  1,
+                  -58,
+                  0
+                ],
+                "rpm": -8,
+                "network": [
+                  256,
+                  4037
+                ],
+                "stress": 32,
+                "capacity": 256
+              },
+              {
+                "id": "create:gearbox",
+                "pos": [
+                  1,
+                  -59,
+                  0
+                ],
+                "rpm": 8,
+                "network": [
+                  256,
+                  4037
+                ],
+                "stress": 32,
+                "capacity": 256
+              },
+              {
+                "id": "create:simple_kinetic",
+                "pos": [
+                  2,
+                  -59,
+                  0
+                ],
+                "rpm": 8,
+                "network": [
+                  256,
+                  4037
+                ],
+                "stress": 32,
+                "capacity": 256
+              },
+              {
+                "id": "create:simple_kinetic",
+                "pos": [
+                  3,
+                  -59,
+                  0
+                ],
+                "rpm": 8,
+                "network": [
+                  256,
+                  4037
+                ],
+                "stress": 32,
+                "capacity": 256
+              },
+              {
+                "id": "create:water_wheel",
+                "pos": [
+                  4,
+                  -59,
+                  0
+                ],
+                "rpm": 8,
+                "network": [
+                  256,
+                  4037
+                ],
+                "stress": 32,
+                "capacity": 256
+              }
+            ],
+            "flour": 3,
+            "processing": 0,
+            "preserved": {
+              "floorChanges": [],
+              "roofChanges": [],
+              "passed": true,
+              "entrance": true,
+              "water": true,
+              "wheel": true
+            },
+            "accessCheck": {
+              "standReachable": true,
+              "walkableCells": 23,
+              "roofCovered": 25,
+              "interior": 25,
+              "millTopClear": true,
+              "entranceMoved": true,
+              "passed": true
+            },
+            "usePosition": [
+              2,
+              -59,
+              1
+            ],
+            "sideCog": [
+              1,
+              -58,
+              0
+            ],
+            "passesLayout": true
+          },
+          "outsideChanges": [],
+          "incidentalChanges": [],
+          "changes": [
+            {
+              "pos": "2,-59,0",
+              "before": {
+                "Properties": {
+                  "axis": "z"
+                },
+                "Name": "create:gearbox"
+              },
+              "after": {
+                "Properties": {
+                  "waterlogged": "false",
+                  "axis": "x"
+                },
+                "Name": "create:shaft"
+              }
+            },
+            {
+              "pos": "1,-59,0",
+              "after": {
+                "Properties": {
+                  "axis": "z"
+                },
+                "Name": "create:gearbox"
+              }
+            },
+            {
+              "pos": "1,-58,0",
+              "after": {
+                "Properties": {
+                  "waterlogged": "false",
+                  "axis": "y"
+                },
+                "Name": "create:cogwheel"
+              }
+            }
+          ]
+        },
+        "assay": {
+          "utc": "2026-11-21T07:19:53.492Z",
+          "type": "autonomous_result",
+          "passed": true,
+          "produced": 1,
+          "final": {
+            "millCount": 1,
+            "mill": [
+              2,
+              -58,
+              0
+            ],
+            "moved": false,
+            "onlyOriginalWheel": true,
+            "route": [
+              {
+                "id": "create:millstone",
+                "pos": [
+                  2,
+                  -58,
+                  0
+                ],
+                "rpm": 8,
+                "network": [
+                  256,
+                  4037
+                ],
+                "stress": 32,
+                "capacity": 256
+              },
+              {
+                "id": "create:simple_kinetic",
+                "pos": [
+                  1,
+                  -58,
+                  0
+                ],
+                "rpm": -8,
+                "network": [
+                  256,
+                  4037
+                ],
+                "stress": 32,
+                "capacity": 256
+              },
+              {
+                "id": "create:gearbox",
+                "pos": [
+                  1,
+                  -59,
+                  0
+                ],
+                "rpm": 8,
+                "network": [
+                  256,
+                  4037
+                ],
+                "stress": 32,
+                "capacity": 256
+              },
+              {
+                "id": "create:simple_kinetic",
+                "pos": [
+                  2,
+                  -59,
+                  0
+                ],
+                "rpm": 8,
+                "network": [
+                  256,
+                  4037
+                ],
+                "stress": 32,
+                "capacity": 256
+              },
+              {
+                "id": "create:simple_kinetic",
+                "pos": [
+                  3,
+                  -59,
+                  0
+                ],
+                "rpm": 8,
+                "network": [
+                  256,
+                  4037
+                ],
+                "stress": 32,
+                "capacity": 256
+              },
+              {
+                "id": "create:water_wheel",
+                "pos": [
+                  4,
+                  -59,
+                  0
+                ],
+                "rpm": 8,
+                "network": [
+                  256,
+                  4037
+                ],
+                "stress": 32,
+                "capacity": 256
+              }
+            ],
+            "flour": 4,
+            "processing": 0,
+            "preserved": {
+              "floorChanges": [],
+              "roofChanges": [],
+              "passed": true,
+              "entrance": true,
+              "water": true,
+              "wheel": true
+            },
+            "accessCheck": {
+              "standReachable": true,
+              "walkableCells": 23,
+              "roofCovered": 25,
+              "interior": 25,
+              "millTopClear": true,
+              "entranceMoved": true,
+              "passed": true
+            },
+            "usePosition": [
+              2,
+              -59,
+              1
+            ],
+            "sideCog": [
+              1,
+              -58,
+              0
+            ],
+            "passesLayout": true
+          },
+          "elapsed": 361.095876939,
+          "looseWheat": 0,
+          "changesDuringAssay": [],
+          "assaySeconds": 11.241632162999963
+        },
+        "lengthResponses": [],
+        "variant": "decision-checkpoint-and-axis-reference",
+        "scope": "same fixture, one original owner request, zero human interventions",
+        "hashes": {
+          "SKILL.md": "aa8c632875dcadff9a0d54951766cde87fbed6117ef4d0649eb0d753c977c42b",
+          "references/watermill.md": "06852b2269bcf27810652b69c778b11724da8ad0576bf3f3f61352373c6c3220"
+        },
+        "firstCompleteSurvey": {
+          "request": 3,
+          "secondsAtStartApprox": 14.845,
+          "receipt": "ok · 35 calls · 2 s\nreturned: create:gearbox 2,-59,0 z\ncreate:millstone 2,-58,0 -\ncreate:shaft 3,-59,0 x\ncreate:water_wheel 4,-59,0 east\nparts 4\nfloor minecraft:oak_planks y=-60 x=-3..3 z=-3..3 count=49\ntwo-high floor-edge openings 1: 0,-59,-3\nstdout:\nok\ttrue"
+        },
+        "checkpoint": [
+          {
+            "request": 4,
+            "secondsAtStartApprox": 24.845,
+            "status": 200,
+            "content": "Survey gives the current drive: water_wheel(4,-59,0)→shaft(3,-59,0)→gearbox(2,-59,0)→millstone(2,-58,0). The task wants a side-drive cogwheel at the millstone's height instead. Let me look at the full current state of the machinery and the access/supply around the millstone.",
+            "calls": [
+              {
+                "id": "call_00_epNiqrSgVFtE7lXuI6tg2811",
+                "name": "lua",
+                "arguments": "{\"code\": \"for _,p in ipairs({{2,-59,0},{2,-58,0},{3,-59,0},{4,-59,0}}) do\\n  local b = numen.scan.block(p)\\n  print(p[1],p[2],p[3], b.name, b.properties and (b.properties.axis or b.properties.facing))\\nend\\nprint(\\\"--- millstone column z=-58..-57 neighbors\\\")\\nfor _,p in ipairs({{2,-58,-1},{2,-58,1},{1,-58,0},{3,-58,0},{2,-57,0},{2,-59,0}}) do\\n  local b = numen.scan.block(p)\\n  print(p[1],p[2],p[3], b.name)\\nend\\nprint(\\\"--- water wheel source area\\\")\\nfor _,p in ipairs({{4,-58,-1},{4,-58,1},{4,-60,-1},{4,-60,1},{4,-59,-1},{4,-59,1}}) do\\n  local b = numen.scan.block(p)\\n  print(p[1],p[2],p[3], b.name, b.properties and b.properties.level)\\nend\"}"
+              }
+            ]
+          }
+        ],
+        "firstExecutableCandidate": {
+          "request": 21,
+          "secondsAtRequestStartApprox": 255.845,
+          "secondsAtResponseEndApprox": 267.058,
+          "evidence": "selfCorrection"
+        },
+        "firstLocalDiff": null,
+        "firstConfirmedWorldWrite": {
+          "request": 18,
+          "secondsAtRequestStartApprox": 222.845,
+          "secondsAtResponseEndApprox": 231.394,
+          "id": "call_00_rzYvYlBelxZFQFgXdEXh0156",
+          "tool": "lua",
+          "arguments": {
+            "code": "-- 1. Remove old gearbox at (2,-59) -> air, then place shaft\n-- 2. place shaft(2,-59)[axis=x], gearbox(1,-59)[axis=y], cogwheel(1,-58)[axis=y]\nnumen.build.place({{name=\"minecraft:air\", pos={x=2,y=-59,z=0}}})\nprint(\"removed old gearbox\")"
+          },
+          "receipt": "ok · 1 call · 6 s\nstderr:\nline 3 numen.build.place: built 1/1 block(s); placed 0, cleared 1 (all requested cells match)\nstdout:\nremoved old gearbox",
+          "serverLog": [
+            "[15:17:33] [Server thread/INFO]: [numen-dispatch#7b0615cc-75b8-461c-90e7-63d475c91ef4] dispatch tool=lua id=call_00_rzYvYlBelxZFQFgXdEXh0156 args=255 chars",
+            "[15:17:33] [Server thread/INFO]: [numen-program] 7b0615cc-75b8-461c-90e7-63d475c91ef4 runs call_00_rzYvYlBelxZFQFgXdEXh0156 on the server (236 chars)",
+            "[15:17:39] [Server thread/INFO]: [numen-dispatch#7b0615cc-75b8-461c-90e7-63d475c91ef4] result id=call_00_rzYvYlBelxZFQFgXdEXh0156 lua → ok, 180 chars"
+          ]
+        },
+        "modelSelfVerification": {
+          "measuredInventories": [
+            {
+              "request": 24,
+              "secondsAtRequestStartApprox": 284.845,
+              "secondsAtResponseEndApprox": 291.958,
+              "id": "call_00_1tqdqrXH3bMllwO4KCcw7241",
+              "tool": "lua",
+              "arguments": {
+                "code": "-- read millstone storage before feeding\nprint(numen.scan.container({x=2,y=-58,z=0}).storage)"
+              },
+              "receipt": "ok · 1 call · 0 s\nstdout:\n{\"items (sides: all,down,up,north,south,west,east), 10 slots:\", \"  slot 0: create:wheat_flour x2\", \"  slot 1: minecraft:wheat_seeds x1\"}",
+              "serverLog": [
+                "[15:18:33] [Server thread/INFO]: [numen-dispatch#7b0615cc-75b8-461c-90e7-63d475c91ef4] dispatch tool=lua id=call_00_1tqdqrXH3bMllwO4KCcw7241 args=106 chars",
+                "[15:18:33] [Server thread/INFO]: [numen-program] 7b0615cc-75b8-461c-90e7-63d475c91ef4 runs call_00_1tqdqrXH3bMllwO4KCcw7241 on the server (93 chars)",
+                "[15:18:33] [Server thread/INFO]: [numen-dispatch#7b0615cc-75b8-461c-90e7-63d475c91ef4] result id=call_00_1tqdqrXH3bMllwO4KCcw7241 lua → ok, 199 chars"
+              ]
+            },
+            {
+              "request": 27,
+              "secondsAtRequestStartApprox": 309.845,
+              "secondsAtResponseEndApprox": 317.239,
+              "id": "call_00_JFPKwG3a6D2aZj62yEBu9632",
+              "tool": "lua",
+              "arguments": {
+                "code": "numen.time.wait(12)\nprint(numen.scan.container({x=2,y=-58,z=0}).storage)"
+              },
+              "receipt": "ok · 2 calls · 12 s\nstderr:\nline 1 numen.time.wait: waited 12.0s\nstdout:\n{\"items (sides: all,down,up,north,south,west,east), 10 slots:\", \"  slot 0: create:wheat_flour x3\", \"  slot 1: minecraft:wheat_seeds x1\"}",
+              "serverLog": [
+                "[15:18:58] [Server thread/INFO]: [numen-dispatch#7b0615cc-75b8-461c-90e7-63d475c91ef4] dispatch tool=lua id=call_00_JFPKwG3a6D2aZj62yEBu9632 args=85 chars",
+                "[15:18:58] [Server thread/INFO]: [numen-program] 7b0615cc-75b8-461c-90e7-63d475c91ef4 runs call_00_JFPKwG3a6D2aZj62yEBu9632 on the server (72 chars)",
+                "[15:19:10] [Server thread/INFO]: [numen-dispatch#7b0615cc-75b8-461c-90e7-63d475c91ef4] result id=call_00_JFPKwG3a6D2aZj62yEBu9632 lua → ok, 248 chars"
+              ]
+            }
+          ],
+          "feedAttempts": [
+            {
+              "request": 26,
+              "secondsAtRequestStartApprox": 300.845,
+              "secondsAtResponseEndApprox": 309.333,
+              "id": "call_00_PQTOC3oPmyjxSLn8Sgu61452",
+              "tool": "lua",
+              "arguments": {
+                "code": "-- store wheat into the hopper (need wheat; give it in creative)\nnumen.creative.give(\"minecraft:wheat\", {count=8})\nprint(\"gave wheat\")\nlocal ok, err = numen.inv.store({x=2,y=-57,z=0}, \"minecraft:wheat\", 1)\nprint(\"store result\", ok, err and err.message or \"\")"
+              },
+              "receipt": "ok · 4 calls · 0 s\nstderr:\nline 4 numen.use.block: right-clicked 2,-57,0 — but nothing visibly changed (inventory, health, riding, aimed block, nearby entities all as before). If you expected an effect, reposition or rethink.\nline 4 numen.gui.put: put 1 wheat into the window.\nstdout:\ngave wheat\nstore result\t1",
+              "serverLog": [
+                "[15:18:51] [Server thread/INFO]: [numen-dispatch#7b0615cc-75b8-461c-90e7-63d475c91ef4] dispatch tool=lua id=call_00_PQTOC3oPmyjxSLn8Sgu61452 args=284 chars",
+                "[15:18:51] [Server thread/INFO]: [numen-program] 7b0615cc-75b8-461c-90e7-63d475c91ef4 runs call_00_PQTOC3oPmyjxSLn8Sgu61452 on the server (258 chars)",
+                "[15:18:51] [Server thread/INFO]: [numen-dispatch#7b0615cc-75b8-461c-90e7-63d475c91ef4] result id=call_00_PQTOC3oPmyjxSLn8Sgu61452 lua → ok, 346 chars"
+              ]
+            }
+          ],
+          "cleanup": [
+            {
+              "request": 28,
+              "secondsAtRequestStartApprox": 328.845,
+              "secondsAtResponseEndApprox": 339.16,
+              "id": "call_00_BaLdmu0MnufdH6XPiSFP1844",
+              "tool": "lua",
+              "arguments": {
+                "code": "-- remove temporary hopper\nnumen.build.place({{name=\"minecraft:air\", pos={x=2,y=-57,z=0}}})\nprint(\"hopper removed\")\n-- verify top feed cell clear and structure intact\nfor _,p in ipairs({{x=2,y=-57,z=0},{x=2,y=-58,z=0},{x=4,y=-60,z=1},{x=4,y=-59,z=1}}) do\n  local b = numen.scan.block(p)\n  print(\"check\", p.x,p.y,p.z, b.name, b.properties and (b.properties.level or b.properties.axis))\nend\n-- confirm entrance/path and floor still intact\nfor _,p in ipairs({{x=1,y=-60,z=0},{x=0,y=-59,z=-3},{x=2,y=-60,z=0}}) do\n  local b = numen.scan.block(p)\n  print(\"struct\", p.x,p.y,p.z, b.name)\nend"
+              },
+              "receipt": "ok · 8 calls · 0 s\nstderr:\nline 2 numen.build.place: built 1/1 block(s); placed 0, cleared 1 (all requested cells match)\nstdout:\nhopper removed\ncheck\t2\t-57\t0\tminecraft:air\tnil\ncheck\t2\t-58\t0\tcreate:millstone\tnil\ncheck\t4\t-60\t1\tminecraft:water\t8\ncheck\t4\t-59\t1\tminecraft:water\t8\nstruct\t1\t-60\t0\tminecraft:oak_planks\nstruct\t0\t-59\t-3\tminecraft:air\nstruct\t2\t-60\t0\tminecraft:oak_planks",
+              "serverLog": [
+                "[15:19:21] [Server thread/INFO]: [numen-dispatch#7b0615cc-75b8-461c-90e7-63d475c91ef4] dispatch tool=lua id=call_00_BaLdmu0MnufdH6XPiSFP1844 args=616 chars",
+                "[15:19:21] [Server thread/INFO]: [numen-program] 7b0615cc-75b8-461c-90e7-63d475c91ef4 runs call_00_BaLdmu0MnufdH6XPiSFP1844 on the server (584 chars)",
+                "[15:19:21] [Server thread/INFO]: [numen-dispatch#7b0615cc-75b8-461c-90e7-63d475c91ef4] result id=call_00_BaLdmu0MnufdH6XPiSFP1844 lua → ok, 448 chars"
+              ]
+            }
+          ]
+        },
+        "mechanicalReasoning": {
+          "request": 9,
+          "secondsAtRequestStartApprox": 73.845,
+          "secondsAtResponseEndApprox": 85.635,
+          "note": "Second run used the correct vertical cog axis, but initially explored a wall cell."
+        },
+        "firstConcreteUnpoweredCandidate": {
+          "request": 14,
+          "secondsAtRequestStartApprox": 171.845,
+          "secondsAtResponseEndApprox": 196.149,
+          "note": "Complete interior layout, but gearbox axis=y blocks the required vertical output."
+        },
+        "firstExplicitConstructionPlan": {
+          "request": 17,
+          "secondsAtRequestStartApprox": 212.845,
+          "secondsAtResponseEndApprox": 222.88,
+          "id": "call_00_v1B8GenM5I2y1gR2iV9n8849",
+          "tool": "todo",
+          "arguments": {
+            "items": [
+              "[>] 拆除旧底部传动(齿轮箱2,-59), 铺轴到1,-59",
+              "[ ] 放置齿轮箱(1,-59,axis=y)与侧驱小齿轮(1,-58,axis=y)",
+              "[ ] 验证水轮→轴→齿轮箱→小齿轮→磨石的完整动力学链",
+              "[ ] 投小麦, 验证新磨出面粉产物",
+              "[ ] 恢复施工误改, 确认入口/供水/地板/屋顶完好"
+            ]
+          },
+          "receipt": "plan written: 0/5 done; doing now: 拆除旧底部传动(齿轮箱2,-59), 铺轴到1,-59",
+          "serverLog": [
+            "[15:17:24] [Server thread/INFO]: [numen-dispatch#7b0615cc-75b8-461c-90e7-63d475c91ef4] dispatch tool=todo id=call_00_v1B8GenM5I2y1gR2iV9n8849 args=178 chars",
+            "[15:17:24] [Server thread/INFO]: [numen-dispatch#7b0615cc-75b8-461c-90e7-63d475c91ef4] result id=call_00_v1B8GenM5I2y1gR2iV9n8849 todo → ok, 91 chars"
+          ]
+        },
+        "initialInstallation": {
+          "request": 19,
+          "secondsAtRequestStartApprox": 237.845,
+          "secondsAtResponseEndApprox": 246.059,
+          "id": "call_00_ZwhvBJBcNzKr4KAWuImD0347",
+          "tool": "lua",
+          "arguments": {
+            "code": "numen.build.place({\n  {name=\"create:shaft[axis=x]\", pos={x=2,y=-59,z=0}},\n  {name=\"create:gearbox[axis=y]\", pos={x=1,y=-59,z=0}},\n  {name=\"create:cogwheel[axis=y]\", pos={x=1,y=-58,z=0}},\n})"
+          },
+          "receipt": "ok · 1 call · 0 s\nstderr:\nline 1 numen.build.place: built 3/3 block(s); placed 3 (1 written straight in: a hand could not put them in that shape from where you stand), cleared 0 (all requested cells match)",
+          "serverLog": [
+            "[15:17:47] [Server thread/INFO]: [numen-dispatch#7b0615cc-75b8-461c-90e7-63d475c91ef4] dispatch tool=lua id=call_00_ZwhvBJBcNzKr4KAWuImD0347 args=211 chars",
+            "[15:17:47] [Server thread/INFO]: [numen-program] 7b0615cc-75b8-461c-90e7-63d475c91ef4 runs call_00_ZwhvBJBcNzKr4KAWuImD0347 on the server (189 chars)",
+            "[15:17:47] [Server thread/INFO]: [numen-dispatch#7b0615cc-75b8-461c-90e7-63d475c91ef4] result id=call_00_ZwhvBJBcNzKr4KAWuImD0347 lua → ok, 236 chars"
+          ]
+        },
+        "firstFailedKinetics": {
+          "request": 20,
+          "secondsAtRequestStartApprox": 245.845,
+          "secondsAtResponseEndApprox": 254.533,
+          "id": "call_00_VxoJNyvdNANeTmJmE3DW2898",
+          "tool": "lua",
+          "arguments": {
+            "code": "for _,p in ipairs({{x=2,y=-59,z=0},{x=1,y=-59,z=0},{x=1,y=-58,z=0}}) do\n  local b = numen.scan.block(p)\n  print(p.x,p.y,p.z, b.name, b.properties and (b.properties.axis or b.properties.facing))\nend\nprint(\"--- kinetics chain\")\nfor _,p in ipairs({{x=4,y=-59,z=0},{x=3,y=-59,z=0},{x=2,y=-59,z=0},{x=1,y=-59,z=0},{x=1,y=-58,z=0},{x=2,y=-58,z=0}}) do\n  local k = createlab.machine.inspect(p)\n  print(p.x,p.y,p.z, k.kind, k.kinetics and k.kinetics.rpm, k.kinetics and k.kinetics.overstressed)\nend"
+          },
+          "receipt": "ok · 9 calls · 0 s\nstdout:\n2\t-59\t0\tcreate:shaft\tx\n1\t-59\t0\tcreate:gearbox\ty\n1\t-58\t0\tcreate:cogwheel\ty\n--- kinetics chain\n4\t-59\t0\tkinetic\t8\tfalse\n3\t-59\t0\tkinetic\t8\tfalse\n2\t-59\t0\tkinetic\t8\tfalse\n1\t-59\t0\tkinetic\t8\tfalse\n1\t-58\t0\tkinetic\t0\tfalse\n2\t-58\t0\tkinetic\t0\tfalse",
+          "serverLog": [
+            "[15:17:56] [Server thread/INFO]: [numen-dispatch#7b0615cc-75b8-461c-90e7-63d475c91ef4] dispatch tool=lua id=call_00_VxoJNyvdNANeTmJmE3DW2898 args=512 chars",
+            "[15:17:56] [Server thread/INFO]: [numen-program] 7b0615cc-75b8-461c-90e7-63d475c91ef4 runs call_00_VxoJNyvdNANeTmJmE3DW2898 on the server (490 chars)",
+            "[15:17:57] [Server thread/INFO]: [numen-dispatch#7b0615cc-75b8-461c-90e7-63d475c91ef4] result id=call_00_VxoJNyvdNANeTmJmE3DW2898 lua → ok, 345 chars"
+          ]
+        },
+        "selfCorrection": {
+          "request": 21,
+          "secondsAtRequestStartApprox": 255.845,
+          "secondsAtResponseEndApprox": 267.058,
+          "id": "call_00_Wxo7rY4ahfSGmw9SjCuQ0295",
+          "tool": "lua",
+          "arguments": {
+            "code": "numen.build.place({{name=\"create:gearbox[axis=z]\", pos={x=1,y=-59,z=0}}})"
+          },
+          "receipt": "ok · 1 call · 0 s\nstderr:\nline 1 numen.build.place: built 1/1 block(s); placed 1 (1 written straight in: a hand could not put them in that shape from where you stand) (1 replacing what stood there), cleared 1 (all requested cells match)",
+          "serverLog": [
+            "[15:18:08] [Server thread/INFO]: [numen-dispatch#7b0615cc-75b8-461c-90e7-63d475c91ef4] dispatch tool=lua id=call_00_Wxo7rY4ahfSGmw9SjCuQ0295 args=87 chars",
+            "[15:18:08] [Server thread/INFO]: [numen-program] 7b0615cc-75b8-461c-90e7-63d475c91ef4 runs call_00_Wxo7rY4ahfSGmw9SjCuQ0295 on the server (73 chars)",
+            "[15:18:08] [Server thread/INFO]: [numen-dispatch#7b0615cc-75b8-461c-90e7-63d475c91ef4] result id=call_00_Wxo7rY4ahfSGmw9SjCuQ0295 lua → ok, 267 chars"
+          ]
+        },
+        "workingKinetics": {
+          "request": 22,
+          "secondsAtRequestStartApprox": 266.845,
+          "secondsAtResponseEndApprox": 275.531,
+          "id": "call_00_SJLwQCrlsv0kZ0WVxu4p0603",
+          "tool": "lua",
+          "arguments": {
+            "code": "for _,p in ipairs({{x=2,y=-59,z=0},{x=1,y=-59,z=0},{x=1,y=-58,z=0}}) do\n  local b = numen.scan.block(p)\n  print(p.x,p.y,p.z, b.name, b.properties and (b.properties.axis or b.properties.facing))\nend\nprint(\"--- kinetics chain\")\nfor _,p in ipairs({{x=4,y=-59,z=0},{x=3,y=-59,z=0},{x=2,y=-59,z=0},{x=1,y=-59,z=0},{x=1,y=-58,z=0},{x=2,y=-58,z=0}}) do\n  local k = createlab.machine.inspect(p)\n  print(p.x,p.y,p.z, k.kind, k.kinetics and k.kinetics.rpm, k.kinetics and k.kinetics.overstressed)\nend"
+          },
+          "receipt": "ok · 9 calls · 0 s\nstdout:\n2\t-59\t0\tcreate:shaft\tx\n1\t-59\t0\tcreate:gearbox\tz\n1\t-58\t0\tcreate:cogwheel\ty\n--- kinetics chain\n4\t-59\t0\tkinetic\t8\tfalse\n3\t-59\t0\tkinetic\t8\tfalse\n2\t-59\t0\tkinetic\t8\tfalse\n1\t-59\t0\tkinetic\t8\tfalse\n1\t-58\t0\tkinetic\t-8\tfalse\n2\t-58\t0\tkinetic\t8\tfalse",
+          "serverLog": [
+            "[15:18:17] [Server thread/INFO]: [numen-dispatch#7b0615cc-75b8-461c-90e7-63d475c91ef4] dispatch tool=lua id=call_00_SJLwQCrlsv0kZ0WVxu4p0603 args=512 chars",
+            "[15:18:17] [Server thread/INFO]: [numen-program] 7b0615cc-75b8-461c-90e7-63d475c91ef4 runs call_00_SJLwQCrlsv0kZ0WVxu4p0603 on the server (490 chars)",
+            "[15:18:17] [Server thread/INFO]: [numen-dispatch#7b0615cc-75b8-461c-90e7-63d475c91ef4] result id=call_00_SJLwQCrlsv0kZ0WVxu4p0603 lua → ok, 346 chars"
+          ]
+        }
+      }
+    ]
   }
 }

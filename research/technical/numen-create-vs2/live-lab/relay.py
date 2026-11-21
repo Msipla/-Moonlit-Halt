@@ -3,6 +3,7 @@ import argparse
 from hashlib import sha256
 import json
 import os
+import re
 import time
 import urllib.error
 import urllib.request
@@ -10,6 +11,17 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 
 ENDPOINT = "https://api.deepseek.com/chat/completions"
+DECISION_CHECKPOINT = (
+    "决策节点：你刚收到了机械部件、朝向和入口的现场回执。"
+    "下一次用 Lua 给出一两个自己选的局部候选，输出准备修改的格和一句连接依据，"
+    "同时用现有 build.diff 检查候选，然后根据回执施工。"
+    "若缺一项会改变选址或连接的事实，只说明该事实并查这一项。"
+    "把方案留在工具调用和回执里，省去长篇说明。"
+)
+SURVEY_RECEIPT = re.compile(
+    r"^parts [1-9][0-9]*[^\n]*\nfloor [^\n]+\ntwo-high floor-edge openings [1-9][0-9]*:",
+    re.MULTILINE,
+)
 
 
 def main():
@@ -20,6 +32,8 @@ def main():
     key = os.environ["DEEPSEEK_API_KEY"]
     thinking = os.environ.get("LAB_THINKING") == "1"
     trace = args.evidence.open("a", encoding="utf-8")
+    decision_enabled = os.environ.get("LAB_MILL_DECISION") == "1"
+    decision_sent = False
 
     class Relay(BaseHTTPRequestHandler):
         def log_message(self, *_):
@@ -30,6 +44,7 @@ def main():
             trace.flush()
 
         def do_POST(self):
+            nonlocal decision_sent
             if self.path not in ("/chat/completions", "/v1/chat/completions"):
                 self.send_error(404)
                 return
@@ -41,6 +56,14 @@ def main():
             body["stream_options"] = {"include_usage": True}
             body["max_tokens"] = min(body.get("max_tokens") or 8192, 8192) if thinking else 4096
             messages = body.get("messages", [])
+            # A one-shot instruction in the lab, based only on the agent's real receipt.
+            checkpoint = decision_enabled and not decision_sent and any(
+                m.get("role") == "tool" and SURVEY_RECEIPT.search(m.get("content") or "")
+                for m in messages
+            )
+            if checkpoint:
+                body["messages"] = [{"role": "system", "content": DECISION_CHECKPOINT}, *messages]
+                decision_sent = True
             started = time.time()
             event = {"utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(started)),
                      "model": body.get("model"), "content": "", "calls": [],
@@ -48,6 +71,8 @@ def main():
                      "context": [{"role": m.get("role"), "content": m.get("content"),
                                   "tool_call_id": m.get("tool_call_id")}
                                  for m in messages[-4:] if m.get("role") in ("tool", "user")]}
+            if checkpoint:
+                event["decisionCheckpoint"] = True
             calls = {}
             reasoning = sha256()
             reasoning_bytes = 0

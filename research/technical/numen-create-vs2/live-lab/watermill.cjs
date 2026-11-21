@@ -387,6 +387,37 @@ async function testAutonomous(lab, sideDrive = false) {
     ...(sideDrive ? {objective:'side-drive'} : {})});
   const started = performance.now();
   const answer = await lab.chat(prompt,420000);
+  await verifyAutonomous(lab,before,original,sideDrive,started,answer);
+}
+
+async function checkSideDrive(lab) {
+  await lab.cmd('gamerule randomTickSpeed 0');
+  const before = await lab.save('autonomous-before');
+  const original = reviewedPlan(process.env.LAB_MILL_REVIEWED,lab);
+  assert(inspection(before,original).passed && access(before,original,null).passed,
+    'The inherited watermill needs to pass the read-only control');
+  const [dx,dz] = [Math.sign(original.mill[0]-original.wheel[0]),Math.sign(original.mill[2]-original.wheel[2])];
+  assert(Math.abs(dx)+Math.abs(dz)===1,'The reference drive must be straight');
+  const cog = move(original.mill,dx,0,dz);
+  const gear = move(original.gearbox,dx,0,dz);
+  assert(!before.blocks[cog] && !before.blocks[gear],'Reference side-drive cells must be empty');
+  const edits = [
+    [original.gearbox,`create:shaft[axis=${dx ? 'x' : 'z'}]`],
+    [gear,`create:gearbox[axis=${original.gearAxis}]`],
+    [cog,'create:cogwheel[axis=y]'],
+  ];
+  const started = performance.now();
+  lab.mark('side_drive_control',{mode:'fixture-only',interventions:edits.length});
+  for (const [cell,state] of edits) {
+    assert(lab.inScope(cell),'Reference edit is outside the construction scope');
+    const result = await lab.cmd(`setblock ${cell.join(' ')} ${state}`);
+    assert.match(result,/^Changed the block/);
+  }
+  await wait(800);
+  await verifyAutonomous(lab,before,original,true,started,null,edits.length);
+}
+
+async function verifyAutonomous(lab,before,original,sideDrive,started,answer,interventions=0) {
   const elapsed = (performance.now()-started)/1000;
   await lab.isolateMillAgent();
   const final = await lab.save('autonomous-after');
@@ -398,7 +429,7 @@ async function testAutonomous(lab, sideDrive = false) {
     .map(cell=>({pos:cell,before:before.blocks[cell],after:final.blocks[cell]}));
   const incidentalChanges = changes.filter(c=>[c.before,c.after].some(b=>b&&!b.Name.startsWith('create:')));
   lab.mark('autonomous_inspection',{elapsed,finish:answer?.finish,status:answer?.status,
-    interventions:0,result,outsideChanges,incidentalChanges,changes});
+    interventions,result,outsideChanges,incidentalChanges,changes});
   if (!result.passesLayout || outsideChanges.length) {
     lab.mark('autonomous_result',{passed:false,feed:'not-run',elapsed});
     return;
@@ -449,4 +480,4 @@ async function checkIsolation(lab) {
   lab.mark('isolation_check',{passed:true,initialWrite:first,blockedLateWrite:late,sameBlocks:true});
 }
 
-module.exports={test,testAutonomous,checkIsolation};
+module.exports={test,testAutonomous,checkIsolation,checkSideDrive};

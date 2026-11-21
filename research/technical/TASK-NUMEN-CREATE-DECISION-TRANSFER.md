@@ -1,6 +1,6 @@
 # Numen × Create：从观察到施工的决策转换实验
 
-状态：待 Work 执行。目标分支：`codex/numen-create-basic-actions`。基准提交：`b0c75bc5b3d54bc773c1900f43ebbfb85fff1f19`。上一阶段任务书：`research/technical/TASK-NUMEN-CREATE-STABILITY.md`（已执行，不重复执行）。
+状态：已执行。物理侧驱及一次自主改造通过，候选先行与局部差异检查未达成。见 [实测结果](numen-create-vs2/live-lab/README.md#2026-11-21-从勘察到施工的决策转换)。目标分支：`codex/numen-create-basic-actions`。基准提交：`b0c75bc5b3d54bc773c1900f43ebbfb85fff1f19`。上一阶段任务书：`research/technical/TASK-NUMEN-CREATE-STABILITY.md`（已执行，不重复执行）。
 
 ## 执行规范与权威证据
 
