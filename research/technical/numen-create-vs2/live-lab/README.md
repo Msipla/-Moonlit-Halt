@@ -632,3 +632,86 @@ LAB_MILL_AUTONOMOUS=side-drive LAB_THINKING=0 LAB_MILL_DECISION=1 node live-lab/
 要复跑仅决策提示的对照，在隔离的 `LAB_MC20` 实例使用提交 `534046b7d824975d6249ed9a554935d973e4092b` 里的原版 `create_kinetics/references/watermill.md`。再从该实例运行上述模型命令。去掉 `LAB_MILL_DECISION` 可复现无提示的历史条件。三轮模型比较沿用相同的 `SKILL.md` 与房主模块。
 
 [evidence/watermill.json](evidence/watermill.json) 的 `decisionTransfer` 包含环境、输入哈希、组别、候选与调用回执、动力链、原始运行编号和独立验收。复核轨迹时以模型工具 ID 匹配引发请求的 Lua、Minecraft 的实际执行和后续工具回执，再以截止后的独立快照核验世界结果。请求时刻因中继日志为整秒粒度，标记为约值。
+
+## 2026-11-21 通用自主机械工程闭环
+
+依据 [通用机械工程任务书](../../TASK-NUMEN-CREATE-GENERAL-ENGINEERING.md)，复用同一份已验收磨坊、房主模块、Create Skill、固定施工护栏和截止隔离和独立投料验收。两轮模型均为 DeepSeek V4 Pro 非思考档、单轮 420 秒、4096 生成 token 上限，一条自然语言委托、零人工施工或纠错。与上一阶段的侧驱历史轮核对了相同起始快照、原委托、Skill、机械参考和房主 Lua 哈希。先前“仅决策提示”和“再补轴向”的对照已有记录，本轮固定知识版本，单独换用候选回执方式。
+
+### 局部候选回执
+
+只在实验开关 `LAB_ENGINEERING_RECEIPT=1` 启用。现有中继首次看见房主模块返回非空机械部件、地板和实际开口后，向当轮 Numen `runtime_state` 附一条短提示。模型可用同一次原生 Lua 输出 `ENGINEERING_CANDIDATE`，列拟改方块、位置、输入和输出轴、依据、占用与功能通过条件，再调用已有 `numen.build.diff`。也允许检查一项会改变方案的缺失事实。场景委托不变，候选与工具选择由模型负责，提示不会改变方块或提供建设坐标。工具日志用于核对实际流程。
+
+### 无模型的压制可行性
+
+沿用 Minecraft 1.20.1 / Fabric Loader 0.17.2 / Create Fabric 6.0.8.1 build 1744 / Numen 0.1.5。Create JAR 的 `data/create/recipes/pressing/iron_ingot.json` 定义 `minecraft:iron_ingot` 所属铁锭配方产出 `create:iron_sheet`。源码 `MechanicalPressBlock.hasShaftTowards` 使用水平 `facing` 所在轴，`PressingBehaviour.tick` 在有转速时处理落地物，而下方两格放置置物台或传送带时走物品传送处理。置物台的 `DepotBehaviour` 会保存持有物品及产物缓冲。
+
+无模型校准 `watermill-1795247853889` 使用独立存档副本，夹具布置两格。压机实际 `Source` 为唯一原水轮，压机 +8 RPM，同网压力 96／容量 256，原磨石保持原有传动且入口可达。代理离场后投一粒铁锭，实际在置物台读到 1 份新铁板，铁锭剩余 0，投料期间块状态一致，建筑与供水保持。这一轮只证明版本中的机械可行性。
+
+### 已知侧驱目标的确认
+
+本轮 `watermill-1795247730381` 在第 5 次请求得到紧凑机械和开口回执，第 6 次请求约第 38 秒收到候选提示。模型继续做了重叠区域和逐格读取，直到第 16 次请求才读取轴向参考。第 17 次响应描述了物理校准已通过的三格传动关系，明确了 X 轴输入、齿轮箱的 Y 轴输出和小齿轮的直接连接。它没有把这段方案转成可执行候选回执，继续在垂直轴与小齿轮的同格问题上推演。响应耗尽 4096 生成 token，以 `finish=length` 返回，无工具调用。该轮说明现场事实和正确机械方案可以同时出现在上下文里，行动转换仍会失败。
+
+第 17 次响应约在第 236 秒结束。第 420 秒确认旧底驱磨石仍以 −8 RPM 运转，世界无方块变化，未进入侧驱投料验收。历史同知识版成功轮有实机闭环，当前确认轮未复现，无法据此给出可靠成功率。原历史成功轮的 Skill 和参考在本轮保持一致，参考实际读取时机有所差异。
+
+### 压制工位迁移
+
+模型收到的任务是给原磨坊增加一处外部工位，使用唯一原水轮，把一粒铁锭实际压成可取的铁板，并保留原磨坊。压机、加工面与传动各格均由模型自己选择。验收先隔离代理，再从实际压机位置及 `Source` 动力链决定是否投料，允许可工作的不同布局。
+
+原 Skill 轮 `watermill-1795248167269` 在第 2 次请求读到原机械布局，第 5 至 6 次请求确定可用的外部空间。它先考虑粉碎轮，随后自行识别应使用压机与置物台。第 17 次请求确实写入一格测试压机，第 22 次请求完成五格初装。第 23 次请求实测新竖轴 +8 RPM、压机 0 RPM，随后反复测试错误的上下接法。在 420 秒截止时，压机仍无转速，保留六处施工区内改动，原传动、建筑与水槽未改。夹具在确认离场后检查到缺少动力链，独立压制投料未开始。该轮房主模块只返回部件，未触发依赖地板与开口的候选提示。
+
+补压机知识轮 `watermill-1795248604655` 在一次性的 Skill 副本补充水平轴端和加工净空，不给出现场坐标。模型第 2 次请求得到附加参考和房主模块完整回执，第 3 次请求收到候选提示。它先在室内试装并拆改，以 0 RPM 回读排除了封住 X 端的齿轮箱，随后改成水平输入并实测压机 −8 RPM。它在第 20 次请求实际把铁锭送入置物台，并在后续 Lua 回读确认铁锭仍在，始终无新增铁板。最终压机位于室内，置物台方块在压机下三格。模型把参考的“加工面”理解成方块顶面的高度，围绕丢投位置反复尝试。截止快照保留原磨石的转速、原方块和供水，但原验收站位已被新增施工占用。验收未投料。
+
+另从既有压制校准世界复制已带一份铁板的置物台，验证了独立验收的重投路径。夹具先记录该旧产物，再确认代理离场，用实机 NBT 移除置物台里的旧铁板，复查全部方块状态，另投一粒铁锭得到一份新铁板。此校准无模型调用及施工，仅验证独立投料结果不会被置物台既有产物影响。
+
+明确方块坐标轮 `watermill-1795249042182` 仅把“加工面”说明改为压机方块下第二格放置物台、下一格保持空气。模型第 2 次请求收到该参考。第 6 次完成房主模块勘察，第 7 次收到候选提示。第 13 次起实际铺设传动，在第 16 次请求搭出从原水轮取力的室外压机，RPM 为 +8。它采取西向取力、转向并抬升后穿南墙的路线，和无模型校准的直接侧接布局不同。原生放置回执确认传动替换了一块原墙体。第 17 次请求确实按方块坐标放置物台，并回读中间格为空。
+
+最后一轮在第 18 次请求读到置物台为空，第 19 次请求实际尝试右键上料，回执显示没有变化。随后数次抛投的铁锭落在置物台外。第 32 次请求改放横向漏斗，第 33 次请求尝试从漏斗进料。截止快照显示漏斗和置物台为空，有 2 粒铁锭在地面，压机的实际动力链仍通，压力 96／容量 256。原磨石和供水保持，南墙一格圆石被传动轴覆盖，原检修站位不再可达。模型未自验到新铁板，也未按时回执。整体目标未通过。
+
+在该轮原样实建存档的隔离副本 `watermill-1795249484624` 上另做压制诊断。未改变机械或建筑方块，仅清走原先掉落的铁锭，确认代理离场后投入一粒新的铁锭。实际从模型选址的置物台读到一份新铁板，铁锭剩余 0，动力仍来自原水轮，验收窗口方块快照相同。这是真实模型施工的独立加工复验，原委托的结构保护和模型自验仍为失败。
+
+| 模型轮次 | 实机施工与动力 | 模型实测产物／独立加工 | 回执 | Lua 脚本／API 调用下界 | 纯逐格读取下界 | 请求／总 token |
+| --- | --- | --- | --- | --- | --- | --- |
+| 历史侧驱成功对照 | 完成侧驱并纠正转向 | 面粉 +1／+1 | 361.012 秒 | 27／793 | 702 | 30／623,260 |
+| 本轮侧驱确认 | 未施工，旧底驱维持 −8 RPM | 无／未投料 | 420 秒超时 | 15／721 | 680 | 17／285,265 |
+| 压制原 Skill | 已施工，压机 0 RPM | 无／未投料 | 420 秒超时 | 36／132 | 60 | 34／795,527 |
+| 压制补端口与加工面 | 已施工并自修，室内压机 −8 RPM | 无／未投料 | 420 秒超时 | 38／147 | 27 | 35／759,207 |
+| 压制按方块坐标 | 室外压机 +8 RPM，压制装置可用 | 无／独立诊断铁板 +1 | 420 秒超时 | 33／150 | 27 | 33／725,617 |
+
+四轮新模型共计 119 次请求、2,565,616 token。请求与 token 按完整中继记录统计，包含原 Skill 压制轮截止时在途的一次响应。扫描下界仅计工具回执可归属的纯逐格脚本，混合脚本计入 Lua API 下界。每轮截止后已确认代理离场，施工无越界，四轮均未全量通过。
+
+三轮压制使用相同起点和委托，后两轮只替换当次复制的 Skill 文本。原 Skill 轮的勘察回执缺少开口，未实际触发候选提示。后两轮收到了提示，但三次实际触发的模型轮均未写出要求的候选回执，四轮均未调用 `build.diff`。观察到的改善不能单独归因于参考或提示。明确端口和方块坐标的最后一轮，模型搭出了能运行的不同结构。剩余问题聚焦在施工前同时检查保护条件，以及把真实投料和产物回读做成短闭环。Create `SharedDepotBlockMethods.onUse` 要求命中上表面。Numen 的 `UseApi.Block` 以方块格为目标，参数中没有指定点击面的字段。实测未记录命中面，已确认的交互失败是右键未改变库存及抛投落在台外。
+
+### 复现
+
+在研究目录使用已有 `variant-ready-world`、原审图事件、原护栏 JAR 与执行环境密钥，各轮使用独立世界副本。无模型校准只做两处夹具布置。其后的模型轮从原存档启动。
+
+```bash
+export LAB_SCOPE_JAR=/path/to/scope.jar
+export LAB_MILL_WORLD=/path/to/variant-ready-world
+export LAB_MILL_REVIEWED=/path/to/initial-reviewed-run/events.jsonl
+export LAB_RUNS="$PWD/runs/general-engineering"
+export LAB_JAVA_HEAP=1200m
+LAB_MILL_AUTONOMOUS=press-check node live-lab/run.cjs watermill
+LAB_MILL_AUTONOMOUS=side-drive LAB_ENGINEERING_RECEIPT=1 LAB_THINKING=0 node live-lab/run.cjs watermill
+LAB_MILL_AUTONOMOUS=press LAB_ENGINEERING_RECEIPT=1 LAB_THINKING=0 node live-lab/run.cjs watermill
+```
+
+[evidence/watermill.json](evidence/watermill.json) 的 `generalEngineering` 按目标保存起点哈希、阶段时间、Numen Lua 回执、源码核查和独立实机结果。请求时刻由中继整秒时间和响应耗时推算，放置以原生回执为准，模型完成时间以房主实际收到游戏内消息为准。压制独立验收从实建压机的位置确定投放点，统计独立投放前后的铁板差额及残余铁锭，并回读原水轮动力链、原磨石和施工范围。
+
+压制参考对照使用 `LAB_SKILL_FILE`，由夹具仅复制到本轮配置。以下为最后一轮的实际参考，添加到原 `create_kinetics/SKILL.md` 的副本，原 Skill 文件可从起点提交取回。房主委托与施工权限相同。
+
+```bash
+press_skill="$(mktemp)"
+cp mc20/config/numen/server/skills/createlab/create_kinetics/SKILL.md "$press_skill"
+cat >> "$press_skill" <<'SKILL'
+
+## Mechanical pressing
+
+The mechanical press takes rotation through horizontal faces on the axis of its `facing` block state. The vertical ram is the working stroke. Use block coordinates for the processing gap. For a press block at (x,y,z), the depot or belt block goes at (x,y-2,z) and the block at (x,y-1,z) stays air. Use the depot block coordinate when placing it and reading its storage. A pressing recipe converts one iron ingot (`minecraft:iron_ingot`) to one iron sheet (`create:iron_sheet`).
+SKILL
+LAB_SKILL_FILE="$press_skill" LAB_MILL_AUTONOMOUS=press LAB_ENGINEERING_RECEIPT=1 LAB_THINKING=0 node live-lab/run.cjs watermill
+```
+
+第一份压制参考使用一句加工面提示，代替从 `Use block coordinates` 到 `reading its storage.` 的三句坐标规则。其原文为 `For depot or belt processing, the item surface belongs two block positions below the press, with a clear cell between them.`。两份参考的实际哈希均见证据 JSON。
+
+现场模型实建诊断使用证据包的 `diagnostic-fixtures/assay-built-only.cjs`，以 `NODE_OPTIONS=--require…` 加载。将 `LAB_MILL_WORLD` 指向已离场的实建轮 `world`，`LAB_PRESS_DIAGNOSTIC_BASELINE` 指向同轮原始 `press-before.json`，再运行 `LAB_MILL_AUTONOMOUS=press-check`。这次诊断只测试既有施工的加工功能，保护判据结果沿用原模型实测。置物台重投校准使用已成功的无模型世界与 `diagnostic-fixtures/assay-reuse.cjs`，选择同一无模型模式。

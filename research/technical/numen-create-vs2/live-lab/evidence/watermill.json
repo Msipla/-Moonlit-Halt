@@ -16233,5 +16233,2308 @@
         }
       }
     ]
+  },
+  "generalEngineering": {
+    "taskBookHead": "1306758f93d596cd99821d2e63b600fbed8449b6",
+    "previousImplementationHead": "6fda167cee4c7ba78ccc14128ad36c41a990a154",
+    "environment": {
+      "minecraft": "1.20.1",
+      "fabricLoader": "0.17.2",
+      "create": "6.0.8.1+build.1744-mc1.20.1",
+      "numen": "0.1.5",
+      "java": "Temurin 17.0.21.1+2",
+      "scopeJarSha256": "5f8b7f2f7f329dc37c7815169231014ffd8c0ed46228bc74f83aac58e21fa252"
+    },
+    "model": "deepseek-v4-pro",
+    "thinking": "disabled",
+    "maxOutputTokens": 4096,
+    "modelDeadlineSeconds": 420,
+    "sameStartingSnapshotSha256": "90e8182594567e518fa7717a31510de16c504e33a6926fb2dfad93575e91edb3",
+    "sameOwnerModuleSha256": "19f833ce530dcbfe6aa8049d55a5ab718ce4aeca90b668ac0af355f3d657de4d",
+    "sameSideSkillHashes": {
+      "SKILL.md": "aa8c632875dcadff9a0d54951766cde87fbed6117ef4d0649eb0d753c977c42b",
+      "references/watermill.md": "06852b2269bcf27810652b69c778b11724da8ad0576bf3f3f61352373c6c3220"
+    },
+    "sideReferenceComparison": {
+      "previousSuccessfulTrial": "watermill-1795245205185",
+      "evidence": "decisionTransfer.trials"
+    },
+    "pressRecipe": {
+      "input": "minecraft:iron_ingot",
+      "output": "create:iron_sheet",
+      "jarPath": "data/create/recipes/pressing/iron_ingot.json",
+      "mechanics": [
+        "MechanicalPressBlock.hasShaftTowards",
+        "PressingBehaviour.tick",
+        "DepotBehaviour.write"
+      ]
+    },
+    "physicalPressControl": {
+      "run": "watermill-1795247853889",
+      "modelRequests": 0,
+      "events": [
+        {
+          "utc": "2026-11-21T07:57:48.954Z",
+          "type": "press_control",
+          "mode": "fixture-only",
+          "interventions": 2,
+          "edits": [
+            [
+              [
+                5,
+                -59,
+                0
+              ],
+              "create:mechanical_press[facing=east]"
+            ],
+            [
+              [
+                5,
+                -61,
+                0
+              ],
+              "create:depot"
+            ]
+          ]
+        },
+        {
+          "utc": "2026-11-21T07:57:48.967Z",
+          "type": "rcon",
+          "command": "setblock 5 -59 0 create:mechanical_press[facing=east]",
+          "response": "Changed the block at 5, -59, 0"
+        },
+        {
+          "utc": "2026-11-21T07:57:48.980Z",
+          "type": "rcon",
+          "command": "setblock 5 -61 0 create:depot",
+          "response": "Changed the block at 5, -61, 0"
+        },
+        {
+          "utc": "2026-11-21T07:57:49.794Z",
+          "type": "agent_isolated",
+          "durationMs": 12,
+          "online": "There are 1 of a max of 20 players online: LabOwner"
+        },
+        {
+          "utc": "2026-11-21T07:57:49.880Z",
+          "type": "press_inspection",
+          "elapsed": 0.8279206630000008,
+          "presses": [
+            {
+              "pos": [
+                5,
+                -59,
+                0
+              ],
+              "route": [
+                {
+                  "id": "create:mechanical_press",
+                  "pos": [
+                    5,
+                    -59,
+                    0
+                  ],
+                  "rpm": 8,
+                  "network": [
+                    256,
+                    4037
+                  ],
+                  "stress": 96,
+                  "capacity": 256
+                },
+                {
+                  "id": "create:water_wheel",
+                  "pos": [
+                    4,
+                    -59,
+                    0
+                  ],
+                  "rpm": 8,
+                  "network": [
+                    256,
+                    4037
+                  ],
+                  "stress": 96,
+                  "capacity": 256
+                }
+              ]
+            }
+          ],
+          "originalMillWorking": true,
+          "changes": [
+            "5,-61,0",
+            "5,-59,0"
+          ],
+          "outsideChanges": [],
+          "protectedChanges": []
+        },
+        {
+          "utc": "2026-11-21T07:57:49.884Z",
+          "type": "rcon",
+          "command": "summon minecraft:item 5.5 -59.35 0.5 {Item:{id:\"minecraft:iron_ingot\",Count:1b},PickupDelay:32767s}",
+          "response": "Summoned new Iron Ingot"
+        },
+        {
+          "utc": "2026-11-21T07:58:00.956Z",
+          "type": "press_result",
+          "passed": true,
+          "oldSheets": 0,
+          "newSheets": 1,
+          "produced": 1,
+          "inputAfter": 0,
+          "outputLocations": [
+            {
+              "pos": [
+                5,
+                -61,
+                0
+              ],
+              "id": "create:depot",
+              "count": 1
+            }
+          ],
+          "blocksUnchanged": true,
+          "driveAfter": [
+            {
+              "id": "create:mechanical_press",
+              "pos": [
+                5,
+                -59,
+                0
+              ],
+              "rpm": 8,
+              "network": [
+                256,
+                4037
+              ],
+              "stress": 96,
+              "capacity": 256
+            },
+            {
+              "id": "create:water_wheel",
+              "pos": [
+                4,
+                -59,
+                0
+              ],
+              "rpm": 8,
+              "network": [
+                256,
+                4037
+              ],
+              "stress": 96,
+              "capacity": 256
+            }
+          ],
+          "elapsed": 0.8279206630000008
+        }
+      ]
+    },
+    "independentPressRefeed": {
+      "run": "watermill-1795248883758",
+      "fromControlRun": "watermill-1795247853889",
+      "modelRequests": 0,
+      "events": [
+        {
+          "utc": "2026-11-21T08:14:58.219Z",
+          "type": "press_buffer_control",
+          "mode": "existing-calibration-world",
+          "modelRequests": 0,
+          "buildEdits": 0
+        },
+        {
+          "utc": "2026-11-21T08:14:58.232Z",
+          "type": "agent_isolated",
+          "durationMs": 13,
+          "online": "There are 1 of a max of 20 players online: LabOwner"
+        },
+        {
+          "utc": "2026-11-21T08:14:58.307Z",
+          "type": "rcon",
+          "command": "data remove block 5 -61 0 HeldItem",
+          "response": "Modified block data of 5, -61, 0"
+        },
+        {
+          "utc": "2026-11-21T08:14:58.368Z",
+          "type": "press_depot_cleared",
+          "pos": [
+            5,
+            -61,
+            0
+          ],
+          "priorSheets": 1,
+          "remainingSheets": 0
+        },
+        {
+          "utc": "2026-11-21T08:14:58.372Z",
+          "type": "rcon",
+          "command": "summon minecraft:item 5.5 -59.35 0.5 {Item:{id:\"minecraft:iron_ingot\",Count:1b},PickupDelay:32767s}",
+          "response": "Summoned new Iron Ingot"
+        },
+        {
+          "utc": "2026-11-21T08:15:09.532Z",
+          "type": "press_result",
+          "passed": true,
+          "oldSheets": 0,
+          "newSheets": 1,
+          "produced": 1,
+          "inputAfter": 0,
+          "outputLocations": [
+            {
+              "pos": [
+                5,
+                -61,
+                0
+              ],
+              "id": "create:depot",
+              "count": 1
+            }
+          ],
+          "blocksUnchanged": true,
+          "driveAfter": [
+            {
+              "id": "create:mechanical_press",
+              "pos": [
+                5,
+                -59,
+                0
+              ],
+              "rpm": 8,
+              "network": [
+                256,
+                4037
+              ],
+              "stress": 96,
+              "capacity": 256
+            },
+            {
+              "id": "create:water_wheel",
+              "pos": [
+                4,
+                -59,
+                0
+              ],
+              "rpm": 8,
+              "network": [
+                256,
+                4037
+              ],
+              "stress": 96,
+              "capacity": 256
+            }
+          ],
+          "elapsed": 0.00012338199999976495
+        }
+      ]
+    },
+    "independentPressBuiltDiagnostic": {
+      "run": "watermill-1795249484624",
+      "modelRun": "watermill-1795249042182",
+      "modelRequests": 0,
+      "exactModelBuiltBlocks": true,
+      "structureAndReplyEvaluationUnchanged": true,
+      "events": [
+        {
+          "utc": "2026-11-21T08:25:01.474Z",
+          "type": "press_built_diagnostic",
+          "mode": "exact-model-built-world-copy",
+          "modelRequests": 0,
+          "buildEdits": 0
+        },
+        {
+          "utc": "2026-11-21T08:25:01.481Z",
+          "type": "rcon",
+          "command": "kill @e[type=minecraft:item,x=-24,y=-64,z=-24,dx=48,dy=29,dz=48,nbt={Item:{id:\"minecraft:iron_ingot\"}}]",
+          "response": "Killed Iron Ingot"
+        },
+        {
+          "utc": "2026-11-21T08:25:01.515Z",
+          "type": "agent_isolated",
+          "durationMs": 34,
+          "online": "There are 1 of a max of 20 players online: LabOwner"
+        },
+        {
+          "utc": "2026-11-21T08:25:01.753Z",
+          "type": "press_inspection",
+          "elapsed": 0.007050939999997354,
+          "presses": [
+            {
+              "pos": [
+                -1,
+                -57,
+                4
+              ],
+              "route": [
+                {
+                  "id": "create:mechanical_press",
+                  "pos": [
+                    -1,
+                    -57,
+                    4
+                  ],
+                  "rpm": 8,
+                  "network": [
+                    256,
+                    4037
+                  ],
+                  "stress": 96,
+                  "capacity": 256
+                },
+                {
+                  "id": "create:simple_kinetic",
+                  "pos": [
+                    -1,
+                    -57,
+                    3
+                  ],
+                  "rpm": 8,
+                  "network": [
+                    256,
+                    4037
+                  ],
+                  "stress": 96,
+                  "capacity": 256
+                },
+                {
+                  "id": "create:gearbox",
+                  "pos": [
+                    -1,
+                    -57,
+                    2
+                  ],
+                  "rpm": 8,
+                  "network": [
+                    256,
+                    4037
+                  ],
+                  "stress": 96,
+                  "capacity": 256
+                },
+                {
+                  "id": "create:simple_kinetic",
+                  "pos": [
+                    -1,
+                    -58,
+                    2
+                  ],
+                  "rpm": 8,
+                  "network": [
+                    256,
+                    4037
+                  ],
+                  "stress": 96,
+                  "capacity": 256
+                },
+                {
+                  "id": "create:gearbox",
+                  "pos": [
+                    -1,
+                    -59,
+                    2
+                  ],
+                  "rpm": 8,
+                  "network": [
+                    256,
+                    4037
+                  ],
+                  "stress": 96,
+                  "capacity": 256
+                },
+                {
+                  "id": "create:simple_kinetic",
+                  "pos": [
+                    -1,
+                    -59,
+                    1
+                  ],
+                  "rpm": 8,
+                  "network": [
+                    256,
+                    4037
+                  ],
+                  "stress": 96,
+                  "capacity": 256
+                },
+                {
+                  "id": "create:gearbox",
+                  "pos": [
+                    -1,
+                    -59,
+                    0
+                  ],
+                  "rpm": -8,
+                  "network": [
+                    256,
+                    4037
+                  ],
+                  "stress": 96,
+                  "capacity": 256
+                },
+                {
+                  "id": "create:simple_kinetic",
+                  "pos": [
+                    0,
+                    -59,
+                    0
+                  ],
+                  "rpm": -8,
+                  "network": [
+                    256,
+                    4037
+                  ],
+                  "stress": 96,
+                  "capacity": 256
+                },
+                {
+                  "id": "create:simple_kinetic",
+                  "pos": [
+                    1,
+                    -59,
+                    0
+                  ],
+                  "rpm": -8,
+                  "network": [
+                    256,
+                    4037
+                  ],
+                  "stress": 96,
+                  "capacity": 256
+                },
+                {
+                  "id": "create:gearbox",
+                  "pos": [
+                    2,
+                    -59,
+                    0
+                  ],
+                  "rpm": 8,
+                  "network": [
+                    256,
+                    4037
+                  ],
+                  "stress": 96,
+                  "capacity": 256
+                },
+                {
+                  "id": "create:simple_kinetic",
+                  "pos": [
+                    3,
+                    -59,
+                    0
+                  ],
+                  "rpm": 8,
+                  "network": [
+                    256,
+                    4037
+                  ],
+                  "stress": 96,
+                  "capacity": 256
+                },
+                {
+                  "id": "create:water_wheel",
+                  "pos": [
+                    4,
+                    -59,
+                    0
+                  ],
+                  "rpm": 8,
+                  "network": [
+                    256,
+                    4037
+                  ],
+                  "stress": 96,
+                  "capacity": 256
+                }
+              ]
+            }
+          ],
+          "originalMillWorking": false,
+          "changes": [
+            "-1,-57,3",
+            "-1,-59,0",
+            "-1,-59,1",
+            "-1,-59,2",
+            "-2,-59,4",
+            "-1,-59,4",
+            "-1,-58,2",
+            "-1,-57,2",
+            "-1,-57,4",
+            "-2,-51,3",
+            "0,-59,0",
+            "1,-59,0",
+            "4,-54,2",
+            "4,-54,3",
+            "3,-53,1",
+            "4,-53,1",
+            "4,-53,2",
+            "4,-53,4"
+          ],
+          "outsideChanges": [],
+          "protectedChanges": [
+            "-1,-57,3",
+            "-1,-59,0",
+            "-1,-59,1",
+            "-1,-59,2",
+            "-1,-58,2",
+            "-1,-57,2",
+            "-2,-51,3",
+            "0,-59,0",
+            "1,-59,0",
+            "3,-53,1"
+          ]
+        },
+        {
+          "utc": "2026-11-21T08:25:01.757Z",
+          "type": "rcon",
+          "command": "summon minecraft:item -0.5 -57.35 4.5 {Item:{id:\"minecraft:iron_ingot\",Count:1b},PickupDelay:32767s}",
+          "response": "Summoned new Iron Ingot"
+        },
+        {
+          "utc": "2026-11-21T08:25:12.838Z",
+          "type": "press_result",
+          "passed": true,
+          "oldSheets": 0,
+          "newSheets": 1,
+          "produced": 1,
+          "inputAfter": 0,
+          "outputLocations": [
+            {
+              "pos": [
+                -1,
+                -59,
+                4
+              ],
+              "id": "create:depot",
+              "count": 1
+            }
+          ],
+          "blocksUnchanged": true,
+          "driveAfter": [
+            {
+              "id": "create:mechanical_press",
+              "pos": [
+                -1,
+                -57,
+                4
+              ],
+              "rpm": 8,
+              "network": [
+                256,
+                4037
+              ],
+              "stress": 96,
+              "capacity": 256
+            },
+            {
+              "id": "create:simple_kinetic",
+              "pos": [
+                -1,
+                -57,
+                3
+              ],
+              "rpm": 8,
+              "network": [
+                256,
+                4037
+              ],
+              "stress": 96,
+              "capacity": 256
+            },
+            {
+              "id": "create:gearbox",
+              "pos": [
+                -1,
+                -57,
+                2
+              ],
+              "rpm": 8,
+              "network": [
+                256,
+                4037
+              ],
+              "stress": 96,
+              "capacity": 256
+            },
+            {
+              "id": "create:simple_kinetic",
+              "pos": [
+                -1,
+                -58,
+                2
+              ],
+              "rpm": 8,
+              "network": [
+                256,
+                4037
+              ],
+              "stress": 96,
+              "capacity": 256
+            },
+            {
+              "id": "create:gearbox",
+              "pos": [
+                -1,
+                -59,
+                2
+              ],
+              "rpm": 8,
+              "network": [
+                256,
+                4037
+              ],
+              "stress": 96,
+              "capacity": 256
+            },
+            {
+              "id": "create:simple_kinetic",
+              "pos": [
+                -1,
+                -59,
+                1
+              ],
+              "rpm": 8,
+              "network": [
+                256,
+                4037
+              ],
+              "stress": 96,
+              "capacity": 256
+            },
+            {
+              "id": "create:gearbox",
+              "pos": [
+                -1,
+                -59,
+                0
+              ],
+              "rpm": -8,
+              "network": [
+                256,
+                4037
+              ],
+              "stress": 96,
+              "capacity": 256
+            },
+            {
+              "id": "create:simple_kinetic",
+              "pos": [
+                0,
+                -59,
+                0
+              ],
+              "rpm": -8,
+              "network": [
+                256,
+                4037
+              ],
+              "stress": 96,
+              "capacity": 256
+            },
+            {
+              "id": "create:simple_kinetic",
+              "pos": [
+                1,
+                -59,
+                0
+              ],
+              "rpm": -8,
+              "network": [
+                256,
+                4037
+              ],
+              "stress": 96,
+              "capacity": 256
+            },
+            {
+              "id": "create:gearbox",
+              "pos": [
+                2,
+                -59,
+                0
+              ],
+              "rpm": 8,
+              "network": [
+                256,
+                4037
+              ],
+              "stress": 96,
+              "capacity": 256
+            },
+            {
+              "id": "create:simple_kinetic",
+              "pos": [
+                3,
+                -59,
+                0
+              ],
+              "rpm": 8,
+              "network": [
+                256,
+                4037
+              ],
+              "stress": 96,
+              "capacity": 256
+            },
+            {
+              "id": "create:water_wheel",
+              "pos": [
+                4,
+                -59,
+                0
+              ],
+              "rpm": 8,
+              "network": [
+                256,
+                4037
+              ],
+              "stress": 96,
+              "capacity": 256
+            }
+          ],
+          "elapsed": 0.007050939999997354
+        }
+      ]
+    },
+    "newTrialsTotalTokens": 2565616,
+    "newTrialsTotalRequests": 119,
+    "trials": [
+      {
+        "run": "watermill-1795247730381",
+        "objective": "side-drive",
+        "startingSnapshotSha256": "90e8182594567e518fa7717a31510de16c504e33a6926fb2dfad93575e91edb3",
+        "task": "请改造这座能工作的 Create 磨坊。磨石留在原位置，改用一个和磨石同高、水平相邻的小齿轮从侧面直接带动它，动力仍只能来自原来的水轮。保留原供水、入口、地板和屋顶，让人还能从原入口进入、使用磨石并从上方投料。自行勘察、规划和施工，用实际动力链以及投料前后的新产物验证改造，修复施工时误改的地方。最后告诉我你在游戏里验证了什么。",
+        "usage": {
+          "prompt_tokens": 276868,
+          "completion_tokens": 8397,
+          "total_tokens": 285265,
+          "prompt_cache_hit_tokens": 251264,
+          "prompt_cache_miss_tokens": 25604
+        },
+        "requests": 17,
+        "apiSeconds": 198.585,
+        "counts": {
+          "http200": 17,
+          "skill": 2,
+          "lua": 15,
+          "ownerModuleScripts": 2,
+          "luaApiCallsFromReceipts": 721,
+          "surveyScripts": 9,
+          "isolatedSingleBlockCalls": 680,
+          "serverBatchScanReceipts": 4
+        },
+        "lengthFinishes": [
+          {
+            "request": 17,
+            "requestStartSecondsApprox": 179.114,
+            "responseEndSecondsApprox": 235.785,
+            "contentEnd": ")? No wait, the cogwheel is AT (1,-58,0) at the same height as the millstone.\n\nThe millstone is at y=-58. Cogwheel must be at y=-58, horizontally adjacent. So cogwheel at (1,-58,0), and its vertical axis means a shaft would come up from (1,-59,0) into the cogwheel, and/or continue up at (1,-57,0).\n\nGearbox at (1,-59,0) top (Y+) port → the cogwheel at (1,-58,0) directly (cogwheel bottom face connects). This should work — gearbox Y port connects to the cogwheel's vertical shaft.\n\nBut to be safe, I could add a shaft[axis=y] at (1,-58,0) and... no, the cogwheel needs to be AT (1,-58,0) same height as millstone. So cogwheel directly on gearbox top",
+            "completionTokens": 4096
+          }
+        ],
+        "terminal": {
+          "utc": "2026-11-21T08:02:45.887Z",
+          "type": "agent_timeout",
+          "calls": 17,
+          "reason": "No matching event within 419999.829578 ms"
+        },
+        "isolation": {
+          "utc": "2026-11-21T08:02:45.911Z",
+          "type": "agent_isolated",
+          "durationMs": 23,
+          "online": "There are 1 of a max of 20 players online: LabOwner"
+        },
+        "inspection": {
+          "utc": "2026-11-21T08:02:46.033Z",
+          "type": "autonomous_inspection",
+          "elapsed": 420.001637785,
+          "interventions": 0,
+          "result": {
+            "millCount": 1,
+            "mill": [
+              2,
+              -58,
+              0
+            ],
+            "moved": false,
+            "onlyOriginalWheel": true,
+            "route": [
+              {
+                "id": "create:millstone",
+                "pos": [
+                  2,
+                  -58,
+                  0
+                ],
+                "rpm": -8,
+                "network": [
+                  256,
+                  4037
+                ],
+                "stress": 32,
+                "capacity": 256
+              },
+              {
+                "id": "create:gearbox",
+                "pos": [
+                  2,
+                  -59,
+                  0
+                ],
+                "rpm": 8,
+                "network": [
+                  256,
+                  4037
+                ],
+                "stress": 32,
+                "capacity": 256
+              },
+              {
+                "id": "create:simple_kinetic",
+                "pos": [
+                  3,
+                  -59,
+                  0
+                ],
+                "rpm": 8,
+                "network": [
+                  256,
+                  4037
+                ],
+                "stress": 32,
+                "capacity": 256
+              },
+              {
+                "id": "create:water_wheel",
+                "pos": [
+                  4,
+                  -59,
+                  0
+                ],
+                "rpm": 8,
+                "network": [
+                  256,
+                  4037
+                ],
+                "stress": 32,
+                "capacity": 256
+              }
+            ],
+            "flour": 2,
+            "processing": 0,
+            "preserved": {
+              "floorChanges": [],
+              "roofChanges": [],
+              "passed": true,
+              "entrance": true,
+              "water": true,
+              "wheel": true
+            },
+            "accessCheck": {
+              "standReachable": true,
+              "walkableCells": 24,
+              "roofCovered": 25,
+              "interior": 25,
+              "millTopClear": true,
+              "entranceMoved": true,
+              "passed": true
+            },
+            "usePosition": [
+              1,
+              -59,
+              0
+            ],
+            "sideCog": null,
+            "passesLayout": false
+          },
+          "outsideChanges": [],
+          "incidentalChanges": [],
+          "changes": []
+        },
+        "assay": {
+          "utc": "2026-11-21T08:02:46.033Z",
+          "type": "autonomous_result",
+          "passed": false,
+          "feed": "not-run",
+          "elapsed": 420.001637785
+        },
+        "variant": "same-mechanical-reference-with-structured-receipt",
+        "firstUsableProposalText": {
+          "request": 17,
+          "responseEndSecondsApprox": 235.785,
+          "excerpt": "So move the gearbox left. Let me put:\n- Gearbox axis=z at (1,-59,0). X port east connects to shaft at (2,-59,0).\n- Shaft axis=x at (2,-59,0) connecting gearbox(1) to shaft(3) to wheel(4).\n- Gearbox(1,-59,0) Y-top port → vertical shaft up at (1,-58,0) → small cogwheel at (1,-58,0).\n\nWait, but then the cogwheel itself IS at (1,-58,0) and the shaft comes from below. But gearbox top face produces a shaft going up at (1,-58,0). If I put the small cogwheel at (1,-58,0) with axis=y, the cogwheel sits ON the vertical shaft, and meshes with the millstone at (2,-58,0).\n\nBut wait — does the gearbox top port connect directly to a cogwheel, or does there need to be a shaft block between? In Create, the gearbox's Y port connects to a shaft (or a cogwheel) placed adjacent on that face. The cogwheel with axis=y placed at (1,-58,0) would have its shaft passing vertically through it. The gearbox at (1,-59,0) top face connects to the cogwheel's bottom shaft face directly.",
+          "finish": "length"
+        },
+        "structuredCandidateProduced": false,
+        "diffCalled": false,
+        "built": false,
+        "selfVerified": false,
+        "independentPass": false,
+        "gameReplyBeforeDeadline": false,
+        "stages": {
+          "compactSurvey": [
+            {
+              "request": 5,
+              "requestStartSecondsApprox": 29.114,
+              "responseEndSecondsApprox": 36.133,
+              "id": "call_00_D0INau6H1ktZNxurMfrY7324",
+              "arguments": {
+                "code": "print(my.create_survey.observe({ids={\"create:water_wheel\",\"create:shaft\",\"create:gearbox\",\"create:millstone\",\"create:large_cogwheel\",\"create:cogwheel\",\"create:cogwheel\"}, load=\"create:millstone\"}))"
+              },
+              "receipt": "ok · 35 calls · 2 s\nstdout:\ncreate:gearbox 2,-59,0 z\ncreate:millstone 2,-58,0 -\ncreate:shaft 3,-59,0 x\ncreate:water_wheel 4,-59,0 east\nparts 4\nfloor minecraft:oak_planks y=-60 x=-3..3 z=-3..3 count=49\ntwo-high floor-edge openings 1: 0,-59,-3",
+              "native": [
+                "[15:56:22] [Server thread/INFO]: [numen-dispatch#0cf53fb3-fdaf-4eeb-a8b3-b4ed286c61f2] dispatch tool=lua id=call_00_D0INau6H1ktZNxurMfrY7324 args=225 chars",
+                "[15:56:22] [Server thread/INFO]: [numen-program] 0cf53fb3-fdaf-4eeb-a8b3-b4ed286c61f2 runs call_00_D0INau6H1ktZNxurMfrY7324 on the server (197 chars)",
+                "[15:56:24] [Server thread/INFO]: [numen-dispatch#0cf53fb3-fdaf-4eeb-a8b3-b4ed286c61f2] result id=call_00_D0INau6H1ktZNxurMfrY7324 lua → ok, 278 chars"
+              ]
+            }
+          ],
+          "checkpoint": [
+            {
+              "request": 6,
+              "requestStartSecondsApprox": 38.114,
+              "responseEndSecondsApprox": 47.589,
+              "channel": "runtime_state",
+              "status": 200,
+              "firstResponseText": "The survey found 4 parts but I need the full picture including the water supply and the millstone's drive. Let me check the specific details needed: current millstone position, what drives it now, and what's around it."
+            }
+          ],
+          "scriptLimitHits": [
+            {
+              "request": 7,
+              "requestStartSecondsApprox": 48.114,
+              "responseEndSecondsApprox": 57.521
+            },
+            {
+              "request": 8,
+              "requestStartSecondsApprox": 67.114,
+              "responseEndSecondsApprox": 76.34
+            },
+            {
+              "request": 11,
+              "requestStartSecondsApprox": 106.114,
+              "responseEndSecondsApprox": 118.482
+            }
+          ]
+        }
+      },
+      {
+        "run": "watermill-1795248167269",
+        "objective": "press-iron",
+        "startingSnapshotSha256": "90e8182594567e518fa7717a31510de16c504e33a6926fb2dfad93575e91edb3",
+        "task": "在这座正在工作的 Create 磨坊外加一个压制工位。玩家投一粒铁锭，工位要能自动把它压成铁板，并让产物在可取的位置。动力只从现有水轮取得，保留原传动、磨石、建筑和水槽，让原磨坊继续运转。请自己勘察、选址、设计和安装，在游戏里投一粒铁锭，实际读到新增铁板并检查转速。遇到问题自行诊断和修复，最后告诉我你实际验证了什么。",
+        "usage": {
+          "prompt_tokens": 781252,
+          "completion_tokens": 14275,
+          "total_tokens": 795527,
+          "prompt_cache_hit_tokens": 727680,
+          "prompt_cache_miss_tokens": 53572
+        },
+        "requests": 34,
+        "apiSeconds": 404.764,
+        "counts": {
+          "http200": 34,
+          "skill": 3,
+          "lua": 36,
+          "luaApiCallsFromReceipts": 132,
+          "ownerModuleScripts": 1,
+          "surveyScripts": 14,
+          "isolatedSingleBlockCalls": 60,
+          "todo": 2,
+          "serverBatchScanReceipts": 1
+        },
+        "lengthFinishes": [],
+        "terminal": {
+          "utc": "2026-11-21T08:10:03.809Z",
+          "type": "agent_timeout",
+          "calls": 33,
+          "reason": "No matching event within 419999.85284300003 ms"
+        },
+        "isolation": {
+          "utc": "2026-11-21T08:10:03.824Z",
+          "type": "agent_isolated",
+          "durationMs": 15,
+          "online": "There are 1 of a max of 20 players online: LabOwner"
+        },
+        "inspection": {
+          "utc": "2026-11-21T08:10:03.960Z",
+          "type": "press_inspection",
+          "elapsed": 420.00181449400003,
+          "presses": [
+            {
+              "pos": [
+                6,
+                -57,
+                0
+              ],
+              "route": [
+                {
+                  "id": "create:mechanical_press",
+                  "pos": [
+                    6,
+                    -57,
+                    0
+                  ],
+                  "rpm": 0
+                }
+              ]
+            }
+          ],
+          "originalMillWorking": true,
+          "changes": [
+            "5,-59,0",
+            "6,-59,0",
+            "6,-59,1",
+            "6,-58,0",
+            "6,-57,0",
+            "7,-57,0"
+          ],
+          "outsideChanges": [],
+          "protectedChanges": []
+        },
+        "assay": {
+          "utc": "2026-11-21T08:10:03.960Z",
+          "type": "press_result",
+          "passed": false,
+          "reason": "layout-or-preservation"
+        },
+        "variant": "unchanged-skill",
+        "mechanismSelection": {
+          "requests": [
+            7,
+            8
+          ],
+          "observed": "Agent abandoned crushing wheels and selected a mechanical press and depot after an item lookup attempt."
+        },
+        "firstSufficientLocalObservation": {
+          "requests": [
+            5,
+            6
+          ],
+          "observed": "Original axle and unoccupied east approach."
+        },
+        "firstWrongPortCandidate": {
+          "requests": [
+            11,
+            12
+          ],
+          "observed": "Model treated the vertical ram as a vertical power input and mispositioned the depot."
+        },
+        "portFaultReadback": {
+          "request": 23,
+          "shaftRpm": 8,
+          "pressRpm": 0
+        },
+        "structuredCandidateProduced": false,
+        "diffCalled": false,
+        "built": true,
+        "selfVerified": false,
+        "independentPass": false,
+        "gameReplyBeforeDeadline": false,
+        "stages": {
+          "actualKinetics": [
+            {
+              "request": 3,
+              "requestStartSecondsApprox": 16.192,
+              "responseEndSecondsApprox": 25.832,
+              "id": "call_00_vpQS99sKELBE1t3fnCcH7783",
+              "arguments": {
+                "code": "-- survey the drive line and surroundings\nlocal parts = {\n  {name=\"gearbox\", pos={x=2,y=-59,z=0}},\n  {name=\"millstone\", pos={x=2,y=-58,z=0}},\n  {name=\"shaft\", pos={x=3,y=-59,z=0}},\n  {name=\"wheel\", pos={x=4,y=-59,z=0}},\n}\nfor _,p in ipairs(parts) do\n  local b = numen.scan.block(p.pos)\n  print(p.name, b.name, b.pos.x, b.pos.y, b.pos.z)\n  local insp = createlab.machine.inspect(p.pos)\n  if insp and insp.kinetics then print(\"  rpm\", insp.kinetics.rpm or insp.kinetics.rpm_now or insp.kinetics) end\nend\n"
+              },
+              "receipt": "ok · 8 calls · 0 s\nstdout:\ngearbox\tcreate:gearbox\t2\t-59\t0\n  rpm\t8\nmillstone\tcreate:millstone\t2\t-58\t0\n  rpm\t-8\nshaft\tcreate:shaft\t3\t-59\t0\n  rpm\t8\nwheel\tcreate:water_wheel\t4\t-59\t0\n  rpm\t8",
+              "native": [
+                "[16:03:30] [Server thread/INFO]: [numen-dispatch#831dd827-7e36-4c18-9ab2-90044dd6e4a6] dispatch tool=lua id=call_00_vpQS99sKELBE1t3fnCcH7783 args=537 chars",
+                "[16:03:30] [Server thread/INFO]: [numen-program] 831dd827-7e36-4c18-9ab2-90044dd6e4a6 runs call_00_vpQS99sKELBE1t3fnCcH7783 on the server (502 chars)",
+                "[16:03:30] [Server thread/INFO]: [numen-dispatch#831dd827-7e36-4c18-9ab2-90044dd6e4a6] result id=call_00_vpQS99sKELBE1t3fnCcH7783 lua → ok, 243 chars"
+              ]
+            },
+            {
+              "request": 18,
+              "requestStartSecondsApprox": 212.192,
+              "responseEndSecondsApprox": 223.146,
+              "id": "call_00_VpndgGb6s2sEX2vXKwEn0193"
+            },
+            {
+              "request": 23,
+              "requestStartSecondsApprox": 278.192,
+              "responseEndSecondsApprox": 288.224,
+              "id": "call_00_4bEKqyAaKzaAcjXxzfrg6605",
+              "arguments": {
+                "code": "-- Verify rotation along the new branch and original mill\nlocal function rpm(pos, label)\n  local s = createlab.machine.inspect(pos)\n  local k = s.kinetics\n  if k then print(label, \"rpm=\"..k.rpm, \"stress=\"..k.stress, \"cap=\"..k.capacity, \"over=\"..tostring(k.overstressed)) end\n  return k\nend\nrpm({x=4,y=-59,z=0}, \"wheel\")\nrpm({x=3,y=-59,z=0}, \"shaft(orig)\")\nrpm({x=2,y=-59,z=0}, \"gearbox(orig)\")\nrpm({x=2,y=-58,z=0}, \"millstone\")\nprint(\"--- new branch ---\")\nrpm({x=5,y=-59,z=0}, \"shaftX(new)\")\nrpm({x=6,y=-59,z=0}, \"gearbox(new)\")\nrpm({x=6,y=-58,z=0}, \"shaftY(new)\")\nrpm({x=6,y=-57,z=0}, \"press\")\n"
+              },
+              "receipt": "ok · 8 calls · 0 s\nstdout:\nwheel\trpm=8\tstress=32\tcap=256\tover=false\nshaft(orig)\trpm=8\tstress=32\tcap=256\tover=false\ngearbox(orig)\trpm=8\tstress=32\tcap=256\tover=false\nmillstone\trpm=-8\tstress=32\tcap=256\tover=false\n--- new branch ---\nshaftX(new)\trpm=8\tstress=32\tcap=256\tover=false\ngearbox(new)\trpm=8\tstress=32\tcap=256\tover=false\nshaftY(new)\trpm=8\tstress=32\tcap=256\tover=false\npress\trpm=0\tstress=0\tcap=0\tover=false",
+              "native": [
+                "[16:07:52] [Server thread/INFO]: [numen-dispatch#831dd827-7e36-4c18-9ab2-90044dd6e4a6] dispatch tool=lua id=call_00_4bEKqyAaKzaAcjXxzfrg6605 args=649 chars",
+                "[16:07:52] [Server thread/INFO]: [numen-program] 831dd827-7e36-4c18-9ab2-90044dd6e4a6 runs call_00_4bEKqyAaKzaAcjXxzfrg6605 on the server (595 chars)",
+                "[16:07:52] [Server thread/INFO]: [numen-dispatch#831dd827-7e36-4c18-9ab2-90044dd6e4a6] result id=call_00_4bEKqyAaKzaAcjXxzfrg6605 lua → ok, 479 chars"
+              ]
+            },
+            {
+              "request": 24,
+              "requestStartSecondsApprox": 288.192,
+              "responseEndSecondsApprox": 299.379,
+              "id": "call_00_8rZibxSUw117rBIFTeGR4511",
+              "arguments": {
+                "code": "-- Press at (6,-57,0) facing east, shaft-Y at (6,-58,0) below it = 0 RPM.\n-- The press may need the shaft on a different face. Let me check the press blockstate.\nlocal b = numen.scan.block({x=6,y=-57,z=0})\nprint(b.name)\nfor k,v in pairs(b.properties or {}) do print(\"  prop\", k, v) end\n\n-- Check if press head 'facing' should point at the depot. Press facing=east, depot at east(7,-57). Good.\n-- But press isn't spinning. The rotation input on a Create mechanical press is from BELOW (bottom face),\n-- which should be the shaft-Y at (6,-58). Yet 0 RPM.\n\n-- Maybe the head/shaft port: Create press rotation enters from the TOP? Let me try shaft above instead.\n-- First check what direction the press currently 'works' without power.\n-- Inspect the press more fully:\nlocal s = createlab.machine.inspect({x=6,y=-57,z=0})\nprint(\"press kind\", s.kind)\n"
+              },
+              "receipt": "ok · 2 calls · 0 s\nstdout:\ncreate:mechanical_press\n  prop\tfacing\teast\npress kind\tkinetic",
+              "native": [
+                "[16:08:03] [Server thread/INFO]: [numen-dispatch#831dd827-7e36-4c18-9ab2-90044dd6e4a6] dispatch tool=lua id=call_00_8rZibxSUw117rBIFTeGR4511 args=877 chars",
+                "[16:08:03] [Server thread/INFO]: [numen-program] 831dd827-7e36-4c18-9ab2-90044dd6e4a6 runs call_00_8rZibxSUw117rBIFTeGR4511 on the server (846 chars)",
+                "[16:08:03] [Server thread/INFO]: [numen-dispatch#831dd827-7e36-4c18-9ab2-90044dd6e4a6] result id=call_00_8rZibxSUw117rBIFTeGR4511 lua → ok, 124 chars"
+              ]
+            },
+            {
+              "request": 27,
+              "requestStartSecondsApprox": 321.192,
+              "responseEndSecondsApprox": 334.288,
+              "id": "call_00_pDghmX378YkQyzKGzAhv5218"
+            },
+            {
+              "request": 28,
+              "requestStartSecondsApprox": 335.192,
+              "responseEndSecondsApprox": 349.754,
+              "id": "call_00_G1Ler1gNy6CpmNe4Gow89467"
+            },
+            {
+              "request": 33,
+              "requestStartSecondsApprox": 400.192,
+              "responseEndSecondsApprox": 409.92,
+              "id": "call_00_KQ8GADlmYILweLGxbfMJ6928"
+            }
+          ],
+          "placed": [
+            {
+              "request": 17,
+              "requestStartSecondsApprox": 199.192,
+              "responseEndSecondsApprox": 210.203,
+              "id": "call_00_U9d1X43wtJWO44t5xPfo6062",
+              "arguments": {
+                "code": "-- Place a test press in open air to read its blockstate facing/port info\n-- (6,-57,0) is air. Place press there and read its properties.\nnumen.build.place({{name=\"create:mechanical_press\", pos={x=6,y=-57,z=0}}})\nlocal b = numen.scan.block({x=6,y=-57,z=0})\nif b.properties then\n  for k,v in pairs(b.properties) do print(\"press prop\", k, v) end\nend\nprint(\"press name\", b.name)\n"
+              },
+              "receipt": "ok · 2 calls · 2 s\nstderr:\nline 3 numen.build.place: built 1/1 block(s); placed 1 (1 written straight in: a hand could not put them in that shape from where you stand), cleared 0 (all requested cells match)\nstdout:\npress prop\tfacing\tnorth\npress name\tcreate:mechanical_press",
+              "native": [
+                "[16:06:34] [Server thread/INFO]: [numen-dispatch#831dd827-7e36-4c18-9ab2-90044dd6e4a6] dispatch tool=lua id=call_00_U9d1X43wtJWO44t5xPfo6062 args=402 chars",
+                "[16:06:34] [Server thread/INFO]: [numen-program] 831dd827-7e36-4c18-9ab2-90044dd6e4a6 runs call_00_U9d1X43wtJWO44t5xPfo6062 on the server (376 chars)",
+                "[16:06:36] [Server thread/INFO]: [numen-dispatch#831dd827-7e36-4c18-9ab2-90044dd6e4a6] result id=call_00_U9d1X43wtJWO44t5xPfo6062 lua → ok, 310 chars"
+              ]
+            },
+            {
+              "request": 19,
+              "requestStartSecondsApprox": 223.192,
+              "responseEndSecondsApprox": 233.246,
+              "id": "call_00_Vyl9ipD0NCTYfAw5MHYW6612"
+            },
+            {
+              "request": 20,
+              "requestStartSecondsApprox": 234.192,
+              "responseEndSecondsApprox": 251.811,
+              "id": "call_00_T8lmPENwKgIkf8VSGlR43258"
+            },
+            {
+              "request": 22,
+              "requestStartSecondsApprox": 266.192,
+              "responseEndSecondsApprox": 275.455,
+              "id": "call_01_wOcqx7UjrqjRAVqNvo4M3876",
+              "arguments": {
+                "code": "-- Build the branch: shaft-X from wheel east face, gearbox X->Y, vertical shaft, press, depot.\nlocal cells = {\n  {name=\"create:shaft[axis=x]\", pos={x=5,y=-59,z=0}},\n  {name=\"create:gearbox[axis=z]\", pos={x=6,y=-59,z=0}},\n  {name=\"create:shaft[axis=y]\", pos={x=6,y=-58,z=0}},\n  {name=\"create:mechanical_press[facing=east]\", pos={x=6,y=-57,z=0}},\n  {name=\"create:depot\", pos={x=7,y=-57,z=0}},\n}\nnumen.build.place(cells)\n"
+              },
+              "receipt": "ok · 1 call · 3 s\nstderr:\nline 9 numen.build.place: built 5/5 block(s); placed 5 (3 written straight in: a hand could not put them in that shape from where you stand), cleared 0 (all requested cells match)",
+              "native": [
+                "[16:07:39] [Server thread/INFO]: [numen-dispatch#831dd827-7e36-4c18-9ab2-90044dd6e4a6] dispatch tool=lua id=call_01_wOcqx7UjrqjRAVqNvo4M3876 args=449 chars",
+                "[16:07:39] [Server thread/INFO]: [numen-program] 831dd827-7e36-4c18-9ab2-90044dd6e4a6 runs call_01_wOcqx7UjrqjRAVqNvo4M3876 on the server (418 chars)",
+                "[16:07:41] [Server thread/INFO]: [numen-dispatch#831dd827-7e36-4c18-9ab2-90044dd6e4a6] result id=call_01_wOcqx7UjrqjRAVqNvo4M3876 lua → ok, 236 chars"
+              ]
+            },
+            {
+              "request": 26,
+              "requestStartSecondsApprox": 313.192,
+              "responseEndSecondsApprox": 320.474,
+              "id": "call_00_D9bB90H986UFj8zLzbnq7289",
+              "arguments": {
+                "code": "-- Test press power input. Try shaft ABOVE the press (top face) as the input port.\n-- Remove current shaft below, place shaft above press.\nnumen.build.place({\n  {name=\"minecraft:air\", pos={x=6,y=-58,z=0}},\n  {name=\"create:shaft[axis=y]\", pos={x=6,y=-56,z=0}},\n})\nlocal s = createlab.machine.inspect({x=6,y=-57,z=0})\nprint(\"press after shaft above:\", s.kinetics and s.kinetics.rpm)\n"
+              },
+              "receipt": "ok · 2 calls · 1 s\nstderr:\nline 3 numen.build.place: built 2/2 block(s); placed 1, cleared 1 (all requested cells match) En route I had to place 1 cobblestone (6,-59,1). I also took a stack of cobblestone from the creative inventory.\nstdout:\npress after shaft above:\t0",
+              "native": [
+                "[16:08:24] [Server thread/INFO]: [numen-dispatch#831dd827-7e36-4c18-9ab2-90044dd6e4a6] dispatch tool=lua id=call_00_D9bB90H986UFj8zLzbnq7289 args=407 chars",
+                "[16:08:24] [Server thread/INFO]: [numen-program] 831dd827-7e36-4c18-9ab2-90044dd6e4a6 runs call_00_D9bB90H986UFj8zLzbnq7289 on the server (381 chars)",
+                "[16:08:25] [Server thread/INFO]: [numen-dispatch#831dd827-7e36-4c18-9ab2-90044dd6e4a6] result id=call_00_D9bB90H986UFj8zLzbnq7289 lua → ok, 302 chars"
+              ]
+            },
+            {
+              "request": 27,
+              "requestStartSecondsApprox": 321.192,
+              "responseEndSecondsApprox": 334.288,
+              "id": "call_00_pDghmX378YkQyzKGzAhv5218"
+            },
+            {
+              "request": 28,
+              "requestStartSecondsApprox": 335.192,
+              "responseEndSecondsApprox": 349.754,
+              "id": "call_00_G1Ler1gNy6CpmNe4Gow89467"
+            },
+            {
+              "request": 30,
+              "requestStartSecondsApprox": 362.192,
+              "responseEndSecondsApprox": 370.015,
+              "id": "call_00_6qTtCoNwUaE5ibZOgGum2193"
+            },
+            {
+              "request": 33,
+              "requestStartSecondsApprox": 400.192,
+              "responseEndSecondsApprox": 409.92,
+              "id": "call_00_KQ8GADlmYILweLGxbfMJ6928"
+            }
+          ]
+        }
+      },
+      {
+        "run": "watermill-1795248604655",
+        "objective": "press-iron",
+        "startingSnapshotSha256": "90e8182594567e518fa7717a31510de16c504e33a6926fb2dfad93575e91edb3",
+        "task": "在这座正在工作的 Create 磨坊外加一个压制工位。玩家投一粒铁锭，工位要能自动把它压成铁板，并让产物在可取的位置。动力只从现有水轮取得，保留原传动、磨石、建筑和水槽，让原磨坊继续运转。请自己勘察、选址、设计和安装，在游戏里投一粒铁锭，实际读到新增铁板并检查转速。遇到问题自行诊断和修复，最后告诉我你实际验证了什么。",
+        "usage": {
+          "prompt_tokens": 749110,
+          "completion_tokens": 10097,
+          "total_tokens": 759207,
+          "prompt_cache_hit_tokens": 705152,
+          "prompt_cache_miss_tokens": 43958
+        },
+        "requests": 35,
+        "apiSeconds": 354.744,
+        "counts": {
+          "http200": 35,
+          "skill": 2,
+          "lua": 38,
+          "luaApiCallsFromReceipts": 147,
+          "ownerModuleScripts": 1,
+          "surveyScripts": 14,
+          "isolatedSingleBlockCalls": 27,
+          "serverBatchScanReceipts": 2
+        },
+        "lengthFinishes": [],
+        "terminal": {
+          "utc": "2026-11-21T08:17:21.539Z",
+          "type": "agent_timeout",
+          "calls": 35,
+          "reason": "No matching event within 419999.858812 ms"
+        },
+        "isolation": {
+          "utc": "2026-11-21T08:17:21.555Z",
+          "type": "agent_isolated",
+          "durationMs": 16,
+          "online": "There are 1 of a max of 20 players online: LabOwner"
+        },
+        "inspection": {
+          "utc": "2026-11-21T08:17:21.670Z",
+          "type": "press_inspection",
+          "elapsed": 420.001843935,
+          "presses": [
+            {
+              "pos": [
+                -2,
+                -56,
+                0
+              ],
+              "route": [
+                {
+                  "id": "create:mechanical_press",
+                  "pos": [
+                    -2,
+                    -56,
+                    0
+                  ],
+                  "rpm": -8,
+                  "network": [
+                    256,
+                    4037
+                  ],
+                  "stress": 96,
+                  "capacity": 256
+                },
+                {
+                  "id": "create:gearbox",
+                  "pos": [
+                    -1,
+                    -56,
+                    0
+                  ],
+                  "rpm": 8,
+                  "network": [
+                    256,
+                    4037
+                  ],
+                  "stress": 96,
+                  "capacity": 256
+                },
+                {
+                  "id": "create:simple_kinetic",
+                  "pos": [
+                    -1,
+                    -57,
+                    0
+                  ],
+                  "rpm": 8,
+                  "network": [
+                    256,
+                    4037
+                  ],
+                  "stress": 96,
+                  "capacity": 256
+                },
+                {
+                  "id": "create:simple_kinetic",
+                  "pos": [
+                    -1,
+                    -58,
+                    0
+                  ],
+                  "rpm": 8,
+                  "network": [
+                    256,
+                    4037
+                  ],
+                  "stress": 96,
+                  "capacity": 256
+                },
+                {
+                  "id": "create:gearbox",
+                  "pos": [
+                    -1,
+                    -59,
+                    0
+                  ],
+                  "rpm": -8,
+                  "network": [
+                    256,
+                    4037
+                  ],
+                  "stress": 96,
+                  "capacity": 256
+                },
+                {
+                  "id": "create:simple_kinetic",
+                  "pos": [
+                    0,
+                    -59,
+                    0
+                  ],
+                  "rpm": -8,
+                  "network": [
+                    256,
+                    4037
+                  ],
+                  "stress": 96,
+                  "capacity": 256
+                },
+                {
+                  "id": "create:simple_kinetic",
+                  "pos": [
+                    1,
+                    -59,
+                    0
+                  ],
+                  "rpm": -8,
+                  "network": [
+                    256,
+                    4037
+                  ],
+                  "stress": 96,
+                  "capacity": 256
+                },
+                {
+                  "id": "create:gearbox",
+                  "pos": [
+                    2,
+                    -59,
+                    0
+                  ],
+                  "rpm": 8,
+                  "network": [
+                    256,
+                    4037
+                  ],
+                  "stress": 96,
+                  "capacity": 256
+                },
+                {
+                  "id": "create:simple_kinetic",
+                  "pos": [
+                    3,
+                    -59,
+                    0
+                  ],
+                  "rpm": 8,
+                  "network": [
+                    256,
+                    4037
+                  ],
+                  "stress": 96,
+                  "capacity": 256
+                },
+                {
+                  "id": "create:water_wheel",
+                  "pos": [
+                    4,
+                    -59,
+                    0
+                  ],
+                  "rpm": 8,
+                  "network": [
+                    256,
+                    4037
+                  ],
+                  "stress": 96,
+                  "capacity": 256
+                }
+              ]
+            }
+          ],
+          "originalMillWorking": false,
+          "changes": [
+            "-4,-54,-3",
+            "-4,-54,-2",
+            "-4,-53,-4",
+            "-1,-51,-3",
+            "-2,-59,0",
+            "-1,-59,0",
+            "-1,-58,0",
+            "-1,-57,0",
+            "-2,-56,0",
+            "-1,-56,0",
+            "-2,-55,0",
+            "-4,-49,0",
+            "5,-49,-4",
+            "3,-49,-3",
+            "4,-49,-3",
+            "5,-49,-3",
+            "3,-49,-2",
+            "3,-49,-1",
+            "4,-48,-3",
+            "4,-48,-2",
+            "0,-59,0",
+            "1,-59,0",
+            "1,-58,0",
+            "0,-57,0",
+            "2,-48,0",
+            "1,-48,1",
+            "2,-48,1",
+            "3,-48,1"
+          ],
+          "outsideChanges": [],
+          "protectedChanges": [
+            "-1,-51,-3",
+            "-2,-59,0",
+            "-1,-59,0",
+            "-1,-58,0",
+            "-1,-57,0",
+            "-2,-56,0",
+            "-1,-56,0",
+            "-2,-55,0",
+            "3,-49,-3",
+            "3,-49,-2",
+            "3,-49,-1",
+            "0,-59,0",
+            "1,-59,0",
+            "1,-58,0",
+            "0,-57,0",
+            "2,-48,0",
+            "1,-48,1",
+            "2,-48,1",
+            "3,-48,1"
+          ]
+        },
+        "assay": {
+          "utc": "2026-11-21T08:17:21.670Z",
+          "type": "press_result",
+          "passed": false,
+          "reason": "layout-or-preservation"
+        },
+        "variant": "horizontal-port-and-item-surface-reference",
+        "skillOverlaySha256": "fb6fc10291622b0b8d8f9d5dc010ba24814c84ed5d8b701ac092758fd6b6681d",
+        "wrongGearboxAndRepair": {
+          "request": 11,
+          "before": "axis=x gearbox has 0 RPM",
+          "after": "horizontally driven mechanical press measured -8 RPM"
+        },
+        "incorrectClearance": {
+          "pressBlock": [
+            -2,
+            -56,
+            0
+          ],
+          "depotBlock": [
+            -2,
+            -59,
+            0
+          ],
+          "offsetInBlockCells": 3
+        },
+        "originalMillAfter": {
+          "realDriveWorking": true,
+          "waterPreserved": true,
+          "originalBlocksReplaced": 0,
+          "originalStandReachable": false
+        },
+        "structuredCandidateProduced": false,
+        "diffCalled": false,
+        "built": true,
+        "selfVerified": false,
+        "independentPass": false,
+        "gameReplyBeforeDeadline": false,
+        "stages": {
+          "compactSurvey": [
+            {
+              "request": 2,
+              "requestStartSecondsApprox": 6.462,
+              "responseEndSecondsApprox": 13.367,
+              "id": "call_01_HgGc22LBhl1Wbn89ib4h7035",
+              "arguments": {
+                "code": "print(my.create_survey.observe({ids={\"create:water_wheel\",\"create:shaft\",\"create:gearbox\",\"create:millstone\",\"create:mechanical_press\"}, load=\"create:millstone\"}))"
+              },
+              "receipt": "ok · 35 calls · 2 s\nstdout:\ncreate:gearbox 2,-59,0 z\ncreate:millstone 2,-58,0 -\ncreate:shaft 3,-59,0 x\ncreate:water_wheel 4,-59,0 east\nparts 4\nfloor minecraft:oak_planks y=-60 x=-3..3 z=-3..3 count=49\ntwo-high floor-edge openings 1: 0,-59,-3",
+              "native": [
+                "[16:10:35] [Server thread/INFO]: [numen-dispatch#377d2d40-b143-4592-a0f2-6bb33030ff60] dispatch tool=lua id=call_01_HgGc22LBhl1Wbn89ib4h7035 args=187 chars",
+                "[16:10:35] [Server thread/INFO]: [numen-program] 377d2d40-b143-4592-a0f2-6bb33030ff60 runs call_01_HgGc22LBhl1Wbn89ib4h7035 on the server (163 chars)",
+                "[16:10:37] [Server thread/INFO]: [numen-dispatch#377d2d40-b143-4592-a0f2-6bb33030ff60] result id=call_01_HgGc22LBhl1Wbn89ib4h7035 lua → ok, 278 chars"
+              ]
+            }
+          ],
+          "checkpoint": [
+            {
+              "request": 3,
+              "requestStartSecondsApprox": 15.462,
+              "responseEndSecondsApprox": 26.306,
+              "channel": "runtime_state",
+              "status": 200,
+              "firstResponseText": "I see an X-axis water wheel at x=4, shaft at x=3 (x-axis), gearbox at x=2 (z-axis, exposing X and Y), millstone above at y=-58. The gearbox has a Y port going up to the millstone, and its X ports are free. I'll tap rotation from the far (west) X face of the gearbox and turn it up to drive a mechanical press. Let me inspect the current RPM and the site east/west of the gearbox."
+            }
+          ],
+          "actualKinetics": [
+            {
+              "request": 3,
+              "requestStartSecondsApprox": 15.462,
+              "responseEndSecondsApprox": 26.306,
+              "id": "call_00_CEWjfzBytY7Qg87xRiHw6801",
+              "arguments": {
+                "code": "local parts = {\n  {name=\"create:gearbox[axis=z]\", pos={x=2,y=-59,z=0}},\n}\nfor i,p in ipairs(parts) do\n  local ok, r = pcall(createlab.machine.inspect, p.pos)\n  print(\"PART\", p.name, p.pos.x, p.pos.y, p.pos.z)\n  if ok then print(\"  kinetics=\", r.kinetics and r.kinetics.rpm) else print(\"  err\", r) end\nend\n-- scan around gearbox west face (x=1) and millstone area\nlocal bl = numen.scan.blocks\nfor _,c in ipairs({{1,-59,0},{1,-58,0},{2,-58,0},{2,-57,0},{2,-56,0}}) do\n  local b = numen.scan.block({x=c[1],y=c[2],z=c[3]})\n  print(\"B\", c[1],c[2],c[3], b and b.name or \"nil\")\nend"
+              },
+              "receipt": "ok · 6 calls · 0 s\nstdout:\nPART\tcreate:gearbox[axis=z]\t2\t-59\t0\n  kinetics=\t8\nB\t1\t-59\t0\tminecraft:air\nB\t1\t-58\t0\tminecraft:air\nB\t2\t-58\t0\tcreate:millstone\nB\t2\t-57\t0\tminecraft:air\nB\t2\t-56\t0\tminecraft:air",
+              "native": [
+                "[16:10:48] [Server thread/INFO]: [numen-dispatch#377d2d40-b143-4592-a0f2-6bb33030ff60] dispatch tool=lua id=call_00_CEWjfzBytY7Qg87xRiHw6801 args=611 chars",
+                "[16:10:48] [Server thread/INFO]: [numen-program] 377d2d40-b143-4592-a0f2-6bb33030ff60 runs call_00_CEWjfzBytY7Qg87xRiHw6801 on the server (574 chars)",
+                "[16:10:48] [Server thread/INFO]: [numen-dispatch#377d2d40-b143-4592-a0f2-6bb33030ff60] result id=call_00_CEWjfzBytY7Qg87xRiHw6801 lua → ok, 261 chars"
+              ]
+            },
+            {
+              "request": 5,
+              "requestStartSecondsApprox": 36.462,
+              "responseEndSecondsApprox": 45.589,
+              "id": "call_00_DjiqumeyJLEIDWKcecQV7137"
+            },
+            {
+              "request": 8,
+              "requestStartSecondsApprox": 61.462,
+              "responseEndSecondsApprox": 72.338,
+              "id": "call_00_fMWB2yy4WLhWaYWHyrHs8107",
+              "arguments": {
+                "code": "-- Search for mechanical press placement info: check its states by placing a temp one and reading properties\nlocal pos = {x=-2, y=-56, z=0}\nnumen.build.place({{name=\"create:mechanical_press\", pos=pos}})\nlocal b = numen.scan.block(pos)\nprint(\"press block\", b.name, b.properties)\nlocal ok, r = pcall(createlab.machine.inspect, pos)\nif ok then print(\"inspect\", r.kind, r.kinetics and r.kinetics.rpm) end"
+              },
+              "receipt": "ok · 3 calls · 5 s\nstderr:\nline 3 numen.build.place: built 1/1 block(s); placed 1, cleared 0 (all requested cells match)\nstdout:\npress block\tcreate:mechanical_press\t{facing = \"north\"}\ninspect\tkinetic\t0",
+              "native": [
+                "[16:11:34] [Server thread/INFO]: [numen-dispatch#377d2d40-b143-4592-a0f2-6bb33030ff60] dispatch tool=lua id=call_00_fMWB2yy4WLhWaYWHyrHs8107 args=424 chars",
+                "[16:11:34] [Server thread/INFO]: [numen-program] 377d2d40-b143-4592-a0f2-6bb33030ff60 runs call_00_fMWB2yy4WLhWaYWHyrHs8107 on the server (400 chars)",
+                "[16:11:39] [Server thread/INFO]: [numen-dispatch#377d2d40-b143-4592-a0f2-6bb33030ff60] result id=call_00_fMWB2yy4WLhWaYWHyrHs8107 lua → ok, 241 chars"
+              ]
+            },
+            {
+              "request": 10,
+              "requestStartSecondsApprox": 93.462,
+              "responseEndSecondsApprox": 103.989,
+              "id": "call_00_UteYlvCIdS4jouJN62tC9106",
+              "arguments": {
+                "code": "-- Probe: place shaft (axis=z, vertical would be y) ... \n-- The press 'facing' = direction the ram/working side points OR the input shaft side.\n-- Place a press facing=north at a test spot next to a driven shaft along Z to measure rpm,\n-- but we need a live drive. Simplest reliable test: reuse existing gearbox Z? No.\n-- Instead confirm by building the real chain and measuring press rpm; adjust facing if 0.\n\n-- Build the chain from gearbox(2,-59,0)[axis=z] west:\nlocal design = {\n  {name=\"create:shaft[axis=x]\", pos={x=1,y=-59,z=0}},   -- gearbox west face\n  {name=\"create:shaft[axis=x]\", pos={x=0,y=-59,z=0}},\n  {name=\"create:gearbox[axis=x]\", pos={x=-1,y=-59,z=0}}, -- exposes Y and Z\n}\nnumen.build.place(design)\nfor _,p in ipairs(design) do\n  local b = numen.scan.block(p.pos)\n  local ok,r = pcall(createlab.machine.inspect, p.pos)\n  print(\"placed\", b.name, \"axis\", b.properties and b.properties.axis, \"rpm\", ok and r.kinetics and r.kinetics.rpm)\nend"
+              },
+              "receipt": "ok · 7 calls · 0 s\nstderr:\nline 13 numen.build.place: built 3/3 block(s); placed 3 (1 written straight in: a hand could not put them in that shape from where you stand), cleared 0 (all requested cells match)\nstdout:\nplaced\tcreate:shaft\taxis\tx\trpm\t-8\nplaced\tcreate:shaft\taxis\tx\trpm\t-8\nplaced\tcreate:gearbox\taxis\tx\trpm\t0",
+              "native": [
+                "[16:12:06] [Server thread/INFO]: [numen-dispatch#377d2d40-b143-4592-a0f2-6bb33030ff60] dispatch tool=lua id=call_00_UteYlvCIdS4jouJN62tC9106 args=997 chars",
+                "[16:12:06] [Server thread/INFO]: [numen-program] 377d2d40-b143-4592-a0f2-6bb33030ff60 runs call_00_UteYlvCIdS4jouJN62tC9106 on the server (956 chars)",
+                "[16:12:06] [Server thread/INFO]: [numen-dispatch#377d2d40-b143-4592-a0f2-6bb33030ff60] result id=call_00_UteYlvCIdS4jouJN62tC9106 lua → ok, 368 chars"
+              ]
+            },
+            {
+              "request": 11,
+              "requestStartSecondsApprox": 104.462,
+              "responseEndSecondsApprox": 119.439,
+              "id": "call_00_6kcRYo6y5LqsmhLlTibL8234",
+              "arguments": {
+                "code": "-- remove bad gearbox at -1,-59,0 (keep shafts at 1 and 0)\nnumen.work.dig({x=-1,y=-59,z=0})\n-- Now place press facing=east at x=-1,y=-59,z=0? The press input is on its face opposite 'facing'? \n-- Test: put press facing=east at (-1,-59,0), its west face receives shaft from x=0.\nlocal design = { {name=\"create:mechanical_press[facing=east]\", pos={x=-1,y=-59,z=0}} }\nnumen.build.place(design)\nlocal b = numen.scan.block({x=-1,y=-59,z=0})\nlocal ok,r = pcall(createlab.machine.inspect, {x=-1,y=-59,z=0})\nprint(\"press\", b.name, b.properties and b.properties.facing, \"rpm\", ok and r.kinetics and r.kinetics.rpm)"
+              },
+              "receipt": "ok · 4 calls · 0 s\nstderr:\nline 2 numen.work.dig: dug 1 cell(s) of gearbox. Nothing dropped.\nline 6 numen.build.place: built 1/1 block(s); placed 1, cleared 0 (all requested cells match)\nstdout:\npress\tcreate:mechanical_press\teast\trpm\t-8",
+              "native": [
+                "[16:12:21] [Server thread/INFO]: [numen-dispatch#377d2d40-b143-4592-a0f2-6bb33030ff60] dispatch tool=lua id=call_00_6kcRYo6y5LqsmhLlTibL8234 args=631 chars",
+                "[16:12:21] [Server thread/INFO]: [numen-program] 377d2d40-b143-4592-a0f2-6bb33030ff60 runs call_00_6kcRYo6y5LqsmhLlTibL8234 on the server (605 chars)",
+                "[16:12:21] [Server thread/INFO]: [numen-dispatch#377d2d40-b143-4592-a0f2-6bb33030ff60] result id=call_00_6kcRYo6y5LqsmhLlTibL8234 lua → ok, 274 chars"
+              ]
+            },
+            {
+              "request": 14,
+              "requestStartSecondsApprox": 147.462,
+              "responseEndSecondsApprox": 159.389,
+              "id": "call_00_GU9NOiOYgFVq1ERa8fVV0141"
+            },
+            {
+              "request": 16,
+              "requestStartSecondsApprox": 171.462,
+              "responseEndSecondsApprox": 181.041,
+              "id": "call_00_q7cU0kqoKPbxP1JDsM1w9197"
+            },
+            {
+              "request": 22,
+              "requestStartSecondsApprox": 227.462,
+              "responseEndSecondsApprox": 237.654,
+              "id": "call_00_MbQo5wZPQyPIQQ8lKPr50380",
+              "arguments": {
+                "code": "local ok,r = pcall(createlab.machine.inspect, {x=-2,y=-56,z=0})\nprint(\"press kind\", ok and r.kind, \"kin\", r.kinetics and r.kinetics.rpm)\n-- wait longer and recheck\nnumen.time.wait(6)\nprint(numen.scan.container({x=-2,y=-59,z=0}).storage)"
+              },
+              "receipt": "ok · 3 calls · 6 s\nstderr:\nline 4 numen.time.wait: waited 6.0s\nstdout:\npress kind\tkinetic\tkin\t-8\n{\"items (sides: all,down,up,north,south,west,east), 9 slots:\", \"  slot 0: minecraft:iron_ingot x1\"}",
+              "native": [
+                "[16:14:19] [Server thread/INFO]: [numen-dispatch#377d2d40-b143-4592-a0f2-6bb33030ff60] dispatch tool=lua id=call_00_MbQo5wZPQyPIQQ8lKPr50380 args=256 chars",
+                "[16:14:19] [Server thread/INFO]: [numen-program] 377d2d40-b143-4592-a0f2-6bb33030ff60 runs call_00_MbQo5wZPQyPIQQ8lKPr50380 on the server (236 chars)",
+                "[16:14:25] [Server thread/INFO]: [numen-dispatch#377d2d40-b143-4592-a0f2-6bb33030ff60] result id=call_00_MbQo5wZPQyPIQQ8lKPr50380 lua → ok, 237 chars"
+              ]
+            }
+          ],
+          "placed": [
+            {
+              "request": 8,
+              "requestStartSecondsApprox": 61.462,
+              "responseEndSecondsApprox": 72.338,
+              "id": "call_00_fMWB2yy4WLhWaYWHyrHs8107",
+              "arguments": {
+                "code": "-- Search for mechanical press placement info: check its states by placing a temp one and reading properties\nlocal pos = {x=-2, y=-56, z=0}\nnumen.build.place({{name=\"create:mechanical_press\", pos=pos}})\nlocal b = numen.scan.block(pos)\nprint(\"press block\", b.name, b.properties)\nlocal ok, r = pcall(createlab.machine.inspect, pos)\nif ok then print(\"inspect\", r.kind, r.kinetics and r.kinetics.rpm) end"
+              },
+              "receipt": "ok · 3 calls · 5 s\nstderr:\nline 3 numen.build.place: built 1/1 block(s); placed 1, cleared 0 (all requested cells match)\nstdout:\npress block\tcreate:mechanical_press\t{facing = \"north\"}\ninspect\tkinetic\t0",
+              "native": [
+                "[16:11:34] [Server thread/INFO]: [numen-dispatch#377d2d40-b143-4592-a0f2-6bb33030ff60] dispatch tool=lua id=call_00_fMWB2yy4WLhWaYWHyrHs8107 args=424 chars",
+                "[16:11:34] [Server thread/INFO]: [numen-program] 377d2d40-b143-4592-a0f2-6bb33030ff60 runs call_00_fMWB2yy4WLhWaYWHyrHs8107 on the server (400 chars)",
+                "[16:11:39] [Server thread/INFO]: [numen-dispatch#377d2d40-b143-4592-a0f2-6bb33030ff60] result id=call_00_fMWB2yy4WLhWaYWHyrHs8107 lua → ok, 241 chars"
+              ]
+            },
+            {
+              "request": 10,
+              "requestStartSecondsApprox": 93.462,
+              "responseEndSecondsApprox": 103.989,
+              "id": "call_00_UteYlvCIdS4jouJN62tC9106",
+              "arguments": {
+                "code": "-- Probe: place shaft (axis=z, vertical would be y) ... \n-- The press 'facing' = direction the ram/working side points OR the input shaft side.\n-- Place a press facing=north at a test spot next to a driven shaft along Z to measure rpm,\n-- but we need a live drive. Simplest reliable test: reuse existing gearbox Z? No.\n-- Instead confirm by building the real chain and measuring press rpm; adjust facing if 0.\n\n-- Build the chain from gearbox(2,-59,0)[axis=z] west:\nlocal design = {\n  {name=\"create:shaft[axis=x]\", pos={x=1,y=-59,z=0}},   -- gearbox west face\n  {name=\"create:shaft[axis=x]\", pos={x=0,y=-59,z=0}},\n  {name=\"create:gearbox[axis=x]\", pos={x=-1,y=-59,z=0}}, -- exposes Y and Z\n}\nnumen.build.place(design)\nfor _,p in ipairs(design) do\n  local b = numen.scan.block(p.pos)\n  local ok,r = pcall(createlab.machine.inspect, p.pos)\n  print(\"placed\", b.name, \"axis\", b.properties and b.properties.axis, \"rpm\", ok and r.kinetics and r.kinetics.rpm)\nend"
+              },
+              "receipt": "ok · 7 calls · 0 s\nstderr:\nline 13 numen.build.place: built 3/3 block(s); placed 3 (1 written straight in: a hand could not put them in that shape from where you stand), cleared 0 (all requested cells match)\nstdout:\nplaced\tcreate:shaft\taxis\tx\trpm\t-8\nplaced\tcreate:shaft\taxis\tx\trpm\t-8\nplaced\tcreate:gearbox\taxis\tx\trpm\t0",
+              "native": [
+                "[16:12:06] [Server thread/INFO]: [numen-dispatch#377d2d40-b143-4592-a0f2-6bb33030ff60] dispatch tool=lua id=call_00_UteYlvCIdS4jouJN62tC9106 args=997 chars",
+                "[16:12:06] [Server thread/INFO]: [numen-program] 377d2d40-b143-4592-a0f2-6bb33030ff60 runs call_00_UteYlvCIdS4jouJN62tC9106 on the server (956 chars)",
+                "[16:12:06] [Server thread/INFO]: [numen-dispatch#377d2d40-b143-4592-a0f2-6bb33030ff60] result id=call_00_UteYlvCIdS4jouJN62tC9106 lua → ok, 368 chars"
+              ]
+            },
+            {
+              "request": 11,
+              "requestStartSecondsApprox": 104.462,
+              "responseEndSecondsApprox": 119.439,
+              "id": "call_00_6kcRYo6y5LqsmhLlTibL8234",
+              "arguments": {
+                "code": "-- remove bad gearbox at -1,-59,0 (keep shafts at 1 and 0)\nnumen.work.dig({x=-1,y=-59,z=0})\n-- Now place press facing=east at x=-1,y=-59,z=0? The press input is on its face opposite 'facing'? \n-- Test: put press facing=east at (-1,-59,0), its west face receives shaft from x=0.\nlocal design = { {name=\"create:mechanical_press[facing=east]\", pos={x=-1,y=-59,z=0}} }\nnumen.build.place(design)\nlocal b = numen.scan.block({x=-1,y=-59,z=0})\nlocal ok,r = pcall(createlab.machine.inspect, {x=-1,y=-59,z=0})\nprint(\"press\", b.name, b.properties and b.properties.facing, \"rpm\", ok and r.kinetics and r.kinetics.rpm)"
+              },
+              "receipt": "ok · 4 calls · 0 s\nstderr:\nline 2 numen.work.dig: dug 1 cell(s) of gearbox. Nothing dropped.\nline 6 numen.build.place: built 1/1 block(s); placed 1, cleared 0 (all requested cells match)\nstdout:\npress\tcreate:mechanical_press\teast\trpm\t-8",
+              "native": [
+                "[16:12:21] [Server thread/INFO]: [numen-dispatch#377d2d40-b143-4592-a0f2-6bb33030ff60] dispatch tool=lua id=call_00_6kcRYo6y5LqsmhLlTibL8234 args=631 chars",
+                "[16:12:21] [Server thread/INFO]: [numen-program] 377d2d40-b143-4592-a0f2-6bb33030ff60 runs call_00_6kcRYo6y5LqsmhLlTibL8234 on the server (605 chars)",
+                "[16:12:21] [Server thread/INFO]: [numen-dispatch#377d2d40-b143-4592-a0f2-6bb33030ff60] result id=call_00_6kcRYo6y5LqsmhLlTibL8234 lua → ok, 274 chars"
+              ]
+            },
+            {
+              "request": 14,
+              "requestStartSecondsApprox": 147.462,
+              "responseEndSecondsApprox": 159.389,
+              "id": "call_00_GU9NOiOYgFVq1ERa8fVV0141"
+            },
+            {
+              "request": 16,
+              "requestStartSecondsApprox": 171.462,
+              "responseEndSecondsApprox": 181.041,
+              "id": "call_00_q7cU0kqoKPbxP1JDsM1w9197"
+            },
+            {
+              "request": 18,
+              "requestStartSecondsApprox": 189.462,
+              "responseEndSecondsApprox": 197.06,
+              "id": "call_00_ivUVazlsICjH3zeoj0443053",
+              "arguments": {
+                "code": "-- depot at -2,-59,0 (top face -58 = item surface, clear -57, press head -56)\nlocal design = { {name=\"create:depot\", pos={x=-2,y=-59,z=0}} }\nnumen.build.place(design)\nlocal b = numen.scan.block({x=-2,y=-59,z=0})\nprint(\"depot\", b and b.name)"
+              },
+              "receipt": "ok · 2 calls · 0 s\nstderr:\nline 3 numen.build.place: built 1/1 block(s); placed 1, cleared 0 (all requested cells match)\nstdout:\ndepot\tcreate:depot",
+              "native": [
+                "[16:13:38] [Server thread/INFO]: [numen-dispatch#377d2d40-b143-4592-a0f2-6bb33030ff60] dispatch tool=lua id=call_00_ivUVazlsICjH3zeoj0443053 args=260 chars",
+                "[16:13:38] [Server thread/INFO]: [numen-program] 377d2d40-b143-4592-a0f2-6bb33030ff60 runs call_00_ivUVazlsICjH3zeoj0443053 on the server (240 chars)",
+                "[16:13:39] [Server thread/INFO]: [numen-dispatch#377d2d40-b143-4592-a0f2-6bb33030ff60] result id=call_00_ivUVazlsICjH3zeoj0443053 lua → ok, 181 chars"
+              ]
+            }
+          ],
+          "feeds": [
+            {
+              "request": 20,
+              "requestStartSecondsApprox": 208.462,
+              "responseEndSecondsApprox": 217.39,
+              "id": "call_00_G0Oqt5ybT9AboThDRt3z5250",
+              "arguments": {
+                "code": "-- drop an iron ingot onto the depot top and let the press work it.\nlocal depot = {x=-2,y=-59,z=0}\nnumen.creative.give(\"minecraft:iron_ingot\", {count=1})\n-- place the ingot on the depot: use right-click with ingot in hand on the depot\nnumen.use.block(depot, {item=\"minecraft:iron_ingot\"})"
+              },
+              "receipt": "ok · 2 calls · 0 s\nstderr:\nline 5 numen.use.block: right-clicked -2,-59,0 — inventory: -1 minecraft:iron_ingot",
+              "native": [
+                "[16:13:59] [Server thread/INFO]: [numen-dispatch#377d2d40-b143-4592-a0f2-6bb33030ff60] dispatch tool=lua id=call_00_G0Oqt5ybT9AboThDRt3z5250 args=308 chars",
+                "[16:13:59] [Server thread/INFO]: [numen-program] 377d2d40-b143-4592-a0f2-6bb33030ff60 runs call_00_G0Oqt5ybT9AboThDRt3z5250 on the server (288 chars)",
+                "[16:13:59] [Server thread/INFO]: [numen-dispatch#377d2d40-b143-4592-a0f2-6bb33030ff60] result id=call_00_G0Oqt5ybT9AboThDRt3z5250 lua → ok, 141 chars"
+              ]
+            },
+            {
+              "request": 24,
+              "requestStartSecondsApprox": 256.462,
+              "responseEndSecondsApprox": 263.407,
+              "id": "call_00_O1U58wRs7FUHailpqlw92194"
+            },
+            {
+              "request": 26,
+              "requestStartSecondsApprox": 274.462,
+              "responseEndSecondsApprox": 284.197,
+              "id": "call_00_KOq4cmlC8cVMgftuOdDF0964"
+            },
+            {
+              "request": 30,
+              "requestStartSecondsApprox": 315.462,
+              "responseEndSecondsApprox": 328.673,
+              "id": "call_00_0XpQdj5NFRO10PgR7PPB0839"
+            }
+          ]
+        }
+      },
+      {
+        "run": "watermill-1795249042182",
+        "objective": "press-iron",
+        "startingSnapshotSha256": "90e8182594567e518fa7717a31510de16c504e33a6926fb2dfad93575e91edb3",
+        "task": "在这座正在工作的 Create 磨坊外加一个压制工位。玩家投一粒铁锭，工位要能自动把它压成铁板，并让产物在可取的位置。动力只从现有水轮取得，保留原传动、磨石、建筑和水槽，让原磨坊继续运转。请自己勘察、选址、设计和安装，在游戏里投一粒铁锭，实际读到新增铁板并检查转速。遇到问题自行诊断和修复，最后告诉我你实际验证了什么。",
+        "usage": {
+          "prompt_tokens": 715788,
+          "completion_tokens": 9829,
+          "total_tokens": 725617,
+          "prompt_cache_hit_tokens": 669696,
+          "prompt_cache_miss_tokens": 46092
+        },
+        "requests": 33,
+        "apiSeconds": 338.659,
+        "counts": {
+          "http200": 33,
+          "skill": 2,
+          "lua": 33,
+          "ownerModuleScripts": 3,
+          "luaApiCallsFromReceipts": 150,
+          "surveyScripts": 11,
+          "todo": 2,
+          "isolatedSingleBlockCalls": 27,
+          "serverBatchScanReceipts": 3
+        },
+        "lengthFinishes": [],
+        "terminal": {
+          "utc": "2026-11-21T08:24:38.539Z",
+          "type": "agent_timeout",
+          "calls": 33,
+          "reason": "No matching event within 419999.834716 ms"
+        },
+        "isolation": {
+          "utc": "2026-11-21T08:24:38.554Z",
+          "type": "agent_isolated",
+          "durationMs": 14,
+          "online": "There are 1 of a max of 20 players online: LabOwner"
+        },
+        "inspection": {
+          "utc": "2026-11-21T08:24:38.684Z",
+          "type": "press_inspection",
+          "elapsed": 420.003123485,
+          "presses": [
+            {
+              "pos": [
+                -1,
+                -57,
+                4
+              ],
+              "route": [
+                {
+                  "id": "create:mechanical_press",
+                  "pos": [
+                    -1,
+                    -57,
+                    4
+                  ],
+                  "rpm": 8,
+                  "network": [
+                    256,
+                    4037
+                  ],
+                  "stress": 96,
+                  "capacity": 256
+                },
+                {
+                  "id": "create:simple_kinetic",
+                  "pos": [
+                    -1,
+                    -57,
+                    3
+                  ],
+                  "rpm": 8,
+                  "network": [
+                    256,
+                    4037
+                  ],
+                  "stress": 96,
+                  "capacity": 256
+                },
+                {
+                  "id": "create:gearbox",
+                  "pos": [
+                    -1,
+                    -57,
+                    2
+                  ],
+                  "rpm": 8,
+                  "network": [
+                    256,
+                    4037
+                  ],
+                  "stress": 96,
+                  "capacity": 256
+                },
+                {
+                  "id": "create:simple_kinetic",
+                  "pos": [
+                    -1,
+                    -58,
+                    2
+                  ],
+                  "rpm": 8,
+                  "network": [
+                    256,
+                    4037
+                  ],
+                  "stress": 96,
+                  "capacity": 256
+                },
+                {
+                  "id": "create:gearbox",
+                  "pos": [
+                    -1,
+                    -59,
+                    2
+                  ],
+                  "rpm": 8,
+                  "network": [
+                    256,
+                    4037
+                  ],
+                  "stress": 96,
+                  "capacity": 256
+                },
+                {
+                  "id": "create:simple_kinetic",
+                  "pos": [
+                    -1,
+                    -59,
+                    1
+                  ],
+                  "rpm": 8,
+                  "network": [
+                    256,
+                    4037
+                  ],
+                  "stress": 96,
+                  "capacity": 256
+                },
+                {
+                  "id": "create:gearbox",
+                  "pos": [
+                    -1,
+                    -59,
+                    0
+                  ],
+                  "rpm": -8,
+                  "network": [
+                    256,
+                    4037
+                  ],
+                  "stress": 96,
+                  "capacity": 256
+                },
+                {
+                  "id": "create:simple_kinetic",
+                  "pos": [
+                    0,
+                    -59,
+                    0
+                  ],
+                  "rpm": -8,
+                  "network": [
+                    256,
+                    4037
+                  ],
+                  "stress": 96,
+                  "capacity": 256
+                },
+                {
+                  "id": "create:simple_kinetic",
+                  "pos": [
+                    1,
+                    -59,
+                    0
+                  ],
+                  "rpm": -8,
+                  "network": [
+                    256,
+                    4037
+                  ],
+                  "stress": 96,
+                  "capacity": 256
+                },
+                {
+                  "id": "create:gearbox",
+                  "pos": [
+                    2,
+                    -59,
+                    0
+                  ],
+                  "rpm": 8,
+                  "network": [
+                    256,
+                    4037
+                  ],
+                  "stress": 96,
+                  "capacity": 256
+                },
+                {
+                  "id": "create:simple_kinetic",
+                  "pos": [
+                    3,
+                    -59,
+                    0
+                  ],
+                  "rpm": 8,
+                  "network": [
+                    256,
+                    4037
+                  ],
+                  "stress": 96,
+                  "capacity": 256
+                },
+                {
+                  "id": "create:water_wheel",
+                  "pos": [
+                    4,
+                    -59,
+                    0
+                  ],
+                  "rpm": 8,
+                  "network": [
+                    256,
+                    4037
+                  ],
+                  "stress": 96,
+                  "capacity": 256
+                }
+              ]
+            }
+          ],
+          "originalMillWorking": false,
+          "changes": [
+            "-1,-57,3",
+            "-1,-59,0",
+            "-1,-59,1",
+            "-1,-59,2",
+            "-2,-59,4",
+            "-1,-59,4",
+            "-1,-58,2",
+            "-1,-57,2",
+            "-1,-57,4",
+            "-2,-51,3",
+            "0,-59,0",
+            "1,-59,0",
+            "4,-54,2",
+            "4,-54,3",
+            "3,-53,1",
+            "4,-53,1",
+            "4,-53,2",
+            "4,-53,4"
+          ],
+          "outsideChanges": [],
+          "protectedChanges": [
+            "-1,-57,3",
+            "-1,-59,0",
+            "-1,-59,1",
+            "-1,-59,2",
+            "-1,-58,2",
+            "-1,-57,2",
+            "-2,-51,3",
+            "0,-59,0",
+            "1,-59,0",
+            "3,-53,1"
+          ]
+        },
+        "assay": {
+          "utc": "2026-11-21T08:24:38.684Z",
+          "type": "press_result",
+          "passed": false,
+          "reason": "layout-or-preservation"
+        },
+        "variant": "horizontal-port-and-explicit-block-coordinate-reference",
+        "skillOverlaySha256": "8768cf9826c10005ec07932f37ee82b95282d1d661d0f6b717b2c5fb5ae6851b",
+        "firstConcreteProposal": {
+          "requests": [
+            12,
+            13
+          ],
+          "notYetAccepted": "Model did not check the wall or the original service position for the complete route."
+        },
+        "operatingPress": {
+          "request": 16,
+          "pressPosition": [
+            -1,
+            -57,
+            4
+          ],
+          "driveRpm": 8,
+          "stress": 96,
+          "capacity": 256
+        },
+        "correctClearance": {
+          "request": 17,
+          "depot": [
+            -1,
+            -59,
+            4
+          ],
+          "gap": [
+            -1,
+            -58,
+            4
+          ]
+        },
+        "feedingFailure": {
+          "requests": [
+            19,
+            23,
+            31,
+            33
+          ],
+          "evidence": "No-effect right click, shots landed by z=8.8, and the hopper and depot were empty at cutoff."
+        },
+        "originalMillAfter": {
+          "realDriveWorking": true,
+          "waterPreserved": true,
+          "originalStandReachable": false,
+          "overwritten": {
+            "pos": [
+              -1,
+              -57,
+              3
+            ],
+            "before": "minecraft:cobblestone",
+            "after": "create:shaft"
+          }
+        },
+        "structuredCandidateProduced": false,
+        "diffCalled": false,
+        "built": true,
+        "selfVerified": false,
+        "independentPass": false,
+        "independentMechanicalDiagnosticPass": true,
+        "gameReplyBeforeDeadline": false,
+        "stages": {
+          "compactSurvey": [
+            {
+              "request": 6,
+              "requestStartSecondsApprox": 39.463,
+              "responseEndSecondsApprox": 46.726,
+              "id": "call_00_qfHLfBQCOAmXkW3UcI6Q0946",
+              "arguments": {
+                "code": "print(my.create_survey.observe({ids={\"create:water_wheel\",\"create:shaft\",\"create:gearbox\",\"create:millstone\",\"create:cogwheel\",\"create:crusher\",\"create:crushing_wheel\",\"create:mechanical_press\"}, load=\"create:millstone\"}))\n"
+              },
+              "receipt": "ok · 35 calls · 2 s\nstdout:\ncreate:gearbox 2,-59,0 z\ncreate:millstone 2,-58,0 -\ncreate:shaft 3,-59,0 x\ncreate:water_wheel 4,-59,0 east\nparts 4\nfloor minecraft:oak_planks y=-60 x=-3..3 z=-3..3 count=49\ntwo-high floor-edge openings 1: 0,-59,-3",
+              "native": [
+                "[16:18:25] [Server thread/INFO]: [numen-dispatch#38f22213-925a-48d2-9e38-469d001a2821] dispatch tool=lua id=call_00_qfHLfBQCOAmXkW3UcI6Q0946 args=254 chars",
+                "[16:18:25] [Server thread/INFO]: [numen-program] 38f22213-925a-48d2-9e38-469d001a2821 runs call_00_qfHLfBQCOAmXkW3UcI6Q0946 on the server (223 chars)",
+                "[16:18:27] [Server thread/INFO]: [numen-dispatch#38f22213-925a-48d2-9e38-469d001a2821] result id=call_00_qfHLfBQCOAmXkW3UcI6Q0946 lua → ok, 278 chars"
+              ]
+            }
+          ],
+          "checkpoint": [
+            {
+              "request": 7,
+              "requestStartSecondsApprox": 48.463,
+              "responseEndSecondsApprox": 56.783,
+              "channel": "runtime_state",
+              "status": 200,
+              "firstResponseText": "Let me survey more fully to understand the drive geometry and find where to tap power for a press."
+            }
+          ],
+          "placed": [
+            {
+              "request": 13,
+              "requestStartSecondsApprox": 121.463,
+              "responseEndSecondsApprox": 135.026,
+              "id": "call_01_YIYMC2mSPwYj8ppmgYuX4876",
+              "arguments": {
+                "code": "-- Step 1: tap shaft west + gearbox axis=y\nnumen.build.place({\n  {name=\"create:shaft[axis=x]\", pos={x=1,y=-59,z=0}},\n  {name=\"create:shaft[axis=x]\", pos={x=0,y=-59,z=0}},\n  {name=\"create:gearbox[axis=y]\", pos={x=-1,y=-59,z=0}},\n})\n-- verify\nfor _,c in ipairs({{1,-59,0},{0,-59,0},{-1,-59,0}}) do\n  local b = numen.scan.block({x=c[1],y=c[2],z=c[3]})\n  print(c[1],c[2],c[3], b.name, (b.properties and (b.properties.axis or b.properties.facing)) or \"-\")\nend\nfor _,c in ipairs({{1,-59,0},{0,-59,0},{-1,-59,0}}) do\n  local r = createlab.machine.inspect({x=c[1],y=c[2],z=c[3]})\n  print(\"rpm\", c[1],c[2],c[3], r and r.kinetics and r.kinetics.rpm or \"nil\")\nend"
+              },
+              "receipt": "ok · 7 calls · 6 s\nstderr:\nline 2 numen.build.place: built 3/3 block(s); placed 3 (2 written straight in: a hand could not put them in that shape from where you stand), cleared 0 (all requested cells match)\nstdout:\n1\t-59\t0\tcreate:shaft\tx\n0\t-59\t0\tcreate:shaft\tx\n-1\t-59\t0\tcreate:gearbox\ty\nrpm\t1\t-59\t0\t-8\nrpm\t0\t-59\t0\t-8\nrpm\t-1\t-59\t0\t-8",
+              "native": [
+                "[16:19:54] [Server thread/INFO]: [numen-dispatch#38f22213-925a-48d2-9e38-469d001a2821] dispatch tool=lua id=call_01_YIYMC2mSPwYj8ppmgYuX4876 args=690 chars",
+                "[16:19:54] [Server thread/INFO]: [numen-program] 38f22213-925a-48d2-9e38-469d001a2821 runs call_01_YIYMC2mSPwYj8ppmgYuX4876 on the server (652 chars)",
+                "[16:20:00] [Server thread/INFO]: [numen-dispatch#38f22213-925a-48d2-9e38-469d001a2821] result id=call_01_YIYMC2mSPwYj8ppmgYuX4876 lua → ok, 394 chars"
+              ]
+            },
+            {
+              "request": 14,
+              "requestStartSecondsApprox": 141.463,
+              "responseEndSecondsApprox": 158.01,
+              "id": "call_00_LBuf1WaJexsHUKyQIJ7E8243"
+            },
+            {
+              "request": 15,
+              "requestStartSecondsApprox": 158.463,
+              "responseEndSecondsApprox": 171.54,
+              "id": "call_00_uJV6SfWckmzds5ct6FiF9393"
+            },
+            {
+              "request": 16,
+              "requestStartSecondsApprox": 172.463,
+              "responseEndSecondsApprox": 183.062,
+              "id": "call_00_QUOSWAyufpBjQNb5ABZp2637",
+              "arguments": {
+                "code": "-- South from gearbox(-1,-57,2 axis=x): Z out south -> shaft[axis=z] at (-1,-57,3), press at (-1,-57,4)? \n-- press[facing=south] takes rotation on N/S faces. Its north face at (-1,-57,3) should carry shaft.\n-- Depot at press y-2 = -61, air at y-1 = -58. Floor is -60, so depot in floor.\n-- Place press at y=-57: depot at -59 (reachable-ish, floor top is -60 so -59 is 1 above floor).\nnumen.build.place({\n  {name=\"create:shaft[axis=z]\", pos={x=-1,y=-57,z=3}},\n})\nlocal r = createlab.machine.inspect({x=-1,y=-57,z=3})\nprint(\"shaft rpm\", r.kinetics.rpm)\n-- Now place the press facing south at (-1,-57,4)\nnumen.build.place({\n  {name=\"create:mechanical_press[facing=south]\", pos={x=-1,y=-57,z=4}},\n})\nlocal b = numen.scan.block({x=-1,y=-57,z=4})\nprint(\"press\", b.name, b.properties.facing)\nlocal r2 = createlab.machine.inspect({x=-1,y=-57,z=4})\nprint(\"press rpm\", r2.kinetics and r2.kinetics.rpm or \"nil\")"
+              },
+              "receipt": "ok · 5 calls · 4 s\nstderr:\nline 5 numen.build.place: built 1/1 block(s); placed 1 (1 written straight in: a hand could not put them in that shape from where you stand) (1 replacing what stood there), cleared 1 (all requested cells match)\nline 11 numen.build.place: built 1/1 block(s); placed 1 (1 written straight in: a hand could not put them in that shape from where you stand), cleared 0 (all requested cells match)\nstdout:\nshaft rpm\t8\npress\tcreate:mechanical_press\tsouth\npress rpm\t8",
+              "native": [
+                "[16:20:41] [Server thread/INFO]: [numen-dispatch#38f22213-925a-48d2-9e38-469d001a2821] dispatch tool=lua id=call_00_QUOSWAyufpBjQNb5ABZp2637 args=940 chars",
+                "[16:20:41] [Server thread/INFO]: [numen-program] 38f22213-925a-48d2-9e38-469d001a2821 runs call_00_QUOSWAyufpBjQNb5ABZp2637 on the server (900 chars)",
+                "[16:20:45] [Server thread/INFO]: [numen-dispatch#38f22213-925a-48d2-9e38-469d001a2821] result id=call_00_QUOSWAyufpBjQNb5ABZp2637 lua → ok, 526 chars"
+              ]
+            },
+            {
+              "request": 17,
+              "requestStartSecondsApprox": 186.463,
+              "responseEndSecondsApprox": 195.502,
+              "id": "call_00_Mb3TIBIeHdSqhqhWXaOZ9621",
+              "arguments": {
+                "code": "-- Press at (-1,-57,4). Depot at y-2=-59, air gap at y-1=-58.\nfor _,c in ipairs({{-1,-58,4},{-1,-59,4}}) do\n  local b = numen.scan.block({x=c[1],y=c[2],z=c[3]})\n  print(c[1],c[2],c[3], b.name)\nend\n-- Place depot at (-1,-59,4)\nnumen.build.place({\n  {name=\"create:depot\", pos={x=-1,y=-59,z=4}},\n})\nlocal b = numen.scan.block({x=-1,y=-59,z=4})\nprint(\"depot\", b.name)\n-- Check air gap still air\nprint(\"gap\", numen.scan.block({x=-1,y=-58,z=4}).name)"
+              },
+              "receipt": "ok · 5 calls · 0 s\nstderr:\nline 7 numen.build.place: built 1/1 block(s); placed 1 (1 written straight in: a hand could not put them in that shape from where you stand), cleared 0 (all requested cells match)\nstdout:\n-1\t-58\t4\tminecraft:air\n-1\t-59\t4\tminecraft:air\ndepot\tcreate:depot\ngap\tminecraft:air",
+              "native": [
+                "[16:20:55] [Server thread/INFO]: [numen-dispatch#38f22213-925a-48d2-9e38-469d001a2821] dispatch tool=lua id=call_00_Mb3TIBIeHdSqhqhWXaOZ9621 args=474 chars",
+                "[16:20:55] [Server thread/INFO]: [numen-program] 38f22213-925a-48d2-9e38-469d001a2821 runs call_00_Mb3TIBIeHdSqhqhWXaOZ9621 on the server (444 chars)",
+                "[16:20:55] [Server thread/INFO]: [numen-dispatch#38f22213-925a-48d2-9e38-469d001a2821] result id=call_00_Mb3TIBIeHdSqhqhWXaOZ9621 lua → ok, 341 chars"
+              ]
+            },
+            {
+              "request": 32,
+              "requestStartSecondsApprox": 396.463,
+              "responseEndSecondsApprox": 408.006,
+              "id": "call_00_W1o6siWJHM32I12VmB8W8263",
+              "arguments": {
+                "code": "-- Hopper west of depot feeding east into it.\n-- Hopper facing east: minecraft:hopper[facing=east]. Place at (-2,-59,4).\nnumen.build.place({\n  {name=\"minecraft:hopper[facing=east]\", pos={x=-2,y=-59,z=4}},\n})\nlocal b = numen.scan.block({x=-2,y=-59,z=4})\nprint(\"hopper\", b.name, b.properties and b.properties.facing)"
+              },
+              "receipt": "ok · 2 calls · 0 s\nstderr:\nline 3 numen.build.place: built 1/1 block(s); placed 1 (1 written straight in: a hand could not put them in that shape from where you stand), cleared 0 (all requested cells match)\nstdout:\nhopper\tminecraft:hopper\teast",
+              "native": [
+                "[16:24:26] [Server thread/INFO]: [numen-dispatch#38f22213-925a-48d2-9e38-469d001a2821] dispatch tool=lua id=call_00_W1o6siWJHM32I12VmB8W8263 args=336 chars",
+                "[16:24:26] [Server thread/INFO]: [numen-program] 38f22213-925a-48d2-9e38-469d001a2821 runs call_00_W1o6siWJHM32I12VmB8W8263 on the server (314 chars)",
+                "[16:24:27] [Server thread/INFO]: [numen-dispatch#38f22213-925a-48d2-9e38-469d001a2821] result id=call_00_W1o6siWJHM32I12VmB8W8263 lua → ok, 278 chars"
+              ]
+            }
+          ],
+          "actualKinetics": [
+            {
+              "request": 13,
+              "requestStartSecondsApprox": 121.463,
+              "responseEndSecondsApprox": 135.026,
+              "id": "call_01_YIYMC2mSPwYj8ppmgYuX4876",
+              "arguments": {
+                "code": "-- Step 1: tap shaft west + gearbox axis=y\nnumen.build.place({\n  {name=\"create:shaft[axis=x]\", pos={x=1,y=-59,z=0}},\n  {name=\"create:shaft[axis=x]\", pos={x=0,y=-59,z=0}},\n  {name=\"create:gearbox[axis=y]\", pos={x=-1,y=-59,z=0}},\n})\n-- verify\nfor _,c in ipairs({{1,-59,0},{0,-59,0},{-1,-59,0}}) do\n  local b = numen.scan.block({x=c[1],y=c[2],z=c[3]})\n  print(c[1],c[2],c[3], b.name, (b.properties and (b.properties.axis or b.properties.facing)) or \"-\")\nend\nfor _,c in ipairs({{1,-59,0},{0,-59,0},{-1,-59,0}}) do\n  local r = createlab.machine.inspect({x=c[1],y=c[2],z=c[3]})\n  print(\"rpm\", c[1],c[2],c[3], r and r.kinetics and r.kinetics.rpm or \"nil\")\nend"
+              },
+              "receipt": "ok · 7 calls · 6 s\nstderr:\nline 2 numen.build.place: built 3/3 block(s); placed 3 (2 written straight in: a hand could not put them in that shape from where you stand), cleared 0 (all requested cells match)\nstdout:\n1\t-59\t0\tcreate:shaft\tx\n0\t-59\t0\tcreate:shaft\tx\n-1\t-59\t0\tcreate:gearbox\ty\nrpm\t1\t-59\t0\t-8\nrpm\t0\t-59\t0\t-8\nrpm\t-1\t-59\t0\t-8",
+              "native": [
+                "[16:19:54] [Server thread/INFO]: [numen-dispatch#38f22213-925a-48d2-9e38-469d001a2821] dispatch tool=lua id=call_01_YIYMC2mSPwYj8ppmgYuX4876 args=690 chars",
+                "[16:19:54] [Server thread/INFO]: [numen-program] 38f22213-925a-48d2-9e38-469d001a2821 runs call_01_YIYMC2mSPwYj8ppmgYuX4876 on the server (652 chars)",
+                "[16:20:00] [Server thread/INFO]: [numen-dispatch#38f22213-925a-48d2-9e38-469d001a2821] result id=call_01_YIYMC2mSPwYj8ppmgYuX4876 lua → ok, 394 chars"
+              ]
+            },
+            {
+              "request": 14,
+              "requestStartSecondsApprox": 141.463,
+              "responseEndSecondsApprox": 158.01,
+              "id": "call_00_LBuf1WaJexsHUKyQIJ7E8243"
+            },
+            {
+              "request": 15,
+              "requestStartSecondsApprox": 158.463,
+              "responseEndSecondsApprox": 171.54,
+              "id": "call_00_uJV6SfWckmzds5ct6FiF9393"
+            },
+            {
+              "request": 16,
+              "requestStartSecondsApprox": 172.463,
+              "responseEndSecondsApprox": 183.062,
+              "id": "call_00_QUOSWAyufpBjQNb5ABZp2637",
+              "arguments": {
+                "code": "-- South from gearbox(-1,-57,2 axis=x): Z out south -> shaft[axis=z] at (-1,-57,3), press at (-1,-57,4)? \n-- press[facing=south] takes rotation on N/S faces. Its north face at (-1,-57,3) should carry shaft.\n-- Depot at press y-2 = -61, air at y-1 = -58. Floor is -60, so depot in floor.\n-- Place press at y=-57: depot at -59 (reachable-ish, floor top is -60 so -59 is 1 above floor).\nnumen.build.place({\n  {name=\"create:shaft[axis=z]\", pos={x=-1,y=-57,z=3}},\n})\nlocal r = createlab.machine.inspect({x=-1,y=-57,z=3})\nprint(\"shaft rpm\", r.kinetics.rpm)\n-- Now place the press facing south at (-1,-57,4)\nnumen.build.place({\n  {name=\"create:mechanical_press[facing=south]\", pos={x=-1,y=-57,z=4}},\n})\nlocal b = numen.scan.block({x=-1,y=-57,z=4})\nprint(\"press\", b.name, b.properties.facing)\nlocal r2 = createlab.machine.inspect({x=-1,y=-57,z=4})\nprint(\"press rpm\", r2.kinetics and r2.kinetics.rpm or \"nil\")"
+              },
+              "receipt": "ok · 5 calls · 4 s\nstderr:\nline 5 numen.build.place: built 1/1 block(s); placed 1 (1 written straight in: a hand could not put them in that shape from where you stand) (1 replacing what stood there), cleared 1 (all requested cells match)\nline 11 numen.build.place: built 1/1 block(s); placed 1 (1 written straight in: a hand could not put them in that shape from where you stand), cleared 0 (all requested cells match)\nstdout:\nshaft rpm\t8\npress\tcreate:mechanical_press\tsouth\npress rpm\t8",
+              "native": [
+                "[16:20:41] [Server thread/INFO]: [numen-dispatch#38f22213-925a-48d2-9e38-469d001a2821] dispatch tool=lua id=call_00_QUOSWAyufpBjQNb5ABZp2637 args=940 chars",
+                "[16:20:41] [Server thread/INFO]: [numen-program] 38f22213-925a-48d2-9e38-469d001a2821 runs call_00_QUOSWAyufpBjQNb5ABZp2637 on the server (900 chars)",
+                "[16:20:45] [Server thread/INFO]: [numen-dispatch#38f22213-925a-48d2-9e38-469d001a2821] result id=call_00_QUOSWAyufpBjQNb5ABZp2637 lua → ok, 526 chars"
+              ]
+            }
+          ],
+          "feeds": [
+            {
+              "request": 19,
+              "requestStartSecondsApprox": 207.463,
+              "responseEndSecondsApprox": 216.154,
+              "id": "call_00_DnzQROcfY8DHMb4UoCZR7205",
+              "arguments": {
+                "code": "-- Place the iron ingot onto the depot. The press will stamp it into a sheet.\n-- Use numen.use.item or place via numen.inv? Dropping an item onto the depot works, or right-click depot with ingot.\n-- Simplest: throw item onto depot by dropping at depot position, or use numen.use.block to right-click depot with ingot in hand.\nnumen.gear.hold(\"minecraft:iron_ingot\")\n-- Right-click the depot to place the ingot on it\nnumen.use.block({x=-1,y=-59,z=4})"
+              },
+              "receipt": "ok · 2 calls · 0 s\nstderr:\nline 4 numen.gear.hold: holding iron_ingot in main hand\nline 6 numen.use.block: right-clicked -1,-59,4 — but nothing visibly changed (inventory, health, riding, aimed block, nearby entities all as before). If you expected an effect, reposition or rethink.",
+              "native": [
+                "[16:21:14] [Server thread/INFO]: [numen-dispatch#38f22213-925a-48d2-9e38-469d001a2821] dispatch tool=lua id=call_00_DnzQROcfY8DHMb4UoCZR7205 args=468 chars",
+                "[16:21:14] [Server thread/INFO]: [numen-program] 38f22213-925a-48d2-9e38-469d001a2821 runs call_00_DnzQROcfY8DHMb4UoCZR7205 on the server (449 chars)",
+                "[16:21:15] [Server thread/INFO]: [numen-dispatch#38f22213-925a-48d2-9e38-469d001a2821] result id=call_00_DnzQROcfY8DHMb4UoCZR7205 lua → ok, 314 chars"
+              ]
+            },
+            {
+              "request": 22,
+              "requestStartSecondsApprox": 252.463,
+              "responseEndSecondsApprox": 261.708,
+              "id": "call_00_GHXhdCn48rFkdglqprG89611"
+            },
+            {
+              "request": 24,
+              "requestStartSecondsApprox": 276.463,
+              "responseEndSecondsApprox": 284.423,
+              "id": "call_00_bNJlzvY6HAJzZznGnNTo8498"
+            },
+            {
+              "request": 31,
+              "requestStartSecondsApprox": 384.463,
+              "responseEndSecondsApprox": 394.01,
+              "id": "call_00_vBXcdPlMzz3BG1v9y7Gg6503"
+            }
+          ]
+        }
+      }
+    ]
   }
 }

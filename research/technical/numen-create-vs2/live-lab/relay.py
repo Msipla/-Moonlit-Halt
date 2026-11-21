@@ -18,6 +18,12 @@ DECISION_CHECKPOINT = (
     "若缺一项会改变选址或连接的事实，只说明该事实并查这一项。"
     "把方案留在工具调用和回执里，省去长篇说明。"
 )
+ENGINEERING_CHECKPOINT = (
+    "施工前用一次 Lua 给出简短候选回执。每处拟改方块用 print 输出 "
+    "ENGINEERING_CANDIDATE、方块状态、坐标、输入轴、输出轴及连接依据。无轴处写无。"
+    "同次打印要检查的占用及实测通过条件，调用现有 numen.build.diff 核对这些候选格。"
+    "若确实缺一项会改变方案的事实，只查这一项。回执后按现场结果推进施工，省去长篇推演。"
+)
 SURVEY_RECEIPT = re.compile(
     r"^parts [1-9][0-9]*[^\n]*\nfloor [^\n]+\ntwo-high floor-edge openings [1-9][0-9]*:",
     re.MULTILINE,
@@ -33,6 +39,7 @@ def main():
     thinking = os.environ.get("LAB_THINKING") == "1"
     trace = args.evidence.open("a", encoding="utf-8")
     decision_enabled = os.environ.get("LAB_MILL_DECISION") == "1"
+    engineering_enabled = os.environ.get("LAB_ENGINEERING_RECEIPT") == "1"
     decision_sent = False
 
     class Relay(BaseHTTPRequestHandler):
@@ -57,12 +64,24 @@ def main():
             body["max_tokens"] = min(body.get("max_tokens") or 8192, 8192) if thinking else 4096
             messages = body.get("messages", [])
             # A one-shot instruction in the lab, based only on the agent's real receipt.
-            checkpoint = decision_enabled and not decision_sent and any(
+            checkpoint = (decision_enabled or engineering_enabled) and not decision_sent and any(
                 m.get("role") == "tool" and SURVEY_RECEIPT.search(m.get("content") or "")
                 for m in messages
             )
             if checkpoint:
-                body["messages"] = [{"role": "system", "content": DECISION_CHECKPOINT}, *messages]
+                if engineering_enabled and messages[-1].get("role") == "user" and (
+                    messages[-1].get("content") or ""
+                ).startswith("<runtime_state>"):
+                    runtime = messages[-1]
+                    body["messages"] = [*messages[:-1], {
+                        **runtime, "content": runtime["content"] + "\n<lab_checkpoint>"
+                        + ENGINEERING_CHECKPOINT + "</lab_checkpoint>",
+                    }]
+                    checkpoint_position = "runtime_state"
+                else:
+                    instruction = ENGINEERING_CHECKPOINT if engineering_enabled else DECISION_CHECKPOINT
+                    body["messages"] = [{"role": "system", "content": instruction}, *messages]
+                    checkpoint_position = "system"
                 decision_sent = True
             started = time.time()
             event = {"utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(started)),
@@ -72,7 +91,10 @@ def main():
                                   "tool_call_id": m.get("tool_call_id")}
                                  for m in messages[-4:] if m.get("role") in ("tool", "user")]}
             if checkpoint:
-                event["decisionCheckpoint"] = True
+                if engineering_enabled:
+                    event["engineeringReceiptPrompt"] = checkpoint_position
+                else:
+                    event["decisionCheckpoint"] = True
             calls = {}
             reasoning = sha256()
             reasoning_bytes = 0

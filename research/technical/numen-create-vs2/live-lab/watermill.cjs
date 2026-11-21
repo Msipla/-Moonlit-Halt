@@ -325,24 +325,33 @@ const water = (state) => Object.entries(state.blocks).filter(([,b])=>b.Name==='m
   .map(([cell,b])=>[cell,b.Properties.level]).sort();
 const block = (state,position) => state.blocks[position]?.Name ?? 'minecraft:air';
 
-function measure(state, start, original, sideDrive) {
-  const mills = state.blockEntities.filter(e => e.id === 'create:millstone');
-  const mill = mills.length === 1 ? mills[0] : null;
+function sourceRoute(state, load, wheelPosition) {
   const machineCells = new Map(state.blockEntities.map(e => [pos(e).join(),e]));
   const route = [];
   const seen = new Set();
-  for (let part = mill; part && !seen.has(pos(part).join());) {
+  for (let part = load; part && !seen.has(pos(part).join());) {
     seen.add(pos(part).join());
     route.push({id:part.id,pos:pos(part),rpm:part.Speed,network:part.Network?.Id,
       stress:part.Network?.Stress,capacity:part.Network?.Capacity});
-    if (same(pos(part),original.wheel) || !part.Source) break;
+    if (same(pos(part),wheelPosition) || !part.Source) break;
     part = machineCells.get([part.Source.X,part.Source.Y,part.Source.Z].join());
   }
+  return route;
+}
+
+function poweredByOriginalWheel(state, route, wheelPosition) {
   const wheel = route.at(-1);
-  const onlyOriginalWheel = state.blockEntities.filter(e=>e.id==='create:water_wheel').length===1
-    && wheel?.id === 'create:water_wheel' && same(wheel.pos,original.wheel)
+  return state.blockEntities.filter(e=>e.id==='create:water_wheel').length===1
+    && wheel?.id === 'create:water_wheel' && same(wheel.pos,wheelPosition)
     && wheel.network !== undefined && route.every(e => same(e.network,wheel.network)
       && Number.isFinite(e.rpm) && e.rpm !== 0 && e.stress <= e.capacity);
+}
+
+function measure(state, start, original, sideDrive) {
+  const mills = state.blockEntities.filter(e => e.id === 'create:millstone');
+  const mill = mills.length === 1 ? mills[0] : null;
+  const route = sourceRoute(state,mill,original.wheel);
+  const onlyOriginalWheel = poweredByOriginalWheel(state,route,original.wheel);
   const [x0,z0,x1,z1] = original.bounds;
   const depth = ([x,,z]) => Math.min(x-x0,x1-x,z-z0,z1-z);
   const moved = Boolean(mill && depth(pos(mill))>depth(original.mill)
@@ -480,4 +489,107 @@ async function checkIsolation(lab) {
   lab.mark('isolation_check',{passed:true,initialWrite:first,blockedLateWrite:late,sameBlocks:true});
 }
 
-module.exports={test,testAutonomous,checkIsolation,checkSideDrive};
+// Inventory stacks in the captured world, including Create depots, belts and item entities.
+function countStacks(value,id) {
+  if (!value || typeof value!=='object') return 0;
+  if (value.id===id && Number.isInteger(value.Count)) return value.Count;
+  return Object.values(value).reduce((sum,child)=>sum+countStacks(child,id),0);
+}
+
+async function testPress(lab, physicalControl) {
+  await lab.cmd('gamerule randomTickSpeed 0');
+  const before = await lab.save('press-before');
+  const original = reviewedPlan(process.env.LAB_MILL_REVIEWED,lab);
+  assert(inspection(before,original).passed && access(before,original,null).passed,
+    'The inherited watermill needs to pass the read-only control');
+
+  const started = performance.now();
+  if (physicalControl) {
+    // Only the no-model calibration gets a preset layout, in its own world copy.
+    const offset = original.wheel.map((n,i)=>Math.sign(n-original.shafts[0][i]));
+    const press = move(original.wheel,...offset);
+    const depot = move(press,0,-2,0);
+    assert(lab.inScope(press) && lab.inScope(depot));
+    assert.equal(block(before,press),'minecraft:air');
+    assert.equal(block(before,depot),'minecraft:grass_block');
+    const edits = [[press,`create:mechanical_press[facing=${original.facing}]`],[depot,'create:depot']];
+    lab.mark('press_control',{mode:'fixture-only',interventions:edits.length,edits});
+    for (const [cell,state] of edits) assert.match(await lab.cmd(`setblock ${cell.join(' ')} ${state}`),/^Changed the block/);
+    await wait(800);
+  } else {
+    const prompt = '在这座正在工作的 Create 磨坊外加一个压制工位。玩家投一粒铁锭，工位要能自动把它压成铁板，并让产物在可取的位置。动力只从现有水轮取得，保留原传动、磨石、建筑和水槽，让原磨坊继续运转。请自己勘察、选址、设计和安装，在游戏里投一粒铁锭，实际读到新增铁板并检查转速。遇到问题自行诊断和修复，最后告诉我你实际验证了什么。';
+    lab.mark('autonomous_start',{objective:'press-iron',interventions:0,ownerMessages:1,limitSeconds:420});
+    await lab.chat(prompt,420000);
+  }
+  const elapsed = (performance.now()-started)/1000;
+  await lab.isolateMillAgent();
+  const final = await lab.save('press-after');
+  const [x0,z0,x1,z1] = original.bounds;
+  const inMill = ([x,y,z]) => x>=x0 && x<=x1 && z>=z0 && z<=z1 && y>=original.floorY;
+  const changes = [...new Set([...Object.keys(before.blocks),...Object.keys(final.blocks)])]
+    .filter(cell=>!same(before.blocks[cell],final.blocks[cell]));
+  const outsideChanges = changes.filter(cell=>!lab.inScope(cell.split(',').map(Number)));
+  const protectedChanges = changes.filter(cell => {
+    const where = cell.split(',').map(Number);
+    const originalBlock = before.blocks[cell]?.Name;
+    return inMill(where) || (where[1]>=original.basinY && originalBlock
+      && !['minecraft:grass_block','minecraft:dirt'].includes(originalBlock));
+  });
+  const presses = final.blockEntities.filter(e=>e.id==='create:mechanical_press')
+    .map(e=>({pos:pos(e),route:sourceRoute(final,e,original.wheel)}));
+  const press = presses.find(p=>!inMill(p.pos) && lab.inScope(p.pos)
+    && block(final,move(p.pos,0,-1,0))==='minecraft:air'
+    && poweredByOriginalWheel(final,p.route,original.wheel));
+  const oldMill = inspection(final,original);
+  const originalMillWorking = oldMill.passed && access(final,original,null).passed
+    && same(water(before),water(final));
+  lab.mark('press_inspection',{elapsed,presses,originalMillWorking,changes,outsideChanges,protectedChanges});
+  if (!press || !originalMillWorking || outsideChanges.length || protectedChanges.length) {
+    lab.mark('press_result',{passed:false,reason:'layout-or-preservation'});
+    return;
+  }
+
+  const input = 'minecraft:iron_ingot', output = 'create:iron_sheet';
+  const assayItems = s => [s.blockEntities,s.items];
+  const inputBefore = countStacks(assayItems(final),input);
+  const priorSheets = countStacks(assayItems(final),output);
+  if (inputBefore) {
+    lab.mark('press_result',{passed:false,reason:'prior-iron-still-present',inputBefore,priorSheets});
+    return;
+  }
+  // A depot can refuse a different item while the model's test sheet is still on it.
+  const depot = final.blockEntities.find(e=>e.id==='create:depot' && same(pos(e),move(press.pos,0,-2,0)));
+  let assayStart = final;
+  if (countStacks(depot,output)) {
+    const prefix = 'data remove block '+pos(depot).join(' ')+' ';
+    if (depot.HeldItem?.Item?.id===output) await lab.cmd(prefix+'HeldItem');
+    if (depot.OutputBuffer?.Items?.some(item=>item.id===output)) {
+      await lab.cmd(prefix+`OutputBuffer.Items[{id:"${output}"}]`);
+    }
+    assayStart = await lab.save('press-assay-start');
+    assert(same(final.blocks,assayStart.blocks),'Clearing the depot must preserve all block states');
+    lab.mark('press_depot_cleared',{pos:pos(depot),priorSheets,
+      remainingSheets:countStacks(assayItems(assayStart),output)});
+  }
+  const oldSheets = countStacks(assayItems(assayStart),output);
+  // Drop one new item in the discovered press workspace after isolating the agent.
+  const [x,y,z] = press.pos;
+  await lab.cmd(`summon minecraft:item ${x+.5} ${y-.35} ${z+.5} {Item:{id:"${input}",Count:1b},PickupDelay:32767s}`);
+  await wait(11000);
+  const fed = await lab.save('press-fed');
+  const newSheets = countStacks(assayItems(fed),output);
+  const inputAfter = countStacks(assayItems(fed),input);
+  const outputLocations = [
+    ...fed.blockEntities.filter(e=>countStacks(e,output)).map(e=>({pos:pos(e),id:e.id,count:countStacks(e,output)})),
+    ...fed.items.filter(e=>e.item.id===output).map(e=>({pos:e.pos,id:e.item.id,count:e.item.Count})),
+  ];
+  const pressAfter = fed.blockEntities.find(e=>e.id==='create:mechanical_press' && same(pos(e),press.pos));
+  const driveAfter = sourceRoute(fed,pressAfter,original.wheel);
+  const blocksUnchanged = same(fed.blocks,final.blocks);
+  const passed = newSheets-oldSheets===1 && inputAfter===0 && blocksUnchanged
+    && poweredByOriginalWheel(fed,driveAfter,original.wheel) && inspection(fed,original).passed;
+  lab.mark('press_result',{passed,oldSheets,newSheets,produced:newSheets-oldSheets,inputAfter,
+    outputLocations,blocksUnchanged,driveAfter,elapsed});
+}
+
+module.exports={test,testAutonomous,checkIsolation,checkSideDrive,testPress};

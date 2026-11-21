@@ -1,6 +1,6 @@
 # Numen × Create：通用自主机械工程闭环
 
-状态：待 Work 执行。工作分支：`codex/numen-create-basic-actions`。起点提交：`6fda167cee4c7ba78ccc14128ad36c41a990a154`。
+状态：已执行。独立复验确认模型实建压机可加工，四轮模型均未完成全闭环。见 [实测结果](numen-create-vs2/live-lab/README.md#2026-11-21-通用自主机械工程闭环)。工作分支：`codex/numen-create-basic-actions`。起点提交：`6fda167cee4c7ba78ccc14128ad36c41a990a154`。
 
 ## 规范和现有成果
 

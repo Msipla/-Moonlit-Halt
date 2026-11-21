@@ -15,11 +15,14 @@ const basic = basicCheck || basicAction;
 const thinkSmoke = phase === 'think-smoke';
 const watermill = phase === 'watermill';
 const millMode = process.env.LAB_MILL_AUTONOMOUS;
-const autonomousMill = watermill && ['1','side-drive'].includes(millMode);
+const autonomousMill = watermill && ['1','side-drive','press'].includes(millMode);
 const checkMillIsolation = watermill && millMode === 'check';
-const checkSideDrive = watermill && millMode === 'side-check';
+const checkMillMechanics = watermill && ['side-check','press-check'].includes(millMode);
 const thinking = process.env.LAB_THINKING === '1';
 const decisionCheckpoint = process.env.LAB_MILL_DECISION === '1';
+const engineeringReceipt = process.env.LAB_ENGINEERING_RECEIPT === '1';
+assert(!engineeringReceipt || (watermill && ['side-drive','press'].includes(millMode) && !decisionCheckpoint),
+  'LAB_ENGINEERING_RECEIPT requires an isolated engineering model trial');
 assert(!decisionCheckpoint || (watermill && millMode === 'side-drive'),
   'LAB_MILL_DECISION requires the side-drive model trial');
 assert(basic || watermill || ['smoke','think-smoke','A','B','C','boat','guard-check'].includes(phase),
@@ -51,7 +54,8 @@ const skillFile = process.env.LAB_SKILL_FILE;
 const scopeJar = process.env.LAB_SCOPE_JAR;
 const waterAction = watermill || process.env.LAB_BASIC_WATER_ACTION === '1';
 assert(!waterAction || basicCheck || basicWater || watermill, 'The water action requires a water laboratory phase');
-assert(!skillFile || basicAction || ['B','C'].includes(phase), 'LAB_SKILL_FILE requires a Skill phase');
+assert(!skillFile || basicAction || ['B','C'].includes(phase) || (watermill && millMode === 'press'),
+  'LAB_SKILL_FILE requires a Skill phase');
 assert(!(guardCheck || basic || watermill) || scopeJar, 'Set LAB_SCOPE_JAR to the compiled test mod');
 assert(!scopeJar || phase === 'C' || guardCheck || basic || watermill, 'LAB_SCOPE_JAR requires a guarded phase');
 const runOnlySkill = path.join('skills','createlab','create_kinetics','SKILL.md');
@@ -509,7 +513,7 @@ async function testBasic() {
 async function main() {
   prepare();
   const relayEnv={...process.env};
-  if (!(guardCheck || basicCheck || checkMillIsolation || checkSideDrive)) {
+  if (!(guardCheck || basicCheck || checkMillIsolation || checkMillMechanics)) {
     assert(relayEnv.DEEPSEEK_API_KEY,'Set DEEPSEEK_API_KEY in the runtime');
     relay=spawn('python3',[path.join(__dirname,'relay.py'),String(relayPort),evidence],{env:relayEnv,stdio:['ignore','pipe','pipe']});
     const relayLog=fs.createWriteStream(path.join(run,'relay.log'));
@@ -559,7 +563,7 @@ async function main() {
     await verifyScope();
     return;
   }
-  if (!(basicCheck || checkMillIsolation || checkSideDrive)) await cmd(cmdAs+'numen companion LabBot profile lab:deepseek');
+  if (!(basicCheck || checkMillIsolation || checkMillMechanics)) await cmd(cmdAs+'numen companion LabBot profile lab:deepseek');
   if (scopeJar) {
     await cmd('deop LabOwner');
     await cmd('gamerule commandModificationBlockLimit 64');
@@ -577,7 +581,8 @@ async function main() {
       mark('owner_reply_check',{passed:true});
       return mill.checkIsolation(lab);
     }
-    if (checkSideDrive) return mill.checkSideDrive(lab);
+    if (millMode==='side-check') return mill.checkSideDrive(lab);
+    if (['press','press-check'].includes(millMode)) return mill.testPress(lab,checkMillMechanics);
     return autonomousMill ? mill.testAutonomous(lab,millMode==='side-drive') : mill.test(lab);
   }
   if (thinkSmoke) {
