@@ -779,3 +779,14 @@ LAB_SKILL_FILE="$press_skill" LAB_MILL_AUTONOMOUS=press LAB_ENGINEERING_RECEIPT=
 下一步需要有人在物理机前打开一次 `numen settings`，绑定 provider=deepseek、模型与密钥；完成绑定后同一份参数文件即可重复启动，不需要再改环境。
 
 **需要披露的副作用**：第一次启动时参数文件的引号导致 `--gameDir` 未被替换，客户端实际以旧工程的 `client-yacht` 目录启动，加载了 `saves/Engineer-Yacht-Lab`。进程在约一分钟后被终止，未在该世界执行任何命令，也早于 5 分钟自动保存；但 `level.dat`、`session.lock` 与若干 region 文件的时间戳与写回已经发生（19:02:27–19:02:37）。是否恢复需要另行决定，因为任何恢复动作本身也会写入旧工程。
+
+### 桌面控制能力核查与游戏窗口输入结论
+
+先核查了“缺少桌面控制能力”这一假设，结论是能力存在，问题在游戏窗口。
+
+- 当前 DSH 会话已加载 `windows-mcp`（stdio，握手版本 4.2.4），截图、窗口切换、对普通窗口的点击都实际生效。
+- 该 profile 的 MCP 配置只有一条 `mcp-manager / windows-mcp`，`disabled: false`，没有发现被禁用或未加载的桌面控制服务。
+- 进程核对：Minecraft 客户端、`windows-mcp.exe` 与 DeepSeek Harness 都在 session 1、Medium 完整性级别，不存在跨会话或 UIPI 阻挡。
+- 但合成输入没有送达 Minecraft 的 LWJGL 窗口：`GetForegroundWindow` 返回的就是 `Minecraft* 1.20.1 - 单人游戏`，而 Escape、F3、T 都没有反应，游戏画面内点击也无效果；同一条输入通道对普通窗口却有效。
+
+因此这不是“缺少桌面控制能力”，而是该游戏窗口在当前会话下不接受合成输入。模型绑定仍然需要在物理机前完成一次：打开 `numen settings`，绑定 provider=deepseek、模型与密钥。本轮没有修改 Numen 源码，也没有另建 MCP 模型循环。

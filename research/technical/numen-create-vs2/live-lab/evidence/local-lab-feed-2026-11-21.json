@@ -1,6 +1,6 @@
 {
   "kind": "local-lab-environment-and-native-feed-calibration",
-  "revision": 4,
+  "revision": 5,
   "date": "2026-11-21",
   "branch": "codex/numen-create-basic-actions",
   "provenance": {
@@ -256,5 +256,18 @@
     ],
     "mitigation": "the process was stopped about a minute after launch, before the 5 minute autosave; no commands were run in that world",
     "status": "disclosed, not restored; restoration needs a decision because any restore would itself write to the old project"
+  },
+  "desktopControl": {
+    "session": "DeepSeek Harness web session 2026-11-21",
+    "mcpServer": "windows-mcp 4.2.4 (stdio) is loaded and working: screenshots, window switching and clicks on ordinary windows succeed",
+    "profileConfig": "single MCP entry mcp-manager/windows-mcp in the web profile patch; no disabled or missing desktop server found",
+    "diagnosis": [
+      "Minecraft 1.20.1 window is the foreground window (GetForegroundWindow = Minecraft* 1.20.1 - 单人游戏)",
+      "game, MCP server and DSH all run in session 1 at medium integrity, so there is no UIPI or cross-session mismatch",
+      "yet synthetic input does not reach the LWJGL window: Escape and F3 do nothing, T never opens chat, and canvas clicks have no effect",
+      "the same MCP input path does reach ordinary windows, so this is specific to the game window, not a missing capability"
+    ],
+    "impact": "model binding through the in-game settings screen cannot be completed from this session; no Numen source change was made and no alternative loop was built",
+    "need": "one physical-console interaction: open numen settings, bind provider deepseek plus model and key"
   }
 }
