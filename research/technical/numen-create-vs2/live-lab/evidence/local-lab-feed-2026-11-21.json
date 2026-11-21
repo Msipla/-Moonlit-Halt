@@ -938,5 +938,549 @@
       "bytes": 87859,
       "sha256": "9efcaf3bec5266198290b3bb3efb18b711fc0d0a466b481387d9b2dbd0d41ee4"
     }
+  },
+  "directBuildPrototype": {
+    "baseline": "cdd0881ad72bc6fe78bc9d50e73c241b4b523c1d",
+    "engine": {
+      "minecraft": "1.20.1",
+      "loader": "Fabric 0.17.2",
+      "create": "6.0.8.1+build.1744-mc1.20.1",
+      "createJarSha256": "a613603fb08d967c5a4138d1adb7374c4a347b91e489fe21579a4cff4f40105a",
+      "model": "deepseek-v4-pro",
+      "thinking": false
+    },
+    "testedRunnerSha256": "71ca02d8259a03573d2dfbb00b76abe6a66b4bed5bb974e65371724ec8f09f5d",
+    "initialFailedRunnerSha256": "75dfeeafde39719e0e8930379b0730d4bbc10393c950a108697d6f433760bbb5",
+    "sets": [
+      {
+        "run": "washing-oFlFlx",
+        "task": "从空地自主设计和建成 Create 风扇水洗机。把一份小麦粉洗成面团。用设置为 32 RPM 的创造马达供能，验证实际加工，再报告结果。",
+        "manualInterventions": 0,
+        "startUtc": "2026-11-21T16:54:04.190Z",
+        "modelRequests": 4,
+        "usage": {
+          "total_tokens": 8132,
+          "prompt_tokens": 5912,
+          "completion_tokens": 2220,
+          "prompt_cache_hit_tokens": 5120,
+          "prompt_cache_miss_tokens": 792
+        },
+        "initialSha256": "522c97993a84f09ecd2349507cf6bdef34fee9a6f9180f4a3aa363b5d0bea9f3",
+        "finalSha256": "522c97993a84f09ecd2349507cf6bdef34fee9a6f9180f4a3aa363b5d0bea9f3",
+        "modelActions": [
+          {
+            "turn": 1,
+            "outsideLocal": [
+              0,
+              8,
+              0
+            ],
+            "repeatedConflicts": [
+              [
+                [
+                  0,
+                  4,
+                  0
+                ],
+                "minecraft:water",
+                "minecraft:barrel[facing=up]"
+              ],
+              [
+                [
+                  0,
+                  5,
+                  0
+                ],
+                "minecraft:air",
+                "minecraft:hopper[facing=down]"
+              ]
+            ]
+          }
+        ],
+        "receipts": [
+          {
+            "turn": 1,
+            "seconds": 11.427,
+            "data": {
+              "error": "cell outside work box"
+            }
+          },
+          {
+            "turn": 2,
+            "seconds": 20.386,
+            "data": {
+              "error": "duplicate block position"
+            }
+          },
+          {
+            "turn": 3,
+            "seconds": 29.304,
+            "data": {
+              "error": "duplicate block position"
+            }
+          },
+          {
+            "turn": 4,
+            "seconds": 38.021,
+            "data": {
+              "error": "duplicate block position"
+            }
+          }
+        ],
+        "response": null,
+        "result": {
+          "type": "result",
+          "utc": "2026-11-21T16:54:42.237Z",
+          "passed": false,
+          "seconds": 38.047096749000005,
+          "modelPassed": false,
+          "outside": [],
+          "kinetics": []
+        },
+        "independentNbt": null
+      },
+      {
+        "run": "washing-zPc6Tv",
+        "task": "从空地自主设计和建成 Create 风扇水洗机。把一份小麦粉洗成面团。用设置为 32 RPM 的创造马达供能，验证实际加工，再报告结果。",
+        "manualInterventions": 0,
+        "startUtc": "2026-11-21T16:55:46.715Z",
+        "modelRequests": 4,
+        "usage": {
+          "total_tokens": 6498,
+          "prompt_tokens": 6009,
+          "completion_tokens": 489,
+          "prompt_cache_hit_tokens": 4352,
+          "prompt_cache_miss_tokens": 1657
+        },
+        "initialSha256": "522c97993a84f09ecd2349507cf6bdef34fee9a6f9180f4a3aa363b5d0bea9f3",
+        "finalSha256": "1a20b548805366981233e9ac4dfd6db3b9a968ef51cd83d57bb0ac7c3425f219",
+        "modelActions": [
+          {
+            "turn": 1,
+            "seconds": 9.241,
+            "submitted": {
+              "action": "build",
+              "localCells": [
+                "0,1,0 create:creative_motor[facing=up] rpm=32",
+                "0,2,0 create:shaft",
+                "0,3,0 create:encased_fan[facing=up]",
+                "0,4,0 minecraft:water",
+                "0,5,0 minecraft:glass",
+                "0,6,0 minecraft:glass",
+                "0,7,0 minecraft:glass",
+                "1,4,0 minecraft:glass",
+                "-1,4,0 minecraft:glass",
+                "0,4,1 minecraft:glass",
+                "0,4,-1 minecraft:glass",
+                "1,5,0 minecraft:glass",
+                "-1,5,0 minecraft:glass",
+                "0,5,1 minecraft:glass",
+                "0,5,-1 minecraft:glass",
+                "1,6,0 minecraft:glass",
+                "-1,6,0 minecraft:glass",
+                "0,6,1 minecraft:glass",
+                "0,6,-1 minecraft:glass",
+                "1,7,0 minecraft:glass",
+                "-1,7,0 minecraft:glass",
+                "0,7,1 minecraft:glass",
+                "0,7,-1 minecraft:glass",
+                "0,4,0 minecraft:water"
+              ]
+            }
+          },
+          {
+            "turn": 2,
+            "seconds": 15.883,
+            "submitted": {
+              "action": "test",
+              "at": [
+                0,
+                5,
+                0
+              ]
+            }
+          },
+          {
+            "turn": 3,
+            "seconds": 31.927,
+            "submitted": {
+              "action": "test",
+              "at": [
+                0,
+                4,
+                0
+              ]
+            }
+          },
+          {
+            "turn": 4,
+            "seconds": 49.642,
+            "submitted": {
+              "action": "finish",
+              "summary": "成功构建风扇水洗机。创造马达32 RPM驱动风扇向上吹，水置于风扇上方，小麦粉从水上方投入，经水洗转化为面团。测试确认输出1个面团。"
+            }
+          }
+        ],
+        "receipts": [
+          {
+            "turn": 1,
+            "seconds": 9.8,
+            "data": {
+              "writes": 23,
+              "seconds": 0.5580716959999991,
+              "mismatches": []
+            }
+          },
+          {
+            "turn": 2,
+            "seconds": 26.953,
+            "data": {
+              "passed": false,
+              "at": [
+                0,
+                5,
+                0
+              ],
+              "inputBefore": 0,
+              "inputAfter": 1,
+              "outputBefore": 0,
+              "outputAfter": 0,
+              "live": true,
+              "configured": true
+            }
+          },
+          {
+            "turn": 3,
+            "seconds": 42.966,
+            "data": {
+              "passed": true,
+              "at": [
+                0,
+                4,
+                0
+              ],
+              "inputBefore": 0,
+              "inputAfter": 0,
+              "outputBefore": 0,
+              "outputAfter": 1,
+              "live": true,
+              "configured": true
+            }
+          }
+        ],
+        "response": {
+          "type": "reply",
+          "utc": "2026-11-21T16:56:36.359Z",
+          "seconds": 49.644046867,
+          "text": "成功构建风扇水洗机。创造马达32 RPM驱动风扇向上吹，水置于风扇上方，小麦粉从水上方投入，经水洗转化为面团。测试确认输出1个面团。"
+        },
+        "result": {
+          "type": "result",
+          "utc": "2026-11-21T16:56:47.436Z",
+          "passed": true,
+          "seconds": 60.721106367,
+          "modelPassed": true,
+          "outside": [],
+          "kinetics": [
+            {
+              "at": [
+                0,
+                1,
+                0
+              ],
+              "id": "create:creative_motor",
+              "state": {
+                "facing": "up"
+              },
+              "rpm": 32,
+              "configuredRpm": 32,
+              "network": [
+                0,
+                4037
+              ],
+              "stress": 64,
+              "capacity": 524288
+            },
+            {
+              "at": [
+                0,
+                2,
+                0
+              ],
+              "id": "create:shaft",
+              "state": {
+                "waterlogged": "false",
+                "axis": "y"
+              },
+              "rpm": 32,
+              "source": [
+                0,
+                1,
+                0
+              ],
+              "network": [
+                0,
+                4037
+              ],
+              "stress": 64,
+              "capacity": 524288
+            },
+            {
+              "at": [
+                0,
+                3,
+                0
+              ],
+              "id": "create:encased_fan",
+              "state": {
+                "facing": "up"
+              },
+              "rpm": 32,
+              "source": [
+                0,
+                2,
+                0
+              ],
+              "network": [
+                0,
+                4037
+              ],
+              "stress": 64,
+              "capacity": 524288
+            }
+          ],
+          "independent": {
+            "passed": true,
+            "at": [
+              0,
+              4,
+              0
+            ],
+            "inputBefore": 0,
+            "inputAfter": 0,
+            "outputBefore": 1,
+            "outputAfter": 2,
+            "live": true,
+            "configured": true
+          }
+        },
+        "independentNbt": {
+          "looseItems": [
+            {
+              "id": "create:dough",
+              "Count": 1
+            },
+            {
+              "id": "create:dough",
+              "Count": 1
+            }
+          ]
+        }
+      },
+      {
+        "run": "milling-QPgxbA",
+        "task": "从空地自主设计和建成 Create 磨粉机，用运转的磨石把一份小麦磨成小麦粉。用设置为 32 RPM 的创造马达供能，验证实际加工，再报告结果。",
+        "manualInterventions": 0,
+        "startUtc": "2026-11-21T16:55:46.608Z",
+        "modelRequests": 3,
+        "usage": {
+          "total_tokens": 4259,
+          "prompt_tokens": 3721,
+          "completion_tokens": 538,
+          "prompt_cache_hit_tokens": 2432,
+          "prompt_cache_miss_tokens": 1289
+        },
+        "initialSha256": "522c97993a84f09ecd2349507cf6bdef34fee9a6f9180f4a3aa363b5d0bea9f3",
+        "finalSha256": "30b794d37f286137a1354d5b5f4ff879e57c9a55d4dab374aa0518c0a9671d48",
+        "modelActions": [
+          {
+            "turn": 1,
+            "seconds": 9.725,
+            "submitted": {
+              "action": "build",
+              "localCells": [
+                "0,1,0 create:creative_motor[facing=up] rpm=32",
+                "0,2,0 create:shaft",
+                "0,3,0 create:millstone",
+                "0,4,0 minecraft:air",
+                "0,5,0 minecraft:air",
+                "0,6,0 minecraft:air",
+                "0,7,0 minecraft:air",
+                "0,3,1 minecraft:air",
+                "0,3,-1 minecraft:air",
+                "1,3,0 minecraft:air",
+                "-1,3,0 minecraft:air",
+                "0,2,1 minecraft:air",
+                "0,2,-1 minecraft:air",
+                "1,2,0 minecraft:air",
+                "-1,2,0 minecraft:air",
+                "0,1,1 minecraft:air",
+                "0,1,-1 minecraft:air",
+                "1,1,0 minecraft:air",
+                "-1,1,0 minecraft:air"
+              ]
+            }
+          },
+          {
+            "turn": 2,
+            "seconds": 15.636,
+            "submitted": {
+              "action": "test",
+              "at": [
+                0,
+                4,
+                0
+              ]
+            }
+          },
+          {
+            "turn": 3,
+            "seconds": 33.461,
+            "submitted": {
+              "action": "finish",
+              "summary": "成功建造并测试了 Create 磨粉机。创造马达以 32 RPM 驱动竖直轴和磨石，将小麦磨成小麦粉。测试时在磨石上方投入小麦，输出 2 份小麦粉，验证了加工过程。"
+            }
+          }
+        ],
+        "receipts": [
+          {
+            "turn": 1,
+            "seconds": 10.299,
+            "data": {
+              "writes": 19,
+              "seconds": 0.5722185639999989,
+              "mismatches": []
+            }
+          },
+          {
+            "turn": 2,
+            "seconds": 26.692,
+            "data": {
+              "passed": true,
+              "at": [
+                0,
+                4,
+                0
+              ],
+              "inputBefore": 0,
+              "inputAfter": 0,
+              "outputBefore": 0,
+              "outputAfter": 2,
+              "live": true,
+              "configured": true
+            }
+          }
+        ],
+        "response": {
+          "type": "reply",
+          "utc": "2026-11-21T16:56:20.070Z",
+          "seconds": 33.461557893,
+          "text": "成功建造并测试了 Create 磨粉机。创造马达以 32 RPM 驱动竖直轴和磨石，将小麦磨成小麦粉。测试时在磨石上方投入小麦，输出 2 份小麦粉，验证了加工过程。"
+        },
+        "result": {
+          "type": "result",
+          "utc": "2026-11-21T16:56:31.125Z",
+          "passed": true,
+          "seconds": 44.516522503,
+          "modelPassed": true,
+          "outside": [],
+          "kinetics": [
+            {
+              "at": [
+                0,
+                1,
+                0
+              ],
+              "id": "create:creative_motor",
+              "state": {
+                "facing": "up"
+              },
+              "rpm": 32,
+              "configuredRpm": 32,
+              "network": [
+                0,
+                4037
+              ],
+              "stress": 128,
+              "capacity": 524288
+            },
+            {
+              "at": [
+                0,
+                2,
+                0
+              ],
+              "id": "create:shaft",
+              "state": {
+                "waterlogged": "false",
+                "axis": "y"
+              },
+              "rpm": 32,
+              "source": [
+                0,
+                1,
+                0
+              ],
+              "network": [
+                0,
+                4037
+              ],
+              "stress": 128,
+              "capacity": 524288
+            },
+            {
+              "at": [
+                0,
+                3,
+                0
+              ],
+              "id": "create:millstone",
+              "rpm": 32,
+              "source": [
+                0,
+                2,
+                0
+              ],
+              "network": [
+                0,
+                4037
+              ],
+              "stress": 128,
+              "capacity": 524288
+            }
+          ],
+          "independent": {
+            "passed": true,
+            "at": [
+              0,
+              4,
+              0
+            ],
+            "inputBefore": 0,
+            "inputAfter": 0,
+            "outputBefore": 2,
+            "outputAfter": 4,
+            "live": true,
+            "configured": true
+          }
+        },
+        "independentNbt": {
+          "outputInventory": {
+            "Size": 9,
+            "Items": [
+              {
+                "Slot": 0,
+                "id": "create:wheat_flour",
+                "Count": 4
+              }
+            ]
+          },
+          "inputInventory": {
+            "Size": 1,
+            "Items": []
+          }
+        }
+      }
+    ]
   }
 }

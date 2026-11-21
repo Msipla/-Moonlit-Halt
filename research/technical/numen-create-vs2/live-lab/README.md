@@ -930,3 +930,50 @@ LAB_MIXER_STAGE=autonomous LAB_MILL_AUTONOMOUS=side-drive LAB_THINKING=0 node li
 27 次 API 请求全部返回 HTTP 200，未出现 `finish=length`。共 539,968 token（输入 525,973、输出 13,995、输入缓存命中 480,896），实际调用 23 次 Lua、6 次任务清单和 2 次 Skill。基线是 9 次请求、130,600 token、无施工。这一轮验证了从规划到施工、逐级读数和自修；完整投料闭环与总体效率仍待改善。若继续，优先减少第二级的无效布局尝试。把轴向同速接续与大小齿轮啮合的变速区分清楚，并以各级真实 RPM 作为继续施工依据。
 
 复现沿用上一节的同一 `trial.cjs`，只执行 `autonomous`，使用本次提交的 Skill。证据 JSON 的 `mixerFirstBuild` 保存关键游戏回执、模型消耗、截止后动力链和隔离结果。原始日志与前后快照见 `Numen-Create-Mixer-First-Build.zip`。
+
+## 直接批量施工与原生验收（2026-11-22）
+
+### 源码审查与选型
+
+| 项目和审查版本 | 源码结论与取舍 |
+| --- | --- |
+| Create 官方 `37ea4af`（6.0.11、MC 1.21.1 NeoForge）及 Fabric 端 `4c3fe77`（1.20.1 开发分支源码）。实机使用 Fabric 6.0.8.1 build 1744 JAR | 源码 MIT，资源目录有独立的保留权利声明。 `SchematicItem.loadSchematic` 把 gzip NBT 交给原生 `StructureTemplate`，`SchematicPrinter.loadSchematic` 装入预览世界供打印。 `RotationPropagator.handleAdded` 和 `propagateNewSource` 处理真实转速。`CreativeMotorBlockEntity.initialize` 启动动力，`ScrollValueBehaviour` 读写配置。直接使用安装版引擎。源码快照与发布 JAR 分开标识，未声称二进制由该快照构建。 |
+| Create Architect `3deae4a` | 该提交没有许可证文件，未复用其代码。 `server.js` 实际使用 Groq 的 `llama-3.3-70b-versatile` 输出意图，`layoutEngine.js` 根据类别走硬编码布局，`physicsSolver.js` 做重量与升力估算。独立调用 `encodeSchematic` 时原样触发 NBTWriter._long 的无符号低 32 位范围错误。仅固定诊断进程的时间戳后能解码，结果是根 `Schematic` 下的 Sponge v2 `Palette/BlockData`，与 Create 目标版结构 NBT 的根 `size/palette/blocks` 不匹配。样本齿轮箱还写了 `facing`，本版实际用 `axis`。本轮未做 Schematicannon 实机打印，不能据此声称直接兼容或能运行载具。可参考的是结构化意图与清单边界。 |
+| MineAI `d78abe6`（0.1.4 开发配置、MC 1.21.1、Java 21、LGPL-3.0） | 检出了实际 `plugins/create`，其构建依赖 NeoForge Create 6.0.10。`NumenCreate.install` 只注册 Skill，GameTest 源码验证安山机壳的挖放。`KbApi.search` 本地索引 GuideME、Patchouli、FTB Quests。`VerifyApi` 可核对库存、方块和邻近目标。`plugins/litematica` 同步本机房主的文件后交给 Numen 建造。可参考插件边界和只读核验，未看到现成的 Create 动力验证 API 或 VS 联动，本轮未移植。 |
+| Numen `2f47e7b`、PatchouliAI 1.6.6 `b1d929f` | Numen 为 LGPL-3.0。 `BuildApi` 和 `BuildPlacer` 已能处理状态清单，创意模式个别状态允许直写并更新邻格。已有实测仍会为施工任务寻路。Patchouli 的 Fabric 元数据声明 MIT，所审源码快照未找到独立项目许可正文。`MultiPlaceTask.tickMassBuild` 在巨型工程作弊分支按 tick 直写，已有清单编译、限额和进度管理。其 `StructureExporter` 明确写入原生结构使用的 `size/palette/blocks`，蓝图存储的 `BLUEPRINT:id` 引用留在 Patchouli 协议。沿用清单与回执的设计。 |
+| VS2 `1de3cc3`（2.4.12、MC 1.20.1、LGPL-3.0）与 Eureka `18344ae`（1.6.3、MC 1.20.1、Apache-2.0） | Eureka 的 `ShipHelmBlockEntity.assemble` 按黑名单筛选相邻块，经 `ShipAssembler.collectBlocks` 的 BFS 调 VS `assembleToShip`。VS 自己创建船、迁移方块并提供船对象。Eureka 此快照配置依赖 2.4.10，需重新核对具体配对。后续可先让模型提交船体清单，原型继续负责受限施工，再从游戏主线程触发原生装配并读实际船 ID、位置、变换和位移。此轮未运行 VS 或加载动态船上的 Create 动力。 |
+
+[Create 官方源码](https://github.com/Creators-of-Create/Create/tree/37ea4afcfe5bf85875d4b0749798a45330070a1f) · [Create Fabric 源码](https://github.com/Fabricators-of-Create/Create/tree/4c3fe779d135d592548e4cb09da04d742d2637b7) · [Architect](https://github.com/twentyss2/create-architect/tree/3deae4a94449bf8e4ae1089a69a7d4d6cea205b3) · [MineAI](https://github.com/ailiujiarui/MineAI/tree/d78abe60be51d41cd1ca7b8ef0657475da73feed) · [VS2](https://github.com/ValkyrienSkies/Valkyrien-Skies-2/tree/1de3cc3c1d26caaafaf7fb9654d68be812d46213) · [Eureka](https://github.com/ValkyrienSkies/Eureka/tree/18344aebe29267ef162b6311c8db5fc67d09ac7f)
+
+从实际 JAR 读取配方 JSON，水洗 `create:wheat_flour` 产 `create:dough`，研磨小麦产小麦粉并有额外随机产物。解包 Ponder 的 `fan/processing.nbt` 和 `millstone.nbt`，分别读到 17、13 项状态调色板以及 46、38 条方块记录。配方和静态方块状态可直接提取。场景脚本 `FanScenes.processing` 和 `ProcessingScenes.millstone` 会生成示意物品、设置展示转速或改写演示方块实体，所以从源码提炼连接和操作知识后，还要用真实动力与物品验收。原型运行时只读取目标配方，未用任何场景布局或坐标作为模型输入。
+
+补充对照来自用户提供的 DSH 实验，环境基线 `d1aa7ec`，本轮未复跑。Numen 批放 20 格石砖约 86 秒且角色发生长距离位移，10 格轴约 59 秒，其中 9 格标为直接写入。近处 5 格约 3 秒。独立的服务端 `/fill` 放 10 格玻璃约 1.05 秒。压机的 `/data get block` 在该例写入后即读到 −16 RPM 和动力源，3 秒后相同。结合本轮原生回读，直写能解除角色移动开销。仍应在服务器 tick 后确认更新并读真实结果，流体、动力负载和加工时间各自有延迟。
+
+按本轮安装 JAR 的 `assets/create/ponder/` 前缀实际枚举，有 178 个 NBT、37 个目录。该范围内总计 215 项，DSH 报告中的总条目数 301 未在该口径复现。英文资源 `assets/create/lang/en_us.json` 有 167 个 Ponder 场景标题键，并存在模拟拉杆的分步文本。可把 NBT、旁白和 Java 场景动作关联成按需检索的知识，正确性继续用游戏测量。
+
+### 隔离原型
+
+[direct.cjs](direct.cjs) 复用原试验服启动资产、RCON 和 `world.cjs` 的 Anvil 读档器。DeepSeek V4 Pro 非思考档提交受限 JSON 清单，模型自行决定位置、状态和测试进料点。原型先检查整批坐标、冲突和字段，再在无玩家的新服中用原版 `setblock … replace` 直接写入，等候游戏 tick 后读取实际方块属性、马达 `ScrollValue`、RPM、动力源和应力。世界的边缘障壁、最大批次 64 格与有限状态表只用于隔离研究。马达转速是唯一可写的方块实体配置，模型没有通用服务器命令或任意 NBT 写入权限。每次 `test` 输入恰好一份任务物料，程序检查真实库存或世界物品的输入消耗、产物增量及机器转速。所有模型调用结束后，自动再送入一份独立样品，检查新的产物增量和边界差异。
+
+### 上机结果
+
+三轮使用三个独立空地快照，起始块与实体数据的 SHA-256 一致。首轮水洗批次越界，后续三次都把水源与木桶写到同一格，程序按连续无效回执停止。没有写入任何方块，38.05 秒，4 次模型请求，8,132 token。随后给冲突回执加具体坐标和状态，并在通用清单约定中明确一格一个最终状态。未放宽边界。水洗复测和磨粉迁移使用同一份冻结代码、知识和动作定义，各自的新会话只有该次任务和现场回执。
+
+| 任务与运行 ID | 自主施工和自验 | 独立验收 | 批次／回复／独立验收耗时 | 模型 |
+| --- | --- | --- | --- | --- |
+| 风扇水洗 `washing-zPc6Tv` | 一批提交 23 格，状态及 NBT 回读无差异。风扇 32 RPM，应力 64／524288。第一次进料后原料仍在，模型改用水所在的进料格，原料消耗，生成 1 份面团。 | 模型回执后复投 1 份小麦粉，存档中的面团由 1 增到 2，原料为 0。 | 0.558 秒批次，49.644 秒回复，60.721 秒独立验收 | 4 次，6,498 token（输入 6,009、输出 489、输入缓存命中 4,352） |
+| 磨石研磨 `milling-QPgxbA` | 一批提交 19 格，其中 3 格实际新增机器和传动，其余为空气状态校验。磨石 32 RPM，应力 128／524288。磨石输出库存从 0 增为 2 份小麦粉。 | 复投 1 份小麦，真实磨石输出库存由 2 增到 4，输入为空。研磨产量存在随机项。 | 0.572 秒批次，33.462 秒回复，44.517 秒独立验收 | 3 次，4,259 token（输入 3,721、输出 538、输入缓存命中 2,432） |
+
+两次通过场景均无人手代建、代选进料点或截图判定，人工干预为 0。马达配置和实际驱动均回读为 32 RPM，传动及负载在同一动力网络。边界之外的采样无改动。总计 11 次模型请求、18,889 token，包含首次失败。批次耗时包含 RCON 逐格更新、500 毫秒等待和读盘；回复和验收从提交任务起计，不含冷启动。此结果验证两种小型装置的直接施工与一次机制迁移，未测生存物料约束、动态船装配、大型产线或其他版本。水洗中的自修是进料点纠错，未验证已损坏大型动力网的自主维修。与旧 420 秒搅拌实验的任务和模型接口不同，不作同任务速度对照。
+
+### 复现
+
+在研究目录复用 [前置依赖](../REPRODUCE.md) 的 `mc20`、Java 17 和 `npm ci --prefix mc20` 安装的 RCON/NBT 依赖。使用 Node.js 24、Python 3 和 `unzip`。实机安装 Fabric Loader 0.17.2、Fabric API 0.92.6、Create Fabric 6.0.8.1 build 1744。运行前由环境提供已授权的 `DEEPSEEK_API_KEY`。
+
+```bash
+node --check live-lab/direct.cjs
+node live-lab/direct.cjs washing
+node live-lab/direct.cjs milling
+```
+
+每次启动保存在独立的新目录，默认 `live-lab/runs/`，可通过 `LAB_RUNS` 改位置。已有 `mc20` 路径和 Java 路径可通过 `LAB_MC20`、`LAB_JAVA` 指定。服默认用本地 25586，RCON 使用后一端口。首次失败、两次通过的指令、用量、关键回执及独立快照摘录见[既有证据文件](evidence/local-lab-feed-2026-11-21.json)中的 `directBuildPrototype`。
