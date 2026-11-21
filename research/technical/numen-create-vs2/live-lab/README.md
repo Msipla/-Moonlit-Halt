@@ -1016,3 +1016,45 @@ LAB_GAME_BRIDGE="$PWD/live-lab/game-bridge/game-bridge.jar" node live-lab/run.cj
 `LAB_VS_MODS` 下使用 `vs.jar`、`eureka.jar`、`kotlin.jar`。游戏内试验同时依赖已有 `mc20/connect.cjs` 和 Numen 配置，试验启动器设置 `-Dengineering.site=-7,-60,5,8,-55,20`，部署时由服主设定授权范围。原始读取数据由每一轮的 `events.jsonl`、`model.jsonl`（游戏内组）和验收快照产生。仓库[证据](evidence/local-lab-feed-2026-11-21.json)的 `engineeringNext` 收录关键原始记录与运行 ID。
 
 产线下一步只补原生接轴面的闭环回执。使用已失败方案证明断口两侧实际接轴面，再让模型自行修正，共用动力测通后再接入物料。VS 先复用已经验证过的原生舵菜单路径和实际乘坐状态，对照当前直写船坞区块的 tick 与控制附件再验证位移。语音和外围功能留待核心阶段通过。
+
+## 夜间接轴诊断、产线与物流盲修（2026-11-22）
+
+在 Minecraft 1.20.1、Create Fabric 6.0.8.1 build 1744、Fabric Loader 0.17.2 的隔离新存档中验证。游戏内使用 Numen 0.1.5-beta 和连接的房主协议客户端。所有实测模型请求使用 DeepSeek V4 Pro。使用既有实验场和直写/游戏内桥接，VS 控制由 DSH 独立负责。
+
+### 真实接轴与知识来源
+
+[CreateReadings.java](game-bridge/CreateReadings.java) 在服务端查询 Create 的 `IRotate.hasShaftTowards`、`RotationPropagator.isConnected`、动力源、实际转速及网络。区分接轴面和齿轮啮合，风扇还读出原生气流方向。由玩家或模型声明部件及需要的接轴面，工具在原生合法状态中选择朝向。模型仍需自行选择方块坐标、传动拓扑和物流。对照重放上夜失败方案（`line-9oaB2e`）时，原生读数确认磨石 64 RPM、风扇 0 RPM。负载之间既有横向分支无接轴面，也有风扇接轴面背向来轴的问题。真实服务端拒绝含非法轴值的整批施工，拒绝前后世界快照相同。
+
+[ponder.cjs](ponder.cjs) 只接三条逐条核实的 Create 教学场景和安装版 JAR 配方条目。实际验证风扇、磨石和智能溜槽 NBT 路径，以及磨小麦、洗面粉的配方查询。演示动画与真实动力验收分别记录。仓库和运行环境没有 DSH 本地 Ponder 索引，本轮接入没有复制其提取器。
+
+### 实机结果
+
+| 阶段 | 实际测得 |
+| --- | --- |
+| 空地自主面团产线 | 模型曾在 47.450 秒接通同一动力网，电机 64、风扇 −64、磨石 64 RPM。该轮随后重复改同一齿轮箱，未投料。后续简化回执与动力阶段检查仍遇到模型要求一个齿轮箱同时连接三个轴，或尝试从磨石上方接轴。思考档两次写满 10,000 输出 token，均未给出可执行 JSON。复制共享动力存档另起模型续做时，模型写入了进料桶与漏斗，但随即重复这一批次，未接成品侧或投料。 |
+| 空地自主石料产线 | 切换至不同真实配方链圆石→砂砾→燧石，工具沿用同一套原生接口。两轮隔离模型测试未让两台磨石都接入同一动力网，未投料。 |
+| 物流盲修 | 夹具校准后，将进料漏斗从朝西改成朝东。故障时动力仍正常，3 小麦实际堵在漏斗、成品不增。首次模型反复观察，加入堵料和各面相邻方块后，模型找出正确改动。旧 `setblock` 改向清空了堵住的库存，未通过产量验收。改用原生同方块状态更新保留漏斗实体后，模型仅校正这一处，原有 3 小麦产 3 面团，独立再投 3 小麦新增 6 面团。方块状态、马达设定、过滤器与故障前一致，边界外变化为 0。人工代建、代选修复坐标均为 0。 |
+| 游戏内设备与 NBT | 在连接的非 OP 房主协议客户端旁，校验越界、生存与权限门槛。桥接实际写入 64 RPM 马达、部件、智能溜槽过滤与测试输入，保存并异地重建。两个风扇实测均 64 RPM，马达设定和过滤条件随原版 NBT 保留，桶内测试物料未随蓝图复制。 |
+| 游戏内双工位实机校准 | 无模型固定夹具在游戏内通过同一桥接写入，两个磨石分别由侧小齿轮驱动。原件和从原版 NBT 重建的副本，各喂 3 圆石，各有 3 燧石自动进入成品桶，圆石、砂砾均清空。四个磨石实测均为 −64 RPM，每条线独立共享一个马达。原始快照回读边界外差异为 0。 |
+| 游戏内模型产线 | 第一轮真实建出由同一马达驱动的两台 64 RPM 磨石，随后模型在规划物流时输出截断，未投料。分阶段轮在动力阶段限时内未接通两台磨石。完整自然语言自主投料、导入复验尚未通过。 |
+
+本轮通过的盲修模型使用 5 次请求、20,109 token，50.838 秒完成回执，100.648 秒完成独立验收。时间从模型任务开始计算，夹具校准另计。完整模型试验用量、回执、故障前后对照和运行 ID 见[证据 JSON](evidence/local-lab-feed-2026-11-21.json)的 `engineeringNight`。游戏内验证使用房主协议连接及 Numen bypass 夹具，检查了非 OP 房主、插件区域和创造模式。图形客户端、生产级权限组合及正式存档部署仍待验收。
+
+### 复现
+
+沿用上一节版本、Java 17 与已授权的运行时凭据。以下命令从研究目录启动并生成独立存档。
+
+```bash
+export LAB_MC20=/absolute/path/to/mc20
+bash live-lab/game-bridge/build.sh
+node live-lab/direct.cjs ports-check
+node live-lab/direct.cjs line
+node live-lab/direct.cjs stone-line
+node live-lab/direct.cjs repair-logistics
+export LAB_GAME_BRIDGE="$PWD/live-lab/game-bridge/game-bridge.jar"
+LAB_ENGINEERING_SMOKE=1 node live-lab/run.cjs engineering
+LAB_ENGINEERING_SMOKE=line node live-lab/run.cjs engineering
+LAB_ENGINEERING_LINE=1 node live-lab/run.cjs engineering
+```
+
+`ports-check` 和两个 `LAB_ENGINEERING_SMOKE` 组无模型。固定校准结构只在夹具中使用。模型轮利用原生状态检查、有限方块与参数集合，备份并尊重原有授权。标准结构文件只保留受支持方块状态、马达转速和智能溜槽筛选标量，导入逐格检查，库存和实体不复制。`LAB_LINE_RESUME` 可读取先前研究运行的 world 并在新目录复制后继续模型产线。盲修中的原料样本来自测试入口，生产由 Create 和原版物流完成。

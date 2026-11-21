@@ -8,6 +8,7 @@ const {snapshot} = require('./world.cjs');
 
 const phase = process.argv[2];
 const engineering = phase === 'engineering';
+const engineeringSmoke = engineering && ['1','line'].includes(process.env.LAB_ENGINEERING_SMOKE);
 const basicCheck = phase === 'basic-check';
 const basicWater = phase === 'basic-water';
 const basicAxis = phase === 'basic-axis';
@@ -204,6 +205,10 @@ async function chat(text, timeout = 340000) {
         return null;
       }
       if ((autonomousMill || engineering) && last?.status === 200) {
+        if (engineering && last.finish==='length') {
+          mark('agent_truncated',{calls:recent.length,finish:last.finish,seconds:(performance.now()-started)/1000});
+          return {...last,truncated:true};
+        }
         if (last.error || last.finish !== 'stop' || !last.content?.trim()) return null;
         const reply = ownerReplies.find(r=>r.at>=started && r.at<=deadline
           && r.text.endsWith('<LabBot> '+last.content.trim()));
@@ -516,7 +521,7 @@ async function testBasic() {
 async function main() {
   prepare();
   const relayEnv={...process.env};
-  if (!(guardCheck || basicCheck || checkMillIsolation || checkMillMechanics)) {
+  if (!(guardCheck || basicCheck || checkMillIsolation || checkMillMechanics || engineeringSmoke)) {
     assert(relayEnv.DEEPSEEK_API_KEY,'Set DEEPSEEK_API_KEY in the runtime');
     relay=spawn('python3',[path.join(__dirname,'relay.py'),String(relayPort),evidence],{env:relayEnv,stdio:['ignore','pipe','pipe']});
     const relayLog=fs.createWriteStream(path.join(run,'relay.log'));
@@ -535,7 +540,7 @@ async function main() {
   if (waterAction) args.push('-Dcreatelab.water=true');
   if (engineering) {
     extraMods.push(path.resolve(gameBridge));
-    args.push('-Dengineering.site=-7,-60,5,8,-55,20');
+    args.push('-Dengineering.site=-7,-60,5,8,-49,20');
   }
   if (extraMods.length) args.push('-Dfabric.addMods='+extraMods.join(path.delimiter));
   args.push('-jar','server-launch.jar','nogui');
@@ -570,7 +575,7 @@ async function main() {
     await verifyScope();
     return;
   }
-  if (!(basicCheck || checkMillIsolation || checkMillMechanics)) await cmd(cmdAs+'numen companion LabBot profile lab:deepseek');
+  if (!(basicCheck || checkMillIsolation || checkMillMechanics || engineeringSmoke)) await cmd(cmdAs+'numen companion LabBot profile lab:deepseek');
   if (scopeJar) {
     await cmd('deop LabOwner');
     await cmd('gamerule commandModificationBlockLimit 64');

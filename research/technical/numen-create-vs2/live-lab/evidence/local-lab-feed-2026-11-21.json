@@ -3245,5 +3245,3698 @@
       "rpm": 32,
       "baselineModelRun": "milling-QPgxbA"
     }
+  },
+  "engineeringNight": {
+    "schema": 1,
+    "basis": "29efde274a0a7dbd9f1b5d390081a0cf74063743",
+    "date": "2026-11-22",
+    "provenance": {
+      "model": "deepseek-v4-pro",
+      "minecraft": "1.20.1",
+      "create": "Fabric 6.0.8.1 build 1744",
+      "loader": "Fabric Loader 0.17.2",
+      "numen": "0.1.5-beta",
+      "platform": "isolated fresh server worlds",
+      "manualModelBuildEdits": 0
+    },
+    "portsCheck": {
+      "type": "ports_check",
+      "utc": "2026-11-21T19:25:27.417Z",
+      "passed": true,
+      "fixture": "line-9oaB2e last persisted model build",
+      "schema": {
+        "minecraft:water": {
+          "level": [
+            "0",
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "11",
+            "12",
+            "13",
+            "14",
+            "15"
+          ]
+        },
+        "minecraft:hopper": {
+          "enabled": [
+            "true",
+            "false"
+          ],
+          "facing": [
+            "down",
+            "north",
+            "south",
+            "west",
+            "east"
+          ]
+        },
+        "minecraft:barrel": {
+          "facing": [
+            "north",
+            "east",
+            "south",
+            "west",
+            "up",
+            "down"
+          ],
+          "open": [
+            "true",
+            "false"
+          ]
+        },
+        "create:creative_motor": {
+          "facing": [
+            "north",
+            "east",
+            "south",
+            "west",
+            "up",
+            "down"
+          ]
+        },
+        "create:shaft": {
+          "axis": [
+            "x",
+            "y",
+            "z"
+          ],
+          "waterlogged": [
+            "true",
+            "false"
+          ]
+        },
+        "create:gearbox": {
+          "axis": [
+            "x",
+            "y",
+            "z"
+          ]
+        },
+        "create:cogwheel": {
+          "axis": [
+            "x",
+            "y",
+            "z"
+          ],
+          "waterlogged": [
+            "true",
+            "false"
+          ]
+        },
+        "create:large_cogwheel": {
+          "axis": [
+            "x",
+            "y",
+            "z"
+          ],
+          "waterlogged": [
+            "true",
+            "false"
+          ]
+        },
+        "create:encased_fan": {
+          "facing": [
+            "north",
+            "east",
+            "south",
+            "west",
+            "up",
+            "down"
+          ]
+        },
+        "create:depot": {
+          "waterlogged": [
+            "true",
+            "false"
+          ]
+        },
+        "create:chute": {
+          "facing": [
+            "down",
+            "north",
+            "south",
+            "west",
+            "east"
+          ],
+          "shape": [
+            "intersection",
+            "window",
+            "normal",
+            "encased"
+          ],
+          "waterlogged": [
+            "true",
+            "false"
+          ]
+        },
+        "create:smart_chute": {
+          "powered": [
+            "true",
+            "false"
+          ]
+        }
+      },
+      "options": [
+        {
+          "state": "create:gearbox[axis=z]"
+        },
+        {
+          "error": "create:millstone cannot expose [up]; actual possible shaft faces: [[down]]"
+        }
+      ],
+      "guide": [
+        {
+          "topic": "fan",
+          "script": "FanScenes.processing",
+          "assets": [
+            "assets/create/ponder/fan/processing.nbt"
+          ],
+          "notes": "The air stream passes through a treatment block before reaching the item. The scene shows water for washing, fire for smoking, lava for blasting, and soul fire for haunting. Animation changes the shown items; verify the real machine and recipe.",
+          "evidence": "Ponder teaching scene"
+        },
+        {
+          "topic": "millstone",
+          "script": "ProcessingScenes.millstone",
+          "assets": [
+            "assets/create/ponder/millstone.nbt"
+          ],
+          "notes": "A side small cog can drive the millstone. Input goes in the top; output can be collected below. The script sets speed and inventories for animation.",
+          "evidence": "Ponder teaching scene"
+        },
+        {
+          "topic": "chute",
+          "script": "ChuteScenes.smart",
+          "assets": [
+            "assets/create/ponder/chute/smart.nbt"
+          ],
+          "notes": "Chutes transfer down to a reachable destination below. A smart chute can select an item. A powered chute can stop transfer; check actual filters and inventory.",
+          "evidence": "Ponder teaching scene"
+        },
+        {
+          "source": "data/create/recipes/milling/wheat.json",
+          "type": "create:milling",
+          "ingredients": [
+            {
+              "item": "minecraft:wheat"
+            }
+          ],
+          "processingTime": 150,
+          "results": [
+            {
+              "item": "create:wheat_flour"
+            },
+            {
+              "chance": 0.25,
+              "count": 2,
+              "item": "create:wheat_flour"
+            },
+            {
+              "chance": 0.25,
+              "item": "minecraft:wheat_seeds"
+            }
+          ]
+        },
+        {
+          "source": "data/create/recipes/splashing/wheat_flour.json",
+          "type": "create:splashing",
+          "ingredients": [
+            {
+              "tag": "c:wheat_flour"
+            }
+          ],
+          "results": [
+            {
+              "item": "create:dough"
+            }
+          ]
+        }
+      ],
+      "invalidBatchWorldUnchanged": true,
+      "receipt": {
+        "writes": 11,
+        "mismatches": [],
+        "nativePower": {
+          "status": "incomplete",
+          "loads": [
+            {
+              "at": [
+                0,
+                2,
+                0
+              ],
+              "faces": [
+                "up"
+              ],
+              "rpm": 64,
+              "network": "4038",
+              "adjacentLinks": [
+                [
+                  0,
+                  3,
+                  0
+                ]
+              ],
+              "id": "create:creative_motor"
+            },
+            {
+              "at": [
+                6,
+                4,
+                0
+              ],
+              "faces": [
+                "east"
+              ],
+              "rpm": 0,
+              "id": "create:encased_fan"
+            },
+            {
+              "at": [
+                0,
+                6,
+                0
+              ],
+              "faces": [
+                "down"
+              ],
+              "rpm": 64,
+              "network": "4038",
+              "source": [
+                0,
+                5,
+                0
+              ],
+              "adjacentLinks": [
+                [
+                  0,
+                  5,
+                  0
+                ]
+              ],
+              "id": "create:millstone"
+            }
+          ],
+          "devices": [
+            {
+              "at": [
+                0,
+                2,
+                0
+              ],
+              "faces": [
+                "up"
+              ],
+              "rpm": 64,
+              "network": "4038",
+              "adjacentLinks": [
+                [
+                  0,
+                  3,
+                  0
+                ]
+              ],
+              "id": "create:creative_motor"
+            },
+            {
+              "at": [
+                0,
+                3,
+                0
+              ],
+              "faces": [
+                "down",
+                "up"
+              ],
+              "rpm": 64,
+              "network": "4038",
+              "source": [
+                0,
+                2,
+                0
+              ],
+              "adjacentLinks": [
+                [
+                  0,
+                  2,
+                  0
+                ],
+                [
+                  0,
+                  4,
+                  0
+                ]
+              ],
+              "id": "create:shaft"
+            },
+            {
+              "at": [
+                0,
+                4,
+                0
+              ],
+              "faces": [
+                "down",
+                "up"
+              ],
+              "rpm": 64,
+              "network": "4038",
+              "source": [
+                0,
+                3,
+                0
+              ],
+              "adjacentLinks": [
+                [
+                  0,
+                  3,
+                  0
+                ],
+                [
+                  0,
+                  5,
+                  0
+                ]
+              ],
+              "id": "create:shaft"
+            },
+            {
+              "at": [
+                1,
+                4,
+                0
+              ],
+              "faces": [
+                "down",
+                "up",
+                "north",
+                "south"
+              ],
+              "rpm": 0,
+              "id": "create:gearbox"
+            },
+            {
+              "at": [
+                2,
+                4,
+                0
+              ],
+              "faces": [
+                "west",
+                "east"
+              ],
+              "rpm": 0,
+              "id": "create:shaft"
+            },
+            {
+              "at": [
+                3,
+                4,
+                0
+              ],
+              "faces": [
+                "down",
+                "up",
+                "north",
+                "south"
+              ],
+              "rpm": 0,
+              "id": "create:gearbox"
+            },
+            {
+              "at": [
+                4,
+                4,
+                0
+              ],
+              "faces": [
+                "west",
+                "east"
+              ],
+              "rpm": 0,
+              "id": "create:shaft"
+            },
+            {
+              "at": [
+                5,
+                4,
+                0
+              ],
+              "faces": [
+                "down",
+                "up",
+                "north",
+                "south"
+              ],
+              "rpm": 0,
+              "id": "create:gearbox"
+            },
+            {
+              "at": [
+                6,
+                4,
+                0
+              ],
+              "faces": [
+                "east"
+              ],
+              "rpm": 0,
+              "id": "create:encased_fan"
+            },
+            {
+              "at": [
+                0,
+                5,
+                0
+              ],
+              "faces": [
+                "down",
+                "up"
+              ],
+              "rpm": 64,
+              "network": "4038",
+              "source": [
+                0,
+                4,
+                0
+              ],
+              "adjacentLinks": [
+                [
+                  0,
+                  4,
+                  0
+                ],
+                [
+                  0,
+                  6,
+                  0
+                ]
+              ],
+              "id": "create:shaft"
+            },
+            {
+              "at": [
+                0,
+                6,
+                0
+              ],
+              "faces": [
+                "down"
+              ],
+              "rpm": 64,
+              "network": "4038",
+              "source": [
+                0,
+                5,
+                0
+              ],
+              "adjacentLinks": [
+                [
+                  0,
+                  5,
+                  0
+                ]
+              ],
+              "id": "create:millstone"
+            }
+          ],
+          "cutPairs": [
+            {
+              "at": [
+                0,
+                4,
+                0
+              ],
+              "other": [
+                1,
+                4,
+                0
+              ],
+              "facesToward": [
+                "east",
+                "west"
+              ],
+              "hasThoseFaces": [
+                false,
+                false
+              ],
+              "powered": [
+                true,
+                false
+              ]
+            },
+            {
+              "at": [
+                1,
+                4,
+                0
+              ],
+              "other": [
+                2,
+                4,
+                0
+              ],
+              "facesToward": [
+                "east",
+                "west"
+              ],
+              "hasThoseFaces": [
+                false,
+                true
+              ],
+              "powered": [
+                false,
+                false
+              ]
+            },
+            {
+              "at": [
+                2,
+                4,
+                0
+              ],
+              "other": [
+                3,
+                4,
+                0
+              ],
+              "facesToward": [
+                "east",
+                "west"
+              ],
+              "hasThoseFaces": [
+                true,
+                false
+              ],
+              "powered": [
+                false,
+                false
+              ]
+            },
+            {
+              "at": [
+                3,
+                4,
+                0
+              ],
+              "other": [
+                4,
+                4,
+                0
+              ],
+              "facesToward": [
+                "east",
+                "west"
+              ],
+              "hasThoseFaces": [
+                false,
+                true
+              ],
+              "powered": [
+                false,
+                false
+              ]
+            },
+            {
+              "at": [
+                4,
+                4,
+                0
+              ],
+              "other": [
+                5,
+                4,
+                0
+              ],
+              "facesToward": [
+                "east",
+                "west"
+              ],
+              "hasThoseFaces": [
+                true,
+                false
+              ],
+              "powered": [
+                false,
+                false
+              ]
+            },
+            {
+              "at": [
+                5,
+                4,
+                0
+              ],
+              "other": [
+                6,
+                4,
+                0
+              ],
+              "facesToward": [
+                "east",
+                "west"
+              ],
+              "hasThoseFaces": [
+                false,
+                false
+              ],
+              "powered": [
+                false,
+                false
+              ]
+            }
+          ]
+        }
+      },
+      "run": "ports-check-07uPAF"
+    },
+    "autonomousLine": [
+      {
+        "run": "line-fEsba8",
+        "variant": "native readbacks, wheat",
+        "requests": 18,
+        "usage": {
+          "total_tokens": 206958,
+          "prompt_tokens": 205896,
+          "completion_tokens": 1062,
+          "prompt_cache_hit_tokens": 184704
+        },
+        "firstShared": null,
+        "buildBatches": 18,
+        "firstBuildSeconds": 9.039527595,
+        "distinctErrors": [],
+        "assays": [],
+        "lastModelAction": "{\n  \"action\": \"build\",\n  \"blocks\": [\n    {\"at\": [2, 3, 0], \"state\": \"create:gearbox[axis=y]\"}\n  ]\n}",
+        "apiFinish": [
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop"
+        ],
+        "apiError": null,
+        "powerCheckpoint": null,
+        "result": {
+          "passed": false,
+          "seconds": 104.429370503,
+          "modelPassed": false,
+          "reply": null,
+          "outside": [],
+          "independent": null,
+          "loads": [
+            {
+              "at": [
+                0,
+                3,
+                -2
+              ],
+              "id": "create:encased_fan",
+              "state": {
+                "facing": "north"
+              },
+              "rpm": 0
+            },
+            {
+              "at": [
+                0,
+                1,
+                0
+              ],
+              "id": "create:creative_motor",
+              "state": {
+                "facing": "up"
+              },
+              "rpm": 64,
+              "configuredRpm": 64,
+              "network": [
+                0,
+                4037
+              ],
+              "stress": 0,
+              "capacity": 1048576
+            },
+            {
+              "at": [
+                2,
+                5,
+                0
+              ],
+              "id": "create:millstone",
+              "rpm": 0
+            }
+          ]
+        }
+      },
+      {
+        "run": "line-Ub3Clz",
+        "variant": "model-specified native shaft contacts, wheat",
+        "requests": 13,
+        "usage": {
+          "total_tokens": 74144,
+          "prompt_tokens": 72436,
+          "completion_tokens": 1708,
+          "prompt_cache_hit_tokens": 61568
+        },
+        "firstShared": {
+          "turn": 8,
+          "seconds": 47.449801012,
+          "loads": [
+            {
+              "at": [
+                0,
+                6,
+                -4
+              ],
+              "faces": [
+                "down"
+              ],
+              "rpm": 64,
+              "network": "4038",
+              "source": [
+                0,
+                5,
+                -4
+              ],
+              "adjacentLinks": [
+                [
+                  0,
+                  5,
+                  -4
+                ]
+              ],
+              "id": "create:millstone"
+            },
+            {
+              "at": [
+                0,
+                2,
+                0
+              ],
+              "faces": [
+                "up"
+              ],
+              "rpm": 64,
+              "network": "4038",
+              "adjacentLinks": [
+                [
+                  0,
+                  3,
+                  0
+                ]
+              ],
+              "id": "create:creative_motor"
+            },
+            {
+              "at": [
+                0,
+                6,
+                0
+              ],
+              "faces": [
+                "down"
+              ],
+              "rpm": -64,
+              "network": "4038",
+              "source": [
+                0,
+                5,
+                0
+              ],
+              "adjacentLinks": [
+                [
+                  0,
+                  5,
+                  0
+                ]
+              ],
+              "id": "create:encased_fan"
+            }
+          ]
+        },
+        "buildBatches": 10,
+        "firstBuildSeconds": 12.684203226000001,
+        "distinctErrors": [
+          "orientation at [0,4,0]: create:gearbox[axis=y] cannot expose these shaft faces: [down, north, south]",
+          "orientation at [0,4,-4]: create:gearbox[axis=z] cannot expose these shaft faces: [north, up]"
+        ],
+        "assays": [],
+        "lastModelAction": "{\n  \"action\": \"build\",\n  \"blocks\": [\n    {\n      \"at\": [0, 4, -4],\n      \"state\": \"create:gearbox[axis=x]\",\n      \"faces\": [\"north\", \"up\"]\n    }\n  ]\n}",
+        "apiFinish": [
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop"
+        ],
+        "apiError": null,
+        "powerCheckpoint": null,
+        "result": {
+          "passed": false,
+          "seconds": 72.940213108,
+          "modelPassed": false,
+          "reply": null,
+          "outside": [],
+          "independent": null,
+          "loads": [
+            {
+              "at": [
+                0,
+                6,
+                -4
+              ],
+              "id": "create:millstone",
+              "rpm": 64,
+              "source": [
+                0,
+                5,
+                -4
+              ],
+              "network": [
+                0,
+                4038
+              ],
+              "stress": 384,
+              "capacity": 1048576
+            },
+            {
+              "at": [
+                0,
+                2,
+                0
+              ],
+              "id": "create:creative_motor",
+              "state": {
+                "facing": "up"
+              },
+              "rpm": 64,
+              "configuredRpm": 64,
+              "network": [
+                0,
+                4038
+              ],
+              "stress": 384,
+              "capacity": 1048576
+            },
+            {
+              "at": [
+                0,
+                6,
+                0
+              ],
+              "id": "create:encased_fan",
+              "state": {
+                "facing": "up"
+              },
+              "rpm": -64,
+              "source": [
+                0,
+                5,
+                0
+              ],
+              "network": [
+                0,
+                4038
+              ],
+              "stress": 384,
+              "capacity": 1048576
+            }
+          ]
+        }
+      },
+      {
+        "run": "line-vFA3IR",
+        "variant": "compact progression receipt, wheat",
+        "requests": 18,
+        "usage": {
+          "total_tokens": 97690,
+          "prompt_tokens": 96265,
+          "completion_tokens": 1425,
+          "prompt_cache_hit_tokens": 86272
+        },
+        "firstShared": null,
+        "buildBatches": 12,
+        "firstBuildSeconds": 18.039132767999998,
+        "distinctErrors": [
+          "orientation at [0,3,0]: create:gearbox[axis=y] cannot expose these shaft faces: [down, north]",
+          "orientation at [0,3,0]: create:gearbox[axis=z] cannot expose these shaft faces: [down, north]",
+          "orientation at [0,1,2]: create:millstone cannot expose these shaft faces: [up]"
+        ],
+        "assays": [],
+        "lastModelAction": "{\n  \"action\": \"build\",\n  \"blocks\": [\n    {\n      \"at\": [0, 1, 2],\n      \"state\": \"create:millstone\"\n    }\n  ]\n}",
+        "apiFinish": [
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop"
+        ],
+        "apiError": null,
+        "powerCheckpoint": null,
+        "result": {
+          "passed": false,
+          "seconds": 101.059551088,
+          "modelPassed": false,
+          "reply": null,
+          "outside": [],
+          "independent": null,
+          "loads": [
+            {
+              "at": [
+                0,
+                3,
+                -2
+              ],
+              "id": "create:encased_fan",
+              "state": {
+                "facing": "north"
+              },
+              "rpm": -64,
+              "source": [
+                0,
+                3,
+                -1
+              ],
+              "network": [
+                0,
+                4037
+              ],
+              "stress": 128,
+              "capacity": 1048576
+            },
+            {
+              "at": [
+                0,
+                1,
+                0
+              ],
+              "id": "create:creative_motor",
+              "state": {
+                "facing": "up"
+              },
+              "rpm": 64,
+              "configuredRpm": 64,
+              "network": [
+                0,
+                4037
+              ],
+              "stress": 128,
+              "capacity": 1048576
+            },
+            {
+              "at": [
+                0,
+                1,
+                2
+              ],
+              "id": "create:millstone",
+              "rpm": 0
+            }
+          ]
+        }
+      },
+      {
+        "run": "line-1VAMvN",
+        "variant": "power checkpoint and airflow, wheat",
+        "requests": 4,
+        "usage": {
+          "total_tokens": 11801,
+          "prompt_tokens": 11226,
+          "completion_tokens": 575,
+          "prompt_cache_hit_tokens": 8832
+        },
+        "firstShared": null,
+        "buildBatches": 1,
+        "firstBuildSeconds": 7.595391319999999,
+        "distinctErrors": [
+          "orientation at [0,3,0]: create:gearbox[axis=y] cannot expose [down, east, south]; actual possible shaft faces: [[down, up, north, south], [north, south, west, east], [down, up, west, east]]",
+          "orientation at [0,3,0]: create:gearbox[axis=y] cannot expose [down, east, north]; actual possible shaft faces: [[down, up, north, south], [north, south, west, east], [down, up, west, east]]"
+        ],
+        "assays": [],
+        "lastModelAction": "{\n  \"action\": \"build\",\n  \"blocks\": [\n    {\n      \"at\": [0, 3, 0],\n      \"state\": \"create:gearbox[axis=y]\",\n      \"faces\": [\"down\", \"east\", \"south\"]\n    }\n  ]\n}",
+        "apiFinish": [
+          "stop",
+          "stop",
+          "stop",
+          "stop"
+        ],
+        "apiError": null,
+        "powerCheckpoint": null,
+        "result": {
+          "passed": false,
+          "seconds": 22.412441624000003,
+          "modelPassed": false,
+          "reply": null,
+          "outside": [],
+          "independent": null,
+          "loads": [
+            {
+              "at": [
+                0,
+                1,
+                0
+              ],
+              "id": "create:creative_motor",
+              "state": {
+                "facing": "up"
+              },
+              "rpm": 64,
+              "configuredRpm": 64,
+              "network": [
+                0,
+                4037
+              ],
+              "stress": 256,
+              "capacity": 1048576
+            },
+            {
+              "at": [
+                2,
+                5,
+                0
+              ],
+              "id": "create:millstone",
+              "rpm": 64,
+              "source": [
+                2,
+                4,
+                0
+              ],
+              "network": [
+                0,
+                4037
+              ],
+              "stress": 256,
+              "capacity": 1048576
+            },
+            {
+              "at": [
+                0,
+                3,
+                2
+              ],
+              "id": "create:encased_fan",
+              "state": {
+                "facing": "south"
+              },
+              "rpm": 0
+            }
+          ]
+        }
+      },
+      {
+        "run": "stone-line-PwSfqr",
+        "variant": "different recipe and same native interface",
+        "requests": 18,
+        "usage": {
+          "total_tokens": 90783,
+          "prompt_tokens": 89409,
+          "completion_tokens": 1374,
+          "prompt_cache_hit_tokens": 81152
+        },
+        "firstShared": null,
+        "buildBatches": 14,
+        "firstBuildSeconds": 12.841883815000001,
+        "distinctErrors": [
+          "orientation at [0,2,-2]: create:millstone cannot expose [up, down]; actual possible shaft faces: [[down]]",
+          "orientation at [0,2,-2]: create:millstone cannot expose [down, up]; actual possible shaft faces: [[down]]"
+        ],
+        "assays": [],
+        "lastModelAction": "{\n  \"action\": \"build\",\n  \"blocks\": [\n    {\n      \"at\": [0, 2, -2],\n      \"state\": \"create:millstone\",\n      \"faces\": [\"down\"]\n    }\n  ]\n}",
+        "apiFinish": [
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop"
+        ],
+        "apiError": null,
+        "powerCheckpoint": null,
+        "result": {
+          "passed": false,
+          "seconds": 100.27566423399999,
+          "modelPassed": false,
+          "reply": null,
+          "outside": [],
+          "independent": null,
+          "loads": [
+            {
+              "at": [
+                0,
+                2,
+                -2
+              ],
+              "id": "create:millstone",
+              "rpm": 0
+            },
+            {
+              "at": [
+                0,
+                2,
+                0
+              ],
+              "id": "create:creative_motor",
+              "state": {
+                "facing": "up"
+              },
+              "rpm": 64,
+              "configuredRpm": 64,
+              "network": [
+                0,
+                4038
+              ],
+              "stress": 0,
+              "capacity": 1048576
+            },
+            {
+              "at": [
+                0,
+                2,
+                2
+              ],
+              "id": "create:millstone",
+              "rpm": 0
+            }
+          ]
+        }
+      },
+      {
+        "run": "stone-line-ioTF57",
+        "variant": "explicit downhill logistics",
+        "requests": 18,
+        "usage": {
+          "total_tokens": 166203,
+          "prompt_tokens": 164951,
+          "completion_tokens": 1252,
+          "prompt_cache_hit_tokens": 149248
+        },
+        "firstShared": null,
+        "buildBatches": 12,
+        "firstBuildSeconds": 7.7687654980000005,
+        "distinctErrors": [
+          "orientation at [2,4,-2]: create:millstone cannot expose [up]; actual possible shaft faces: [[down]]"
+        ],
+        "assays": [],
+        "lastModelAction": "{\"action\":\"build\",\"blocks\":[{\"at\":[2,4,-2],\"state\":\"create:millstone\",\"faces\":[\"down\"]},{\"at\":[-2,4,2],\"state\":\"create:millstone\",\"faces\":[\"down\"]}]}",
+        "apiFinish": [
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop"
+        ],
+        "apiError": null,
+        "powerCheckpoint": null,
+        "result": {
+          "passed": false,
+          "seconds": 113.39088430400001,
+          "modelPassed": false,
+          "reply": null,
+          "outside": [],
+          "independent": null,
+          "loads": [
+            {
+              "at": [
+                -2,
+                4,
+                2
+              ],
+              "id": "create:millstone",
+              "rpm": 0
+            },
+            {
+              "at": [
+                2,
+                4,
+                -2
+              ],
+              "id": "create:millstone",
+              "rpm": 0
+            },
+            {
+              "at": [
+                0,
+                4,
+                0
+              ],
+              "id": "create:creative_motor",
+              "state": {
+                "facing": "up"
+              },
+              "rpm": 64,
+              "configuredRpm": 64,
+              "network": [
+                0,
+                4040
+              ],
+              "stress": 0,
+              "capacity": 1048576
+            }
+          ]
+        }
+      },
+      {
+        "run": "line-qsMmk6",
+        "variant": "thinking with new native diagnostics",
+        "requests": 2,
+        "usage": {
+          "total_tokens": 24026,
+          "prompt_tokens": 4026,
+          "completion_tokens": 20000,
+          "prompt_cache_hit_tokens": 1920
+        },
+        "firstShared": null,
+        "buildBatches": 0,
+        "firstBuildSeconds": null,
+        "distinctErrors": [
+          "incomplete JSON response: length"
+        ],
+        "assays": [],
+        "lastModelAction": "",
+        "apiFinish": [
+          "length",
+          "length"
+        ],
+        "apiError": null,
+        "powerCheckpoint": null,
+        "result": {
+          "passed": false,
+          "seconds": 198.643201462,
+          "modelPassed": false,
+          "reply": null,
+          "outside": [],
+          "independent": null,
+          "loads": []
+        }
+      },
+      {
+        "run": "line-jNlDCo",
+        "variant": "copied model-generated layout with a new continuation session",
+        "requests": 5,
+        "usage": {
+          "total_tokens": 17817,
+          "prompt_tokens": 17599,
+          "completion_tokens": 218,
+          "prompt_cache_hit_tokens": 13440
+        },
+        "firstShared": {
+          "turn": 3,
+          "seconds": 16.746983447999998,
+          "loads": [
+            {
+              "at": [
+                0,
+                6,
+                -4
+              ],
+              "faces": [
+                "down"
+              ],
+              "rpm": 64,
+              "network": "4038",
+              "source": [
+                0,
+                5,
+                -4
+              ],
+              "adjacentLinks": [
+                [
+                  0,
+                  5,
+                  -4
+                ]
+              ],
+              "id": "create:millstone"
+            },
+            {
+              "at": [
+                0,
+                2,
+                0
+              ],
+              "faces": [
+                "up"
+              ],
+              "rpm": 64,
+              "network": "4038",
+              "adjacentLinks": [
+                [
+                  0,
+                  3,
+                  0
+                ]
+              ],
+              "id": "create:creative_motor"
+            },
+            {
+              "at": [
+                0,
+                6,
+                0
+              ],
+              "faces": [
+                "down"
+              ],
+              "rpm": -64,
+              "network": "4038",
+              "source": [
+                0,
+                5,
+                0
+              ],
+              "air": {
+                "movement": "down",
+                "front": "up",
+                "range": 7.25
+              },
+              "adjacentLinks": [
+                [
+                  0,
+                  5,
+                  0
+                ]
+              ],
+              "id": "create:encased_fan"
+            }
+          ]
+        },
+        "buildBatches": 3,
+        "firstBuildSeconds": 16.746983447999998,
+        "distinctErrors": [
+          "orientation at [0,7,-4]: minecraft:hopper cannot expose [down]; actual possible shaft faces: [[]]",
+          "invalid shaft face list"
+        ],
+        "assays": [],
+        "lastModelAction": "{\"action\":\"build\",\"blocks\":[{\"at\":[0,7,-4],\"state\":\"minecraft:hopper\"},{\"at\":[0,8,-4],\"state\":\"minecraft:barrel\"}]}",
+        "apiFinish": [
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop"
+        ],
+        "apiError": null,
+        "powerCheckpoint": null,
+        "result": {
+          "passed": false,
+          "seconds": 28.725830219000002,
+          "modelPassed": false,
+          "reply": null,
+          "outside": [],
+          "independent": null,
+          "loads": [
+            {
+              "at": [
+                0,
+                6,
+                -4
+              ],
+              "id": "create:millstone",
+              "rpm": 64,
+              "source": [
+                0,
+                5,
+                -4
+              ],
+              "network": [
+                0,
+                4038
+              ],
+              "stress": 384,
+              "capacity": 1048576
+            },
+            {
+              "at": [
+                0,
+                2,
+                0
+              ],
+              "id": "create:creative_motor",
+              "state": {
+                "facing": "up"
+              },
+              "rpm": 64,
+              "configuredRpm": 64,
+              "network": [
+                0,
+                4038
+              ],
+              "stress": 384,
+              "capacity": 1048576
+            },
+            {
+              "at": [
+                0,
+                6,
+                0
+              ],
+              "id": "create:encased_fan",
+              "state": {
+                "facing": "up"
+              },
+              "rpm": -64,
+              "source": [
+                0,
+                5,
+                0
+              ],
+              "network": [
+                0,
+                4038
+              ],
+              "stress": 384,
+              "capacity": 1048576
+            }
+          ]
+        }
+      }
+    ],
+    "logisticsRepair": [
+      {
+        "run": "repair-logistics-mcMiT3",
+        "variant": "observe-only control",
+        "requests": 3,
+        "usage": {
+          "total_tokens": 8700,
+          "prompt_tokens": 8670,
+          "completion_tokens": 30,
+          "prompt_cache_hit_tokens": 5120
+        },
+        "firstShared": {
+          "turn": 1,
+          "seconds": 5.474475896999997,
+          "loads": [
+            {
+              "at": [
+                0,
+                4,
+                -5
+              ],
+              "faces": [
+                "south"
+              ],
+              "rpm": 64,
+              "network": "274877890504",
+              "adjacentLinks": [
+                [
+                  0,
+                  4,
+                  -4
+                ]
+              ],
+              "id": "create:creative_motor"
+            },
+            {
+              "at": [
+                0,
+                4,
+                -2
+              ],
+              "faces": [
+                "north"
+              ],
+              "rpm": -64,
+              "network": "274877890504",
+              "source": [
+                0,
+                4,
+                -3
+              ],
+              "air": {
+                "front": "south",
+                "range": 7.25,
+                "movement": "north"
+              },
+              "adjacentLinks": [
+                [
+                  0,
+                  4,
+                  -3
+                ]
+              ],
+              "id": "create:encased_fan"
+            },
+            {
+              "at": [
+                1,
+                6,
+                0
+              ],
+              "faces": [
+                "down"
+              ],
+              "rpm": -64,
+              "network": "274877890504",
+              "source": [
+                0,
+                6,
+                0
+              ],
+              "adjacentLinks": [
+                [
+                  0,
+                  6,
+                  0
+                ]
+              ],
+              "id": "create:millstone"
+            }
+          ]
+        },
+        "buildBatches": 0,
+        "firstBuildSeconds": null,
+        "distinctErrors": [],
+        "assays": [],
+        "lastModelAction": "{\n  \"action\": \"observe\"\n}",
+        "apiFinish": [
+          "stop",
+          "stop",
+          "stop"
+        ],
+        "apiError": null,
+        "powerCheckpoint": null,
+        "result": {
+          "passed": false,
+          "seconds": 16.738133926000003,
+          "modelPassed": false,
+          "reply": null,
+          "outside": [],
+          "independent": null,
+          "loads": [
+            {
+              "at": [
+                0,
+                4,
+                -2
+              ],
+              "id": "create:encased_fan",
+              "state": {
+                "facing": "south"
+              },
+              "rpm": -64,
+              "source": [
+                0,
+                4,
+                -3
+              ],
+              "network": [
+                63,
+                -16440
+              ],
+              "stress": 384,
+              "capacity": 1048576
+            },
+            {
+              "at": [
+                0,
+                4,
+                -5
+              ],
+              "id": "create:creative_motor",
+              "state": {
+                "facing": "south"
+              },
+              "rpm": 64,
+              "configuredRpm": 64,
+              "network": [
+                63,
+                -16440
+              ],
+              "stress": 384,
+              "capacity": 1048576
+            },
+            {
+              "at": [
+                1,
+                6,
+                0
+              ],
+              "id": "create:millstone",
+              "rpm": -64,
+              "source": [
+                0,
+                6,
+                0
+              ],
+              "network": [
+                63,
+                -16440
+              ],
+              "stress": 384,
+              "capacity": 1048576
+            }
+          ]
+        },
+        "calibration": {
+          "passed": true,
+          "feed": [
+            2,
+            7,
+            0
+          ],
+          "out": [
+            0,
+            1,
+            0
+          ],
+          "inserted": 3,
+          "outputBefore": 0,
+          "outputAfter": 4,
+          "flow": [
+            {
+              "input": 2,
+              "intermediate": 2,
+              "finished": 0,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 4,
+              "finished": 0,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 4,
+              "finished": 0,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 3,
+              "finished": 1,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 3,
+              "finished": 1,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 2,
+              "finished": 2,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 2,
+              "finished": 2,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 1,
+              "finished": 3,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 1,
+              "finished": 3,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 1,
+              "finished": 3,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 0,
+              "finished": 4,
+              "inputBarrel": 0
+            }
+          ]
+        },
+        "injected": {
+          "type": "fixture_fault",
+          "utc": "2026-11-21T19:21:45.814Z",
+          "directions": {
+            "before": "west",
+            "after": "east"
+          },
+          "location": [
+            2,
+            6,
+            0
+          ],
+          "waiting": 3,
+          "unchangedOutput": 4,
+          "sharedPower": true,
+          "pending": {
+            "out": "0,-59,0",
+            "baseline": 4
+          }
+        },
+        "integrity": {
+          "type": "repair_integrity",
+          "utc": "2026-11-21T19:22:02.555Z",
+          "passed": false,
+          "changedComparedToHealthy": [
+            "2,-54,0"
+          ]
+        },
+        "firstBlockedTransfer": null,
+        "editReadbacks": []
+      },
+      {
+        "run": "repair-logistics-zhElcj",
+        "variant": "blocked transfer readback; legacy setblock cleared contents",
+        "requests": 10,
+        "usage": {
+          "total_tokens": 65820,
+          "prompt_tokens": 65440,
+          "completion_tokens": 380,
+          "prompt_cache_hit_tokens": 54272
+        },
+        "firstShared": {
+          "turn": 1,
+          "seconds": 5.331772448999996,
+          "loads": [
+            {
+              "at": [
+                0,
+                4,
+                -5
+              ],
+              "faces": [
+                "south"
+              ],
+              "rpm": 64,
+              "network": "274877890504",
+              "adjacentLinks": [
+                [
+                  0,
+                  4,
+                  -4
+                ]
+              ],
+              "id": "create:creative_motor"
+            },
+            {
+              "at": [
+                0,
+                4,
+                -2
+              ],
+              "faces": [
+                "north"
+              ],
+              "rpm": -64,
+              "network": "274877890504",
+              "source": [
+                0,
+                4,
+                -3
+              ],
+              "air": {
+                "range": 7.25,
+                "movement": "north",
+                "front": "south"
+              },
+              "adjacentLinks": [
+                [
+                  0,
+                  4,
+                  -3
+                ]
+              ],
+              "id": "create:encased_fan"
+            },
+            {
+              "at": [
+                1,
+                6,
+                0
+              ],
+              "faces": [
+                "down"
+              ],
+              "rpm": -64,
+              "network": "274877890504",
+              "source": [
+                0,
+                6,
+                0
+              ],
+              "adjacentLinks": [
+                [
+                  0,
+                  6,
+                  0
+                ]
+              ],
+              "id": "create:millstone"
+            }
+          ]
+        },
+        "buildBatches": 4,
+        "firstBuildSeconds": 10.74146124199999,
+        "distinctErrors": [],
+        "assays": [
+          {
+            "turn": 3,
+            "result": {
+              "passed": false,
+              "feed": [
+                2,
+                7,
+                0
+              ],
+              "out": [
+                0,
+                1,
+                0
+              ],
+              "inserted": 3,
+              "outputBefore": 6,
+              "outputAfter": 6,
+              "flow": [
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                }
+              ]
+            }
+          },
+          {
+            "turn": 6,
+            "result": {
+              "passed": false,
+              "feed": [
+                2,
+                7,
+                0
+              ],
+              "out": [
+                0,
+                1,
+                0
+              ],
+              "inserted": 3,
+              "outputBefore": 6,
+              "outputAfter": 6,
+              "flow": [
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                }
+              ]
+            }
+          },
+          {
+            "turn": 8,
+            "result": {
+              "passed": false,
+              "feed": [
+                2,
+                7,
+                0
+              ],
+              "out": [
+                0,
+                1,
+                0
+              ],
+              "inserted": 3,
+              "outputBefore": 6,
+              "outputAfter": 6,
+              "flow": [
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                }
+              ]
+            }
+          },
+          {
+            "turn": 10,
+            "result": {
+              "passed": false,
+              "feed": [
+                2,
+                7,
+                0
+              ],
+              "out": [
+                0,
+                1,
+                0
+              ],
+              "inserted": 3,
+              "outputBefore": 6,
+              "outputAfter": 6,
+              "flow": [
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 0,
+                  "inputBarrel": 0
+                }
+              ]
+            }
+          }
+        ],
+        "lastModelAction": "{\n  \"action\": \"test\",\n  \"at\": [2, 7, 0],\n  \"out\": [0, 1, 0]\n}",
+        "apiFinish": [
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop"
+        ],
+        "apiError": null,
+        "powerCheckpoint": null,
+        "result": {
+          "passed": false,
+          "seconds": 359.593925623,
+          "modelPassed": false,
+          "reply": null,
+          "outside": [],
+          "independent": null,
+          "loads": [
+            {
+              "at": [
+                0,
+                4,
+                -2
+              ],
+              "id": "create:encased_fan",
+              "state": {
+                "facing": "south"
+              },
+              "rpm": -64,
+              "source": [
+                0,
+                4,
+                -3
+              ],
+              "network": [
+                63,
+                -16440
+              ],
+              "stress": 384,
+              "capacity": 1048576
+            },
+            {
+              "at": [
+                0,
+                4,
+                -5
+              ],
+              "id": "create:creative_motor",
+              "state": {
+                "facing": "south"
+              },
+              "rpm": 64,
+              "configuredRpm": 64,
+              "network": [
+                63,
+                -16440
+              ],
+              "stress": 384,
+              "capacity": 1048576
+            },
+            {
+              "at": [
+                1,
+                6,
+                0
+              ],
+              "id": "create:millstone",
+              "rpm": -64,
+              "source": [
+                0,
+                6,
+                0
+              ],
+              "network": [
+                63,
+                -16440
+              ],
+              "stress": 384,
+              "capacity": 1048576
+            }
+          ]
+        },
+        "calibration": {
+          "passed": true,
+          "feed": [
+            2,
+            7,
+            0
+          ],
+          "out": [
+            0,
+            1,
+            0
+          ],
+          "inserted": 3,
+          "outputBefore": 0,
+          "outputAfter": 6,
+          "flow": [
+            {
+              "input": 2,
+              "intermediate": 2,
+              "finished": 0,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 6,
+              "finished": 0,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 6,
+              "finished": 0,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 5,
+              "finished": 1,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 5,
+              "finished": 1,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 4,
+              "finished": 2,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 4,
+              "finished": 2,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 3,
+              "finished": 3,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 3,
+              "finished": 3,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 3,
+              "finished": 3,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 2,
+              "finished": 4,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 2,
+              "finished": 4,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 1,
+              "finished": 5,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 1,
+              "finished": 5,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 0,
+              "finished": 6,
+              "inputBarrel": 0
+            }
+          ]
+        },
+        "injected": {
+          "type": "fixture_fault",
+          "utc": "2026-11-21T19:23:57.503Z",
+          "directions": {
+            "before": "west",
+            "after": "east"
+          },
+          "location": [
+            2,
+            6,
+            0
+          ],
+          "waiting": 3,
+          "unchangedOutput": 6,
+          "sharedPower": true,
+          "pending": {
+            "out": "0,-59,0",
+            "baseline": 6
+          }
+        },
+        "integrity": {
+          "type": "repair_integrity",
+          "utc": "2026-11-21T19:29:57.106Z",
+          "passed": false,
+          "changedComparedToHealthy": [],
+          "settingsIntact": true
+        },
+        "firstBlockedTransfer": [
+          {
+            "at": [
+              2,
+              6,
+              0
+            ],
+            "facing": "east",
+            "items": [
+              {
+                "Slot": 0,
+                "id": "minecraft:wheat",
+                "Count": 3
+              }
+            ],
+            "neighbors": [
+              {
+                "face": "east",
+                "id": "minecraft:air"
+              },
+              {
+                "face": "west",
+                "id": "create:millstone"
+              },
+              {
+                "face": "up",
+                "id": "minecraft:barrel"
+              },
+              {
+                "face": "down",
+                "id": "minecraft:air"
+              },
+              {
+                "face": "south",
+                "id": "minecraft:air"
+              },
+              {
+                "face": "north",
+                "id": "minecraft:air"
+              }
+            ]
+          }
+        ],
+        "editReadbacks": [
+          [
+            "Changed the block at 2, -54, 0"
+          ],
+          [
+            "Could not set the block"
+          ],
+          [
+            "Could not set the block"
+          ],
+          [
+            "Could not set the block"
+          ]
+        ]
+      },
+      {
+        "run": "repair-logistics-PydDgM",
+        "variant": "native state change preserves existing hopper inventory",
+        "requests": 5,
+        "usage": {
+          "total_tokens": 20109,
+          "prompt_tokens": 19937,
+          "completion_tokens": 172,
+          "prompt_cache_hit_tokens": 13696
+        },
+        "firstShared": {
+          "turn": 1,
+          "seconds": 5.186357186000001,
+          "loads": [
+            {
+              "at": [
+                0,
+                4,
+                -5
+              ],
+              "faces": [
+                "south"
+              ],
+              "rpm": 64,
+              "network": "274877890504",
+              "adjacentLinks": [
+                [
+                  0,
+                  4,
+                  -4
+                ]
+              ],
+              "id": "create:creative_motor"
+            },
+            {
+              "at": [
+                0,
+                4,
+                -2
+              ],
+              "faces": [
+                "north"
+              ],
+              "rpm": -64,
+              "network": "274877890504",
+              "source": [
+                0,
+                4,
+                -3
+              ],
+              "air": {
+                "range": 7.25,
+                "front": "south",
+                "movement": "north"
+              },
+              "adjacentLinks": [
+                [
+                  0,
+                  4,
+                  -3
+                ]
+              ],
+              "id": "create:encased_fan"
+            },
+            {
+              "at": [
+                1,
+                6,
+                0
+              ],
+              "faces": [
+                "down"
+              ],
+              "rpm": -64,
+              "network": "274877890504",
+              "source": [
+                0,
+                6,
+                0
+              ],
+              "adjacentLinks": [
+                [
+                  0,
+                  6,
+                  0
+                ]
+              ],
+              "id": "create:millstone"
+            }
+          ]
+        },
+        "buildBatches": 1,
+        "firstBuildSeconds": 16.760002014999998,
+        "distinctErrors": [],
+        "assays": [
+          {
+            "turn": 4,
+            "result": {
+              "passed": true,
+              "feed": [
+                2,
+                7,
+                0
+              ],
+              "out": [
+                0,
+                1,
+                0
+              ],
+              "inserted": 3,
+              "outputBefore": 5,
+              "outputAfter": 8,
+              "flow": [
+                {
+                  "input": 0,
+                  "intermediate": 3,
+                  "finished": 0,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 2,
+                  "finished": 1,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 2,
+                  "finished": 1,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 1,
+                  "finished": 2,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 1,
+                  "finished": 2,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 1,
+                  "finished": 2,
+                  "inputBarrel": 0
+                },
+                {
+                  "input": 0,
+                  "intermediate": 0,
+                  "finished": 3,
+                  "inputBarrel": 0
+                }
+              ]
+            }
+          }
+        ],
+        "lastModelAction": "{\n  \"action\": \"finish\",\n  \"summary\": \"修复了磨粉机旁的漏斗朝向：原朝东导致小麦无法进入磨粉机，改为朝西后恢复自动进料。测试3份小麦全部加工完成，输出桶中新增3个面团，产线恢复正常。\"\n}",
+        "apiFinish": [
+          "stop",
+          "stop",
+          "stop",
+          "stop",
+          "stop"
+        ],
+        "apiError": null,
+        "powerCheckpoint": null,
+        "result": {
+          "passed": true,
+          "seconds": 100.64781502199999,
+          "modelPassed": true,
+          "reply": "修复了磨粉机旁的漏斗朝向：原朝东导致小麦无法进入磨粉机，改为朝西后恢复自动进料。测试3份小麦全部加工完成，输出桶中新增3个面团，产线恢复正常。",
+          "outside": [],
+          "independent": {
+            "passed": true,
+            "feed": [
+              2,
+              7,
+              0
+            ],
+            "out": [
+              0,
+              1,
+              0
+            ],
+            "inserted": 3,
+            "outputBefore": 8,
+            "outputAfter": 14,
+            "flow": [
+              {
+                "input": 2,
+                "intermediate": 2,
+                "finished": 0,
+                "inputBarrel": 0
+              },
+              {
+                "input": 0,
+                "intermediate": 6,
+                "finished": 0,
+                "inputBarrel": 0
+              },
+              {
+                "input": 0,
+                "intermediate": 6,
+                "finished": 0,
+                "inputBarrel": 0
+              },
+              {
+                "input": 0,
+                "intermediate": 5,
+                "finished": 1,
+                "inputBarrel": 0
+              },
+              {
+                "input": 0,
+                "intermediate": 5,
+                "finished": 1,
+                "inputBarrel": 0
+              },
+              {
+                "input": 0,
+                "intermediate": 4,
+                "finished": 2,
+                "inputBarrel": 0
+              },
+              {
+                "input": 0,
+                "intermediate": 4,
+                "finished": 2,
+                "inputBarrel": 0
+              },
+              {
+                "input": 0,
+                "intermediate": 3,
+                "finished": 3,
+                "inputBarrel": 0
+              },
+              {
+                "input": 0,
+                "intermediate": 3,
+                "finished": 3,
+                "inputBarrel": 0
+              },
+              {
+                "input": 0,
+                "intermediate": 3,
+                "finished": 3,
+                "inputBarrel": 0
+              },
+              {
+                "input": 0,
+                "intermediate": 2,
+                "finished": 4,
+                "inputBarrel": 0
+              },
+              {
+                "input": 0,
+                "intermediate": 2,
+                "finished": 4,
+                "inputBarrel": 0
+              },
+              {
+                "input": 0,
+                "intermediate": 1,
+                "finished": 5,
+                "inputBarrel": 0
+              },
+              {
+                "input": 0,
+                "intermediate": 1,
+                "finished": 5,
+                "inputBarrel": 0
+              },
+              {
+                "input": 0,
+                "intermediate": 0,
+                "finished": 6,
+                "inputBarrel": 0
+              }
+            ]
+          },
+          "loads": [
+            {
+              "at": [
+                0,
+                4,
+                -2
+              ],
+              "id": "create:encased_fan",
+              "state": {
+                "facing": "south"
+              },
+              "rpm": -64,
+              "source": [
+                0,
+                4,
+                -3
+              ],
+              "network": [
+                63,
+                -16440
+              ],
+              "stress": 384,
+              "capacity": 1048576
+            },
+            {
+              "at": [
+                0,
+                4,
+                -5
+              ],
+              "id": "create:creative_motor",
+              "state": {
+                "facing": "south"
+              },
+              "rpm": 64,
+              "configuredRpm": 64,
+              "network": [
+                63,
+                -16440
+              ],
+              "stress": 384,
+              "capacity": 1048576
+            },
+            {
+              "at": [
+                1,
+                6,
+                0
+              ],
+              "id": "create:millstone",
+              "rpm": -64,
+              "source": [
+                0,
+                6,
+                0
+              ],
+              "network": [
+                63,
+                -16440
+              ],
+              "stress": 384,
+              "capacity": 1048576
+            }
+          ]
+        },
+        "calibration": {
+          "passed": true,
+          "feed": [
+            2,
+            7,
+            0
+          ],
+          "out": [
+            0,
+            1,
+            0
+          ],
+          "inserted": 3,
+          "outputBefore": 0,
+          "outputAfter": 5,
+          "flow": [
+            {
+              "input": 2,
+              "intermediate": 2,
+              "finished": 0,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 5,
+              "finished": 0,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 5,
+              "finished": 0,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 4,
+              "finished": 1,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 4,
+              "finished": 1,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 3,
+              "finished": 2,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 3,
+              "finished": 2,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 2,
+              "finished": 3,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 2,
+              "finished": 3,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 2,
+              "finished": 3,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 1,
+              "finished": 4,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 1,
+              "finished": 4,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 0,
+              "finished": 5,
+              "inputBarrel": 0
+            }
+          ]
+        },
+        "injected": {
+          "type": "fixture_fault",
+          "utc": "2026-11-21T19:27:40.689Z",
+          "directions": {
+            "before": "west",
+            "after": "east"
+          },
+          "location": [
+            2,
+            6,
+            0
+          ],
+          "waiting": 3,
+          "unchangedOutput": 5,
+          "sharedPower": true,
+          "pending": {
+            "out": "0,-59,0",
+            "baseline": 5
+          }
+        },
+        "integrity": {
+          "type": "repair_integrity",
+          "utc": "2026-11-21T19:29:21.351Z",
+          "passed": true,
+          "changedComparedToHealthy": [],
+          "settingsIntact": true
+        },
+        "firstBlockedTransfer": [
+          {
+            "at": [
+              2,
+              6,
+              0
+            ],
+            "facing": "east",
+            "items": [
+              {
+                "Slot": 0,
+                "id": "minecraft:wheat",
+                "Count": 3
+              }
+            ],
+            "neighbors": [
+              {
+                "face": "east",
+                "id": "minecraft:air"
+              },
+              {
+                "face": "west",
+                "id": "create:millstone"
+              },
+              {
+                "face": "up",
+                "id": "minecraft:barrel"
+              },
+              {
+                "face": "down",
+                "id": "minecraft:air"
+              },
+              {
+                "face": "south",
+                "id": "minecraft:air"
+              },
+              {
+                "face": "north",
+                "id": "minecraft:air"
+              }
+            ]
+          }
+        ],
+        "editReadbacks": [
+          [
+            "Changed hopper direction; native inventory retained"
+          ]
+        ]
+      }
+    ],
+    "game": [
+      {
+        "run": "engineering-1795288660796",
+        "requests": 18,
+        "toolCalls": 33,
+        "usage": {
+          "total_tokens": 342328,
+          "prompt_tokens": 327595,
+          "completion_tokens": 14733,
+          "prompt_cache_hit_tokens": 279936
+        },
+        "lastFinish": "length",
+        "events": [
+          {
+            "utc": "2026-11-21T19:17:56.337Z",
+            "type": "engineering_guards",
+            "outOfScopeRejected": true,
+            "survivalRejected": true,
+            "worldUnchanged": true
+          },
+          {
+            "utc": "2026-11-21T19:24:56.342Z",
+            "type": "agent_timeout",
+            "calls": 18,
+            "reason": "No matching event within 419664.766885 ms"
+          },
+          {
+            "utc": "2026-11-21T19:24:56.359Z",
+            "type": "agent_isolated",
+            "durationMs": 15,
+            "online": "There are 1 of a max of 20 players online: LabOwner"
+          },
+          {
+            "utc": "2026-11-21T19:24:56.570Z",
+            "type": "engineering_line_result",
+            "passed": false,
+            "original": {
+              "finished": 0,
+              "shared": true,
+              "motorSetting": 64,
+              "mills": [
+                {
+                  "pos": [
+                    -3,
+                    -55,
+                    12
+                  ],
+                  "rpm": 64,
+                  "source": {
+                    "X": -3,
+                    "Y": -56,
+                    "Z": 12
+                  }
+                },
+                {
+                  "pos": [
+                    -5,
+                    -55,
+                    12
+                  ],
+                  "rpm": 64,
+                  "source": {
+                    "X": -5,
+                    "Y": -56,
+                    "Z": 12
+                  }
+                }
+              ],
+              "drained": true
+            },
+            "copy": {
+              "finished": 0,
+              "shared": false,
+              "mills": [],
+              "drained": true
+            },
+            "backups": 1,
+            "outside": [],
+            "modelReturned": false
+          }
+        ]
+      },
+      {
+        "run": "engineering-1795289081551",
+        "requests": 26,
+        "toolCalls": 33,
+        "usage": {
+          "total_tokens": 345486,
+          "prompt_tokens": 342148,
+          "completion_tokens": 3338,
+          "prompt_cache_hit_tokens": 320640
+        },
+        "lastFinish": "tool_calls",
+        "events": [
+          {
+            "utc": "2026-11-21T19:25:00.168Z",
+            "type": "engineering_guards",
+            "outOfScopeRejected": true,
+            "survivalRejected": true,
+            "worldUnchanged": true
+          },
+          {
+            "utc": "2026-11-21T19:27:50.177Z",
+            "type": "agent_timeout",
+            "calls": 25,
+            "reason": "No matching event within 169818.160893 ms"
+          },
+          {
+            "utc": "2026-11-21T19:27:50.276Z",
+            "type": "engineering_power",
+            "finished": 0,
+            "shared": false,
+            "mills": [],
+            "drained": true,
+            "modelReturned": false
+          },
+          {
+            "utc": "2026-11-21T19:27:50.332Z",
+            "type": "agent_isolated",
+            "durationMs": 56,
+            "online": "There are 1 of a max of 20 players online: LabOwner"
+          },
+          {
+            "utc": "2026-11-21T19:27:50.475Z",
+            "type": "engineering_line_result",
+            "passed": false,
+            "original": {
+              "finished": 0,
+              "shared": false,
+              "mills": [],
+              "drained": true
+            },
+            "copy": {
+              "finished": 0,
+              "shared": false,
+              "motorSetting": 16,
+              "mills": [
+                {
+                  "pos": [
+                    2,
+                    -55,
+                    10
+                  ],
+                  "rpm": 0
+                }
+              ],
+              "drained": true
+            },
+            "backups": 4,
+            "outside": [],
+            "modelReturned": false
+          }
+        ]
+      },
+      {
+        "run": "engineering-1795288887745",
+        "requests": 0,
+        "toolCalls": 0,
+        "usage": {
+          "total_tokens": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_cache_hit_tokens": 0
+        },
+        "lastFinish": null,
+        "events": [
+          {
+            "utc": "2026-11-21T19:21:44.980Z",
+            "type": "engineering_guards",
+            "outOfScopeRejected": true,
+            "survivalRejected": true,
+            "worldUnchanged": true
+          },
+          {
+            "utc": "2026-11-21T19:21:45.637Z",
+            "type": "agent_isolated",
+            "durationMs": 25,
+            "online": "There are 1 of a max of 20 players online: LabOwner"
+          },
+          {
+            "utc": "2026-11-21T19:21:45.690Z",
+            "type": "engineering_settings_result",
+            "passed": true,
+            "modelRequests": 0,
+            "fanRpm": [
+              64,
+              64
+            ],
+            "copies": 4,
+            "nativeSettings": [
+              {
+                "ScrollValue": 64,
+                "id": "create:motor"
+              },
+              {
+                "Filter": {
+                  "id": "minecraft:gravel",
+                  "Count": 1
+                },
+                "id": "create:smart_chute"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "run": "engineering-1795289322389",
+        "requests": 0,
+        "toolCalls": 0,
+        "usage": {
+          "total_tokens": 0,
+          "prompt_tokens": 0,
+          "completion_tokens": 0,
+          "prompt_cache_hit_tokens": 0
+        },
+        "lastFinish": null,
+        "events": [
+          {
+            "utc": "2026-11-21T19:29:01.711Z",
+            "type": "engineering_guards",
+            "outOfScopeRejected": true,
+            "survivalRejected": true,
+            "worldUnchanged": true
+          },
+          {
+            "utc": "2026-11-21T19:29:02.361Z",
+            "type": "agent_isolated",
+            "durationMs": 17,
+            "online": "There are 1 of a max of 20 players online: LabOwner"
+          },
+          {
+            "utc": "2026-11-21T19:29:19.154Z",
+            "type": "engineering_calibrated_line",
+            "original": {
+              "input": [
+                -5,
+                -49,
+                12
+              ],
+              "out": [
+                -2,
+                -57,
+                12
+              ],
+              "finished": 3,
+              "shared": true,
+              "motorSetting": 64,
+              "mills": [
+                {
+                  "pos": [
+                    -5,
+                    -51,
+                    12
+                  ],
+                  "rpm": -64,
+                  "source": {
+                    "X": -6,
+                    "Y": -51,
+                    "Z": 12
+                  }
+                },
+                {
+                  "pos": [
+                    -2,
+                    -55,
+                    12
+                  ],
+                  "rpm": -64,
+                  "source": {
+                    "X": -3,
+                    "Y": -55,
+                    "Z": 12
+                  }
+                }
+              ],
+              "drained": true
+            },
+            "copy": {
+              "input": [
+                2,
+                -49,
+                12
+              ],
+              "out": [
+                5,
+                -57,
+                12
+              ],
+              "finished": 3,
+              "shared": true,
+              "motorSetting": 64,
+              "mills": [
+                {
+                  "pos": [
+                    2,
+                    -51,
+                    12
+                  ],
+                  "rpm": -64,
+                  "source": {
+                    "X": 1,
+                    "Y": -51,
+                    "Z": 12
+                  }
+                },
+                {
+                  "pos": [
+                    5,
+                    -55,
+                    12
+                  ],
+                  "rpm": -64,
+                  "source": {
+                    "X": 4,
+                    "Y": -55,
+                    "Z": 12
+                  }
+                }
+              ],
+              "drained": true
+            },
+            "passed": true,
+            "modelRequests": 0
+          }
+        ]
+      }
+    ],
+    "ponder": {
+      "scope": "three manually verified scene references and exact recipes from installed jar",
+      "dshIndexIntegrated": false,
+      "assetsDoNotProveRpmOrRecipe": true
+    },
+    "vsControl": {
+      "scope": "DSH",
+      "workChanged": false
+    },
+    "gameCalibrationOutsideChanges": []
   }
 }

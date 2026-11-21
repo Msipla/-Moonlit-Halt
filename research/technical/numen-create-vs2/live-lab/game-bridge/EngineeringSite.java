@@ -25,6 +25,7 @@ import java.util.UUID;
 import java.util.zip.GZIPInputStream;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.class_1937;
+import net.minecraft.class_1263;
 import net.minecraft.class_2248;
 import net.minecraft.class_2259;
 import net.minecraft.class_2338;
@@ -43,12 +44,13 @@ public final class EngineeringSite implements ModInitializer {
     private static int[] bounds;
     private static final int LIMIT=64;
     private static final Set<String> PALETTE=Set.of(
-        "minecraft:air","minecraft:stone","minecraft:glass","minecraft:oak_planks",
+        "minecraft:air","minecraft:stone","minecraft:glass","minecraft:oak_planks","minecraft:barrel","minecraft:hopper",
         "create:creative_motor","create:shaft","create:gearbox","create:cogwheel","create:large_cogwheel",
-        "create:millstone","create:encased_fan","create:mechanical_press","create:depot");
+        "create:millstone","create:encased_fan","create:mechanical_press","create:depot","create:chute","create:smart_chute");
 
     @Override
     public void onInitialize() {
+        CreateReadings.registerLabProbe();
         String value=System.getProperty("engineering.site");
         if (value==null || value.isBlank()) return;
         bounds=java.util.Arrays.stream(value.split(",")).map(String::trim).mapToInt(Integer::parseInt).toArray();
@@ -64,19 +66,41 @@ public final class EngineeringSite implements ModInitializer {
     public static final class Site {
         public record Cell(@Doc("Exact loaded block position within the configured creative site.") class_2338 pos,
                            @Doc("Registry ID with optional block state properties. No NBT.") String state,
-                           @Doc("Exact expected old state, or omit for air.") Optional<String> expected) {}
+                           @Doc("Exact expected old state, or omit for air.") Optional<String> expected,
+                           @Doc("Required physical shaft faces. Omit axis/facing from state for automatic native orientation.") Optional<List<String>> faces,
+                           @Doc("Signed creative motor setting, 1 to 256 in magnitude.") Optional<Integer> rpm,
+                           @Doc("Approved item ID for a smart chute.") Optional<String> filter) {}
         public record Work(@Doc("At most 64 independent state edits.") List<Cell> cells) {}
         public record Point(class_2338 pos) {}
+        public record Feed(class_2338 pos,String item,int count) {}
         public record Region(String name,class_2338 from,class_2338 to) {}
         public record Replay(String name,class_2338 at) {}
         public record Applied(int cells,String backup) {}
-        public record Reading(String block,String properties,Optional<Double> rpm,Optional<Boolean> overstressed) {}
-        private record Edit(class_2338 at,class_2680 before,class_2680 state) {}
+        public record Reading(String block,String properties,Optional<Double> rpm,Optional<Boolean> overstressed,
+                              List<String> shaft_faces,Optional<String> network,Optional<class_2338> source,
+                              Optional<Integer> motor_setting,Optional<String> filter,List<CreateSettings.Stock> items) {}
+        private record Edit(class_2338 at,class_2680 before,class_2680 state,CreateSettings.Settings settings) {}
 
         @Fn("Write a verified batch in the creative site. For replacement give the exact expected existing state.")
         public static Pending<Applied> apply(ServerCall call,Work args) {
-            var edits=args.cells().stream().map(c->new Edit(c.pos(),
-                parse(c.expected().orElse("minecraft:air")),parse(c.state()))).toList();
+            var level=level(call);
+            require(!args.cells().isEmpty() && args.cells().size()<=LIMIT,"expected 1..64 block edits");
+            var edits=args.cells().stream().map(c->{
+                check(level,c.pos());
+                var state=parse(c.state());
+                if(c.faces().isPresent()) {
+                    var requested=c.faces().get();
+                    require(requested.size()>=1 && requested.size()<=6,"expected one to six shaft directions");
+                    try {
+                        state=CreateReadings.orient(level,c.pos(),c.state(),requested);
+                    } catch (CommandSyntaxException | IllegalArgumentException error) {
+                        throw bad(error.getMessage());
+                    }
+                }
+                var settings=new CreateSettings.Settings(c.rpm().orElse(null),c.filter().orElse(null));
+                require(settings.allowedFor(id(state)),"unsupported settings for "+id(state));
+                return new Edit(c.pos(),parse(c.expected().orElse("minecraft:air")),state,settings);
+            }).toList();
             return execute(call,edits);
         }
 
@@ -86,12 +110,33 @@ public final class EngineeringSite implements ModInitializer {
             check(level,args.pos());
             var state=level.method_8320(args.pos());
             var entity=level.method_8321(args.pos());
+            var settings=CreateSettings.read(entity);
             return new Reading(id(state),class_2512.method_10686(state).method_10562("Properties").toString(),
                 entity instanceof KineticBlockEntity kinetic ? Optional.of((double)kinetic.getSpeed()):Optional.empty(),
-                entity instanceof KineticBlockEntity kinetic ? Optional.of(kinetic.isOverStressed()):Optional.empty());
+                entity instanceof KineticBlockEntity kinetic ? Optional.of(kinetic.isOverStressed()):Optional.empty(),
+                CreateReadings.faces(level,args.pos(),state),
+                entity instanceof KineticBlockEntity kinetic ? Optional.ofNullable(kinetic.network).map(Object::toString):Optional.empty(),
+                entity instanceof KineticBlockEntity kinetic ? Optional.ofNullable(kinetic.source):Optional.empty(),
+                Optional.ofNullable(settings.rpm()),Optional.ofNullable(settings.filter()),CreateSettings.inventory(entity));
         }
 
-        @Fn("Save the site's selected structure as a standard gzip Minecraft structure NBT file. Saves block states only.")
+        @Fn("Insert 1..3 approved test items into an empty in-site input barrel. Nothing is transferred afterward.")
+        public static Pending<Integer> feed(ServerCall call,Feed args) {
+            var level=level(call);
+            check(level,args.pos());
+            require(CreateSettings.FEEDS.contains(args.item()) && args.count()>=1 && args.count()<=3,"unsupported test feed");
+            return call.authorize(Action.useBlock(args.pos(),level.method_8320(args.pos()))).then(ignored->{
+                var current=level(call);
+                check(current,args.pos());
+                if(!id(current.method_8320(args.pos())).equals("minecraft:barrel")
+                    || !(current.method_8321(args.pos()) instanceof class_1263 barrel) || !barrel.method_5442())
+                    throw bad("expected an empty input barrel");
+                barrel.method_5447(0,CreateSettings.stack(args.item(),args.count()));
+                return args.count();
+            });
+        }
+
+        @Fn("Save a vanilla structure NBT with approved device settings. Inventories and entities are removed.")
         public static String export(ServerCall call,Region args) {
             var level=level(call);
             var at=corner(args.from(),args.to(),true);
@@ -100,7 +145,12 @@ public final class EngineeringSite implements ModInitializer {
             check(level,end);
             var tag=capture(level,at,end);
             var cells=tag.method_10554("blocks",10);
-            for(int i=0;i<cells.size();i++) cells.method_10602(i).method_10551("nbt");
+            var palette=tag.method_10554("palette",10);
+            for(int i=0;i<cells.size();i++) {
+                var cell=cells.method_10602(i);
+                var block=palette.method_10602(cell.method_10550("state")).method_10558("Name");
+                CreateSettings.sanitize(cell,block);
+            }
             store(level,args.name(),tag);
             return "engineering:"+args.name();
         }
@@ -131,7 +181,9 @@ public final class EngineeringSite implements ModInitializer {
                     require(PALETTE.contains(id(state)),"unsupported blueprint block "+id(state));
                     var at=new class_2338(args.at().method_10263()+offset.method_10600(0),
                         args.at().method_10264()+offset.method_10600(1),args.at().method_10260()+offset.method_10600(2));
-                    edits.add(new Edit(at,parse("minecraft:air"),state));
+                    var settings=CreateSettings.fromTag(id(state),cell.method_10562("nbt"));
+                    require(settings.allowedFor(id(state)),"unsupported blueprint settings");
+                    edits.add(new Edit(at,parse("minecraft:air"),state,settings));
                 }
             } catch(IOException error) {
                 throw bad("could not read this structure");
@@ -143,6 +195,9 @@ public final class EngineeringSite implements ModInitializer {
             preflight(level(call),edits);
             Pending<Void> consent=Pending.of(null);
             for(var edit:edits){
+                if(edit.before()==edit.state() && edit.settings().present()) {
+                    consent=consent.thenWait(x->call.authorize(Action.useBlock(edit.at(),edit.before())));
+                }
                 if(edit.before()!=edit.state() && !edit.before().method_26215()) {
                     consent=consent.thenWait(x->call.authorize(Action.breakBlock(edit.at(),edit.before())));
                 }
@@ -171,6 +226,8 @@ public final class EngineeringSite implements ModInitializer {
                         written++;
                     }
                     for(var edit:edits) require(level.method_8320(edit.at())==edit.state(),"neighbor update changed "+edit.at());
+                    for(var edit:edits) require(CreateSettings.apply(level.method_8321(edit.at()),edit.settings()),
+                        "device rejected configuration at "+edit.at());
                 } catch(RuntimeException error) {
                     for(int i=changed.size()-1;i>=0;i--){
                         var edit=changed.get(i);
@@ -234,6 +291,8 @@ public final class EngineeringSite implements ModInitializer {
         }
 
         private static class_2487 capture(class_3218 level,class_2338 from,class_2338 to) {
+            for (var pos : List.of(new class_2338(from.method_10263(),from.method_10264(),to.method_10260()),
+                                   new class_2338(to.method_10263(),from.method_10264(),from.method_10260()))) check(level,pos);
             var dimensions=new class_2382(to.method_10263()-from.method_10263()+1,
                 to.method_10264()-from.method_10264()+1,to.method_10260()-from.method_10260()+1);
             var template=new class_3499();
