@@ -325,7 +325,7 @@ const water = (state) => Object.entries(state.blocks).filter(([,b])=>b.Name==='m
   .map(([cell,b])=>[cell,b.Properties.level]).sort();
 const block = (state,position) => state.blocks[position]?.Name ?? 'minecraft:air';
 
-function measure(state, start, original) {
+function measure(state, start, original, sideDrive) {
   const mills = state.blockEntities.filter(e => e.id === 'create:millstone');
   const mill = mills.length === 1 ? mills[0] : null;
   const machineCells = new Map(state.blockEntities.map(e => [pos(e).join(),e]));
@@ -347,6 +347,11 @@ function measure(state, start, original) {
   const depth = ([x,,z]) => Math.min(x-x0,x1-x,z-z0,z1-z);
   const moved = Boolean(mill && depth(pos(mill))>depth(original.mill)
     && block(state,original.mill)==='minecraft:air');
+  const input = route[1];
+  const sideCog = sideDrive && mill && input && same(pos(mill),original.mill)
+    && input.pos[1]===mill.y && Math.abs(input.pos[0]-mill.x)+Math.abs(input.pos[2]-mill.z)===1
+    && block(state,input.pos)==='create:cogwheel'
+    && state.blocks[input.pos]?.Properties?.axis==='y' ? input.pos : null;
   const door = [original.door,[original.door[0],original.door[1]+1,original.door[2]]];
   const preserved = {
     ...retainedShell(start,state,original),
@@ -365,23 +370,27 @@ function measure(state, start, original) {
   }
   return {millCount:mills.length,mill:mill&&pos(mill),moved,onlyOriginalWheel,route,
     flour:itemCount(mill,'create:wheat_flour'),processing:mill?.Timer,preserved,accessCheck,usePosition,
-    passesLayout:moved&&onlyOriginalWheel&&Object.values(preserved).slice(2).every(Boolean)&&Boolean(accessCheck)};
+    ...(sideDrive ? {sideCog} : {}),
+    passesLayout:(sideDrive ? Boolean(sideCog) : moved)&&onlyOriginalWheel&&Object.values(preserved).slice(2).every(Boolean)&&Boolean(accessCheck)};
 }
 
-async function testAutonomous(lab) {
+async function testAutonomous(lab, sideDrive = false) {
   await lab.cmd('gamerule randomTickSpeed 0');
   const before = await lab.save('autonomous-before');
   const original = reviewedPlan(process.env.LAB_MILL_REVIEWED,lab);
   assert(inspection(before,original).passed && access(before,original,null).passed,
     'The inherited watermill needs to pass the read-only control');
-  const prompt = '把这座已经能磨粉的水磨坊做一次小改造：把现在的磨石从靠外墙的位置搬到室内更靠中央的位置，原磨石那一格腾空。保留原来的水轮、供水、入口、地板和屋顶，仍然只用原水轮带动磨石。从原入口走进去要能使用新磨石，磨石上方要能投料。你可以按需查现有 create_kinetics 机械参考。请自己勘察、设计、施工和检查，发现问题就按现场反馈自行修复。完成后告诉我你实际验证了什么。';
-  lab.mark('autonomous_start',{interventions:0,ownerMessages:1,limitSeconds:420});
+  const prompt = sideDrive
+    ? '请改造这座能工作的 Create 磨坊。磨石留在原位置，改用一个和磨石同高、水平相邻的小齿轮从侧面直接带动它，动力仍只能来自原来的水轮。保留原供水、入口、地板和屋顶，让人还能从原入口进入、使用磨石并从上方投料。自行勘察、规划和施工，用实际动力链以及投料前后的新产物验证改造，修复施工时误改的地方。最后告诉我你在游戏里验证了什么。'
+    : '把这座已经能磨粉的水磨坊做一次小改造：把现在的磨石从靠外墙的位置搬到室内更靠中央的位置，原磨石那一格腾空。保留原来的水轮、供水、入口、地板和屋顶，仍然只用原水轮带动磨石。从原入口走进去要能使用新磨石，磨石上方要能投料。你可以按需查现有 create_kinetics 机械参考。请自己勘察、设计、施工和检查，发现问题就按现场反馈自行修复。完成后告诉我你实际验证了什么。';
+  lab.mark('autonomous_start',{interventions:0,ownerMessages:1,limitSeconds:420,
+    ...(sideDrive ? {objective:'side-drive'} : {})});
   const started = performance.now();
   const answer = await lab.chat(prompt,420000);
   const elapsed = (performance.now()-started)/1000;
   await lab.isolateMillAgent();
   const final = await lab.save('autonomous-after');
-  const result = measure(final,before,original);
+  const result = measure(final,before,original,sideDrive);
   const outsideChanges = [...new Set([...Object.keys(before.blocks),...Object.keys(final.blocks)])]
     .filter(cell=>!lab.inScope(cell.split(',').map(Number))&&!same(before.blocks[cell],final.blocks[cell]));
   const changes = [...new Set([...Object.keys(before.blocks),...Object.keys(final.blocks)])]
@@ -412,7 +421,7 @@ async function testAutonomous(lab) {
   await lab.cmd(`summon minecraft:item ${x+.5} ${y+1.35} ${z+.5} {Item:{id:"minecraft:wheat",Count:1b},PickupDelay:32767s}`);
   await wait(11000);
   const fedState = await lab.save('autonomous-fed');
-  const fed = measure(fedState,before,original);
+  const fed = measure(fedState,before,original,sideDrive);
   const produced = fed.flour-itemCount(assayMill,'create:wheat_flour');
   const changesDuringAssay = [...new Set([...Object.keys(assayStart.blocks),...Object.keys(fedState.blocks)])]
     .filter(cell=>!same(assayStart.blocks[cell],fedState.blocks[cell]));

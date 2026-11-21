@@ -1,6 +1,6 @@
 # Numen × Create：自主工程稳定性与迁移验证
 
-状态：待 Work 执行。基准提交：`932447d137051d47915c398b20845013877cbc1d`；工作分支：`codex/numen-create-basic-actions`。
+状态：已执行。开口版在同一任务与存档连续两次完整通过，原位侧驱迁移未完成。实测见[研发记录](numen-create-vs2/live-lab/README.md#2026-11-21-房主模块与同条件稳定性)。基准提交：`932447d137051d47915c398b20845013877cbc1d`；工作分支：`codex/numen-create-basic-actions`。
 
 ## 执行前必读
 

@@ -14,7 +14,8 @@ const basicAction = basicWater || basicAxis;
 const basic = basicCheck || basicAction;
 const thinkSmoke = phase === 'think-smoke';
 const watermill = phase === 'watermill';
-const autonomousMill = watermill && process.env.LAB_MILL_AUTONOMOUS === '1';
+const millMode = process.env.LAB_MILL_AUTONOMOUS;
+const autonomousMill = watermill && ['1','side-drive'].includes(millMode);
 const checkMillIsolation = watermill && process.env.LAB_MILL_AUTONOMOUS === 'check';
 const thinking = process.env.LAB_THINKING === '1';
 assert(basic || watermill || ['smoke','think-smoke','A','B','C','boat','guard-check'].includes(phase),
@@ -117,6 +118,16 @@ function prepare() {
   if (fs.existsSync(cache)) fs.copyFileSync(cache,path.join(config,'cache/models-dev.json'));
   if (basicAction || watermill || ['B','C'].includes(phase)) {
     fs.cpSync(path.join(base,'config/numen/server/skills/createlab'),path.join(config,'skills/createlab'),{recursive:true});
+  }
+  if (autonomousMill || checkMillIsolation) {
+    // Minecraft offline UUID for the lab's existing owner client.
+    const id = createHash('md5').update('OfflinePlayer:LabOwner').digest();
+    id[6] = (id[6] & 15) | 48;
+    id[8] = (id[8] & 63) | 128;
+    const ownerId = id.toString('hex').replace(/^(........)(....)(....)(....)(............)$/,'$1-$2-$3-$4-$5');
+    const modules = path.join(run,'config/numen/players',ownerId,'modules/my');
+    fs.mkdirSync(modules,{recursive:true});
+    fs.copyFileSync(path.join(__dirname,'create-survey.lua'),path.join(modules,'create_survey.lua'));
   }
   fs.writeFileSync(evidence,'');
   if (skillFile) {
@@ -562,7 +573,7 @@ async function main() {
       mark('owner_reply_check',{passed:true});
       return mill.checkIsolation(lab);
     }
-    return autonomousMill ? mill.testAutonomous(lab) : mill.test(lab);
+    return autonomousMill ? mill.testAutonomous(lab,millMode==='side-drive') : mill.test(lab);
   }
   if (thinkSmoke) {
     await cmd('setblock 3 -59 3 minecraft:emerald_block');
