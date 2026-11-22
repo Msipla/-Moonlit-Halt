@@ -1,6 +1,6 @@
 # 当前任务：0.2.0 稳定性与执行效率优化（2026-11-22）
 
-**开发断点（2026-11-22，0.2.2 案例与 A/B）**　社区蓝图因无许可文件/上传件无逐文件授权，未入库。改用官方 Ponder 演示结构（MIT、同版本）提取 6 个工程案例（`ponder/cases.json`，`guide()` 命中场景时附带），并修复工具侧两处：`apply()` 按同批次相邻格推断轴向；写入后调用 `KineticBlockEntity.initialize()` 让放置的动能块加入网络。同一委托 A/B：无案例 83 次/4.1 万 token 失败；案例辅助 99、90、138 次，峰值 4.0–5.0 万，仍失败。e12 中正下方动力已能带动磨石 32 RPM，侧向抽取与自动进级未验证。案例未带来可测改善，按要求不扩大蓝图库；泛化测试暂缓。证据 [case-library-0.2.2.json](numen-create-vs2/live-lab/evidence/case-library-0.2.2.json)。下一断点：先复验 `apply` 后动能网络与转速回读是否稳定非零，再重跑同一委托。
+**开发断点（2026-11-22，0.2.3 动力复验）**　以 `2db3f0a` 为基线：受控复验确认 `apply` 写入后调用 `KineticBlockEntity.initialize()` 有效，马达→竖轴→磨石三块同网 16 RPM 且两次读数一致；命令实测官方侧驱拓扑（侧面 `cogwheel[axis=y]`）可直接带动磨石 −16 RPM。发现并修复回归：齿轮自动定向会改坏 `axis=y` 侧啮合，现仅对轴生效；新增磨石产出被堵/底部空闲告警。复跑 e13（70 次/3.3 万 token）与 e14（139 次/5.0 万）仍失败，失败点收敛为模型判断电机输出面与段间物流。三次客户端原生崩溃均在渲染线程，栈中无工程插件帧，崩溃前世界已落盘。证据 [kinetic-0.2.3.json](numen-create-vs2/live-lab/evidence/kinetic-0.2.3.json)。下一断点：把电机输出面与溜槽重力级联做成施工前可验证的回执，再跑同一委托。
 
 执行前读取 Msipla/Conversation-Archives/AGENTS.md 最新版及本仓库 AGENTS.md（如存在），全程遵守适用规范，无法读取须报告。核对最新分支、源码、HANDOFF（如有）、任务书及实测证据。基线 026404b746c0ab5791b501f2c0ec246556b08b07。DSH 单机验收分支 acceptance/numen-engineering-0.2.0 已推送并核验，提交 7faa863b9ecc099d5fb470d3572a4866ddfacd12。读取 live-lab/acceptance-single-player-0.2.0.md 及 evidence/acceptance-0.2.0/（均在 research/technical/numen-create-vs2 下），核验补丁及日志后择优合入，保护并发修改。
 

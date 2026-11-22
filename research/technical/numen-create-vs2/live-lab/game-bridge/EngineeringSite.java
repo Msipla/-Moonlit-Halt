@@ -170,7 +170,7 @@ public final class EngineeringSite implements ModInitializer {
 
         private static Cell inferAxis(Cell cell,Set<class_2338> batch) {
             String state=cell.state();
-            if(cell.faces().isPresent() || !(state.equals("create:shaft") || state.endsWith("cogwheel"))) return cell;
+            if(cell.faces().isPresent() || !state.equals("create:shaft")) return cell;
             if(state.contains("[")) return cell;
             int x=0,y=0,z=0;
             var p=cell.pos();
@@ -249,7 +249,7 @@ public final class EngineeringSite implements ModInitializer {
             check(level,c.pos());
             var parsed=parseState(c.state());
             var state=parsed.comp_622();
-            if((id(state).equals("create:shaft") || id(state).endsWith("cogwheel"))
+            if(id(state).equals("create:shaft")
                 && c.faces().isEmpty() && parsed.comp_623().isEmpty()) {
                 var neighbours=new ArrayList<class_2350>();
                 for(var dir:class_2350.values())
@@ -440,6 +440,16 @@ public final class EngineeringSite implements ModInitializer {
                     var entity=level.method_8321(edit.at());
                     if(!(entity instanceof KineticBlockEntity kinetic)) continue;
                     var state=level.method_8320(edit.at());
+                    if(CreateReadings.commandState(state).startsWith("create:millstone")) {
+                        var below=edit.at().method_10084();
+                        var belowState=level.method_8320(below);
+                        if(!belowState.method_26215() && level.method_8321(below) instanceof KineticBlockEntity)
+                            warnings.add(edit.at()+" millstone output is blocked by "+CreateReadings.commandState(belowState)
+                                +" below; power it from a side cogwheel so the bottom stays free for a chute or barrel");
+                        else if(belowState.method_26215())
+                            warnings.add(edit.at()+" millstone output leaves through the bottom; put a chute or barrel below"
+                                +" and keep the bottom free (side cogwheel for power)");
+                    }
                     if(kinetic.getSpeed()!=0) {
                         var faces=CreateReadings.faces(level,edit.at(),state);
                         if(!faces.isEmpty()) {

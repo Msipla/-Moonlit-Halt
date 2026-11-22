@@ -1,0 +1,47 @@
+{
+  "date": "2026-11-22",
+  "phase": "0.2.3 动力网络复验与侧驱拓扑",
+  "baseline": "2db3f0a6d32b47aba55a35be17270deb2e637ea7",
+  "environment": {
+    "minecraft": "1.20.1",
+    "create": "6.0.8.1 build 1744 (Fabric)",
+    "numen": "0.1.5",
+    "model": "deepseek-chat",
+    "mode": "single-player integrated server, real graphical client, creative site 16x10x16"
+  },
+  "controlled_verification": {
+    "run": "k1",
+    "prompt": "apply creative_motor[facing=up] at (0,-58,0), shaft[axis=y] at (0,-57,0), millstone at (0,-56,0); inspect all three, then read the millstone again",
+    "calls": 7,
+    "peakContextTokens": 12457,
+    "seconds": 12,
+    "result": "all three blocks read 16 RPM on one network; the second millstone read was 16 again",
+    "conclusion": "KineticBlockEntity.initialize() after the batch write makes placed kinetics join a network before the first read; the previous 0 RPM readings are fixed"
+  },
+  "official_topology_probe": {
+    "rig": "millstone (10,-56,10), cogwheel[axis=y] (11,-56,10), shaft[axis=y] (11,-57,10), creative_motor[facing=up] (11,-58,10)",
+    "readings": {"millstone": -16.0, "cogwheel": 16.0, "shaft": 16.0},
+    "conclusion": "a side cogwheel with axis=y meshes the millstone and keeps the bottom free for output; this matches the official Ponder millstone structure"
+  },
+  "regression_found_and_fixed": {
+    "problem": "the temporary cogwheel auto-orientation pointed the cogwheel at its neighbour face (axis=x when east of the millstone), which broke the axis=y side mesh; the model reported that side gears never drive the millstone",
+    "fix": "auto-orientation now applies to create:shaft only; cogwheel axis is left to the caller"
+  },
+  "tool_changes": [
+    "KineticBlockEntity.initialize() + updateSpeed after every batch write",
+    "shaft axis inferred from neighbouring cells in the same batch (fill uses the box axis)",
+    "cogwheel auto-orientation removed",
+    "millstone warnings: output blocked by a kinetic block below, or bottom free and a chute/barrel should go there"
+  ],
+  "runs": [
+    {"id": "e13", "calls": 70, "window": "23:11:38..23:15:08", "peakContextTokens": 33139, "outcome": "failed", "reason": "model reported side cogwheels never drive the millstone (caused by the removed auto-orientation) and stopped to ask"},
+    {"id": "e14", "calls": 139, "window": "23:18:52..23:22:20", "peakContextTokens": 49714, "outcome": "failed", "reason": "after removing cogwheel auto-orientation the model still could not decide the motor output face and transmit rotation; it cleaned up and stopped"}
+  ],
+  "stability": {
+    "native_crashes_seen": 3,
+    "pattern": "all three crashed in the render thread (net.minecraft.class_310.method_1514 on the stack) at 3m49s, 12m03s and 3m44s; frame 0x00007ffd52bf69e1, no engineering Java frame in the crashing stack",
+    "impact": "the world is saved before the crash (region file written within ~40 s), so results can be read after a restart; a model turn usually finishes before the crash",
+    "note": "treated as an environment/graphics issue, not an engineering tool defect; still to be reproduced with a clean client"
+  },
+  "verdict": "power network initialisation and the official side-drive topology are verified in isolation, but no autonomous run has produced a two-stage line yet"
+}
