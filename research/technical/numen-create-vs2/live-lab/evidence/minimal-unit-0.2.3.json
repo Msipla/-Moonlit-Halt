@@ -1,0 +1,26 @@
+{
+  "date": "2026-11-22",
+  "phase": "0.2.3 最小可运行单元",
+  "prompt": "build a minimal runnable unit: a millstone actually driven by power, a chute under it feeding a barrel, an input barrel above; feed 3 cobblestone and confirm 3 gravel in the collection barrel; validate with check first",
+  "run": {
+    "id": "e16",
+    "calls": 132,
+    "window": "23:37:13..23:41:24",
+    "peakContextTokens": 49888,
+    "outcome": "failed",
+    "client": "crashed natively again after the final message (fourth crash, same render-thread pattern)"
+  },
+  "progress": [
+    "the model got the millstone to 64 RPM by driving it from a vertical shaft below",
+    "it noticed by itself that the bottom cell is needed for output and tried raising the millstone one block",
+    "it then found that a side gear spun at 64 RPM but did not turn the millstone"
+  ],
+  "blocker": "the model could not wire the side cogwheel: a cogwheel[axis=y] must be driven along its own axis (a vertical shaft directly under the cogwheel); the model tried to drive it from a crossing shaft and concluded side drive does not work",
+  "manual_evidence": {
+    "rig": "millstone (10,-56,10), cogwheel[axis=y] (11,-56,10), shaft[axis=y] (11,-57,10), creative_motor[facing=up] (11,-58,10)",
+    "readings": {"millstone": -16.0, "cogwheel": 16.0, "shaft": 16.0},
+    "meaning": "side drive works when the cogwheel is powered along its axis"
+  },
+  "knowledge_update": "the Ponder millstone note now states that a cogwheel[axis=y] on the side is driven by a vertical shaft directly under that cogwheel, i.e. power the cogwheel along its own axis",
+  "verdict": "minimal unit not completed autonomously; the failure is now a single wiring rule that has been measured and recorded"
+}

@@ -1,6 +1,6 @@
 # 当前任务：0.2.0 稳定性与执行效率优化（2026-11-22）
 
-**开发断点（2026-11-22，0.2.3 check 告警）**　`check` 增加施工前 `warnings`：电机输出面无传动格、磨石底部被堵或空闲、溜槽下方非容器。受控校验 k2（3 次/1.2 万 token）确认告警可读；完整委托 e15（82 次/4.7 万 token/2 分 01 秒）仍失败，模型引用了告警原文却未摆出正确动力链。动力初始化、侧驱拓扑、段间物流三项均已在隔离验证，失败点收敛为模型落位决策。证据 [check-warnings-0.2.3.json](numen-create-vs2/live-lab/evidence/check-warnings-0.2.3.json)。下一断点：让模型在一次 apply 内完成“电机朝向 + 传动格 + 侧驱 + 底部溜槽”的最小可运行单元，再逐步扩成两级。
+**开发断点（2026-11-22，0.2.3 最小单元）**　`check` 施工前告警已生效并通过 k2 校验（3 次/1.2 万 token）。最小可运行单元 e16（132 次/5.0 万 token/4 分 11 秒）仍失败：模型把磨石从底部驱动到 64 RPM，正确发现“底部既要接轴又要出料”的矛盾，但把跨面的轴当成侧齿轮动力源，误判侧驱无效。实测规则：侧面 `cogwheel[axis=y]` 需由正下方竖轴沿自身轴向驱动（磨石 −16、齿轮 16、竖轴 16），已写入 Ponder 磨石条目。客户端第 4 次原生崩溃（渲染线程，同前）。下一断点：用这条接线规则重跑最小单元，通过后再扩两级。证据 [minimal-unit-0.2.3.json](numen-create-vs2/live-lab/evidence/minimal-unit-0.2.3.json)。
 
 执行前读取 Msipla/Conversation-Archives/AGENTS.md 最新版及本仓库 AGENTS.md（如存在），全程遵守适用规范，无法读取须报告。核对最新分支、源码、HANDOFF（如有）、任务书及实测证据。基线 026404b746c0ab5791b501f2c0ec246556b08b07。DSH 单机验收分支 acceptance/numen-engineering-0.2.0 已推送并核验，提交 7faa863b9ecc099d5fb470d3572a4866ddfacd12。读取 live-lab/acceptance-single-player-0.2.0.md 及 evidence/acceptance-0.2.0/（均在 research/technical/numen-create-vs2 下），核验补丁及日志后择优合入，保护并发修改。
 
