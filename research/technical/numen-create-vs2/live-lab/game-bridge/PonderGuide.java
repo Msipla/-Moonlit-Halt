@@ -18,14 +18,30 @@ import net.fabricmc.loader.api.FabricLoader;
 
 final class PonderGuide {
     private static final Gson JSON = new Gson();
+    private static final java.util.Map<String,com.google.gson.JsonObject> CASES = loadCases();
     private static final Pattern RECIPE = Pattern.compile("[a-z_]+/[a-z0-9_]+(?:/[a-z0-9_]+)*");
     private static final Map<String,String> ALIASES = Map.of("fan", "fan/processing", "chute", "chute/smart");
     private static final java.util.Map<String,String> PORT_NOTES = java.util.Map.of(
-        "millstone", "Measured in game 2026-11-22. Power: a vertical shaft (axis=y) directly below the millstone; motor -> shaft -> millstone read 16 RPM on one network. Output: items arrive in a chute/barrel directly below when that cell is free (3 fed items measured); item capability is exposed on every face, so route output from a free face when the bottom cell carries the shaft. For other blocks call engineering.site.ports().");
+        "chute", "Chutes move items downward only; they never lift. A chute under a machine collects its output and a chute above a machine feeds its top. For a multi-stage chain place the next machine below the previous output.",
+        "smart_chute", "Smart chutes filter and move items downward only; they never lift. Place the next machine below the previous output for a gravity-fed chain.",
+        "millstone", "Measured in game 2026-11-22. Power: a vertical shaft (axis=y) directly below the millstone; motor -> shaft -> millstone read 16 RPM on one network. Output: items arrive in a chute/barrel directly below when that cell is free (3 fed items measured); item capability is exposed on every face, so route output from a free face when the bottom cell carries the shaft. For a two-stage chain drive both millstones from a side cogwheel so their bottoms stay free, and put the next millstone below the output chute; chutes never lift items. For other blocks call engineering.site.ports().");
     private static final String SOURCE = "Create Fabric 6.0.8.1 build 1744 Ponder scene scripts";
 
     private record Step(int tick, String text) {}
     private record Scene(String id, String title, String script, String asset, List<Step> text, int demoSpeeds) {}
+
+    private static java.util.Map<String,com.google.gson.JsonObject> loadCases() {
+        var cases = new java.util.LinkedHashMap<String,com.google.gson.JsonObject>();
+        try (var stream = PonderGuide.class.getResourceAsStream("/engineering/ponder/cases.json")) {
+            if (stream == null) return java.util.Map.of();
+            try (var reader = new java.io.InputStreamReader(stream, StandardCharsets.UTF_8)) {
+                var root = JsonParser.parseReader(reader).getAsJsonObject();
+                for (var entry : root.entrySet()) cases.put(entry.getKey(), entry.getValue().getAsJsonObject());
+            }
+        } catch (java.io.IOException ignored) {
+        }
+        return java.util.Map.copyOf(cases);
+    }
 
     private static class Index {
         static final List<Scene> SCENES = load();
@@ -109,7 +125,11 @@ final class PonderGuide {
             result.put("truncated", text.size() < scene.text.size() || scene.text.stream().anyMatch(step -> step.text.length() > 180));
             result.put("source", SOURCE);
             result.put("note", "Teaching, not live physics. Asset matches are candidates; " + scene.demoSpeeds + " simulated speed changes omitted.");
+            var caseKey=scene.asset.replace("assets/create/ponder/","").replace(".nbt","");
+            var demo=CASES.get(caseKey);
+            if(demo!=null) result.put("case", demo);
             var ports=PORT_NOTES.get(scene.id);
+            if(ports==null) for(var entry:PORT_NOTES.entrySet()) if(scene.id.contains(entry.getKey())||entry.getKey().contains(scene.id)) { ports=entry.getValue(); break; }
             if(ports!=null) result.put("device_ports", ports);
             return JSON.toJson(result);
         }

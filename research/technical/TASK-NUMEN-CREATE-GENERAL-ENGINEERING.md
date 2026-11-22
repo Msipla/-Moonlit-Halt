@@ -1,6 +1,6 @@
 # 当前任务：0.2.0 稳定性与执行效率优化（2026-11-22）
 
-**开发断点（2026-11-22，0.2.2 效率修订）**　基于 0.2.1（`98aa6c1`）在独立分支 `efficiency/numen-engineering-0.2.2` 完成反馈与效率修订：`fill` 批量填盒并按轴取向、`check` 施工前干跑、`ports` 逐面报告物品/流体端口、`apply` 回执点名未接通的动能块、未写属性的轴/齿轮朝相邻动能块自动定向、Ponder 磨石条目补充实测取力面与输出面。单机创造实测九轮：修正说明后 e8b 由模型自行完成"竖轴 + 侧面齿轮"动力布置，两台磨石 −16 RPM，一级自动进料、二级手动转运，成品桶独立复核 7 燧石；全自动段间转运与独立复投仍未通过。客户端两次原生崩溃（`EXCEPTION_ACCESS_VIOLATION`，同一帧 `0x00007ffd52bf69e1`，分别在 3m49s 与 12m03s，stderr 见 PhysX `FdFoundation`），`hs_err` 日志在测试客户端目录。各轮 22–216 次请求、峰值 2.3–5.0 万 token、无 `finish=length` 截断。证据见 [efficiency-0.2.2.json](numen-create-vs2/live-lab/evidence/efficiency-0.2.2.json)。下一断点：排查客户端原生崩溃触发条件；把段间转运（溜槽/漏斗方向与端口）做成可查询、可干跑的事实数据，重跑到无需人工转运的独立复投通过。
+**开发断点（2026-11-22，0.2.2 案例与 A/B）**　社区蓝图因无许可文件/上传件无逐文件授权，未入库。改用官方 Ponder 演示结构（MIT、同版本）提取 6 个工程案例（`ponder/cases.json`，`guide()` 命中场景时附带），并修复工具侧两处：`apply()` 按同批次相邻格推断轴向；写入后调用 `KineticBlockEntity.initialize()` 让放置的动能块加入网络。同一委托 A/B：无案例 83 次/4.1 万 token 失败；案例辅助 99、90、138 次，峰值 4.0–5.0 万，仍失败。e12 中正下方动力已能带动磨石 32 RPM，侧向抽取与自动进级未验证。案例未带来可测改善，按要求不扩大蓝图库；泛化测试暂缓。证据 [case-library-0.2.2.json](numen-create-vs2/live-lab/evidence/case-library-0.2.2.json)。下一断点：先复验 `apply` 后动能网络与转速回读是否稳定非零，再重跑同一委托。
 
 执行前读取 Msipla/Conversation-Archives/AGENTS.md 最新版及本仓库 AGENTS.md（如存在），全程遵守适用规范，无法读取须报告。核对最新分支、源码、HANDOFF（如有）、任务书及实测证据。基线 026404b746c0ab5791b501f2c0ec246556b08b07。DSH 单机验收分支 acceptance/numen-engineering-0.2.0 已推送并核验，提交 7faa863b9ecc099d5fb470d3572a4866ddfacd12。读取 live-lab/acceptance-single-player-0.2.0.md 及 evidence/acceptance-0.2.0/（均在 research/technical/numen-create-vs2 下），核验补丁及日志后择优合入，保护并发修改。
 

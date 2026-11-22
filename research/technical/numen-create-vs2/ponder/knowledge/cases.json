@@ -1,0 +1,955 @@
+{
+ "millstone": {
+  "scene": "millstone",
+  "anchor": "create:millstone",
+  "size": [
+   6,
+   3,
+   6
+  ],
+  "devices": [
+   {
+    "p": [
+     0,
+     -2,
+     3
+    ],
+    "id": "create:large_cogwheel",
+    "props": {
+     "waterlogged": "false",
+     "axis": "z"
+    }
+   },
+   {
+    "p": [
+     3,
+     -2,
+     1
+    ],
+    "id": "create:large_cogwheel",
+    "props": {
+     "waterlogged": "false",
+     "axis": "x"
+    }
+   },
+   {
+    "p": [
+     -2,
+     -1,
+     0
+    ],
+    "id": "create:belt",
+    "props": {
+     "casing": "false",
+     "part": "end",
+     "facing": "west",
+     "slope": "horizontal"
+    }
+   },
+   {
+    "p": [
+     -1,
+     -1,
+     0
+    ],
+    "id": "create:belt",
+    "props": {
+     "casing": "false",
+     "part": "start",
+     "facing": "west",
+     "slope": "horizontal"
+    }
+   },
+   {
+    "p": [
+     -1,
+     -1,
+     1
+    ],
+    "id": "create:shaft",
+    "props": {
+     "waterlogged": "false",
+     "axis": "z"
+    }
+   },
+   {
+    "p": [
+     -1,
+     -1,
+     2
+    ],
+    "id": "create:shaft",
+    "props": {
+     "waterlogged": "false",
+     "axis": "z"
+    }
+   },
+   {
+    "p": [
+     -1,
+     -1,
+     3
+    ],
+    "id": "create:cogwheel",
+    "props": {
+     "waterlogged": "false",
+     "axis": "z"
+    }
+   },
+   {
+    "p": [
+     1,
+     -1,
+     0
+    ],
+    "id": "create:cogwheel",
+    "props": {
+     "waterlogged": "false",
+     "axis": "y"
+    }
+   },
+   {
+    "p": [
+     2,
+     -1,
+     1
+    ],
+    "id": "create:large_cogwheel",
+    "props": {
+     "waterlogged": "false",
+     "axis": "y"
+    }
+   },
+   {
+    "p": [
+     -1,
+     0,
+     0
+    ],
+    "id": "create:andesite_belt_funnel",
+    "props": {
+     "powered": "false",
+     "shape": "retracted",
+     "facing": "west"
+    }
+   },
+   {
+    "p": [
+     0,
+     0,
+     0
+    ],
+    "id": "create:millstone"
+   },
+   {
+    "p": [
+     1,
+     0,
+     0
+    ],
+    "id": "create:cogwheel",
+    "props": {
+     "waterlogged": "false",
+     "axis": "y"
+    }
+   }
+  ],
+  "source": "Create 6.0.8.1 assets/create/ponder/millstone.nbt (MIT)"
+ },
+ "mechanical_press/pressing": {
+  "scene": "mechanical_press/pressing",
+  "anchor": "create:mechanical_press",
+  "size": [
+   5,
+   4,
+   6
+  ],
+  "devices": [
+   {
+    "p": [
+     1,
+     -3,
+     3
+    ],
+    "id": "create:large_cogwheel",
+    "props": {
+     "waterlogged": "false",
+     "axis": "z"
+    }
+   },
+   {
+    "p": [
+     -2,
+     -2,
+     0
+    ],
+    "id": "create:belt",
+    "props": {
+     "casing": "false",
+     "part": "start",
+     "facing": "east",
+     "slope": "horizontal"
+    }
+   },
+   {
+    "p": [
+     -1,
+     -2,
+     0
+    ],
+    "id": "create:belt",
+    "props": {
+     "casing": "false",
+     "part": "middle",
+     "facing": "east",
+     "slope": "horizontal"
+    }
+   },
+   {
+    "p": [
+     0,
+     -2,
+     -1
+    ],
+    "id": "create:depot"
+   },
+   {
+    "p": [
+     0,
+     -2,
+     0
+    ],
+    "id": "create:belt",
+    "props": {
+     "casing": "false",
+     "part": "pulley",
+     "facing": "east",
+     "slope": "horizontal"
+    }
+   },
+   {
+    "p": [
+     0,
+     -2,
+     1
+    ],
+    "id": "create:cogwheel",
+    "props": {
+     "waterlogged": "false",
+     "axis": "z"
+    }
+   },
+   {
+    "p": [
+     0,
+     -2,
+     2
+    ],
+    "id": "create:shaft",
+    "props": {
+     "waterlogged": "false",
+     "axis": "z"
+    }
+   },
+   {
+    "p": [
+     0,
+     -2,
+     3
+    ],
+    "id": "create:cogwheel",
+    "props": {
+     "waterlogged": "false",
+     "axis": "z"
+    }
+   },
+   {
+    "p": [
+     1,
+     -2,
+     0
+    ],
+    "id": "create:belt",
+    "props": {
+     "casing": "false",
+     "part": "middle",
+     "facing": "east",
+     "slope": "horizontal"
+    }
+   },
+   {
+    "p": [
+     2,
+     -2,
+     0
+    ],
+    "id": "create:belt",
+    "props": {
+     "casing": "false",
+     "part": "end",
+     "facing": "east",
+     "slope": "horizontal"
+    }
+   },
+   {
+    "p": [
+     -2,
+     -1,
+     0
+    ],
+    "id": "create:andesite_belt_funnel",
+    "props": {
+     "powered": "false",
+     "shape": "pushing",
+     "facing": "north"
+    }
+   },
+   {
+    "p": [
+     0,
+     -1,
+     1
+    ],
+    "id": "create:cogwheel",
+    "props": {
+     "waterlogged": "false",
+     "axis": "z"
+    }
+   },
+   {
+    "p": [
+     0,
+     0,
+     0
+    ],
+    "id": "create:mechanical_press",
+    "props": {
+     "facing": "north"
+    }
+   },
+   {
+    "p": [
+     0,
+     0,
+     1
+    ],
+    "id": "create:cogwheel",
+    "props": {
+     "waterlogged": "false",
+     "axis": "z"
+    }
+   }
+  ],
+  "source": "Create 6.0.8.1 assets/create/ponder/mechanical_press/pressing.nbt (MIT)"
+ },
+ "mechanical_press/compacting": {
+  "scene": "mechanical_press/compacting",
+  "anchor": "create:mechanical_press",
+  "size": [
+   5,
+   5,
+   6
+  ],
+  "devices": [
+   {
+    "p": [
+     1,
+     -4,
+     3
+    ],
+    "id": "create:large_cogwheel",
+    "props": {
+     "waterlogged": "false",
+     "axis": "z"
+    }
+   },
+   {
+    "p": [
+     0,
+     -3,
+     -1
+    ],
+    "id": "create:belt",
+    "props": {
+     "casing": "false",
+     "part": "start",
+     "facing": "east",
+     "slope": "horizontal"
+    }
+   },
+   {
+    "p": [
+     0,
+     -3,
+     1
+    ],
+    "id": "create:belt",
+    "props": {
+     "casing": "false",
+     "part": "start",
+     "facing": "east",
+     "slope": "vertical"
+    }
+   },
+   {
+    "p": [
+     0,
+     -3,
+     2
+    ],
+    "id": "create:shaft",
+    "props": {
+     "waterlogged": "false",
+     "axis": "z"
+    }
+   },
+   {
+    "p": [
+     0,
+     -3,
+     3
+    ],
+    "id": "create:cogwheel",
+    "props": {
+     "waterlogged": "false",
+     "axis": "z"
+    }
+   },
+   {
+    "p": [
+     1,
+     -3,
+     -1
+    ],
+    "id": "create:belt",
+    "props": {
+     "casing": "false",
+     "part": "middle",
+     "facing": "east",
+     "slope": "horizontal"
+    }
+   },
+   {
+    "p": [
+     2,
+     -3,
+     -1
+    ],
+    "id": "create:belt",
+    "props": {
+     "casing": "false",
+     "part": "end",
+     "facing": "east",
+     "slope": "horizontal"
+    }
+   },
+   {
+    "p": [
+     2,
+     -3,
+     0
+    ],
+    "id": "create:shaft",
+    "props": {
+     "waterlogged": "false",
+     "axis": "z"
+    }
+   },
+   {
+    "p": [
+     2,
+     -3,
+     1
+    ],
+    "id": "create:shaft",
+    "props": {
+     "waterlogged": "false",
+     "axis": "z"
+    }
+   },
+   {
+    "p": [
+     2,
+     -3,
+     2
+    ],
+    "id": "create:shaft",
+    "props": {
+     "waterlogged": "false",
+     "axis": "z"
+    }
+   },
+   {
+    "p": [
+     2,
+     -3,
+     3
+    ],
+    "id": "create:cogwheel",
+    "props": {
+     "waterlogged": "false",
+     "axis": "z"
+    }
+   },
+   {
+    "p": [
+     0,
+     -2,
+     0
+    ],
+    "id": "create:basin",
+    "props": {
+     "facing": "north"
+    }
+   },
+   {
+    "p": [
+     0,
+     -2,
+     1
+    ],
+    "id": "create:belt",
+    "props": {
+     "casing": "false",
+     "part": "middle",
+     "facing": "east",
+     "slope": "vertical"
+    }
+   },
+   {
+    "p": [
+     0,
+     -1,
+     1
+    ],
+    "id": "create:belt",
+    "props": {
+     "casing": "false",
+     "part": "middle",
+     "facing": "east",
+     "slope": "vertical"
+    }
+   },
+   {
+    "p": [
+     0,
+     0,
+     0
+    ],
+    "id": "create:mechanical_press",
+    "props": {
+     "facing": "south"
+    }
+   },
+   {
+    "p": [
+     0,
+     0,
+     1
+    ],
+    "id": "create:belt",
+    "props": {
+     "casing": "false",
+     "part": "end",
+     "facing": "east",
+     "slope": "vertical"
+    }
+   }
+  ],
+  "source": "Create 6.0.8.1 assets/create/ponder/mechanical_press/compacting.nbt (MIT)"
+ },
+ "fan/processing": {
+  "scene": "fan/processing",
+  "anchor": "create:encased_fan",
+  "size": [
+   7,
+   5,
+   5
+  ],
+  "devices": [
+   {
+    "p": [
+     1,
+     -1,
+     1
+    ],
+    "id": "create:large_cogwheel",
+    "props": {
+     "waterlogged": "false",
+     "axis": "x"
+    }
+   },
+   {
+    "p": [
+     0,
+     0,
+     0
+    ],
+    "id": "create:encased_fan",
+    "props": {
+     "facing": "west"
+    }
+   },
+   {
+    "p": [
+     1,
+     0,
+     0
+    ],
+    "id": "create:cogwheel",
+    "props": {
+     "waterlogged": "false",
+     "axis": "x"
+    }
+   },
+   {
+    "p": [
+     -5,
+     1,
+     2
+    ],
+    "id": "create:creative_motor",
+    "props": {
+     "facing": "east"
+    }
+   },
+   {
+    "p": [
+     -4,
+     1,
+     2
+    ],
+    "id": "create:large_cogwheel",
+    "props": {
+     "waterlogged": "false",
+     "axis": "x"
+    }
+   },
+   {
+    "p": [
+     0,
+     1,
+     0
+    ],
+    "id": "create:encased_fan",
+    "props": {
+     "facing": "west"
+    }
+   },
+   {
+    "p": [
+     1,
+     1,
+     0
+    ],
+    "id": "create:creative_motor",
+    "props": {
+     "facing": "west"
+    }
+   },
+   {
+    "p": [
+     -4,
+     2,
+     1
+    ],
+    "id": "create:cogwheel",
+    "props": {
+     "waterlogged": "false",
+     "axis": "x"
+    }
+   },
+   {
+    "p": [
+     -3,
+     2,
+     1
+    ],
+    "id": "create:shaft",
+    "props": {
+     "waterlogged": "false",
+     "axis": "x"
+    }
+   },
+   {
+    "p": [
+     -2,
+     2,
+     -1
+    ],
+    "id": "create:belt",
+    "props": {
+     "casing": "false",
+     "part": "end",
+     "facing": "north",
+     "slope": "horizontal"
+    }
+   },
+   {
+    "p": [
+     -2,
+     2,
+     0
+    ],
+    "id": "create:belt",
+    "props": {
+     "casing": "false",
+     "part": "middle",
+     "facing": "north",
+     "slope": "horizontal"
+    }
+   },
+   {
+    "p": [
+     -2,
+     2,
+     1
+    ],
+    "id": "create:belt",
+    "props": {
+     "casing": "false",
+     "part": "start",
+     "facing": "north",
+     "slope": "horizontal"
+    }
+   },
+   {
+    "p": [
+     -2,
+     3,
+     0
+    ],
+    "id": "create:depot"
+   }
+  ],
+  "source": "Create 6.0.8.1 assets/create/ponder/fan/processing.nbt (MIT)"
+ },
+ "chute/smart": {
+  "scene": "chute/smart",
+  "anchor": "create:chute",
+  "size": [
+   5,
+   5,
+   5
+  ],
+  "devices": [
+   {
+    "p": [
+     0,
+     0,
+     0
+    ],
+    "id": "create:chute",
+    "props": {
+     "shape": "window",
+     "facing": "down"
+    }
+   },
+   {
+    "p": [
+     0,
+     1,
+     0
+    ],
+    "id": "create:smart_chute",
+    "props": {
+     "powered": "false"
+    }
+   }
+  ],
+  "source": "Create 6.0.8.1 assets/create/ponder/chute/smart.nbt (MIT)"
+ },
+ "mechanical_mixer/mixing": {
+  "scene": "mechanical_mixer/mixing",
+  "anchor": "create:mechanical_mixer",
+  "size": [
+   5,
+   5,
+   6
+  ],
+  "devices": [
+   {
+    "p": [
+     1,
+     -4,
+     3
+    ],
+    "id": "create:large_cogwheel",
+    "props": {
+     "waterlogged": "false",
+     "axis": "z"
+    }
+   },
+   {
+    "p": [
+     0,
+     -3,
+     -1
+    ],
+    "id": "create:belt",
+    "props": {
+     "casing": "false",
+     "part": "start",
+     "facing": "east",
+     "slope": "horizontal"
+    }
+   },
+   {
+    "p": [
+     0,
+     -3,
+     1
+    ],
+    "id": "create:cogwheel",
+    "props": {
+     "waterlogged": "false",
+     "axis": "y"
+    }
+   },
+   {
+    "p": [
+     1,
+     -3,
+     -1
+    ],
+    "id": "create:belt",
+    "props": {
+     "casing": "false",
+     "part": "middle",
+     "facing": "east",
+     "slope": "horizontal"
+    }
+   },
+   {
+    "p": [
+     1,
+     -3,
+     2
+    ],
+    "id": "create:large_cogwheel",
+    "props": {
+     "waterlogged": "false",
+     "axis": "y"
+    }
+   },
+   {
+    "p": [
+     2,
+     -3,
+     -1
+    ],
+    "id": "create:belt",
+    "props": {
+     "casing": "false",
+     "part": "end",
+     "facing": "east",
+     "slope": "horizontal"
+    }
+   },
+   {
+    "p": [
+     2,
+     -3,
+     0
+    ],
+    "id": "create:shaft",
+    "props": {
+     "waterlogged": "false",
+     "axis": "z"
+    }
+   },
+   {
+    "p": [
+     2,
+     -3,
+     1
+    ],
+    "id": "create:shaft",
+    "props": {
+     "waterlogged": "false",
+     "axis": "z"
+    }
+   },
+   {
+    "p": [
+     2,
+     -3,
+     2
+    ],
+    "id": "create:shaft",
+    "props": {
+     "waterlogged": "false",
+     "axis": "z"
+    }
+   },
+   {
+    "p": [
+     2,
+     -3,
+     3
+    ],
+    "id": "create:cogwheel",
+    "props": {
+     "waterlogged": "false",
+     "axis": "z"
+    }
+   },
+   {
+    "p": [
+     0,
+     -2,
+     0
+    ],
+    "id": "create:basin",
+    "props": {
+     "facing": "north"
+    }
+   },
+   {
+    "p": [
+     0,
+     -2,
+     1
+    ],
+    "id": "create:shaft",
+    "props": {
+     "waterlogged": "false",
+     "axis": "y"
+    }
+   },
+   {
+    "p": [
+     0,
+     -1,
+     1
+    ],
+    "id": "create:shaft",
+    "props": {
+     "waterlogged": "false",
+     "axis": "y"
+    }
+   },
+   {
+    "p": [
+     0,
+     0,
+     0
+    ],
+    "id": "create:mechanical_mixer"
+   },
+   {
+    "p": [
+     0,
+     0,
+     1
+    ],
+    "id": "create:cogwheel",
+    "props": {
+     "waterlogged": "false",
+     "axis": "y"
+    }
+   }
+  ],
+  "source": "Create 6.0.8.1 assets/create/ponder/mechanical_mixer/mixing.nbt (MIT)"
+ }
+}

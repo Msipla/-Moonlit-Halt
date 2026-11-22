@@ -162,8 +162,27 @@ public final class EngineeringSite implements ModInitializer {
         public static Pending<Applied> apply(ServerCall call,Work args) {
             var level=level(call);
             require(!args.cells().isEmpty() && args.cells().size()<=LIMIT,"expected 1..64 block edits");
-            var edits=args.cells().stream().map(c->prepare(level,c)).toList();
+            var occupied=new HashSet<class_2338>();
+            for(var cell:args.cells()) occupied.add(cell.pos());
+            var edits=args.cells().stream().map(c->prepare(level,inferAxis(c,occupied))).toList();
             return execute(call,edits);
+        }
+
+        private static Cell inferAxis(Cell cell,Set<class_2338> batch) {
+            String state=cell.state();
+            if(cell.faces().isPresent() || !(state.equals("create:shaft") || state.endsWith("cogwheel"))) return cell;
+            if(state.contains("[")) return cell;
+            int x=0,y=0,z=0;
+            var p=cell.pos();
+            if(batch.contains(new class_2338(p.method_10263()+1,p.method_10264(),p.method_10260()))
+                || batch.contains(new class_2338(p.method_10263()-1,p.method_10264(),p.method_10260()))) x=1;
+            if(batch.contains(new class_2338(p.method_10263(),p.method_10264()+1,p.method_10260()))
+                || batch.contains(new class_2338(p.method_10263(),p.method_10264()-1,p.method_10260()))) y=1;
+            if(batch.contains(new class_2338(p.method_10263(),p.method_10264(),p.method_10260()+1))
+                || batch.contains(new class_2338(p.method_10263(),p.method_10264(),p.method_10260()-1))) z=1;
+            if(x+y+z!=1) return cell;
+            String axis=x==1?"x":y==1?"y":"z";
+            return new Cell(cell.pos(),state+"[axis="+axis+"]",cell.expected(),cell.faces(),cell.rpm(),cell.filter());
         }
 
         @Fn("Dry-run a batch without writing. Returns every cell that would be rejected and why, so a layout can be corrected before apply. No block changes, no consent prompts.")
@@ -394,6 +413,15 @@ public final class EngineeringSite implements ModInitializer {
                     }
                     for(var edit:edits) require(CreateSettings.apply(level.method_8321(edit.at()),edit.settings()),
                         "device rejected configuration at "+edit.at());
+                    for(var edit:changed) {
+                        if(level.method_8321(edit.at()) instanceof KineticBlockEntity kinetic) {
+                            try {
+                                kinetic.initialize();
+                                kinetic.updateSpeed=true;
+                            } catch(RuntimeException ignored) {
+                            }
+                        }
+                    }
                 } catch(RuntimeException error) {
                     for(int i=changed.size()-1;i>=0;i--){
                         var edit=changed.get(i);

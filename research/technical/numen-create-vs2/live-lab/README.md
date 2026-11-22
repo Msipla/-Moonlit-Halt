@@ -1143,3 +1143,50 @@ bash live-lab/game-bridge/build.sh
 ### 结论与未完成
 
 效率改动把失败点从"接不上动力"推进到"段间物流"：e8b 用修正后的说明自行完成了竖轴加侧面齿轮的动力布置，两台磨石 −16 RPM，成品桶实测 7 燧石。但二级投料仍由模型手动完成，**全自动多步产线仍未通过**，也没有完成独立复投。另发现客户端在任务结束前后两次原生崩溃（同一 PhysX 帧），需要单列稳定性排查。下一轮：先看住崩溃，再把段间转运（溜槽/漏斗方向与端口）做成可查询、可干跑的事实数据，重跑同一委托直至无需人工转运的独立复投通过。失败轮次与指标见 [efficiency-0.2.2.json](evidence/efficiency-0.2.2.json)。` 已包含 Ponder 索引和许可。旧 `ship-bridge/build.sh` 仅构建隔离服用实验命令，日常安装只需统一的工程附属 JAR。冒烟测试可用 `LAB_ENGINEERING_SMOKE=1`、`line`、`ship` 和 `live-lab/run.cjs engineering`。其中载具组需用配置齐全的 Fabric 客户端以 `LabOwner` 连接隔离服。正式安装不需要实验命令或 RCON。
+
+## 0.2.2 工程案例与 A/B（2026-11-22）
+
+### 社区蓝图可行性
+
+| 来源 | 内容 | 许可 | 结论 |
+| --- | --- | --- | --- |
+| ZwerOxotnik/CreateSchematics | 真实机械 NBT（面包厂、齿轮厂、安山岩机） | 仓库无 LICENSE 文件 | 不能随仓库分发 |
+| createmod.com 等聚合站 | 用户上传蓝图 | 站点代码 MIT，上传件无逐文件授权 | 不能安全入库 |
+| PlanetMinecraft / CurseForge | 存档/蓝图 | 多为保留所有权利 | 不使用 |
+
+结论：**没有找到许可干净的社区蓝图源**，本轮没有把任何社区文件下载进仓库。
+
+### 改用官方 Ponder 演示结构
+
+同一安装 JAR 内的 `assets/create/ponder/**/*.nbt` 是 MIT、版本完全匹配的真实演示结构。`ponder/cases.py` 提取设备方块与相对坐标，生成 `ponder/knowledge/cases.json`（6 个场景：millstone、press/pressing、press/compacting、fan/processing、chute/smart、mixer/mixing），`PonderGuide` 在 `guide()` 命中对应场景时附带该案例，不新增工具组。
+
+官方磨石案例的拓扑（相对磨石 `[0,0,0]`）：
+
+- 侧面 `create:cogwheel[axis=y]` 在 `[1,0,0]`
+- 下方 `create:large_cogwheel[axis=y]` 在 `[2,-1,1]`，再经 `[0,-2,3] axis=z`、`[3,-2,1] axis=x` 的大齿轮
+- 进料：`[-2..-1,-1,0]` 的皮带 + `[-1,0,0]` 朝西的 andesite_belt_funnel
+
+即：**侧面齿轮驱动、底面留给产出**。
+
+### 工具修复
+
+- `apply()` 按同批次相邻格推断轴/齿轮的 `axis`，水平轴排不再默认 `axis=y`。
+- 写入后调用 `KineticBlockEntity.initialize()` 并置 `updateSpeed`，放置的动能块在首次回读前就加入网络。
+- `chute` / `smart_chute` 知识条目：溜槽只能向下，不会提升。
+
+### A/B（同一句自然语言委托）
+
+| 轮次 | 案例 | 额外修复 | 请求 | 峰值上下文 | 结果 |
+| --- | --- | --- | --- | --- | --- |
+| e9 | 无 | — | 83 | 41,105 | 失败：模型称放置后动力网络不重建 |
+| e10b | 有 | — | 99 | 39,993 | 失败：模型判断轴/齿轮接法异常，提前停止 |
+| e11 | 有 | 轴向推断 | 90 | 49,810 | 失败：模型称所有工程方块 0 转、网络 none |
+| e12 | 有 | 轴向推断 + 动能初始化 | 138 | 49,393 | 失败：正下方动力已能带动磨石（32 RPM），侧向抽取与自动进级未验证 |
+
+案例卡没有带来可测的成功率或调用次数改善；主要阻塞在工具侧动力网络挂接与模型对磨石端口/物流的判断。
+
+### 结论
+
+- 案例库**技术上可行**（官方 Ponder 结构，MIT、同版本），但**当前没有明显帮助**，按要求**不继续扩大蓝图库**。
+- 泛化测试（改布局/尺寸）暂缓：还没有可复现的成功自动线作为基线。
+- 证据：[case-library-0.2.2.json](evidence/case-library-0.2.2.json)。

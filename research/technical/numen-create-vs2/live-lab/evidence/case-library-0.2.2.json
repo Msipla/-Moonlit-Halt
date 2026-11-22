@@ -1,0 +1,52 @@
+{
+  "date": "2026-11-22",
+  "phase": "工程案例（Ponder 演示结构）与 A/B",
+  "environment": {
+    "minecraft": "1.20.1",
+    "create": "6.0.8.1 build 1744 (Fabric)",
+    "numen": "0.1.5",
+    "model": "deepseek-chat",
+    "mode": "single-player integrated server, real graphical client, creative site 16x10x16"
+  },
+  "community_blueprint_assessment": {
+    "conclusion": "not suitable for bundling",
+    "findings": [
+      "ZwerOxotnik/CreateSchematics hosts real machine NBTs (bread factory, cog factory, andesite generator) but the repository has no LICENSE file, so redistribution is not permitted by default.",
+      "createmod.com and similar aggregators accept user uploads with no per-file license; their site code being MIT does not license the uploaded builds.",
+      "PlanetMinecraft and CurseForge builds are commonly all-rights-reserved."
+    ],
+    "result": "no license-clean community blueprint source was found; files were not downloaded into the repo"
+  },
+  "ponder_case_feasibility": {
+    "conclusion": "viable and already implemented",
+    "source": "Create 6.0.8.1 assets/create/ponder/**/*.nbt (MIT), same jar as the running instance",
+    "extractor": "ponder/cases.py",
+    "output": "ponder/knowledge/cases.json",
+    "scenes": ["millstone", "mechanical_press/pressing", "mechanical_press/compacting", "fan/processing", "chute/smart", "mechanical_mixer/mixing"],
+    "millstone_case": {
+      "anchor": "create:millstone at [0,0,0]",
+      "power": "cogwheel axis=y at [1,0,0] on the side, large cogwheel axis=y at [2,-1,1] below, large cogwheels at [0,-2,3] axis=z and [3,-2,1] axis=x",
+      "input": "belt at [-2..-1,-1,0] plus andesite_belt_funnel facing west at [-1,0,0]",
+      "meaning": "the official demo drives the millstone from a side cogwheel, keeping the bottom free for output"
+    },
+    "integration": "PonderGuide attaches the extracted case to guide() when the scene asset matches; no new tool group"
+  },
+  "tool_fixes_this_phase": [
+    "apply() infers the shaft/cogwheel axis from neighbouring cells in the same batch, so a horizontal shaft run is no longer placed with the default axis=y",
+    "after writing, apply() calls KineticBlockEntity.initialize() and sets updateSpeed so placed kinetics join a network before the first read",
+    "chute and smart_chute knowledge notes: chutes move items downward only and never lift"
+  ],
+  "runs": [
+    {"id": "e9", "case": false, "calls": 83, "window": "18:40:39..18:43:17", "peakContextTokens": 41105, "outcome": "failed", "reason": "model reported that single-block placement never rebuilt the kinetic network; client crashed after the report"},
+    {"id": "e10b", "case": true, "calls": 99, "window": "22:14:59..22:17:21", "peakContextTokens": 39993, "outcome": "failed", "reason": "model judged shaft-to-shaft and cogwheel rules wrong and stopped early"},
+    {"id": "e11", "case": true, "axisInference": true, "calls": 90, "window": "22:19:43..22:22:45", "peakContextTokens": 49810, "outcome": "failed", "reason": "model reported every engineering-placed kinetic block at 0 RPM and network none"},
+    {"id": "e12", "case": true, "axisInference": true, "kineticInitialize": true, "calls": 138, "window": "22:24:29..22:29:00", "peakContextTokens": 49393, "outcome": "failed", "reason": "power from below now worked (millstone 32 RPM), but side extraction and automatic stage transfer were not verified; model stopped and proposed a vertical chute chain"}
+  ],
+  "ab_result": {
+    "baseline_no_case": {"run": "e9", "calls": 83, "peakContextTokens": 41105, "success": false},
+    "case_assisted": {"runs": ["e10b", "e11", "e12"], "calls": [99, 90, 138], "peakContextTokens": [39993, 49810, 49393], "success": false},
+    "verdict": "case cards did not measurably raise success or lower calls in these runs; the dominant blockers were tool-side kinetic network attachment and the model's millstone port reasoning"
+  },
+  "generalization": "not tested: no successful automatic line to vary",
+  "verdict": "case library is feasible using official Ponder structures, but it did not improve the outcome yet; keep it and stop expanding the library until a run passes"
+}
