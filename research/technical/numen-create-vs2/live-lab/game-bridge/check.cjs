@@ -23,7 +23,7 @@ module.exports=async function check(lab){
   if(process.env.LAB_ENGINEERING_SMOKE==='line') return calibrateLine(lab,baseline);
   if(process.env.LAB_ENGINEERING_SMOKE==='1') return settingsCheck(lab);
   if(process.env.LAB_ENGINEERING_LINE==='1') return lineCheck(lab,baseline);
-  const goal='在授权创造施工区内给我造一台会转的 Create 风扇，先在 X=-6..-1、Y=-60..-55、Z=9..13 自选格建造。创造马达的轴端在 facing 一侧，风扇只在 facing 的反面接轴。直接用 engineering.site.apply(cells)，无需取物。cells 是由 {pos={x=...,y=...,z=...},state="create:..."} 组成的列表，空地默认无需 expected。用 engineering.site.inspect(pos) 回读实际转速。用 engineering.site.export("fan_demo",最小角,最大角) 保存紧包围原件的标准 NBT，再用 engineering.site.import_at("fan_demo",{x=3,y=-60,z=9}) 在空区重建。检查两台风扇的实际转速后用中文回执。';
+  const goal='在授权创造区 X=-6..-1、Y=-60..-55、Z=9..13 自选两个水平相邻空格，造一台由创造马达直接驱动的 Create 风扇。用 engineering.site.apply，一批提交两个格子。每格填 pos、state、faces；faces 写朝向邻接机器的一面，工具会选择合法的原生朝向。无需寻路或取材料。用 engineering.site.inspect 回读风扇实际 RPM。若已转，导出紧包围两格的 fan_demo 标准 NBT 并用 import_at 在区内 X=3..6 的空位重建，确认副本 RPM，简短回执。';
   const model=await lab.chat(goal,200000);
   const completed=Boolean(model&&!model.truncated);
   await lab.isolate();

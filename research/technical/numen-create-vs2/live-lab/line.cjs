@@ -18,7 +18,7 @@ const stone = {
 const knowledge = [
   'Before writing, trace the material path from input barrel to output barrel. For gravity-fed transfers the downstream stage sits lower. Build the devices and carriers along this path first, leaving the required shaft faces accessible. Then connect the shared drive. Use adjacent cells for a connection and never occupy a cell with both a shaft and a carrier. Do not resend a complete layout to change one cell.',
   'Before powering: a hopper below a barrel or machine pulls from it; put input barrel above its hopper, not underneath. Keep only one input and one output barrel. Place the second process lower for gravity feed, and include all the carriers between the two processing stages.',
-  'The power action is {"action":"power","paths":[[[motor x,y,z],[next x,y,z],...,[first load x,y,z]],[[same motor x,y,z],[next x,y,z],...,[second load x,y,z]]],"rpm":64}. Choose paths through empty cells with face-neighbor steps, no jumps. You choose the geometry; the tool assigns shafts on straight runs and gearboxes at bends or branches. A millstone endpoint may be entered from below or from a side through a small vertical cog.',
+  'The power action is {"action":"power","paths":[[[motor x,y,z],[next x,y,z],...,[first load x,y,z]],[[same motor x,y,z],[next x,y,z],...,[second load x,y,z]]],"rpm":64}. Choose paths through empty cells with face-neighbor steps, no jumps. You choose the geometry; the tool assigns shafts on straight runs and gearboxes at bends or branches. Enter a millstone from below or from a side through a small vertical cog. The last step into a side cog must be up or down. Shared vertical routes can continue through the lower cog; split only at the final step to each load.',
   'For an automated chain, test is {"action":"test","at":[input barrel xyz],"out":[finished barrel xyz]}. Separate barrels; build both and choose positions. Assay deposits 3 units of the task input in the input barrel only; it never moves intermediates.',
   'Read any uncertain site using {"action":"observe"} for actual blocks, rotations, filters and inventories. World and power are real game state.',
   'Native logistics: a hopper extracts from the inventory directly ABOVE it and pushes into the block it FACES. A hopper aimed into the side of a millstone can feed it. A millstone allows processed output to be extracted. Chutes transport down; a horizontal row of chutes will not carry items sideways.',
@@ -43,7 +43,7 @@ function materialPath(ops,target) {
   function next(cell) {
     if (cell.id==='minecraft:hopper') {
       const facing=cell.props.facing||'down';
-      assert(cardinal[facing] && facing!=='up','Give each hopper a valid outlet direction.');
+      assert(cardinal[facing] && facing!=='up','Hopper '+atKey(cell.at)+' points '+facing+'. Its outlet must point down, north, south, east or west. The hopper already pulls from above.');
       return cells.get(atKey(shift(cell.at,facing)));
     }
     const down=cells.get(atKey(beneath(cell.at)));
@@ -55,7 +55,7 @@ function materialPath(ops,target) {
     let stage=0;
     for (let cell=next(start); cell && !seen.has(cell); cell=next(cell)) {
       if (cell.id===stages[stage]) stage++;
-      if (cell.id===casing && stage===stages.length) return;
+      if (cell.id===casing && stage===stages.length) return {at:start.at,out:cell.at};
       seen.add(cell);
     }
     attempted.push([...seen].map(cell=>cell.id));
@@ -66,7 +66,8 @@ function materialPath(ops,target) {
 function powerPlan(action,world,position,target) {
   const {paths,rpm}=action;
   assert(Array.isArray(paths)&&paths.length===target.loads.length &&
-    paths.every(path=>Array.isArray(path)&&path.length>=3&&path.length<=32),'Give one 3..32-cell path per load.');
+    paths.every(path=>Array.isArray(path)&&path.length>=3&&path.length<=32),
+    'Give one 3..32-cell path per load, including motor and load. If a motor cannot directly feed a load, choose a different motor cell with space for the last transmission cell. Use one identical first motor cell in both paths.');
   const cells=new Map(), endpoints=new Set(), found=[];
   const start=atKey(paths[0][0]);
   for (const path of paths) {
@@ -104,7 +105,7 @@ function powerPlan(action,world,position,target) {
       return {at,state:'create:creative_motor',faces:list,rpm};
     }
     if(cog) {
-      assert(list.length===1&&axes.has('y'),'Feed the side cog from above or below at '+atKey(at));
+      assert(axes.size===1&&axes.has('y'),'Feed the side cog from above or below at '+atKey(at));
       return {at,state:'create:cogwheel',faces:list};
     }
     assert(axes.size<=2,'At '+atKey(at)+' the route bends through three axes. Separate the turns.');
@@ -199,6 +200,18 @@ async function assay(action, label, lab) {
   assert(atKey(a)!==atKey(b), 'input and finished barrels must be separate');
   const before=await lab.save(label+'-before');
   for(const cell of [a,b]) assert(before.blocks[atKey(cell)]?.Name===casing,'expected barrel at '+atKey(cell));
+  const candidates=Object.entries(before.blocks).filter(([,cell])=>[...carriers,casing,...target.loads,'create:depot'].includes(cell.Name))
+    .map(([key,cell])=>({at:key.split(',').map(Number),id:cell.Name,props:cell.Properties||{}}));
+  let observedPorts;
+  try {
+    observedPorts=materialPath(candidates,target);
+  } catch (error) {
+    if (!(error instanceof assert.AssertionError)) throw error;
+  }
+  if (observedPorts && (atKey(a)!==atKey(observedPorts.at) || atKey(b)!==atKey(observedPorts.out))) {
+    return {passed:false,reason:'Feed and collection must follow the installed carriers. No item was inserted.',
+      detectedFromCurrentBlocks:{at:local(observedPorts.at,lab.ground),out:local(observedPorts.out,lab.ground)}};
+  }
   const pending=lab.pending;
   const stranded=lab.count(before,input)+lab.count(before,intermediate);
   if (pending?.out!==undefined && atKey(b)!==pending.out && stranded) {
@@ -208,6 +221,10 @@ async function assay(action, label, lab) {
   const driveBefore=drive(before,lab.read,target);
   if (!driveBefore.shared) return {passed:false,reason:'both loads must turn on one motor network',drive:driveBefore};
   if(!pending){
+    if (stacks(entityAt(before,a)).length) {
+      return {passed:false,reason:'The selected input barrel is not empty. No item was inserted.',
+        found:stacks(entityAt(before,a)),next:'Inspect the material path. Place feed in the upstream barrel, and use the downstream barrel for collection.'};
+    }
     assert(!stranded,'unexpected input already in the line');
     const cmd=`item replace block ${a.join(' ')} container.0 with ${input} ${amount}`;
     const response=await lab.command(cmd);

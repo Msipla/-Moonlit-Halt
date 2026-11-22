@@ -253,10 +253,24 @@ async function run(name) {
     if(nativeLine){
       const invalid = await probe('states '+[...new Set(ops.map(op=>op.state))].join(' '));
       assert(!Object.keys(invalid).length,'invalid registered block state: '+compact(invalid));
+      const existing=new Map(line.survey(await save(),ground).cells.map(cell=>[cell.at.join(),cell]));
+      for (const op of ops) {
+        const cell=existing.get(localPoint(op.at).join());
+        if (!cell?.items.length) continue;
+        op.skipOccupied=cell.id===op.id && op.rpm===undefined && op.filter===undefined &&
+          Object.entries(op.props).every(([key,value])=>cell.state?.[key]===value) &&
+          (op.props.facing!==undefined || cell.id!=='minecraft:hopper');
+        assert(op.skipOccupied || cell.id==='minecraft:hopper' && op.id===cell.id,
+          'Preserve the occupied inventory at '+cell.at.join()+'. Adjust the transfer path first.');
+      }
     }
     const started = performance.now();
     const responses = [];
     for (const op of ops) {
+      if (op.skipOccupied) {
+        responses.push('Occupied cell already matches; kept existing inventory');
+        continue;
+      }
       if(nativeLine && op.id==='minecraft:hopper'){
         const edit=await probe('reorient_hopper '+op.at.join(' ')+' '+op.state);
         assert(!edit.error,edit.error);
@@ -430,7 +444,8 @@ async function run(name) {
       const lab = {save,command,read,position,count:itemCount,ground,target,pending};
       const newLine = target.line && stage!=='repair' && !resumeWorld;
       let materialPlaced = !newLine;
-      let verifiedAt, reply, motion, powerCheckpoint = Boolean(resumeWorld), stale = 0, previous = '';
+      let materialPorts, attemptedTest = false;
+      let verifiedAt, reply, motion, powerCheckpoint = false, stale = 0, previous = '';
       const rejections = new Map();
       const budget = process.env.LAB_ENGINEERING_THINKING==='1' ? 480 : target.line ? 300 : 240;
       for (let turn=1; turn<=(target.line?18:8) && elapsed()<budget; turn++) {
@@ -451,6 +466,10 @@ async function run(name) {
           const a = JSON.parse(answer);
           assert(a && typeof a==='object', 'expected one action');
           if (a.action==='build') {
+            assert(!(materialPorts && powerCheckpoint && !attemptedTest),
+              'Both the material route and power are in place. Run a test before changing them: '+compact({action:'test',...materialPorts}));
+            assert(!(newLine && materialPlaced && !powerCheckpoint),
+              'Material is placed. Use the power action with coordinate paths to connect both loads before editing individual blocks.');
             if (!materialPlaced) {
               const material=plan(a);
               const ids = material.map(op => op.id);
@@ -458,7 +477,8 @@ async function run(name) {
                 target.loads.every(id=>ids.filter(block=>block===id).length>=target.loads.filter(load=>load===id).length),
                 'First build the material path: include both processing loads and the distinct input and output barrels. Add the needed carriers and leave the shaft faces accessible.');
               assert(!ids.includes('create:creative_motor'),'Leave the drive for the next batch; reserve accessible faces.');
-              line.materialPath(material,target);
+              const ports=line.materialPath(material,target);
+              materialPorts={at:localPoint(ports.at),out:localPoint(ports.out)};
             }
             receipt = await build(a);
             if (receipt.mismatches.length===0) materialPlaced=true;
@@ -470,7 +490,7 @@ async function run(name) {
             verifiedAt=undefined;
           } else if (target.ship && a.action!=='finish') {
             receipt=await ship.act(a,lab);
-            if(a.action==='drive' && receipt.passed) motion=a;
+            if(a.action==='drive' && receipt.passed && !a.left) motion=a;
             if(a.action==='stop') verifiedAt=receipt.passed?motion:undefined;
           } else if (a.action==='observe' && target.line) {
             const state=await save();
@@ -478,8 +498,10 @@ async function run(name) {
           } else if (a.action==='guide' && target.line) {
             receipt=await guide(probe,a.topic);
           } else if (a.action==='test') {
-            receipt = target.line ? await line.assay(a,stage+'-'+turn,lab) : await test(a.at,'model-'+turn);
-            verifiedAt = receipt.passed ? a : undefined;
+            const sample=materialPorts && !attemptedTest ? {...a,...materialPorts} : a;
+            receipt = target.line ? await line.assay(sample,stage+'-'+turn,lab) : await test(a.at,'model-'+turn);
+            attemptedTest=true;
+            verifiedAt = receipt.passed ? sample : undefined;
           } else if (a.action==='finish') {
             assert(verifiedAt && typeof a.summary==='string', 'complete a successful real test before reporting');
             reply = a.summary;
@@ -503,16 +525,22 @@ async function run(name) {
         }else rejections.clear();
         if (stale>=2) break;
         let summary=receipt;
+        if (newLine && materialPlaced && !powerCheckpoint && receipt.nativePower?.status!=='shared') {
+          summary={...summary,nextAction:'power',note:'The material path is placed. Choose the motor and two face-neighbor routes in action power. Inspect loads and their heights in this receipt.'};
+        }
         if(target.line && receipt.nativePower){
           const {nativePower,changed,alreadyMatch,mismatches,cells,motorPorts,blockedTransfers}=receipt;
           summary={power:nativePower.status,loads:nativePower.loads,cutPairs:nativePower.cutPairs,
             ...(nativePower.status==='shared' ? {} : {devices:nativePower.devices}),
             changed,alreadyMatch,mismatches,blockedTransfers,cells,motorPorts,
+            nextAction:newLine && materialPlaced && !powerCheckpoint && nativePower.status!=='shared'?'power':undefined,
             next:nativePower.status==='shared'
               ? stage==='repair' && blockedTransfers?.length
                 ? 'Power is healthy. Here are live blocked transfers with actual neighboring cells. Adjust the one faulty outlet; test through the existing barrels.'
                 : 'Power is verified. Keep the working transmission. If both barrels and the material path are present, test now using those barrels.'
-              : 'Connect the power chain from one motor. At a missing branch face on a straight shaft, use a gearbox exposing the through axis and branch axis. Each connection needs both facing ends; directions are relative to each cell.',
+              : newLine && materialPlaced
+                ? 'Use action power now. Choose a motor position and a contiguous path to each load. For stacked millstones, choose a motor lower than the lower millstone and one block horizontally beside the stack. Feed upwards along a shared vertical line beside both loads; from that line step horizontally into each millstone. Include every cell; paths must each have at least three cells including motor and load.'
+                : 'Connect power from one motor. A branch uses a gearbox exposing its two axes. Each connection needs both facing ends.',
           };
         }
         if(stage!=='repair' && !powerCheckpoint && receipt.nativePower?.status==='shared'){
@@ -520,7 +548,11 @@ async function run(name) {
           const status=line.survey(await save(),ground);
           mark('power_checkpoint',{seconds:elapsed(),loads:receipt.nativePower.loads});
           messages.splice(2);
-          messages.push({role:'user',content:'Milestone reached: all machine loads share verified power. Continue the original task in this existing world. Skip transmission edits unless a later test proves a fault. Install material routing now, then test and finish. Current site: '+compact(status)+' Native power: '+compact(summary.loads)});
+          const next=materialPorts
+            ? 'The material route from your first build already exists. Test it now with '+compact({action:'test',...materialPorts})+'. Repair only if the run reveals a fault.'
+            : 'Continue the material route at this existing site and test it.';
+          messages.push({role:'user',content:'Milestone reached: all loads share verified power. Keep the working transmission. '+
+            next+' Current site: '+compact(status)+' Native power: '+compact(summary.loads)});
         }else{
           messages.push({role:'user',content:'Server receipt: '+compact(summary)});
         }
@@ -541,7 +573,7 @@ async function run(name) {
       return {passed,final};
     }
 
-    const repairGoal='这条自动加工产线停产了。观察真实现场，定位故障，进行最小维修并保持正常部分不动。请让它再次处理一批测试原料并按实际结果报告。';
+    const repairGoal='这条自动加工产线停产了。观察真实现场，定位故障，进行最小维修并保持正常部分不动。沿漏斗实际进出方向区分上游原料桶和下游成品桶，已有成品是下游的证据。请让它再次处理一批测试原料并按实际结果报告。';
     let first;
     if(name==='repair'||name==='repair-logistics'){
       const fixture=require('./repair-fixture.cjs');

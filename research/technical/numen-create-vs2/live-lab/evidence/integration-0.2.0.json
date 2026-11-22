@@ -1,0 +1,5093 @@
+{
+  "date": "2026-11-22",
+  "baseline": "76e95012b0967abc335eb0269d25c697dde9618b",
+  "handoff": "935da3f15676a6c14c20681dd645bd5c432b8b15",
+  "integratedCode": "fffe2b5418275c2c97746fa9674fe6d007c5e97e",
+  "installedJarSHA256": "4bef45ad2de59a0517ec88ad2a46aecc85c7c939e76eb6b9debb3635fa60861e",
+  "system": {
+    "minecraft": "1.20.1",
+    "java": 17,
+    "fabricLoader": "0.17.2",
+    "fabricAPI": "0.92.6",
+    "create": "6.0.8.1 build 1744",
+    "numen": "0.1.5-beta",
+    "valkyrienSkies": "2.4.11",
+    "eureka": "1.6.4"
+  },
+  "ponder": {
+    "passed": true,
+    "sources": [
+      {
+        "matched": 8,
+        "assets": [
+          "assets/create/ponder/fan/processing.nbt"
+        ],
+        "topic": "fan_processing",
+        "steps": [
+          {
+            "tick": 40,
+            "truncated": false,
+            "text": "When passing through lava, the Air Flow becomes Heated"
+          },
+          {
+            "tick": 155,
+            "truncated": false,
+            "text": "Items caught in the area will be smelted"
+          },
+          {
+            "tick": 295,
+            "truncated": false,
+            "text": "Food items thrown here would be incinerated"
+          },
+          {
+            "tick": 400,
+            "truncated": false,
+            "text": "Instead, a setup for Smoking using Fire should be used for them"
+          },
+          {
+            "tick": 515,
+            "truncated": false,
+            "text": "Air Flows passing through water create a Washing Setup"
+          },
+          {
+            "tick": 620,
+            "truncated": false,
+            "text": "Some interesting new processing can be done with it"
+          },
+          {
+            "tick": 720,
+            "truncated": false,
+            "text": "The Speed of the Fan does NOT affect the processing speed, only its range"
+          },
+          {
+            "tick": 890,
+            "truncated": false,
+            "text": "Fan Processing can also be applied to Items on Depots and Belts"
+          }
+        ],
+        "note": "Teaching, not live physics. Asset matches are candidates; 0 simulated speed changes omitted.",
+        "title": "Processing Items using Encased Fans",
+        "script": "FanScenes.processing",
+        "source": "Create Fabric 6.0.8.1 build 1744 Ponder scene scripts",
+        "returned": 8,
+        "truncated": false
+      },
+      {
+        "matched": 5,
+        "assets": [
+          "assets/create/ponder/millstone.nbt"
+        ],
+        "topic": "millstone",
+        "steps": [
+          {
+            "tick": 25,
+            "truncated": false,
+            "text": "Millstones process items by grinding them"
+          },
+          {
+            "tick": 115,
+            "truncated": false,
+            "text": "They can be powered from the side using cogwheels"
+          },
+          {
+            "tick": 220,
+            "truncated": false,
+            "text": "Throw or Insert items at the top"
+          },
+          {
+            "tick": 280,
+            "truncated": false,
+            "text": "After some time, the result can be obtained via Right-click"
+          },
+          {
+            "tick": 440,
+            "truncated": false,
+            "text": "The outputs can also be extracted by automation"
+          }
+        ],
+        "note": "Teaching, not live physics. Asset matches are candidates; 2 simulated speed changes omitted.",
+        "title": "Processing Items in the Millstone",
+        "script": "ProcessingScenes.millstone",
+        "source": "Create Fabric 6.0.8.1 build 1744 Ponder scene scripts",
+        "returned": 5,
+        "truncated": false
+      },
+      {
+        "matched": 4,
+        "assets": [
+          "assets/create/ponder/chute/smart.nbt"
+        ],
+        "topic": "smart_chute",
+        "steps": [
+          {
+            "tick": 15,
+            "truncated": false,
+            "text": "Smart Chutes are vertical chutes with additional control"
+          },
+          {
+            "tick": 95,
+            "truncated": false,
+            "text": "Items in the filter slot specify what to extract or transfer"
+          },
+          {
+            "tick": 187,
+            "truncated": false,
+            "text": "Use the value panel to specify the extracted stack size"
+          },
+          {
+            "tick": 187,
+            "truncated": false,
+            "text": "Redstone power will prevent Smart Chutes from acting."
+          }
+        ],
+        "note": "Teaching, not live physics. Asset matches are candidates; 0 simulated speed changes omitted.",
+        "title": "Filtering Items using Smart Chutes",
+        "script": "ChuteScenes.smart",
+        "source": "Create Fabric 6.0.8.1 build 1744 Ponder scene scripts",
+        "returned": 4,
+        "truncated": false
+      },
+      {
+        "type": "create:milling",
+        "ingredients": [
+          {
+            "item": "minecraft:wheat"
+          }
+        ],
+        "processingTime": 150,
+        "results": [
+          {
+            "item": "create:wheat_flour"
+          },
+          {
+            "chance": 0.25,
+            "count": 2,
+            "item": "create:wheat_flour"
+          },
+          {
+            "chance": 0.25,
+            "item": "minecraft:wheat_seeds"
+          }
+        ],
+        "source": "data/create/recipes/milling/wheat.json",
+        "scope": "bundled Create recipe; active datapacks may override it"
+      },
+      {
+        "type": "create:splashing",
+        "ingredients": [
+          {
+            "tag": "c:wheat_flour"
+          }
+        ],
+        "results": [
+          {
+            "item": "create:dough"
+          }
+        ],
+        "source": "data/create/recipes/splashing/wheat_flour.json",
+        "scope": "bundled Create recipe; active datapacks may override it"
+      },
+      {
+        "matched": 8,
+        "assets": [
+          "assets/create/ponder/mechanical_crafter/setup.nbt"
+        ],
+        "topic": "mechanical_arm",
+        "steps": [
+          {
+            "tick": 30,
+            "truncated": false,
+            "text": "Mechanical Arms have to be assigned their in- and outputs before they are placed"
+          },
+          {
+            "tick": 137,
+            "truncated": false,
+            "text": "Right-Click inventories while holding the Arm to assign them as Targets"
+          },
+          {
+            "tick": 256,
+            "truncated": false,
+            "text": "Right-Click again to toggle between Input (Blue) and Output (Yellow)"
+          },
+          {
+            "tick": 351,
+            "truncated": false,
+            "text": "Left-Click components to remove their Selection"
+          },
+          {
+            "tick": 446,
+            "truncated": false,
+            "text": "Once placed, the Mechanical Arm will target the blocks selected previously"
+          },
+          {
+            "tick": 703,
+            "truncated": false,
+            "text": "They can have any amount of in- and outputs within their range"
+          },
+          {
+            "tick": 840,
+            "truncated": false,
+            "text": "However, not every type of Inventory can be interacted with directly"
+          },
+          {
+            "tick": 955,
+            "truncated": false,
+            "text": "Funnels and Depots can help to Bridge that gap"
+          }
+        ],
+        "note": "Teaching, not live physics. Asset matches are candidates; 2 simulated speed changes omitted.",
+        "title": "Setting up Mechanical Arms",
+        "script": "ArmScenes.setup",
+        "source": "Create Fabric 6.0.8.1 build 1744 Ponder scene scripts",
+        "returned": 8,
+        "truncated": false
+      },
+      {
+        "matched": 21,
+        "topic": "power",
+        "source": "Create Fabric 6.0.8.1 build 1744 Ponder scene scripts",
+        "truncated": true,
+        "hits": [
+          {
+            "id": "gantry_redstone",
+            "title": "Gantry Power Propagation",
+            "script": "GantryScenes.redstone"
+          },
+          {
+            "id": "cart_assembler",
+            "title": "Moving Structures using Cart Assemblers",
+            "script": "CartAssemblerScenes.anchor"
+          },
+          {
+            "id": "cart_assembler_dual",
+            "title": "Assembling Carriage Contraptions",
+            "script": "CartAssemblerScenes.dual"
+          },
+          {
+            "id": "cart_assembler_rails",
+            "title": "Other types of Minecarts and Rails",
+            "script": "CartAssemblerScenes.rails"
+          },
+          {
+            "id": "chain_gearshift",
+            "title": "Controlling rotational speed with Chain Gearshifts",
+            "script": "ChainDriveScenes.adjustableChainGearshift"
+          }
+        ],
+        "returned": 5
+      }
+    ],
+    "nativeStateRejectionUnchanged": true
+  },
+  "shipControlCalibration": {
+    "type": "ship_check",
+    "utc": "2026-11-22T04:35:00.560Z",
+    "pilot": "Numen LabBot",
+    "assembly": {
+      "assembly": {
+        "id": "3",
+        "pinnedChunks": 4
+      },
+      "ship": {
+        "id": "3",
+        "p": [
+          8.5,
+          -55.316401,
+          9.582007
+        ],
+        "v": [
+          0,
+          0,
+          0
+        ],
+        "rotation": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "static": false,
+        "helms": 1,
+        "balloons": 4,
+        "anchors": 1,
+        "physicsRunning": true,
+        "voxelChunks": 250,
+        "mounted": false
+      }
+    },
+    "motion": {
+      "launched": {
+        "before": {
+          "id": "3",
+          "p": [
+            8.5,
+            -55.316401,
+            9.582007
+          ],
+          "v": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "static": false,
+          "helms": 1,
+          "balloons": 4,
+          "anchors": 1,
+          "physicsRunning": true,
+          "voxelChunks": 250,
+          "mounted": false
+        },
+        "control": {
+          "id": "3",
+          "p": [
+            8.5,
+            -55.316401,
+            9.582007
+          ],
+          "v": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "static": false,
+          "helms": 1,
+          "balloons": 4,
+          "anchors": 1,
+          "physicsRunning": true,
+          "voxelChunks": 250,
+          "mounted": true
+        },
+        "after": {
+          "id": "3",
+          "p": [
+            8.5,
+            -55.316339,
+            5.469188
+          ],
+          "v": [
+            0,
+            6.9e-05,
+            -2.496512
+          ],
+          "rotation": [
+            0.000205,
+            0,
+            0,
+            1
+          ],
+          "static": false,
+          "helms": 1,
+          "balloons": 4,
+          "anchors": 1,
+          "physicsRunning": true,
+          "voxelChunks": 242,
+          "mounted": true
+        },
+        "horizontal": 4.112819000000001,
+        "vertical": 6.199999999978445e-05,
+        "along": 4.112819000000001,
+        "yawDegrees": 0,
+        "passed": true
+      },
+      "turned": {
+        "before": {
+          "id": "3",
+          "p": [
+            8.5,
+            -55.316339,
+            5.469188
+          ],
+          "v": [
+            0,
+            6.9e-05,
+            -2.496512
+          ],
+          "rotation": [
+            0.000205,
+            0,
+            0,
+            1
+          ],
+          "static": true,
+          "helms": 1,
+          "balloons": 4,
+          "anchors": 1,
+          "physicsRunning": true,
+          "voxelChunks": 242,
+          "mounted": false
+        },
+        "control": {
+          "id": "3",
+          "p": [
+            8.5,
+            -55.316339,
+            5.469188
+          ],
+          "v": [
+            0,
+            6.9e-05,
+            -2.496512
+          ],
+          "rotation": [
+            0.000205,
+            0,
+            0,
+            1
+          ],
+          "static": false,
+          "helms": 1,
+          "balloons": 4,
+          "anchors": 1,
+          "physicsRunning": true,
+          "voxelChunks": 242,
+          "mounted": true
+        },
+        "after": {
+          "id": "3",
+          "p": [
+            7.942074,
+            -55.176803,
+            3.712778
+          ],
+          "v": [
+            -0.19845,
+            0.000377,
+            -0.039553
+          ],
+          "rotation": [
+            0.004011,
+            0.900228,
+            0.001229,
+            0.435399
+          ],
+          "static": false,
+          "helms": 1,
+          "balloons": 4,
+          "anchors": 1,
+          "physicsRunning": true,
+          "voxelChunks": 238,
+          "mounted": true
+        },
+        "horizontal": 1.842893786840685,
+        "vertical": 0.13953599999999966,
+        "along": 0,
+        "yawDegrees": 128.3784698910398,
+        "passed": true
+      },
+      "stopped": {
+        "before": {
+          "id": "3",
+          "p": [
+            7.935532,
+            -55.176792,
+            3.711512
+          ],
+          "v": [
+            -0.194154,
+            0.000299,
+            -0.03645
+          ],
+          "rotation": [
+            0.003548,
+            0.905465,
+            0.000941,
+            0.424404
+          ],
+          "static": true,
+          "helms": 1,
+          "balloons": 4,
+          "anchors": 1,
+          "physicsRunning": true,
+          "voxelChunks": 242,
+          "mounted": false
+        },
+        "after": {
+          "id": "3",
+          "p": [
+            7.935532,
+            -55.176792,
+            3.711512
+          ],
+          "v": [
+            -0.194154,
+            0.000299,
+            -0.03645
+          ],
+          "rotation": [
+            0.003548,
+            0.905465,
+            0.000941,
+            0.424404
+          ],
+          "static": true,
+          "helms": 1,
+          "balloons": 4,
+          "anchors": 1,
+          "physicsRunning": true,
+          "voxelChunks": 242,
+          "mounted": false
+        },
+        "passed": true
+      },
+      "passed": true
+    },
+    "passed": true,
+    "gameClient": "graphical Fabric client joined dedicated server",
+    "anchorHoldRequestedSeconds": 10.25
+  },
+  "inGameShipTools": {
+    "utc": "2026-11-22T04:38:47.360Z",
+    "type": "engineering_ship_result",
+    "passed": true,
+    "pilot": "Numen LabBot",
+    "assembly": {
+      "backup": "engineering:backup_72dea21af43749c6963598922c6bb4c1",
+      "id": "3",
+      "state": "assembling; inspect after the ship has loaded"
+    },
+    "initial": {
+      "id": "3",
+      "rotation": [
+        3.0442171181574457e-05,
+        -3.829899907474327e-14,
+        -2.010003066562171e-09,
+        0.9999999995366371
+      ],
+      "static": false,
+      "mounted": false,
+      "velocity": [
+        0,
+        -0.07740103461628678,
+        0
+      ],
+      "position": [
+        0.4999999850988388,
+        -55.722051324703926,
+        14.582007348537445
+      ]
+    },
+    "start": {
+      "id": "3",
+      "rotation": [
+        3.058772097506919e-05,
+        -4.65254942418364e-14,
+        -2.2898121435423927e-09,
+        0.9999999995321958
+      ],
+      "static": false,
+      "mounted": true,
+      "velocity": [
+        0,
+        -0.0570427025081699,
+        0
+      ],
+      "position": [
+        0.4999999850988388,
+        -55.7320495128713,
+        14.582007348537445
+      ]
+    },
+    "moved": {
+      "id": "3",
+      "rotation": [
+        0.00011696152204368056,
+        -1.8389026565715245e-09,
+        -6.839982791914743e-09,
+        0.9999999931600012
+      ],
+      "static": true,
+      "mounted": false,
+      "velocity": [
+        5.041300710217911e-09,
+        -0.0004809666052096873,
+        -2.0643931102597435
+      ],
+      "position": [
+        0.49999998808128865,
+        -55.75972886833837,
+        12.348529639049708
+      ]
+    },
+    "turnStart": {
+      "id": "3",
+      "rotation": [
+        0.00011696152204368056,
+        -1.8389026565715245e-09,
+        -6.839982791914743e-09,
+        0.9999999931600012
+      ],
+      "static": false,
+      "mounted": true,
+      "velocity": [
+        5.041300710217911e-09,
+        -0.0004809666052096873,
+        -2.0643931102597435
+      ],
+      "position": [
+        0.49999998808128865,
+        -55.75972886833837,
+        12.348529639049708
+      ]
+    },
+    "turned": {
+      "id": "3",
+      "rotation": [
+        0.005516602800110306,
+        0.5474784313362274,
+        0.007640851488492567,
+        0.8367667247827798
+      ],
+      "static": true,
+      "mounted": false,
+      "velocity": [
+        -0.3643375169679608,
+        -0.0109481325125671,
+        -1.0461793022926713
+      ],
+      "position": [
+        0.19711947869746316,
+        -55.774372173251535,
+        9.580418642564393
+      ]
+    },
+    "anchored": {
+      "id": "3",
+      "rotation": [
+        0.005516602800110306,
+        0.5474784313362274,
+        0.007640851488492567,
+        0.8367667247827798
+      ],
+      "static": true,
+      "mounted": false,
+      "velocity": [
+        -0.3643375169679608,
+        -0.0109481325125671,
+        -1.0461793022926713
+      ],
+      "position": [
+        0.19711947869746316,
+        -55.774372173251535,
+        9.580418642564393
+      ]
+    },
+    "degrees": 66.39218518985132,
+    "outside": [],
+    "modelRequests": 0,
+    "metersForward": 2.2334777094877367,
+    "anchorHoldRequestedSeconds": 10.25,
+    "permissionMode": "isolated Numen bypass fixture; owner removed from operator group before build",
+    "gameClient": "graphical Fabric client joined dedicated server"
+  },
+  "inGameFixedLine": {
+    "utc": "2026-11-22T04:37:17.717Z",
+    "type": "engineering_calibrated_line",
+    "original": {
+      "input": [
+        -5,
+        -49,
+        12
+      ],
+      "out": [
+        -2,
+        -57,
+        12
+      ],
+      "finished": 3,
+      "shared": true,
+      "motorSetting": 64,
+      "mills": [
+        {
+          "pos": [
+            -5,
+            -51,
+            12
+          ],
+          "rpm": -64,
+          "source": {
+            "X": -6,
+            "Y": -51,
+            "Z": 12
+          }
+        },
+        {
+          "pos": [
+            -2,
+            -55,
+            12
+          ],
+          "rpm": -64,
+          "source": {
+            "X": -3,
+            "Y": -55,
+            "Z": 12
+          }
+        }
+      ],
+      "drained": true
+    },
+    "copy": {
+      "input": [
+        2,
+        -49,
+        12
+      ],
+      "out": [
+        5,
+        -57,
+        12
+      ],
+      "finished": 3,
+      "shared": true,
+      "motorSetting": 64,
+      "mills": [
+        {
+          "pos": [
+            2,
+            -51,
+            12
+          ],
+          "rpm": -64,
+          "source": {
+            "X": 1,
+            "Y": -51,
+            "Z": 12
+          }
+        },
+        {
+          "pos": [
+            5,
+            -55,
+            12
+          ],
+          "rpm": -64,
+          "source": {
+            "X": 4,
+            "Y": -55,
+            "Z": 12
+          }
+        }
+      ],
+      "drained": true
+    },
+    "passed": true,
+    "outside": [],
+    "modelRequests": 0
+  },
+  "inGamePonderAndNBT": {
+    "utc": "2026-11-22T04:43:23.600Z",
+    "type": "engineering_settings_result",
+    "passed": true,
+    "modelRequests": 0,
+    "fanRpm": [
+      64,
+      64
+    ],
+    "copies": 4,
+    "nativeSettings": [
+      {
+        "ScrollValue": 64,
+        "id": "create:motor"
+      },
+      {
+        "Filter": {
+          "id": "minecraft:gravel",
+          "Count": 1
+        },
+        "id": "create:smart_chute"
+      }
+    ]
+  },
+  "inGameScope": {
+    "utc": "2026-11-22T04:38:27.957Z",
+    "type": "engineering_guards",
+    "outOfScopeRejected": true,
+    "survivalRejected": true,
+    "worldUnchanged": true
+  },
+  "modelRuns": {
+    "repair-model": {
+      "run": "repair-logistics-MRT3OR",
+      "goal": "这条自动加工产线停产了。观察真实现场，定位故障，进行最小维修并保持正常部分不动。请让它再次处理一批测试原料并按实际结果报告。",
+      "model": "deepseek-v4-pro",
+      "geometry": "contained fresh flat world",
+      "manualInterventions": 0,
+      "requests": 4,
+      "tokens": 15831,
+      "passed": true,
+      "modelPassed": true,
+      "elapsedSeconds": 96.34205081000002,
+      "reply": "修复了磨粉机旁的输出漏斗朝向：原朝东导致小麦卡在漏斗中无法进入磨粉机，改为朝西后恢复投料。动力系统正常，风扇转速-64 RPM，磨粉机转速-64 RPM。测试投入3个小麦，最终输出桶新增3个面团，产线恢复运行。",
+      "outside": [],
+      "independent": {
+        "passed": true,
+        "feed": [
+          2,
+          7,
+          0
+        ],
+        "out": [
+          0,
+          1,
+          0
+        ],
+        "inserted": 3,
+        "outputBefore": 8,
+        "outputAfter": 13,
+        "power": {
+          "shared": true,
+          "devices": [
+            {
+              "at": [
+                0,
+                4,
+                -2
+              ],
+              "id": "create:encased_fan",
+              "state": {
+                "facing": "south"
+              },
+              "rpm": -64,
+              "source": [
+                0,
+                4,
+                -3
+              ],
+              "network": [
+                63,
+                -16440
+              ],
+              "stress": 384,
+              "capacity": 1048576
+            },
+            {
+              "at": [
+                0,
+                5,
+                -1
+              ],
+              "id": "create:shaft",
+              "state": {
+                "waterlogged": "false",
+                "axis": "z"
+              },
+              "rpm": 64,
+              "source": [
+                0,
+                5,
+                -2
+              ],
+              "network": [
+                63,
+                -16440
+              ],
+              "stress": 384,
+              "capacity": 1048576
+            },
+            {
+              "at": [
+                0,
+                4,
+                -3
+              ],
+              "id": "create:gearbox",
+              "state": {
+                "axis": "x"
+              },
+              "rpm": 64,
+              "source": [
+                0,
+                4,
+                -4
+              ],
+              "network": [
+                63,
+                -16440
+              ],
+              "stress": 384,
+              "capacity": 1048576
+            },
+            {
+              "at": [
+                0,
+                5,
+                -2
+              ],
+              "id": "create:shaft",
+              "state": {
+                "waterlogged": "false",
+                "axis": "z"
+              },
+              "rpm": 64,
+              "source": [
+                0,
+                5,
+                -3
+              ],
+              "network": [
+                63,
+                -16440
+              ],
+              "stress": 384,
+              "capacity": 1048576
+            },
+            {
+              "at": [
+                0,
+                4,
+                -4
+              ],
+              "id": "create:shaft",
+              "state": {
+                "waterlogged": "false",
+                "axis": "z"
+              },
+              "rpm": 64,
+              "source": [
+                0,
+                4,
+                -5
+              ],
+              "network": [
+                63,
+                -16440
+              ],
+              "stress": 384,
+              "capacity": 1048576
+            },
+            {
+              "at": [
+                0,
+                5,
+                -3
+              ],
+              "id": "create:gearbox",
+              "state": {
+                "axis": "x"
+              },
+              "rpm": 64,
+              "source": [
+                0,
+                4,
+                -3
+              ],
+              "network": [
+                63,
+                -16440
+              ],
+              "stress": 384,
+              "capacity": 1048576
+            },
+            {
+              "at": [
+                0,
+                4,
+                -5
+              ],
+              "id": "create:creative_motor",
+              "state": {
+                "facing": "south"
+              },
+              "rpm": 64,
+              "configuredRpm": 64,
+              "network": [
+                63,
+                -16440
+              ],
+              "stress": 384,
+              "capacity": 1048576
+            },
+            {
+              "at": [
+                0,
+                5,
+                0
+              ],
+              "id": "create:gearbox",
+              "state": {
+                "axis": "x"
+              },
+              "rpm": 64,
+              "source": [
+                0,
+                5,
+                -1
+              ],
+              "network": [
+                63,
+                -16440
+              ],
+              "stress": 384,
+              "capacity": 1048576
+            },
+            {
+              "at": [
+                1,
+                6,
+                0
+              ],
+              "id": "create:millstone",
+              "rpm": -64,
+              "source": [
+                0,
+                6,
+                0
+              ],
+              "network": [
+                63,
+                -16440
+              ],
+              "stress": 384,
+              "capacity": 1048576
+            },
+            {
+              "at": [
+                0,
+                6,
+                0
+              ],
+              "id": "create:cogwheel",
+              "state": {
+                "waterlogged": "false",
+                "axis": "y"
+              },
+              "rpm": 64,
+              "source": [
+                0,
+                5,
+                0
+              ],
+              "network": [
+                63,
+                -16440
+              ],
+              "stress": 384,
+              "capacity": 1048576
+            }
+          ]
+        },
+        "flow": [
+          {
+            "input": 2,
+            "intermediate": 2,
+            "finished": 0,
+            "inputBarrel": 0
+          },
+          {
+            "input": 0,
+            "intermediate": 5,
+            "finished": 0,
+            "inputBarrel": 0
+          },
+          {
+            "input": 0,
+            "intermediate": 5,
+            "finished": 0,
+            "inputBarrel": 0
+          },
+          {
+            "input": 0,
+            "intermediate": 4,
+            "finished": 1,
+            "inputBarrel": 0
+          },
+          {
+            "input": 0,
+            "intermediate": 4,
+            "finished": 1,
+            "inputBarrel": 0
+          },
+          {
+            "input": 0,
+            "intermediate": 3,
+            "finished": 2,
+            "inputBarrel": 0
+          },
+          {
+            "input": 0,
+            "intermediate": 3,
+            "finished": 2,
+            "inputBarrel": 0
+          },
+          {
+            "input": 0,
+            "intermediate": 2,
+            "finished": 3,
+            "inputBarrel": 0
+          },
+          {
+            "input": 0,
+            "intermediate": 2,
+            "finished": 3,
+            "inputBarrel": 0
+          },
+          {
+            "input": 0,
+            "intermediate": 2,
+            "finished": 3,
+            "inputBarrel": 0
+          },
+          {
+            "input": 0,
+            "intermediate": 1,
+            "finished": 4,
+            "inputBarrel": 0
+          },
+          {
+            "input": 0,
+            "intermediate": 1,
+            "finished": 4,
+            "inputBarrel": 0
+          },
+          {
+            "input": 0,
+            "intermediate": 0,
+            "finished": 5,
+            "inputBarrel": 0
+          }
+        ]
+      },
+      "modelCalls": [
+        {
+          "turn": 1,
+          "finish": "stop",
+          "usage": {
+            "prompt_tokens": 2092,
+            "completion_tokens": 10,
+            "total_tokens": 2102,
+            "prompt_tokens_details": {
+              "cached_tokens": 512
+            },
+            "prompt_cache_hit_tokens": 512,
+            "prompt_cache_miss_tokens": 1580
+          },
+          "answer": {
+            "action": "observe"
+          }
+        },
+        {
+          "turn": 2,
+          "finish": "stop",
+          "usage": {
+            "prompt_tokens": 3283,
+            "completion_tokens": 52,
+            "total_tokens": 3335,
+            "prompt_tokens_details": {
+              "cached_tokens": 2048
+            },
+            "prompt_cache_hit_tokens": 2048,
+            "prompt_cache_miss_tokens": 1235
+          },
+          "answer": {
+            "action": "build",
+            "blocks": [
+              {
+                "at": [
+                  2,
+                  6,
+                  0
+                ],
+                "state": "minecraft:hopper[facing=west,enabled=true]"
+              }
+            ]
+          }
+        },
+        {
+          "turn": 3,
+          "finish": "stop",
+          "usage": {
+            "prompt_tokens": 4338,
+            "completion_tokens": 35,
+            "total_tokens": 4373,
+            "prompt_tokens_details": {
+              "cached_tokens": 3328
+            },
+            "prompt_cache_hit_tokens": 3328,
+            "prompt_cache_miss_tokens": 1010
+          },
+          "answer": {
+            "action": "test",
+            "at": [
+              2,
+              7,
+              0
+            ],
+            "out": [
+              0,
+              1,
+              0
+            ]
+          }
+        },
+        {
+          "turn": 4,
+          "finish": "stop",
+          "usage": {
+            "prompt_tokens": 5935,
+            "completion_tokens": 86,
+            "total_tokens": 6021,
+            "prompt_tokens_details": {
+              "cached_tokens": 4352
+            },
+            "prompt_cache_hit_tokens": 4352,
+            "prompt_cache_miss_tokens": 1583
+          },
+          "answer": {
+            "action": "finish",
+            "summary": "修复了磨粉机旁的输出漏斗朝向：原朝东导致小麦卡在漏斗中无法进入磨粉机，改为朝西后恢复投料。动力系统正常，风扇转速-64 RPM，磨粉机转速-64 RPM。测试投入3个小麦，最终输出桶新增3个面团，产线恢复运行。"
+          }
+        }
+      ],
+      "receipts": [
+        {
+          "turn": 1,
+          "seconds": 6.012327665999997,
+          "blockedTransfers": [
+            {
+              "at": [
+                2,
+                6,
+                0
+              ],
+              "facing": "east",
+              "items": [
+                {
+                  "Slot": 0,
+                  "id": "minecraft:wheat",
+                  "Count": 3
+                }
+              ],
+              "neighbors": [
+                {
+                  "face": "east",
+                  "id": "minecraft:air"
+                },
+                {
+                  "face": "west",
+                  "id": "create:millstone"
+                },
+                {
+                  "face": "up",
+                  "id": "minecraft:barrel"
+                },
+                {
+                  "face": "down",
+                  "id": "minecraft:air"
+                },
+                {
+                  "face": "south",
+                  "id": "minecraft:air"
+                },
+                {
+                  "face": "north",
+                  "id": "minecraft:air"
+                }
+              ]
+            }
+          ],
+          "power": {
+            "status": "shared",
+            "loads": [
+              {
+                "at": [
+                  0,
+                  4,
+                  -5
+                ],
+                "faces": [
+                  "south"
+                ],
+                "rpm": 64,
+                "network": "274877890504",
+                "adjacentLinks": [
+                  [
+                    0,
+                    4,
+                    -4
+                  ]
+                ],
+                "id": "create:creative_motor"
+              },
+              {
+                "at": [
+                  0,
+                  4,
+                  -2
+                ],
+                "faces": [
+                  "north"
+                ],
+                "rpm": -64,
+                "network": "274877890504",
+                "source": [
+                  0,
+                  4,
+                  -3
+                ],
+                "air": {
+                  "range": 7.25,
+                  "movement": "north",
+                  "front": "south"
+                },
+                "adjacentLinks": [
+                  [
+                    0,
+                    4,
+                    -3
+                  ]
+                ],
+                "id": "create:encased_fan"
+              },
+              {
+                "at": [
+                  1,
+                  6,
+                  0
+                ],
+                "faces": [
+                  "down"
+                ],
+                "rpm": -64,
+                "network": "274877890504",
+                "source": [
+                  0,
+                  6,
+                  0
+                ],
+                "adjacentLinks": [
+                  [
+                    0,
+                    6,
+                    0
+                  ]
+                ],
+                "id": "create:millstone"
+              }
+            ],
+            "cutPairs": [
+              {
+                "at": [
+                  0,
+                  4,
+                  -2
+                ],
+                "other": [
+                  0,
+                  5,
+                  -2
+                ],
+                "facesToward": [
+                  "up",
+                  "down"
+                ],
+                "hasThoseFaces": [
+                  false,
+                  false
+                ],
+                "powered": [
+                  true,
+                  true
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "turn": 2,
+          "seconds": 13.085241713000004,
+          "changed": 1,
+          "alreadyMatch": 0,
+          "mismatches": [],
+          "power": {
+            "status": "shared",
+            "loads": [
+              {
+                "at": [
+                  0,
+                  4,
+                  -5
+                ],
+                "faces": [
+                  "south"
+                ],
+                "rpm": 64,
+                "network": "274877890504",
+                "adjacentLinks": [
+                  [
+                    0,
+                    4,
+                    -4
+                  ]
+                ],
+                "id": "create:creative_motor"
+              },
+              {
+                "at": [
+                  0,
+                  4,
+                  -2
+                ],
+                "faces": [
+                  "north"
+                ],
+                "rpm": -64,
+                "network": "274877890504",
+                "source": [
+                  0,
+                  4,
+                  -3
+                ],
+                "air": {
+                  "range": 7.25,
+                  "movement": "north",
+                  "front": "south"
+                },
+                "adjacentLinks": [
+                  [
+                    0,
+                    4,
+                    -3
+                  ]
+                ],
+                "id": "create:encased_fan"
+              },
+              {
+                "at": [
+                  1,
+                  6,
+                  0
+                ],
+                "faces": [
+                  "down"
+                ],
+                "rpm": -64,
+                "network": "274877890504",
+                "source": [
+                  0,
+                  6,
+                  0
+                ],
+                "adjacentLinks": [
+                  [
+                    0,
+                    6,
+                    0
+                  ]
+                ],
+                "id": "create:millstone"
+              }
+            ],
+            "cutPairs": [
+              {
+                "at": [
+                  0,
+                  4,
+                  -2
+                ],
+                "other": [
+                  0,
+                  5,
+                  -2
+                ],
+                "facesToward": [
+                  "up",
+                  "down"
+                ],
+                "hasThoseFaces": [
+                  false,
+                  false
+                ],
+                "powered": [
+                  true,
+                  true
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "turn": 3,
+          "seconds": 46.11158304999999,
+          "passed": true,
+          "feed": [
+            2,
+            7,
+            0
+          ],
+          "out": [
+            0,
+            1,
+            0
+          ],
+          "outputBefore": 4,
+          "outputAfter": 7,
+          "flow": [
+            {
+              "input": 0,
+              "intermediate": 4,
+              "finished": 0,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 3,
+              "finished": 1,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 3,
+              "finished": 1,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 2,
+              "finished": 2,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 2,
+              "finished": 2,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 1,
+              "finished": 3,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 1,
+              "finished": 3,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 0,
+              "finished": 3,
+              "inputBarrel": 0
+            }
+          ]
+        }
+      ],
+      "transportErrors": [],
+      "checkpoints": [],
+      "repairIntegrity": {
+        "type": "repair_integrity",
+        "utc": "2026-11-22T04:44:07.428Z",
+        "passed": true,
+        "changedComparedToHealthy": [],
+        "settingsIntact": true
+      },
+      "fault": {
+        "type": "fixture_fault",
+        "utc": "2026-11-22T04:42:31.076Z",
+        "directions": {
+          "before": "west",
+          "after": "east"
+        },
+        "location": [
+          2,
+          6,
+          0
+        ],
+        "waiting": 3,
+        "unchangedOutput": 4,
+        "sharedPower": true,
+        "pending": {
+          "out": "0,-59,0",
+          "baseline": 4
+        }
+      }
+    },
+    "stone-model-feed": {
+      "run": "stone-line-VTgsNS",
+      "goal": "从空地设计并施工 Create 两段自动石料产线。用同一创造马达驱动两台磨石，分别把圆石磨成砂砾、把砂砾磨成燧石。设置原料桶和成品桶，自动转运。投料至少三份，记录两个负载实际转速及成品增量。",
+      "model": "deepseek-v4-pro",
+      "geometry": "contained fresh flat world",
+      "manualInterventions": 0,
+      "requests": 4,
+      "tokens": 13386,
+      "passed": true,
+      "modelPassed": true,
+      "elapsedSeconds": 60.455403061999995,
+      "reply": "两段自动石料产线已建成并验证：同一创造马达(64 RPM)通过竖直轴和两个小齿轮驱动两台磨石，实测两台磨石转速均为 -64 RPM（反向，正常）。投料3份圆石后，成品桶获得3份燧石，中间无残留。原料桶(0,8,0)经漏斗送入第一磨石，砂砾经两级漏斗送入第二磨石，燧石由底部漏斗收集至成品桶(0,1,0)。",
+      "outside": [],
+      "independent": {
+        "passed": true,
+        "feed": [
+          0,
+          8,
+          0
+        ],
+        "out": [
+          0,
+          1,
+          0
+        ],
+        "inserted": 3,
+        "outputBefore": 3,
+        "outputAfter": 6,
+        "power": {
+          "shared": true,
+          "devices": [
+            {
+              "at": [
+                1,
+                0,
+                0
+              ],
+              "id": "create:creative_motor",
+              "state": {
+                "facing": "up"
+              },
+              "rpm": 64,
+              "configuredRpm": 64,
+              "network": [
+                64,
+                4036
+              ],
+              "stress": 512,
+              "capacity": 1048576
+            },
+            {
+              "at": [
+                1,
+                1,
+                0
+              ],
+              "id": "create:shaft",
+              "state": {
+                "waterlogged": "false",
+                "axis": "y"
+              },
+              "rpm": 64,
+              "source": [
+                1,
+                0,
+                0
+              ],
+              "network": [
+                64,
+                4036
+              ],
+              "stress": 512,
+              "capacity": 1048576
+            },
+            {
+              "at": [
+                1,
+                2,
+                0
+              ],
+              "id": "create:shaft",
+              "state": {
+                "waterlogged": "false",
+                "axis": "y"
+              },
+              "rpm": 64,
+              "source": [
+                1,
+                1,
+                0
+              ],
+              "network": [
+                64,
+                4036
+              ],
+              "stress": 512,
+              "capacity": 1048576
+            },
+            {
+              "at": [
+                1,
+                3,
+                0
+              ],
+              "id": "create:cogwheel",
+              "state": {
+                "waterlogged": "false",
+                "axis": "y"
+              },
+              "rpm": 64,
+              "source": [
+                1,
+                2,
+                0
+              ],
+              "network": [
+                64,
+                4036
+              ],
+              "stress": 512,
+              "capacity": 1048576
+            },
+            {
+              "at": [
+                0,
+                3,
+                0
+              ],
+              "id": "create:millstone",
+              "rpm": -64,
+              "source": [
+                1,
+                3,
+                0
+              ],
+              "network": [
+                64,
+                4036
+              ],
+              "stress": 512,
+              "capacity": 1048576
+            },
+            {
+              "at": [
+                1,
+                4,
+                0
+              ],
+              "id": "create:shaft",
+              "state": {
+                "waterlogged": "false",
+                "axis": "y"
+              },
+              "rpm": 64,
+              "source": [
+                1,
+                3,
+                0
+              ],
+              "network": [
+                64,
+                4036
+              ],
+              "stress": 512,
+              "capacity": 1048576
+            },
+            {
+              "at": [
+                1,
+                5,
+                0
+              ],
+              "id": "create:shaft",
+              "state": {
+                "waterlogged": "false",
+                "axis": "y"
+              },
+              "rpm": 64,
+              "source": [
+                1,
+                4,
+                0
+              ],
+              "network": [
+                64,
+                4036
+              ],
+              "stress": 512,
+              "capacity": 1048576
+            },
+            {
+              "at": [
+                1,
+                6,
+                0
+              ],
+              "id": "create:cogwheel",
+              "state": {
+                "waterlogged": "false",
+                "axis": "y"
+              },
+              "rpm": 64,
+              "source": [
+                1,
+                5,
+                0
+              ],
+              "network": [
+                64,
+                4036
+              ],
+              "stress": 512,
+              "capacity": 1048576
+            },
+            {
+              "at": [
+                0,
+                6,
+                0
+              ],
+              "id": "create:millstone",
+              "rpm": -64,
+              "source": [
+                1,
+                6,
+                0
+              ],
+              "network": [
+                64,
+                4036
+              ],
+              "stress": 512,
+              "capacity": 1048576
+            }
+          ]
+        },
+        "flow": [
+          {
+            "input": 3,
+            "intermediate": 0,
+            "finished": 0,
+            "inputBarrel": 0
+          },
+          {
+            "input": 2,
+            "intermediate": 1,
+            "finished": 0,
+            "inputBarrel": 0
+          },
+          {
+            "input": 1,
+            "intermediate": 1,
+            "finished": 1,
+            "inputBarrel": 0
+          },
+          {
+            "input": 0,
+            "intermediate": 1,
+            "finished": 2,
+            "inputBarrel": 0
+          },
+          {
+            "input": 0,
+            "intermediate": 0,
+            "finished": 3,
+            "inputBarrel": 0
+          }
+        ]
+      },
+      "modelCalls": [
+        {
+          "turn": 1,
+          "finish": "stop",
+          "usage": {
+            "prompt_tokens": 2255,
+            "completion_tokens": 264,
+            "total_tokens": 2519,
+            "prompt_tokens_details": {
+              "cached_tokens": 2176
+            },
+            "prompt_cache_hit_tokens": 2176,
+            "prompt_cache_miss_tokens": 79
+          },
+          "answer": {
+            "action": "build",
+            "blocks": [
+              {
+                "at": [
+                  0,
+                  1,
+                  0
+                ],
+                "state": "minecraft:barrel[facing=up]"
+              },
+              {
+                "at": [
+                  0,
+                  2,
+                  0
+                ],
+                "state": "minecraft:hopper[facing=down]"
+              },
+              {
+                "at": [
+                  0,
+                  3,
+                  0
+                ],
+                "state": "create:millstone"
+              },
+              {
+                "at": [
+                  0,
+                  4,
+                  0
+                ],
+                "state": "minecraft:hopper[facing=down]"
+              },
+              {
+                "at": [
+                  0,
+                  5,
+                  0
+                ],
+                "state": "minecraft:hopper[facing=down]"
+              },
+              {
+                "at": [
+                  0,
+                  6,
+                  0
+                ],
+                "state": "create:millstone"
+              },
+              {
+                "at": [
+                  0,
+                  7,
+                  0
+                ],
+                "state": "minecraft:hopper[facing=down]"
+              },
+              {
+                "at": [
+                  0,
+                  8,
+                  0
+                ],
+                "state": "minecraft:barrel[facing=up]"
+              }
+            ]
+          }
+        },
+        {
+          "turn": 2,
+          "finish": "stop",
+          "usage": {
+            "prompt_tokens": 3064,
+            "completion_tokens": 162,
+            "total_tokens": 3226,
+            "prompt_tokens_details": {
+              "cached_tokens": 2944
+            },
+            "prompt_cache_hit_tokens": 2944,
+            "prompt_cache_miss_tokens": 120
+          },
+          "answer": {
+            "action": "power",
+            "paths": [
+              [
+                [
+                  1,
+                  0,
+                  0
+                ],
+                [
+                  1,
+                  1,
+                  0
+                ],
+                [
+                  1,
+                  2,
+                  0
+                ],
+                [
+                  1,
+                  3,
+                  0
+                ],
+                [
+                  0,
+                  3,
+                  0
+                ]
+              ],
+              [
+                [
+                  1,
+                  0,
+                  0
+                ],
+                [
+                  1,
+                  1,
+                  0
+                ],
+                [
+                  1,
+                  2,
+                  0
+                ],
+                [
+                  1,
+                  3,
+                  0
+                ],
+                [
+                  1,
+                  4,
+                  0
+                ],
+                [
+                  1,
+                  5,
+                  0
+                ],
+                [
+                  1,
+                  6,
+                  0
+                ],
+                [
+                  0,
+                  6,
+                  0
+                ]
+              ]
+            ],
+            "rpm": 64
+          }
+        },
+        {
+          "turn": 3,
+          "finish": "stop",
+          "usage": {
+            "prompt_tokens": 3101,
+            "completion_tokens": 21,
+            "total_tokens": 3122,
+            "prompt_tokens_details": {
+              "cached_tokens": 2176
+            },
+            "prompt_cache_hit_tokens": 2176,
+            "prompt_cache_miss_tokens": 925
+          },
+          "answer": {
+            "action": "test",
+            "at": [
+              0,
+              8,
+              0
+            ],
+            "out": [
+              0,
+              1,
+              0
+            ]
+          }
+        },
+        {
+          "turn": 4,
+          "finish": "stop",
+          "usage": {
+            "prompt_tokens": 4401,
+            "completion_tokens": 118,
+            "total_tokens": 4519,
+            "prompt_tokens_details": {
+              "cached_tokens": 3072
+            },
+            "prompt_cache_hit_tokens": 3072,
+            "prompt_cache_miss_tokens": 1329
+          },
+          "answer": {
+            "action": "finish",
+            "summary": "两段自动石料产线已建成并验证：同一创造马达(64 RPM)通过竖直轴和两个小齿轮驱动两台磨石，实测两台磨石转速均为 -64 RPM（反向，正常）。投料3份圆石后，成品桶获得3份燧石，中间无残留。原料桶(0,8,0)经漏斗送入第一磨石，砂砾经两级漏斗送入第二磨石，燧石由底部漏斗收集至成品桶(0,1,0)。"
+          }
+        }
+      ],
+      "receipts": [
+        {
+          "turn": 1,
+          "seconds": 7.612108645,
+          "changed": 8,
+          "alreadyMatch": 0,
+          "mismatches": [],
+          "power": {
+            "status": "incomplete",
+            "loads": [
+              {
+                "at": [
+                  0,
+                  3,
+                  0
+                ],
+                "faces": [
+                  "down"
+                ],
+                "rpm": 0,
+                "id": "create:millstone"
+              },
+              {
+                "at": [
+                  0,
+                  6,
+                  0
+                ],
+                "faces": [
+                  "down"
+                ],
+                "rpm": 0,
+                "id": "create:millstone"
+              }
+            ],
+            "cutPairs": []
+          }
+        },
+        {
+          "turn": 2,
+          "seconds": 14.822125206999997,
+          "changed": 7,
+          "alreadyMatch": 0,
+          "mismatches": [],
+          "power": {
+            "status": "shared",
+            "loads": [
+              {
+                "at": [
+                  1,
+                  0,
+                  0
+                ],
+                "faces": [
+                  "up"
+                ],
+                "rpm": 64,
+                "network": "274877910980",
+                "adjacentLinks": [
+                  [
+                    1,
+                    1,
+                    0
+                  ]
+                ],
+                "id": "create:creative_motor"
+              },
+              {
+                "at": [
+                  0,
+                  3,
+                  0
+                ],
+                "faces": [
+                  "down"
+                ],
+                "rpm": -64,
+                "network": "274877910980",
+                "source": [
+                  1,
+                  3,
+                  0
+                ],
+                "adjacentLinks": [
+                  [
+                    1,
+                    3,
+                    0
+                  ]
+                ],
+                "id": "create:millstone"
+              },
+              {
+                "at": [
+                  0,
+                  6,
+                  0
+                ],
+                "faces": [
+                  "down"
+                ],
+                "rpm": -64,
+                "network": "274877910980",
+                "source": [
+                  1,
+                  6,
+                  0
+                ],
+                "adjacentLinks": [
+                  [
+                    1,
+                    6,
+                    0
+                  ]
+                ],
+                "id": "create:millstone"
+              }
+            ],
+            "cutPairs": []
+          }
+        },
+        {
+          "turn": 3,
+          "seconds": 36.968124018999994,
+          "passed": true,
+          "feed": [
+            0,
+            8,
+            0
+          ],
+          "out": [
+            0,
+            1,
+            0
+          ],
+          "outputBefore": 0,
+          "outputAfter": 3,
+          "flow": [
+            {
+              "input": 3,
+              "intermediate": 0,
+              "finished": 0,
+              "inputBarrel": 0
+            },
+            {
+              "input": 2,
+              "intermediate": 1,
+              "finished": 0,
+              "inputBarrel": 0
+            },
+            {
+              "input": 1,
+              "intermediate": 1,
+              "finished": 1,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 1,
+              "finished": 2,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 0,
+              "finished": 3,
+              "inputBarrel": 0
+            }
+          ]
+        }
+      ],
+      "transportErrors": [],
+      "checkpoints": [
+        {
+          "type": "power_checkpoint",
+          "utc": "2026-11-22T04:44:28.557Z",
+          "seconds": 14.834048689,
+          "loads": [
+            {
+              "at": [
+                1,
+                0,
+                0
+              ],
+              "faces": [
+                "up"
+              ],
+              "rpm": 64,
+              "network": "274877910980",
+              "adjacentLinks": [
+                [
+                  1,
+                  1,
+                  0
+                ]
+              ],
+              "id": "create:creative_motor"
+            },
+            {
+              "at": [
+                0,
+                3,
+                0
+              ],
+              "faces": [
+                "down"
+              ],
+              "rpm": -64,
+              "network": "274877910980",
+              "source": [
+                1,
+                3,
+                0
+              ],
+              "adjacentLinks": [
+                [
+                  1,
+                  3,
+                  0
+                ]
+              ],
+              "id": "create:millstone"
+            },
+            {
+              "at": [
+                0,
+                6,
+                0
+              ],
+              "faces": [
+                "down"
+              ],
+              "rpm": -64,
+              "network": "274877910980",
+              "source": [
+                1,
+                6,
+                0
+              ],
+              "adjacentLinks": [
+                [
+                  1,
+                  6,
+                  0
+                ]
+              ],
+              "id": "create:millstone"
+            }
+          ]
+        }
+      ],
+      "repairIntegrity": null,
+      "fault": null
+    },
+    "dough-model-final": {
+      "run": "line-tlcyOq",
+      "goal": "从空地自主建造 Create 自动面团产线。用同一台创造马达驱动磨石和水洗风扇。用原料桶自动进料，磨石将小麦变为面粉，传输到水洗工位，再把面团自动存进另一个桶。处理至少三份小麦，期间不要人工转移物料。请用实际库存和动力读数自验。",
+      "model": "deepseek-v4-pro",
+      "geometry": "contained fresh flat world",
+      "manualInterventions": 0,
+      "requests": 4,
+      "tokens": 11232,
+      "passed": false,
+      "modelPassed": false,
+      "elapsedSeconds": 29.128369662,
+      "reply": null,
+      "outside": [],
+      "independent": null,
+      "modelCalls": [
+        {
+          "turn": 1,
+          "finish": "stop",
+          "usage": {
+            "prompt_tokens": 2202,
+            "completion_tokens": 148,
+            "total_tokens": 2350,
+            "prompt_tokens_details": {
+              "cached_tokens": 2176
+            },
+            "prompt_cache_hit_tokens": 2176,
+            "prompt_cache_miss_tokens": 26
+          },
+          "answer": {
+            "action": "build",
+            "blocks": [
+              {
+                "at": [
+                  0,
+                  0,
+                  0
+                ],
+                "state": "minecraft:barrel[facing=up]"
+              },
+              {
+                "at": [
+                  0,
+                  1,
+                  0
+                ],
+                "state": "minecraft:hopper[facing=down]"
+              },
+              {
+                "at": [
+                  0,
+                  2,
+                  0
+                ],
+                "state": "create:millstone"
+              },
+              {
+                "at": [
+                  0,
+                  3,
+                  0
+                ],
+                "state": "minecraft:hopper[facing=down]"
+              },
+              {
+                "at": [
+                  0,
+                  4,
+                  0
+                ],
+                "state": "minecraft:barrel[facing=up]"
+              }
+            ]
+          }
+        },
+        {
+          "turn": 2,
+          "finish": "stop",
+          "usage": {
+            "prompt_tokens": 2390,
+            "completion_tokens": 221,
+            "total_tokens": 2611,
+            "prompt_tokens_details": {
+              "cached_tokens": 2304
+            },
+            "prompt_cache_hit_tokens": 2304,
+            "prompt_cache_miss_tokens": 86
+          },
+          "answer": {
+            "action": "build",
+            "blocks": [
+              {
+                "at": [
+                  0,
+                  0,
+                  0
+                ],
+                "state": "minecraft:barrel[facing=up]"
+              },
+              {
+                "at": [
+                  0,
+                  1,
+                  0
+                ],
+                "state": "minecraft:hopper[facing=down]"
+              },
+              {
+                "at": [
+                  0,
+                  2,
+                  0
+                ],
+                "state": "create:millstone"
+              },
+              {
+                "at": [
+                  0,
+                  3,
+                  0
+                ],
+                "state": "minecraft:hopper[facing=down]"
+              },
+              {
+                "at": [
+                  0,
+                  4,
+                  0
+                ],
+                "state": "minecraft:barrel[facing=up]"
+              },
+              {
+                "at": [
+                  1,
+                  2,
+                  0
+                ],
+                "state": "create:depot"
+              },
+              {
+                "at": [
+                  2,
+                  2,
+                  0
+                ],
+                "state": "minecraft:water"
+              },
+              {
+                "at": [
+                  3,
+                  2,
+                  0
+                ],
+                "state": "create:encased_fan[facing=west]"
+              }
+            ]
+          }
+        },
+        {
+          "turn": 3,
+          "finish": "stop",
+          "usage": {
+            "prompt_tokens": 2710,
+            "completion_tokens": 276,
+            "total_tokens": 2986,
+            "prompt_tokens_details": {
+              "cached_tokens": 2560
+            },
+            "prompt_cache_hit_tokens": 2560,
+            "prompt_cache_miss_tokens": 150
+          },
+          "answer": {
+            "action": "build",
+            "blocks": [
+              {
+                "at": [
+                  0,
+                  0,
+                  0
+                ],
+                "state": "minecraft:barrel[facing=up]"
+              },
+              {
+                "at": [
+                  0,
+                  1,
+                  0
+                ],
+                "state": "minecraft:hopper[facing=down]"
+              },
+              {
+                "at": [
+                  0,
+                  2,
+                  0
+                ],
+                "state": "create:millstone"
+              },
+              {
+                "at": [
+                  0,
+                  3,
+                  0
+                ],
+                "state": "minecraft:hopper[facing=down]"
+              },
+              {
+                "at": [
+                  0,
+                  4,
+                  0
+                ],
+                "state": "minecraft:barrel[facing=up]"
+              },
+              {
+                "at": [
+                  1,
+                  2,
+                  0
+                ],
+                "state": "create:depot"
+              },
+              {
+                "at": [
+                  2,
+                  2,
+                  0
+                ],
+                "state": "minecraft:water"
+              },
+              {
+                "at": [
+                  3,
+                  2,
+                  0
+                ],
+                "state": "create:encased_fan[facing=west]"
+              },
+              {
+                "at": [
+                  1,
+                  1,
+                  0
+                ],
+                "state": "minecraft:hopper[facing=down]"
+              },
+              {
+                "at": [
+                  1,
+                  0,
+                  0
+                ],
+                "state": "minecraft:barrel[facing=up]"
+              }
+            ]
+          }
+        },
+        {
+          "turn": 4,
+          "finish": "stop",
+          "usage": {
+            "prompt_tokens": 3009,
+            "completion_tokens": 276,
+            "total_tokens": 3285,
+            "prompt_tokens_details": {
+              "cached_tokens": 2944
+            },
+            "prompt_cache_hit_tokens": 2944,
+            "prompt_cache_miss_tokens": 65
+          },
+          "answer": {
+            "action": "build",
+            "blocks": [
+              {
+                "at": [
+                  0,
+                  0,
+                  0
+                ],
+                "state": "minecraft:barrel[facing=up]"
+              },
+              {
+                "at": [
+                  0,
+                  1,
+                  0
+                ],
+                "state": "minecraft:hopper[facing=down]"
+              },
+              {
+                "at": [
+                  0,
+                  2,
+                  0
+                ],
+                "state": "create:millstone"
+              },
+              {
+                "at": [
+                  0,
+                  3,
+                  0
+                ],
+                "state": "minecraft:hopper[facing=down]"
+              },
+              {
+                "at": [
+                  0,
+                  4,
+                  0
+                ],
+                "state": "minecraft:barrel[facing=up]"
+              },
+              {
+                "at": [
+                  1,
+                  2,
+                  0
+                ],
+                "state": "create:depot"
+              },
+              {
+                "at": [
+                  2,
+                  2,
+                  0
+                ],
+                "state": "minecraft:water"
+              },
+              {
+                "at": [
+                  3,
+                  2,
+                  0
+                ],
+                "state": "create:encased_fan[facing=west]"
+              },
+              {
+                "at": [
+                  1,
+                  1,
+                  0
+                ],
+                "state": "minecraft:hopper[facing=down]"
+              },
+              {
+                "at": [
+                  1,
+                  0,
+                  0
+                ],
+                "state": "minecraft:barrel[facing=up]"
+              }
+            ]
+          }
+        }
+      ],
+      "receipts": [
+        {
+          "turn": 1,
+          "seconds": 6.455345732999998,
+          "error": "First build the material path: include both processing loads and the distinct input and output barrels. Add the needed carriers and leave the shaft faces accessible."
+        },
+        {
+          "turn": 2,
+          "seconds": 13.766346603999999,
+          "error": "Material path does not reach both processing stages and the output barrel. Trace from the input barrel DOWN to its hopper, follow each hopper outlet or downward chute, and end at the other barrel. Detected paths: [[\"minecraft:barrel\"],[\"minecraft:barrel\",\"minecraft:hopper\",\"create:millstone\",\"minecraft:hopper\",\"minecraft:barrel\"]]"
+        },
+        {
+          "turn": 3,
+          "seconds": 21.365347675000002,
+          "error": "Place exactly two barrels: one input and one final collection."
+        },
+        {
+          "turn": 4,
+          "seconds": 29.104122666,
+          "error": "Place exactly two barrels: one input and one final collection."
+        }
+      ],
+      "transportErrors": [],
+      "checkpoints": [],
+      "repairIntegrity": null,
+      "fault": null
+    },
+    "stone-model-protected": {
+      "run": "stone-line-e01uac",
+      "goal": "从空地设计并施工 Create 两段自动石料产线。用同一创造马达驱动两台磨石，分别把圆石磨成砂砾、把砂砾磨成燧石。设置原料桶和成品桶，自动转运。投料至少三份，记录两个负载实际转速及成品增量。",
+      "model": "deepseek-v4-pro",
+      "geometry": "contained fresh flat world",
+      "manualInterventions": 0,
+      "requests": 5,
+      "tokens": 16826,
+      "passed": true,
+      "modelPassed": true,
+      "elapsedSeconds": 69.900219148,
+      "reply": "Built a two-stage automated stone processing line. One creative motor at (1,0,0) drives a vertical shaft with cogwheels at (1,3,0) and (1,6,0), powering both millstones at 64 RPM (measured -64 RPM on millstones due to cog reversal). Material path: input barrel (0,8,0) -> hopper -> first millstone (0,6,0) -> hopper -> hopper -> second millstone (0,3,0) -> hopper -> output barrel (0,1,0). Test with 3 cobblestone produced 3 flint in output barrel, confirming correct milling of cobblestone to gravel and gravel to flint.",
+      "outside": [],
+      "independent": {
+        "passed": true,
+        "feed": [
+          0,
+          8,
+          0
+        ],
+        "out": [
+          0,
+          1,
+          0
+        ],
+        "inserted": 3,
+        "outputBefore": 3,
+        "outputAfter": 6,
+        "power": {
+          "shared": true,
+          "devices": [
+            {
+              "at": [
+                1,
+                0,
+                0
+              ],
+              "id": "create:creative_motor",
+              "state": {
+                "facing": "up"
+              },
+              "rpm": 64,
+              "configuredRpm": 64,
+              "network": [
+                64,
+                4036
+              ],
+              "stress": 512,
+              "capacity": 1048576
+            },
+            {
+              "at": [
+                1,
+                1,
+                0
+              ],
+              "id": "create:shaft",
+              "state": {
+                "waterlogged": "false",
+                "axis": "y"
+              },
+              "rpm": 64,
+              "source": [
+                1,
+                0,
+                0
+              ],
+              "network": [
+                64,
+                4036
+              ],
+              "stress": 512,
+              "capacity": 1048576
+            },
+            {
+              "at": [
+                1,
+                2,
+                0
+              ],
+              "id": "create:shaft",
+              "state": {
+                "waterlogged": "false",
+                "axis": "y"
+              },
+              "rpm": 64,
+              "source": [
+                1,
+                1,
+                0
+              ],
+              "network": [
+                64,
+                4036
+              ],
+              "stress": 512,
+              "capacity": 1048576
+            },
+            {
+              "at": [
+                1,
+                3,
+                0
+              ],
+              "id": "create:cogwheel",
+              "state": {
+                "waterlogged": "false",
+                "axis": "y"
+              },
+              "rpm": 64,
+              "source": [
+                1,
+                2,
+                0
+              ],
+              "network": [
+                64,
+                4036
+              ],
+              "stress": 512,
+              "capacity": 1048576
+            },
+            {
+              "at": [
+                0,
+                3,
+                0
+              ],
+              "id": "create:millstone",
+              "rpm": -64,
+              "source": [
+                1,
+                3,
+                0
+              ],
+              "network": [
+                64,
+                4036
+              ],
+              "stress": 512,
+              "capacity": 1048576
+            },
+            {
+              "at": [
+                1,
+                4,
+                0
+              ],
+              "id": "create:shaft",
+              "state": {
+                "waterlogged": "false",
+                "axis": "y"
+              },
+              "rpm": 64,
+              "source": [
+                1,
+                3,
+                0
+              ],
+              "network": [
+                64,
+                4036
+              ],
+              "stress": 512,
+              "capacity": 1048576
+            },
+            {
+              "at": [
+                1,
+                5,
+                0
+              ],
+              "id": "create:shaft",
+              "state": {
+                "waterlogged": "false",
+                "axis": "y"
+              },
+              "rpm": 64,
+              "source": [
+                1,
+                4,
+                0
+              ],
+              "network": [
+                64,
+                4036
+              ],
+              "stress": 512,
+              "capacity": 1048576
+            },
+            {
+              "at": [
+                1,
+                6,
+                0
+              ],
+              "id": "create:cogwheel",
+              "state": {
+                "waterlogged": "false",
+                "axis": "y"
+              },
+              "rpm": 64,
+              "source": [
+                1,
+                5,
+                0
+              ],
+              "network": [
+                64,
+                4036
+              ],
+              "stress": 512,
+              "capacity": 1048576
+            },
+            {
+              "at": [
+                0,
+                6,
+                0
+              ],
+              "id": "create:millstone",
+              "rpm": -64,
+              "source": [
+                1,
+                6,
+                0
+              ],
+              "network": [
+                64,
+                4036
+              ],
+              "stress": 512,
+              "capacity": 1048576
+            }
+          ]
+        },
+        "flow": [
+          {
+            "input": 3,
+            "intermediate": 0,
+            "finished": 0,
+            "inputBarrel": 0
+          },
+          {
+            "input": 2,
+            "intermediate": 1,
+            "finished": 0,
+            "inputBarrel": 0
+          },
+          {
+            "input": 1,
+            "intermediate": 1,
+            "finished": 1,
+            "inputBarrel": 0
+          },
+          {
+            "input": 0,
+            "intermediate": 1,
+            "finished": 2,
+            "inputBarrel": 0
+          },
+          {
+            "input": 0,
+            "intermediate": 0,
+            "finished": 3,
+            "inputBarrel": 0
+          }
+        ]
+      },
+      "modelCalls": [
+        {
+          "turn": 1,
+          "finish": "stop",
+          "usage": {
+            "prompt_tokens": 2255,
+            "completion_tokens": 224,
+            "total_tokens": 2479,
+            "prompt_tokens_details": {
+              "cached_tokens": 2176
+            },
+            "prompt_cache_hit_tokens": 2176,
+            "prompt_cache_miss_tokens": 79
+          },
+          "answer": {
+            "action": "build",
+            "blocks": [
+              {
+                "at": [
+                  0,
+                  1,
+                  0
+                ],
+                "state": "minecraft:barrel[facing=up]"
+              },
+              {
+                "at": [
+                  0,
+                  2,
+                  0
+                ],
+                "state": "minecraft:hopper[facing=down]"
+              },
+              {
+                "at": [
+                  0,
+                  3,
+                  0
+                ],
+                "state": "create:millstone"
+              },
+              {
+                "at": [
+                  0,
+                  4,
+                  0
+                ],
+                "state": "minecraft:hopper[facing=down]"
+              },
+              {
+                "at": [
+                  0,
+                  5,
+                  0
+                ],
+                "state": "minecraft:hopper[facing=down]"
+              },
+              {
+                "at": [
+                  0,
+                  6,
+                  0
+                ],
+                "state": "create:millstone"
+              },
+              {
+                "at": [
+                  0,
+                  7,
+                  0
+                ],
+                "state": "minecraft:hopper[facing=down]"
+              },
+              {
+                "at": [
+                  0,
+                  8,
+                  0
+                ],
+                "state": "minecraft:barrel[facing=up]"
+              }
+            ]
+          }
+        },
+        {
+          "turn": 2,
+          "finish": "stop",
+          "usage": {
+            "prompt_tokens": 3024,
+            "completion_tokens": 201,
+            "total_tokens": 3225,
+            "prompt_tokens_details": {
+              "cached_tokens": 2432
+            },
+            "prompt_cache_hit_tokens": 2432,
+            "prompt_cache_miss_tokens": 592
+          },
+          "answer": {
+            "action": "build",
+            "blocks": [
+              {
+                "at": [
+                  1,
+                  3,
+                  0
+                ],
+                "state": "create:cogwheel[axis=y]"
+              },
+              {
+                "at": [
+                  1,
+                  6,
+                  0
+                ],
+                "state": "create:cogwheel[axis=y]"
+              },
+              {
+                "at": [
+                  1,
+                  4,
+                  0
+                ],
+                "state": "create:shaft[axis=y]"
+              },
+              {
+                "at": [
+                  1,
+                  5,
+                  0
+                ],
+                "state": "create:shaft[axis=y]"
+              },
+              {
+                "at": [
+                  1,
+                  2,
+                  0
+                ],
+                "state": "create:shaft[axis=y]"
+              },
+              {
+                "at": [
+                  1,
+                  1,
+                  0
+                ],
+                "state": "create:gearbox[axis=y]"
+              },
+              {
+                "at": [
+                  1,
+                  0,
+                  0
+                ],
+                "state": "create:creative_motor[facing=up]"
+              }
+            ]
+          }
+        },
+        {
+          "turn": 3,
+          "finish": "stop",
+          "usage": {
+            "prompt_tokens": 3293,
+            "completion_tokens": 143,
+            "total_tokens": 3436,
+            "prompt_tokens_details": {
+              "cached_tokens": 3200
+            },
+            "prompt_cache_hit_tokens": 3200,
+            "prompt_cache_miss_tokens": 93
+          },
+          "answer": {
+            "action": "power",
+            "paths": [
+              [
+                [
+                  1,
+                  0,
+                  0
+                ],
+                [
+                  1,
+                  1,
+                  0
+                ],
+                [
+                  1,
+                  2,
+                  0
+                ],
+                [
+                  1,
+                  3,
+                  0
+                ],
+                [
+                  0,
+                  3,
+                  0
+                ]
+              ],
+              [
+                [
+                  1,
+                  0,
+                  0
+                ],
+                [
+                  1,
+                  1,
+                  0
+                ],
+                [
+                  1,
+                  2,
+                  0
+                ],
+                [
+                  1,
+                  3,
+                  0
+                ],
+                [
+                  1,
+                  4,
+                  0
+                ],
+                [
+                  1,
+                  5,
+                  0
+                ],
+                [
+                  1,
+                  6,
+                  0
+                ],
+                [
+                  0,
+                  6,
+                  0
+                ]
+              ]
+            ],
+            "rpm": 64
+          }
+        },
+        {
+          "turn": 4,
+          "finish": "stop",
+          "usage": {
+            "prompt_tokens": 3101,
+            "completion_tokens": 21,
+            "total_tokens": 3122,
+            "prompt_tokens_details": {
+              "cached_tokens": 3072
+            },
+            "prompt_cache_hit_tokens": 3072,
+            "prompt_cache_miss_tokens": 29
+          },
+          "answer": {
+            "action": "test",
+            "at": [
+              0,
+              8,
+              0
+            ],
+            "out": [
+              0,
+              1,
+              0
+            ]
+          }
+        },
+        {
+          "turn": 5,
+          "finish": "stop",
+          "usage": {
+            "prompt_tokens": 4401,
+            "completion_tokens": 163,
+            "total_tokens": 4564,
+            "prompt_tokens_details": {
+              "cached_tokens": 4352
+            },
+            "prompt_cache_hit_tokens": 4352,
+            "prompt_cache_miss_tokens": 49
+          },
+          "answer": {
+            "action": "finish",
+            "summary": "Built a two-stage automated stone processing line. One creative motor at (1,0,0) drives a vertical shaft with cogwheels at (1,3,0) and (1,6,0), powering both millstones at 64 RPM (measured -64 RPM on millstones due to cog reversal). Material path: input barrel (0,8,0) -> hopper -> first millstone (0,6,0) -> hopper -> hopper -> second millstone (0,3,0) -> hopper -> output barrel (0,1,0). Test with 3 cobblestone produced 3 flint in output barrel, confirming correct milling of cobblestone to gravel and gravel to flint."
+          }
+        }
+      ],
+      "receipts": [
+        {
+          "turn": 1,
+          "seconds": 9.653271687,
+          "changed": 8,
+          "alreadyMatch": 0,
+          "mismatches": [],
+          "power": {
+            "status": "incomplete",
+            "loads": [
+              {
+                "at": [
+                  0,
+                  3,
+                  0
+                ],
+                "faces": [
+                  "down"
+                ],
+                "rpm": 0,
+                "id": "create:millstone"
+              },
+              {
+                "at": [
+                  0,
+                  6,
+                  0
+                ],
+                "faces": [
+                  "down"
+                ],
+                "rpm": 0,
+                "id": "create:millstone"
+              }
+            ],
+            "cutPairs": []
+          }
+        },
+        {
+          "turn": 2,
+          "seconds": 17.238868745,
+          "error": "Material is placed. Use the power action with coordinate paths to connect both loads before editing individual blocks."
+        },
+        {
+          "turn": 3,
+          "seconds": 24.546977034999998,
+          "changed": 7,
+          "alreadyMatch": 0,
+          "mismatches": [],
+          "power": {
+            "status": "shared",
+            "loads": [
+              {
+                "at": [
+                  1,
+                  0,
+                  0
+                ],
+                "faces": [
+                  "up"
+                ],
+                "rpm": 64,
+                "network": "274877910980",
+                "adjacentLinks": [
+                  [
+                    1,
+                    1,
+                    0
+                  ]
+                ],
+                "id": "create:creative_motor"
+              },
+              {
+                "at": [
+                  0,
+                  3,
+                  0
+                ],
+                "faces": [
+                  "down"
+                ],
+                "rpm": -64,
+                "network": "274877910980",
+                "source": [
+                  1,
+                  3,
+                  0
+                ],
+                "adjacentLinks": [
+                  [
+                    1,
+                    3,
+                    0
+                  ]
+                ],
+                "id": "create:millstone"
+              },
+              {
+                "at": [
+                  0,
+                  6,
+                  0
+                ],
+                "faces": [
+                  "down"
+                ],
+                "rpm": -64,
+                "network": "274877910980",
+                "source": [
+                  1,
+                  6,
+                  0
+                ],
+                "adjacentLinks": [
+                  [
+                    1,
+                    6,
+                    0
+                  ]
+                ],
+                "id": "create:millstone"
+              }
+            ],
+            "cutPairs": []
+          }
+        },
+        {
+          "turn": 4,
+          "seconds": 46.749007886,
+          "passed": true,
+          "feed": [
+            0,
+            8,
+            0
+          ],
+          "out": [
+            0,
+            1,
+            0
+          ],
+          "outputBefore": 0,
+          "outputAfter": 3,
+          "flow": [
+            {
+              "input": 3,
+              "intermediate": 0,
+              "finished": 0,
+              "inputBarrel": 0
+            },
+            {
+              "input": 2,
+              "intermediate": 1,
+              "finished": 0,
+              "inputBarrel": 0
+            },
+            {
+              "input": 1,
+              "intermediate": 1,
+              "finished": 1,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 1,
+              "finished": 2,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 0,
+              "finished": 3,
+              "inputBarrel": 0
+            }
+          ]
+        }
+      ],
+      "transportErrors": [],
+      "checkpoints": [
+        {
+          "type": "power_checkpoint",
+          "utc": "2026-11-22T04:50:55.880Z",
+          "seconds": 24.557769168,
+          "loads": [
+            {
+              "at": [
+                1,
+                0,
+                0
+              ],
+              "faces": [
+                "up"
+              ],
+              "rpm": 64,
+              "network": "274877910980",
+              "adjacentLinks": [
+                [
+                  1,
+                  1,
+                  0
+                ]
+              ],
+              "id": "create:creative_motor"
+            },
+            {
+              "at": [
+                0,
+                3,
+                0
+              ],
+              "faces": [
+                "down"
+              ],
+              "rpm": -64,
+              "network": "274877910980",
+              "source": [
+                1,
+                3,
+                0
+              ],
+              "adjacentLinks": [
+                [
+                  1,
+                  3,
+                  0
+                ]
+              ],
+              "id": "create:millstone"
+            },
+            {
+              "at": [
+                0,
+                6,
+                0
+              ],
+              "faces": [
+                "down"
+              ],
+              "rpm": -64,
+              "network": "274877910980",
+              "source": [
+                1,
+                6,
+                0
+              ],
+              "adjacentLinks": [
+                [
+                  1,
+                  6,
+                  0
+                ]
+              ],
+              "id": "create:millstone"
+            }
+          ]
+        }
+      ],
+      "repairIntegrity": null,
+      "fault": null
+    },
+    "stone-model-feed-repair": {
+      "run": "stone-line-VTgsNS",
+      "goal": "这条自动加工产线停产了。观察真实现场，定位故障，进行最小维修并保持正常部分不动。请让它再次处理一批测试原料并按实际结果报告。",
+      "model": "deepseek-v4-pro",
+      "geometry": "contained fresh flat world",
+      "manualInterventions": 0,
+      "requests": 10,
+      "tokens": 67686,
+      "passed": false,
+      "modelPassed": false,
+      "elapsedSeconds": 300.03969884800006,
+      "reply": null,
+      "outside": [],
+      "independent": null,
+      "modelCalls": [
+        {
+          "turn": 1,
+          "finish": "stop",
+          "usage": {
+            "prompt_tokens": 2170,
+            "completion_tokens": 10,
+            "total_tokens": 2180,
+            "prompt_tokens_details": {
+              "cached_tokens": 1280
+            },
+            "prompt_cache_hit_tokens": 1280,
+            "prompt_cache_miss_tokens": 890
+          },
+          "answer": {
+            "action": "observe"
+          }
+        },
+        {
+          "turn": 2,
+          "finish": "stop",
+          "usage": {
+            "prompt_tokens": 3283,
+            "completion_tokens": 10,
+            "total_tokens": 3293,
+            "prompt_tokens_details": {
+              "cached_tokens": 2176
+            },
+            "prompt_cache_hit_tokens": 2176,
+            "prompt_cache_miss_tokens": 1107
+          },
+          "answer": {
+            "action": "observe"
+          }
+        },
+        {
+          "turn": 3,
+          "finish": "stop",
+          "usage": {
+            "prompt_tokens": 4396,
+            "completion_tokens": 48,
+            "total_tokens": 4444,
+            "prompt_tokens_details": {
+              "cached_tokens": 3200
+            },
+            "prompt_cache_hit_tokens": 3200,
+            "prompt_cache_miss_tokens": 1196
+          },
+          "answer": {
+            "action": "build",
+            "blocks": [
+              {
+                "at": [
+                  1,
+                  1,
+                  0
+                ],
+                "state": "create:shaft",
+                "faces": [
+                  "down",
+                  "up"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "turn": 4,
+          "finish": "stop",
+          "usage": {
+            "prompt_tokens": 5206,
+            "completion_tokens": 35,
+            "total_tokens": 5241,
+            "prompt_tokens_details": {
+              "cached_tokens": 4352
+            },
+            "prompt_cache_hit_tokens": 4352,
+            "prompt_cache_miss_tokens": 854
+          },
+          "answer": {
+            "action": "test",
+            "at": [
+              0,
+              1,
+              0
+            ],
+            "out": [
+              0,
+              8,
+              0
+            ]
+          }
+        }
+      ],
+      "receipts": [
+        {
+          "turn": 1,
+          "seconds": 6.870295784000001,
+          "blockedTransfers": [],
+          "power": {
+            "status": "incomplete",
+            "loads": [
+              {
+                "at": [
+                  1,
+                  0,
+                  0
+                ],
+                "faces": [
+                  "up"
+                ],
+                "rpm": 64,
+                "network": "274877910980",
+                "id": "create:creative_motor"
+              },
+              {
+                "at": [
+                  0,
+                  3,
+                  0
+                ],
+                "faces": [
+                  "down"
+                ],
+                "rpm": 0,
+                "adjacentLinks": [
+                  [
+                    1,
+                    3,
+                    0
+                  ]
+                ],
+                "id": "create:millstone"
+              },
+              {
+                "at": [
+                  0,
+                  6,
+                  0
+                ],
+                "faces": [
+                  "down"
+                ],
+                "rpm": 0,
+                "adjacentLinks": [
+                  [
+                    1,
+                    6,
+                    0
+                  ]
+                ],
+                "id": "create:millstone"
+              }
+            ],
+            "cutPairs": []
+          }
+        },
+        {
+          "turn": 2,
+          "seconds": 13.091176468000006,
+          "blockedTransfers": [],
+          "power": {
+            "status": "incomplete",
+            "loads": [
+              {
+                "at": [
+                  1,
+                  0,
+                  0
+                ],
+                "faces": [
+                  "up"
+                ],
+                "rpm": 64,
+                "network": "274877910980",
+                "id": "create:creative_motor"
+              },
+              {
+                "at": [
+                  0,
+                  3,
+                  0
+                ],
+                "faces": [
+                  "down"
+                ],
+                "rpm": 0,
+                "adjacentLinks": [
+                  [
+                    1,
+                    3,
+                    0
+                  ]
+                ],
+                "id": "create:millstone"
+              },
+              {
+                "at": [
+                  0,
+                  6,
+                  0
+                ],
+                "faces": [
+                  "down"
+                ],
+                "rpm": 0,
+                "adjacentLinks": [
+                  [
+                    1,
+                    6,
+                    0
+                  ]
+                ],
+                "id": "create:millstone"
+              }
+            ],
+            "cutPairs": []
+          }
+        },
+        {
+          "turn": 3,
+          "seconds": 20.113859645999998,
+          "changed": 1,
+          "alreadyMatch": 0,
+          "mismatches": [],
+          "power": {
+            "status": "shared",
+            "loads": [
+              {
+                "at": [
+                  1,
+                  0,
+                  0
+                ],
+                "faces": [
+                  "up"
+                ],
+                "rpm": 64,
+                "network": "274877910980",
+                "adjacentLinks": [
+                  [
+                    1,
+                    1,
+                    0
+                  ]
+                ],
+                "id": "create:creative_motor"
+              },
+              {
+                "at": [
+                  0,
+                  3,
+                  0
+                ],
+                "faces": [
+                  "down"
+                ],
+                "rpm": -64,
+                "network": "274877910980",
+                "source": [
+                  1,
+                  3,
+                  0
+                ],
+                "adjacentLinks": [
+                  [
+                    1,
+                    3,
+                    0
+                  ]
+                ],
+                "id": "create:millstone"
+              },
+              {
+                "at": [
+                  0,
+                  6,
+                  0
+                ],
+                "faces": [
+                  "down"
+                ],
+                "rpm": -64,
+                "network": "274877910980",
+                "source": [
+                  1,
+                  6,
+                  0
+                ],
+                "adjacentLinks": [
+                  [
+                    1,
+                    6,
+                    0
+                  ]
+                ],
+                "id": "create:millstone"
+              }
+            ],
+            "cutPairs": []
+          }
+        },
+        {
+          "turn": 4,
+          "seconds": 102.550356078,
+          "passed": false,
+          "feed": [
+            0,
+            1,
+            0
+          ],
+          "out": [
+            0,
+            8,
+            0
+          ],
+          "outputBefore": 0,
+          "outputAfter": 0,
+          "flow": [
+            {
+              "input": 3,
+              "intermediate": 0,
+              "finished": 0,
+              "inputBarrel": 3
+            },
+            {
+              "input": 3,
+              "intermediate": 0,
+              "finished": 0,
+              "inputBarrel": 3
+            },
+            {
+              "input": 3,
+              "intermediate": 0,
+              "finished": 0,
+              "inputBarrel": 3
+            },
+            {
+              "input": 3,
+              "intermediate": 0,
+              "finished": 0,
+              "inputBarrel": 3
+            },
+            {
+              "input": 3,
+              "intermediate": 0,
+              "finished": 0,
+              "inputBarrel": 3
+            },
+            {
+              "input": 3,
+              "intermediate": 0,
+              "finished": 0,
+              "inputBarrel": 3
+            },
+            {
+              "input": 3,
+              "intermediate": 0,
+              "finished": 0,
+              "inputBarrel": 3
+            },
+            {
+              "input": 3,
+              "intermediate": 0,
+              "finished": 0,
+              "inputBarrel": 3
+            },
+            {
+              "input": 3,
+              "intermediate": 0,
+              "finished": 0,
+              "inputBarrel": 3
+            },
+            {
+              "input": 3,
+              "intermediate": 0,
+              "finished": 0,
+              "inputBarrel": 3
+            },
+            {
+              "input": 3,
+              "intermediate": 0,
+              "finished": 0,
+              "inputBarrel": 3
+            },
+            {
+              "input": 3,
+              "intermediate": 0,
+              "finished": 0,
+              "inputBarrel": 3
+            },
+            {
+              "input": 3,
+              "intermediate": 0,
+              "finished": 0,
+              "inputBarrel": 3
+            },
+            {
+              "input": 3,
+              "intermediate": 0,
+              "finished": 0,
+              "inputBarrel": 3
+            },
+            {
+              "input": 3,
+              "intermediate": 0,
+              "finished": 0,
+              "inputBarrel": 3
+            },
+            {
+              "input": 3,
+              "intermediate": 0,
+              "finished": 0,
+              "inputBarrel": 3
+            },
+            {
+              "input": 3,
+              "intermediate": 0,
+              "finished": 0,
+              "inputBarrel": 3
+            },
+            {
+              "input": 3,
+              "intermediate": 0,
+              "finished": 0,
+              "inputBarrel": 3
+            },
+            {
+              "input": 3,
+              "intermediate": 0,
+              "finished": 0,
+              "inputBarrel": 3
+            },
+            {
+              "input": 3,
+              "intermediate": 0,
+              "finished": 0,
+              "inputBarrel": 3
+            },
+            {
+              "input": 3,
+              "intermediate": 0,
+              "finished": 0,
+              "inputBarrel": 3
+            },
+            {
+              "input": 3,
+              "intermediate": 0,
+              "finished": 0,
+              "inputBarrel": 3
+            },
+            {
+              "input": 3,
+              "intermediate": 0,
+              "finished": 0,
+              "inputBarrel": 3
+            }
+          ]
+        }
+      ],
+      "transportErrors": [
+        "spawnSync python3 ETIMEDOUT"
+      ],
+      "checkpoints": [],
+      "repairIntegrity": {
+        "type": "repair_integrity",
+        "utc": "2026-11-22T04:50:17.743Z",
+        "passed": false,
+        "changedComparedToHealthy": [],
+        "settingsIntact": true
+      },
+      "fault": {
+        "type": "fixture_fault",
+        "utc": "2026-11-22T04:45:17.699Z",
+        "cell": [
+          1,
+          1,
+          0
+        ],
+        "original": {
+          "Properties": {
+            "waterlogged": "false",
+            "axis": "y"
+          },
+          "Name": "create:shaft"
+        },
+        "newState": {
+          "Name": "minecraft:air"
+        },
+        "observed": {
+          "shared": false,
+          "devices": [
+            {
+              "at": [
+                1,
+                0,
+                0
+              ],
+              "id": "create:creative_motor",
+              "state": {
+                "facing": "up"
+              },
+              "rpm": 64,
+              "configuredRpm": 64,
+              "network": [
+                64,
+                4036
+              ],
+              "stress": 0,
+              "capacity": 1048576
+            },
+            {
+              "at": [
+                1,
+                2,
+                0
+              ],
+              "id": "create:shaft",
+              "state": {
+                "waterlogged": "false",
+                "axis": "y"
+              },
+              "rpm": 0
+            },
+            {
+              "at": [
+                1,
+                3,
+                0
+              ],
+              "id": "create:cogwheel",
+              "state": {
+                "waterlogged": "false",
+                "axis": "y"
+              },
+              "rpm": 0
+            },
+            {
+              "at": [
+                0,
+                3,
+                0
+              ],
+              "id": "create:millstone",
+              "rpm": 0
+            },
+            {
+              "at": [
+                1,
+                4,
+                0
+              ],
+              "id": "create:shaft",
+              "state": {
+                "waterlogged": "false",
+                "axis": "y"
+              },
+              "rpm": 0
+            },
+            {
+              "at": [
+                1,
+                5,
+                0
+              ],
+              "id": "create:shaft",
+              "state": {
+                "waterlogged": "false",
+                "axis": "y"
+              },
+              "rpm": 0
+            },
+            {
+              "at": [
+                1,
+                6,
+                0
+              ],
+              "id": "create:cogwheel",
+              "state": {
+                "waterlogged": "false",
+                "axis": "y"
+              },
+              "rpm": 0
+            },
+            {
+              "at": [
+                0,
+                6,
+                0
+              ],
+              "id": "create:millstone",
+              "rpm": 0
+            }
+          ]
+        }
+      },
+      "traceExcerpt": true
+    },
+    "stone-model-protected-repair": {
+      "run": "stone-line-e01uac",
+      "goal": "这条自动加工产线停产了。观察真实现场，定位故障，进行最小维修并保持正常部分不动。沿漏斗实际进出方向区分上游原料桶和下游成品桶，已有成品是下游的证据。请让它再次处理一批测试原料并按实际结果报告。",
+      "model": "deepseek-v4-pro",
+      "geometry": "contained fresh flat world",
+      "manualInterventions": 0,
+      "requests": 6,
+      "tokens": 27314,
+      "passed": true,
+      "modelPassed": true,
+      "elapsedSeconds": 77.40557343,
+      "reply": "已修复动力缺失：在电机上方补充了缺失的竖直传动轴，使两台石磨恢复64 RPM驱动。测试确认产线正常：从上方原料桶投入3个圆石，经两级石磨后，下方成品桶新增3个燧石，原有6个燧石保持不变。",
+      "outside": [],
+      "independent": {
+        "passed": true,
+        "feed": [
+          0,
+          8,
+          0
+        ],
+        "out": [
+          0,
+          1,
+          0
+        ],
+        "inserted": 3,
+        "outputBefore": 9,
+        "outputAfter": 12,
+        "power": {
+          "shared": true,
+          "devices": [
+            {
+              "at": [
+                1,
+                0,
+                0
+              ],
+              "id": "create:creative_motor",
+              "state": {
+                "facing": "up"
+              },
+              "rpm": 64,
+              "configuredRpm": 64,
+              "network": [
+                64,
+                4036
+              ],
+              "stress": 512,
+              "capacity": 1048576
+            },
+            {
+              "at": [
+                1,
+                1,
+                0
+              ],
+              "id": "create:shaft",
+              "state": {
+                "waterlogged": "false",
+                "axis": "y"
+              },
+              "rpm": 64,
+              "source": [
+                1,
+                0,
+                0
+              ],
+              "network": [
+                64,
+                4036
+              ],
+              "stress": 512,
+              "capacity": 1048576
+            },
+            {
+              "at": [
+                1,
+                2,
+                0
+              ],
+              "id": "create:shaft",
+              "state": {
+                "waterlogged": "false",
+                "axis": "y"
+              },
+              "rpm": 64,
+              "source": [
+                1,
+                1,
+                0
+              ],
+              "network": [
+                64,
+                4036
+              ],
+              "stress": 512,
+              "capacity": 1048576
+            },
+            {
+              "at": [
+                1,
+                3,
+                0
+              ],
+              "id": "create:cogwheel",
+              "state": {
+                "waterlogged": "false",
+                "axis": "y"
+              },
+              "rpm": 64,
+              "source": [
+                1,
+                2,
+                0
+              ],
+              "network": [
+                64,
+                4036
+              ],
+              "stress": 512,
+              "capacity": 1048576
+            },
+            {
+              "at": [
+                0,
+                3,
+                0
+              ],
+              "id": "create:millstone",
+              "rpm": -64,
+              "source": [
+                1,
+                3,
+                0
+              ],
+              "network": [
+                64,
+                4036
+              ],
+              "stress": 512,
+              "capacity": 1048576
+            },
+            {
+              "at": [
+                1,
+                4,
+                0
+              ],
+              "id": "create:shaft",
+              "state": {
+                "waterlogged": "false",
+                "axis": "y"
+              },
+              "rpm": 64,
+              "source": [
+                1,
+                3,
+                0
+              ],
+              "network": [
+                64,
+                4036
+              ],
+              "stress": 512,
+              "capacity": 1048576
+            },
+            {
+              "at": [
+                1,
+                5,
+                0
+              ],
+              "id": "create:shaft",
+              "state": {
+                "waterlogged": "false",
+                "axis": "y"
+              },
+              "rpm": 64,
+              "source": [
+                1,
+                4,
+                0
+              ],
+              "network": [
+                64,
+                4036
+              ],
+              "stress": 512,
+              "capacity": 1048576
+            },
+            {
+              "at": [
+                1,
+                6,
+                0
+              ],
+              "id": "create:cogwheel",
+              "state": {
+                "waterlogged": "false",
+                "axis": "y"
+              },
+              "rpm": 64,
+              "source": [
+                1,
+                5,
+                0
+              ],
+              "network": [
+                64,
+                4036
+              ],
+              "stress": 512,
+              "capacity": 1048576
+            },
+            {
+              "at": [
+                0,
+                6,
+                0
+              ],
+              "id": "create:millstone",
+              "rpm": -64,
+              "source": [
+                1,
+                6,
+                0
+              ],
+              "network": [
+                64,
+                4036
+              ],
+              "stress": 512,
+              "capacity": 1048576
+            }
+          ]
+        },
+        "flow": [
+          {
+            "input": 3,
+            "intermediate": 0,
+            "finished": 0,
+            "inputBarrel": 0
+          },
+          {
+            "input": 2,
+            "intermediate": 1,
+            "finished": 0,
+            "inputBarrel": 0
+          },
+          {
+            "input": 1,
+            "intermediate": 1,
+            "finished": 1,
+            "inputBarrel": 0
+          },
+          {
+            "input": 0,
+            "intermediate": 1,
+            "finished": 2,
+            "inputBarrel": 0
+          },
+          {
+            "input": 0,
+            "intermediate": 0,
+            "finished": 3,
+            "inputBarrel": 0
+          }
+        ]
+      },
+      "modelCalls": [
+        {
+          "turn": 1,
+          "finish": "stop",
+          "usage": {
+            "prompt_tokens": 2190,
+            "completion_tokens": 10,
+            "total_tokens": 2200,
+            "prompt_tokens_details": {
+              "cached_tokens": 2176
+            },
+            "prompt_cache_hit_tokens": 2176,
+            "prompt_cache_miss_tokens": 14
+          },
+          "answer": {
+            "action": "observe"
+          }
+        },
+        {
+          "turn": 2,
+          "finish": "stop",
+          "usage": {
+            "prompt_tokens": 3303,
+            "completion_tokens": 10,
+            "total_tokens": 3313,
+            "prompt_tokens_details": {
+              "cached_tokens": 3200
+            },
+            "prompt_cache_hit_tokens": 3200,
+            "prompt_cache_miss_tokens": 103
+          },
+          "answer": {
+            "action": "observe"
+          }
+        },
+        {
+          "turn": 3,
+          "finish": "stop",
+          "usage": {
+            "prompt_tokens": 4416,
+            "completion_tokens": 53,
+            "total_tokens": 4469,
+            "prompt_tokens_details": {
+              "cached_tokens": 4352
+            },
+            "prompt_cache_hit_tokens": 4352,
+            "prompt_cache_miss_tokens": 64
+          },
+          "answer": {
+            "action": "build",
+            "blocks": [
+              {
+                "at": [
+                  1,
+                  1,
+                  0
+                ],
+                "state": "create:shaft",
+                "faces": [
+                  "down",
+                  "up"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "turn": 4,
+          "finish": "stop",
+          "usage": {
+            "prompt_tokens": 5231,
+            "completion_tokens": 35,
+            "total_tokens": 5266,
+            "prompt_tokens_details": {
+              "cached_tokens": 4352
+            },
+            "prompt_cache_hit_tokens": 4352,
+            "prompt_cache_miss_tokens": 879
+          },
+          "answer": {
+            "action": "test",
+            "at": [
+              0,
+              1,
+              0
+            ],
+            "out": [
+              0,
+              8,
+              0
+            ]
+          }
+        },
+        {
+          "turn": 5,
+          "finish": "stop",
+          "usage": {
+            "prompt_tokens": 5318,
+            "completion_tokens": 35,
+            "total_tokens": 5353,
+            "prompt_tokens_details": {
+              "cached_tokens": 5248
+            },
+            "prompt_cache_hit_tokens": 5248,
+            "prompt_cache_miss_tokens": 70
+          },
+          "answer": {
+            "action": "test",
+            "at": [
+              0,
+              8,
+              0
+            ],
+            "out": [
+              0,
+              1,
+              0
+            ]
+          }
+        },
+        {
+          "turn": 6,
+          "finish": "stop",
+          "usage": {
+            "prompt_tokens": 6632,
+            "completion_tokens": 81,
+            "total_tokens": 6713,
+            "prompt_tokens_details": {
+              "cached_tokens": 5248
+            },
+            "prompt_cache_hit_tokens": 5248,
+            "prompt_cache_miss_tokens": 1384
+          },
+          "answer": {
+            "action": "finish",
+            "summary": "已修复动力缺失：在电机上方补充了缺失的竖直传动轴，使两台石磨恢复64 RPM驱动。测试确认产线正常：从上方原料桶投入3个圆石，经两级石磨后，下方成品桶新增3个燧石，原有6个燧石保持不变。"
+          }
+        }
+      ],
+      "receipts": [
+        {
+          "turn": 1,
+          "seconds": 6.5890704079999995,
+          "blockedTransfers": [],
+          "power": {
+            "status": "incomplete",
+            "loads": [
+              {
+                "at": [
+                  1,
+                  0,
+                  0
+                ],
+                "faces": [
+                  "up"
+                ],
+                "rpm": 64,
+                "network": "274877910980",
+                "id": "create:creative_motor"
+              },
+              {
+                "at": [
+                  0,
+                  3,
+                  0
+                ],
+                "faces": [
+                  "down"
+                ],
+                "rpm": 0,
+                "adjacentLinks": [
+                  [
+                    1,
+                    3,
+                    0
+                  ]
+                ],
+                "id": "create:millstone"
+              },
+              {
+                "at": [
+                  0,
+                  6,
+                  0
+                ],
+                "faces": [
+                  "down"
+                ],
+                "rpm": 0,
+                "adjacentLinks": [
+                  [
+                    1,
+                    6,
+                    0
+                  ]
+                ],
+                "id": "create:millstone"
+              }
+            ],
+            "cutPairs": []
+          }
+        },
+        {
+          "turn": 2,
+          "seconds": 13.133289625999998,
+          "blockedTransfers": [],
+          "power": {
+            "status": "incomplete",
+            "loads": [
+              {
+                "at": [
+                  1,
+                  0,
+                  0
+                ],
+                "faces": [
+                  "up"
+                ],
+                "rpm": 64,
+                "network": "274877910980",
+                "id": "create:creative_motor"
+              },
+              {
+                "at": [
+                  0,
+                  3,
+                  0
+                ],
+                "faces": [
+                  "down"
+                ],
+                "rpm": 0,
+                "adjacentLinks": [
+                  [
+                    1,
+                    3,
+                    0
+                  ]
+                ],
+                "id": "create:millstone"
+              },
+              {
+                "at": [
+                  0,
+                  6,
+                  0
+                ],
+                "faces": [
+                  "down"
+                ],
+                "rpm": 0,
+                "adjacentLinks": [
+                  [
+                    1,
+                    6,
+                    0
+                  ]
+                ],
+                "id": "create:millstone"
+              }
+            ],
+            "cutPairs": []
+          }
+        },
+        {
+          "turn": 3,
+          "seconds": 20.870482221,
+          "changed": 1,
+          "alreadyMatch": 0,
+          "mismatches": [],
+          "power": {
+            "status": "shared",
+            "loads": [
+              {
+                "at": [
+                  1,
+                  0,
+                  0
+                ],
+                "faces": [
+                  "up"
+                ],
+                "rpm": 64,
+                "network": "274877910980",
+                "adjacentLinks": [
+                  [
+                    1,
+                    1,
+                    0
+                  ]
+                ],
+                "id": "create:creative_motor"
+              },
+              {
+                "at": [
+                  0,
+                  3,
+                  0
+                ],
+                "faces": [
+                  "down"
+                ],
+                "rpm": -64,
+                "network": "274877910980",
+                "source": [
+                  1,
+                  3,
+                  0
+                ],
+                "adjacentLinks": [
+                  [
+                    1,
+                    3,
+                    0
+                  ]
+                ],
+                "id": "create:millstone"
+              },
+              {
+                "at": [
+                  0,
+                  6,
+                  0
+                ],
+                "faces": [
+                  "down"
+                ],
+                "rpm": -64,
+                "network": "274877910980",
+                "source": [
+                  1,
+                  6,
+                  0
+                ],
+                "adjacentLinks": [
+                  [
+                    1,
+                    6,
+                    0
+                  ]
+                ],
+                "id": "create:millstone"
+              }
+            ],
+            "cutPairs": []
+          }
+        },
+        {
+          "turn": 4,
+          "seconds": 28.050723329,
+          "reason": "Feed and collection must follow the installed carriers. No item was inserted.",
+          "passed": false,
+          "detectedFromCurrentBlocks": {
+            "at": [
+              0,
+              8,
+              0
+            ],
+            "out": [
+              0,
+              1,
+              0
+            ]
+          }
+        },
+        {
+          "turn": 5,
+          "seconds": 53.365458925,
+          "passed": true,
+          "feed": [
+            0,
+            8,
+            0
+          ],
+          "out": [
+            0,
+            1,
+            0
+          ],
+          "outputBefore": 6,
+          "outputAfter": 9,
+          "flow": [
+            {
+              "input": 3,
+              "intermediate": 0,
+              "finished": 0,
+              "inputBarrel": 0
+            },
+            {
+              "input": 2,
+              "intermediate": 1,
+              "finished": 0,
+              "inputBarrel": 0
+            },
+            {
+              "input": 1,
+              "intermediate": 1,
+              "finished": 1,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 1,
+              "finished": 2,
+              "inputBarrel": 0
+            },
+            {
+              "input": 0,
+              "intermediate": 0,
+              "finished": 3,
+              "inputBarrel": 0
+            }
+          ]
+        }
+      ],
+      "transportErrors": [],
+      "checkpoints": [],
+      "repairIntegrity": {
+        "type": "repair_integrity",
+        "utc": "2026-11-22T04:53:02.151Z",
+        "passed": true,
+        "changedComparedToHealthy": [],
+        "settingsIntact": true
+      },
+      "fault": {
+        "type": "fixture_fault",
+        "utc": "2026-11-22T04:51:44.743Z",
+        "cell": [
+          1,
+          1,
+          0
+        ],
+        "original": {
+          "Properties": {
+            "waterlogged": "false",
+            "axis": "y"
+          },
+          "Name": "create:shaft"
+        },
+        "newState": {
+          "Name": "minecraft:air"
+        },
+        "observed": {
+          "shared": false,
+          "devices": [
+            {
+              "at": [
+                1,
+                0,
+                0
+              ],
+              "id": "create:creative_motor",
+              "state": {
+                "facing": "up"
+              },
+              "rpm": 64,
+              "configuredRpm": 64,
+              "network": [
+                64,
+                4036
+              ],
+              "stress": 0,
+              "capacity": 1048576
+            },
+            {
+              "at": [
+                1,
+                2,
+                0
+              ],
+              "id": "create:shaft",
+              "state": {
+                "waterlogged": "false",
+                "axis": "y"
+              },
+              "rpm": 0
+            },
+            {
+              "at": [
+                1,
+                3,
+                0
+              ],
+              "id": "create:cogwheel",
+              "state": {
+                "waterlogged": "false",
+                "axis": "y"
+              },
+              "rpm": 0
+            },
+            {
+              "at": [
+                0,
+                3,
+                0
+              ],
+              "id": "create:millstone",
+              "rpm": 0
+            },
+            {
+              "at": [
+                1,
+                4,
+                0
+              ],
+              "id": "create:shaft",
+              "state": {
+                "waterlogged": "false",
+                "axis": "y"
+              },
+              "rpm": 0
+            },
+            {
+              "at": [
+                1,
+                5,
+                0
+              ],
+              "id": "create:shaft",
+              "state": {
+                "waterlogged": "false",
+                "axis": "y"
+              },
+              "rpm": 0
+            },
+            {
+              "at": [
+                1,
+                6,
+                0
+              ],
+              "id": "create:cogwheel",
+              "state": {
+                "waterlogged": "false",
+                "axis": "y"
+              },
+              "rpm": 0
+            },
+            {
+              "at": [
+                0,
+                6,
+                0
+              ],
+              "id": "create:millstone",
+              "rpm": 0
+            }
+          ]
+        }
+      }
+    }
+  },
+  "inGameNaturalLanguage": {
+    "game-natural": {
+      "utc": "2026-11-22T04:46:42.982Z",
+      "type": "engineering_result",
+      "passed": false,
+      "fans": [
+        {
+          "at": [
+            -4,
+            -57,
+            9
+          ],
+          "rpm": 0
+        },
+        {
+          "at": [
+            -6,
+            -57,
+            12
+          ],
+          "rpm": 0
+        }
+      ],
+      "backups": 4,
+      "outside": [],
+      "modelReturned": false,
+      "run": "engineering-1795322585304",
+      "requests": 23,
+      "tokens": 355762,
+      "model": "deepseek-v4-pro"
+    },
+    "game-natural-native": {
+      "utc": "2026-11-22T04:50:16.489Z",
+      "type": "engineering_result",
+      "passed": true,
+      "fans": [
+        {
+          "at": [
+            -4,
+            -58,
+            11
+          ],
+          "rpm": 128,
+          "network": [
+            -320,
+            49094
+          ],
+          "source": {
+            "X": -5,
+            "Y": -58,
+            "Z": 11
+          }
+        },
+        {
+          "at": [
+            4,
+            -58,
+            11
+          ],
+          "rpm": 128,
+          "network": [
+            192,
+            49094
+          ],
+          "source": {
+            "X": 3,
+            "Y": -58,
+            "Z": 11
+          }
+        }
+      ],
+      "structure": {
+        "size": [
+          2,
+          1,
+          1
+        ],
+        "version": 3465,
+        "nativeBlocks": 2,
+        "registry": [
+          "create:creative_motor",
+          "create:encased_fan"
+        ],
+        "safeData": true
+      },
+      "backups": 2,
+      "outside": [],
+      "modelReturned": true,
+      "run": "engineering-1795322866415",
+      "requests": 17,
+      "tokens": 233759,
+      "model": "deepseek-v4-pro"
+    }
+  }
+}

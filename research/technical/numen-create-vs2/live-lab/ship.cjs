@@ -53,9 +53,10 @@ async function act(a,lab) {
       const stopped=JSON.parse(await c('engineering_ship stop'));
       const horizontal=delta(before,after);
       const turned=after.p[1]-before.p[1];
-      const idx=['north','south'].includes(a.heading)?2:0;
-      const direction=['north','west'].includes(a.heading)?-1:1;
-      const along=(after.p[idx]-before.p[idx])*direction*Math.sign(a.forward);
+      const [dx,dz]={north:[0,-1],south:[0,1],west:[-1,0],east:[1,0]}[a.heading];
+      const sin=Math.sin(yaw(before)), cos=Math.cos(yaw(before));
+      const along=((after.p[0]-before.p[0])*(dx*cos+dz*sin)+
+        (after.p[2]-before.p[2])*(dz*cos-dx*sin))*Math.sign(a.forward);
       const yawDegrees=yawDelta(before,after);
       const passed=control.mounted && !stopped.error &&
         (left!==0 ? Math.abs(yawDegrees)>5 : horizontal>0.75&&along>0.75&&Math.abs(a.forward)>0);
