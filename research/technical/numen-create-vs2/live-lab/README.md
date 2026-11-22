@@ -1058,3 +1058,29 @@ LAB_ENGINEERING_LINE=1 node live-lab/run.cjs engineering
 ```
 
 `ports-check` 和两个 `LAB_ENGINEERING_SMOKE` 组无模型。固定校准结构只在夹具中使用。模型轮利用原生状态检查、有限方块与参数集合，备份并尊重原有授权。标准结构文件只保留受支持方块状态、马达转速和智能溜槽筛选标量，导入逐格检查，库存和实体不复制。`LAB_LINE_RESUME` 可读取先前研究运行的 world 并在新目录复制后继续模型产线。盲修中的原料样本来自测试入口，生产由 Create 和原版物流完成。
+
+
+## 交接整合与工程附属 0.2.0（2026-11-22）
+
+`handoff/numen-ponder-ship-2026-11-22` 的固定提交为 `935da3f15676a6c14c20681dd645bd5c432b8b15`。核对基线和两次交接提交后，保留 Ponder 重建脚本、查询和船体证据。Ponder 的 109 条候选资产记录合计 102 个不同 NBT 路径，全部存在于安装版 JAR，匹配包含启发式。许可、原文学源及统计见 [Ponder 索引](../ponder/README.md) 和 [第三方许可](../ponder/THIRD-PARTY.md)。
+
+DSH 飞行船、水面船样本转向阶段真实四元数分别变化约 0.236°、0.272°。原报告的 5.272、6.873 格为改变推进方向后的位移。接续试验另用原生 `leftImpulse` 作为偏航输入。专服接入真实 Fabric 图形客户端，Numen 伴侣 LabBot 通过原生舵乘骑后，固定校准船实际前进 4.113 格、偏航 128.38°，锚停观测约 200 tick，位置与旋转无变化。此轮是无模型的底层校准。游戏内 API 与产线的验证运行分别记录，船体校准布局不用于训练或代替模型设计。
+
+### 安装 0.2.0 测试版
+
+- 使用 Java 17、Minecraft 1.20.1、Fabric Loader 0.17.2、Fabric API 0.92.6、Numen 0.1.5-beta（内含 `numen_api` 0.1.5）及 Create Fabric 6.0.8.1 build 1744。
+- 将本附属 JAR 放进实例或专服的 `mods`，由需要提供工程工具的一端加载。单机在客户端实例安装，专服在服务端安装，并让客户端装好该世界所需的模组。按 Numen 原有流程配置模型和召唤伴侣。
+- 在启动 JVM 参数中设置 `-Dengineering.site=x1,y1,z1,x2,y2,z2`，使用主世界已加载的测试区域，每轴 1..16 格。例如测试服使用 `-Dengineering.site=-7,-60,5,8,-49,20`。工具要求主人在线，且主人和伴侣同维度、均为创造模式。默认关闭。
+- 可选载具依赖为 VS 2.4.11、Eureka 1.6.4 和 Fabric Language Kotlin 1.11.0。额外设置 `-Dengineering.ships=true`。由伴侣用 `engineering.site.apply` 在区域内造小船，船体限 64 格、有一个橡木舵和一个锚。 `engineering_vessels.ship` 提供装配、检查、短时控制和锚停。当前一世界会话只维护一艘船，选定船 ID 随服务端重启失效。区域边缘、结束时限、离座或房主离线触发结束控制。仅在独立测试世界开启。
+- `engineering.site` 提供施工、检查、测试喂料、知识查询、原版 NBT 导出和导入。换块需提供旧状态，原生权限仍执行。每批写入前生成备份，导出的可复用结构只带白名单方块状态和受支持的装置设置，去掉实体和库存。
+
+构建复用已启动过的 Fabric 1.20.1 Java 17 服务端夹具类路径。从研究目录执行：
+
+```bash
+export LAB_MC20=/absolute/path/to/mc20
+export JAVA_HOME=/absolute/path/to/jdk17
+export LAB_VS_MODS=/absolute/path/to/vs-mods
+bash live-lab/game-bridge/build.sh
+```
+
+`LAB_VS_MODS` 包含 `vs.jar`、`eureka.jar`、`kotlin.jar`。省略该变量可构建仅 Create/Numen 的版本。生成的 `live-lab/game-bridge/game-bridge.jar` 已包含 Ponder 索引和许可。旧 `ship-bridge/build.sh` 仅构建隔离服用实验命令，日常安装只需统一的工程附属 JAR。冒烟测试可用 `LAB_ENGINEERING_SMOKE=1`、`line`、`ship` 和 `live-lab/run.cjs engineering`。其中载具组需用配置齐全的 Fabric 客户端以 `LabOwner` 连接隔离服。正式安装不需要实验命令或 RCON。

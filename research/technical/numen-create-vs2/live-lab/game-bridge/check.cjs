@@ -19,6 +19,7 @@ module.exports=async function check(lab){
   assert.deepEqual(unchanged.blocks,baseline.blocks);
   lab.mark('engineering_guards',{outOfScopeRejected:true,survivalRejected:true,worldUnchanged:true});
   await lab.cmd('deop LabOwner');
+  if(process.env.LAB_ENGINEERING_SMOKE==='ship') return shipCheck(lab,baseline);
   if(process.env.LAB_ENGINEERING_SMOKE==='line') return calibrateLine(lab,baseline);
   if(process.env.LAB_ENGINEERING_SMOKE==='1') return settingsCheck(lab);
   if(process.env.LAB_ENGINEERING_LINE==='1') return lineCheck(lab,baseline);
@@ -46,6 +47,47 @@ module.exports=async function check(lab){
   lab.mark('engineering_result',{passed:pass,fans,structure,backups,outside,modelReturned:completed});
   if(!pass) process.exitCode=1;
 };
+
+
+async function shipCheck(lab,baseline) {
+  const api='engineering_vessels.ship.';
+  const read=async (label,expression) => {
+    await lab.drive('print("'+label+'",'+expression+')','\n'+label);
+    const row=lab.output().split('\n').find(line=>line.startsWith(label+'\t'));
+    assert(row,'missing vessel inspection '+label);
+    return JSON.parse(row.slice(label.length).trim());
+  };
+  const cells=[];
+  for (const x of [-1,0,1]) for (const z of [12,13,14]) cells.push([x,-56,z,'minecraft:oak_planks']);
+  for (const x of [-1,1]) for (const z of [12,14]) cells.push([x,-55,z,'vs_eureka:balloon']);
+  cells.push([0,-55,13,'vs_eureka:oak_ship_helm[facing=north]'],[0,-56,15,'vs_eureka:anchor']);
+  const plan=cells.map(([x,y,z,state])=>'{pos={x='+x+',y='+y+',z='+z+'},state='+JSON.stringify(state)+'}').join(',');
+  await lab.drive('assert(engineering.site.apply({'+plan+'}).cells=='+cells.length+'); print("vessel_built")','\nvessel_built');
+  const assembly=await read('vessel_assembled',api+'assemble({x=0,y=-55,z=13})');
+  assert.match(assembly.backup,/^engineering:backup_/);
+  await wait(1400);
+  const initial=await read('vessel_initial',api+'inspect()');
+  const start=await read('vessel_drive',api+'drive("north",1,0,0,45)');
+  assert(start.mounted,'the companion must mount the native helm');
+  await wait(3200);
+  const moved=await read('vessel_moved',api+'inspect()');
+  assert(initial.position[2]-moved.position[2]>0.75 && moved.static && !moved.mounted);
+  const turnStart=await read('vessel_turn',api+'drive("north",0,0,1,32)');
+  assert(turnStart.mounted);
+  await wait(2500);
+  const turned=await read('vessel_turned',api+'inspect()');
+  const yaw=({rotation:[x,y,z,w]})=>Math.atan2(2*(w*y+x*z),1-2*(y*y+x*x));
+  const rotation=yaw(turned)-yaw(moved);
+  const degrees=Math.abs(Math.atan2(Math.sin(rotation),Math.cos(rotation))*180/Math.PI);
+  assert(degrees>5 && turned.static && !turned.mounted,'expected native yaw and automatic anchor');
+  await wait(10250);
+  const anchored=await read('vessel_anchored',api+'inspect()');
+  assert.deepEqual(anchored.position,turned.position);
+  assert.deepEqual(anchored.rotation,turned.rotation);
+  const outside=outsideChanges(baseline,await lab.save('engineering-ship-final'));
+  assert.deepEqual(outside,[]);
+  lab.mark('engineering_ship_result',{passed:true,pilot:'Numen LabBot',assembly,initial,start,moved,turnStart,turned,anchored,degrees,outside,modelRequests:0});
+}
 
 function safeData(structure) {
   return !structure.entities?.length && !structure.blocks?.some(cell=>{
@@ -123,7 +165,7 @@ async function lineCheck(lab,baseline) {
 }
 
 async function settingsCheck(lab) {
-  const lua=`local motor={x=-5,y=-57,z=11}; local fan={x=-4,y=-57,z=11}; local chute={x=-3,y=-57,z=11}; local barrel={x=-2,y=-57,z=11};
+  const lua=`local guide=engineering.site.guide("mechanical_arm"); assert(string.find(guide,"Ponder")); local motor={x=-5,y=-57,z=11}; local fan={x=-4,y=-57,z=11}; local chute={x=-3,y=-57,z=11}; local barrel={x=-2,y=-57,z=11};
     local batch=engineering.site.apply({{pos=motor,state="create:creative_motor",faces={"east"},rpm=64},
       {pos=fan,state="create:encased_fan",faces={"west"}},{pos=chute,state="create:smart_chute",filter="minecraft:gravel"},
       {pos=barrel,state="minecraft:barrel"}});

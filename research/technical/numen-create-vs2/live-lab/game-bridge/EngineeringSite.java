@@ -42,6 +42,10 @@ import net.minecraft.class_7923;
 
 public final class EngineeringSite implements ModInitializer {
     private static int[] bounds;
+    private static boolean vessels;
+    static final Set<String> HULL = Set.of("minecraft:oak_planks", "minecraft:oak_fence",
+        "vs_eureka:oak_ship_helm", "vs_eureka:anchor", "vs_eureka:balloon", "vs_eureka:white_balloon",
+        "vs_eureka:floater");
     private static final int LIMIT=64;
     private static final Set<String> PALETTE=Set.of(
         "minecraft:air","minecraft:stone","minecraft:glass","minecraft:oak_planks","minecraft:barrel","minecraft:hopper",
@@ -59,6 +63,20 @@ public final class EngineeringSite implements ModInitializer {
             long size=(long)bounds[i+3]-bounds[i]+1;
             if(size<1 || size>16) throw new IllegalArgumentException("engineering.site dimensions must be 1..16");
         }
+        vessels=Boolean.getBoolean("engineering.ships");
+        if (vessels) {
+            var mods=net.fabricmc.loader.api.FabricLoader.getInstance();
+            boolean supported=mods.getModContainer("valkyrienskies")
+                .map(mod -> mod.getMetadata().getVersion().getFriendlyString().startsWith("2.4.11")).orElse(false)
+                && mods.getModContainer("vs_eureka")
+                .map(mod -> mod.getMetadata().getVersion().getFriendlyString().startsWith("1.6.4")).orElse(false);
+            if (!supported) throw new IllegalStateException("engineering.ships requires VS 2.4.11 and Eureka 1.6.4");
+            try {
+                Class.forName("lab.EngineeringShips").getMethod("install").invoke(null);
+            } catch (ReflectiveOperationException error) {
+                throw new IllegalStateException("engineering.ships requires a VS-enabled engineering JAR",error);
+            }
+        }
         NumenPlugins.register("engineering", api -> api.api("site",
             "Bounded creative construction and structure blueprints.",Site.class));
     }
@@ -72,6 +90,12 @@ public final class EngineeringSite implements ModInitializer {
                            @Doc("Approved item ID for a smart chute.") Optional<String> filter) {}
         public record Work(@Doc("At most 64 independent state edits.") List<Cell> cells) {}
         public record Point(class_2338 pos) {}
+        public record Topic(String topic) {}
+
+        @Fn("Read Create Ponder teaching by scene or keyword, or an installed Create recipe by type/name. Returns bounded JSON.")
+        public static String guide(ServerCall call,Topic args) {
+            return PonderGuide.query(args.topic());
+        }
         public record Feed(class_2338 pos,String item,int count) {}
         public record Region(String name,class_2338 from,class_2338 to) {}
         public record Replay(String name,class_2338 at) {}
@@ -208,14 +232,7 @@ public final class EngineeringSite implements ModInitializer {
             return consent.then(x->{
                 var level=level(call);
                 preflight(level,edits);
-                var min=edits.get(0).at();
-                var max=min;
-                for(var edit:edits){
-                    min=corner(min,edit.at(),true);
-                    max=corner(max,edit.at(),false);
-                }
-                String backup="backup_"+UUID.randomUUID().toString().replace("-","");
-                store(level,backup,capture(level,min,max));
+                String backup=backup(level,edits.stream().map(Edit::at).toList());
                 int written=0;
                 var changed=new ArrayList<Edit>();
                 try {
@@ -253,7 +270,7 @@ public final class EngineeringSite implements ModInitializer {
             }
         }
 
-        private static class_3218 level(ServerCall call) {
+        static class_3218 level(ServerCall call) {
             var owner=call.her().resolveOwnerPlayer();
             var level=call.her().method_51469();
             require(call.her().method_7337() && owner!=null && owner.method_7337() && owner.method_51469()==level,
@@ -262,24 +279,43 @@ public final class EngineeringSite implements ModInitializer {
             return level;
         }
 
-        private static void check(class_3218 level,class_2338 p) {
+        static void check(class_3218 level,class_2338 p) {
             int[] point={p.method_10263(),p.method_10264(),p.method_10260()};
             for(int i=0;i<3;i++) require(point[i]>=bounds[i] && point[i]<=bounds[i+3],"outside the configured site");
             require(level.method_37118(p),"site chunk must already be loaded");
+        }
+
+        static boolean inSite(double x,double y,double z) {
+            return x>=bounds[0] && x<=bounds[3]+1.0 && y>=bounds[1] && y<=bounds[4]+1.0 &&
+                z>=bounds[2] && z<=bounds[5]+1.0;
+        }
+
+        static String backup(class_3218 level,Iterable<class_2338> cells) {
+            var cursor=cells.iterator();
+            var min=cursor.next();
+            var max=min;
+            while (cursor.hasNext()) {
+                var cell=cursor.next();
+                min=corner(min,cell,true);
+                max=corner(max,cell,false);
+            }
+            String name="backup_"+UUID.randomUUID().toString().replace("-","");
+            store(level,name,capture(level,min,max));
+            return name;
         }
 
         private static class_2680 parse(String spec) {
             require(spec!=null && spec.length()<220 && !spec.contains("{"),"expected a block state without NBT");
             try {
                 var state=class_2259.method_41957(class_7923.field_41175.method_46771(),spec,false).comp_622();
-                require(PALETTE.contains(id(state)),"unsupported site block "+id(state));
+                require(PALETTE.contains(id(state)) || vessels && HULL.contains(id(state)),"unsupported site block "+id(state));
                 return state;
             } catch(CommandSyntaxException error) {
                 throw bad("invalid block state "+spec);
             }
         }
 
-        private static String id(class_2680 state) {
+        static String id(class_2680 state) {
             return class_7923.field_41175.method_10221(state.method_26204()).toString();
         }
 
@@ -320,7 +356,7 @@ public final class EngineeringSite implements ModInitializer {
         private static ApiError bad(String message){
             return new ApiError(ErrorKind.BAD_ARGUMENT,message,null);
         }
-        private static void require(boolean ok,String message) {
+        static void require(boolean ok,String message) {
             if(!ok) throw bad(message);
         }
     }

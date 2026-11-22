@@ -1,0 +1,49 @@
+{
+    "date":  "2026-11-22",
+    "source":  {
+                   "jar":  "create-fabric-6.0.8.1+build.1744-mc1.20.1.jar (same version as the live lab)",
+                   "decompiler":  "cfr-0.152 (Java 17)",
+                   "classes":  "com/simibubi/create/infrastructure/ponder/scenes/*.class (30 top-level, 53 with inner)",
+                   "scene_nbt":  "assets/create/ponder/**/*.nbt (178 files)",
+                   "text":  "inline .text(\"...\") in scene bytecode; older scenes also keyed as create.ponder.\u003cid\u003e.text_N",
+                   "recipes":  "data/create/recipes/\u003ctype\u003e/*.json"
+               },
+    "output":  {
+                   "scenes":  110,
+                   "with_scene_nbt":  109,
+                   "with_text":  109,
+                   "with_simulated_values":  44,
+                   "with_recipe_link":  5,
+                   "ordered_steps":  4244,
+                   "text_steps":  479,
+                   "simulated_values":  158
+               },
+    "per_scene_schema":  {
+                             "id":  "scene id from scene.title()",
+                             "class_method":  "source method",
+                             "title":  "human title",
+                             "nbt":  "scene structure file",
+                             "steps":  "ordered [{kind: idle|text|action|simulated_speed, ...}]",
+                             "recipes":  "only where an explicit machine-\u003erecipe-type mapping exists"
+                         },
+    "validated_scenes":  [
+                             "millstone",
+                             "mechanical_press",
+                             "mechanical_mixer",
+                             "deployer",
+                             "gantry_cascaded"
+                         ],
+    "simulated_vs_real":  {
+                              "rule":  "any setKineticSpeed / modifyBlockEntity / createItemEntity value is demo state injected by the scene, not a game-mechanic requirement",
+                              "example":  "millstone scene sets 32 RPM for the demo; the machine works at other speeds and the real constraint comes from Create code, not the scene",
+                              "handling":  "tagged as kind=simulated_speed and printed as SIM in query output"
+                          },
+    "limits":  [
+                   "One scene has no candidate NBT path; 109 candidate matches span 102 distinct assets and are heuristic",
+                   "recipe linkage covers 5 processing machines by explicit mapping, not all scenes",
+                   "action order comes from decompiled source; lambda bodies are not expanded",
+                   "text is English only"
+               ],
+    "repro":  "python extract.py /path/to/decompiled/scenes \u0026\u0026 python recipes.py /path/to/create.jar \u0026\u0026 python pondex.py stats",
+    "api":  "pondex.py: stats/search/machine/steps/recipes/coverage_gap, JSON dicts, no HTTP"
+}

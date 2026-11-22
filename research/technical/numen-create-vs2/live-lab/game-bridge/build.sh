@@ -7,5 +7,14 @@ classpath="${LAB_MC20}/mods/create.jar"
 while IFS= read -r -d '' file; do classpath="$classpath:$file"; done   < <(find "$LAB_MC20/libraries" "$LAB_MC20/.fabric/remappedJars" "$LAB_MC20/.fabric/processedMods" -name '*.jar' -print0)
 scratch="$(mktemp -d)"
 trap 'rm -rf "$scratch"' EXIT
-"$java/bin/javac" --release 17 -proc:none -cp "$classpath" -d "$scratch" EngineeringSite.java CreateReadings.java CreateSettings.java
-"$java/bin/jar" --create --file game-bridge.jar -C "$scratch" lab fabric.mod.json
+sources=(EngineeringSite.java CreateReadings.java CreateSettings.java PonderGuide.java)
+if [[ -n ${LAB_VS_MODS:-} ]]; then
+    classpath="$classpath:$LAB_VS_MODS/vs.jar:$LAB_VS_MODS/eureka.jar"
+    unzip -j "$LAB_VS_MODS/kotlin.jar" 'META-INF/jars/kotlin-stdlib-*.jar' -d "$scratch" >/dev/null
+    for file in "$scratch"/*.jar; do classpath="$classpath:$file"; done
+    sources+=(../ship-bridge/LabShips.java ../ship-bridge/EngineeringShips.java)
+fi
+"$java/bin/javac" --release 17 -proc:none -cp "$classpath" -d "$scratch" "${sources[@]}"
+mkdir -p "$scratch/engineering/ponder"
+cp ../../ponder/knowledge/scenes.jsonl ../../ponder/THIRD-PARTY.md "$scratch/engineering/ponder/"
+"$java/bin/jar" --create --file game-bridge.jar -C "$scratch" lab -C "$scratch" engineering fabric.mod.json

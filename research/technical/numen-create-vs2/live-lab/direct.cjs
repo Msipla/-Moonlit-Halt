@@ -18,14 +18,15 @@ const ground = -60; // Local height 0 sits immediately above the flat grass.
 const name = process.argv[2];
 const nativeLine = ['line','stone-line','repair','repair-logistics','ports-check'].includes(name);
 const height = nativeLine?11:7;
-const origin = name==='ship'?8:0;
+const shipRun = ['ship','ship-check'].includes(name);
+const origin = shipRun?8:0;
 const box = [origin-10, ground - 1, origin-10, origin+10, ground + height + 1, origin+10];
 const compact = (value) => JSON.stringify(value, (_, v) => typeof v === 'bigint' ? v.toString() : v);
 const readJar = (member) => execFileSync('unzip', ['-p', jar, member], {encoding:'utf8'});
 
 const line = require('./line.cjs');
 const ship = require('./ship.cjs');
-const ponder = nativeLine ? require('./ponder.cjs').sources(jar) : null;
+const guide = require('./ponder.cjs');
 const lineTarget = name==='stone-line' ? line.stone : line.target;
 const blocks = [
   'minecraft:air', 'minecraft:stone', 'minecraft:glass', 'minecraft:water',
@@ -55,7 +56,7 @@ const instructions = [
   '{"action":"test","at":[x,y,z]} drops exactly one approved input at your chosen cell and reads actual input/output.',
   '{"action":"finish","summary":"short report based on measured RPM and actual output"} after a successful test.',
   'Keep JSON actions short and execute one concrete step per reply. Choose your own coordinates, orientations, and connections. '+(['line','stone-line'].includes(name)
-    ? 'Build and verify in small batches, starting with the shared power network. Reserve open faces and cells for material flow.'
+    ? 'Build and verify in small batches. Establish the processing and inventory path before committing the shared drive. Reserve accessible shaft faces and leave enough height for transfers.'
     : 'Send a compact complete design in one build batch when possible.'),
   'Each cell has exactly one final block state. List each position once. Empty cells are already air; request air only to remove a block you previously placed.',
   'Coordinates are local integers: x,z in [-7,7], y in [0,'+height+']. y=0 is the first air cell above grass. +X east, +Z south.',
@@ -82,7 +83,7 @@ function plan(action) {
     const at = position(op.at);
     assert(typeof op.state === 'string', 'missing block state');
     const match = /^([a-z_]+:[a-z0-9_]+)(?:\[([a-z_]+=[a-z0-9_]+(?:,[a-z_]+=[a-z0-9_]+)*)\])?$/.exec(op.state);
-    assert(match && match[0]===op.state && (name==='ship'?ship.hull:blocks).includes(match[1]), 'invalid or unsupported state at ['+op.at.join(',')+']: '+op.state+'; put filter outside state');
+    assert(match && match[0]===op.state && (shipRun?ship.hull:blocks).includes(match[1]), 'invalid or unsupported state at ['+op.at.join(',')+']: '+op.state+'; put filter outside state');
     if (op.rpm!==undefined) {
       assert(match[1]==='create:creative_motor' && Number.isInteger(op.rpm) &&
         op.rpm!==0 && Math.abs(op.rpm)<=256, 'invalid motor setting');
@@ -154,9 +155,9 @@ function request(messages, remaining) {
 }
 
 async function run(name) {
-  const target = nativeLine?lineTarget:name==='ship'?ship.target:cases[name];
+  const target = nativeLine?lineTarget:shipRun?ship.target:cases[name];
   assert(target, 'Choose washing, milling, line, stone-line, repair, repair-logistics, ports-check or ship');
-  assert(name==='ports-check' || process.env.DEEPSEEK_API_KEY, 'Set the authorized DeepSeek key in the environment');
+  assert(['ports-check','ship-check'].includes(name) || process.env.DEEPSEEK_API_KEY, 'Set the authorized DeepSeek key in the environment');
   const root = path.resolve(process.env.LAB_RUNS || path.join(__dirname, 'runs'));
   fs.mkdirSync(root,{recursive:true});
   const dir = fs.mkdtempSync(path.join(root,name+'-'));
@@ -182,7 +183,9 @@ async function run(name) {
     fs.symlinkSync(path.resolve(process.env.LAB_GAME_BRIDGE || path.join(__dirname,'game-bridge/game-bridge.jar')),
       path.join(dir,'mods','game-bridge.jar'));
   }
+  const fakePilot = target.ship && process.env.LAB_SHIP_FAKE_PILOT==='1';
   if(target.ship){
+    if (fakePilot) fs.symlinkSync(path.join(base,'mods','numen.jar'),path.join(dir,'mods','numen.jar'));
     const extra=process.env.LAB_VS_MODS;
     assert(extra,'Set LAB_VS_MODS to the approved VS runtime directory');
     for(const f of ['vs.jar','eureka.jar','kotlin.jar']) fs.symlinkSync(path.resolve(extra,f),path.join(dir,'mods',f));
@@ -200,7 +203,7 @@ async function run(name) {
   const env = {...process.env};
   delete env.DEEPSEEK_API_KEY;
   const server = spawn(java,['-XX:ActiveProcessorCount=4','-Xms512m',target.ship?'-Xmx1550m':'-Xmx1200m',
-    ...(target.ship?['-Dengineering.shipLab=true']:[]),...(nativeLine?['-Dengineering.createLab=true']:[]),'-jar','server-launch.jar','nogui'],
+    ...(target.ship?['-Dengineering.shipLab=true',...(fakePilot?['-Dengineering.shipPilot=LabBot']:[])]:[]),...(nativeLine?['-Dengineering.createLab=true']:[]),'-jar','server-launch.jar','nogui'],
     {cwd:dir,env,stdio:['pipe','pipe','pipe']});
   let rcon, observer, joined = false, ready = false;
   const writable = fs.createWriteStream(path.join(dir,'minecraft.log'));
@@ -282,6 +285,7 @@ async function run(name) {
       result.nativePower=line.diagnose(await nativeRead(),state,ground,lineTarget);
       result.changed=responses.filter(response=>/Changed/.test(response)).length;
       result.alreadyMatch=ops.length-result.changed-mismatches.length;
+      result.cells=line.survey(state,ground).cells;
     }
     return result;
   }
@@ -312,15 +316,25 @@ async function run(name) {
     assert(ready, 'Minecraft did not start; see minecraft.log');
     rcon = await Rcon.connect({host:'127.0.0.1',port:port+1,password,timeout:10000});
     await command('gamerule doMobSpawning false');
-    if(target.ship && process.env.LAB_SHIP_OBSERVER==='1'){
+    if(target.ship && process.env.LAB_SHIP_OBSERVER){
       // VS can also use an active client watcher to tick the shipyard after assembly.
-      observer=spawn(process.execPath,[path.join(base,'connect.cjs'),String(port)],{env,stdio:['ignore','pipe','pipe']});
-      for(const stream of [observer.stdout,observer.stderr]){
-        stream.on('data',data=>fs.appendFileSync(path.join(dir,'observer.log'),data));
+      if (process.env.LAB_SHIP_OBSERVER==='1') {
+        observer=spawn(process.execPath,[path.join(base,'connect.cjs'),String(port)],{env,stdio:['ignore','pipe','pipe']});
+        for(const stream of [observer.stdout,observer.stderr]){
+          stream.on('data',data=>fs.appendFileSync(path.join(dir,'observer.log'),data));
+        }
       }
-      const expires=performance.now()+20000;
-      while(!joined && observer.exitCode===null && performance.now()<expires) await wait(100);
-      assert(joined,'observer protocol client did not join');
+      const expires=performance.now()+110000;
+      while(!joined && (!observer || observer.exitCode===null) && performance.now()<expires) await wait(100);
+      assert(joined,'LabOwner did not join');
+      if (fakePilot) {
+        await command('op LabOwner');
+        const summoned=await command('execute as LabOwner at @s run numen player summon LabBot');
+        mark('pilot_summon',{summoned});
+        await wait(1500);
+        assert.match(await command('gamemode creative LabBot'),/Creative/i);
+        await command('deop LabOwner');
+      }
       assert.match(await command(`tp LabOwner ${origin+0.5} -59 ${origin+9.5}`),/Teleported/);
     }
     await command(`forceload add ${origin-10} ${origin-10} ${origin+10} ${origin+10}`);
@@ -348,9 +362,14 @@ async function run(name) {
       const options=await probe('orient -7,-60,-7|create:gearbox[axis=y]|down,east -7,-60,-7|create:millstone|up');
       assert.match(options[0].state,/gearbox\[axis=z\]/);
       assert.match(options[1].error,/actual possible shaft faces: \[\[down\]\]/);
-      const guide=['fan','millstone','chute','milling/wheat','splashing/wheat_flour'].map(ponder.query);
-      assert(guide.slice(0,3).every(x=>x.assets.length===1));
-      assert(guide.slice(3).every(x=>x.results?.length));
+      const guidance=[];
+      for (const topic of ['fan','millstone','chute','milling/wheat','splashing/wheat_flour','mechanical_arm','power']) {
+        guidance.push(await guide(probe,topic));
+      }
+      assert(guidance.slice(0,3).every(x=>x.assets.length===1));
+      assert(guidance.slice(3,5).every(x=>x.results?.length));
+      assert(guidance[5].steps.length>=1 && guidance[5].source.includes('Ponder'));
+      assert(guidance[6].returned<=5 && guidance[6].truncated);
       const receipt=await build({blocks});
       assert.deepEqual(receipt.mismatches,[]);
       const {loads,cutPairs}=receipt.nativePower;
@@ -358,7 +377,26 @@ async function run(name) {
       assert(loads.some(x=>x.id==='create:encased_fan' && x.rpm===0));
       assert(cutPairs.some(x=>x.at.join()==='0,4,0' && x.other.join()==='1,4,0'));
       assert(cutPairs.some(x=>x.at.join()==='5,4,0' && x.other.join()==='6,4,0'));
-      mark('ports_check',{passed:true,fixture:'line-9oaB2e last persisted model build',schema,options,guide,invalidBatchWorldUnchanged:true,receipt});
+      mark('ports_check',{passed:true,fixture:'line-9oaB2e last persisted model build',schema,options,guide:guidance,invalidBatchWorldUnchanged:true,receipt});
+      return;
+    }
+
+    if (name==='ship-check') {
+      const blocks = [];
+      for (const x of [-1,0,1]) for (const z of [-1,0,1]) {
+        blocks.push({at:[x,4,z],state:'minecraft:oak_planks'});
+      }
+      blocks.push({at:[0,5,0],state:'vs_eureka:oak_ship_helm[facing=north]'},
+        {at:[0,4,2],state:'vs_eureka:anchor'});
+      for (const x of [-1,1]) for (const z of [-1,1]) {
+        blocks.push({at:[x,5,z],state:'vs_eureka:balloon'});
+      }
+      await build({blocks});
+      const lab = {command,position,save};
+      const assembly=await ship.act({action:'assemble',at:[0,5,0]},lab);
+      const motion=await ship.independent(lab,{action:'drive',heading:'north',forward:1,up:0});
+      mark('ship_check',{pilot:fakePilot?'Numen LabBot':'LabOwner',assembly,motion,passed:motion.passed});
+      if (!motion.passed) process.exitCode=1;
       return;
     }
 
@@ -367,14 +405,18 @@ async function run(name) {
       const elapsed = () => (performance.now()-start)/1000;
       mark('start',{name,stage,dir,goal,recipe:target.recipe,manualInterventions:0,
         knowledge:recipes,model:'deepseek-v4-pro',thinking:process.env.LAB_ENGINEERING_THINKING==='1',geometry:resumeWorld?'copy of prior model line':'contained fresh flat world',continued:Boolean(resumeWorld)});
+      const recipeFacts=[];
+      if (target.line) for (const recipe of target.recipes) recipeFacts.push(await guide(probe,recipe));
       const guidance = target.ship ? ship.instructions :
         target.line ? [instructions,...line.knowledge,
-          'Requested recipe facts from this Create JAR: '+compact(target.recipes.map(ponder.recipe)),
+          'Requested recipe facts from this Create JAR: '+compact(recipeFacts),
           'The two required processing loads are '+target.loads.join(' and ')+'.',
+          stage!=='repair' && !resumeWorld ? 'First build the entire material path without motor. Choose the final barrel height first (y ≥ 0), then design UPWARD, one face-neighbor cell at a time, until you reach the input barrel. Both loads and exactly two barrels must appear in the first batch.' : '',
+          name==='stone-line' ? 'An all-hopper conveyor is sufficient: input barrel ↓ hopper ↓ first millstone ↓ hopper ↓ next hopper ↓ second millstone ↓ hopper ↓ finished barrel. Horizontal hopper transfers are optional. Leave both millstones with a free horizontal neighbor at their own height for a vertical-axis cog, since the hopper occupies each bottom shaft face. Use no depot, chute or filters for stone; you choose all coordinates and the drive geometry.' : '',
           'Legal properties read from this running game: '+compact(schema),
           'For shaft-driven blocks, use optional faces:[...] on each build cell: write the directions that must connect on that cell. When faces is present, the requested contacts take precedence over axis/facing. The selected legal state is reported. A corner gearbox can accept a Y shaft from below and a horizontal shaft to the side. Face directions are from each block toward its neighbor. A fan shaft face is not its air outlet. You choose the entire layout and required faces; the tool selects a legal block orientation.',
           'Native power shows each physical shaft face, actual RPM and source. adjacentLinks also includes cog connections. On a power cut, fix the first live-to-dead adjacency before changing more distant devices.',
-          'Look up a Ponder teaching scene or actual recipe using {"action":"guide","topic":"fan|millstone|chute|milling/wheat|splashing/wheat_flour"}. Verify with world observations.',
+          'Look up a Ponder scene or installed recipe using {"action":"guide","topic":"<scene name, machine keyword or type/name>"}. Verify with world observations.',
         ].join('\n') : instructions;
       const messages = [{role:'system',content:guidance},{role:'user',content:goal}];
       if(resumeWorld && stage!=='repair'){
@@ -386,6 +428,8 @@ async function run(name) {
           ' Inspection: '+compact(observed)});
       }
       const lab = {save,command,read,position,count:itemCount,ground,target,pending};
+      const newLine = target.line && stage!=='repair' && !resumeWorld;
+      let materialPlaced = !newLine;
       let verifiedAt, reply, motion, powerCheckpoint = Boolean(resumeWorld), stale = 0, previous = '';
       const rejections = new Map();
       const budget = process.env.LAB_ENGINEERING_THINKING==='1' ? 480 : target.line ? 300 : 240;
@@ -394,7 +438,7 @@ async function run(name) {
         try {
           output=await request(messages,Math.max(1,budget*1000-(performance.now()-start)));
         } catch(error) {
-          mark('model_error',{turn,seconds:elapsed(),error:error.code||error.message});
+          mark('model_error',{turn,seconds:elapsed(),error:error.message});
           break;
         }
         const choice = output.choices[0];
@@ -407,8 +451,23 @@ async function run(name) {
           const a = JSON.parse(answer);
           assert(a && typeof a==='object', 'expected one action');
           if (a.action==='build') {
+            if (!materialPlaced) {
+              const material=plan(a);
+              const ids = material.map(op => op.id);
+              assert(ids.filter(id=>id==='minecraft:barrel').length>=2 &&
+                target.loads.every(id=>ids.filter(block=>block===id).length>=target.loads.filter(load=>load===id).length),
+                'First build the material path: include both processing loads and the distinct input and output barrels. Add the needed carriers and leave the shaft faces accessible.');
+              assert(!ids.includes('create:creative_motor'),'Leave the drive for the next batch; reserve accessible faces.');
+              line.materialPath(material,target);
+            }
             receipt = await build(a);
+            if (receipt.mismatches.length===0) materialPlaced=true;
             verifiedAt = undefined;
+          } else if (a.action==='power' && target.line) {
+            assert(materialPlaced,'Build the material path before routing the drive.');
+            const wiring=line.powerPlan(a,await save(),position,target);
+            receipt=await build({blocks:wiring});
+            verifiedAt=undefined;
           } else if (target.ship && a.action!=='finish') {
             receipt=await ship.act(a,lab);
             if(a.action==='drive' && receipt.passed) motion=a;
@@ -417,7 +476,7 @@ async function run(name) {
             const state=await save();
             receipt={...line.survey(state,ground),nativePower:line.diagnose(await nativeRead(),state,ground,target)};
           } else if (a.action==='guide' && target.line) {
-            receipt=ponder.query(a.topic);
+            receipt=await guide(probe,a.topic);
           } else if (a.action==='test') {
             receipt = target.line ? await line.assay(a,stage+'-'+turn,lab) : await test(a.at,'model-'+turn);
             verifiedAt = receipt.passed ? a : undefined;
@@ -452,8 +511,8 @@ async function run(name) {
             next:nativePower.status==='shared'
               ? stage==='repair' && blockedTransfers?.length
                 ? 'Power is healthy. Here are live blocked transfers with actual neighboring cells. Adjust the one faulty outlet; test through the existing barrels.'
-                : 'Power is verified. Keep the working transmission. Complete or repair material flow, then test.'
-              : 'Use the first unpowered link directly beside a powered block, or an empty face of the motor toward the load.',
+                : 'Power is verified. Keep the working transmission. If both barrels and the material path are present, test now using those barrels.'
+              : 'Connect the power chain from one motor. At a missing branch face on a straight shaft, use a gearbox exposing the through axis and branch axis. Each connection needs both facing ends; directions are relative to each cell.',
           };
         }
         if(stage!=='repair' && !powerCheckpoint && receipt.nativePower?.status==='shared'){

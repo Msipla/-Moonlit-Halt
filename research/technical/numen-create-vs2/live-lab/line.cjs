@@ -16,7 +16,9 @@ const stone = {
   loads:['create:millstone','create:millstone'], line:true,
 };
 const knowledge = [
-  'Before writing, reserve the full material path with gravity in mind: the second process must sit lower than the first output if you use chutes and hoppers, and keep space below each machine and above its next input. Place the loads at elevations your power layout can actually reach, then verify shared power before building transfer parts. Do not resend a complete layout to change one cell.',
+  'Before writing, trace the material path from input barrel to output barrel. For gravity-fed transfers the downstream stage sits lower. Build the devices and carriers along this path first, leaving the required shaft faces accessible. Then connect the shared drive. Use adjacent cells for a connection and never occupy a cell with both a shaft and a carrier. Do not resend a complete layout to change one cell.',
+  'Before powering: a hopper below a barrel or machine pulls from it; put input barrel above its hopper, not underneath. Keep only one input and one output barrel. Place the second process lower for gravity feed, and include all the carriers between the two processing stages.',
+  'The power action is {"action":"power","paths":[[[motor x,y,z],[next x,y,z],...,[first load x,y,z]],[[same motor x,y,z],[next x,y,z],...,[second load x,y,z]]],"rpm":64}. Choose paths through empty cells with face-neighbor steps, no jumps. You choose the geometry; the tool assigns shafts on straight runs and gearboxes at bends or branches. A millstone endpoint may be entered from below or from a side through a small vertical cog.',
   'For an automated chain, test is {"action":"test","at":[input barrel xyz],"out":[finished barrel xyz]}. Separate barrels; build both and choose positions. Assay deposits 3 units of the task input in the input barrel only; it never moves intermediates.',
   'Read any uncertain site using {"action":"observe"} for actual blocks, rotations, filters and inventories. World and power are real game state.',
   'Native logistics: a hopper extracts from the inventory directly ABOVE it and pushes into the block it FACES. A hopper aimed into the side of a millstone can feed it. A millstone allows processed output to be extracted. Chutes transport down; a horizontal row of chutes will not carry items sideways.',
@@ -28,6 +30,88 @@ const reduced = (value) => JSON.stringify(value);
 const atKey = (p) => p.join(',');
 const cardinal={east:[1,0,0],west:[-1,0,0],up:[0,1,0],down:[0,-1,0],south:[0,0,1],north:[0,0,-1]};
 const shift=(at,direction)=>at.map((n,i)=>n+cardinal[direction][i]);
+const routeDirection = (from,to) => Object.keys(cardinal).find(face => atKey(shift(from,face))===atKey(to));
+const axisOf = face => ['east','west'].includes(face) ? 'x' : ['up','down'].includes(face) ? 'y' : 'z';
+const beneath = at => shift(at,'down');
+const carriers = new Set(['minecraft:hopper','create:chute','create:smart_chute']);
+
+function materialPath(ops,target) {
+  const cells = new Map(ops.map(op=>[atKey(op.at),op]));
+  const barrels = ops.filter(op=>op.id===casing);
+  assert(barrels.length===2,'Place exactly two barrels: one input and one final collection.');
+  const stages = [target.loads[0],target.loads[1]==='create:encased_fan'?'create:depot':target.loads[1]];
+  function next(cell) {
+    if (cell.id==='minecraft:hopper') {
+      const facing=cell.props.facing||'down';
+      assert(cardinal[facing] && facing!=='up','Give each hopper a valid outlet direction.');
+      return cells.get(atKey(shift(cell.at,facing)));
+    }
+    const down=cells.get(atKey(beneath(cell.at)));
+    return carriers.has(cell.id) || carriers.has(down?.id) ? down : undefined;
+  }
+  const attempted=[];
+  for (const start of barrels) {
+    const seen=new Set([start]);
+    let stage=0;
+    for (let cell=next(start); cell && !seen.has(cell); cell=next(cell)) {
+      if (cell.id===stages[stage]) stage++;
+      if (cell.id===casing && stage===stages.length) return;
+      seen.add(cell);
+    }
+    attempted.push([...seen].map(cell=>cell.id));
+  }
+  assert.fail('Material path does not reach both processing stages and the output barrel. Trace from the input barrel DOWN to its hopper, follow each hopper outlet or downward chute, and end at the other barrel. Detected paths: '+JSON.stringify(attempted));
+}
+
+function powerPlan(action,world,position,target) {
+  const {paths,rpm}=action;
+  assert(Array.isArray(paths)&&paths.length===target.loads.length &&
+    paths.every(path=>Array.isArray(path)&&path.length>=3&&path.length<=32),'Give one 3..32-cell path per load.');
+  const cells=new Map(), endpoints=new Set(), found=[];
+  const start=atKey(paths[0][0]);
+  for (const path of paths) {
+    const worldPath=path.map(position);
+    const pathKeys=path.map(atKey);
+    assert(pathKeys[0]===start&&new Set(pathKeys).size===path.length,'Routes start at the same motor and cannot loop.');
+    const end=path.length-1, label=pathKeys[end];
+    const load=world.blocks[atKey(worldPath[end])]?.Name;
+    assert(!endpoints.has(label)&&target.loads.includes(load),'Routes must terminate at distinct existing requested loads.');
+    endpoints.add(label);
+    found.push(load);
+    for(let i=0;i<end;i++){
+      const at=path[i], key=pathKeys[i];
+      const next=routeDirection(at,path[i+1]);
+      const prior=i===0?null:routeDirection(at,path[i-1]);
+      assert(next&&(i===0||prior),'Use face-neighbor steps at '+key);
+      const present=world.blocks[atKey(worldPath[i])]?.Name;
+      assert(!present || ['create:shaft','create:gearbox','create:cogwheel','create:creative_motor'].includes(present),
+        'Route crosses '+present+' at '+key+'. Preserve the material path.');
+      const cell=cells.get(key)||{at,faces:new Set(),cog:false};
+      if(prior) cell.faces.add(prior);
+      const sideCog=i===end-1&&load==='create:millstone'&&axisOf(next)!=='y';
+      if(sideCog) cell.cog=true;
+      else cell.faces.add(next);
+      if (i===end-1 && load==='create:millstone') assert(next!=='down','A millstone can take a shaft from below, or mesh sideways.');
+      cells.set(key,cell);
+    }
+  }
+  assert(found.sort().join() === [...target.loads].sort().join(),'The endpoints must match the requested load types.');
+  return [...cells.values()].map(({at,faces,cog})=>{
+    const list=[...faces];
+    const axes=new Set(list.map(axisOf));
+    if(atKey(at)===start) {
+      assert(list.length===1,'The motor has just one outlet; branch after the motor.');
+      return {at,state:'create:creative_motor',faces:list,rpm};
+    }
+    if(cog) {
+      assert(list.length===1&&axes.has('y'),'Feed the side cog from above or below at '+atKey(at));
+      return {at,state:'create:cogwheel',faces:list};
+    }
+    assert(axes.size<=2,'At '+atKey(at)+' the route bends through three axes. Separate the turns.');
+    return {at,state:axes.size===1?'create:shaft':'create:gearbox',faces:list};
+  });
+}
+
 const local = (p,ground) => [p[0],p[1]-ground,p[2]];
 const entityAt = (state,p) => state.blockEntities.find(e=>e.x===p[0]&&e.y===p[1]&&e.z===p[2]);
 function stacks(e) {
@@ -196,4 +280,4 @@ async function injectLogistics(sample,before,lab) {
     waiting:stillWaiting,unchangedOutput:baseline,sharedPower:power.shared,pending:{out:atKey(out),baseline}};
 }
 
-module.exports={target,stone,knowledge,survey,assay,inject,injectLogistics,diagnose,drive};
+module.exports={target,stone,knowledge,materialPath,powerPlan,survey,assay,inject,injectLogistics,diagnose,drive};

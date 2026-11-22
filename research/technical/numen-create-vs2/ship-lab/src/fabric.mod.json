@@ -1,0 +1,9 @@
+﻿{
+  "schemaVersion": 1,
+  "id": "shiptest",
+  "version": "1.0",
+  "name": "Task-only ship control probe",
+  "environment": "client",
+  "entrypoints": { "client": ["local.ship.ShipTest"] },
+  "depends": { "minecraft": "1.20.1", "fabric-api": "*" }
+}

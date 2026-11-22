@@ -8,7 +8,8 @@ const {snapshot} = require('./world.cjs');
 
 const phase = process.argv[2];
 const engineering = phase === 'engineering';
-const engineeringSmoke = engineering && ['1','line'].includes(process.env.LAB_ENGINEERING_SMOKE);
+const engineeringSmoke = engineering && ['1','line','ship'].includes(process.env.LAB_ENGINEERING_SMOKE);
+const engineeringShip = engineering && process.env.LAB_ENGINEERING_SMOKE==='ship';
 const basicCheck = phase === 'basic-check';
 const basicWater = phase === 'basic-water';
 const basicAxis = phase === 'basic-axis';
@@ -541,6 +542,12 @@ async function main() {
   if (engineering) {
     extraMods.push(path.resolve(gameBridge));
     args.push('-Dengineering.site=-7,-60,5,8,-49,20');
+    if (engineeringShip) {
+      const vs = process.env.LAB_VS_MODS;
+      assert(vs,'Set LAB_VS_MODS for the engineering ship smoke test');
+      extraMods.push(...['vs.jar','eureka.jar','kotlin.jar'].map(name=>path.resolve(vs,name)));
+      args.push('-Dengineering.ships=true');
+    }
   }
   if (extraMods.length) args.push('-Dfabric.addMods='+extraMods.join(path.delimiter));
   args.push('-jar','server-launch.jar','nogui');
@@ -550,13 +557,13 @@ async function main() {
   await until(()=>output.includes('scheduler heartbeat online'),120000);
   rcon=await Rcon.connect({host:'127.0.0.1',port:rconPort,password:labPassword,timeout:12000});
   const captureOwner = autonomousMill || checkMillIsolation || engineering;
-  owner=spawn(process.execPath,[path.join(base,'connect.cjs'),String(serverPort)],{
+  if (!engineeringShip) owner=spawn(process.execPath,[path.join(base,'connect.cjs'),String(serverPort)],{
     env:relayEnv,stdio:captureOwner ? ['ignore','ignore','ignore','ipc'] : 'ignore',
   });
-  if (captureOwner) owner.on('message',text=>{
+  if (captureOwner && owner) owner.on('message',text=>{
     if (typeof text==='string' && text.includes('<LabBot> ')) ownerReplies.push({text,at:performance.now()});
   });
-  await until(()=>output.includes('LabOwner joined the game'),22000);
+  await until(()=>output.includes('LabOwner joined the game'),engineeringShip ? 110000 : 22000);
   await cmd('op LabOwner');
   await cmd('gamerule doMobSpawning false');
   await cmd('gamerule doWeatherCycle false');

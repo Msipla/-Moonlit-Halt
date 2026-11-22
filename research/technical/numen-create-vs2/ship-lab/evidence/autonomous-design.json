@@ -1,0 +1,166 @@
+{
+  "plan": {
+    "blocks": [
+      {
+        "p": [
+          0,
+          0,
+          0
+        ],
+        "id": "minecraft:oak_planks"
+      },
+      {
+        "p": [
+          1,
+          0,
+          0
+        ],
+        "id": "minecraft:oak_planks"
+      },
+      {
+        "p": [
+          -1,
+          0,
+          0
+        ],
+        "id": "minecraft:oak_planks"
+      },
+      {
+        "p": [
+          0,
+          0,
+          1
+        ],
+        "id": "minecraft:oak_planks"
+      },
+      {
+        "p": [
+          0,
+          0,
+          -1
+        ],
+        "id": "minecraft:oak_planks"
+      },
+      {
+        "p": [
+          1,
+          0,
+          1
+        ],
+        "id": "minecraft:oak_planks"
+      },
+      {
+        "p": [
+          -1,
+          0,
+          -1
+        ],
+        "id": "minecraft:oak_planks"
+      },
+      {
+        "p": [
+          0,
+          1,
+          0
+        ],
+        "id": "minecraft:oak_fence"
+      },
+      {
+        "p": [
+          0,
+          2,
+          0
+        ],
+        "id": "minecraft:oak_fence"
+      },
+      {
+        "p": [
+          0,
+          3,
+          0
+        ],
+        "id": "minecraft:oak_fence"
+      },
+      {
+        "p": [
+          0,
+          4,
+          0
+        ],
+        "id": "vs_eureka:white_balloon"
+      },
+      {
+        "p": [
+          1,
+          1,
+          0
+        ],
+        "id": "vs_eureka:white_balloon"
+      },
+      {
+        "p": [
+          -1,
+          1,
+          0
+        ],
+        "id": "vs_eureka:white_balloon"
+      },
+      {
+        "p": [
+          0,
+          1,
+          1
+        ],
+        "id": "vs_eureka:white_balloon"
+      },
+      {
+        "p": [
+          0,
+          1,
+          -1
+        ],
+        "id": "vs_eureka:white_balloon"
+      },
+      {
+        "p": [
+          0,
+          0,
+          -2
+        ],
+        "id": "vs_eureka:oak_ship_helm",
+        "facing": "north"
+      },
+      {
+        "p": [
+          1,
+          0,
+          -1
+        ],
+        "id": "vs_eureka:anchor"
+      }
+    ],
+    "helm": [
+      0,
+      0,
+      -2
+    ],
+    "reason": "A compact plank deck with a central fence mast carrying four balloons, a north-facing helm at the bow, and an anchor for stopping."
+  },
+  "summary": {
+    "helm": [
+      1,
+      -56,
+      -1
+    ],
+    "mounted": true,
+    "ship_id": 15,
+    "displacement": {
+      "forward": 2.3,
+      "turn": 5.395,
+      "stop": 0.0
+    },
+    "blocks": 17,
+    "reason": "A compact plank deck with a central fence mast carrying four balloons, a north-facing helm at the bow, and an anchor for stopping.",
+    "error": null
+  }
+}

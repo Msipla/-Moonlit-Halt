@@ -85,6 +85,12 @@ final class CreateReadings {
                 .requires(source -> source.method_9259(4) && source.method_9228() == null)
                 .then(LiteralArgumentBuilder.<class_2168>literal("site")
                     .executes(c -> reply(c.getSource(), site(c.getSource().method_9225()))))
+                .then(LiteralArgumentBuilder.<class_2168>literal("guide")
+                    .then(RequiredArgumentBuilder.<class_2168, String>argument("topic", StringArgumentType.greedyString())
+                        .executes(c -> {
+                            c.getSource().method_9213(class_2561.method_43470(PonderGuide.query(StringArgumentType.getString(c, "topic"))));
+                            return 1;
+                        })))
                 .then(LiteralArgumentBuilder.<class_2168>literal("schema")
                     .then(RequiredArgumentBuilder.<class_2168, String>argument("ids", StringArgumentType.greedyString())
                         .executes(c -> reply(c.getSource(), schema(StringArgumentType.getString(c, "ids"))))))
