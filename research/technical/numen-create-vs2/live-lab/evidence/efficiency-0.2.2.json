@@ -1,0 +1,46 @@
+{
+  "source": "efficiency/numen-engineering-0.2.2 (working tree, from 98aa6c1 0.2.1)",
+  "date": "2026-11-22",
+  "environment": {
+    "minecraft": "1.20.1",
+    "fabricLoader": "0.17.2",
+    "fabricApi": "0.92.12",
+    "create": "6.0.8.1 build 1744",
+    "valkyrienSkies": "2.4.11",
+    "eureka": "1.6.4",
+    "numen": "0.1.5",
+    "model": "deepseek-chat (DeepSeek API, reasoning off)",
+    "mode": "single-player integrated server, real graphical client, creative, site -8,-60,-8..7,-51,7",
+    "fixture": "autotest.jar replays commands as the player; server.json hardRules=false to skip owner consent (test only)"
+  },
+  "changes": [
+    "engineering.site.info already existed in 0.2.1; unchanged",
+    "new engineering.site.fill: fills an inclusive box (1..64 cells) in one batch and derives shaft axis from the box axis",
+    "new engineering.site.check: dry-runs a batch and returns per-cell rejects without writing or consent",
+    "new engineering.site.ports: per-face item/fluid transfer capabilities from the Fabric Transfer API",
+    "apply() now returns warnings for placed kinetic cells: isolated (speed 0) or powered with no kinetic neighbour on any shaft face",
+    "shafts and cogwheels without explicit properties are auto-oriented toward the single adjacent kinetic block",
+    "Ponder guide returns a measured port note for the millstone (power: vertical shaft below; output: below when free)",
+    "version 0.2.2"
+  ],
+  "runs": [
+    {"id": "e1", "build": "0.2.1 baseline", "calls": 117, "window": "16:22:49..16:26:14", "peakContextTokens": 49352, "finishLength": 0, "outcome": "failed", "reason": "shaft next to motor read 0 RPM; model rebuilt twice and stopped"},
+    {"id": "e2", "build": "0.2.2 fill/check/warnings", "calls": 210, "window": "16:31:09..16:43:29", "peakContextTokens": 49889, "finishLength": 0, "outcome": "partial", "reason": "two millstones at -64 RPM and cobble-to-gravel fed automatically, but model concluded output cannot be extracted and stopped; includes follow-up Q&A"},
+    {"id": "e3", "build": "0.2.2 + ports + millstone note", "calls": 22, "window": "16:49:48..16:50:50", "peakContextTokens": 23318, "finishLength": 0, "outcome": "blocked", "reason": "raw command hit the owner consent prompt with no owner present"},
+    {"id": "e4", "build": "0.2.2, consent bypassed", "calls": 64, "window": "16:52:23..16:54:18", "peakContextTokens": 31305, "finishLength": 0, "outcome": "failed", "reason": "drive not connected; model reported overwriting the same cells twice"},
+    {"id": "e5", "build": "0.2.2 + source-face warnings", "calls": 100, "window": "16:57:47..17:00:31", "peakContextTokens": 39509, "finishLength": 0, "outcome": "failed", "reason": "shaft on the output face still read 0; model gave up after ten variants"},
+    {"id": "e6", "build": "0.2.2 + shaft auto-orientation", "calls": 88, "window": "17:02:43..17:05:58", "peakContextTokens": 47771, "finishLength": 0, "outcome": "failed", "reason": "shafts and gears next to the motor spun, millstone stayed at 0; model cleaned up and stopped"},
+    {"id": "e7", "build": "0.2.2 + cogwheel auto-orientation", "calls": 153, "window": "17:07:37..17:11:31", "peakContextTokens": 49485, "finishLength": 0, "outcome": "failed", "reason": "full drive shaft reached 64 RPM, millstone stayed 0 for side gear, horizontal shaft below and gearbox; model stopped and asked for the input face"}
+  ],
+  "manual_probe": {
+    "rig": "creative_motor[facing=up] at (0,-58,0), shaft[axis=y] at (0,-57,0), millstone at (0,-56,0)",
+    "readings": {
+      "millstone": "Speed 16.0f, network size 3",
+      "shaft": "Speed 16.0f, network size 3",
+      "motor": "Speed 16.0f, network size 3"
+    },
+    "conclusion": "the millstone takes rotation from a vertical shaft directly below; the model never tried that exact face before stopping",
+    "output_probe": "chute at (-1,-55,-2) under millstone plus barrel at (-1,-56,-2): barrel received 3 gravel after the line ran"
+  },
+  "verdict": "full autonomous multi-step line not achieved; drive chain and knowledge gaps improved, millstone input face measured, no production count accepted"
+}

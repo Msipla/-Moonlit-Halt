@@ -1099,4 +1099,39 @@ export LAB_VS_MODS=/absolute/path/to/vs-mods
 bash live-lab/game-bridge/build.sh
 ```
 
-`LAB_VS_MODS` 包含 `vs.jar`、`eureka.jar`、`kotlin.jar`。省略该变量可构建仅 Create/Numen 的版本。生成的 `live-lab/game-bridge/game-bridge.jar` 已包含 Ponder 索引和许可。旧 `ship-bridge/build.sh` 仅构建隔离服用实验命令，日常安装只需统一的工程附属 JAR。冒烟测试可用 `LAB_ENGINEERING_SMOKE=1`、`line`、`ship` 和 `live-lab/run.cjs engineering`。其中载具组需用配置齐全的 Fabric 客户端以 `LabOwner` 连接隔离服。正式安装不需要实验命令或 RCON。
+`LAB_VS_MODS` 下使用 `vs.jar`、`eureka.jar`、`kotlin.jar`。游戏内试验同时依赖已有 `mc20/connect.cjs` 和 Numen 配置，试验启动器设置 `-Dengineering.site=-7,-60,5,8,-55,20`，部署时由服主设定授权范围。原始读取数据由每一轮的 `events.jsonl`、`model.jsonl`（游戏内组）和验收快照产生。仓库[证据](evidence/local-lab-feed-2026-11-21.json)的 `engineeringNext` 收录关键原始记录与运行 ID。
+
+## 0.2.2 反馈与执行效率修订（2026-11-22）
+
+源码在 `efficiency/numen-engineering-0.2.2`，基于 0.2.1（`98aa6c1`）。全部改动只作用于现有 `engineering.site` 工具组，不新增平行系统：
+
+- `fill(from,to,state)`：一次填满轴对齐盒（1..64 格）；若状态是 `create:shaft` 且盒子为直线，自动取该轴做 `axis`。用于地板、立柱、轴排，替代逐格列表。
+- `check(work)`：施工前干跑，逐格返回 `rejects`（原因或实际状态），不写方块、不触发同意。
+- `ports(pos)`：用 Fabric Transfer API 逐面报告物品/流体能力与 insert/extract，物流按真实端口规划。
+- `apply` 增加 `warnings`：已放置但隔离（0 转速）的动能块，或"有转速但六个接轴面都没有相邻动能块"的动力源，都在同一回执里点名。
+- 未写属性的 `create:shaft` 与 `create:cogwheel` 会朝唯一的相邻动能块自动定向。
+- Ponder 的磨石说明加入实测端口事实：动力取**正下方竖直轴**，输出在下方空闲时向下弹出。
+
+### 实机对照（同一句自然语言委托，单机创造，站点 -8..7 / -60..-51 / -8..7）
+
+| 轮次 | 构建 | 请求 | 峰值上下文 | 结果 |
+| --- | --- | --- | --- | --- |
+| e1 | 0.2.1 基线 | 117 | 49,352 | 马达旁轴 0 RPM，重建两次后停止 |
+| e2 | +fill/check/warnings | 210 | 49,889 | 两台磨石 −64 RPM、圆石→砂砾自动；模型误判产物不能自动抽取，停 |
+| e3 | +ports/磨石说明 | 22 | 23,318 | 原生命令触发房主同意，无人应答，卡死 |
+| e4 | 关闭同意（测试） | 64 | 31,305 | 传动未接通；模型自述同格重复写入、状态乱了 |
+| e5 | +动力源告警 | 100 | 39,509 | 输出面贴轴仍 0 RPM，十几种接法后放弃 |
+| e6 | +轴自动定向 | 88 | 47,771 | 马达旁轴/齿轮转、磨石 0，清理后停止 |
+| e7 | +齿轮自动定向 | 153 | 49,485 | 传动轴整条 64 RPM，磨石对侧齿轮/下方横轴/齿轮箱均 0；模型停下询问取力面 |
+
+模型轮次均未出现 `finish=length` 截断（0.2.1 记录的长计划截断未复现）；失败点集中在磨石取力面，而非上下文或输出长度。
+
+### 人工实测补足
+
+- 磨石取力面：`creative_motor[facing=up]` → `shaft[axis=y]` → `millstone`，三者同一网络 `Speed 16.0f`、Size 3。磨石吃**正下方竖直轴**。
+- 输出：磨石下方放 `create:chute` + `minecraft:barrel`，运行后桶内出现 3 个砂砾，说明产物可从下方自动收集。
+- 两个事实都已写入 Ponder 工具回执；模型在 e7 之前未尝试"正下方竖直轴"这一面。
+
+### 结论与未完成
+
+效率改动让动力轴排和端口查询更直接，但**完整的自然语言多步产线仍未通过**：模型能建动力母线和轴排、能自动进料一级研磨，但未自行找到磨石取力面，也未完成两级串联与成品计数。下一轮应把"设备端口事实"扩展为可查询的端口/取力面数据（当前只对磨石有一条实测记录），并重跑同一委托。失败轮次与指标见 [efficiency-0.2.2.json](evidence/efficiency-0.2.2.json)。` 已包含 Ponder 索引和许可。旧 `ship-bridge/build.sh` 仅构建隔离服用实验命令，日常安装只需统一的工程附属 JAR。冒烟测试可用 `LAB_ENGINEERING_SMOKE=1`、`line`、`ship` 和 `live-lab/run.cjs engineering`。其中载具组需用配置齐全的 Fabric 客户端以 `LabOwner` 连接隔离服。正式安装不需要实验命令或 RCON。

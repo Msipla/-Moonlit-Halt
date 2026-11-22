@@ -20,6 +20,8 @@ final class PonderGuide {
     private static final Gson JSON = new Gson();
     private static final Pattern RECIPE = Pattern.compile("[a-z_]+/[a-z0-9_]+(?:/[a-z0-9_]+)*");
     private static final Map<String,String> ALIASES = Map.of("fan", "fan/processing", "chute", "chute/smart");
+    private static final java.util.Map<String,String> PORT_NOTES = java.util.Map.of(
+        "millstone", "Measured in game 2026-11-22. Power: a vertical shaft (axis=y) directly below the millstone; motor -> shaft -> millstone read 16 RPM on one network. Output: items arrive in a chute/barrel directly below when that cell is free (3 fed items measured); item capability is exposed on every face, so route output from a free face when the bottom cell carries the shaft. For other blocks call engineering.site.ports().");
     private static final String SOURCE = "Create Fabric 6.0.8.1 build 1744 Ponder scene scripts";
 
     private record Step(int tick, String text) {}
@@ -96,11 +98,20 @@ final class PonderGuide {
             var text = scene.text.stream().limit(8).map(step -> Map.of("tick", step.tick, "text",
                 step.text.substring(0, Math.min(180, step.text.length())),
                 "truncated", step.text.length() > 180)).toList();
-            return JSON.toJson(Map.of("topic", scene.id, "script", scene.script, "title", scene.title,
-                "assets", assets, "steps", text, "matched", scene.text.size(), "returned", text.size(),
-                "truncated", text.size() < scene.text.size() || scene.text.stream().anyMatch(step -> step.text.length() > 180),
-                "source", SOURCE, "note", "Teaching, not live physics. Asset matches are candidates; " +
-                    scene.demoSpeeds + " simulated speed changes omitted."));
+            var result=new java.util.LinkedHashMap<String,Object>();
+            result.put("topic", scene.id);
+            result.put("script", scene.script);
+            result.put("title", scene.title);
+            result.put("assets", assets);
+            result.put("steps", text);
+            result.put("matched", scene.text.size());
+            result.put("returned", text.size());
+            result.put("truncated", text.size() < scene.text.size() || scene.text.stream().anyMatch(step -> step.text.length() > 180));
+            result.put("source", SOURCE);
+            result.put("note", "Teaching, not live physics. Asset matches are candidates; " + scene.demoSpeeds + " simulated speed changes omitted.");
+            var ports=PORT_NOTES.get(scene.id);
+            if(ports!=null) result.put("device_ports", ports);
+            return JSON.toJson(result);
         }
         var hits = matches.stream().limit(5).map(scene ->
             Map.of("id", scene.id, "title", scene.title, "script", scene.script)).toList();

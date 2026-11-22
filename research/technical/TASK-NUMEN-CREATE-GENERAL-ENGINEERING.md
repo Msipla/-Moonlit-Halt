@@ -1,6 +1,6 @@
 # 当前任务：0.2.0 稳定性与执行效率优化（2026-11-22）
 
-**开发断点（2026-11-22）**　验收分支 `7faa863b` 的实机记录已复核。原版源码已按开关条件允许船体，修订版统一施工、蓝图导入和工具的许可口径。占用冲突会返回精确方块状态，保护有库存的容器。新投料回执在写入 tick 独立回读，真实游戏通过空桶、即时下游转移、满槽、错误目标与库存保护检查。已用实际 Numen `ask` 和 `observe` 权限验证相应通过与拒绝路径，无 VS 的图形单机通过 NBT 往返。性能对照、单机载具和游戏内复杂产线仍在实测。
+**开发断点（2026-11-22，0.2.2 效率修订）**　基于 0.2.1（`98aa6c1`）在独立分支 `efficiency/numen-engineering-0.2.2` 完成反馈与效率修订：`fill` 批量填盒并按轴取向、`check` 施工前干跑、`ports` 逐面报告物品/流体端口、`apply` 回执点名未接通的动能块、未写属性的轴/齿轮朝相邻动能块自动定向、Ponder 磨石条目补充实测取力面。单机创造实测七轮：模型能建动力母线与轴排（整条 64 RPM）、能自动进料一级研磨，但未自行找到磨石取力面，完整两级产线与成品计数仍未通过；各轮 22–210 次请求、峰值 2.3–5.0 万 token、无 `finish=length` 截断。人工实测补充：磨石取正下方竖直轴（16 RPM 同网），产物可从下方溜槽进桶（3 个砂砾）。证据见 [efficiency-0.2.2.json](numen-create-vs2/live-lab/evidence/efficiency-0.2.2.json)。下一断点：把设备取力面/端口从单条实测扩展为可查询数据，重跑同一自然语言委托直至真实产出与独立复投通过。
 
 执行前读取 Msipla/Conversation-Archives/AGENTS.md 最新版及本仓库 AGENTS.md（如存在），全程遵守适用规范，无法读取须报告。核对最新分支、源码、HANDOFF（如有）、任务书及实测证据。基线 026404b746c0ab5791b501f2c0ec246556b08b07。DSH 单机验收分支 acceptance/numen-engineering-0.2.0 已推送并核验，提交 7faa863b9ecc099d5fb470d3572a4866ddfacd12。读取 live-lab/acceptance-single-player-0.2.0.md 及 evidence/acceptance-0.2.0/（均在 research/technical/numen-create-vs2 下），核验补丁及日志后择优合入，保护并发修改。
 
