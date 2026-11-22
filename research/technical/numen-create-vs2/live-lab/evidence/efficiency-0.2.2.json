@@ -1,5 +1,5 @@
 {
-  "source": "efficiency/numen-engineering-0.2.2 (working tree, from 98aa6c1 0.2.1)",
+  "source": "efficiency/numen-engineering-0.2.2 (2eeb4a8)",
   "date": "2026-11-22",
   "environment": {
     "minecraft": "1.20.1",
@@ -14,33 +14,40 @@
     "fixture": "autotest.jar replays commands as the player; server.json hardRules=false to skip owner consent (test only)"
   },
   "changes": [
-    "engineering.site.info already existed in 0.2.1; unchanged",
     "new engineering.site.fill: fills an inclusive box (1..64 cells) in one batch and derives shaft axis from the box axis",
     "new engineering.site.check: dry-runs a batch and returns per-cell rejects without writing or consent",
     "new engineering.site.ports: per-face item/fluid transfer capabilities from the Fabric Transfer API",
-    "apply() now returns warnings for placed kinetic cells: isolated (speed 0) or powered with no kinetic neighbour on any shaft face",
+    "apply() returns warnings for placed kinetic cells: isolated (speed 0) or powered with no kinetic neighbour on any shaft face",
     "shafts and cogwheels without explicit properties are auto-oriented toward the single adjacent kinetic block",
-    "Ponder guide returns a measured port note for the millstone (power: vertical shaft below; output: below when free)",
+    "Ponder guide returns measured millstone port facts (power: vertical shaft below; output: below when free)",
     "version 0.2.2"
   ],
   "runs": [
     {"id": "e1", "build": "0.2.1 baseline", "calls": 117, "window": "16:22:49..16:26:14", "peakContextTokens": 49352, "finishLength": 0, "outcome": "failed", "reason": "shaft next to motor read 0 RPM; model rebuilt twice and stopped"},
-    {"id": "e2", "build": "0.2.2 fill/check/warnings", "calls": 210, "window": "16:31:09..16:43:29", "peakContextTokens": 49889, "finishLength": 0, "outcome": "partial", "reason": "two millstones at -64 RPM and cobble-to-gravel fed automatically, but model concluded output cannot be extracted and stopped; includes follow-up Q&A"},
+    {"id": "e2", "build": "0.2.2 fill/check/warnings", "calls": 210, "window": "16:31:09..16:43:29", "peakContextTokens": 49889, "finishLength": 0, "outcome": "partial", "reason": "two millstones at -64 RPM and cobble-to-gravel fed automatically, but output extraction was misjudged; includes follow-up Q&A"},
     {"id": "e3", "build": "0.2.2 + ports + millstone note", "calls": 22, "window": "16:49:48..16:50:50", "peakContextTokens": 23318, "finishLength": 0, "outcome": "blocked", "reason": "raw command hit the owner consent prompt with no owner present"},
     {"id": "e4", "build": "0.2.2, consent bypassed", "calls": 64, "window": "16:52:23..16:54:18", "peakContextTokens": 31305, "finishLength": 0, "outcome": "failed", "reason": "drive not connected; model reported overwriting the same cells twice"},
     {"id": "e5", "build": "0.2.2 + source-face warnings", "calls": 100, "window": "16:57:47..17:00:31", "peakContextTokens": 39509, "finishLength": 0, "outcome": "failed", "reason": "shaft on the output face still read 0; model gave up after ten variants"},
-    {"id": "e6", "build": "0.2.2 + shaft auto-orientation", "calls": 88, "window": "17:02:43..17:05:58", "peakContextTokens": 47771, "finishLength": 0, "outcome": "failed", "reason": "shafts and gears next to the motor spun, millstone stayed at 0; model cleaned up and stopped"},
-    {"id": "e7", "build": "0.2.2 + cogwheel auto-orientation", "calls": 153, "window": "17:07:37..17:11:31", "peakContextTokens": 49485, "finishLength": 0, "outcome": "failed", "reason": "full drive shaft reached 64 RPM, millstone stayed 0 for side gear, horizontal shaft below and gearbox; model stopped and asked for the input face"}
+    {"id": "e6", "build": "0.2.2 + shaft auto-orientation", "calls": 88, "window": "17:02:43..17:05:58", "peakContextTokens": 47771, "finishLength": 0, "outcome": "failed", "reason": "shafts and gears next to the motor spun, millstone stayed at 0"},
+    {"id": "e7", "build": "0.2.2 + cogwheel auto-orientation, wrong millstone note (input: top)", "calls": 153, "window": "17:07:37..17:11:31", "peakContextTokens": 49485, "finishLength": 0, "outcome": "failed", "reason": "drive shaft 64 RPM; millstone 0 for side gear, horizontal shaft below and gearbox"},
+    {"id": "e8", "build": "0.2.2 final jar, corrected note", "calls": 94, "window": "17:18:10..17:21:09", "peakContextTokens": 46130, "finishLength": 0, "outcome": "inconclusive", "reason": "client crashed natively (EXCEPTION_ACCESS_VIOLATION) while gearing was being built"},
+    {"id": "e8b", "build": "0.2.2 final jar, corrected note", "calls": 216, "window": "17:25:26..17:36:27", "peakContextTokens": 49787, "finishLength": 0, "outcome": "partial", "reason": "two-stage grinding commissioned: both millstones at -16 RPM, first stage fed automatically, second stage fed manually, 7 flint in the collection barrel; client crashed natively 14 s after the final report"}
   ],
-  "manual_probe": {
-    "rig": "creative_motor[facing=up] at (0,-58,0), shaft[axis=y] at (0,-57,0), millstone at (0,-56,0)",
-    "readings": {
-      "millstone": "Speed 16.0f, network size 3",
-      "shaft": "Speed 16.0f, network size 3",
-      "motor": "Speed 16.0f, network size 3"
-    },
-    "conclusion": "the millstone takes rotation from a vertical shaft directly below; the model never tried that exact face before stopping",
-    "output_probe": "chute at (-1,-55,-2) under millstone plus barrel at (-1,-56,-2): barrel received 3 gravel after the line ran"
+  "independent_verification": {
+    "method": "restart the saved world, read blocks with vanilla data commands only",
+    "millstone_1": "(4,-56,5) create:millstone Speed -16.0f",
+    "millstone_2": "(3,-55,5) create:millstone Speed -16.0f",
+    "collection_barrel": "(3,-57,5) minecraft:barrel Items [{Slot:0b,id:\"minecraft:flint\",Count:7b}]",
+    "manual_probe_input_face": "creative_motor[facing=up] (0,-58,0) -> shaft[axis=y] (0,-57,0) -> millstone (0,-56,0): all three Speed 16.0f on one network",
+    "manual_probe_output": "chute under a millstone plus barrel below received 3 gravel"
   },
-  "verdict": "full autonomous multi-step line not achieved; drive chain and knowledge gaps improved, millstone input face measured, no production count accepted"
+  "stability": {
+    "native_crashes": 2,
+    "crashes": [
+      {"pid": 9440, "at": "17:21:10", "elapsed": "3m49s", "frame": "0x00007ffd52bf69e1", "note": "stderr: PhysX FdFoundation.cpp(180) Foundation destruction failed due to pending module references"},
+      {"pid": 32816, "at": "17:36:41", "elapsed": "12m03s", "frame": "0x00007ffd52bf69e1", "note": "same native frame; occurred 14 s after the companion's final report, world saved at 17:36:01"}
+    ],
+    "logs": ["acceptance/client/hs_err_pid9440.log", "acceptance/client/hs_err_pid32816.log"]
+  },
+  "verdict": "partial: a two-stage millstone line was built and ran with both stones at -16 RPM and 7 flint collected, but the inter-stage transfer stayed manual, no independent re-feed of a fully automatic line was possible, and the client crashed natively twice"
 }
