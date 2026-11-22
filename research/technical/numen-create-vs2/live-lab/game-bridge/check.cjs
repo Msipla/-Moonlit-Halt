@@ -8,6 +8,11 @@ const {createRequire}=require('node:module');
 module.exports=async function check(lab){
   // Inert floor prevents grass decay beneath opaque placements from obscuring the boundary check.
   await lab.cmd('fill -7 -61 5 8 -61 20 minecraft:stone');
+  if(process.env.LAB_ENGINEERING_SMOKE==='dough'){
+    for(const edge of ['-7 -60 5 -7 -60 20','8 -60 5 8 -60 20','-6 -60 5 7 -60 5','-6 -60 20 7 -60 20']){
+      await lab.cmd('fill '+edge+' minecraft:stone');
+    }
+  }
   const baseline=await lab.save('engineering-empty');
   await lab.drive('local ok, why = pcall(function() return engineering.site.apply({{pos={x=-8,y=-59,z=11},state="minecraft:stone"}}) end); print("engineering_scope",ok,tostring(why))','engineering_scope');
   assert.match(lab.output(),/engineering_scope\s+false\s+[^\n]*outside the configured site/);
@@ -23,8 +28,9 @@ module.exports=async function check(lab){
   if(process.env.LAB_ENGINEERING_SMOKE==='permissions') return permissionCheck(lab,baseline);
   if(process.env.LAB_ENGINEERING_SMOKE==='ship') return shipCheck(lab,baseline);
   if(process.env.LAB_ENGINEERING_SMOKE==='line') return calibrateLine(lab,baseline);
+  if(process.env.LAB_ENGINEERING_SMOKE==='dough') return calibrateDough(lab,baseline);
   if(process.env.LAB_ENGINEERING_SMOKE==='1') return settingsCheck(lab);
-  if(process.env.LAB_ENGINEERING_LINE==='1') return lineCheck(lab,baseline);
+  if(['1','vertical'].includes(process.env.LAB_ENGINEERING_LINE)) return lineCheck(lab,baseline);
   if(['1','clearance'].includes(process.env.LAB_ENGINEERING_PRESS)) return pressCheck(lab,baseline);
   const goal='在授权创造区 X=-6..-1、Y=-60..-55、Z=9..13 自选两个水平相邻空格，造一台由创造马达直接驱动的 Create 风扇。用 engineering.site.apply，一批提交两个格子。每格填 pos、state、faces；faces 写朝向邻接机器的一面，工具会选择合法的原生朝向。无需寻路或取材料。用 engineering.site.inspect 回读风扇实际 RPM。若已转，导出紧包围两格的 fan_demo 标准 NBT 并用 import_at 在区内 X=3..6 的空位重建，确认副本 RPM，简短回执。';
   const model=await lab.chat(goal,200000);
@@ -191,7 +197,8 @@ function side(state, part) {
 }
 
 async function lineCheck(lab,baseline) {
-  const goal='从授权工程区左半的空地 X=-7..-1、Y=-60..-49、Z=5..19 自主造圆石→砂砾→燧石自动产线。先用 engineering.site.info() 一次确认区域。自行选坐标，先安排原料桶、磨石和漏斗直到成品桶，规划要给驱动留空。漏斗从上方吸取，向其 facing 推送；同高的 Y 轴小齿轮可侧驱磨石而保留底部出料。两台磨石由同一个 64 RPM 创造马达驱动。一批 apply 施工后用 inspect_many 读两机和两桶，feed 原料桶 3 圆石，确认至少 3 燧石自动进入成品桶再回执。若已完成，可导出 stone_line 原版结构并在右半区原位高度重建，再投料验证。请实际施工，只查缺少的知识。';
+  const direct='请在左半授权创造区域 X=-7..-1、Y=-60..-49、Z=5..19 自主建立圆石→砂砾→燧石自动产线。坐标和净空由你选。用重力物流：让原料自上而下通过两台磨石，漏斗从上方吸取并向其面对方向输出，最终进入成品桶。从底部成品桶向上规划高度，给两机留侧面的空间。用同一根由创造马达驱动的竖轴从两台磨石旁经过，磨石同高相邻的 Y 轴小齿轮可替代该高度的普通轴，侧面啮合并让底部仍可出料。无需额外查已给的机理。Lua 直接调用 print(engineering.site.apply(cells)) 批量施工，然后 print(engineering.site.inspect_many(坐标列表)) 核对两台磨石与料桶。用实际 feed 投 3 圆石并检查成品桶，至少收集 3 燧石再回报。';
+  const goal=process.env.LAB_ENGINEERING_LINE==='vertical'?direct:'从授权工程区左半的空地 X=-7..-1、Y=-60..-49、Z=5..19 自主造圆石→砂砾→燧石自动产线。先用 engineering.site.info() 一次确认区域。自行选坐标，先安排原料桶、磨石和漏斗直到成品桶，规划要给驱动留空。漏斗从上方吸取，向其 facing 推送；同高的 Y 轴小齿轮可侧驱磨石而保留底部出料。两台磨石由同一个 64 RPM 创造马达驱动。一批 apply 施工后用 inspect_many 读两机和两桶，feed 原料桶 3 圆石，确认至少 3 燧石自动进入成品桶再回执。若已完成，可导出 stone_line 原版结构并在右半区原位高度重建，再投料验证。请实际施工，只查缺少的知识。';
   const model=await lab.chat(goal,240000);
   const replied=Boolean(model&&!model.truncated);
   await lab.isolate();
@@ -264,6 +271,51 @@ async function settingsCheck(lab) {
   assert(safeData(structure));
   lab.mark('engineering_settings_result',{passed:true,modelRequests:0,fanRpm:fans.map(f=>f.Speed),
     copies:structure.blocks.length,nativeSettings:structure.blocks.flatMap(b=>b.nbt?[b.nbt]:[])});
+}
+
+async function calibrateDough(lab,baseline) {
+  // The fixed, known wheat-to-dough apparatus is reused from the existing repair fixture.
+  const fixture=require('../repair-fixture.cjs');
+  const position=([x,y,z])=>[x,y-60,z+12];
+  const coords=at=>{const [x,y,z]=position(at); return '{x='+x+',y='+y+',z='+z+'}';};
+  const water=fixture.cells.find(cell=>cell.state==='minecraft:water');
+  const dry=fixture.cells.filter(cell=>cell!==water);
+  const list=dry.map(({at,state,rpm,filter})=>'{pos='+coords(at)+',state='+JSON.stringify(state)+
+      (rpm?',rpm='+rpm:'')+(filter?',filter='+JSON.stringify(filter):'')+'}').join(',');
+  await lab.drive('assert(engineering.site.apply({'+list+'}).cells=='+dry.length+'); print("dough_calibrated")','\ndough_calibrated');
+  assert.match(await lab.cmd('setblock '+position(water.at).join(' ')+' minecraft:water'),/Changed/);
+  await lab.drive('assert(engineering.site.feed('+coords(fixture.sample.at)+',"minecraft:wheat",3)==3); print("dough_fed")','\ndough_fed');
+  await lab.isolate();
+  const out=position(fixture.sample.out);
+  const read=async label=>{
+    const final=await lab.save(label);
+    const output=final.blockEntities.find(e=>[e.x,e.y,e.z].join()===out.join());
+    const count=output?.Items?.filter(s=>s.id==='create:dough').reduce((n,s)=>n+s.Count,0)||0;
+    const network=e=>JSON.stringify(e.Network?.Id||null);
+    const kinetic=final.blockEntities.filter(e=>['create:creative_motor','create:millstone','create:encased_fan']
+      .includes(final.blocks[[e.x,e.y,e.z].join(',')]?.Name));
+    const powered=kinetic.length===3&&kinetic.every(e=>Math.abs(e.Speed)===64&&e.Network&&network(e)===network(kinetic[0]));
+    const residual=/"(?:minecraft:wheat|create:wheat_flour)"/.test(JSON.stringify({
+      storages:final.blockEntities.flatMap(e=>[e.Items,e.InputInventory?.Items,e.OutputInventory?.Items,e.Item,e.HeldItem?.Item]),
+      ground:final.items,
+    }));
+    return {count,powered,drained:!residual,rpm:kinetic.map(e=>e.Speed),outside:outsideChanges(baseline,final)};
+  };
+  async function waitForProduct(previous,label) {
+    let sample;
+    for(let i=0;i<25;i++){
+      await wait(3000);
+      sample=await read(label);
+      if(sample.count-previous>=3&&sample.drained&&sample.powered) return sample;
+    }
+    throw Error(label+' did not produce dough: '+JSON.stringify(sample));
+  }
+  const first=await waitForProduct(0,'dough-first');
+  assert.match(await lab.cmd('item replace block '+position(fixture.sample.at).join(' ')+' container.0 with minecraft:wheat 3'),/Replaced/);
+  const independent=await waitForProduct(first.count,'dough-independent');
+  assert.deepEqual(independent.outside,[]);
+  lab.mark('engineering_dough',{passed:true,fixture:true,first,independent,firstIncrease:first.count,
+    independentIncrease:independent.count-first.count});
 }
 
 async function calibrateLine(lab,baseline) {

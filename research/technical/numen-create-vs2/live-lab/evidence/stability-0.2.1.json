@@ -1,0 +1,1769 @@
+{
+  "source": "98aa6c1bc6ed842320a26a4d73eba0fb3cd154b4",
+  "singlePlayerHandoff": "7faa863b9ecc099d5fb470d3572a4866ddfacd12",
+  "versions": {
+    "minecraft": "1.20.1",
+    "fabricLoader": "0.17.2",
+    "fabricApi": "0.92.6",
+    "numen": "0.1.5-beta",
+    "create": "6.0.8.1 build 1744",
+    "valkyrienSkies": "2.4.11",
+    "eureka": "1.6.4"
+  },
+  "modelId": "deepseek-v4-pro",
+  "jarHashes": {
+    "baseline": "1081bc2d3c3155be69f4f260f015983585899e5facf0d2e33dd61d7e89592735",
+    "candidate": "336cf012f56e0a1776cf50bd3c527c9129552c306985e7e90d8265c398407bc2",
+    "optimized": "31d7e76bebbd428dd192d4dd3a8531921c23a459e7c13a1551ff43cd74a27cd1"
+  },
+  "notes": [
+    "Trials use new isolated worlds. Single-player uses an actual graphical Fabric integrated server and a local command fixture.",
+    "Server press A/B uses the same prompt in each pair, seed, dependencies, two creative players and the same bypass test configuration.",
+    "A relay response duration includes transport and streamed generation. Remaining wall-clock time includes game and dispatch waits; it is not measured as pure game time.",
+    "Any exhausted budget or owner disconnection is kept in the record. A fabricated final report does not count as a physical output."
+  ],
+  "dedicated": {
+    "press-before": {
+      "run": "engineering-1795331573958",
+      "jarSHA256": "1081bc2d3c3155be69f4f260f015983585899e5facf0d2e33dd61d7e89592735",
+      "prompt": "在授权创造工程区的空地自主建造一台机械动力压机，创造马达供能约 64 RPM，下方放置物台。使用可用的 engineering.site 工具，报告压机坐标与测得的实际转速。布局和位置自选。",
+      "startToFinalEvidenceSeconds": 150.115,
+      "actual": [
+        {
+          "utc": "2026-11-22T07:13:09.482Z",
+          "type": "engineering_guards",
+          "outOfScopeRejected": true,
+          "survivalRejected": true,
+          "worldUnchanged": true
+        },
+        {
+          "utc": "2026-11-22T07:15:39.487Z",
+          "type": "agent_timeout",
+          "calls": 17,
+          "reason": "No matching event within 149803.918409 ms"
+        },
+        {
+          "utc": "2026-11-22T07:15:39.601Z",
+          "type": "engineering_press",
+          "passed": false,
+          "reply": false,
+          "outside": []
+        }
+      ],
+      "model": {
+        "requests": 17,
+        "httpStatuses": {
+          "200": 17
+        },
+        "totalTokens": 246251,
+        "peakInputTokens": 17514,
+        "requestResponseSeconds": 141.05,
+        "responses": {
+          "tool_calls": 17
+        },
+        "luaCalls": 36,
+        "repeatedExactLuaCalls": 2,
+        "engineeringFunctionMentions": {
+          "numen.api.help": 6,
+          "engineering.site.guide": 16,
+          "engineering.site.inspect": 2
+        },
+        "lastActions": [
+          {
+            "finish": "tool_calls",
+            "calls": [
+              "{\"code\": \"return numen.mc.run(\\\"ponder index\\\")\"}"
+            ]
+          },
+          {
+            "finish": "tool_calls",
+            "calls": [
+              "{\"code\": \"return engineering.site.guide(\\\"pressing.nbt\\\")\"}",
+              "{\"code\": \"return numen.mc.run(\\\"create debuginfo\\\")\"}"
+            ]
+          },
+          {
+            "finish": "tool_calls",
+            "calls": [
+              "{\"code\": \"return numen.mc.run(\\\"create debuginfo\\\")\"}"
+            ]
+          }
+        ]
+      }
+    },
+    "press-after": {
+      "run": "engineering-1795331753885",
+      "jarSHA256": "336cf012f56e0a1776cf50bd3c527c9129552c306985e7e90d8265c398407bc2",
+      "prompt": "在授权创造工程区的空地自主建造一台机械动力压机，创造马达供能约 64 RPM，下方放置物台。使用可用的 engineering.site 工具，报告压机坐标与测得的实际转速。布局和位置自选。",
+      "startToFinalEvidenceSeconds": 146.398,
+      "actual": [
+        {
+          "utc": "2026-11-22T07:16:19.636Z",
+          "type": "engineering_guards",
+          "outOfScopeRejected": true,
+          "survivalRejected": true,
+          "worldUnchanged": true
+        },
+        {
+          "utc": "2026-11-22T07:18:45.937Z",
+          "type": "agent_return",
+          "calls": 18,
+          "finish": "stop",
+          "status": 200,
+          "deliveredSeconds": 146.2076839
+        },
+        {
+          "utc": "2026-11-22T07:18:46.040Z",
+          "type": "engineering_press",
+          "passed": false,
+          "reply": true,
+          "outside": []
+        }
+      ],
+      "model": {
+        "requests": 18,
+        "httpStatuses": {
+          "200": 18
+        },
+        "totalTokens": 257177,
+        "peakInputTokens": 16375,
+        "requestResponseSeconds": 143.656,
+        "responses": {
+          "tool_calls": 17,
+          "stop": 1
+        },
+        "luaCalls": 16,
+        "repeatedExactLuaCalls": 0,
+        "engineeringFunctionMentions": {
+          "numen.api.help": 1,
+          "engineering.site.info": 1,
+          "engineering.site.guide": 8,
+          "engineering.site.apply": 3,
+          "engineering.site.inspect_many": 3
+        },
+        "lastActions": [
+          {
+            "finish": "tool_calls",
+            "calls": [
+              "{\"code\": \"local ob = engineering.site.inspect_many({\\n  {x=0,y=-49,z=10},  -- press\\n  {x=0,y=-50,z=10},  -- depot\\n  {x=0,y=-49,z=11},  -- motor\\n})\\nfor _,o in ipairs(ob) do\\n  local rd = o.reading\\n  print(o.pos.x, o.pos.y, o.pos.z, rd.block, \\\"rpm=\\\"..tostring(rd.rpm), \\\"overstressed=\\\"..tostring(rd.overstressed))\\nend\"}"
+            ]
+          },
+          {
+            "finish": "tool_calls",
+            "calls": [
+              "{\"items\": [\"[x] 放置压机底部工作台 (depot) 与压机 (mechanical_press)\", \"[x] 放置创造马达 (creative_motor) 设为约 64 RPM\", \"[x] 用轴连接马达输出到压机\", \"[x] 现场 inspect 验证转速与坐标并报告\"]}"
+            ]
+          },
+          {
+            "finish": "stop",
+            "calls": []
+          }
+        ]
+      }
+    },
+    "press-clear-before": {
+      "run": "engineering-1795331998833",
+      "jarSHA256": "1081bc2d3c3155be69f4f260f015983585899e5facf0d2e33dd61d7e89592735",
+      "prompt": "在授权创造工程区的空地自主建造一台机械动力压机，创造马达供能约 64 RPM，下方放置物台。使用可用的 engineering.site 工具，报告压机坐标与测得的实际转速。布局和位置自选。压机与正下方置物台之间留一格空气，验收时会放入铁锭检查压成铁板。",
+      "startToFinalEvidenceSeconds": 150.061,
+      "actual": [
+        {
+          "utc": "2026-11-22T07:20:22.721Z",
+          "type": "engineering_guards",
+          "outOfScopeRejected": true,
+          "survivalRejected": true,
+          "worldUnchanged": true
+        },
+        {
+          "utc": "2026-11-22T07:22:52.756Z",
+          "type": "agent_timeout",
+          "calls": 8,
+          "reason": "No matching event within 149592.54087599998 ms"
+        },
+        {
+          "utc": "2026-11-22T07:22:52.804Z",
+          "type": "error",
+          "message": "The game must return the player list"
+        }
+      ],
+      "model": {
+        "requests": 8,
+        "httpStatuses": {
+          "200": 8
+        },
+        "totalTokens": 132923,
+        "peakInputTokens": 18561,
+        "requestResponseSeconds": 65.11,
+        "responses": {
+          "tool_calls": 8
+        },
+        "luaCalls": 15,
+        "repeatedExactLuaCalls": 0,
+        "engineeringFunctionMentions": {
+          "numen.api.help": 2,
+          "engineering.site.guide": 6
+        },
+        "lastActions": [
+          {
+            "finish": "tool_calls",
+            "calls": [
+              "{\"code\": \"return numen.api.sources(\\\"engineering.site\\\")\"}",
+              "{\"code\": \"return numen.status.self()\"}"
+            ]
+          },
+          {
+            "finish": "tool_calls",
+            "calls": [
+              "{\"code\": \"local s = numen.status.self()\\nfor k,v in pairs(s) do\\n  if type(v) ~= \\\"table\\\" then print(k, v) end\\nend\\nreturn s.structures\"}",
+              "{\"code\": \"return numen.status.world()\"}"
+            ]
+          },
+          {
+            "finish": "tool_calls",
+            "calls": [
+              "{\"code\": \"return numen.permission.rules()\"}",
+              "{\"code\": \"return numen.api.help(\\\"engineering\\\")\"}"
+            ]
+          }
+        ]
+      }
+    },
+    "press-clear-after": {
+      "run": "engineering-1795332008193",
+      "jarSHA256": "336cf012f56e0a1776cf50bd3c527c9129552c306985e7e90d8265c398407bc2",
+      "prompt": "在授权创造工程区的空地自主建造一台机械动力压机，创造马达供能约 64 RPM，下方放置物台。使用可用的 engineering.site 工具，报告压机坐标与测得的实际转速。布局和位置自选。压机与正下方置物台之间留一格空气，验收时会放入铁锭检查压成铁板。",
+      "startToFinalEvidenceSeconds": 150.045,
+      "actual": [
+        {
+          "utc": "2026-11-22T07:20:32.908Z",
+          "type": "engineering_guards",
+          "outOfScopeRejected": true,
+          "survivalRejected": true,
+          "worldUnchanged": true
+        },
+        {
+          "utc": "2026-11-22T07:23:02.921Z",
+          "type": "agent_timeout",
+          "calls": 8,
+          "reason": "No matching event within 149758.795115 ms"
+        },
+        {
+          "utc": "2026-11-22T07:23:02.965Z",
+          "type": "error",
+          "message": "The game must return the player list"
+        }
+      ],
+      "model": {
+        "requests": 8,
+        "httpStatuses": {
+          "200": 8
+        },
+        "totalTokens": 99282,
+        "peakInputTokens": 13738,
+        "requestResponseSeconds": 67.133,
+        "responses": {
+          "tool_calls": 8
+        },
+        "luaCalls": 11,
+        "repeatedExactLuaCalls": 0,
+        "engineeringFunctionMentions": {
+          "numen.api.help": 6,
+          "engineering.site.info": 1,
+          "engineering.site.apply": 2,
+          "engineering.site.inspect_many": 1,
+          "engineering.site.inspect": 1
+        },
+        "lastActions": [
+          {
+            "finish": "tool_calls",
+            "calls": [
+              "{\"code\": \"local motor = {x = 0, y = -60, z = 10}\\nlocal shaft = {x = 0, y = -59, z = 10}\\nlocal press = {x = 0, y = -58, z = 10}\\nlocal air = {x = 0, y = -57, z = 10}\\nlocal depot = {x = 0, y = -56, z = 10}\\n\\nlocal cells = {\\n  {pos = motor, state = \\\"create:creative_motor\\\", rpm = 64},\\n  {pos = shaft, state = \\\"create:shaft\\\", faces = {\\\"up\\\",\\\"down\\\"}},\\n  {pos = press, state = \\\"create:mechanical_press\\\"},\\n  {pos = air, state = \\\"minecraft:air\\\"},\\n  {pos = depot, state = \\\"create:depot\\\"},\\n}\\nlocal r = engineering.site.apply(cells)\\nreturn r\"}"
+            ]
+          },
+          {
+            "finish": "tool_calls",
+            "calls": [
+              "{\"code\": \"return engineering.site.inspect_many({\\n  {x=0,y=-60,z=10}, -- motor\\n  {x=0,y=-59,z=10}, -- shaft\\n  {x=0,y=-58,z=10}, -- press\\n  {x=0,y=-57,z=10}, -- air\\n  {x=0,y=-56,z=10}, -- depot\\n})\"}"
+            ]
+          },
+          {
+            "finish": "tool_calls",
+            "calls": [
+              "{\"code\": \"-- Motor faces north. Its output shaft face is \\\"north\\\".\\n-- Place motor, then a shaft directly on its north face, then the press with its\\n-- south shaft-face connecting to that shaft. Presses have shaft_faces north+south.\\n-- Layout (x,z) with y = -59:\\n--  motor (0,10) -> shaft (0,11) -> press (0,12)  ... but press shaft is vertical-facing? No.\\n-- Press shaft faces are north/south (horizontal). Motor north face -> shaft axis must be z.\\nreturn engineering.site.inspect({x=0,y=-60,z=10})\"}"
+            ]
+          }
+        ]
+      }
+    },
+    "press-clear-optimized": {
+      "run": "engineering-1795332329020",
+      "jarSHA256": "31d7e76bebbd428dd192d4dd3a8531921c23a459e7c13a1551ff43cd74a27cd1",
+      "prompt": "在授权创造工程区的空地自主建造一台机械动力压机，创造马达供能约 64 RPM，下方放置物台。使用可用的 engineering.site 工具，报告压机坐标与测得的实际转速。布局和位置自选。压机与正下方置物台之间留一格空气，验收时会放入铁锭检查压成铁板。",
+      "startToFinalEvidenceSeconds": 118.191,
+      "actual": [
+        {
+          "utc": "2026-11-22T07:25:47.889Z",
+          "type": "engineering_guards",
+          "outOfScopeRejected": true,
+          "survivalRejected": true,
+          "worldUnchanged": true
+        },
+        {
+          "utc": "2026-11-22T07:27:44.078Z",
+          "type": "agent_return",
+          "calls": 15,
+          "finish": "stop",
+          "status": 200,
+          "deliveredSeconds": 116.140317849
+        },
+        {
+          "utc": "2026-11-22T07:27:46.086Z",
+          "type": "engineering_press",
+          "passed": true,
+          "clearance": true,
+          "ironSheet": true,
+          "reply": true,
+          "presses": [
+            {
+              "at": [
+                0,
+                -50,
+                10
+              ],
+              "rpm": -64
+            }
+          ],
+          "press": {
+            "at": [
+              0,
+              -50,
+              10
+            ],
+            "rpm": -64
+          },
+          "outside": []
+        }
+      ],
+      "model": {
+        "requests": 15,
+        "httpStatuses": {
+          "200": 15
+        },
+        "totalTokens": 205514,
+        "peakInputTokens": 16376,
+        "requestResponseSeconds": 113.981,
+        "responses": {
+          "tool_calls": 14,
+          "stop": 1
+        },
+        "luaCalls": 14,
+        "repeatedExactLuaCalls": 1,
+        "engineeringFunctionMentions": {
+          "engineering.site.info": 1,
+          "engineering.site.guide": 5,
+          "numen.api.help": 1,
+          "engineering.site.inspect_many": 3,
+          "engineering.site.inspect": 1
+        },
+        "lastActions": [
+          {
+            "finish": "tool_calls",
+            "calls": [
+              "{\"code\": \"print(engineering.site.inspect_many({{x=0,y=-50,z=10},{x=0,y=-50,z=11},{x=0,y=-50,z=12},{x=0,y=-51,z=10},{x=0,y=-52,z=10}}))\"}"
+            ]
+          },
+          {
+            "finish": "tool_calls",
+            "calls": [
+              "{\"code\": \"print(engineering.site.inspect({x=0,y=-50,z=10}))\"}"
+            ]
+          },
+          {
+            "finish": "stop",
+            "calls": []
+          }
+        ]
+      }
+    },
+    "press-clear-reference": {
+      "run": "engineering-1795332495691",
+      "jarSHA256": "1081bc2d3c3155be69f4f260f015983585899e5facf0d2e33dd61d7e89592735",
+      "prompt": "在授权创造工程区的空地自主建造一台机械动力压机，创造马达供能约 64 RPM，下方放置物台。使用可用的 engineering.site 工具，报告压机坐标与测得的实际转速。布局和位置自选。压机与正下方置物台之间留一格空气，验收时会放入铁锭检查压成铁板。",
+      "startToFinalEvidenceSeconds": 150.154,
+      "actual": [
+        {
+          "utc": "2026-11-22T07:28:35.199Z",
+          "type": "engineering_guards",
+          "outOfScopeRejected": true,
+          "survivalRejected": true,
+          "worldUnchanged": true
+        },
+        {
+          "utc": "2026-11-22T07:31:05.209Z",
+          "type": "agent_timeout",
+          "calls": 16,
+          "reason": "No matching event within 149760.735837 ms"
+        },
+        {
+          "utc": "2026-11-22T07:31:05.362Z",
+          "type": "engineering_press",
+          "passed": false,
+          "clearance": true,
+          "ironSheet": false,
+          "reply": false,
+          "presses": [],
+          "outside": []
+        }
+      ],
+      "model": {
+        "requests": 16,
+        "httpStatuses": {
+          "200": 16
+        },
+        "totalTokens": 250502,
+        "peakInputTokens": 18944,
+        "requestResponseSeconds": 137.362,
+        "responses": {
+          "tool_calls": 16
+        },
+        "luaCalls": 27,
+        "repeatedExactLuaCalls": 0,
+        "engineeringFunctionMentions": {
+          "numen.api.help": 8,
+          "engineering.site.guide": 14
+        },
+        "lastActions": [
+          {
+            "finish": "tool_calls",
+            "calls": [
+              "{\"code\": \"return engineering.site.guide(\\\"shaft connecting\\\")\"}",
+              "{\"code\": \"return engineering.site.guide(\\\"rotational force connecting\\\")\"}"
+            ]
+          },
+          {
+            "finish": "tool_calls",
+            "calls": [
+              "{\"code\": \"return engineering.site.guide(\\\"mechanical_press_compacting\\\")\"}",
+              "{\"code\": \"return numen.api.help(\\\"engineering.site.guide\\\")\"}"
+            ]
+          },
+          {
+            "finish": "tool_calls",
+            "calls": [
+              "{\"code\": \"return engineering.site.guide(\\\"mechanical press recipe\\\")\"}",
+              "{\"code\": \"return engineering.site.guide(\\\"iron sheet pressing\\\")\"}"
+            ]
+          }
+        ]
+      }
+    },
+    "line-model": {
+      "run": "engineering-1795331787786",
+      "jarSHA256": "336cf012f56e0a1776cf50bd3c527c9129552c306985e7e90d8265c398407bc2",
+      "prompt": "从授权工程区左半的空地 X=-7..-1、Y=-60..-49、Z=5..19 自主造圆石→砂砾→燧石自动产线。先用 engineering.site.info() 一次确认区域。自行选坐标，先安排原料桶、磨石和漏斗直到成品桶，规划要给驱动留空。漏斗从上方吸取，向其 facing 推送；同高的 Y 轴小齿轮可侧驱磨石而保留底部出料。两台磨石由同一个 64 RPM 创造马达驱动。一批 apply 施工后用 inspect_many 读两机和两桶，feed 原料桶 3 圆石，确认至少 3 燧石自动进入成品桶再回执。若已完成，可导出 stone_line 原版结构并在右半区原位高度重建，再投料验证。请实际施工，只查缺少的知识。",
+      "startToFinalEvidenceSeconds": 163.842,
+      "actual": [
+        {
+          "utc": "2026-11-22T07:16:45.883Z",
+          "type": "engineering_guards",
+          "outOfScopeRejected": true,
+          "survivalRejected": true,
+          "worldUnchanged": true
+        },
+        {
+          "utc": "2026-11-22T07:19:29.442Z",
+          "type": "agent_truncated",
+          "calls": 15,
+          "finish": "length",
+          "seconds": 163.554483076
+        },
+        {
+          "utc": "2026-11-22T07:19:29.730Z",
+          "type": "engineering_line_result",
+          "passed": false,
+          "automatic": false,
+          "original": {
+            "finished": 0,
+            "shared": false,
+            "mills": [],
+            "drained": true
+          },
+          "copy": {
+            "finished": 0,
+            "shared": false,
+            "mills": [],
+            "drained": true
+          },
+          "backups": 0,
+          "outside": [],
+          "modelReturned": false
+        }
+      ],
+      "model": {
+        "requests": 15,
+        "httpStatuses": {
+          "200": 15
+        },
+        "totalTokens": 191264,
+        "peakInputTokens": 15348,
+        "requestResponseSeconds": 160.993,
+        "responses": {
+          "tool_calls": 14,
+          "length": 1
+        },
+        "luaCalls": 22,
+        "repeatedExactLuaCalls": 0,
+        "engineeringFunctionMentions": {
+          "numen.api.help": 9,
+          "engineering.site.info": 3,
+          "engineering.site.guide": 6,
+          "engineering.site.inspect_many": 1
+        },
+        "lastActions": [
+          {
+            "finish": "tool_calls",
+            "calls": [
+              "{\"code\": \"-- Inspect a sample to see current state of left region corners\\nlocal pts = {\\n  {x=-7,y=-49,z=5}, {x=-1,y=-49,z=5}, {x=-7,y=-49,z=19}, {x=-1,y=-49,z=19},\\n  {x=-7,y=-60,z=5}, {x=-1,y=-60,z=5}, {x=-7,y=-60,z=19}, {x=-1,y=-60,z=19},\\n}\\nprint(engineering.site.inspect_many(pts))\\n\"}",
+              "{\"code\": \"print(engineering.site.guide(\\\"millstone grinding gravel\\\"))\\n\"}"
+            ]
+          },
+          {
+            "finish": "tool_calls",
+            "calls": [
+              "{\"code\": \"print(engineering.site.guide(\\\"gearbox cogwheel shaft\\\"))\\n\"}",
+              "{\"code\": \"print(engineering.site.guide(\\\"creative motor\\\"))\\n\"}"
+            ]
+          },
+          {
+            "finish": "length",
+            "calls": []
+          }
+        ]
+      }
+    },
+    "line-optimized": {
+      "run": "engineering-1795332254391",
+      "jarSHA256": "31d7e76bebbd428dd192d4dd3a8531921c23a459e7c13a1551ff43cd74a27cd1",
+      "prompt": "从授权工程区左半的空地 X=-7..-1、Y=-60..-49、Z=5..19 自主造圆石→砂砾→燧石自动产线。先用 engineering.site.info() 一次确认区域。自行选坐标，先安排原料桶、磨石和漏斗直到成品桶，规划要给驱动留空。漏斗从上方吸取，向其 facing 推送；同高的 Y 轴小齿轮可侧驱磨石而保留底部出料。两台磨石由同一个 64 RPM 创造马达驱动。一批 apply 施工后用 inspect_many 读两机和两桶，feed 原料桶 3 圆石，确认至少 3 燧石自动进入成品桶再回执。若已完成，可导出 stone_line 原版结构并在右半区原位高度重建，再投料验证。请实际施工，只查缺少的知识。",
+      "startToFinalEvidenceSeconds": 240.228,
+      "actual": [
+        {
+          "utc": "2026-11-22T07:24:38.119Z",
+          "type": "engineering_guards",
+          "outOfScopeRejected": true,
+          "survivalRejected": true,
+          "worldUnchanged": true
+        },
+        {
+          "utc": "2026-11-22T07:28:38.140Z",
+          "type": "agent_timeout",
+          "calls": 26,
+          "reason": "No matching event within 239715.28823499999 ms"
+        },
+        {
+          "utc": "2026-11-22T07:28:38.366Z",
+          "type": "engineering_line_result",
+          "passed": false,
+          "automatic": false,
+          "original": {
+            "finished": 0,
+            "shared": false,
+            "mills": [
+              {
+                "pos": [
+                  -3,
+                  -55,
+                  12
+                ],
+                "rpm": 0
+              },
+              {
+                "pos": [
+                  -3,
+                  -55,
+                  8
+                ],
+                "rpm": 0
+              }
+            ],
+            "drained": true
+          },
+          "copy": {
+            "finished": 0,
+            "shared": false,
+            "mills": [],
+            "drained": true
+          },
+          "backups": 2,
+          "outside": [],
+          "modelReturned": false
+        }
+      ],
+      "model": {
+        "requests": 26,
+        "httpStatuses": {
+          "200": 26
+        },
+        "totalTokens": 381209,
+        "peakInputTokens": 20573,
+        "requestResponseSeconds": 231.227,
+        "responses": {
+          "tool_calls": 26
+        },
+        "luaCalls": 25,
+        "repeatedExactLuaCalls": 1,
+        "engineeringFunctionMentions": {
+          "engineering.site.info": 3,
+          "engineering.site.guide": 15,
+          "numen.api.help": 7,
+          "engineering.site.apply": 3,
+          "engineering.site.inspect_many": 1
+        },
+        "lastActions": [
+          {
+            "finish": "tool_calls",
+            "calls": [
+              "{\"code\": \"-- A cogwheel meshes with the millstone when placed adjacent at same Y with the cogwheel's\\n-- axis vertical (y) so its teeth face sideways into the millstone. But then how does it\\n-- connect to the horizontal shaft?\\n-- In Create, a millstone is driven by a cogwheel OR shaft placed against its side (same Y).\\n-- A vertical-axis cogwheel (axis=y) relays rotation to adjacent horizontal cogwheels.\\n-- Standard millstone drive: shaft along X/Z at same Y as millstone, meshing directly, \\n-- OR cogwheel directly against the millstone.\\n\\n-- Millstone occupies (-3,-53,8). Its side is exactly adjacent cogwheel. The millstone's\\n-- rotation axis is vertical, so it meshes with a cogwheel whose axis is vertical, OR a shaft\\n-- pointed into its side.\\n\\n-- Simplest known-good: shaft pointing INTO the millstone's side drives it. A shaft at (-4,-53,8)\\n-- with axis=x? No, millstone at -3, shaft at -4 pointing east would mesh.\\n\\n-- Actually the canonical millstone setup in Create: place a COGWHEEL beside the millstone at\\n-- same Y. The cogwheel (axis=y, vertical) meshes with the millstone. Then drive that cogwheel \\n-- with a shaft from below/side, or another cog.\\n\\n-- But a vertical-axis cogwheel can only be driven by a horizontal shaft BELOW it (pointing up)\\n-- or by another vertical cogwheel adjacent.\\n\\n-- Let me simplify: drive each millstone with a vertical axis cogwheel, and connect the two \\n-- cogwheels with a horizontal shaft chain running ABOVE at Y=-52, using small vertical shafts.\\n\\n-- Easiest reliable chain for two millstones on ONE motor:\\n-- 1. Motor (horizontal, axis=z) -> shaft -> gearbox/large cog to go vertical, OR\\n-- 2. Put motor vertical... motor axis fixed facing.\\n\\n-- Let me look at how the millstone actually accepts power by checking a known good minimal setup\\n-- via guide keyword \\\"millstone power\\\".\\nprint(engineering.site.guide(\\\"millstone power\\\"))\"}"
+            ]
+          },
+          {
+            "finish": "tool_calls",
+            "calls": [
+              "{\"code\": \"-- The millstone in Create is driven by a cogwheel placed DIRECTLY against its side at the same Y.\\n-- The cogwheel's axis must be such that its teeth mesh into the millstone. Since the millstone spins about a VERTICAL axis, it meshes with a VERTICAL-axis cogwheel (axis=y) placed beside it.\\n-- A vertical cogwheel relays rotation to adjacent vertical cogwheels (same Y) which spin opposite directions.\\n-- So: chain of vertical cogs at Y=-55: motor? No, motor is horizontal.\\n\\n-- To drive a vertical-axis cogwheel from a horizontal motor, use a shaft pointing UP into the cogwheel from below, OR use the motor pointing vertically.\\n\\n-- Standard: creative motor with facing UP (vertical shaft). Then shaft goes up to the cogwheel.\\n-- Let me place motor below, pointing up.\\n\\n-- Rework layout:\\n-- Motor B below millstone A's cogwheel, shaft up to cog A, cog A vertical meshes millstone A,\\n-- and cog A relays to cog B (vertical) which meshes millstone B.\\n\\n-- Motor at (-4,-57,8) facing up, shaft (-4,-56,8) axis=y, cog A (-4,-55,8) axis=y vertical,\\n-- cog A meshes millstone A at (-3,-55,8). \\n-- Then cog chain along Z at Y=-55: cog A at (-4,-55,8), cog at (-4,-55,9), (-4,-55,10), (-4,-55,11), cog B at (-4,-55,12) meshes millstone B at (-3,-55,12).\\n-- Vertical cogs relay to adjacent vertical cogs (spin opposite). This is the classic relay pattern!\\n\\n-- But wait: cog A at (-4,-55,8) is driven by vertical shaft from below. Cog A also meshes millstone A. \\n-- Then to relay horizontally to cog B, cog A needs to be adjacent to next cog. cogs at 8,9,10,11,12 all vertical, adjacent -> relay. Milestones at 8 and 12 meshed by cogs 8 and 12.\\n\\n-- Actually simpler: just put motor+shaft BELOW cog A, and run cog relay to cog B.\\n\\ncells = {\\n  -- remove old horizontal drive line (set to air)\\n  {pos={x=-4,y=-55,z=6},  state=\\\"minecraft:air\\\", expected=\\\"create:creative_motor[facing=north]\\\"},\\n  {pos={x=-4,y=-55,z=7},  state=\\\"minecraft:air\\\", expected=\\\"create:shaft[axis=z,waterlogged=false]\\\"},\\n  {pos={x=-4,y=-55,z=9},  state=\\\"minecraft:air\\\", expected=\\\"create:shaft[axis=z,waterlogged=false]\\\"},\\n  {pos={x=-4,y=-55,z=10}, state=\\\"minecraft:air\\\", expected=\\\"create:shaft[axis=z,waterlogged=false]\\\"},\\n  {pos={x=-4,y=-55,z=11}, state=\\\"minecraft:air\\\", expected=\\\"create:shaft[axis=z,waterlogged=false]\\\"},\\n}\\nlocal r = engineering.site.apply(cells)\\nprint(\\\"cleared\\\", r.cells)\"}"
+            ]
+          },
+          {
+            "finish": "tool_calls",
+            "calls": [
+              "{\"code\": \"-- Motor below cog A pointing UP, vertical shaft, then vertical cog relay along Z to cog B.\\ncells = {\\n  -- motor pointing up below cog A\\n  {pos={x=-4,y=-57,z=8}, state=\\\"create:creative_motor\\\", rpm=64, faces={\\\"up\\\"}},\\n  {pos={x=-4,y=-56,z=8}, state=\\\"create:shaft\\\", faces={\\\"up\\\"}},  -- axis y\\n  -- vertical cog relay at Y=-55 along Z\\n  {pos={x=-4,y=-55,z=8},  state=\\\"create:cogwheel\\\"},\\n  {pos={x=-4,y=-55,z=9},  state=\\\"create:cogwheel\\\"},\\n  {pos={x=-4,y=-55,z=10}, state=\\\"create:cogwheel\\\"},\\n  {pos={x=-4,y=-55,z=11}, state=\\\"create:cogwheel\\\"},\\n  {pos={x=-4,y=-55,z=12}, state=\\\"create:cogwheel\\\"},\\n  -- millstones East\\n  {pos={x=-3,y=-55,z=8},  state=\\\"create:millstone\\\"},\\n  {pos={x=-3,y=-55,z=12}, state=\\\"create:millstone\\\"},\\n}\\nlocal r = engineering.site.apply(cells)\\nprint(\\\"applied\\\", r.cells)\\nfor _,c in ipairs(r.resolved) do print(c.pos.x,c.pos.y,c.pos.z,c.state) end\"}"
+            ]
+          }
+        ]
+      }
+    },
+    "line-vertical": {
+      "run": "engineering-1795332587240",
+      "jarSHA256": "31d7e76bebbd428dd192d4dd3a8531921c23a459e7c13a1551ff43cd74a27cd1",
+      "prompt": "请在左半授权创造区域 X=-7..-1、Y=-60..-49、Z=5..19 自主建立圆石→砂砾→燧石自动产线。坐标和净空由你选。用重力物流：让原料自上而下通过两台磨石，漏斗从上方吸取并向其面对方向输出，最终进入成品桶。从底部成品桶向上规划高度，给两机留侧面的空间。用同一根由创造马达驱动的竖轴从两台磨石旁经过，磨石同高相邻的 Y 轴小齿轮可替代该高度的普通轴，侧面啮合并让底部仍可出料。无需额外查已给的机理。Lua 直接调用 print(engineering.site.apply(cells)) 批量施工，然后 print(engineering.site.inspect_many(坐标列表)) 核对两台磨石与料桶。用实际 feed 投 3 圆石并检查成品桶，至少收集 3 燧石再回报。",
+      "startToFinalEvidenceSeconds": 97.177,
+      "actual": [
+        {
+          "utc": "2026-11-22T07:30:04.520Z",
+          "type": "engineering_guards",
+          "outOfScopeRejected": true,
+          "survivalRejected": true,
+          "worldUnchanged": true
+        },
+        {
+          "utc": "2026-11-22T07:31:41.541Z",
+          "type": "agent_truncated",
+          "calls": 6,
+          "finish": "length",
+          "seconds": 97.011182
+        },
+        {
+          "utc": "2026-11-22T07:31:41.707Z",
+          "type": "engineering_line_result",
+          "passed": false,
+          "automatic": false,
+          "original": {
+            "finished": 0,
+            "shared": false,
+            "mills": [],
+            "drained": true
+          },
+          "copy": {
+            "finished": 0,
+            "shared": false,
+            "mills": [],
+            "drained": true
+          },
+          "backups": 0,
+          "outside": [],
+          "modelReturned": false
+        }
+      ],
+      "model": {
+        "requests": 6,
+        "httpStatuses": {
+          "200": 6
+        },
+        "totalTokens": 74693,
+        "peakInputTokens": 12492,
+        "requestResponseSeconds": 95.841,
+        "responses": {
+          "tool_calls": 5,
+          "length": 1
+        },
+        "luaCalls": 6,
+        "repeatedExactLuaCalls": 0,
+        "engineeringFunctionMentions": {
+          "engineering.site.info": 1,
+          "engineering.site.guide": 4,
+          "numen.api.help": 1
+        },
+        "lastActions": [
+          {
+            "finish": "tool_calls",
+            "calls": [
+              "{\"code\": \"print(engineering.site.guide(\\\"chute\\\"))\"}"
+            ]
+          },
+          {
+            "finish": "tool_calls",
+            "calls": [
+              "{\"code\": \"print(engineering.site.guide(\\\"cogwheel\\\"))\"}"
+            ]
+          },
+          {
+            "finish": "length",
+            "calls": [
+              "{\"code\": \"print(numen.api.help(\\\"engineering.site.feed\\\"))\"}"
+            ]
+          }
+        ]
+      }
+    },
+    "dough-fixed-contained": {
+      "run": "engineering-1795332683342",
+      "jarSHA256": "31d7e76bebbd428dd192d4dd3a8531921c23a459e7c13a1551ff43cd74a27cd1",
+      "prompt": null,
+      "startToFinalEvidenceSeconds": null,
+      "actual": [
+        {
+          "utc": "2026-11-22T07:31:42.810Z",
+          "type": "engineering_guards",
+          "outOfScopeRejected": true,
+          "survivalRejected": true,
+          "worldUnchanged": true
+        },
+        {
+          "utc": "2026-11-22T07:32:47.790Z",
+          "type": "engineering_dough",
+          "passed": true,
+          "fixture": true,
+          "first": {
+            "count": 3,
+            "powered": true,
+            "drained": true,
+            "rpm": [
+              -64,
+              -64,
+              64
+            ],
+            "outside": []
+          },
+          "independent": {
+            "count": 7,
+            "powered": true,
+            "drained": true,
+            "rpm": [
+              -64,
+              -64,
+              64
+            ],
+            "outside": []
+          },
+          "firstIncrease": 3,
+          "independentIncrease": 4
+        }
+      ],
+      "model": {
+        "requests": 0,
+        "httpStatuses": {},
+        "totalTokens": 0,
+        "peakInputTokens": 0,
+        "requestResponseSeconds": 0,
+        "responses": {},
+        "luaCalls": 0,
+        "repeatedExactLuaCalls": 0,
+        "engineeringFunctionMentions": {},
+        "lastActions": []
+      }
+    },
+    "dough-fixed": {
+      "run": "engineering-1795332551861",
+      "jarSHA256": "31d7e76bebbd428dd192d4dd3a8531921c23a459e7c13a1551ff43cd74a27cd1",
+      "prompt": null,
+      "startToFinalEvidenceSeconds": null,
+      "actual": [
+        {
+          "utc": "2026-11-22T07:29:30.650Z",
+          "type": "engineering_guards",
+          "outOfScopeRejected": true,
+          "survivalRejected": true,
+          "worldUnchanged": true
+        },
+        {
+          "utc": "2026-11-22T07:30:35.764Z",
+          "type": "error",
+          "message": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n+ [\n+   '-8,-60,12'\n+ ]\n- []\n"
+        }
+      ],
+      "model": {
+        "requests": 0,
+        "httpStatuses": {},
+        "totalTokens": 0,
+        "peakInputTokens": 0,
+        "requestResponseSeconds": 0,
+        "responses": {},
+        "luaCalls": 0,
+        "repeatedExactLuaCalls": 0,
+        "engineeringFunctionMentions": {},
+        "lastActions": []
+      }
+    },
+    "feed": {
+      "run": "engineering-1795331753884",
+      "jarSHA256": "336cf012f56e0a1776cf50bd3c527c9129552c306985e7e90d8265c398407bc2",
+      "prompt": null,
+      "startToFinalEvidenceSeconds": null,
+      "actual": [
+        {
+          "utc": "2026-11-22T07:16:18.916Z",
+          "type": "engineering_guards",
+          "outOfScopeRejected": true,
+          "survivalRejected": true,
+          "worldUnchanged": true
+        },
+        {
+          "utc": "2026-11-22T07:16:23.182Z",
+          "type": "engineering_feed",
+          "passed": true,
+          "idleAccepted": 3,
+          "flowAccepted": 3,
+          "final": [
+            0,
+            0,
+            3
+          ],
+          "occupiedRejected": true,
+          "fullSlotRejected": true,
+          "wrongTargetRejected": true,
+          "occupiedReplacementRejected": true,
+          "outside": []
+        }
+      ],
+      "model": {
+        "requests": 0,
+        "httpStatuses": {},
+        "totalTokens": 0,
+        "peakInputTokens": 0,
+        "requestResponseSeconds": 0,
+        "responses": {},
+        "luaCalls": 0,
+        "repeatedExactLuaCalls": 0,
+        "engineeringFunctionMentions": {},
+        "lastActions": []
+      }
+    },
+    "feed-final": {
+      "run": "engineering-1795332403755",
+      "jarSHA256": "31d7e76bebbd428dd192d4dd3a8531921c23a459e7c13a1551ff43cd74a27cd1",
+      "prompt": null,
+      "startToFinalEvidenceSeconds": null,
+      "actual": [
+        {
+          "utc": "2026-11-22T07:27:02.322Z",
+          "type": "engineering_guards",
+          "outOfScopeRejected": true,
+          "survivalRejected": true,
+          "worldUnchanged": true
+        },
+        {
+          "utc": "2026-11-22T07:27:06.737Z",
+          "type": "engineering_feed",
+          "passed": true,
+          "idleAccepted": 3,
+          "flowAccepted": 3,
+          "final": [
+            0,
+            0,
+            3
+          ],
+          "occupiedRejected": true,
+          "fullSlotRejected": true,
+          "wrongTargetRejected": true,
+          "occupiedReplacementRejected": true,
+          "outside": []
+        }
+      ],
+      "model": {
+        "requests": 0,
+        "httpStatuses": {},
+        "totalTokens": 0,
+        "peakInputTokens": 0,
+        "requestResponseSeconds": 0,
+        "responses": {},
+        "luaCalls": 0,
+        "repeatedExactLuaCalls": 0,
+        "engineeringFunctionMentions": {},
+        "lastActions": []
+      }
+    },
+    "permissions": {
+      "run": "engineering-1795331753860",
+      "jarSHA256": "336cf012f56e0a1776cf50bd3c527c9129552c306985e7e90d8265c398407bc2",
+      "prompt": null,
+      "startToFinalEvidenceSeconds": null,
+      "actual": [
+        {
+          "utc": "2026-11-22T07:16:18.956Z",
+          "type": "engineering_guards",
+          "outOfScopeRejected": true,
+          "survivalRejected": true,
+          "worldUnchanged": true
+        },
+        {
+          "utc": "2026-11-22T07:16:19.198Z",
+          "type": "engineering_native_permissions",
+          "passed": true,
+          "mode": "observe",
+          "mutationDenied": true,
+          "worldUnchanged": true
+        }
+      ],
+      "model": {
+        "requests": 0,
+        "httpStatuses": {},
+        "totalTokens": 0,
+        "peakInputTokens": 0,
+        "requestResponseSeconds": 0,
+        "responses": {},
+        "luaCalls": 0,
+        "repeatedExactLuaCalls": 0,
+        "engineeringFunctionMentions": {},
+        "lastActions": []
+      }
+    },
+    "stone-fixed-final": {
+      "run": "engineering-1795332434933",
+      "jarSHA256": "31d7e76bebbd428dd192d4dd3a8531921c23a459e7c13a1551ff43cd74a27cd1",
+      "prompt": null,
+      "startToFinalEvidenceSeconds": null,
+      "actual": [
+        {
+          "utc": "2026-11-22T07:27:33.323Z",
+          "type": "engineering_guards",
+          "outOfScopeRejected": true,
+          "survivalRejected": true,
+          "worldUnchanged": true
+        },
+        {
+          "utc": "2026-11-22T07:27:50.894Z",
+          "type": "engineering_calibrated_line",
+          "original": {
+            "input": [
+              -5,
+              -49,
+              12
+            ],
+            "out": [
+              -2,
+              -57,
+              12
+            ],
+            "finished": 3,
+            "shared": true,
+            "motorSetting": 64,
+            "mills": [
+              {
+                "pos": [
+                  -5,
+                  -51,
+                  12
+                ],
+                "rpm": -64,
+                "source": {
+                  "X": -6,
+                  "Y": -51,
+                  "Z": 12
+                }
+              },
+              {
+                "pos": [
+                  -2,
+                  -55,
+                  12
+                ],
+                "rpm": -64,
+                "source": {
+                  "X": -3,
+                  "Y": -55,
+                  "Z": 12
+                }
+              }
+            ],
+            "drained": true
+          },
+          "copy": {
+            "input": [
+              2,
+              -49,
+              12
+            ],
+            "out": [
+              5,
+              -57,
+              12
+            ],
+            "finished": 3,
+            "shared": true,
+            "motorSetting": 64,
+            "mills": [
+              {
+                "pos": [
+                  2,
+                  -51,
+                  12
+                ],
+                "rpm": -64,
+                "source": {
+                  "X": 1,
+                  "Y": -51,
+                  "Z": 12
+                }
+              },
+              {
+                "pos": [
+                  5,
+                  -55,
+                  12
+                ],
+                "rpm": -64,
+                "source": {
+                  "X": 4,
+                  "Y": -55,
+                  "Z": 12
+                }
+              }
+            ],
+            "drained": true
+          },
+          "passed": true,
+          "outside": [],
+          "modelRequests": 0
+        }
+      ],
+      "model": {
+        "requests": 0,
+        "httpStatuses": {},
+        "totalTokens": 0,
+        "peakInputTokens": 0,
+        "requestResponseSeconds": 0,
+        "responses": {},
+        "luaCalls": 0,
+        "repeatedExactLuaCalls": 0,
+        "engineeringFunctionMentions": {},
+        "lastActions": []
+      }
+    }
+  },
+  "singlePlayer": {
+    "single-nbt-173": {
+      "events": [
+        {
+          "type": "single_client_ready",
+          "serverClass": "net.minecraft.class_1132",
+          "jarSha": "336cf012f56e0a1776cf50bd3c527c9129552c306985e7e90d8265c398407bc2"
+        },
+        {
+          "type": "single_nbt_result",
+          "passed": true,
+          "withoutVs": true,
+          "rpm": [
+            64,
+            64
+          ],
+          "permission": "ask"
+        },
+        {
+          "type": "single_complete",
+          "passed": true
+        }
+      ],
+      "model": {},
+      "vesselGameCallOutcomes": []
+    },
+    "single-air-174": {
+      "events": [
+        {
+          "type": "single_client_ready",
+          "serverClass": "net.minecraft.class_1132",
+          "jarSha": "336cf012f56e0a1776cf50bd3c527c9129552c306985e7e90d8265c398407bc2"
+        },
+        {
+          "type": "single_vessel_model",
+          "seconds": 185.95828178,
+          "timeout": "Client exited while waiting for model final reply"
+        },
+        {
+          "type": "single_failed",
+          "error": "Client exited while waiting for command 12"
+        }
+      ],
+      "model": {
+        "requests": 13,
+        "httpStatuses": {
+          "200": 13
+        },
+        "totalTokens": 165089,
+        "peakInputTokens": 15383,
+        "requestResponseSeconds": 121.819,
+        "responses": {
+          "tool_calls": 13
+        },
+        "luaCalls": 17,
+        "repeatedExactLuaCalls": 1,
+        "engineeringFunctionMentions": {
+          "engineering.site.info": 3,
+          "numen.api.help": 15,
+          "engineering.site.apply": 3
+        },
+        "lastActions": [
+          {
+            "finish": "tool_calls",
+            "calls": [
+              "{\"code\": \"\\n-- Build ship cell list\\nlocal cells = {}\\n-- deck planks: x -2..2, z 10..13\\nfor x = -2, 2 do\\n  for z = 10, 13 do\\n    table.insert(cells, {pos = {x = x, y = -55, z = z}, state = \\\"minecraft:oak_planks\\\"})\\n  end\\nend\\n-- helm at stern (south), horizontal facing\\ntable.insert(cells, {pos = {x = 0, y = -55, z = 13}, state = \\\"vs_eureka:oak_ship_helm[facing=south]\\\"})\\n-- anchor at bow\\ntable.insert(cells, {pos = {x = 0, y = -55, z = 10}, state = \\\"vs_eureka:anchor\\\"})\\n-- balloons above (y=-54), 2x2 over center\\nfor x = -1, 0 do\\n  for z = 11, 12 do\\n    table.insert(cells, {pos = {x = x, y = -54, z = z}, state = \\\"vs_eureka:white_balloon\\\"})\\n  end\\nend\\nlocal r = engineering.site.apply(cells)\\nprint(\\\"changed\\\", r.cells)\\nreturn r\\n\"}"
+            ]
+          },
+          {
+            "finish": "tool_calls",
+            "calls": [
+              "{\"code\": \"\\nlocal cells = {}\\n-- deck planks: x -2..2, z 10..13\\nfor x = -2, 2 do\\n  for z = 10, 13 do\\n    table.insert(cells, {pos = {x = x, y = -55, z = z}, state = \\\"minecraft:oak_planks\\\"})\\n  end\\nend\\n-- helm at stern (south) one block off the deck, on its own cell at z=14\\ntable.insert(cells, {pos = {x = 0, y = -55, z = 14}, state = \\\"vs_eureka:oak_ship_helm[facing=south]\\\"})\\n-- anchor at bow on deck\\ntable.insert(cells, {pos = {x = 0, y = -55, z = 10}, state = \\\"vs_eureka:anchor\\\"})\\n-- balloons above (y=-54), 2x2 over center\\nfor x = -1, 0 do\\n  for z = 11, 12 do\\n    table.insert(cells, {pos = {x = x, y = -54, z = z}, state = \\\"vs_eureka:white_balloon\\\"})\\n  end\\nend\\nlocal r = engineering.site.apply(cells)\\nprint(\\\"changed\\\", r.cells)\\nreturn r\\n\"}"
+            ]
+          },
+          {
+            "finish": "tool_calls",
+            "calls": [
+              "{\"code\": \"\\nlocal cells = {}\\n-- deck planks: x -2..2, z 10..13 (20 cells), y=-55\\nfor x = -2, 2 do\\n  for z = 10, 13 do\\n    table.insert(cells, {pos = {x = x, y = -55, z = z}, state = \\\"minecraft:oak_planks\\\"})\\n  end\\nend\\n-- helm at stern, own cell z=14\\ntable.insert(cells, {pos = {x = 0, y = -55, z = 14}, state = \\\"vs_eureka:oak_ship_helm[facing=south]\\\"})\\n-- anchor at bow, own cell z=9\\ntable.insert(cells, {pos = {x = 0, y = -55, z = 9}, state = \\\"vs_eureka:anchor\\\"})\\n-- balloons above center (y=-54), 2x2 over x -1..0, z 11..12\\nfor x = -1, 0 do\\n  for z = 11, 12 do\\n    table.insert(cells, {pos = {x = x, y = -54, z = z}, state = \\\"vs_eureka:white_balloon\\\"})\\n  end\\nend\\nlocal r = engineering.site.apply(cells)\\nprint(\\\"changed\\\", r.cells)\\nreturn r\\n\"}"
+            ]
+          }
+        ]
+      },
+      "vesselGameCallOutcomes": [
+        {
+          "outcome": "failed",
+          "lua": "\n-- Build ship cell list\nlocal cells = {}\n-- deck planks: x -2..2, z 10..13\nfor x = -2, 2 do\n  for z = 10, 13 do\n    table.insert(cells, {pos = {x = x, y = -55, z = z}, state = \"minecraft:oak_planks\"})\n  end\nend\n-- helm at stern (south), horizontal facing\ntable.insert(cells, {pos = {x = 0, y = -55, z = 13}, state = \"vs_eureka:oak_ship_helm[facing=south]\"})\n-- anchor at bow\ntable.insert(cells, {pos = {x = 0, y = -55, z = 10}, state = \"vs_eureka:anchor\"})\n-- balloons above (y=-54), 2x2 over center\nfor x = -1, 0 do\n  for z = 11, 12 do\n    table.insert(cells, {pos = {x = x, y = -54, z = z}, state = \"vs_eureka:white_balloon\"})\n  end\nend\nlocal r = engineering.site.apply(cells)\nprint(\"changed\", r.cells)\nreturn r\n"
+        },
+        {
+          "outcome": "failed",
+          "lua": "\nlocal cells = {}\n-- deck planks: x -2..2, z 10..13\nfor x = -2, 2 do\n  for z = 10, 13 do\n    table.insert(cells, {pos = {x = x, y = -55, z = z}, state = \"minecraft:oak_planks\"})\n  end\nend\n-- helm at stern (south) one block off the deck, on its own cell at z=14\ntable.insert(cells, {pos = {x = 0, y = -55, z = 14}, state = \"vs_eureka:oak_ship_helm[facing=south]\"})\n-- anchor at bow on deck\ntable.insert(cells, {pos = {x = 0, y = -55, z = 10}, state = \"vs_eureka:anchor\"})\n-- balloons above (y=-54), 2x2 over center\nfor x = -1, 0 do\n  for z = 11, 12 do\n    table.insert(cells, {pos = {x = x, y = -54, z = z}, state = \"vs_eureka:white_balloon\"})\n  end\nend\nlocal r = engineering.site.apply(cells)\nprint(\"changed\", r.cells)\nreturn r\n"
+        }
+      ]
+    },
+    "single-water-175": {
+      "events": [
+        {
+          "type": "single_client_ready",
+          "serverClass": "net.minecraft.class_1132",
+          "jarSha": "336cf012f56e0a1776cf50bd3c527c9129552c306985e7e90d8265c398407bc2"
+        },
+        {
+          "type": "single_vessel_model",
+          "seconds": 215.267428279,
+          "timeout": "Timeout: model final reply"
+        },
+        {
+          "type": "single_vessel_motion",
+          "kind": "water",
+          "passed": true,
+          "horizontal": 2.0608474364022498,
+          "degrees": 52.08354493881353,
+          "initial": {
+            "position": [
+              0.8556857698669809,
+              -57.681700093201826,
+              12.313850599238595
+            ],
+            "velocity": [
+              -0.17231115311400202,
+              0.0824930742169272,
+              -0.9453410630300142
+            ],
+            "mounted": false,
+            "static": true,
+            "rotation": [
+              0.017189030201678984,
+              0.31194449457485907,
+              -0.028972658528209478,
+              0.9495028986806565
+            ],
+            "id": "3"
+          },
+          "moved": {
+            "position": [
+              -0.3280865446575866,
+              -57.66778359112631,
+              10.626908020639409
+            ],
+            "velocity": [
+              -1.3498427535387325,
+              0.007899592958438006,
+              -1.2728949132707612
+            ],
+            "mounted": false,
+            "static": true,
+            "rotation": [
+              0.010301939467096831,
+              0.43362799838661836,
+              -0.034661781021312746,
+              0.9003661421859787
+            ],
+            "id": "3"
+          },
+          "turned": {
+            "position": [
+              -2.055240592845895,
+              -57.658907201195674,
+              9.311358404201403
+            ],
+            "velocity": [
+              -1.1139614493073324,
+              -0.05090368523497091,
+              -0.5692062517965724
+            ],
+            "mounted": false,
+            "static": true,
+            "rotation": [
+              -0.002891016989744588,
+              0.7849100603543968,
+              -0.0323942936639503,
+              0.618755564753349
+            ],
+            "id": "3"
+          },
+          "anchored": {
+            "position": [
+              -2.055240592845895,
+              -57.658907201195674,
+              9.311358404201403
+            ],
+            "velocity": [
+              -1.1139614493073324,
+              -0.05090368523497091,
+              -0.5692062517965724
+            ],
+            "mounted": false,
+            "static": true,
+            "rotation": [
+              -0.002891016989744588,
+              0.7849100603543968,
+              -0.0323942936639503,
+              0.618755564753349
+            ],
+            "id": "3"
+          }
+        },
+        {
+          "type": "single_complete",
+          "passed": true
+        }
+      ],
+      "model": {
+        "requests": 20,
+        "httpStatuses": {
+          "200": 20
+        },
+        "totalTokens": 320981,
+        "peakInputTokens": 19767,
+        "requestResponseSeconds": 173.871,
+        "responses": {
+          "tool_calls": 19,
+          "stop": 1
+        },
+        "luaCalls": 23,
+        "repeatedExactLuaCalls": 2,
+        "engineeringFunctionMentions": {
+          "numen.api.help": 8,
+          "engineering.site.info": 2,
+          "engineering.site.apply": 3,
+          "engineering_vessels.ship.assemble": 1,
+          "engineering_vessels.ship.inspect": 2,
+          "engineering_vessels.ship.drive": 2,
+          "engineering_vessels.ship.anchor": 1
+        },
+        "lastActions": [
+          {
+            "finish": "tool_calls",
+            "calls": [
+              "{\"code\": \"return engineering_vessels.ship.anchor()\"}"
+            ]
+          },
+          {
+            "finish": "tool_calls",
+            "calls": [
+              "{\"code\": \"return engineering_vessels.ship.inspect()\"}"
+            ]
+          },
+          {
+            "finish": "stop",
+            "calls": []
+          }
+        ]
+      },
+      "vesselGameCallOutcomes": [
+        {
+          "outcome": "failed",
+          "lua": "local cells = {}\nlocal function add(x,y,z,state,faces)\n  table.insert(cells, {pos={x=x,y=y,z=z}, state=state, faces=faces})\nend\n-- deck layer y=-58, 3 wide x -1..1, 4 long z 11..14\nlocal deck = {}\nlocal helm = {x=0,y=-58,z=11}\nlocal anchor = {x=1,y=-58,z=14}\nfor x=-1,1 do\n  for z=11,14 do\n    if x==helm.x and z==helm.z then\n      add(x,-58,z,\"vs_eureka:oak_ship_helm\")\n    elseif x==anchor.x and z==anchor.z then\n      add(x,-58,z,\"vs_eureka:anchor\")\n    else\n      add(x,-58,z,\"minecraft:oak_planks\")\n    end\n  end\nend\n-- floater layer y=-59\nfor x=-1,1 do\n  for z=11,14 do\n    add(x,-59,z,\"vs_eureka:floater\")\n  end\nend\nprint(\"total cells:\", #cells)\nlocal r = engineering.site.apply(cells)\nreturn r"
+        },
+        {
+          "outcome": "failed",
+          "lua": "local cells = {}\nlocal function add(x,y,z,state,expected)\n  local c = {pos={x=x,y=y,z=z}, state=state}\n  if expected then c.expected = expected end\n  table.insert(cells, c)\nend\nlocal helm = {x=0,y=-58,z=11}\nlocal anchor = {x=1,y=-58,z=14}\nfor x=-1,1 do\n  for z=11,14 do\n    if x==helm.x and z==helm.z then\n      add(x,-58,z,\"vs_eureka:oak_ship_helm\")\n    elseif x==anchor.x and z==anchor.z then\n      add(x,-58,z,\"vs_eureka:anchor\")\n    else\n      add(x,-58,z,\"minecraft:oak_planks\")\n    end\n  end\nend\nfor x=-1,1 do\n  for z=11,14 do\n    add(x,-59,z,\"vs_eureka:floater\", \"minecraft:water\")\n  end\nend\nprint(\"total cells:\", #cells)\nlocal r = engineering.site.apply(cells)\nreturn r"
+        },
+        {
+          "outcome": "ok",
+          "lua": "local cells = {}\nlocal function add(x,z,state)\n  table.insert(cells, {pos={x=x,y=-58,z=z}, state=state})\nend\n-- 3 wide (x -1..1), 4 long (z 11..14), deck y=-58 (water surface)\nlocal helm = {x=0,z=11}\nlocal anchor = {x=1,z=14}\nfor x=-1,1 do\n  for z=11,14 do\n    if x==helm.x and z==helm.z then\n      add(x,z,\"vs_eureka:oak_ship_helm\")\n    elseif x==anchor.x and z==anchor.z then\n      add(x,z,\"vs_eureka:anchor\")\n    elseif x==-1 or x==1 or z==11 or z==14 then\n      -- border ring = floaters (in water, provide buoyancy)\n      add(x,z,\"vs_eureka:floater\")\n    else\n      add(x,z,\"minecraft:oak_planks\")\n    end\n  end\nend\nprint(\"total cells:\", #cells)\nreturn engineering.site.apply(cells)"
+        },
+        {
+          "outcome": "ok",
+          "lua": "return engineering_vessels.ship.assemble({x=0,y=-58,z=11})"
+        },
+        {
+          "outcome": "ok",
+          "lua": "return engineering_vessels.ship.drive(\"north\", 1, 0, 0, 20)"
+        },
+        {
+          "outcome": "ok",
+          "lua": "return engineering_vessels.ship.drive(\"north\", 0, 0, 1, 20)"
+        }
+      ]
+    },
+    "single-air-fixed-176": {
+      "events": [
+        {
+          "type": "single_client_ready",
+          "serverClass": "net.minecraft.class_1132",
+          "jarSha": "31d7e76bebbd428dd192d4dd3a8531921c23a459e7c13a1551ff43cd74a27cd1"
+        },
+        {
+          "type": "single_fixed_assembly",
+          "kind": "air-fixed",
+          "ship": {
+            "backup": "engineering:backup_5244532117c541f1ad8e7439152e8344",
+            "state": "assembling; inspect after the ship has loaded",
+            "id": "3"
+          },
+          "hullCells": 16,
+          "neighborResolved": 1
+        },
+        {
+          "type": "single_vessel_motion",
+          "kind": "air-fixed",
+          "passed": true,
+          "horizontal": 1.2144998901900403,
+          "degrees": 53.16962904869816,
+          "initial": {
+            "rotation": [
+              5.204614722106237e-05,
+              -1.4693651267365e-13,
+              6.094974028548736e-06,
+              0.9999999986270249
+            ],
+            "id": "3",
+            "position": [
+              0.5060827136039734,
+              -53.95016956832522,
+              14.58759125508368
+            ],
+            "velocity": [
+              0.0,
+              -0.015140743698793814,
+              0.0
+            ],
+            "mounted": false,
+            "static": false
+          },
+          "moved": {
+            "rotation": [
+              8.5372066650022e-05,
+              1.8536263689705887e-06,
+              5.558508087468079e-06,
+              0.9999999963386388
+            ],
+            "id": "3",
+            "position": [
+              0.5060821976650396,
+              -53.957402514134515,
+              13.37309136489375
+            ],
+            "velocity": [
+              -2.1973836084043796e-06,
+              -0.00021785257331430333,
+              -1.6158460937703012
+            ],
+            "mounted": false,
+            "static": true
+          },
+          "turned": {
+            "rotation": [
+              0.005508933657009191,
+              0.4474899634093723,
+              0.01004294299166938,
+              0.8942155912272541
+            ],
+            "id": "3",
+            "position": [
+              0.32310302302178384,
+              -53.96655806972058,
+              11.34997120607781
+            ],
+            "velocity": [
+              -0.3117641818133343,
+              -0.010941451307644456,
+              -1.1501397046913553
+            ],
+            "mounted": false,
+            "static": true
+          },
+          "anchored": {
+            "rotation": [
+              0.005508933657009191,
+              0.4474899634093723,
+              0.01004294299166938,
+              0.8942155912272541
+            ],
+            "id": "3",
+            "position": [
+              0.32310302302178384,
+              -53.96655806972058,
+              11.34997120607781
+            ],
+            "velocity": [
+              -0.3117641818133343,
+              -0.010941451307644456,
+              -1.1501397046913553
+            ],
+            "mounted": false,
+            "static": true
+          }
+        },
+        {
+          "type": "single_complete",
+          "passed": true
+        }
+      ],
+      "model": {},
+      "vesselGameCallOutcomes": []
+    },
+    "single-air-177": {
+      "events": [
+        {
+          "type": "single_client_ready",
+          "serverClass": "net.minecraft.class_1132",
+          "jarSha": "31d7e76bebbd428dd192d4dd3a8531921c23a459e7c13a1551ff43cd74a27cd1"
+        },
+        {
+          "type": "single_vessel_model",
+          "seconds": 215.58939245200008,
+          "timeout": "Timeout: model final reply"
+        },
+        {
+          "type": "single_vessel_motion",
+          "kind": "air",
+          "passed": true,
+          "horizontal": 2.8565670190099577,
+          "degrees": 9.020744227651951,
+          "initial": {
+            "static": true,
+            "rotation": [
+              4.636803412441408e-06,
+              0.0017723066974543046,
+              0.0022778515347869972,
+              0.9999958351412548
+            ],
+            "id": "3",
+            "position": [
+              2.5642972714205774,
+              -54.308061108388586,
+              12.18661346268983
+            ],
+            "velocity": [
+              -7.536500490346043e-05,
+              9.437655990041094e-06,
+              -0.9027189541797044
+            ],
+            "mounted": false
+          },
+          "moved": {
+            "static": true,
+            "rotation": [
+              7.665730989464367e-05,
+              0.02723635777600938,
+              -0.0003803275044500064,
+              0.9996289463044493
+            ],
+            "id": "3",
+            "position": [
+              2.4790493965208587,
+              -54.308042640057224,
+              9.331318743414688
+            ],
+            "velocity": [
+              -0.10420669048727405,
+              5.769038580183406e-05,
+              -2.297059479715813
+            ],
+            "mounted": false
+          },
+          "turned": {
+            "static": true,
+            "rotation": [
+              0.002646379466114901,
+              0.10573117335845866,
+              0.03096830342806934,
+              0.9939088891033986
+            ],
+            "id": "3",
+            "position": [
+              2.4378291047290173,
+              -54.30811842950888,
+              8.519920548174234
+            ],
+            "velocity": [
+              -0.1433891633482176,
+              -0.0016500144397468832,
+              -2.2849895278511667
+            ],
+            "mounted": false
+          },
+          "anchored": {
+            "static": true,
+            "rotation": [
+              0.002646379466114901,
+              0.10573117335845866,
+              0.03096830342806934,
+              0.9939088891033986
+            ],
+            "id": "3",
+            "position": [
+              2.4378291047290173,
+              -54.30811842950888,
+              8.519920548174234
+            ],
+            "velocity": [
+              -0.1433891633482176,
+              -0.0016500144397468832,
+              -2.2849895278511667
+            ],
+            "mounted": false
+          }
+        },
+        {
+          "type": "single_complete",
+          "passed": true
+        }
+      ],
+      "model": {
+        "requests": 25,
+        "httpStatuses": {
+          "200": 25
+        },
+        "totalTokens": 386369,
+        "peakInputTokens": 20426,
+        "requestResponseSeconds": 213.995,
+        "responses": {
+          "tool_calls": 24,
+          "stop": 1
+        },
+        "luaCalls": 36,
+        "repeatedExactLuaCalls": 0,
+        "engineeringFunctionMentions": {
+          "engineering.site.info": 4,
+          "engineering.site.guide": 3,
+          "engineering.site.apply": 3,
+          "engineering.site.inspect": 1,
+          "engineering.site.import_at": 1,
+          "numen.api.help": 11,
+          "engineering.site.inspect_many": 1,
+          "engineering_vessels.ship.assemble": 1,
+          "engineering_vessels.ship.inspect": 5,
+          "engineering_vessels.ship.drive": 2,
+          "engineering_vessels.ship.anchor": 1
+        },
+        "lastActions": [
+          {
+            "finish": "tool_calls",
+            "calls": [
+              "{\"items\": [\"[x] 设计船体布局并生成 cells\", \"[x] apply 批量放置船体\", \"[x] inspect 确认加载\", \"[x] assemble 装配并 inspect\", \"[x] drive 向北推进 + 偏航 + anchor 停靠\", \"[x] 报告实测数据\"]}"
+            ]
+          },
+          {
+            "finish": "tool_calls",
+            "calls": [
+              "{\"code\": \"print(engineering_vessels.ship.inspect())\"}"
+            ]
+          },
+          {
+            "finish": "stop",
+            "calls": []
+          }
+        ]
+      },
+      "vesselGameCallOutcomes": [
+        {
+          "outcome": "failed",
+          "lua": "-- Site: x -7..8, z 5..20, y -60..-49\n-- Key zone bounds helper to read from info:\nlocal info = engineering.site.info()\nlocal from, to = info.from, info.to\nprint(\"site\", from.x..\",\"..from.y..\",\"..from.z, \"to\", to.x..\",\"..to.y..\",\"..to.z, \"batch\", info.batch_limit)\n\n-- Design: 4x4 oak_planks deck at y=-55, x=0..3, z=10..13\n-- helm at (0,-55,10), anchor at (3,-55,13)\n-- balloons above deck at y=-54\nlocal cells = {}\nlocal y = -55\nlocal function add(x,yy,z,state,faces)\n  table.insert(cells, {pos={x=x,y=yy,z=z}, state=state, faces=faces})\nend\n\n-- deck planks\nfor x=0,3 do\n  for z=10,13 do\n    add(x,y,z,\"minecraft:oak_planks\")\n  end\nend\n-- replace helm and anchor cells\n-- helm\nadd(0,y,10,\"vs_eureka:oak_ship_helm\")\n-- anchor\nadd(3,y,13,\"vs_eureka:anchor\")\n\n-- balloons ring at y=-54 on the perimeter\nfor _,p in ipairs({{1,11},{2,11},{1,12},{2,12},{0,11},{3,12},{0,12},{3,11}}) do\n  add(p[1], y+1, p[2], \"vs_eureka:white_balloon\")\nend\n\nprint(\"total cells\", #cells)\nlocal r = engineering.site.apply(cells)\nprint(\"applied\", r.cells)\nfor _,rc in ipairs(r.resolved) do print(\"  \", rc.pos.x, rc.pos.y, rc.pos.z, rc.state) end"
+        },
+        {
+          "outcome": "ok",
+          "lua": "local cells = {}\nlocal y = -55\n-- deck planks excluding helm(0,10) and anchor(3,13)\nfor x=0,3 do\n  for z=10,13 do\n    if not ((x==0 and z==10) or (x==3 and z==13)) then\n      table.insert(cells, {pos={x=x,y=y,z=z}, state=\"minecraft:oak_planks\"})\n    end\n  end\nend\ntable.insert(cells, {pos={x=0,y=y,z=10}, state=\"vs_eureka:oak_ship_helm\"})\ntable.insert(cells, {pos={x=3,y=y,z=13}, state=\"vs_eureka:anchor\"})\nfor _,p in ipairs({{1,11},{2,11},{1,12},{2,12},{0,11},{3,12},{0,12},{3,11}}) do\n  table.insert(cells, {pos={x=p[1], y=y+1, z=p[2]}, state=\"vs_eureka:white_balloon\"})\nend\nprint(\"total\", #cells)\nlocal r = engineering.site.apply(cells)\nprint(\"applied\", r.cells)\nfor _,rc in ipairs(r.resolved) do print(\"  \", rc.pos.x, rc.pos.y, rc.pos.z, rc.state) end"
+        },
+        {
+          "outcome": "ok",
+          "lua": "local r = engineering_vessels.ship.assemble({x=0,y=-55,z=10})\nprint(\"assemble:\", r)\nprint(\"inspect:\", engineering_vessels.ship.inspect())"
+        },
+        {
+          "outcome": "ok",
+          "lua": "-- drive north (forward) for short time\nlocal r1 = engineering_vessels.ship.drive(\"north\", 1.0, 0.0, 0.0, 20)\nprint(\"drive:\", r1)\nprint(\"after drive:\", engineering_vessels.ship.inspect())"
+        },
+        {
+          "outcome": "ok",
+          "lua": "-- yaw: left turn (left=1) for a short time, no forward\nlocal r2 = engineering_vessels.ship.drive(\"north\", 0.0, 0.0, 1.0, 15)\nprint(\"yaw:\", r2)\nlocal r3 = engineering_vessels.ship.anchor()\nprint(\"anchor:\", r3)\nprint(\"final:\", engineering_vessels.ship.inspect())"
+        }
+      ]
+    },
+    "single-nbt-178": {
+      "events": [
+        {
+          "type": "single_client_ready",
+          "serverClass": "net.minecraft.class_1132",
+          "jarSha": "31d7e76bebbd428dd192d4dd3a8531921c23a459e7c13a1551ff43cd74a27cd1"
+        },
+        {
+          "type": "single_nbt_result",
+          "passed": true,
+          "withoutVs": true,
+          "rpm": [
+            64,
+            64
+          ],
+          "permission": "ask"
+        },
+        {
+          "type": "single_complete",
+          "passed": true
+        }
+      ],
+      "model": {},
+      "vesselGameCallOutcomes": []
+    },
+    "single-water-fixed-179": {
+      "events": [
+        {
+          "type": "single_client_ready",
+          "serverClass": "net.minecraft.class_1132",
+          "jarSha": "31d7e76bebbd428dd192d4dd3a8531921c23a459e7c13a1551ff43cd74a27cd1"
+        },
+        {
+          "type": "single_fixed_assembly",
+          "kind": "water-fixed",
+          "ship": {
+            "backup": "engineering:backup_9152b6707c9f4550b4981b70c821c323",
+            "state": "assembling; inspect after the ship has loaded",
+            "id": "3"
+          },
+          "hullCells": 16,
+          "neighborResolved": 1
+        },
+        {
+          "type": "single_vessel_motion",
+          "kind": "water-fixed",
+          "passed": true,
+          "horizontal": 1.0755690186767173,
+          "degrees": 51.25968743135736,
+          "initial": {
+            "rotation": [
+              0.08750225272093301,
+              0.00010439863064649841,
+              0.003052363809913777,
+              0.9961596397891554
+            ],
+            "id": "3",
+            "position": [
+              0.505350918711152,
+              -55.5493187329713,
+              14.470146891334227
+            ],
+            "velocity": [
+              7.945271107701046e-07,
+              -1.4075275372533724,
+              0.00047823952797898533
+            ],
+            "mounted": false,
+            "static": false
+          },
+          "moved": {
+            "rotation": [
+              0.12246158164169192,
+              0.00022513412257239363,
+              0.005391841266585852,
+              0.9924585827046881
+            ],
+            "id": "3",
+            "position": [
+              0.5005745899193563,
+              -55.55213520993655,
+              13.394588477941227
+            ],
+            "velocity": [
+              -0.0018374155530409555,
+              0.4396750132400485,
+              -1.5174427101101173
+            ],
+            "mounted": false,
+            "static": true
+          },
+          "turned": {
+            "rotation": [
+              0.12003085407246256,
+              0.4278812576965348,
+              -0.037574019133389674,
+              0.8950410138473155
+            ],
+            "id": "3",
+            "position": [
+              0.33765677823929685,
+              -55.56299540064914,
+              11.52159764009249
+            ],
+            "velocity": [
+              -0.2812777398451649,
+              0.22785279651316162,
+              -1.0803721758492202
+            ],
+            "mounted": false,
+            "static": true
+          },
+          "anchored": {
+            "rotation": [
+              0.12003085407246256,
+              0.4278812576965348,
+              -0.037574019133389674,
+              0.8950410138473155
+            ],
+            "id": "3",
+            "position": [
+              0.33765677823929685,
+              -55.56299540064914,
+              11.52159764009249
+            ],
+            "velocity": [
+              -0.2812777398451649,
+              0.22785279651316162,
+              -1.0803721758492202
+            ],
+            "mounted": false,
+            "static": true
+          }
+        },
+        {
+          "type": "single_complete",
+          "passed": true
+        }
+      ],
+      "model": {},
+      "vesselGameCallOutcomes": []
+    }
+  }
+}
