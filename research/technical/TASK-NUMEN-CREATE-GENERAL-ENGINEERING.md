@@ -1,6 +1,6 @@
 # 当前任务：0.2.0 稳定性与执行效率优化（2026-11-22）
 
-**验收断点（2026-11-22，0.2.3 通过）**　同一自然语言委托下，`deepseek-reasoner`（high）用 20 次请求、34,840 token、2 分 15 秒自主建成两级圆石→燧石产线：入口桶 (0,-54,0)、磨石 (0,-56,0) 与 (0,-58,0)、成品桶 (0,-60,0)、马达 (0,-60,1)，两台磨石同网 −64 RPM。独立复核成品桶 3 燧石、输入桶清空；独立复投再 3 圆石 → 6 燧石，输入桶再次清空，跨级全自动无人工搬运。对照：同工具同知识下 `deepseek-chat` e16（132 次）与 e17（143 次）均在 3D 接线失败——缺口在模型能力而非工具。待办：reasoner 重复样本、手动安装与玩家体验、其它配方链与水运载具、渲染线程原生崩溃、0.2.3 可安装包发布。证据 [acceptance-pass-0.2.3.json](numen-create-vs2/live-lab/evidence/acceptance-pass-0.2.3.json)。
+**验收断点（2026-11-23，0.2.3 通过 2/2）**　同一自然语言委托，`deepseek-reasoner`（high）两轮均通过：e18（20 次/34,840 token/2 分 15 秒，入口桶 (0,-54,0)→磨石 (0,-56,0)/(0,-58,0)→成品桶 (0,-60,0)）与 e19（21 次/34,101 token/1 分 51 秒，x=-4 单列、漏斗进料、成品桶 (-4,-57,0)）。两轮独立复核均为两台磨石 −64 RPM、成品桶 3 燧石；再投 3 圆石后 6 燧石、输入桶清空，跨级全自动无人工搬运。对照 `deepseek-chat` 为 0/2（e16/e17 卡在 3D 接线）。待办：reasoner 更多样本与其它配方链、水面船、手动安装与玩家体验、渲染线程原生崩溃、0.2.3 可安装包发布。证据 [acceptance-pass-0.2.3.json](numen-create-vs2/live-lab/evidence/acceptance-pass-0.2.3.json)。
 
 执行前读取 Msipla/Conversation-Archives/AGENTS.md 最新版及本仓库 AGENTS.md（如存在），全程遵守适用规范，无法读取须报告。核对最新分支、源码、HANDOFF（如有）、任务书及实测证据。基线 026404b746c0ab5791b501f2c0ec246556b08b07。DSH 单机验收分支 acceptance/numen-engineering-0.2.0 已推送并核验，提交 7faa863b9ecc099d5fb470d3572a4866ddfacd12。读取 live-lab/acceptance-single-player-0.2.0.md 及 evidence/acceptance-0.2.0/（均在 research/technical/numen-create-vs2 下），核验补丁及日志后择优合入，保护并发修改。
 
