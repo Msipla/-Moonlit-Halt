@@ -1,0 +1,53 @@
+{
+  "date": "2026-11-22",
+  "phase": "0.2.3 全自动产线验收（推理模型）",
+  "result": "passed",
+  "model": {
+    "provider": "deepseek",
+    "model": "deepseek-reasoner",
+    "reasoning": "high",
+    "calls": 20,
+    "peakContextTokens": 34840,
+    "window": "23:58:16..00:00:31",
+    "seconds": 135,
+    "finishLength": 0
+  },
+  "prompt": "在授权创造工程区的空地上，自主设计和建造一条完整的圆石到砂砾到燧石自动生产线：共享动力、自动进料、两级研磨、溜槽输送、成品桶收集。用工程工具施工，投入 3 个圆石，确认 3 个燧石进入成品桶后，报告坐标、实测转速和产物数量。",
+  "built": {
+    "input_barrel": "(0,-54,0)",
+    "stage_a_millstone": "(0,-56,0)",
+    "stage_b_millstone": "(0,-58,0)",
+    "output_barrel": "(0,-60,0)",
+    "power": "one creative motor at (0,-60,1) facing up, both millstones on the same network",
+    "decor": "stone floor and glass casing added by the model"
+  },
+  "verification": {
+    "method": "read-only commands from the same fixture after the model finished",
+    "millstone_a_speed": -64.0,
+    "millstone_b_speed": -64.0,
+    "output_before_refeed": "[{Slot:0b,id:\"minecraft:flint\",Count:3b}]",
+    "input_after_model_run": "[]",
+    "independent_refeed": "3 cobblestone inserted into (0,-54,0)",
+    "output_after_refeed": "[{Slot:0b,id:\"minecraft:flint\",Count:6b}]",
+    "input_after_refeed": "[]",
+    "conclusion": "real production and an independent second feed both passed; no manual transfer between stages"
+  },
+  "model_capability_ab": {
+    "deepseek-chat": {"runs": ["e16", "e17"], "calls": [132, 143], "outcome": "failed at 3D wiring"},
+    "deepseek-reasoner": {"runs": ["e18"], "calls": 20, "outcome": "passed"},
+    "note": "the tool surface, knowledge and mechanics were identical; only the model changed"
+  },
+  "tool_state_at_pass": [
+    "KineticBlockEntity.initialize() after every batch write",
+    "shaft axis inferred from the batch; cogwheel axis left to the caller",
+    "check() returns layout warnings (motor facing, millstone bottom, chute destination)",
+    "Ponder millstone note carries measured ports, side-drive rule and the verified vertical cascade",
+    "cases.json from official Ponder structures packaged"
+  ],
+  "remaining": [
+    "no repeat run with deepseek-reasoner yet (single sample)",
+    "manual user install and experience not tested",
+    "other recipe chains and water vessels not re-tested",
+    "client native crashes in the render thread still unexplained"
+  ]
+}
