@@ -1,0 +1,9 @@
+﻿[14:21:24] [Render thread/INFO]: [System] [CHAT] [Eureka] Valkyrien Skies 2.4.11 has known issues with Eureka, such as teleporting when leaving the helm. Consider using a different version. See: https://github.com/ValkyrienSkies/Eureka/issues/500 (disable this message with warnAboutBrokenVsVersion in the Eureka config)
+[14:21:40] [Render thread/INFO]: [System] [CHAT] LabBot joined the game
+[14:21:40] [Render thread/INFO]: [System] [CHAT] Summoned companion 'LabBot' (0dab8b1f-d7d7-45e8-99cd-62e2ebbc0265)
+[14:21:43] [Render thread/INFO]: [System] [CHAT] LabBot now uses the profile lab:deepseek
+[14:21:45] [Render thread/INFO]: [System] [CHAT] Set LabBot's game mode to Creative Mode
+[14:21:47] [Render thread/INFO]: [System] [CHAT] [LabBot] <EngineerLab> Inside the engineering site, build and fly a small Eureka airship. Use the allowed hull blocks listed in the vessel tool guide: a connected deck, 4 to 10 balloons, exactly one oak helm facing a horizontal direction, one anchor. Assemble it with engineering_vessels, then drive forward for about 60 ticks and stop with the anchor. Report ship id, position and quaternion before and after, displacement and the anchored state.
+[14:21:48] [Render thread/INFO]: [System] [CHAT] [LabBot] <LabBot> I'll start by reading the two engineering tool guides and checking where I am.
+[14:21:48] [Render thread/INFO]: [System] [CHAT] LabBot:I'll start by reading the two engineering tool guides and checking where I am.
+[14:25:13] [Render thread/INFO]: [System] [CHAT] LabBot has made the advancement [Stone Age]

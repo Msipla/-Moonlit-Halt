@@ -1,5 +1,7 @@
 # 当前任务：0.2.0 稳定性与执行效率优化（2026-11-22）
 
+**开发断点（2026-11-22）**　验收分支 `7faa863b` 的实机记录已复核。原版源码已按开关条件允许船体，修订版统一施工、蓝图导入和工具的许可口径。占用冲突会返回精确方块状态，保护有库存的容器。新投料回执在写入 tick 独立回读，真实游戏通过空桶、即时下游转移、满槽、错误目标与库存保护检查。已用实际 Numen `ask` 和 `observe` 权限验证相应通过与拒绝路径，无 VS 的图形单机通过 NBT 往返。性能对照、单机载具和游戏内复杂产线仍在实测。
+
 执行前读取 Msipla/Conversation-Archives/AGENTS.md 最新版及本仓库 AGENTS.md（如存在），全程遵守适用规范，无法读取须报告。核对最新分支、源码、HANDOFF（如有）、任务书及实测证据。基线 026404b746c0ab5791b501f2c0ec246556b08b07。DSH 单机验收分支 acceptance/numen-engineering-0.2.0 已推送并核验，提交 7faa863b9ecc099d5fb470d3572a4866ddfacd12。读取 live-lab/acceptance-single-player-0.2.0.md 及 evidence/acceptance-0.2.0/（均在 research/technical/numen-create-vs2 下），核验补丁及日志后择优合入，保护并发修改。
 
 本轮冻结新增外围功能，优先真实使用稳定性和效率：

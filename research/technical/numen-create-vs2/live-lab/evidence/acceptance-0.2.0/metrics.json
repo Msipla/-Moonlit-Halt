@@ -1,0 +1,20 @@
+﻿{
+  "environment": {
+    "minecraft": "1.20.1",
+    "fabricLoader": "0.17.2",
+    "fabricApi": "0.92.12",
+    "create": "6.0.8.1+build.1744",
+    "valkyrienSkies": "2.4.11",
+    "eureka": "1.6.4",
+    "numen": "0.1.5",
+    "engineering": "0.2.0 (built locally from 026404b; no prebuilt jar in repo)",
+    "mode": "single-player integrated server, real graphical client"
+  },
+  "harness": "autotest.jar replays a command script as the player; synthetic keyboard input does not reach LWJGL",
+  "runs": {
+    "t1_press": {"calls": 43, "window": "13:41:43..13:47:06", "peakContextTokens": 23604, "outcome": "pass"},
+    "t2_line_plus_t3_repair": {"calls": 71, "window": "13:50:59..14:01:44", "peakContextTokens": 37162, "outcome": "partial / repair pass"},
+    "t4_ship_unpatched": {"calls": 60, "window": "14:12:40..14:19:27", "peakContextTokens": 32228, "outcome": "blocked by palette"},
+    "t4_ship_patched": {"calls": 54, "window": "14:21:48..14:26:10", "peakContextTokens": 30610, "outcome": "no ship within 6 min"}
+  }
+}

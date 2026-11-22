@@ -81,7 +81,9 @@ final class PonderGuide {
                 }
             }
         }
-        var key = ALIASES.getOrDefault(query, query);
+        var name = query.startsWith("create:") ? query.substring(7) : query;
+        var normalized = name.replace(' ', '_');
+        var key = ALIASES.getOrDefault(normalized,normalized);
         var matches = Index.SCENES.stream().filter(scene -> score(scene, key) > 0)
             .sorted(Comparator.comparingInt((Scene scene) -> score(scene, key)).reversed().thenComparing(Scene::id))
             .toList();
@@ -109,8 +111,8 @@ final class PonderGuide {
     private static int score(Scene scene, String key) {
         if (scene.id.equals(key) || (!scene.asset.isEmpty() && scene.asset.equals("assets/create/ponder/" + key + ".nbt"))) return 4;
         if (scene.id.contains(key)) return 3;
-        if (scene.title.toLowerCase(Locale.ROOT).contains(key)) return 2;
-        return scene.text.stream().anyMatch(step -> step.text.toLowerCase(Locale.ROOT).contains(key)) ? 1 : 0;
+        if (scene.title.toLowerCase(Locale.ROOT).contains(key.replace('_', ' '))) return 2;
+        return scene.text.stream().anyMatch(step -> step.text.toLowerCase(Locale.ROOT).contains(key.replace('_', ' '))) ? 1 : 0;
     }
 
     private static String string(JsonObject object, String key) {

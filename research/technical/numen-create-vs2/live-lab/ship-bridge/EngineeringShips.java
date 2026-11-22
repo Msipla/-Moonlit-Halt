@@ -48,7 +48,10 @@ public final class EngineeringShips {
 
     public static void install() {
         NumenPlugins.register("engineering_vessels", api -> api.api("ship",
-            "Bounded creative assembly and short native Eureka control pulses.", Tools.class));
+            "Use engineering.site.info().hull and batch-place your hull. In Lua print " +
+            "engineering_vessels.ship.assemble(helmPos), then inspect() after loading. " +
+            "Drive takes (heading,forward,up,left,ticks); left turns. The pulse ends and anchors automatically. " +
+            "Read actual motion using inspect() after the pulse.", Tools.class));
         ServerTickEvents.END_WORLD_TICK.register(EngineeringShips::tick);
         net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents.SERVER_STOPPING.register(server -> {
             var world = server.method_30002();
@@ -62,7 +65,7 @@ public final class EngineeringShips {
         public record Drive(String heading, double forward, double up, double left, int ticks) {}
         public record Empty() {}
 
-        @Fn("Assemble a connected, companion-built Eureka hull with one oak helm and one anchor, 2..64 cells, inside the configured site.")
+        @Fn("Assemble 2..64 connected, companion-built hull cells at an oak helm. Use engineering.site.info().hull for allowed IDs. Include one oak_ship_helm with horizontal facing, one anchor, and balloon or floater as needed.")
         public static Pending<String> assemble(ServerCall call, Hull args) {
             var world = level(call);
             var original = hull(call, world, args.helm());

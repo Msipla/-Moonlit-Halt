@@ -19,10 +19,13 @@ module.exports=async function check(lab){
   assert.deepEqual(unchanged.blocks,baseline.blocks);
   lab.mark('engineering_guards',{outOfScopeRejected:true,survivalRejected:true,worldUnchanged:true});
   await lab.cmd('deop LabOwner');
+  if(process.env.LAB_ENGINEERING_SMOKE==='feed') return feedCheck(lab,baseline);
+  if(process.env.LAB_ENGINEERING_SMOKE==='permissions') return permissionCheck(lab,baseline);
   if(process.env.LAB_ENGINEERING_SMOKE==='ship') return shipCheck(lab,baseline);
   if(process.env.LAB_ENGINEERING_SMOKE==='line') return calibrateLine(lab,baseline);
   if(process.env.LAB_ENGINEERING_SMOKE==='1') return settingsCheck(lab);
   if(process.env.LAB_ENGINEERING_LINE==='1') return lineCheck(lab,baseline);
+  if(['1','clearance'].includes(process.env.LAB_ENGINEERING_PRESS)) return pressCheck(lab,baseline);
   const goal='在授权创造区 X=-6..-1、Y=-60..-55、Z=9..13 自选两个水平相邻空格，造一台由创造马达直接驱动的 Create 风扇。用 engineering.site.apply，一批提交两个格子。每格填 pos、state、faces；faces 写朝向邻接机器的一面，工具会选择合法的原生朝向。无需寻路或取材料。用 engineering.site.inspect 回读风扇实际 RPM。若已转，导出紧包围两格的 fan_demo 标准 NBT 并用 import_at 在区内 X=3..6 的空位重建，确认副本 RPM，简短回执。';
   const model=await lab.chat(goal,200000);
   const completed=Boolean(model&&!model.truncated);
@@ -48,6 +51,73 @@ module.exports=async function check(lab){
   if(!pass) process.exitCode=1;
 };
 
+
+async function feedCheck(lab,baseline) {
+  const input='{x=-4,y=-55,z=11}', idle='{x=-3,y=-55,z=12}';
+  const hopper='{x=-4,y=-56,z=11}', output='{x=-4,y=-57,z=11}';
+  await lab.drive(`local i=${input}; local v=${idle}; local h=${hopper}; local o=${output};
+    local info=engineering.site.info(); assert(#info.hull==0 and info.batch_limit==64 and info.from.x==-7);
+    assert(engineering.site.apply({{pos=i,state="minecraft:barrel"},{pos=v,state="minecraft:barrel"},{pos=h,state="minecraft:hopper[facing=down]"},{pos=o,state="minecraft:barrel"}}).cells==4);
+    local empty=engineering.site.inspect_many({i,v}); assert(#empty==2 and #empty[1].reading.items==0);
+    assert(engineering.site.feed(v,"minecraft:wheat",3)==3);
+    assert(engineering.site.inspect(v).items[1].count==3);
+    local ok,busy=pcall(function() return engineering.site.feed(v,"minecraft:wheat",1) end);
+    assert(not ok and string.find(tostring(busy),"occupied"));
+    local wrong,why=pcall(function() return engineering.site.feed(h,"minecraft:wheat",1) end);
+    assert(not wrong and string.find(tostring(why),"requires a barrel"));
+    local edit,blocked=pcall(function() return engineering.site.apply({{pos=v,state="minecraft:air",expected=engineering.site.inspect(v).state}}) end);
+    assert(not edit and string.find(tostring(blocked),"occupied inventory"));
+    assert(engineering.site.feed(i,"minecraft:wheat",3)==3); print("feed_accepted")`.replaceAll('\n',' '),'\nfeed_accepted');
+  await wait(3300);
+  const final=await lab.save('feed-transferred');
+  const counts=(x,y,z)=>final.blockEntities.find(e=>e.x===x&&e.y===y&&e.z===z)?.Items
+    ?.filter(s=>s.id==='minecraft:wheat').reduce((sum,s)=>sum+s.Count,0)||0;
+  assert.equal(counts(-3,-55,12),3);
+  assert.equal(counts(-4,-55,11),0);
+  assert.equal(counts(-4,-56,11),0);
+  assert.equal(counts(-4,-57,11),3);
+  assert.deepEqual(outsideChanges(baseline,final),[]);
+  await lab.cmd('item replace block -3 -55 12 container.0 with minecraft:wheat 64');
+  await lab.drive(`local ok,r=pcall(function() return engineering.site.feed(${idle},"minecraft:wheat",3) end);
+    assert(not ok and string.find(tostring(r),"occupied")); assert(engineering.site.inspect(${idle}).items[1].count==64);
+    print("full_rejected")`.replaceAll('\n',' '),'\nfull_rejected');
+  lab.mark('engineering_feed',{passed:true,idleAccepted:3,flowAccepted:3,final:[0,0,3],occupiedRejected:true,
+    fullSlotRejected:true,wrongTargetRejected:true,occupiedReplacementRejected:true,outside:[]});
+}
+
+async function permissionCheck(lab,baseline) {
+  await lab.drive('local ok,r=pcall(function() return engineering.site.apply({{pos={x=-4,y=-55,z=11},state="minecraft:stone"}}) end); print("observed_permission",ok,tostring(r))','\nobserved_permission');
+  assert.match(lab.output(),/observed_permission\s+false\s+[^\n]*denied/i);
+  assert.deepEqual((await lab.save('permissions-final')).blocks,baseline.blocks);
+  lab.mark('engineering_native_permissions',{passed:true,mode:'observe',mutationDenied:true,worldUnchanged:true});
+}
+
+async function pressCheck(lab,baseline) {
+  const clearance=process.env.LAB_ENGINEERING_PRESS==='clearance';
+  const prompt='在授权创造工程区的空地自主建造一台机械动力压机，创造马达供能约 64 RPM，下方放置物台。使用可用的 engineering.site 工具，报告压机坐标与测得的实际转速。布局和位置自选。'+
+    (clearance?'压机与正下方置物台之间留一格空气，验收时会放入铁锭检查压成铁板。':'');
+  const reply=await lab.chat(prompt,150000);
+  await lab.isolate();
+  const final=await lab.save('press-independent');
+  const presses=final.blockEntities.filter(e=>final.blocks[[e.x,e.y,e.z].join(',')]?.Name==='create:mechanical_press');
+  const press=presses.find(e=>Math.abs(Math.abs(e.Speed)-64)<=3 &&
+    final.blocks[[e.x,e.y-2,e.z].join(',')]?.Name==='create:depot');
+  const outside=outsideChanges(baseline,final);
+  let ironSheet=false;
+  if(clearance&&press){
+    await lab.cmd(`summon minecraft:item ${press.x+.5} ${press.y-1.1} ${press.z+.5} {Item:{id:"minecraft:iron_ingot",Count:1b},PickupDelay:32767s}`);
+    for(let i=0;i<4&&!ironSheet;i++){
+      await wait(1800);
+      const after=await lab.save('press-product');
+      const depot=after.blockEntities.find(e=>e.x===press.x&&e.y===press.y-2&&e.z===press.z);
+      ironSheet=JSON.stringify([depot,after.items]).includes('create:iron_sheet');
+    }
+  }
+  const passed=Boolean(reply && !reply.truncated && press && outside.length===0 && (!clearance||ironSheet));
+  lab.mark('engineering_press',{passed,clearance,ironSheet,reply:Boolean(reply&&!reply.truncated),
+    presses:presses.map(e=>({at:[e.x,e.y,e.z],rpm:e.Speed})),press:press&&{at:[press.x,press.y,press.z],rpm:press.Speed},outside});
+  if(!passed) process.exitCode=1;
+}
 
 async function shipCheck(lab,baseline) {
   const api='engineering_vessels.ship.';
@@ -121,15 +191,8 @@ function side(state, part) {
 }
 
 async function lineCheck(lab,baseline) {
-  const powerGoal='我们分阶段建一条圆石→砂砾→燧石的自动产线。现在先在创造施工区 X=-7..-1、Y=-60..-49、Z=5..19，用一台创造马达驱动两台磨石。用重力传输，所以第一台明显高于第二台，给前后漏斗与溜槽留净空。磨石从下方接轴或和同高的竖轴小齿轮啮合。齿轮箱只能同时覆盖两个轴，faces 是你设计的接轴面。直接调用 engineering.site.apply 可写入 {pos={x=...,y=...,z=...},state="create:gearbox",faces={"down","east"}}，马达可用 rpm=64。用 inspect 实测两个磨石转速和网络。每轮只写简短 Lua 和必要修正。两台同网后用一句中文回执，物流在下一阶段。';
-  const powered=await lab.chat(powerGoal,170000);
-  const power=side(await lab.save('engineering-line-power'),'original');
-  lab.mark('engineering_power',{...power,modelReturned:Boolean(powered&&!powered.truncated)});
-  let model;
-  if(power.shared) {
-    const flowGoal='继续刚接通动力的石料产线。根据现有建筑选进料桶、漏斗、溜槽和成品桶，圆石→砂砾→燧石，用你选定的布局自动转运。直接用 engineering.site.apply 写入；重复改动的格子需 expected=原状态。feed(pos,"minecraft:cobblestone",3) 给空原料桶投料。inspect(pos).items 确认成品桶实际收集至少 3 燧石。用 export("stone_line",最小角,最大角) 保存紧包围结构，再 import_at("stone_line",{x=1,y=最小Y,z=最小Z}) 重建。用副本再投 3 圆石并核对成品。每轮执行简短 Lua，完成后一句话回执。';
-    model=await lab.chat(flowGoal,230000);
-  }
+  const goal='从授权工程区左半的空地 X=-7..-1、Y=-60..-49、Z=5..19 自主造圆石→砂砾→燧石自动产线。先用 engineering.site.info() 一次确认区域。自行选坐标，先安排原料桶、磨石和漏斗直到成品桶，规划要给驱动留空。漏斗从上方吸取，向其 facing 推送；同高的 Y 轴小齿轮可侧驱磨石而保留底部出料。两台磨石由同一个 64 RPM 创造马达驱动。一批 apply 施工后用 inspect_many 读两机和两桶，feed 原料桶 3 圆石，确认至少 3 燧石自动进入成品桶再回执。若已完成，可导出 stone_line 原版结构并在右半区原位高度重建，再投料验证。请实际施工，只查缺少的知识。';
+  const model=await lab.chat(goal,240000);
   const replied=Boolean(model&&!model.truncated);
   await lab.isolate();
   const completed=await lab.save('engineering-line-model');
@@ -142,7 +205,7 @@ async function lineCheck(lab,baseline) {
     structure={size:saved.size,blocks:saved.blocks.length,safeData:safeData(saved),
       settings:saved.blocks.flatMap(b=>b.nbt?[b.nbt]:[])};
   }
-  const ready=x=>x.shared&&x.input&&x.out&&x.finished>=3&&x.drained;
+  const ready=x=>x?.shared&&x.input&&x.out&&x.finished>=3&&x.drained;
   let independent;
   if(ready(original)&&ready(copy)){
     for(const x of [original,copy]){
@@ -159,8 +222,19 @@ async function lineCheck(lab,baseline) {
   const final=await lab.save('engineering-line-result');
   const outside=outsideChanges(baseline,final);
   const backups=fs.existsSync(path.dirname(file))?fs.readdirSync(path.dirname(file)).filter(n=>n.startsWith('backup_')).length:0;
-  const passed=Boolean(replied&&independent?.passed&&structure?.safeData&&backups>=2&&outside.length===0);
-  lab.mark('engineering_line_result',{passed,original,copy,structure,independent,backups,outside,modelReturned:replied});
+  let originalRefeed;
+  if(ready(original)&&!independent?.passed){
+    assert.match(await lab.cmd('item replace block '+original.input.join(' ')+' container.0 with minecraft:cobblestone 3'),/Replaced/);
+    for(let i=0;i<23;i++){
+      await wait(2800);
+      originalRefeed=side(await lab.save('engineering-original-refeed'),'original');
+      if(ready(originalRefeed)&&originalRefeed.finished-original.finished>=3) break;
+    }
+  }
+  const automatic=Boolean(ready(original)&&(independent?.passed ||
+    ready(originalRefeed)&&originalRefeed.finished-original.finished>=3)&&outside.length===0);
+  const passed=Boolean(replied&&automatic&&independent?.passed&&structure?.safeData&&backups>=2);
+  lab.mark('engineering_line_result',{passed,automatic,original,copy,structure,independent,originalRefeed,backups,outside,modelReturned:replied});
   if(!passed) process.exitCode=1;
 }
 

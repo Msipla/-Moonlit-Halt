@@ -141,6 +141,12 @@ final class CreateReadings {
         throw new IllegalArgumentException(spec+" cannot expose "+wanted+"; actual possible shaft faces: "+shapes);
     }
 
+    static boolean matchesOrientation(class_2680 expected,class_2680 actual) {
+        return expected.method_11656().entrySet().stream()
+            .filter(e -> List.of("axis","facing").contains(e.getKey().method_11899()))
+            .allMatch(e -> e.getValue().equals(actual.method_11656().get(e.getKey())));
+    }
+
     static String commandState(class_2680 state) {
         var id = class_7923.field_41175.method_10221(state.method_26204()).toString();
         var properties = new StringJoiner(",", "[", "]");

@@ -8,8 +8,8 @@ const {snapshot} = require('./world.cjs');
 
 const phase = process.argv[2];
 const engineering = phase === 'engineering';
-const engineeringSmoke = engineering && ['1','line','ship'].includes(process.env.LAB_ENGINEERING_SMOKE);
-const engineeringShip = engineering && process.env.LAB_ENGINEERING_SMOKE==='ship';
+const engineeringSmoke = engineering && ['1','line','ship','feed','permissions'].includes(process.env.LAB_ENGINEERING_SMOKE);
+const engineeringShip = engineering && (process.env.LAB_ENGINEERING_SMOKE==='ship' || ['air','water'].includes(process.env.LAB_ENGINEERING_VESSEL));
 const basicCheck = phase === 'basic-check';
 const basicWater = phase === 'basic-water';
 const basicAxis = phase === 'basic-axis';
@@ -575,7 +575,9 @@ async function main() {
   await cmd(cmdAs+'numen player summon LabBot');
   await until(()=>output.includes('LabBot joined the game'),20000);
   await cmd('gamemode creative LabBot');
-  await cmd(cmdAs+'numen permission mode LabBot bypass');
+  const permissionMode=engineering ? (process.env.LAB_ENGINEERING_PERMISSION || 'bypass') : 'bypass';
+  assert(['ask','bypass','observe'].includes(permissionMode),'invalid fixture permission mode');
+  await cmd(cmdAs+'numen permission mode LabBot '+permissionMode);
   await cmd('tp LabBot 0.5 -59 11.5');
   if (guardCheck) {
     await save('baseline');
