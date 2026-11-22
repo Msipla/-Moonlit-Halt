@@ -1232,3 +1232,14 @@ bash live-lab/game-bridge/build.sh
 ### 结论
 
 工具侧两个缺陷（动能块未初始化、齿轮被错误定向）已定位并修复，隔离验证通过；但自然语言全自动两级产线仍未通过，失败点已收敛到“模型判断电机输出面与段间物流”。证据：[kinetic-0.2.3.json](evidence/kinetic-0.2.3.json)。
+### check 施工前告警（0.2.3 续）
+
+`engineering.site.check` 现在除了逐格 `rejects`，还返回 `warnings`：
+
+- 电机 `facing` 那一面没有规划轴/齿轮/齿轮箱；
+- 磨石底部被规划成动能块（堵住向下产出）或底部为空（提示放溜槽/桶）；
+- 溜槽下方不是空气、溜槽或桶。
+
+受控校验（k2，3 次请求、12,029 token）：方案 A 报“电机朝向不匹配 + 磨石底部空”，方案 B 报“齿轮被拒 + 溜槽下方是磨石”。说明告警能到模型。
+
+完整委托 e15（82 次请求、46,719 token、2 分 01 秒）仍失败：模型自己引用了告警原文“faces meet the output face of a powered block”，但没能据此摆出正确动力链，最后提出只搭无动力的重力骨架。失败点已从“缺反馈”转为“模型落位决策”。证据：[check-warnings-0.2.3.json](evidence/check-warnings-0.2.3.json)。

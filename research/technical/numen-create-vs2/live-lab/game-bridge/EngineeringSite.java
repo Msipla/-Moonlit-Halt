@@ -105,7 +105,7 @@ public final class EngineeringSite implements ModInitializer {
                           @Doc("Exact expected old state in every cell, or omit for air.") Optional<String> expected) {}
         public record Reject(@Doc("Cell that would be refused.") class_2338 pos,
                              @Doc("Actual state or the reason the cell is invalid.") String reason) {}
-        public record Check(int cells, List<Reject> rejects) {}
+        public record Check(int cells, List<Reject> rejects, List<String> warnings) {}
         public record Port(String face, boolean items, boolean insert, boolean extract, boolean fluid) {}
         public record NoArgs() {}
         public record Points(@Doc("1..16 loaded coordinates in the site.") List<class_2338> positions) {}
@@ -200,7 +200,46 @@ public final class EngineeringSite implements ModInitializer {
                     rejects.add(new Reject(cell.pos(),String.valueOf(error.getMessage())));
                 }
             }
-            return new Check(args.cells().size(),rejects);
+            return new Check(args.cells().size(),rejects,layoutWarnings(level,args.cells()));
+        }
+
+        private static List<String> layoutWarnings(class_3218 level,List<Cell> cells) {
+            var planned=new java.util.HashMap<class_2338,String>();
+            for(var cell:cells) planned.put(cell.pos(),cell.state());
+            var warnings=new ArrayList<String>();
+            for(var cell:cells) {
+                var pos=cell.pos();
+                var state=cell.state();
+                if(state.startsWith("create:creative_motor")) {
+                    String facing=state.contains("facing=")?state.replaceAll(".*facing=([a-z]+).*","$1"):"north";
+                    var dir=class_2350.method_10168(facing);
+                    if(dir==null) continue;
+                    var target=pos.method_10093(dir);
+                    var next=planned.getOrDefault(target,"");
+                    boolean connected=next.startsWith("create:shaft")||next.contains("cogwheel")||next.startsWith("create:gearbox")
+                        ||(planned.get(target)==null && level.method_8321(target) instanceof KineticBlockEntity);
+                    if(!connected) warnings.add(pos+" motor faces "+facing+" but "+target+" is not planned as a shaft or cogwheel;"
+                        +" put the transmission cell on the facing side or change facing");
+                    continue;
+                }
+                if(state.startsWith("create:millstone")) {
+                    var below=pos.method_10084();
+                    var next=planned.get(below);
+                    boolean kineticBelow=next!=null && (next.startsWith("create:shaft")||next.contains("cogwheel")||next.startsWith("create:gearbox")||next.startsWith("create:creative_motor"));
+                    if(kineticBelow) warnings.add(pos+" millstone has "+next+" below, which blocks the downward output; drive it from a side cogwheel[axis=y] instead");
+                    else if(next==null && level.method_8320(below).method_26215())
+                        warnings.add(pos+" millstone bottom is free; put a chute or barrel directly below to collect output");
+                    continue;
+                }
+                if(state.startsWith("create:chute") || state.startsWith("create:smart_chute")) {
+                    var below=pos.method_10084();
+                    var next=planned.get(below);
+                    if(next!=null && !next.equals("minecraft:air") && !next.contains("chute")
+                        && !next.equals("minecraft:barrel"))
+                        warnings.add(pos+" chute outputs into "+next+" below; chutes only move items downward into air or a container");
+                }
+            }
+            return List.copyOf(warnings);
         }
 
         @Fn("Fill an inclusive axis-aligned box with one block state in a single batch. Use it for floors, walls, pillars and shaft runs instead of writing every cell; volume is 1..64.")

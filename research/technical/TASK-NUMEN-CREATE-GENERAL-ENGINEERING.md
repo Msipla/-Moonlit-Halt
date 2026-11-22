@@ -1,6 +1,6 @@
 # 当前任务：0.2.0 稳定性与执行效率优化（2026-11-22）
 
-**开发断点（2026-11-22，0.2.3 动力复验）**　以 `2db3f0a` 为基线：受控复验确认 `apply` 写入后调用 `KineticBlockEntity.initialize()` 有效，马达→竖轴→磨石三块同网 16 RPM 且两次读数一致；命令实测官方侧驱拓扑（侧面 `cogwheel[axis=y]`）可直接带动磨石 −16 RPM。发现并修复回归：齿轮自动定向会改坏 `axis=y` 侧啮合，现仅对轴生效；新增磨石产出被堵/底部空闲告警。复跑 e13（70 次/3.3 万 token）与 e14（139 次/5.0 万）仍失败，失败点收敛为模型判断电机输出面与段间物流。三次客户端原生崩溃均在渲染线程，栈中无工程插件帧，崩溃前世界已落盘。证据 [kinetic-0.2.3.json](numen-create-vs2/live-lab/evidence/kinetic-0.2.3.json)。下一断点：把电机输出面与溜槽重力级联做成施工前可验证的回执，再跑同一委托。
+**开发断点（2026-11-22，0.2.3 check 告警）**　`check` 增加施工前 `warnings`：电机输出面无传动格、磨石底部被堵或空闲、溜槽下方非容器。受控校验 k2（3 次/1.2 万 token）确认告警可读；完整委托 e15（82 次/4.7 万 token/2 分 01 秒）仍失败，模型引用了告警原文却未摆出正确动力链。动力初始化、侧驱拓扑、段间物流三项均已在隔离验证，失败点收敛为模型落位决策。证据 [check-warnings-0.2.3.json](numen-create-vs2/live-lab/evidence/check-warnings-0.2.3.json)。下一断点：让模型在一次 apply 内完成“电机朝向 + 传动格 + 侧驱 + 底部溜槽”的最小可运行单元，再逐步扩成两级。
 
 执行前读取 Msipla/Conversation-Archives/AGENTS.md 最新版及本仓库 AGENTS.md（如存在），全程遵守适用规范，无法读取须报告。核对最新分支、源码、HANDOFF（如有）、任务书及实测证据。基线 026404b746c0ab5791b501f2c0ec246556b08b07。DSH 单机验收分支 acceptance/numen-engineering-0.2.0 已推送并核验，提交 7faa863b9ecc099d5fb470d3572a4866ddfacd12。读取 live-lab/acceptance-single-player-0.2.0.md 及 evidence/acceptance-0.2.0/（均在 research/technical/numen-create-vs2 下），核验补丁及日志后择优合入，保护并发修改。
 
