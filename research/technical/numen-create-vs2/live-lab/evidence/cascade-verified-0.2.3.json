@@ -1,0 +1,41 @@
+{
+  "date": "2026-11-22",
+  "phase": "0.2.3 无模型两级级联验证",
+  "purpose": "separate tool reliability from model execution: verify power, millstone output and inter-stage transfer without any model call",
+  "rig": {
+    "stage_a": {
+      "millstone": "(0,-55,0), Speed -16.0",
+      "side_cogwheel": "(1,-55,0) create:cogwheel[axis=y], Speed 16.0",
+      "drive_shaft": "(1,-56,0) create:shaft[axis=y], Speed 16.0",
+      "motor": "(1,-57,0) create:creative_motor[facing=up]",
+      "output_chute": "(0,-56,0) create:chute"
+    },
+    "stage_b": {
+      "millstone": "(0,-57,0), Speed -16.0, directly below stage A's output chute",
+      "side_cogwheel": "(-1,-57,0) create:cogwheel[axis=y]",
+      "drive_shaft": "(-1,-58,0) create:shaft[axis=y]",
+      "motor": "(-1,-59,0) create:creative_motor[facing=up]",
+      "output_chute": "(0,-58,0) create:chute",
+      "collection_barrel": "(0,-59,0) minecraft:barrel"
+    },
+    "input": "barrel (0,-53,0) with 3 cobblestone, chute (0,-54,0) above stage A"
+  },
+  "result": {
+    "first_feed": "3 cobblestone -> barrel (0,-59,0) held 3 flint; input barrel empty; both millstone output inventories empty",
+    "independent_second_feed": "3 more cobblestone -> barrel held 6 flint; input barrel empty again",
+    "millstone_speeds": "-16.0 on both stages throughout",
+    "elapsed": "about 60 s per 3-item batch"
+  },
+  "rules_confirmed": [
+    "a millstone is driven by a side cogwheel[axis=y] that is itself driven along its axis by a vertical shaft directly under the cogwheel",
+    "the two power columns must be on opposite sides of the vertical stack, otherwise the second stage's cogwheel cell collides with the first stage's motor column",
+    "millstone output leaves through the bottom into a chute; a chute under a millstone feeds the millstone directly below it",
+    "chutes never lift, so a multi-stage chain must be built downward"
+  ],
+  "failed_layout": "the first attempt reused the +x column for both stages; the second stage's cogwheel cell was occupied by the first stage's motor, so the second millstone stayed at 0 RPM",
+  "model_runs": [
+    {"id": "e16", "calls": 132, "peakContextTokens": 49888, "outcome": "failed", "reason": "drove the millstone from below to 64 RPM, saw the bottom conflict, then could not wire the side cogwheel"},
+    {"id": "e17", "calls": 143, "peakContextTokens": 49397, "outcome": "failed", "reason": "could not align the motor output face with the vertical shaft; both millstones stayed at 0 RPM and it stopped to ask for the wiring"}
+  ],
+  "verdict": "tools and mechanics are verified end to end without a model; the remaining gap is the model's 3D wiring decisions, not missing mechanics or feedback"
+}
