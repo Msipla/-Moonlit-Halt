@@ -5,6 +5,7 @@
 - 全名：Create: Fabric `6.0.8.1+build.1744-mc1.20.1`
 - 许可按 [Fabric 上游许可文件](https://github.com/Fabricators-of-Create/Create/blob/4c3fe779d135d592548e4cb09da04d742d2637b7/LICENSE.md) 区分。JAR 声明 MIT，审查过的 Fabric 源码快照另对 `src/main/resources/assets/` 保留全部权利。
 - 场景文本系场景 Java 字节码中的内联字符串，配方来自 `data/create/recipes/`。索引只引用场景资产位置，未复制 assets 目录文件、NBT 或翻译资源。JAR 发行标识与审查的源码快照分别记录。
+- 游戏内的六张设备案例从玩家已安装的 Create JAR 中按需读取原始结构，仅在内存里提取设备、相对坐标和状态。Numen Engineering 不随附这些原始结构或提取后的布置表。
 
 本目录的派生数据及打包的场景文本保留以下源码许可：
 

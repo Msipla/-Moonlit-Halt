@@ -1,0 +1,740 @@
+{
+  "stage": "0.2.3 unified test release",
+  "dshAutonomousBaseline": "0a1266b1699214b46f5b1e23f487260e9dc88c42",
+  "dshAutonomousEvidence": "acceptance-pass-0.2.3.json#repeat",
+  "workBase": "794171712b33ad8368cdb06a8ebc8c4be5b7b77e",
+  "jarSha256": "90703d5637eb3c11d5eebf19d67e860253d08a095dcd2673b7e4ff3dcfbdfa2c",
+  "zipSha256": "dc4e296b2ca6662d360655b27b1af77510dcd795a3bccd17f153f5fd7df8ca76",
+  "earlierRegressionJarSha256": "545a412f1b574f3dff07e8054f64b6223f80b989251968c8c7b61be8bdf48f1e",
+  "buildComparison": "The first and release build have identical entries and uncompressed entry bytes except for the additional attribution note in THIRD-PARTY.md. JAR timestamps differ.",
+  "versions": {
+    "minecraft": "1.20.1",
+    "java": "17",
+    "fabricLoader": "0.17.2",
+    "fabricApi": "0.92.6+1.20.1",
+    "numen": "0.1.5-1.20.1-beta",
+    "create": "6.0.8.1+build.1744-mc1.20.1",
+    "vs": "2.4.11",
+    "eureka": "1.6.4"
+  },
+  "ponder": {
+    "equalFields": [
+      "scene",
+      "anchor",
+      "size",
+      "devices"
+    ],
+    "sourceChange": "now points to the installed Create asset",
+    "cases": {
+      "millstone": 12,
+      "mechanical_press/pressing": 14,
+      "mechanical_press/compacting": 16,
+      "fan/processing": 13,
+      "chute/smart": 2,
+      "mechanical_mixer/mixing": 15
+    }
+  },
+  "earlierBuildRegressions": {
+    "stoneAndNbt": {
+      "run": "engineering-1795365117884",
+      "guards": {
+        "utc": "2026-11-22T16:32:13.615Z",
+        "type": "engineering_guards",
+        "outOfScopeRejected": true,
+        "survivalRejected": true,
+        "worldUnchanged": true
+      },
+      "result": {
+        "utc": "2026-11-22T16:32:31.196Z",
+        "type": "engineering_calibrated_line",
+        "original": {
+          "input": [
+            -5,
+            -49,
+            12
+          ],
+          "out": [
+            -2,
+            -57,
+            12
+          ],
+          "finished": 3,
+          "shared": true,
+          "motorSetting": 64,
+          "mills": [
+            {
+              "pos": [
+                -5,
+                -51,
+                12
+              ],
+              "rpm": -64,
+              "source": {
+                "X": -6,
+                "Y": -51,
+                "Z": 12
+              }
+            },
+            {
+              "pos": [
+                -2,
+                -55,
+                12
+              ],
+              "rpm": -64,
+              "source": {
+                "X": -3,
+                "Y": -55,
+                "Z": 12
+              }
+            }
+          ],
+          "drained": true
+        },
+        "copy": {
+          "input": [
+            2,
+            -49,
+            12
+          ],
+          "out": [
+            5,
+            -57,
+            12
+          ],
+          "finished": 3,
+          "shared": true,
+          "motorSetting": 64,
+          "mills": [
+            {
+              "pos": [
+                2,
+                -51,
+                12
+              ],
+              "rpm": -64,
+              "source": {
+                "X": 1,
+                "Y": -51,
+                "Z": 12
+              }
+            },
+            {
+              "pos": [
+                5,
+                -55,
+                12
+              ],
+              "rpm": -64,
+              "source": {
+                "X": 4,
+                "Y": -55,
+                "Z": 12
+              }
+            }
+          ],
+          "drained": true
+        },
+        "passed": true,
+        "outside": [],
+        "modelRequests": 0
+      }
+    },
+    "dough": {
+      "run": "engineering-1795365159427",
+      "guards": {
+        "utc": "2026-11-22T16:33:00.800Z",
+        "type": "engineering_guards",
+        "outOfScopeRejected": true,
+        "survivalRejected": true,
+        "worldUnchanged": true
+      },
+      "result": {
+        "utc": "2026-11-22T16:34:34.680Z",
+        "type": "engineering_dough",
+        "passed": true,
+        "fixture": true,
+        "first": {
+          "count": 6,
+          "powered": true,
+          "drained": true,
+          "rpm": [
+            -64,
+            -64,
+            64
+          ],
+          "outside": []
+        },
+        "independent": {
+          "count": 11,
+          "powered": true,
+          "drained": true,
+          "rpm": [
+            -64,
+            -64,
+            64
+          ],
+          "outside": []
+        },
+        "firstIncrease": 6,
+        "independentIncrease": 5
+      }
+    },
+    "inventoryAsk": {
+      "run": "engineering-1795365282882",
+      "guards": {
+        "utc": "2026-11-22T16:35:02.806Z",
+        "type": "engineering_guards",
+        "outOfScopeRejected": true,
+        "survivalRejected": true,
+        "worldUnchanged": true
+      },
+      "result": {
+        "utc": "2026-11-22T16:35:07.104Z",
+        "type": "engineering_feed",
+        "passed": true,
+        "idleAccepted": 3,
+        "flowAccepted": 3,
+        "final": [
+          0,
+          0,
+          3
+        ],
+        "occupiedRejected": true,
+        "fullSlotRejected": true,
+        "wrongTargetRejected": true,
+        "occupiedReplacementRejected": true,
+        "outside": []
+      }
+    },
+    "airVessel": {
+      "run": "engineering-1795365152910",
+      "guards": {
+        "utc": "2026-11-22T16:33:22.152Z",
+        "type": "engineering_guards",
+        "outOfScopeRejected": true,
+        "survivalRejected": true,
+        "worldUnchanged": true
+      },
+      "result": {
+        "utc": "2026-11-22T16:33:41.723Z",
+        "type": "engineering_ship_result",
+        "passed": true,
+        "kind": "air",
+        "pilot": "Numen LabBot",
+        "assembly": {
+          "backup": "engineering:backup_b14ad3cc88344681a9af163810fe0369",
+          "id": "3",
+          "state": "assembling; inspect after the ship has loaded"
+        },
+        "initial": {
+          "position": [
+            0.4999999850988388,
+            -55.72331875950623,
+            14.582007348537445
+          ],
+          "id": "3",
+          "rotation": [
+            3.0463060686940556e-05,
+            -3.944581808466301e-14,
+            -2.049054907665313e-09,
+            0.9999999995360009
+          ],
+          "static": false,
+          "mounted": false,
+          "velocity": [
+            0,
+            -0.07482018418158987,
+            0
+          ]
+        },
+        "start": {
+          "position": [
+            0.4999999850988388,
+            -55.73298358324655,
+            14.582007348537445
+          ],
+          "id": "3",
+          "rotation": [
+            3.059906478682344e-05,
+            -4.737479766800756e-14,
+            -2.318427148190662e-09,
+            0.9999999995318487
+          ],
+          "static": false,
+          "mounted": true,
+          "velocity": [
+            0,
+            -0.05514083585467234,
+            0
+          ]
+        },
+        "moved": {
+          "position": [
+            0.4999999874595338,
+            -55.75968759169035,
+            12.617512033815704
+          ],
+          "id": "3",
+          "rotation": [
+            0.00010192181449538599,
+            -1.6395579873280989e-09,
+            -6.378497195994166e-09,
+            0.9999999948059718
+          ],
+          "static": true,
+          "mounted": false,
+          "velocity": [
+            4.3298697960381105e-09,
+            -0.0005870505788152514,
+            -1.9685060817238311
+          ]
+        },
+        "turnStart": {
+          "position": [
+            0.4999999874595338,
+            -55.75968759169035,
+            12.617512033815704
+          ],
+          "id": "3",
+          "rotation": [
+            0.00010192181449538599,
+            -1.6395579873280989e-09,
+            -6.378497195994166e-09,
+            0.9999999948059718
+          ],
+          "static": false,
+          "mounted": true,
+          "velocity": [
+            4.3298697960381105e-09,
+            -0.0005870505788152514,
+            -1.9685060817238311
+          ]
+        },
+        "turned": {
+          "position": [
+            0.22775134473111558,
+            -55.85282450483396,
+            9.979746345206511
+          ],
+          "id": "3",
+          "rotation": [
+            0.0055211338848519574,
+            0.5300775056172062,
+            0.00798108896089086,
+            0.8478936592157441
+          ],
+          "static": true,
+          "mounted": false,
+          "velocity": [
+            -0.3480216885090037,
+            -0.017939987799309165,
+            -1.050733922355107
+          ]
+        },
+        "anchored": {
+          "position": [
+            0.22775134473111558,
+            -55.85282450483396,
+            9.979746345206511
+          ],
+          "id": "3",
+          "rotation": [
+            0.0055211338848519574,
+            0.5300775056172062,
+            0.00798108896089086,
+            0.8478936592157441
+          ],
+          "static": true,
+          "mounted": false,
+          "velocity": [
+            -0.3480216885090037,
+            -0.017939987799309165,
+            -1.050733922355107
+          ]
+        },
+        "degrees": 64.02525792637792,
+        "outside": [],
+        "modelRequests": 0
+      },
+      "displacementXZ": 1.9644953147217414,
+      "anchorObservationSeconds": 10.25,
+      "client": "Linux Minecraft graphical client, software OpenGL, connected to isolated dedicated server",
+      "kotlin": "VS nested Fabric Language Kotlin 1.11.0+kotlin.2.0.0"
+    },
+    "waterVessel": {
+      "run": "engineering-1795365230256",
+      "guards": {
+        "utc": "2026-11-22T16:34:34.020Z",
+        "type": "engineering_guards",
+        "outOfScopeRejected": true,
+        "survivalRejected": true,
+        "worldUnchanged": true
+      },
+      "result": {
+        "utc": "2026-11-22T16:34:56.613Z",
+        "type": "engineering_ship_result",
+        "passed": true,
+        "kind": "water",
+        "pilot": "Numen LabBot",
+        "assembly": {
+          "id": "3",
+          "state": "assembling; inspect after the ship has loaded",
+          "backup": "engineering:backup_d3a6ffc2a6db4298a411ccdee49ea8cb"
+        },
+        "initial": {
+          "static": false,
+          "mounted": false,
+          "velocity": [
+            1.3322676295501878e-12,
+            -0.013069427950540558,
+            -4.798721420229413e-07
+          ],
+          "position": [
+            0.4999999888286927,
+            -56.70274911786605,
+            14.519579866950977
+          ],
+          "id": "3",
+          "rotation": [
+            0.05241550683135654,
+            -6.347294637306003e-11,
+            1.0149536721212692e-09,
+            0.9986253625076883
+          ]
+        },
+        "start": {
+          "static": false,
+          "mounted": true,
+          "velocity": [
+            1.3322676295501878e-12,
+            -0.0020122375872233533,
+            1.9419132968323538e-07
+          ],
+          "position": [
+            0.49999998882902574,
+            -56.70530579488015,
+            14.519579833043007
+          ],
+          "id": "3",
+          "rotation": [
+            0.05259491787917867,
+            -6.366070720121564e-11,
+            1.0148601241970229e-09,
+            0.9986159294810405
+          ]
+        },
+        "moved": {
+          "static": true,
+          "mounted": false,
+          "velocity": [
+            3.737010700888277e-09,
+            -0.0013990102729621867,
+            -1.9883320192661815
+          ],
+          "position": [
+            0.49999999118352234,
+            -56.70178799512391,
+            12.366664935374686
+          ],
+          "id": "3",
+          "rotation": [
+            0.052181429630538054,
+            -1.329552118338337e-09,
+            1.1303887352996556e-09,
+            0.9986376211628085
+          ]
+        },
+        "turnStart": {
+          "static": false,
+          "mounted": true,
+          "velocity": [
+            3.737010700888277e-09,
+            -0.0013990102729621867,
+            -1.9883320192661815
+          ],
+          "position": [
+            0.49999999118352234,
+            -56.70178799512391,
+            12.366664935374686
+          ],
+          "id": "3",
+          "rotation": [
+            0.052181429630538054,
+            -1.329552118338337e-09,
+            1.1303887352996556e-09,
+            0.9986376211628085
+          ]
+        },
+        "turned": {
+          "static": true,
+          "mounted": false,
+          "velocity": [
+            -0.35708662876476893,
+            -0.009263016465865803,
+            -0.9910502855490223
+          ],
+          "position": [
+            0.21319123436443266,
+            -56.70482866349451,
+            9.783364785548908
+          ],
+          "id": "3",
+          "rotation": [
+            0.04739004019088571,
+            0.5404371748348872,
+            -0.02403283474673273,
+            0.8397048689874486
+          ]
+        },
+        "anchored": {
+          "static": true,
+          "mounted": false,
+          "velocity": [
+            -0.35708662876476893,
+            -0.009263016465865803,
+            -0.9910502855490223
+          ],
+          "position": [
+            0.21319123436443266,
+            -56.70482866349451,
+            9.783364785548908
+          ],
+          "id": "3",
+          "rotation": [
+            0.04739004019088571,
+            0.5404371748348872,
+            -0.02403283474673273,
+            0.8397048689874486
+          ]
+        },
+        "degrees": 65.56409231054346,
+        "outside": [],
+        "modelRequests": 0
+      },
+      "displacementXZ": 2.1529149315762908,
+      "anchorObservationSeconds": 10.25,
+      "client": "Linux Minecraft graphical client, software OpenGL, connected to isolated dedicated server",
+      "kotlin": "VS nested Fabric Language Kotlin 1.11.0+kotlin.2.0.0"
+    }
+  },
+  "releaseJarRegressions": {
+    "ponderCheckFillPortsAndSettings": {
+      "run": "engineering-1795365307577",
+      "guards": {
+        "utc": "2026-11-22T16:35:26.089Z",
+        "type": "engineering_guards",
+        "outOfScopeRejected": true,
+        "survivalRejected": true,
+        "worldUnchanged": true
+      },
+      "result": {
+        "utc": "2026-11-22T16:35:27.138Z",
+        "type": "engineering_settings_result",
+        "passed": true,
+        "modelRequests": 0,
+        "ponderCase": true,
+        "dryRun": true,
+        "fill": true,
+        "barrelPorts": 6,
+        "fanRpm": [
+          64,
+          64
+        ],
+        "copies": 4,
+        "nativeSettings": [
+          {
+            "ScrollValue": 64,
+            "id": "create:motor"
+          },
+          {
+            "Filter": {
+              "id": "minecraft:gravel",
+              "Count": 1
+            },
+            "id": "create:smart_chute"
+          }
+        ]
+      }
+    },
+    "nativePermissions": {
+      "run": "engineering-1795365335299",
+      "guards": {
+        "utc": "2026-11-22T16:35:52.323Z",
+        "type": "engineering_guards",
+        "outOfScopeRejected": true,
+        "survivalRejected": true,
+        "worldUnchanged": true
+      },
+      "result": {
+        "utc": "2026-11-22T16:35:52.748Z",
+        "type": "engineering_native_permissions",
+        "passed": true,
+        "mode": "observe",
+        "mutationDenied": true,
+        "fillDenied": true,
+        "worldUnchanged": true
+      }
+    },
+    "cleanWaterVessel": {
+      "run": "engineering-1795365395132",
+      "guards": {
+        "utc": "2026-11-22T16:37:20.536Z",
+        "type": "engineering_guards",
+        "outOfScopeRejected": true,
+        "survivalRejected": true,
+        "worldUnchanged": true
+      },
+      "result": {
+        "utc": "2026-11-22T16:37:43.041Z",
+        "type": "engineering_ship_result",
+        "passed": true,
+        "kind": "water",
+        "pilot": "Numen LabBot",
+        "assembly": {
+          "id": "3",
+          "backup": "engineering:backup_e8e0c3896cc14b83a8a16ed497c458f3",
+          "state": "assembling; inspect after the ship has loaded"
+        },
+        "initial": {
+          "mounted": false,
+          "static": false,
+          "rotation": [
+            0.05265533483286427,
+            -6.370823394026754e-11,
+            1.0151174906805021e-09,
+            0.9986127456194613
+          ],
+          "id": "3",
+          "position": [
+            0.49999998882907015,
+            -56.70532638512162,
+            14.519579840440379
+          ],
+          "velocity": [
+            1.3322676295501878e-12,
+            0.0006830567258475639,
+            2.459898951201467e-07
+          ]
+        },
+        "start": {
+          "mounted": true,
+          "static": false,
+          "rotation": [
+            0.05282722870624168,
+            -6.373560229550765e-11,
+            1.017986914502863e-09,
+            0.9986036670807986
+          ],
+          "id": "3",
+          "position": [
+            0.4999999888294032,
+            -56.70381106095091,
+            14.51957989704923
+          ],
+          "velocity": [
+            1.3322676295501878e-12,
+            0.006604345230698528,
+            7.268852186825825e-08
+          ]
+        },
+        "moved": {
+          "mounted": false,
+          "static": true,
+          "rotation": [
+            0.052197822557879386,
+            -1.1549871208404916e-09,
+            1.0279075641438375e-09,
+            0.9986367644545318
+          ],
+          "id": "3",
+          "position": [
+            0.49999999129418715,
+            -56.70185087544033,
+            12.333269939569721
+          ],
+          "velocity": [
+            3.6251002200060615e-09,
+            -0.0008046066000133578,
+            -1.9990609043958332
+          ]
+        },
+        "turnStart": {
+          "mounted": true,
+          "static": false,
+          "rotation": [
+            0.052197822557879386,
+            -1.1549871208404916e-09,
+            1.0279075641438375e-09,
+            0.9986367644545318
+          ],
+          "id": "3",
+          "position": [
+            0.49999999129418715,
+            -56.70185087544033,
+            12.333269939569721
+          ],
+          "velocity": [
+            3.6251002200060615e-09,
+            -0.0008046066000133578,
+            -1.9990609043958332
+          ]
+        },
+        "turned": {
+          "mounted": false,
+          "static": true,
+          "rotation": [
+            0.047798293258855984,
+            0.5426282716626748,
+            -0.023448284697412752,
+            0.8382839971624578
+          ],
+          "id": "3",
+          "position": [
+            0.21584908663843716,
+            -56.7049035566029,
+            9.71061154601378
+          ],
+          "velocity": [
+            -0.3486326811628082,
+            -0.006715515610267176,
+            -0.9705271420443752
+          ]
+        },
+        "anchored": {
+          "mounted": false,
+          "static": true,
+          "rotation": [
+            0.047798293258855984,
+            0.5426282716626748,
+            -0.023448284697412752,
+            0.8382839971624578
+          ],
+          "id": "3",
+          "position": [
+            0.21584908663843716,
+            -56.7049035566029,
+            9.71061154601378
+          ],
+          "velocity": [
+            -0.3486326811628082,
+            -0.006715515610267176,
+            -0.9705271420443752
+          ]
+        },
+        "degrees": 65.86895825341861,
+        "outside": [],
+        "modelRequests": 0
+      },
+      "displacementXZ": 2.1863099008706577,
+      "anchorObservationSeconds": 10.25,
+      "client": "Linux Minecraft graphical client, software OpenGL, connected to isolated dedicated server",
+      "kotlin": "VS nested Fabric Language Kotlin 1.11.0+kotlin.2.0.0"
+    }
+  },
+  "fixtureNotes": [
+    "Stone and dough use fixed layouts and zero model calls.",
+    "Initial settings assertion checked literal '=' in a Gson-escaped JSON string. It was corrected in the test and both builds passed.",
+    "Land claims, Windows single-player graphics, final player's installation and autonomous attempts on the integrated JAR remain open."
+  ]
+}

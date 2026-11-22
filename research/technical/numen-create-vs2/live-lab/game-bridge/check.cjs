@@ -8,6 +8,12 @@ const {createRequire}=require('node:module');
 module.exports=async function check(lab){
   // Inert floor prevents grass decay beneath opaque placements from obscuring the boundary check.
   await lab.cmd('fill -7 -61 5 8 -61 20 minecraft:stone');
+  if(process.env.LAB_ENGINEERING_SMOKE==='ship' && process.env.LAB_ENGINEERING_VESSEL==='water'){
+    for(const edge of ['-7 -60 5 -7 -58 20','8 -60 5 8 -58 20','-6 -60 5 7 -58 5','-6 -60 20 7 -58 20']){
+      await lab.cmd('fill '+edge+' minecraft:stone');
+    }
+    await lab.cmd('fill -6 -60 6 7 -58 19 minecraft:water');
+  }
   if(process.env.LAB_ENGINEERING_SMOKE==='dough'){
     for(const edge of ['-7 -60 5 -7 -60 20','8 -60 5 8 -60 20','-6 -60 5 7 -60 5','-6 -60 20 7 -60 20']){
       await lab.cmd('fill '+edge+' minecraft:stone');
@@ -94,8 +100,10 @@ async function feedCheck(lab,baseline) {
 async function permissionCheck(lab,baseline) {
   await lab.drive('local ok,r=pcall(function() return engineering.site.apply({{pos={x=-4,y=-55,z=11},state="minecraft:stone"}}) end); print("observed_permission",ok,tostring(r))','\nobserved_permission');
   assert.match(lab.output(),/observed_permission\s+false\s+[^\n]*denied/i);
+  await lab.drive('local ok,r=pcall(function() return engineering.site.fill({x=-4,y=-55,z=11},{x=-3,y=-55,z=11},"minecraft:stone") end); print("observed_fill",ok,tostring(r))','\nobserved_fill');
+  assert.match(lab.output(),/observed_fill\s+false\s+[^\n]*denied/i);
   assert.deepEqual((await lab.save('permissions-final')).blocks,baseline.blocks);
-  lab.mark('engineering_native_permissions',{passed:true,mode:'observe',mutationDenied:true,worldUnchanged:true});
+  lab.mark('engineering_native_permissions',{passed:true,mode:'observe',mutationDenied:true,fillDenied:true,worldUnchanged:true});
 }
 
 async function pressCheck(lab,baseline) {
@@ -126,6 +134,7 @@ async function pressCheck(lab,baseline) {
 }
 
 async function shipCheck(lab,baseline) {
+  const water=process.env.LAB_ENGINEERING_VESSEL==='water';
   const api='engineering_vessels.ship.';
   const read=async (label,expression) => {
     await lab.drive('print("'+label+'",'+expression+')','\n'+label);
@@ -133,15 +142,18 @@ async function shipCheck(lab,baseline) {
     assert(row,'missing vessel inspection '+label);
     return JSON.parse(row.slice(label.length).trim());
   };
-  const cells=[];
-  for (const x of [-1,0,1]) for (const z of [12,13,14]) cells.push([x,-56,z,'minecraft:oak_planks']);
-  for (const x of [-1,1]) for (const z of [12,14]) cells.push([x,-55,z,'vs_eureka:balloon']);
-  cells.push([0,-55,13,'vs_eureka:oak_ship_helm[facing=north]'],[0,-56,15,'vs_eureka:anchor']);
+  const cells=[], deck=water?-57:-56;
+  for (const x of [-1,0,1]) for (const z of [12,13,14])
+    cells.push([x,deck,z,water && x!==0?'vs_eureka:floater':'minecraft:oak_planks']);
+  if(!water){
+    for (const x of [-1,1]) for (const z of [12,14]) cells.push([x,deck+1,z,'vs_eureka:balloon']);
+  }
+  cells.push([0,deck+1,13,'vs_eureka:oak_ship_helm[facing=north]'],[0,deck,15,'vs_eureka:anchor']);
   const plan=cells.map(([x,y,z,state])=>'{pos={x='+x+',y='+y+',z='+z+'},state='+JSON.stringify(state)+'}').join(',');
   await lab.drive('assert(engineering.site.apply({'+plan+'}).cells=='+cells.length+'); print("vessel_built")','\nvessel_built');
-  const assembly=await read('vessel_assembled',api+'assemble({x=0,y=-55,z=13})');
+  const assembly=await read('vessel_assembled',api+'assemble({x=0,y='+ (deck+1) +',z=13})');
   assert.match(assembly.backup,/^engineering:backup_/);
-  await wait(1400);
+  await wait(water?4000:1400);
   const initial=await read('vessel_initial',api+'inspect()');
   const start=await read('vessel_drive',api+'drive("north",1,0,0,45)');
   assert(start.mounted,'the companion must mount the native helm');
@@ -162,7 +174,8 @@ async function shipCheck(lab,baseline) {
   assert.deepEqual(anchored.rotation,turned.rotation);
   const outside=outsideChanges(baseline,await lab.save('engineering-ship-final'));
   assert.deepEqual(outside,[]);
-  lab.mark('engineering_ship_result',{passed:true,pilot:'Numen LabBot',assembly,initial,start,moved,turnStart,turned,anchored,degrees,outside,modelRequests:0});
+  lab.mark('engineering_ship_result',{passed:true,kind:water?'water':'air',pilot:'Numen LabBot',
+    assembly,initial,start,moved,turnStart,turned,anchored,degrees,outside,modelRequests:0});
 }
 
 function safeData(structure) {
@@ -246,11 +259,22 @@ async function lineCheck(lab,baseline) {
 }
 
 async function settingsCheck(lab) {
-  const lua=`local guide=engineering.site.guide("mechanical_arm"); assert(string.find(guide,"Ponder")); local motor={x=-5,y=-57,z=11}; local fan={x=-4,y=-57,z=11}; local chute={x=-3,y=-57,z=11}; local barrel={x=-2,y=-57,z=11};
+  const lua=`local guide=engineering.site.guide("millstone");
+    assert(string.find(guide,'"case"',1,true) and string.find(guide,'"anchor":"create:millstone"',1,true),"Ponder case");
+    assert(string.find(guide,"device_ports",1,true) and string.find(guide,"cogwheel[axis",1,true),"millstone port notes");
+    local first={x=1,y=-57,z=17}; local last={x=2,y=-57,z=17};
+    local preflight=engineering.site.check({{pos=first,state="create:millstone"},
+      {pos=last,state="minecraft:diamond_block"}});
+    assert(#preflight.rejects==1 and #preflight.warnings>=1);
+    assert(engineering.site.inspect(first).block=="minecraft:air");
+    assert(engineering.site.fill(first,last,"minecraft:stone").cells==2);
+    assert(engineering.site.inspect(first).block=="minecraft:stone" and engineering.site.inspect(last).block=="minecraft:stone");
+    local motor={x=-5,y=-57,z=11}; local fan={x=-4,y=-57,z=11}; local chute={x=-3,y=-57,z=11}; local barrel={x=-2,y=-57,z=11};
     local batch=engineering.site.apply({{pos=motor,state="create:creative_motor",faces={"east"},rpm=64},
       {pos=fan,state="create:encased_fan",faces={"west"}},{pos=chute,state="create:smart_chute",filter="minecraft:gravel"},
       {pos=barrel,state="minecraft:barrel"}});
     assert(batch.cells==4); assert(engineering.site.feed(barrel,"minecraft:cobblestone",3)==3);
+    assert(#engineering.site.ports(barrel)==6);
     assert(engineering.site.inspect(barrel).items[1].count==3);
     assert(engineering.site.inspect(chute).filter=="minecraft:gravel");
     assert(engineering.site.export("device_settings",motor,barrel)=="engineering:device_settings");
@@ -269,7 +293,8 @@ async function settingsCheck(lab) {
   const fans=final.blockEntities.filter(e=>e.id==='create:encased_fan');
   assert(fans.length===2&&fans.every(f=>Math.abs(f.Speed)===64));
   assert(safeData(structure));
-  lab.mark('engineering_settings_result',{passed:true,modelRequests:0,fanRpm:fans.map(f=>f.Speed),
+  lab.mark('engineering_settings_result',{passed:true,modelRequests:0,ponderCase:true,dryRun:true,fill:true,barrelPorts:6,
+    fanRpm:fans.map(f=>f.Speed),
     copies:structure.blocks.length,nativeSettings:structure.blocks.flatMap(b=>b.nbt?[b.nbt]:[])});
 }
 

@@ -545,7 +545,7 @@ async function main() {
     if (engineeringShip) {
       const vs = process.env.LAB_VS_MODS;
       assert(vs,'Set LAB_VS_MODS for the engineering ship smoke test');
-      extraMods.push(...['vs.jar','eureka.jar','kotlin.jar'].map(name=>path.resolve(vs,name)));
+      extraMods.push(...['vs.jar','eureka.jar'].map(name=>path.resolve(vs,name)));
       args.push('-Dengineering.ships=true');
     }
   }

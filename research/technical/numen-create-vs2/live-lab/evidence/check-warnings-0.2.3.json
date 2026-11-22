@@ -1,0 +1,24 @@
+{
+  "date": "2026-11-22",
+  "phase": "0.2.3 check 施工前告警",
+  "baseline": "9e6a3c735eca8190a4de7c68616640ec7e633de9",
+  "change": "engineering.site.check now returns layout warnings in addition to rejects: motor facing without a transmission cell on that face, millstone bottom blocked by a kinetic block or free for a chute, and chute output into a non-container",
+  "validation": {
+    "run": "k2",
+    "calls": 3,
+    "peakContextTokens": 12029,
+    "seconds": 4,
+    "result": "plan A (motor up, shaft below, millstone) reported two warnings: motor facing mismatch and millstone bottom free; plan B added a side cogwheel and a chute below the millstone and reported the cogwheel rejection plus the chute-into-millstone warning",
+    "note": "the model also misread the cogwheel axis rejection; the check surface itself worked"
+  },
+  "full_run": {
+    "run": "e15",
+    "calls": 82,
+    "window": "23:30:43..23:32:44",
+    "peakContextTokens": 46719,
+    "outcome": "failed",
+    "reason": "model reported every shaft at 0 RPM with the warning that its faces do not meet a powered output; it proposed a gravity-fed skeleton without power and stopped",
+    "note": "the warning text reached the model unchanged, so the remaining gap is the model acting on it, not missing feedback"
+  },
+  "verdict": "pre-build warnings work and are visible to the model, but no autonomous two-stage line was produced; the failure is now the model's placement decisions rather than missing tool feedback"
+}

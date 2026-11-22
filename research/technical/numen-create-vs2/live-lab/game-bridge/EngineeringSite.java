@@ -31,6 +31,9 @@ import net.minecraft.class_1263;
 import net.minecraft.class_2248;
 import net.minecraft.class_2259;
 import net.minecraft.class_2338;
+import net.minecraft.class_2350;
+import net.fabricmc.fabric.api.transfer.v1.item.ItemStorage;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.minecraft.class_2382;
 import net.minecraft.class_2487;
 import net.minecraft.class_2505;
@@ -84,7 +87,7 @@ public final class EngineeringSite implements ModInitializer {
             "For engineering tasks use Lua print(engineering.site.info()) once for inclusive bounds and allowed blocks. " +
             "No numen. prefix. Print results; a bare Lua call hides its return. Apply cells as " +
             "{{pos={x=...,y=...,z=...},state='namespace:block',faces={'east'}}}; faces are optional shaft faces. " +
-            "Use one bounded batch and inspect_many({pos1,pos2}) for evidence. Read Ponder only for missing facts. " +
+            "Use one bounded batch; fill() writes a box, check() dry-runs, ports() lists real item faces, and apply() returns warnings for unconnected kinetics. Read Ponder only for missing facts. " +
             "A mode or permission denial needs an owner action before retrying.",Site.class));
     }
 
@@ -96,6 +99,14 @@ public final class EngineeringSite implements ModInitializer {
                            @Doc("Signed creative motor setting, 1 to 256 in magnitude.") Optional<Integer> rpm,
                            @Doc("Approved item ID for a smart chute.") Optional<String> filter) {}
         public record Work(@Doc("1..64 cells in one batch. Use expected for an occupied cell.") List<Cell> cells) {}
+        public record Box(@Doc("Inclusive minimum corner inside the site.") class_2338 from,
+                          @Doc("Inclusive maximum corner; every cell receives the same state.") class_2338 to,
+                          @Doc("Registry ID with optional block state properties. No NBT.") String state,
+                          @Doc("Exact expected old state in every cell, or omit for air.") Optional<String> expected) {}
+        public record Reject(@Doc("Cell that would be refused.") class_2338 pos,
+                             @Doc("Actual state or the reason the cell is invalid.") String reason) {}
+        public record Check(int cells, List<Reject> rejects, List<String> warnings) {}
+        public record Port(String face, boolean items, boolean insert, boolean extract, boolean fluid) {}
         public record NoArgs() {}
         public record Points(@Doc("1..16 loaded coordinates in the site.") List<class_2338> positions) {}
         public record SiteInfo(class_2338 from,class_2338 to,List<String> blocks,List<String> hull,
@@ -132,7 +143,7 @@ public final class EngineeringSite implements ModInitializer {
         public record Region(String name,class_2338 from,class_2338 to) {}
         public record Replay(String name,class_2338 at) {}
         public record ResolvedCell(class_2338 pos,String state) {}
-        public record Applied(int cells,String backup,List<ResolvedCell> resolved) {}
+        public record Applied(int cells,String backup,List<ResolvedCell> resolved,List<String> warnings) {}
         public record Reading(String block,String properties,Optional<Double> rpm,Optional<Boolean> overstressed,
                               List<String> shaft_faces,Optional<String> network,Optional<class_2338> source,
                               Optional<Integer> motor_setting,Optional<String> filter,List<CreateSettings.Stock> items,
@@ -151,24 +162,157 @@ public final class EngineeringSite implements ModInitializer {
         public static Pending<Applied> apply(ServerCall call,Work args) {
             var level=level(call);
             require(!args.cells().isEmpty() && args.cells().size()<=LIMIT,"expected 1..64 block edits");
-            var edits=args.cells().stream().map(c->{
-                check(level,c.pos());
-                var parsed=parseState(c.state());
-                var state=parsed.comp_622();
-                if(c.faces().isPresent()) {
-                    var requested=c.faces().get();
-                    require(requested.size()>=1 && requested.size()<=6,"expected one to six shaft directions");
+            var occupied=new HashSet<class_2338>();
+            for(var cell:args.cells()) occupied.add(cell.pos());
+            var edits=args.cells().stream().map(c->prepare(level,inferAxis(c,occupied))).toList();
+            return execute(call,edits);
+        }
+
+        private static Cell inferAxis(Cell cell,Set<class_2338> batch) {
+            String state=cell.state();
+            if(cell.faces().isPresent() || !state.equals("create:shaft")) return cell;
+            if(state.contains("[")) return cell;
+            int x=0,y=0,z=0;
+            var p=cell.pos();
+            if(batch.contains(new class_2338(p.method_10263()+1,p.method_10264(),p.method_10260()))
+                || batch.contains(new class_2338(p.method_10263()-1,p.method_10264(),p.method_10260()))) x=1;
+            if(batch.contains(new class_2338(p.method_10263(),p.method_10264()+1,p.method_10260()))
+                || batch.contains(new class_2338(p.method_10263(),p.method_10264()-1,p.method_10260()))) y=1;
+            if(batch.contains(new class_2338(p.method_10263(),p.method_10264(),p.method_10260()+1))
+                || batch.contains(new class_2338(p.method_10263(),p.method_10264(),p.method_10260()-1))) z=1;
+            if(x+y+z!=1) return cell;
+            String axis=x==1?"x":y==1?"y":"z";
+            return new Cell(cell.pos(),state+"[axis="+axis+"]",cell.expected(),cell.faces(),cell.rpm(),cell.filter());
+        }
+
+        @Fn("Dry-run a batch without writing. Returns every cell that would be rejected and why, so a layout can be corrected before apply. No block changes, no consent prompts.")
+        public static Check check(ServerCall call,Work args) {
+            var level=level(call);
+            require(!args.cells().isEmpty() && args.cells().size()<=LIMIT,"expected 1..64 block edits");
+            var rejects=new ArrayList<Reject>();
+            for(var cell:args.cells()) {
+                try {
+                    var edit=prepare(level,cell);
+                    var actual=level.method_8320(edit.at());
+                    if(actual!=edit.before()) rejects.add(new Reject(edit.at(),
+                        "expected "+CreateReadings.commandState(edit.before())+" but actual "+CreateReadings.commandState(actual)));
+                } catch(RuntimeException error) {
+                    rejects.add(new Reject(cell.pos(),String.valueOf(error.getMessage())));
+                }
+            }
+            return new Check(args.cells().size(),rejects,layoutWarnings(level,args.cells()));
+        }
+
+        private static List<String> layoutWarnings(class_3218 level,List<Cell> cells) {
+            var planned=new java.util.HashMap<class_2338,String>();
+            for(var cell:cells) planned.put(cell.pos(),cell.state());
+            var warnings=new ArrayList<String>();
+            for(var cell:cells) {
+                var pos=cell.pos();
+                var state=cell.state();
+                if(state.startsWith("create:creative_motor")) {
+                    String facing=state.contains("facing=")?state.replaceAll(".*facing=([a-z]+).*","$1"):"north";
+                    var dir=class_2350.method_10168(facing);
+                    if(dir==null) continue;
+                    var target=pos.method_10093(dir);
+                    var next=planned.getOrDefault(target,"");
+                    boolean connected=next.startsWith("create:shaft")||next.contains("cogwheel")||next.startsWith("create:gearbox")
+                        ||(planned.get(target)==null && level.method_8321(target) instanceof KineticBlockEntity);
+                    if(!connected) warnings.add(pos+" motor faces "+facing+" but "+target+" is not planned as a shaft or cogwheel;"
+                        +" put the transmission cell on the facing side or change facing");
+                    continue;
+                }
+                if(state.startsWith("create:millstone")) {
+                    var below=pos.method_10084();
+                    var next=planned.get(below);
+                    boolean kineticBelow=next!=null && (next.startsWith("create:shaft")||next.contains("cogwheel")||next.startsWith("create:gearbox")||next.startsWith("create:creative_motor"));
+                    if(kineticBelow) warnings.add(pos+" millstone has "+next+" below, which blocks the downward output; drive it from a side cogwheel[axis=y] instead");
+                    else if(next==null && level.method_8320(below).method_26215())
+                        warnings.add(pos+" millstone bottom is free; put a chute or barrel directly below to collect output");
+                    continue;
+                }
+                if(state.startsWith("create:chute") || state.startsWith("create:smart_chute")) {
+                    var below=pos.method_10084();
+                    var next=planned.get(below);
+                    if(next!=null && !next.equals("minecraft:air") && !next.contains("chute")
+                        && !next.equals("minecraft:barrel"))
+                        warnings.add(pos+" chute outputs into "+next+" below; chutes only move items downward into air or a container");
+                }
+            }
+            return List.copyOf(warnings);
+        }
+
+        @Fn("Fill an inclusive axis-aligned box with one block state in a single batch. Use it for floors, walls, pillars and shaft runs instead of writing every cell; volume is 1..64.")
+        public static Pending<Applied> fill(ServerCall call,Box args) {
+            var level=level(call);
+            check(level,args.from());
+            check(level,args.to());
+            int x0=Math.min(args.from().method_10263(),args.to().method_10263());
+            int y0=Math.min(args.from().method_10264(),args.to().method_10264());
+            int z0=Math.min(args.from().method_10260(),args.to().method_10260());
+            int x1=Math.max(args.from().method_10263(),args.to().method_10263());
+            int y1=Math.max(args.from().method_10264(),args.to().method_10264());
+            int z1=Math.max(args.from().method_10260(),args.to().method_10260());
+            long volume=(long)(x1-x0+1)*(y1-y0+1)*(z1-z0+1);
+            require(volume>=1 && volume<=LIMIT,"box volume must be 1..64, got "+volume);
+            var state=args.state();
+            if(state.equals("create:shaft") && (x1==x0 || y1==y0 || z1==z0)) {
+                int varying=(x1>x0?1:0)+(y1>y0?1:0)+(z1>z0?1:0);
+                if(varying==1) state="create:shaft[axis="+(x1>x0?"x":y1>y0?"y":"z")+"]";
+            }
+            var cells=new ArrayList<Cell>((int)volume);
+            for(int x=x0;x<=x1;x++) for(int y=y0;y<=y1;y++) for(int z=z0;z<=z1;z++)
+                cells.add(new Cell(new class_2338(x,y,z),state,args.expected(),
+                    Optional.empty(),Optional.empty(),Optional.empty()));
+            return apply(call,new Work(cells));
+        }
+
+        @Fn("Report which faces of a block expose item or fluid transfer and whether they insert or extract. Use it to place chutes and funnels on real ports instead of guessing.")
+        public static List<Port> ports(ServerCall call, Point args) {
+            var level=level(call);
+            check(level,args.pos());
+            var state=level.method_8320(args.pos());
+            var entity=level.method_8321(args.pos());
+            var result=new ArrayList<Port>();
+            for(var dir:class_2350.values()) {
+                var items=ItemStorage.SIDED.find(level,args.pos(),state,entity,dir);
+                var fluids=FluidStorage.SIDED.find(level,args.pos(),state,entity,dir);
+                if(items==null && fluids==null) continue;
+                result.add(new Port(dir.method_10151(),items!=null,
+                    items!=null && items.supportsInsertion(),items!=null && items.supportsExtraction(),fluids!=null));
+            }
+            return result;
+        }
+
+        private static Edit prepare(class_3218 level,Cell c) {
+            check(level,c.pos());
+            var parsed=parseState(c.state());
+            var state=parsed.comp_622();
+            if(id(state).equals("create:shaft")
+                && c.faces().isEmpty() && parsed.comp_623().isEmpty()) {
+                var neighbours=new ArrayList<class_2350>();
+                for(var dir:class_2350.values())
+                    if(level.method_8321(c.pos().method_10093(dir)) instanceof KineticBlockEntity) neighbours.add(dir);
+                if(neighbours.size()==1) {
                     try {
-                        state=CreateReadings.orient(level,c.pos(),c.state(),requested);
-                    } catch (CommandSyntaxException | IllegalArgumentException error) {
-                        throw bad(error.getMessage());
+                        state=CreateReadings.orient(level,c.pos(),c.state(),
+                            List.of(neighbours.get(0).method_10151()));
+                    } catch (CommandSyntaxException | IllegalArgumentException ignored) {
                     }
                 }
-                var settings=new CreateSettings.Settings(c.rpm().orElse(null),c.filter().orElse(null));
-                require(settings.allowedFor(id(state)),"unsupported settings for "+id(state));
-                return new Edit(c.pos(),parse(c.expected().orElse("minecraft:air")),state,parsed.comp_623(),c.faces().isPresent(),settings);
-            }).toList();
-            return execute(call,edits);
+            }
+            if(c.faces().isPresent()) {
+                var requested=c.faces().get();
+                require(requested.size()>=1 && requested.size()<=6,"expected one to six shaft directions");
+                try {
+                    state=CreateReadings.orient(level,c.pos(),c.state(),requested);
+                } catch (CommandSyntaxException | IllegalArgumentException error) {
+                    throw bad(error.getMessage());
+                }
+            }
+            var settings=new CreateSettings.Settings(c.rpm().orElse(null),c.filter().orElse(null));
+            require(settings.allowedFor(id(state)),"unsupported settings for "+id(state));
+            return new Edit(c.pos(),parse(c.expected().orElse("minecraft:air")),state,parsed.comp_623(),c.faces().isPresent(),settings);
         }
 
         @Fn("Read the actual block and signed Create RPM at a loaded, authorized site cell.")
@@ -308,6 +452,15 @@ public final class EngineeringSite implements ModInitializer {
                     }
                     for(var edit:edits) require(CreateSettings.apply(level.method_8321(edit.at()),edit.settings()),
                         "device rejected configuration at "+edit.at());
+                    for(var edit:changed) {
+                        if(level.method_8321(edit.at()) instanceof KineticBlockEntity kinetic) {
+                            try {
+                                kinetic.initialize();
+                                kinetic.updateSpeed=true;
+                            } catch(RuntimeException ignored) {
+                            }
+                        }
+                    }
                 } catch(RuntimeException error) {
                     for(int i=changed.size()-1;i>=0;i--){
                         var edit=changed.get(i);
@@ -321,7 +474,51 @@ public final class EngineeringSite implements ModInitializer {
                 }
                 var resolved=edits.stream().filter(edit->edit.oriented() || level.method_8320(edit.at())!=edit.state())
                     .map(edit->new ResolvedCell(edit.at(),CreateReadings.commandState(level.method_8320(edit.at())))).toList();
-                return new Applied(written,"engineering:"+backup,resolved);
+                var warnings=new ArrayList<String>();
+                for(var edit:changed) {
+                    var entity=level.method_8321(edit.at());
+                    if(!(entity instanceof KineticBlockEntity kinetic)) continue;
+                    var state=level.method_8320(edit.at());
+                    if(CreateReadings.commandState(state).startsWith("create:millstone")) {
+                        var below=edit.at().method_10084();
+                        var belowState=level.method_8320(below);
+                        if(!belowState.method_26215() && level.method_8321(below) instanceof KineticBlockEntity)
+                            warnings.add(edit.at()+" millstone output is blocked by "+CreateReadings.commandState(belowState)
+                                +" below; power it from a side cogwheel so the bottom stays free for a chute or barrel");
+                        else if(belowState.method_26215())
+                            warnings.add(edit.at()+" millstone output leaves through the bottom; put a chute or barrel below"
+                                +" and keep the bottom free (side cogwheel for power)");
+                    }
+                    if(kinetic.getSpeed()!=0) {
+                        var faces=CreateReadings.faces(level,edit.at(),state);
+                        if(!faces.isEmpty()) {
+                            boolean linked=false;
+                            for(var face:faces) {
+                                var dir=class_2350.method_10168(face);
+                                if(dir!=null && level.method_8321(edit.at().method_10093(dir)) instanceof KineticBlockEntity) { linked=true; break; }
+                            }
+                            if(!linked) warnings.add(edit.at()+" "+CreateReadings.commandState(state)
+                                +" is powered (speed="+kinetic.getSpeed()+") with faces="+faces
+                                +" but no kinetic block on any of those faces; place a shaft against one of them");
+                        }
+                        if(warnings.size()>=8) break;
+                        continue;
+                    }
+                    var neighbours=new StringBuilder();
+                    for(var dir:class_2350.values()) {
+                        var side=edit.at().method_10093(dir);
+                        var sideState=level.method_8320(side);
+                        if(sideState.method_26215()) continue;
+                        if(!neighbours.isEmpty()) neighbours.append(' ');
+                        neighbours.append(dir.method_10148()).append('=');
+                        neighbours.append(CreateReadings.commandState(sideState));
+                    }
+                    warnings.add(edit.at()+" "+CreateReadings.commandState(state)
+                        +" speed=0 network="+(kinetic.network==null?"none":kinetic.network.toString())
+                        +" neighbours=["+neighbours+"]; rotate or move it so its faces meet the output face of a powered block");
+                    if(warnings.size()>=8) break;
+                }
+                return new Applied(written,"engineering:"+backup,resolved,List.copyOf(warnings));
             });
         }
 

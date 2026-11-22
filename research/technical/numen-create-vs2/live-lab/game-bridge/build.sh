@@ -10,8 +10,9 @@ trap 'rm -rf "$scratch"' EXIT
 sources=(EngineeringSite.java CreateReadings.java CreateSettings.java PonderGuide.java)
 if [[ -n ${LAB_VS_MODS:-} ]]; then
     classpath="$classpath:$LAB_VS_MODS/vs.jar:$LAB_VS_MODS/eureka.jar"
-    unzip -j "$LAB_VS_MODS/kotlin.jar" 'META-INF/jars/kotlin-stdlib-*.jar' -d "$scratch" >/dev/null
-    for file in "$scratch"/*.jar; do classpath="$classpath:$file"; done
+    unzip -p "$LAB_VS_MODS/vs.jar" 'META-INF/jars/fabric-language-kotlin-*.jar' > "$scratch/kotlin.jar"
+    unzip -j "$scratch/kotlin.jar" 'META-INF/jars/kotlin-stdlib-*.jar' -d "$scratch" >/dev/null
+    for file in "$scratch"/kotlin-stdlib-*.jar; do classpath="$classpath:$file"; done
     sources+=(../ship-bridge/LabShips.java ../ship-bridge/EngineeringShips.java)
 fi
 "$java/bin/javac" --release 17 -proc:none -cp "$classpath" -d "$scratch" "${sources[@]}"
