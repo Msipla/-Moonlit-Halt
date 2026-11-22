@@ -50,7 +50,8 @@ public final class EngineeringSite implements ModInitializer {
     private static final Set<String> PALETTE=Set.of(
         "minecraft:air","minecraft:stone","minecraft:glass","minecraft:oak_planks","minecraft:barrel","minecraft:hopper",
         "create:creative_motor","create:shaft","create:gearbox","create:cogwheel","create:large_cogwheel",
-        "create:millstone","create:encased_fan","create:mechanical_press","create:depot","create:chute","create:smart_chute");
+        "create:millstone","create:encased_fan","create:mechanical_press","create:depot","create:chute","create:smart_chute",
+"vs_eureka:oak_ship_helm","vs_eureka:anchor","vs_eureka:balloon","vs_eureka:white_balloon","vs_eureka:floater");
 
     @Override
     public void onInitialize() {

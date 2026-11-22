@@ -62,7 +62,7 @@ public final class EngineeringShips {
         public record Drive(String heading, double forward, double up, double left, int ticks) {}
         public record Empty() {}
 
-        @Fn("Assemble a connected, companion-built Eureka hull with one oak helm and one anchor, 2..64 cells, inside the configured site.")
+        @Fn("Assemble a connected, companion-built Eureka hull with one oak helm and one anchor, 2..64 cells, inside the configured site. Allowed hull blocks: minecraft:oak_planks, minecraft:oak_fence, vs_eureka:oak_ship_helm, vs_eureka:anchor, vs_eureka:white_balloon, vs_eureka:balloon, vs_eureka:floater.")
         public static Pending<String> assemble(ServerCall call, Hull args) {
             var world = level(call);
             var original = hull(call, world, args.helm());
