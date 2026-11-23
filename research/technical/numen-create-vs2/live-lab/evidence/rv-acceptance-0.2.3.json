@@ -1,0 +1,1223 @@
+{
+  "baseline": "25dde6a2a21bb158b9183a908cc9d778fb360e36",
+  "minecraft": {
+    "minecraft": "1.20.1",
+    "loader": "0.17.2",
+    "java": "17",
+    "fabricApi": "0.92.6+1.20.1",
+    "numen": "0.1.5-beta",
+    "create": "6.0.8.1+build.1744-mc1.20.1",
+    "eureka": "1.6.4",
+    "vs": "2.4.11",
+    "rendering": "real graphical Fabric client connected to a loopback dedicated server; software OpenGL"
+  },
+  "releaseJarSHA256": "90703d5637eb3c11d5eebf19d67e860253d08a095dcd2673b7e4ff3dcfbdfa2c",
+  "scope": [
+    -7,
+    -60,
+    5,
+    8,
+    -45,
+    20
+  ],
+  "permission": "ask",
+  "preflightAndControls": {
+    "autonomousScene": {
+      "baseline": "25dde6a2a21bb158b9183a908cc9d778fb360e36",
+      "prompt": "请在空地上自主设计并建造一辆比较大的豪华巴士式移动房车，参考现实中大型大巴改装房车的布局。车身应有合理比例、车窗、车门、驾驶室、通道，并在内部划分客厅、厨房、卫生间、卧室和储物空间。家具和隔断应体现不同房间的功能，整体适合长期居住。完成后将整辆房车装配为可驾驶载具，测试行驶、转向、停车，以及行驶时能否在车内自由活动。",
+      "site": [
+        -7,
+        -60,
+        5,
+        8,
+        -45,
+        20
+      ],
+      "permission": "ask",
+      "events": [
+        {
+          "kind": "setup",
+          "time": "2026-11-23T11:04:23.660986+00:00",
+          "graphicalClient": true,
+          "requestProfile": "lab:deepseek",
+          "profile": "deepseek-reasoner",
+          "providerKeyAvailable": false,
+          "setupOutput": [
+            "[19:04:22] [Server thread/INFO]: [numen-entity#79040fbd-8073-41b1-bbd3-6cd596cc307d] provider entry set to lab:deepseek",
+            "[19:04:22] [Server thread/INFO]: LabBot now uses the profile lab:deepseek",
+            "[19:04:22] [Server thread/INFO]: LabBot: permission mode set to ask"
+          ]
+        },
+        {
+          "kind": "natural_language_window",
+          "time": "2026-11-23T11:04:44.736574+00:00",
+          "elapsedSeconds": 15.73,
+          "serverLines": [
+            "[19:04:33] [Server thread/WARN]: [numen-entity#79040fbd-8073-41b1-bbd3-6cd596cc307d] can't reach the model: 模型配置没填密钥"
+          ],
+          "clientChat": [
+            "[19:04:33] [Render thread/INFO]: [System] [CHAT] [LabBot] <LabOwner> 请在空地上自主设计并建造一辆比较大的豪华巴士式移动房车，参考现实中大型大巴改装房车的布局。车身应有合理比例、车窗、车门、驾驶室、通道，并在内部划分客厅、厨房、卫生间、卧室和储物空间。家具和隔断应体现不同房间的功能，整体适合长期居住。完成后将整辆房车装配为可驾驶载具，测试行驶、转向、停车，以及行驶时能否在车内自由活动。",
+            "[19:04:33] [Render thread/INFO]: [System] [CHAT] ⚠ LabBot:模型配置「deepseek」还没填 API Key——到 设置 → 模型配置 补上"
+          ]
+        },
+        {
+          "kind": "scripted_control",
+          "time": "2026-11-23T11:04:50.978265+00:00",
+          "marker": "rv_cap_floor",
+          "output": [
+            "63"
+          ]
+        },
+        {
+          "kind": "scripted_control",
+          "time": "2026-11-23T11:04:51.221665+00:00",
+          "marker": "rv_cap_parts",
+          "output": [
+            "2"
+          ]
+        },
+        {
+          "kind": "scripted_control",
+          "time": "2026-11-23T11:04:51.465209+00:00",
+          "marker": "rv_cap_rejection",
+          "output": [
+            "false",
+            "engineering_vessels.ship.assemble: bad_argument — hull exceeds 64 cells"
+          ]
+        },
+        {
+          "kind": "oversize_control",
+          "time": "2026-11-23T11:05:00.303943+00:00",
+          "hullCount": 65,
+          "rejected": true
+        },
+        {
+          "kind": "scripted_control",
+          "time": "2026-11-23T11:05:05.371971+00:00",
+          "marker": "rv_ground_hull",
+          "output": [
+            "11"
+          ]
+        },
+        {
+          "kind": "trial_error",
+          "time": "2026-11-23T11:05:23.722949+00:00",
+          "message": "timeout waiting for server (18s): mes for LabOwner\n[19:05:00] [Server thread/INFO]: Showing new subtitle for LabOwner\n[19:05:00] [Server thread/INFO]: Showing new title for LabOwner\n[19:05:00] [Server thread/INFO]: Successfully filled 256 block(s)\n[19:05:00] [Server thread/INFO]: Teleported LabOwner to -4.500000, -57.000000, 12.500000\n[19:05:05] [Server thread/INFO]: [numen-program] 79040fbd-8073-41b1-bbd3-6cd596cc307d runs drive-e784b23b-1cd0-42f3-8815-e7f49bea9a53 on the server (654 chars)\n[19:05:05] [Server thread/INFO]: LabBot: ok · 1 call · 0 s\nstdout:\nrv_ground_hull\t11\n[19:05:05] [Server thread/INFO]: [numen-program] 79040fbd-8073-41b1-bbd3-6cd596cc307d runs drive-a057819f-ba94-41b6-a701-c22da56eecfd on the server (80 chars)\n[19:05:05] [Server thread/INFO]: LabBot: The script stopped at line 1 after 1 call: engineering_vessels.ship.assemble: bad_argument — hull exceeds 64 cells\nstderr:\nline 1 engineering_vessels.ship.assemble: bad_argument — hull exceeds 64 cells\n"
+        }
+      ]
+    },
+    "freshGroundScene": {
+      "baseline": "25dde6a2a21bb158b9183a908cc9d778fb360e36",
+      "prompt": "请在空地上自主设计并建造一辆比较大的豪华巴士式移动房车，参考现实中大型大巴改装房车的布局。车身应有合理比例、车窗、车门、驾驶室、通道，并在内部划分客厅、厨房、卫生间、卧室和储物空间。家具和隔断应体现不同房间的功能，整体适合长期居住。完成后将整辆房车装配为可驾驶载具，测试行驶、转向、停车，以及行驶时能否在车内自由活动。",
+      "test": "separate land control",
+      "site": [
+        -7,
+        -60,
+        5,
+        8,
+        -45,
+        20
+      ],
+      "permission": "ask",
+      "events": [
+        {
+          "kind": "setup",
+          "time": "2026-11-23T11:06:22.942941+00:00",
+          "graphicalClient": true,
+          "requestProfile": "lab:deepseek",
+          "profile": "deepseek-reasoner",
+          "providerKeyAvailable": false,
+          "setupOutput": [
+            "[19:06:21] [Server thread/INFO]: [numen-entity#ff8dc5e1-a97e-4d0d-8a49-9befe07bd19e] provider entry set to lab:deepseek",
+            "[19:06:21] [Server thread/INFO]: LabBot now uses the profile lab:deepseek",
+            "[19:06:21] [Server thread/INFO]: LabBot: permission mode set to ask"
+          ]
+        },
+        {
+          "kind": "scripted_control",
+          "time": "2026-11-23T11:06:28.020805+00:00",
+          "marker": "rv_ground_hull",
+          "output": [
+            "11"
+          ]
+        },
+        {
+          "kind": "scripted_control",
+          "time": "2026-11-23T11:06:28.626928+00:00",
+          "marker": "rv_ground_assembled",
+          "output": [
+            "{\"backup\":\"engineering:backup_63e2366a306447cea42685d73e42dfa3\",\"id\":\"3\",\"state\":\"assembling; inspect after the ship has loaded\"}"
+          ]
+        },
+        {
+          "kind": "ground_fixture_assembly",
+          "time": "2026-11-23T11:06:28.627253+00:00",
+          "value": {
+            "backup": "engineering:backup_63e2366a306447cea42685d73e42dfa3",
+            "id": "3",
+            "state": "assembling; inspect after the ship has loaded"
+          },
+          "cells": 11,
+          "balloons": 0,
+          "floaters": 0,
+          "wheels": 0
+        },
+        {
+          "kind": "scripted_control",
+          "time": "2026-11-23T11:06:31.871053+00:00",
+          "marker": "rv_ground_before",
+          "output": [
+            "{\"position\":[0.500001231770154,-56.43028096350468,13.73292256005512],\"id\":\"3\",\"rotation\":[6.549076464980566E-6,-3.999919614614105E-8,2.147489258986406E-13,0.999999999978554],\"static\":false,\"mounted\":false,\"velocity\":[8.526512829121202E-12,4.590280860789428E-15,1.2576606422953773E-10]}"
+          ]
+        },
+        {
+          "kind": "scripted_control",
+          "time": "2026-11-23T11:06:32.112355+00:00",
+          "marker": "rv_ground_forward",
+          "output": [
+            "{\"position\":[0.5000012317722856,-56.43028096350468,13.732922560086562],\"id\":\"3\",\"rotation\":[6.549076465020267E-6,-3.9999196146131635E-8,2.1474588696716358E-13,0.999999999978554],\"static\":false,\"mounted\":true,\"velocity\":[8.526512829121202E-12,-4.865776744631307E-15,1.2576606422953773E-10]}"
+          ]
+        },
+        {
+          "kind": "scripted_control",
+          "time": "2026-11-23T11:06:36.357124+00:00",
+          "marker": "rv_ground_after_forward",
+          "output": [
+            "{\"position\":[0.5000021142161581,-56.430278903272274,13.726340132053787],\"id\":\"3\",\"rotation\":[4.582834042916933E-6,2.8301344959840087E-8,3.97763681387494E-12,0.9999999999894985],\"static\":true,\"mounted\":false,\"velocity\":[1.2362108509990395E-6,1.751386630219703E-8,-6.138436359099442E-4]}"
+          ]
+        },
+        {
+          "kind": "scripted_control",
+          "time": "2026-11-23T11:06:36.598394+00:00",
+          "marker": "rv_ground_turn",
+          "output": [
+            "{\"position\":[0.5000021142161581,-56.430278903272274,13.726340132053787],\"id\":\"3\",\"rotation\":[4.582834042916933E-6,2.8301344959840087E-8,3.97763681387494E-12,0.9999999999894985],\"static\":false,\"mounted\":true,\"velocity\":[1.2362108509990395E-6,1.751386630219703E-8,-6.138436359099442E-4]}"
+          ]
+        },
+        {
+          "kind": "scripted_control",
+          "time": "2026-11-23T11:06:39.840033+00:00",
+          "marker": "rv_ground_after_turn",
+          "output": [
+            "{\"position\":[0.45100198035195443,-56.43027846170329,13.436892362030814],\"id\":\"3\",\"rotation\":[1.1693256673076273E-5,0.19528074889616223,9.559512032163352E-6,0.9807473828068254],\"static\":true,\"mounted\":false,\"velocity\":[-6.655412738788277E-5,-3.431394312399356E-8,-2.966059704645629E-4]}"
+          ]
+        },
+        {
+          "kind": "scripted_control",
+          "time": "2026-11-23T11:06:45.334374+00:00",
+          "marker": "rv_ground_stopped",
+          "output": [
+            "{\"position\":[0.45100198035195443,-56.43027846170329,13.436892362030814],\"id\":\"3\",\"rotation\":[1.1693256673076273E-5,0.19528074889616223,9.559512032163352E-6,0.9807473828068254],\"static\":true,\"mounted\":false,\"velocity\":[-6.655412738788277E-5,-3.431394312399356E-8,-2.966059704645629E-4]}"
+          ]
+        },
+        {
+          "kind": "ground_measurement",
+          "time": "2026-11-23T11:06:45.335107+00:00",
+          "mountedForward": true,
+          "mountedTurn": true,
+          "netForwardXZ": 0.006582428060484534,
+          "netForwardY": 2.06023240423292e-06,
+          "yawDegrees": 22.52224601997972,
+          "stationary": true,
+          "stoppedObservationSeconds": 5.25
+        }
+      ]
+    },
+    "environment": {
+      "minecraft": "1.20.1",
+      "loader": "0.17.2",
+      "java": "17",
+      "fabricApi": "0.92.6+1.20.1",
+      "numen": "0.1.5-beta",
+      "create": "6.0.8.1+build.1744-mc1.20.1",
+      "eureka": "1.6.4",
+      "vs": "2.4.11",
+      "rendering": "real graphical Fabric client connected to a loopback dedicated server; software OpenGL"
+    },
+    "releaseJarSHA256": "90703d5637eb3c11d5eebf19d67e860253d08a095dcd2673b7e4ff3dcfbdfa2c",
+    "model": {
+      "configured": "deepseek-reasoner (high)",
+      "executed": null,
+      "apiRequests": 0,
+      "inputTokens": 0,
+      "outputTokens": 0,
+      "reason": "Numen local provider preflight rejected the missing API key. Player submitted the original request in the graphical client."
+    },
+    "criteria": {
+      "autonomousDesign": "blocked",
+      "autonomousConstruction": "blocked",
+      "rvAssembly": "untested",
+      "rvInteriorAccess": "untested",
+      "rvWalkingWhileDriving": "untested",
+      "wheeledDriving": "untested",
+      "stoneFixtureLongitudinalTravel": "not demonstrated",
+      "stoneFixtureYaw": "observed",
+      "stoneFixtureAnchor": "observed"
+    },
+    "notes": [
+      "The 65-cell horizontal test floor is an operator fixture placed by scripted Lua.",
+      "The first small fixture was diagonally adjacent to the oversize fixture. Eureka would collect them together; the 64-cell guard rejected that attempt. A new world isolated the 11-cell retest.",
+      "Both ground fixture runs are operator-controlled. The 11-cell dry-surface hull has zero balloons, floaters and wheels. The test pad is stone. Forward is 60 game ticks and turning is a 40-tick input. The final two samples have identical pose over a 5.25 s wait.",
+      "The empty world was archived after the chat result and before either test fixture."
+    ]
+  },
+  "originalPromptTrial": {
+    "modelMetrics": {
+      "serverModelTurnsStarted": 20,
+      "relayCompletedResults": 19,
+      "http200": 19,
+      "actualModels": [
+        "deepseek-flash"
+      ],
+      "reasoningEffortRecorded": [],
+      "localProfile": "deepseek-reasoner",
+      "modelCalls": 19,
+      "usage": {
+        "prompt_tokens": 457121,
+        "completion_tokens": 20000,
+        "total_tokens": 477121,
+        "prompt_cache_hit_tokens": 424448,
+        "prompt_cache_miss_tokens": 32673
+      },
+      "promptTokensPeak": 36386,
+      "completeResponseSeconds": 217.901,
+      "userDispatch": "19:12:23",
+      "serverStop": "19:18:35",
+      "window": {
+        "kind": "model_window",
+        "time": "2026-11-23T11:17:48.595242+00:00",
+        "reason": "no additional request for 135s",
+        "elapsedSeconds": 329.225,
+        "clientChat": [
+          "[19:12:23] [Render thread/INFO]: [System] [CHAT] [LabBot] <LabOwner> 请在空地上自主设计并建造一辆比较大的豪华巴士式移动房车，参考现实中大型大巴改装房车的布局。车身应有合理比例、车窗、车门、驾驶室、通道，并在内部划分客厅、厨房、卫生间、卧室和储物空间。家具和隔断应体现不同房间的功能，整体适合长期居住。完成后将整辆房车装配为可驾驶载具，测试行驶、转向、停车，以及行驶时能否在车内自由活动。"
+        ],
+        "completedRequests": 16
+      },
+      "reportedFinalReply": null,
+      "consent": [
+        "[19:15:33] [Server thread/INFO]: [numen-consent] 46cf0046-9f19-4681-b373-3917a8c912b7 ask #1: command 1 /vs get-ship: no rule covers this action",
+        "[19:17:33] [Server thread/INFO]: [numen-consent] 46cf0046-9f19-4681-b373-3917a8c912b7 #1 expired: 主人不在场,无法征得同意"
+      ],
+      "cancelled": [
+        "[19:18:35] [ForkJoinPool.commonPool-worker-2/INFO]: [numen-http][lr-20] cancelled by caller in 29326ms (3710 chunks)"
+      ]
+    },
+    "run": {
+      "baseline": "25dde6a2a21bb158b9183a908cc9d778fb360e36",
+      "prompt": "请在空地上自主设计并建造一辆比较大的豪华巴士式移动房车，参考现实中大型大巴改装房车的布局。车身应有合理比例、车窗、车门、驾驶室、通道，并在内部划分客厅、厨房、卫生间、卧室和储物空间。家具和隔断应体现不同房间的功能，整体适合长期居住。完成后将整辆房车装配为可驾驶载具，测试行驶、转向、停车，以及行驶时能否在车内自由活动。",
+      "site": [
+        -7,
+        -60,
+        5,
+        8,
+        -45,
+        20
+      ],
+      "permission": "ask",
+      "events": [
+        {
+          "kind": "setup",
+          "time": "2026-11-23T11:12:15.024228+00:00",
+          "graphicalClient": true,
+          "requestProfile": "lab:deepseek",
+          "profile": "deepseek-reasoner",
+          "providerKeyAvailable": true,
+          "setupOutput": [
+            "[19:12:13] [Server thread/INFO]: [numen-entity#46cf0046-9f19-4681-b373-3917a8c912b7] provider entry set to lab:deepseek",
+            "[19:12:13] [Server thread/INFO]: LabBot now uses the profile lab:deepseek",
+            "[19:12:13] [Server thread/INFO]: LabBot: permission mode set to ask",
+            "[19:12:14] [Server thread/INFO]: Made LabOwner no longer a server operator"
+          ]
+        },
+        {
+          "kind": "dispatched",
+          "time": "2026-11-23T11:12:23.593378+00:00",
+          "source": "actual client chat",
+          "noBlueprint": true,
+          "permission": "ask"
+        },
+        {
+          "kind": "recording_camera",
+          "time": "2026-11-23T11:12:29.675057+00:00",
+          "action": "creative spectator camera placement; no building"
+        },
+        {
+          "kind": "recording_camera",
+          "time": "2026-11-23T11:16:37.530884+00:00",
+          "action": "observer camera changed",
+          "pose": "7.8 -52.8 4.5 54 39"
+        },
+        {
+          "kind": "model_window",
+          "time": "2026-11-23T11:17:48.595242+00:00",
+          "reason": "no additional request for 135s",
+          "elapsedSeconds": 329.225,
+          "clientChat": [
+            "[19:12:23] [Render thread/INFO]: [System] [CHAT] [LabBot] <LabOwner> 请在空地上自主设计并建造一辆比较大的豪华巴士式移动房车，参考现实中大型大巴改装房车的布局。车身应有合理比例、车窗、车门、驾驶室、通道，并在内部划分客厅、厨房、卫生间、卧室和储物空间。家具和隔断应体现不同房间的功能，整体适合长期居住。完成后将整辆房车装配为可驾驶载具，测试行驶、转向、停车，以及行驶时能否在车内自由活动。"
+          ],
+          "completedRequests": 16
+        }
+      ]
+    },
+    "sceneDiff": {
+      "scannedBox": [
+        -15,
+        -63,
+        -4,
+        15,
+        -39,
+        29
+      ],
+      "edits": 49,
+      "palette": {
+        "minecraft:oak_planks": 23,
+        "minecraft:glass": 23,
+        "vs_eureka:anchor": 1,
+        "vs_eureka:oak_ship_helm": 1,
+        "vs_eureka:balloon": 1
+      },
+      "bbox": [
+        [
+          -1,
+          1
+        ],
+        [
+          -60,
+          -52
+        ],
+        [
+          5,
+          12
+        ]
+      ],
+      "outOfSite": [],
+      "blocks": [
+        {
+          "xyz": [
+            -1,
+            -54,
+            10
+          ],
+          "from": "minecraft:air",
+          "state": {
+            "Name": "minecraft:oak_planks"
+          }
+        },
+        {
+          "xyz": [
+            -1,
+            -54,
+            11
+          ],
+          "from": "minecraft:air",
+          "state": {
+            "Name": "minecraft:oak_planks"
+          }
+        },
+        {
+          "xyz": [
+            -1,
+            -54,
+            12
+          ],
+          "from": "minecraft:air",
+          "state": {
+            "Name": "minecraft:oak_planks"
+          }
+        },
+        {
+          "xyz": [
+            -1,
+            -53,
+            10
+          ],
+          "from": "minecraft:air",
+          "state": {
+            "Name": "minecraft:oak_planks"
+          }
+        },
+        {
+          "xyz": [
+            -1,
+            -53,
+            11
+          ],
+          "from": "minecraft:air",
+          "state": {
+            "Name": "minecraft:oak_planks"
+          }
+        },
+        {
+          "xyz": [
+            -1,
+            -53,
+            12
+          ],
+          "from": "minecraft:air",
+          "state": {
+            "Name": "minecraft:oak_planks"
+          }
+        },
+        {
+          "xyz": [
+            -1,
+            -52,
+            10
+          ],
+          "from": "minecraft:air",
+          "state": {
+            "Name": "minecraft:oak_planks"
+          }
+        },
+        {
+          "xyz": [
+            -1,
+            -52,
+            11
+          ],
+          "from": "minecraft:air",
+          "state": {
+            "Name": "minecraft:oak_planks"
+          }
+        },
+        {
+          "xyz": [
+            -1,
+            -52,
+            12
+          ],
+          "from": "minecraft:air",
+          "state": {
+            "Name": "minecraft:oak_planks"
+          }
+        },
+        {
+          "xyz": [
+            0,
+            -60,
+            5
+          ],
+          "from": "minecraft:air",
+          "state": {
+            "Name": "minecraft:glass"
+          }
+        },
+        {
+          "xyz": [
+            0,
+            -60,
+            6
+          ],
+          "from": "minecraft:air",
+          "state": {
+            "Name": "minecraft:glass"
+          }
+        },
+        {
+          "xyz": [
+            0,
+            -60,
+            7
+          ],
+          "from": "minecraft:air",
+          "state": {
+            "Name": "minecraft:glass"
+          }
+        },
+        {
+          "xyz": [
+            0,
+            -60,
+            8
+          ],
+          "from": "minecraft:air",
+          "state": {
+            "Name": "minecraft:glass"
+          }
+        },
+        {
+          "xyz": [
+            0,
+            -60,
+            9
+          ],
+          "from": "minecraft:air",
+          "state": {
+            "Name": "minecraft:glass"
+          }
+        },
+        {
+          "xyz": [
+            0,
+            -60,
+            10
+          ],
+          "from": "minecraft:air",
+          "state": {
+            "Name": "minecraft:glass"
+          }
+        },
+        {
+          "xyz": [
+            0,
+            -59,
+            5
+          ],
+          "from": "minecraft:air",
+          "state": {
+            "Name": "minecraft:glass"
+          }
+        },
+        {
+          "xyz": [
+            0,
+            -59,
+            6
+          ],
+          "from": "minecraft:air",
+          "state": {
+            "Name": "minecraft:glass"
+          }
+        },
+        {
+          "xyz": [
+            0,
+            -59,
+            7
+          ],
+          "from": "minecraft:air",
+          "state": {
+            "Name": "minecraft:glass"
+          }
+        },
+        {
+          "xyz": [
+            0,
+            -59,
+            8
+          ],
+          "from": "minecraft:air",
+          "state": {
+            "Name": "minecraft:glass"
+          }
+        },
+        {
+          "xyz": [
+            0,
+            -59,
+            9
+          ],
+          "from": "minecraft:air",
+          "state": {
+            "Name": "minecraft:glass"
+          }
+        },
+        {
+          "xyz": [
+            0,
+            -59,
+            10
+          ],
+          "from": "minecraft:air",
+          "state": {
+            "Name": "minecraft:glass"
+          }
+        },
+        {
+          "xyz": [
+            0,
+            -58,
+            5
+          ],
+          "from": "minecraft:air",
+          "state": {
+            "Name": "minecraft:glass"
+          }
+        },
+        {
+          "xyz": [
+            0,
+            -58,
+            6
+          ],
+          "from": "minecraft:air",
+          "state": {
+            "Name": "minecraft:glass"
+          }
+        },
+        {
+          "xyz": [
+            0,
+            -58,
+            7
+          ],
+          "from": "minecraft:air",
+          "state": {
+            "Name": "minecraft:glass"
+          }
+        },
+        {
+          "xyz": [
+            0,
+            -58,
+            8
+          ],
+          "from": "minecraft:air",
+          "state": {
+            "Name": "minecraft:glass"
+          }
+        },
+        {
+          "xyz": [
+            0,
+            -58,
+            9
+          ],
+          "from": "minecraft:air",
+          "state": {
+            "Name": "minecraft:glass"
+          }
+        },
+        {
+          "xyz": [
+            0,
+            -58,
+            10
+          ],
+          "from": "minecraft:air",
+          "state": {
+            "Name": "minecraft:glass"
+          }
+        },
+        {
+          "xyz": [
+            0,
+            -57,
+            6
+          ],
+          "from": "minecraft:air",
+          "state": {
+            "Name": "minecraft:glass"
+          }
+        },
+        {
+          "xyz": [
+            0,
+            -57,
+            7
+          ],
+          "from": "minecraft:air",
+          "state": {
+            "Name": "minecraft:glass"
+          }
+        },
+        {
+          "xyz": [
+            0,
+            -57,
+            8
+          ],
+          "from": "minecraft:air",
+          "state": {
+            "Name": "minecraft:glass"
+          }
+        },
+        {
+          "xyz": [
+            0,
+            -57,
+            9
+          ],
+          "from": "minecraft:air",
+          "state": {
+            "Name": "minecraft:glass"
+          }
+        },
+        {
+          "xyz": [
+            0,
+            -57,
+            10
+          ],
+          "from": "minecraft:air",
+          "state": {
+            "Name": "minecraft:glass"
+          }
+        },
+        {
+          "xyz": [
+            0,
+            -54,
+            10
+          ],
+          "from": "minecraft:air",
+          "state": {
+            "Name": "minecraft:oak_planks"
+          }
+        },
+        {
+          "xyz": [
+            1,
+            -54,
+            10
+          ],
+          "from": "minecraft:air",
+          "state": {
+            "Name": "minecraft:oak_planks"
+          }
+        },
+        {
+          "xyz": [
+            0,
+            -54,
+            11
+          ],
+          "from": "minecraft:air",
+          "state": {
+            "Name": "minecraft:oak_planks"
+          }
+        },
+        {
+          "xyz": [
+            1,
+            -54,
+            11
+          ],
+          "from": "minecraft:air",
+          "state": {
+            "Name": "minecraft:oak_planks"
+          }
+        },
+        {
+          "xyz": [
+            0,
+            -54,
+            12
+          ],
+          "from": "minecraft:air",
+          "state": {
+            "Properties": {
+              "powered": "false",
+              "facing": "north"
+            },
+            "Name": "vs_eureka:anchor"
+          }
+        },
+        {
+          "xyz": [
+            1,
+            -54,
+            12
+          ],
+          "from": "minecraft:air",
+          "state": {
+            "Name": "minecraft:oak_planks"
+          }
+        },
+        {
+          "xyz": [
+            0,
+            -53,
+            10
+          ],
+          "from": "minecraft:air",
+          "state": {
+            "Properties": {
+              "facing": "north"
+            },
+            "Name": "vs_eureka:oak_ship_helm"
+          }
+        },
+        {
+          "xyz": [
+            1,
+            -53,
+            10
+          ],
+          "from": "minecraft:air",
+          "state": {
+            "Name": "minecraft:oak_planks"
+          }
+        },
+        {
+          "xyz": [
+            1,
+            -53,
+            11
+          ],
+          "from": "minecraft:air",
+          "state": {
+            "Name": "minecraft:oak_planks"
+          }
+        },
+        {
+          "xyz": [
+            0,
+            -53,
+            12
+          ],
+          "from": "minecraft:air",
+          "state": {
+            "Name": "vs_eureka:balloon"
+          }
+        },
+        {
+          "xyz": [
+            1,
+            -53,
+            12
+          ],
+          "from": "minecraft:air",
+          "state": {
+            "Name": "minecraft:oak_planks"
+          }
+        },
+        {
+          "xyz": [
+            0,
+            -52,
+            10
+          ],
+          "from": "minecraft:air",
+          "state": {
+            "Name": "minecraft:oak_planks"
+          }
+        },
+        {
+          "xyz": [
+            1,
+            -52,
+            10
+          ],
+          "from": "minecraft:air",
+          "state": {
+            "Name": "minecraft:oak_planks"
+          }
+        },
+        {
+          "xyz": [
+            0,
+            -52,
+            11
+          ],
+          "from": "minecraft:air",
+          "state": {
+            "Name": "minecraft:oak_planks"
+          }
+        },
+        {
+          "xyz": [
+            1,
+            -52,
+            11
+          ],
+          "from": "minecraft:air",
+          "state": {
+            "Name": "minecraft:oak_planks"
+          }
+        },
+        {
+          "xyz": [
+            0,
+            -52,
+            12
+          ],
+          "from": "minecraft:air",
+          "state": {
+            "Name": "minecraft:oak_planks"
+          }
+        },
+        {
+          "xyz": [
+            1,
+            -52,
+            12
+          ],
+          "from": "minecraft:air",
+          "state": {
+            "Name": "minecraft:oak_planks"
+          }
+        }
+      ],
+      "blockEntities": [
+        {
+          "keepPacked": 0,
+          "x": 0,
+          "y": -53,
+          "z": 10,
+          "id": "vs_eureka:ship_helm"
+        }
+      ]
+    },
+    "assembledPalette": {
+      "shipId": 3,
+      "material": {
+        "minecraft:oak_planks": 54,
+        "vs_eureka:oak_ship_helm": 1,
+        "vs_eureka:anchor": 1,
+        "vs_eureka:floater": 1
+      },
+      "blocks": 57
+    }
+  },
+  "interiorSequencingSupplement": {
+    "modelMetrics": {
+      "serverModelTurnsStarted": 17,
+      "relayCompletedResults": 21,
+      "http200": 15,
+      "actualModels": [
+        "deepseek-v4-pro"
+      ],
+      "reasoningEffortRecorded": [
+        "high"
+      ],
+      "localProfile": "deepseek-v4-pro",
+      "modelCalls": 23,
+      "usage": {
+        "prompt_tokens": 423061,
+        "completion_tokens": 23884,
+        "total_tokens": 446945,
+        "prompt_cache_hit_tokens": 348032,
+        "prompt_cache_miss_tokens": 75029
+      },
+      "promptTokensPeak": 37821,
+      "completeResponseSeconds": 420.589,
+      "userDispatch": "19:19:49",
+      "serverStop": "19:29:28",
+      "window": {
+        "kind": "model_window",
+        "time": "2026-11-23T11:28:09.561239+00:00",
+        "reason": "operator stop after review",
+        "elapsedSeconds": 504.089,
+        "clientChat": [
+          "[19:19:49] [Render thread/INFO]: [System] [CHAT] [LabBot] <LabOwner> 请在空地上自主设计并建造一辆比较大的豪华巴士式移动房车，参考现实中大型大巴改装房车的布局。车身应有合理比例、车窗、车门、驾驶室、通道，并在内部划分客厅、厨房、卫生间、卧室和储物空间。家具和隔断应体现不同房间的功能，整体适合长期居住。完成后将整辆房车装配为可驾驶载具，测试行驶、转向、停车，以及行驶时能否在车内自由活动。请先完成可进入的静态车身、通道和各房间内饰，再测试装配。保留建好的房车供实地查看。",
+          "[19:27:17] [Render thread/INFO]: [System] [CHAT] ⚠ LabBot:这次没连上(服务商侧故障——稍后再试 · 127.0.0.1 回复:<!DOCTYPE HTML>\\n<html lang=\"en\">\\n    <head>\\n        <meta char...)——稍后再试一句,详情见日志"
+        ],
+        "completedRequests": 21
+      },
+      "reportedFinalReply": null,
+      "consent": [
+        "[19:26:06] [Server thread/INFO]: [numen-consent] ce641b21-aa02-4bf1-9c15-5ebc13e9db28 ask #1: command 1 /vs get-ship: no rule covers this action",
+        "[19:26:26] [Server thread/INFO]: [numen-consent] ce641b21-aa02-4bf1-9c15-5ebc13e9db28 #1 answered ALLOW_ONCE"
+      ],
+      "cancelled": []
+    },
+    "run": {
+      "baseline": "25dde6a2a21bb158b9183a908cc9d778fb360e36",
+      "prompt": "请在空地上自主设计并建造一辆比较大的豪华巴士式移动房车，参考现实中大型大巴改装房车的布局。车身应有合理比例、车窗、车门、驾驶室、通道，并在内部划分客厅、厨房、卫生间、卧室和储物空间。家具和隔断应体现不同房间的功能，整体适合长期居住。完成后将整辆房车装配为可驾驶载具，测试行驶、转向、停车，以及行驶时能否在车内自由活动。",
+      "operatorSequencing": "请先完成可进入的静态车身、通道和各房间内饰，再测试装配。保留建好的房车供实地查看。",
+      "actualDispatch": "请在空地上自主设计并建造一辆比较大的豪华巴士式移动房车，参考现实中大型大巴改装房车的布局。车身应有合理比例、车窗、车门、驾驶室、通道，并在内部划分客厅、厨房、卫生间、卧室和储物空间。家具和隔断应体现不同房间的功能，整体适合长期居住。完成后将整辆房车装配为可驾驶载具，测试行驶、转向、停车，以及行驶时能否在车内自由活动。请先完成可进入的静态车身、通道和各房间内饰，再测试装配。保留建好的房车供实地查看。",
+      "site": [
+        -7,
+        -60,
+        5,
+        8,
+        -45,
+        20
+      ],
+      "permission": "ask",
+      "events": [
+        {
+          "kind": "setup",
+          "time": "2026-11-23T11:19:41.126092+00:00",
+          "graphicalClient": true,
+          "requestProfile": "lab:deepseek",
+          "profile": "deepseek-v4-pro",
+          "providerKeyAvailable": true,
+          "setupOutput": [
+            "[19:19:39] [Server thread/INFO]: [numen-entity#ce641b21-aa02-4bf1-9c15-5ebc13e9db28] provider entry set to lab:deepseek",
+            "[19:19:39] [Server thread/INFO]: LabBot now uses the profile lab:deepseek",
+            "[19:19:39] [Server thread/INFO]: LabBot: permission mode set to ask",
+            "[19:19:40] [Server thread/INFO]: Made LabOwner no longer a server operator"
+          ]
+        },
+        {
+          "kind": "dispatched",
+          "time": "2026-11-23T11:19:49.548500+00:00",
+          "source": "actual client chat",
+          "noBlueprint": true,
+          "permission": "ask"
+        },
+        {
+          "kind": "recording_camera",
+          "time": "2026-11-23T11:19:55.618019+00:00",
+          "action": "creative spectator camera placement; no building"
+        },
+        {
+          "kind": "operator_permission_reply",
+          "time": "2026-11-23T11:26:26.338192+00:00",
+          "id": 1,
+          "command": "/vs get-ship",
+          "singleUse": true
+        },
+        {
+          "kind": "recording_camera",
+          "time": "2026-11-23T11:28:02.683023+00:00",
+          "action": "observer camera changed",
+          "pose": "6.0 -53.0 6.0 44 36"
+        },
+        {
+          "kind": "model_window",
+          "time": "2026-11-23T11:28:09.561239+00:00",
+          "reason": "operator stop after review",
+          "elapsedSeconds": 504.089,
+          "clientChat": [
+            "[19:19:49] [Render thread/INFO]: [System] [CHAT] [LabBot] <LabOwner> 请在空地上自主设计并建造一辆比较大的豪华巴士式移动房车，参考现实中大型大巴改装房车的布局。车身应有合理比例、车窗、车门、驾驶室、通道，并在内部划分客厅、厨房、卫生间、卧室和储物空间。家具和隔断应体现不同房间的功能，整体适合长期居住。完成后将整辆房车装配为可驾驶载具，测试行驶、转向、停车，以及行驶时能否在车内自由活动。请先完成可进入的静态车身、通道和各房间内饰，再测试装配。保留建好的房车供实地查看。",
+            "[19:27:17] [Render thread/INFO]: [System] [CHAT] ⚠ LabBot:这次没连上(服务商侧故障——稍后再试 · 127.0.0.1 回复:<!DOCTYPE HTML>\\n<html lang=\"en\">\\n    <head>\\n        <meta char...)——稍后再试一句,详情见日志"
+          ],
+          "completedRequests": 21
+        }
+      ]
+    },
+    "sceneDiff": {
+      "scannedBox": [
+        -15,
+        -63,
+        -4,
+        15,
+        -39,
+        29
+      ],
+      "edits": 5,
+      "palette": {
+        "minecraft:oak_planks": 2,
+        "vs_eureka:oak_ship_helm": 1,
+        "vs_eureka:anchor": 1,
+        "vs_eureka:balloon": 1
+      },
+      "bbox": [
+        [
+          3,
+          4
+        ],
+        [
+          -55,
+          -53
+        ],
+        [
+          12,
+          12
+        ]
+      ],
+      "outOfSite": [],
+      "blocks": [
+        {
+          "xyz": [
+            3,
+            -55,
+            12
+          ],
+          "from": "minecraft:air",
+          "state": {
+            "Name": "minecraft:oak_planks"
+          }
+        },
+        {
+          "xyz": [
+            4,
+            -55,
+            12
+          ],
+          "from": "minecraft:air",
+          "state": {
+            "Name": "minecraft:oak_planks"
+          }
+        },
+        {
+          "xyz": [
+            3,
+            -54,
+            12
+          ],
+          "from": "minecraft:air",
+          "state": {
+            "Properties": {
+              "facing": "north"
+            },
+            "Name": "vs_eureka:oak_ship_helm"
+          }
+        },
+        {
+          "xyz": [
+            4,
+            -54,
+            12
+          ],
+          "from": "minecraft:air",
+          "state": {
+            "Properties": {
+              "powered": "true",
+              "facing": "north"
+            },
+            "Name": "vs_eureka:anchor"
+          }
+        },
+        {
+          "xyz": [
+            3,
+            -53,
+            12
+          ],
+          "from": "minecraft:air",
+          "state": {
+            "Name": "vs_eureka:balloon"
+          }
+        }
+      ],
+      "blockEntities": [
+        {
+          "keepPacked": 0,
+          "x": 3,
+          "y": -54,
+          "z": 12,
+          "id": "vs_eureka:ship_helm"
+        }
+      ]
+    }
+  },
+  "deliveryVideo": {
+    "durationSeconds": 171.133333,
+    "sha256": "2519fd09269ff173931b3c580ba96cb4f15f7b63b8ea4fb83e54f28b6f06caba"
+  },
+  "summary": {
+    "result": "Large bus RV acceptance failed",
+    "originalTrial": {
+      "initialShell": {
+        "width": 4,
+        "height": 4,
+        "length": 6,
+        "placedCells": 80,
+        "assembly": "hull exceeds 64 cells"
+      },
+      "secondAssembly": {
+        "uniqueMovedCells": 57,
+        "glassRemainingAtOriginalSite": 23
+      },
+      "secondProbePlacedCells": 26,
+      "secondProbeAssembly": "a ship is already designated for this world session",
+      "drive": "ship must be loaded with clearance from the site edge",
+      "operator": "Recording camera only. A read-only consent ticket expired after two minutes."
+    },
+    "supplement": {
+      "assembledProbeCells": 7,
+      "drive": "ship must be loaded with clearance from the site edge",
+      "operator": "Added a build-first sequencing sentence, moved camera, approved read-only /vs get-ship once.",
+      "transportFailures": 6
+    },
+    "groundControl": {
+      "hullCells": 11,
+      "surface": "dry stone",
+      "wheels": 0,
+      "forwardXZBlocks": 0.006582428060484534,
+      "yawDegrees": 22.52224601997972,
+      "anchorSampleGapSeconds": 5.25
+    },
+    "pending": [
+      "Large RV",
+      "Interior access",
+      "Practical land driving",
+      "Walking inside while driving"
+    ],
+    "modCodeChanges": false
+  }
+}

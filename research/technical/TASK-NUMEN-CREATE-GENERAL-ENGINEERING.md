@@ -9,6 +9,20 @@
 | Work 整合版实测 | 隔离服复验了双磨石和 NBT 副本、独立复投面团链、原版 NBT 设置与库存隔离、真实库存流转、Numen 原生权限。六张 Ponder 设备案例与 DSH 的数据一致。带真实 Fabric 图形客户端的隔离服复验飞行船和水面船的装配、乘舵、推进、偏航和锚停。[版本、安装和本轮证据](numen-create-vs2/live-lab/README.md#023-统一测试版整合2026-11-23)。 |
 | 待 DSH / 玩家验收 | Windows 干净单机安装同一测试包，按下列步骤回归图形环境、真实玩家操作与第三方权限。集成 JAR 上的自然语言 reasoner 自主产线和其它配方的模型自主迁移也在此复跑。 |
 
+## 0.2.3 大型移动房车验收（2026-11-23）
+
+从交付提交 `25dde6a` 加载原 JAR，在 Minecraft 1.20.1 Fabric 隔离专服和真实图形客户端进行实测，Numen 权限保持 `ask`。本轮大型房车验收未通过，模组源码保持基线。
+
+| 回合 | 实际模型与计量 | 可复核结果 |
+| --- | --- | --- |
+| 原始自然语言委托 | 配置 `deepseek-reasoner`，接口实际回报 `deepseek-flash`。发起 20 次，19 次完成并回报合计 477,121 token，第 20 次关服取消。发令至关服约 6 分 12 秒。 | 自主搭 4×6×4、80 格试装壳体，超过 64 格被拒。把 23 格墙面改为玻璃后，57 格方块独立确认移入 VS 船体，23 格玻璃留在原地。驾驶因工程区净空不足拒绝。后来搭的 26 格试件受同一会话只能有一艘工程船限制。房主执行录制与镜头操作，末段一个只读命令征询 120 秒后到期。 |
+| 优先内饰补测 | `deepseek-v4-pro`（请求 `high`），15 次成功回执、6 次传输失败。已知 446,945 token，发令至保存决策约 8 分 20 秒。 | 模型先装好 7 格试件，驾驶仍触发净空拒绝，随后再次试装受单船会话限制。操作者只补充施工顺序、操作镜头与一次性同意只读查询 `/vs get-ship`。 |
+| 独立地面校准 | 无模型调用。操作者单独用实际工具搭建 11 格底盘，无气球、浮筒或车轮。 | 成功装配并乘舵。石面全力前进 60 tick 水平位移仅 0.00658 格。40 tick 转向偏航变化 22.52°，锚定后 5.25 秒的位姿读数一致。陆地实用推进未通过。 |
+
+[2 分 51 秒真实客户端录屏](https://chatgpt.com/library?file_id=libfile_565d256193bc8191b5172bdfe0fb5093&account_id=personal) · [委托截图](https://chatgpt.com/library?file_id=libfile_28efc8befaac8191a84769732b8c7e49&account_id=personal) · [DSH 接续包](https://chatgpt.com/library?file_id=libfile_59bd8b7be0d88191ba9d82d95d11503e&account_id=personal) · [逐段测量与模型回执](numen-create-vs2/live-lab/evidence/rv-acceptance-0.2.3.json)。
+
+模型自主试装与操作者的 65 格、11 格对照分开记录。接续包保留空地、两份测试现场、模型日志和原录屏。大型车身、各房间与入口、轮式驾驶以及行驶中车内步行仍待验。陆地路线可参考仓库已有的 [Create/Trackwork 实测房车](https://github.com/Msipla/-Moonlit-Halt/blob/codex/mobile-base-vehicles/projects/minecraft-mods/experiments/mobile-base/TASK.md#房车实机可行性验证2026-11-19)。接续时按真实操作记录房间可达性、驾驶员和车内乘客，并用同一时间段的载具世界位移与玩家车体相对位移核验移动中步行。
+
 ## DSH 接续验收
 
 1. 在新的 Windows Fabric 创造实例先只装基本依赖、附属 JAR 和已配置的 Numen。用 `deepseek-reasoner`（high）按两轮基线的自然语言委托执行，并在成品桶独立核对首投 3、复投 6、原料清空、两台磨石 −64 RPM。保留模型请求、耗时和日志，继续使用不同空地验证。
