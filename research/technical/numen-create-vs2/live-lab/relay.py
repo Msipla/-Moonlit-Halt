@@ -61,7 +61,11 @@ def main():
                 body.pop("reasoning_effort", None)
             body["stream"] = True
             body["stream_options"] = {"include_usage": True}
-            body["max_tokens"] = min(body.get("max_tokens") or 8192, 8192) if thinking else 4096
+            cap = int(os.environ.get("LAB_OUTPUT", "8192" if thinking else "4096"))
+            body["max_tokens"] = min(body.get("max_tokens") or cap, cap)
+            if thinking and os.environ.get("LAB_REASONING"):
+                body["thinking"] = {"type": "enabled"}
+                body["reasoning_effort"] = os.environ["LAB_REASONING"]
             messages = body.get("messages", [])
             # A one-shot instruction in the lab, based only on the agent's real receipt.
             checkpoint = (decision_enabled or engineering_enabled) and not decision_sent and any(
@@ -85,7 +89,7 @@ def main():
                 decision_sent = True
             started = time.time()
             event = {"utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(started)),
-                     "model": body.get("model"), "content": "", "calls": [],
+                     "outputLimit": body["max_tokens"], "model": body.get("model"), "content": "", "calls": [],
                      "tools": [tool["function"]["name"] for tool in body.get("tools", [])],
                      "context": [{"role": m.get("role"), "content": m.get("content"),
                                   "tool_call_id": m.get("tool_call_id")}

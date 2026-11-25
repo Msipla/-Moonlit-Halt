@@ -30,6 +30,8 @@ module.exports=async function check(lab){
   assert.deepEqual(unchanged.blocks,baseline.blocks);
   lab.mark('engineering_guards',{outOfScopeRejected:true,survivalRejected:true,worldUnchanged:true});
   await lab.cmd('deop LabOwner');
+  if(process.env.LAB_ENGINEERING_SMOKE==='planning') return planningCheck(lab);
+  if(process.env.LAB_ENGINEERING_SMOKE==='overload') return overloadCheck(lab);
   if(process.env.LAB_ENGINEERING_SMOKE==='feed') return feedCheck(lab,baseline);
   if(process.env.LAB_ENGINEERING_SMOKE==='permissions') return permissionCheck(lab,baseline);
   if(process.env.LAB_ENGINEERING_SMOKE==='ship') return shipCheck(lab,baseline);
@@ -63,6 +65,64 @@ module.exports=async function check(lab){
   if(!pass) process.exitCode=1;
 };
 
+
+async function planningCheck(lab) {
+  const program = `
+    local p=function(x,y,z) return {x=x,y=y,z=z} end
+    local motor=p(-4,-56,9); local branch=p(-3,-56,9); local shaft=p(-2,-56,9)
+    local vertical=p(-3,-55,9); local mill=p(-3,-54,9); local press=p(-1,-56,9)
+    local depot=p(-1,-58,9)
+    local foot=p(1,-60,9); local hall=p(2,-60,9)
+    local survey=engineering.site.survey({foot,hall})
+    assert(survey[1].floor_y==-61 and survey[1].feet_y==-60)
+    local poor=engineering.site.plan({cells={{pos=hall,state="minecraft:stone"}},walk={foot,hall}})
+    assert(#poor.clearance==1 and string.find(poor.clearance[1].reason,"feet blocked",1,true), tostring(poor))
+    local first={points={motor,branch,vertical,mill},load="create:millstone"}
+    local second={points={motor,branch,shaft,press},load="create:mechanical_press"}
+    local route=engineering.site.route({first,second},64)
+    assert(#route.cells==6 and #route.check.rejects==0,tostring(route))
+    local cells=route.cells
+    local pre=engineering.site.plan({cells=cells,walk={foot,hall},machines={press,mill}})
+    assert(#pre.clearance==1 and string.find(pre.clearance[1].reason,"exactly two",1,true),tostring(pre))
+    cells[#cells+1]={pos=depot,state="create:depot"}
+    assert(#engineering.site.plan({cells=cells,walk={foot,hall},machines={press,mill}}).clearance==0)
+    local receipt=engineering.site.apply(cells)
+    assert(receipt.cells==7 and receipt.power_wait_ticks==4 and #receipt.warnings==0,tostring(receipt))
+    local read=function(pos) return engineering.site.inspect(pos) end
+    assert(read(press).power_status=="running" and read(mill).power_status=="running")
+    assert(read(press).network==read(mill).network)
+    local extra=p(4,-57,12); local extraLoad=p(5,-57,12)
+    local other=engineering.site.route({{points={extra,extraLoad},load="create:encased_fan"}},32)
+    assert(#other.check.rejects==0,tostring(other))
+    engineering.site.apply(other.cells)
+    assert(read(extraLoad).power_status=="running" and read(extraLoad).network~=read(mill).network)
+    local axis=read(shaft).state
+    local broken=engineering.site.apply({{pos=shaft,state="create:shaft[axis=z]",expected=axis}})
+    local damaged=read(press)
+    assert(damaged.power_status=="stale_source" or damaged.power_status=="disconnected",tostring(broken))
+    assert(read(mill).power_status=="running" and read(extraLoad).power_status=="running")
+    local fixed=engineering.site.apply({{pos=shaft,state=axis,expected=read(shaft).state}})
+    assert(#fixed.warnings==0 and read(press).power_status=="running",tostring(fixed))
+    print("planning_pass",receipt.power_wait_ticks,damaged.rpm,damaged.power_status,read(press).rpm,read(mill).rpm,read(extraLoad).rpm)
+  `.replaceAll('\n',' ');
+  await lab.drive(program,'\nplanning_pass');
+  const text=lab.output().split('\n').find(line=>line.startsWith('planning_pass\t'));
+  assert(text);
+  lab.mark('engineering_planning',{passed:true,states:text.split('\t').slice(1), fixtureOnly:true});
+}
+
+async function overloadCheck(lab) {
+  await lab.drive(`local a={x=0,y=-56,z=10}; local b={x=1,y=-56,z=10};
+    local r=engineering.site.apply({{pos=a,state="create:creative_motor",faces={"east"},rpm=64},
+      {pos=b,state="create:mechanical_press",faces={"west"}}});
+    local press=engineering.site.inspect(b);
+    assert(press.rpm==0 and press.overstressed and press.power_status=="overstressed",tostring(press));
+    print("overload_pass",press.rpm,press.power_status,r.power_wait_ticks)`.replaceAll('\n',' '),'\noverload_pass');
+  const world=await lab.save('overload');
+  const press=world.blockEntities.find(e=>e.id==='create:mechanical_press');
+  assert(press?.Network?.Stress>press?.Network?.Capacity);
+  lab.mark('engineering_overload',{passed:true,nativeNetwork:press.Network,rawSpeed:press.Speed});
+}
 
 async function feedCheck(lab,baseline) {
   const input='{x=-4,y=-55,z=11}', idle='{x=-3,y=-55,z=12}';
@@ -366,17 +426,29 @@ async function calibrateLine(lab,baseline) {
     'assert(engineering.site.feed({x=2,y=-49,z=12},"minecraft:cobblestone",3)==3); print("calibrated_feed")';
   await lab.drive(exportScript,'\ncalibrated_feed');
   await lab.isolate();
-  let evidence;
-  for(let i=0;i<25;i++){
-    await wait(3300);
-    const sampled=await lab.save('engineering-calibrated-line');
-    const original=side(sampled,'original'), copy=side(sampled,'copy');
-    evidence={original,copy,passed:[original,copy].every(x=>x.shared&&x.motorSetting===64&&x.finished===3&&x.drained)};
-    if(evidence.passed) break;
+  async function batch(total, label) {
+    let sample;
+    for(let i=0;i<25;i++){
+      await wait(3300);
+      const world=await lab.save(label);
+      const original=side(world,'original'), copy=side(world,'copy');
+      sample={original,copy,passed:[original,copy].every(x=>
+        x.shared&&x.motorSetting===64&&x.finished===total&&x.drained)};
+      if(sample.passed) break;
+    }
+    return sample;
+  }
+  const evidence=await batch(3,'engineering-calibrated-line');
+  let repeat=null;
+  if(evidence.passed){
+    for(const row of [evidence.original,evidence.copy]){
+      assert.match(await lab.cmd('item replace block '+row.input.join(' ')+' container.0 with minecraft:cobblestone 3'),/Replaced/);
+    }
+    repeat=await batch(6,'engineering-calibrated-line-repeat');
   }
   const outside=outsideChanges(baseline,await lab.save('engineering-calibrated-line-final'));
-  evidence.passed&&=outside.length===0;
-  lab.mark('engineering_calibrated_line',{...evidence,outside,modelRequests:0});
+  evidence.passed&&=Boolean(repeat?.passed)&&outside.length===0;
+  lab.mark('engineering_calibrated_line',{...evidence,repeat,outside,modelRequests:0});
   if(!evidence.passed) process.exitCode=1;
 }
 

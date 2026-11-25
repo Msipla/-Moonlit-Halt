@@ -1,6 +1,9 @@
 package lab;
 
 import com.google.gson.Gson;
+import com.dwinovo.numen.api.sdk.Pending;
+import com.dwinovo.numen.script.ApiError;
+import com.dwinovo.numen.script.ErrorKind;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.builder.RequiredArgumentBuilder;
@@ -9,6 +12,11 @@ import com.simibubi.create.content.kinetics.base.IRotate;
 import com.simibubi.create.content.kinetics.base.KineticBlockEntity;
 import com.simibubi.create.content.kinetics.fan.EncasedFanBlockEntity;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.function.Supplier;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +35,81 @@ import net.minecraft.class_7923;
 
 final class CreateReadings {
     private static final Gson JSON = new Gson();
+
+    static final int SETTLE_TICKS=4;
+    private static final List<TickRead> READS=new ArrayList<>();
+    private record TickRead(class_3218 level,long due,Runnable read) {}
+
+    static void installSettling() {
+        ServerTickEvents.END_WORLD_TICK.register(level->{
+            var due=new ArrayList<TickRead>();
+            READS.removeIf(read->{
+                if(read.level()!=level || read.due()>level.method_8510()) return false;
+                due.add(read);
+                return true;
+            });
+            for(var read:due) read.read().run();
+        });
+        net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents.SERVER_STOPPED
+            .register(server->READS.clear());
+    }
+
+    static <R> Pending<R> afterTicks(class_3218 level,Supplier<R> read) {
+        var pending=Pending.<R>create();
+        READS.add(new TickRead(level,level.method_8510()+SETTLE_TICKS,()->{
+            R value;
+            try { value=read.get(); }
+            catch(RuntimeException error) {
+                try {
+                    pending.fail(error instanceof ApiError api ? api : new ApiError(
+                        ErrorKind.BAD_ARGUMENT,"power read unavailable after write: "+error.getMessage(),null));
+                } catch(IllegalStateException cancelled) {
+                    // The Numen script may already have been interrupted.
+                }
+                return;
+            }
+            try { pending.complete(value); }
+            catch(IllegalStateException cancelled) {
+                // The Numen script may already have been interrupted.
+            }
+        }));
+        return pending;
+    }
+
+    public record Power(class_2338 pos,String status,Optional<Double> rpm,Optional<Double> raw_rpm,
+                        Optional<String> network) {}
+
+    static Power power(class_3218 level,class_2338 at) {
+        if(!(level.method_8321(at) instanceof KineticBlockEntity kinetic))
+            return new Power(at,"no_device",Optional.empty(),Optional.empty(),Optional.empty());
+        String status=powerStatus(level,at);
+        return new Power(at,status,Optional.of(status.equals("running")?(double)kinetic.getSpeed():0.0),
+            Optional.of((double)kinetic.getTheoreticalSpeed()),Optional.ofNullable(kinetic.network).map(Object::toString));
+    }
+
+    static String powerStatus(class_3218 level,class_2338 at) {
+        if(!(level.method_8321(at) instanceof KineticBlockEntity first)) return "no_device";
+        if(first.getTheoreticalSpeed()==0) return "disconnected";
+        var visited=new HashSet<class_2338>();
+        var current=first;
+        var position=at;
+        for(int depth=0;depth<32;depth++){
+            if(!visited.add(position)) return "stale_source";
+            if(current.source==null) {
+                if(!current.isSource() || current.network==null) return "stale_source";
+                return first.isOverStressed()?"overstressed":"running";
+            }
+            var source=current.source;
+            if(!EngineeringSite.Site.inSiteCell(level,source)) return "source_unverified";
+            if(!(level.method_8321(source) instanceof KineticBlockEntity next) ||
+                next.getTheoreticalSpeed()==0 || current.network==null || !Objects.equals(current.network,next.network) ||
+                !(RotationPropagator.isConnected(current,next) || RotationPropagator.isConnected(next,current)))
+                return "stale_source";
+            current=next;
+            position=source;
+        }
+        return "source_unverified";
+    }
 
     static List<String> faces(class_3218 level, class_2338 pos, class_2680 state) {
         if (!(state.method_26204() instanceof IRotate rotation)) return List.of();

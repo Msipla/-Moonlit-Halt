@@ -83,12 +83,14 @@ public final class EngineeringSite implements ModInitializer {
                 throw new IllegalStateException("engineering.ships requires a VS-enabled engineering JAR",error);
             }
         }
+        CreateReadings.installSettling();
         NumenPlugins.register("engineering", api -> api.api("site",
-            "For engineering tasks use Lua print(engineering.site.info()) once for inclusive bounds and allowed blocks. " +
-            "No numen. prefix. Print results; a bare Lua call hides its return. Apply cells as " +
-            "{{pos={x=...,y=...,z=...},state='namespace:block',faces={'east'}}}; faces are optional shaft faces. " +
-            "Use one bounded batch; fill() writes a box, check() dry-runs, ports() lists real item faces, and apply() returns warnings for unconnected kinetics. Read Ponder only for missing facts. " +
-            "A mode or permission denial needs an owner action before retrying.",Site.class));
+            "Create power, logistics and authorized edits. Lua namespace engineering.site (no numen prefix); print results, bare return is hidden. " +
+            "For a new functional build: survey feet height, plan critical clearances, route simple shaft paths if useful, " +
+            "prove working devices and throughput, then finish accessible enclosure with native building_design/shape/build. " +
+            "check(cells) and plan(...) are read-only. apply(cells) is the same authorized batch up to 64 cells; " +
+            "power readings settle on server ticks. Inspect after rejected or changed geometry; do not repeat writes blindly. " +
+            "Use one exact Ponder/recipe query only if needed.",Site.class));
     }
 
     public static final class Site {
@@ -143,11 +145,12 @@ public final class EngineeringSite implements ModInitializer {
         public record Region(String name,class_2338 from,class_2338 to) {}
         public record Replay(String name,class_2338 at) {}
         public record ResolvedCell(class_2338 pos,String state) {}
-        public record Applied(int cells,String backup,List<ResolvedCell> resolved,List<String> warnings) {}
+        public record Applied(int cells,String backup,List<ResolvedCell> resolved,List<String> warnings,
+                              int power_wait_ticks,List<CreateReadings.Power> power) {}
         public record Reading(String block,String properties,Optional<Double> rpm,Optional<Boolean> overstressed,
                               List<String> shaft_faces,Optional<String> network,Optional<class_2338> source,
                               Optional<Integer> motor_setting,Optional<String> filter,List<CreateSettings.Stock> items,
-                              String state) {}
+                              String state,Optional<String> power_status) {}
         private record Edit(class_2338 at,class_2680 before,class_2680 state,
                             Map<class_2769<?>,Comparable<?>> specified,boolean oriented,CreateSettings.Settings settings) {
             boolean matches(class_2680 actual) {
@@ -185,22 +188,225 @@ public final class EngineeringSite implements ModInitializer {
             return new Cell(cell.pos(),state+"[axis="+axis+"]",cell.expected(),cell.faces(),cell.rpm(),cell.filter());
         }
 
-        @Fn("Dry-run a batch without writing. Returns every cell that would be rejected and why, so a layout can be corrected before apply. No block changes, no consent prompts.")
+        @Fn("Dry-run the same authorized edit format as apply, including orientation, occupied inventory and duplicate cells. Returns compact rejects and warnings without changing the world.")
         public static Check check(ServerCall call,Work args) {
             var level=level(call);
             require(!args.cells().isEmpty() && args.cells().size()<=LIMIT,"expected 1..64 block edits");
+            return review(level,args.cells()).check();
+        }
+
+        private record Review(Check check, Map<class_2338,class_2680> overlay) {}
+
+        private static Review review(class_3218 level,List<Cell> cells) {
             var rejects=new ArrayList<Reject>();
-            for(var cell:args.cells()) {
+            var overlay=new java.util.LinkedHashMap<class_2338,class_2680>();
+            var valid=new ArrayList<Cell>();
+            var seen=new HashSet<class_2338>();
+            var batch=cells.stream().map(Cell::pos).collect(java.util.stream.Collectors.toSet());
+            for(var cell:cells) {
                 try {
-                    var edit=prepare(level,cell);
-                    var actual=level.method_8320(edit.at());
-                    if(actual!=edit.before()) rejects.add(new Reject(edit.at(),
-                        "expected "+CreateReadings.commandState(edit.before())+" but actual "+CreateReadings.commandState(actual)));
+                    require(seen.add(cell.pos()),"duplicate cell "+cell.pos());
+                    var edit=prepare(level,inferAxis(cell,batch));
+                    preflight(level,List.of(edit));
+                    overlay.put(edit.at(),edit.state());
+                    valid.add(new Cell(cell.pos(),CreateReadings.commandState(edit.state()),cell.expected(),
+                        cell.faces(),cell.rpm(),cell.filter()));
                 } catch(RuntimeException error) {
                     rejects.add(new Reject(cell.pos(),String.valueOf(error.getMessage())));
                 }
             }
-            return new Check(args.cells().size(),rejects,layoutWarnings(level,args.cells()));
+            return new Review(new Check(cells.size(),rejects,layoutWarnings(level,valid)),overlay);
+        }
+
+        public record Column(int x,int z,Optional<Integer> floor_y,Optional<Integer> feet_y) {}
+        @Fn("Get physical floor and player feet Y at 1..16 selected columns (input x,y,z; use site.from.y for y). Use returned feet_y for a ground-level entrance. Null means no solid support in the loaded column.")
+        public static List<Column> survey(ServerCall call,Points args) {
+            var level=level(call);
+            require(!args.positions().isEmpty() && args.positions().size()<=16,"expected 1..16 survey columns");
+            return args.positions().stream().map(p->{
+                check(level,p);
+                int x=p.method_10263(), z=p.method_10260();
+                for(int y=bounds[4]-1;y>=bounds[1];y--){
+                    var feet=new class_2338(x,y,z);
+                    if(support(level,()->level.method_8320(feet.method_10074()),feet.method_10074()) &&
+                        level.method_8320(feet).method_26218(level,feet).method_1110() &&
+                        level.method_8320(feet.method_10084()).method_26218(level,feet.method_10084()).method_1110())
+                        return new Column(x,z,Optional.of(y-1),Optional.of(y));
+                }
+                return new Column(x,z,Optional.empty(),Optional.empty());
+            }).toList();
+        }
+
+        public record Plan(@Doc("0..64 optional candidate block edits; same syntax as apply.")
+                           Optional<List<Cell>> cells,
+                           @Doc("Optional ordered path of feet cells, including exterior and interior; one horizontal step at a time, Y change at most 1.")
+                           Optional<List<class_2338>> walk,
+                           @Doc("Optional positions of planned or existing machines, to check necessary workspace and local ports.")
+                           Optional<List<class_2338>> machines) {}
+        public record PlanResult(Check changes,List<Reject> clearance) {}
+        @Fn("Read-only planning: plan({cells=edits, walk=feetPath, machines=positions}). Omit any unused field. Reports blocked feet/head, missing support or press workspace, and adjacent shaft contacts on your exact proposed geometry. This is a static check; verify power and products after building.")
+        public static PlanResult plan(ServerCall call,Plan args) {
+            var level=level(call);
+            var cells=args.cells().orElse(List.of());
+            var walk=args.walk().orElse(List.of());
+            var machines=args.machines().orElse(List.of());
+            require(cells.size()<=LIMIT && walk.size()<=32 && machines.size()<=16,
+                "plan supports up to 64 edits, 32 path steps and 16 machine positions");
+            var review=review(level,cells);
+            var issues=new ArrayList<Reject>();
+            var blocks=review.overlay();
+            class_2338 previous=null;
+            for(var at:walk) {
+                check(level,at);
+                var head=at.method_10084();
+                var below=at.method_10074();
+                if(!free(level,blocks,at,true)) issues.add(new Reject(at,"feet blocked by "+describe(level,blocks,at)));
+                if(!free(level,blocks,head,true)) issues.add(new Reject(head,"head blocked by "+describe(level,blocks,head)));
+                if(!support(level,()->state(level,blocks,below),below)) issues.add(new Reject(below,"no floor support"));
+                if(previous!=null){
+                    var low=at.method_10264()>previous.method_10264()?previous:at;
+                    int horizontal=Math.abs(at.method_10263()-previous.method_10263())+
+                        Math.abs(at.method_10260()-previous.method_10260());
+                    int vertical=Math.abs(at.method_10264()-previous.method_10264());
+                    if(horizontal!=1 || vertical>1) issues.add(new Reject(at,"walk steps must be adjacent with at most one block rise"));
+                    else if(vertical==1 && !free(level,blocks,low.method_10086(2),true))
+                        issues.add(new Reject(low.method_10086(2),"head blocked on step"));
+                }
+                previous=at;
+            }
+            for(var pos:machines) {
+                check(level,pos);
+                var state=state(level,blocks,pos);
+                String id=id(state);
+                if(id.equals("create:mechanical_press")) {
+                    if(!free(level,blocks,pos.method_10074(),false))
+                        issues.add(new Reject(pos.method_10074(),"press needs one open working cell below the head"));
+                    if(!inSiteCell(level,pos.method_10087(2)) ||
+                        !id(state(level,blocks,pos.method_10087(2))).equals("create:depot"))
+                        issues.add(new Reject(pos.method_10087(2),"for depot pressing place depot exactly two blocks under the press"));
+                }
+                var faces=CreateReadings.faces(level,pos,state);
+                if(!faces.isEmpty() && faces.stream().noneMatch(face->matchingFace(level,blocks,pos,face))) {
+                    if(!id.equals("create:millstone") || !hasSideCog(level,blocks,pos))
+                        issues.add(new Reject(pos,"no matching adjacent shaft face in planned layout; device faces "+faces));
+                }
+            }
+            return new PlanResult(review.check(),issues.stream().distinct().limit(24).toList());
+        }
+
+        private static class_2680 state(class_3218 level,Map<class_2338,class_2680> blocks,class_2338 at) {
+            var proposed=blocks.get(at);
+            return proposed!=null?proposed:level.method_8320(at);
+        }
+
+        private static String describe(class_3218 level,Map<class_2338,class_2680> blocks,class_2338 at) {
+            return inSiteCell(level,at)?id(state(level,blocks,at)):"site edge";
+        }
+
+        private static boolean free(class_3218 level,Map<class_2338,class_2680> blocks,class_2338 at,boolean canOpenDoor) {
+            if(!inSiteCell(level,at)) return false;
+            var next=state(level,blocks,at);
+            if(canOpenDoor && next.method_26204() instanceof net.minecraft.class_2323 && !id(next).equals("minecraft:iron_door")) return true;
+            return next.method_26218(level,at).method_1110() && next.method_26227().method_15769();
+        }
+
+        private static boolean support(class_3218 level,java.util.function.Supplier<class_2680> state,class_2338 at) {
+            return at.method_10264()>=bounds[1]-1 && level.method_37118(at) &&
+                state.get().method_26206(level,at,class_2350.field_11036);
+        }
+
+        private static boolean matchingFace(class_3218 level,Map<class_2338,class_2680> blocks,class_2338 at,String face) {
+            var direction=class_2350.method_10168(face);
+            if(direction==null) return false;
+            var near=at.method_10093(direction);
+            return inSiteCell(level,near) && CreateReadings.faces(level,near,state(level,blocks,near))
+                .contains(direction.method_10153().method_10151());
+        }
+
+        private static boolean hasSideCog(class_3218 level,Map<class_2338,class_2680> blocks,class_2338 at) {
+            for(var side:List.of("north","south","east","west")){
+                var near=at.method_10093(class_2350.method_10168(side));
+                if(!inSiteCell(level,near)) continue;
+                var gear=state(level,blocks,near);
+                if(id(gear).equals("create:cogwheel") && CreateReadings.faces(level,near,gear).contains("up"))
+                    return true;
+            }
+            return false;
+        }
+
+        public record DrivePath(@Doc("Face-adjacent positions starting at your motor and ending at your load.") List<class_2338> points,
+                                @Doc("Terminal kinetic block ID or exact state.") String load,
+                                @Doc("For horizontal millstone side drive, use true and approach the last cog vertically.") Optional<Boolean> side_mesh) {}
+        public record Route(@Doc("One path per load, all starting at the same new creative motor.") List<DrivePath> paths,
+                            @Doc("Motor RPM between -256 and 256, excluding zero.") int rpm) {}
+        public record Routed(List<Cell> cells, Check check) {}
+
+        @Fn("Compile model-chosen paths into motor, shafts, gearboxes and loads, without writing. route(paths,rpm), paths={ {points={motor,...,loadPos},load='create:mechanical_press'}, ... }. Use neighboring cells, share the motor's first step; millstone accepts shaft from below, or side_mesh=true with the last cog powered vertically. Inspect result.check then apply(result.cells) if appropriate.")
+        public static Routed route(ServerCall call,Route args) {
+            var level=level(call);
+            require(!args.paths().isEmpty() && args.paths().size()<=8,"expected 1..8 paths");
+            require(args.rpm()!=0 && Math.abs((long)args.rpm())<=256,"motor RPM magnitude must be 1..256");
+            var starts=args.paths().get(0).points();
+            require(!starts.isEmpty(),"missing motor");
+            var motor=starts.get(0);
+            var contacts=new java.util.LinkedHashMap<class_2338,Set<String>>();
+            var loads=new java.util.LinkedHashMap<class_2338,String>();
+            var meshes=new HashSet<class_2338>();
+            for(var path:args.paths()) {
+                var positions=path.points();
+                require(positions.size()>=2 && positions.size()<=LIMIT && positions.get(0).equals(motor) &&
+                    new HashSet<>(positions).size()==positions.size(),"paths must share the motor, have 2..64 points and no loop");
+                var load=positions.get(positions.size()-1);
+                var terminal=parse(path.load());
+                require(terminal.method_26204() instanceof com.simibubi.create.content.kinetics.base.IRotate &&
+                    loads.putIfAbsent(load,path.load())==null,"each endpoint must be a different kinetic load");
+                boolean side=path.side_mesh().orElse(false);
+                for(int i=0;i<positions.size()-1;i++){
+                    var from=positions.get(i);
+                    var to=positions.get(i+1);
+                    check(level,from);
+                    check(level,to);
+                    var direction=java.util.Arrays.stream(class_2350.values())
+                        .filter(dir->from.method_10093(dir).equals(to)).findFirst()
+                        .orElseThrow(()->bad("face-neighbor required between "+from+" and "+to));
+                    var fromFaces=contacts.computeIfAbsent(from,p->new java.util.LinkedHashSet<>());
+                    var toFaces=contacts.computeIfAbsent(to,p->new java.util.LinkedHashSet<>());
+                    if(side && to.equals(load)) {
+                        require(id(terminal).equals("create:millstone") && i>=1 && from.method_10264()==to.method_10264(),
+                            "side_mesh requires a horizontal final millstone edge and a vertical cog input");
+                        meshes.add(from);
+                    } else {
+                        fromFaces.add(direction.method_10151());
+                        toFaces.add(direction.method_10153().method_10151());
+                    }
+                }
+            }
+            require(contacts.size()<=LIMIT && contacts.get(motor).size()==1 && !loads.containsKey(motor),
+                "route needs one motor output and at most 64 cells");
+            var cells=new ArrayList<Cell>();
+            for(var entry:contacts.entrySet()){
+                var pos=entry.getKey();
+                var faces=List.copyOf(entry.getValue());
+                if(loads.containsKey(pos))
+                    require(faces.size()+(faces.isEmpty()?1:0)==1 && !meshes.contains(pos),
+                        "load may terminate only one edge at "+pos);
+                String state;
+                if(pos.equals(motor)) state="create:creative_motor";
+                else if(loads.containsKey(pos)) state=loads.get(pos);
+                else if(meshes.contains(pos)) {
+                    require(!faces.isEmpty() && faces.stream().allMatch(f->f.equals("up") || f.equals("down")),
+                        "feed millstone cog vertically at "+pos);
+                    state="create:cogwheel[axis=y]";
+                } else {
+                    long axes=faces.stream().map(f->class_2350.method_10168(f).method_10166()).distinct().count();
+                    require(axes<=2,"a gearbox serves at most two axes at "+pos+"; separate the bends");
+                    state=axes==1?"create:shaft":"create:gearbox";
+                }
+                var cell=new Cell(pos,state,Optional.empty(),faces.isEmpty()?Optional.empty():Optional.of(faces),
+                    pos.equals(motor)?Optional.of(args.rpm()):Optional.empty(),Optional.empty());
+                cells.add(cell);
+            }
+            return new Routed(cells,review(level,cells).check());
         }
 
         private static List<String> layoutWarnings(class_3218 level,List<Cell> cells) {
@@ -223,7 +429,7 @@ public final class EngineeringSite implements ModInitializer {
                     continue;
                 }
                 if(state.startsWith("create:millstone")) {
-                    var below=pos.method_10084();
+                    var below=pos.method_10074();
                     var next=planned.get(below);
                     boolean kineticBelow=next!=null && (next.startsWith("create:shaft")||next.contains("cogwheel")||next.startsWith("create:gearbox")||next.startsWith("create:creative_motor"));
                     if(kineticBelow) warnings.add(pos+" millstone has "+next+" below, which blocks the downward output; drive it from a side cogwheel[axis=y] instead");
@@ -232,7 +438,7 @@ public final class EngineeringSite implements ModInitializer {
                     continue;
                 }
                 if(state.startsWith("create:chute") || state.startsWith("create:smart_chute")) {
-                    var below=pos.method_10084();
+                    var below=pos.method_10074();
                     var next=planned.get(below);
                     if(next!=null && !next.equals("minecraft:air") && !next.contains("chute")
                         && !next.equals("minecraft:barrel"))
@@ -333,7 +539,8 @@ public final class EngineeringSite implements ModInitializer {
                 entity instanceof KineticBlockEntity kinetic ? Optional.ofNullable(kinetic.network).map(Object::toString):Optional.empty(),
                 entity instanceof KineticBlockEntity kinetic ? Optional.ofNullable(kinetic.source):Optional.empty(),
                 Optional.ofNullable(settings.rpm()),Optional.ofNullable(settings.filter()),CreateSettings.inventory(entity),
-                CreateReadings.commandState(state));
+                CreateReadings.commandState(state),entity instanceof KineticBlockEntity
+                    ?Optional.of(CreateReadings.powerStatus(level,pos)):Optional.empty());
         }
 
         @Fn("Insert 1..3 approved test items into an empty barrel. Returns the count verified in the insertion tick. Vanilla/Create can move it before later inspection; inspect the downstream stock before feeding again.")
@@ -433,7 +640,7 @@ public final class EngineeringSite implements ModInitializer {
                     consent=consent.thenWait(x->call.authorize(Action.place(edit.at(),edit.before(),edit.state().method_26204().method_8389())));
                 }
             }
-            return consent.then(x->{
+            return consent.thenWait(x->{
                 var level=level(call);
                 preflight(level,edits);
                 String backup=backup(level,edits.stream().map(Edit::at).toList());
@@ -474,51 +681,31 @@ public final class EngineeringSite implements ModInitializer {
                 }
                 var resolved=edits.stream().filter(edit->edit.oriented() || level.method_8320(edit.at())!=edit.state())
                     .map(edit->new ResolvedCell(edit.at(),CreateReadings.commandState(level.method_8320(edit.at())))).toList();
-                var warnings=new ArrayList<String>();
-                for(var edit:changed) {
-                    var entity=level.method_8321(edit.at());
-                    if(!(entity instanceof KineticBlockEntity kinetic)) continue;
-                    var state=level.method_8320(edit.at());
-                    if(CreateReadings.commandState(state).startsWith("create:millstone")) {
-                        var below=edit.at().method_10084();
-                        var belowState=level.method_8320(below);
-                        if(!belowState.method_26215() && level.method_8321(below) instanceof KineticBlockEntity)
-                            warnings.add(edit.at()+" millstone output is blocked by "+CreateReadings.commandState(belowState)
-                                +" below; power it from a side cogwheel so the bottom stays free for a chute or barrel");
-                        else if(belowState.method_26215())
-                            warnings.add(edit.at()+" millstone output leaves through the bottom; put a chute or barrel below"
-                                +" and keep the bottom free (side cogwheel for power)");
+                var watched=new java.util.LinkedHashSet<class_2338>();
+                for(var edit:edits) {
+                    if(edit.before()==edit.state() && !edit.settings().present()) continue;
+                    if(!(edit.before().method_26204() instanceof com.simibubi.create.content.kinetics.base.IRotate)
+                        && !(edit.state().method_26204() instanceof com.simibubi.create.content.kinetics.base.IRotate)) continue;
+                    if(level.method_8321(edit.at()) instanceof KineticBlockEntity) watched.add(edit.at());
+                    for(var direction:class_2350.values()) {
+                        var near=edit.at().method_10093(direction);
+                        if(inSiteCell(level,near) && level.method_8321(near) instanceof KineticBlockEntity) watched.add(near);
                     }
-                    if(kinetic.getSpeed()!=0) {
-                        var faces=CreateReadings.faces(level,edit.at(),state);
-                        if(!faces.isEmpty()) {
-                            boolean linked=false;
-                            for(var face:faces) {
-                                var dir=class_2350.method_10168(face);
-                                if(dir!=null && level.method_8321(edit.at().method_10093(dir)) instanceof KineticBlockEntity) { linked=true; break; }
-                            }
-                            if(!linked) warnings.add(edit.at()+" "+CreateReadings.commandState(state)
-                                +" is powered (speed="+kinetic.getSpeed()+") with faces="+faces
-                                +" but no kinetic block on any of those faces; place a shaft against one of them");
-                        }
-                        if(warnings.size()>=8) break;
-                        continue;
-                    }
-                    var neighbours=new StringBuilder();
-                    for(var dir:class_2350.values()) {
-                        var side=edit.at().method_10093(dir);
-                        var sideState=level.method_8320(side);
-                        if(sideState.method_26215()) continue;
-                        if(!neighbours.isEmpty()) neighbours.append(' ');
-                        neighbours.append(dir.method_10148()).append('=');
-                        neighbours.append(CreateReadings.commandState(sideState));
-                    }
-                    warnings.add(edit.at()+" "+CreateReadings.commandState(state)
-                        +" speed=0 network="+(kinetic.network==null?"none":kinetic.network.toString())
-                        +" neighbours=["+neighbours+"]; rotate or move it so its faces meet the output face of a powered block");
-                    if(warnings.size()>=8) break;
                 }
-                return new Applied(written,"engineering:"+backup,resolved,List.copyOf(warnings));
+                var points=watched.stream().sorted(java.util.Comparator.comparing(
+                    p->isTransmission(id(level.method_8320(p))))).limit(16).toList();
+                int count=written;
+                String saved="engineering:"+backup;
+                if(points.isEmpty()) return Pending.of(new Applied(count,saved,resolved,List.of(),0,List.of()));
+                return CreateReadings.afterTicks(level,()->{
+                    require(level(call)==level,"owner or companion changed worlds after write; backup "+saved);
+                    var power=points.stream().filter(p->inSiteCell(level,p)).map(p->CreateReadings.power(level,p)).toList();
+                    var warnings=power.stream().filter(p->p.status().equals("disconnected") ||
+                        p.status().equals("overstressed") || p.status().equals("stale_source"))
+                        .limit(8).map(p->p.pos()+" "+p.status()+" after wait").toList();
+                    return new Applied(count,saved,resolved,warnings,CreateReadings.SETTLE_TICKS,power);
+                });
+
             });
         }
 
@@ -547,6 +734,17 @@ public final class EngineeringSite implements ModInitializer {
             require(call.her().method_7337(),gate+"companion must enter creative mode before retrying");
             require(level.method_27983().equals(class_1937.field_25179),"the engineering site is in the overworld");
             return level;
+        }
+
+        static boolean inSiteCell(class_3218 level,class_2338 p) {
+            return p.method_10263()>=bounds[0] && p.method_10263()<=bounds[3]
+                && p.method_10264()>=bounds[1] && p.method_10264()<=bounds[4]
+                && p.method_10260()>=bounds[2] && p.method_10260()<=bounds[5] && level.method_37118(p);
+        }
+
+        private static boolean isTransmission(String id) {
+            return id.equals("create:shaft") || id.equals("create:gearbox") ||
+                id.equals("create:cogwheel") || id.equals("create:large_cogwheel");
         }
 
         static void check(class_3218 level,class_2338 p) {

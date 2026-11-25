@@ -8,7 +8,7 @@ const {snapshot} = require('./world.cjs');
 
 const phase = process.argv[2];
 const engineering = phase === 'engineering';
-const engineeringSmoke = engineering && ['1','line','dough','ship','feed','permissions'].includes(process.env.LAB_ENGINEERING_SMOKE);
+const engineeringSmoke = engineering && ['1','line','dough','ship','feed','permissions','planning','overload'].includes(process.env.LAB_ENGINEERING_SMOKE);
 const engineeringShip = engineering && (process.env.LAB_ENGINEERING_SMOKE==='ship' || ['air','water'].includes(process.env.LAB_ENGINEERING_VESSEL));
 const basicCheck = phase === 'basic-check';
 const basicWater = phase === 'basic-water';
@@ -114,6 +114,11 @@ function prepare() {
     'allow-flight=true','difficulty=peaceful','spawn-animals=false','spawn-npcs=false',
     'broadcast-rcon-to-ops=false','broadcast-console-to-ops=false',
   ].join('\n')+'\n');
+  if(process.env.LAB_ENGINEERING_SMOKE==='overload') {
+    fs.mkdirSync(path.join(run,'config'),{recursive:true});
+    fs.writeFileSync(path.join(run,'config','create-server.toml'),
+      '[kinetics.stressValues.v2.capacity]\ncreative_motor = 4.0\n');
+  }
   const config = path.join(run,'config/numen/server');
   for (const dir of ['provider/lab','keys','cache']) fs.mkdirSync(path.join(config,dir),{recursive:true});
   fs.writeFileSync(path.join(config,'keys/deepseek.key'),'loopback-only');
