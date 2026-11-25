@@ -32,6 +32,7 @@ module.exports=async function check(lab){
   await lab.cmd('deop LabOwner');
   if(process.env.LAB_ENGINEERING_SMOKE==='planning') return planningCheck(lab);
   if(process.env.LAB_ENGINEERING_SMOKE==='overload') return overloadCheck(lab);
+  if(process.env.LAB_ENGINEERING_SMOKE==='routing') return routingCheck(lab);
   if(process.env.LAB_ENGINEERING_SMOKE==='feed') return feedCheck(lab,baseline);
   if(process.env.LAB_ENGINEERING_SMOKE==='permissions') return permissionCheck(lab,baseline);
   if(process.env.LAB_ENGINEERING_SMOKE==='ship') return shipCheck(lab,baseline);
@@ -109,6 +110,25 @@ async function planningCheck(lab) {
   const text=lab.output().split('\n').find(line=>line.startsWith('planning_pass\t'));
   assert(text);
   lab.mark('engineering_planning',{passed:true,states:text.split('\t').slice(1), fixtureOnly:true});
+}
+
+async function routingCheck(lab) {
+  await lab.drive(`local p=function(x,y,z) return {x=x,y=y,z=z} end
+    local motor=p(-4,-58,9); local press=p(1,-57,10); local mill=p(-2,-54,11);
+    local depot=p(1,-59,10); local gap=p(1,-58,10)
+    local r=engineering.site.connect(motor,{{pos=press,state="create:mechanical_press"},
+      {pos=mill,state="create:millstone",side_mesh=true}},64,{avoid={gap,depot,p(-2,-55,11)}});
+    assert(#r.cells==0 or #r.check.rejects==0,tostring(r))
+    `.replaceAll('\n',' ')+
+    ' assert(#r.cells>=6,tostring(r)); local plan=engineering.site.plan({cells=r.cells,machines={mill}});'+
+    ' assert(#plan.changes.rejects==0 and #plan.clearance==0,tostring(plan));'+
+    ' local a=engineering.site.apply(r.cells); '+
+    ' local pressPower=engineering.site.inspect(press); local millPower=engineering.site.inspect(mill);'+
+    ' assert(a.cells==#r.cells and pressPower.power_status=="running" and millPower.power_status=="running" and pressPower.network==millPower.network);'+
+    ' print("routing_pass",a.cells,pressPower.rpm,millPower.rpm)','\nrouting_pass');
+  const line=lab.output().split('\n').find(l=>l.startsWith('routing_pass\t'));
+  assert(line);
+  lab.mark('engineering_routing',{passed:true,cells:Number(line.split('\t')[1]),rpm:line.split('\t').slice(2).map(Number)});
 }
 
 async function overloadCheck(lab) {

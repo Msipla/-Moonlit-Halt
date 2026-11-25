@@ -85,8 +85,8 @@ public final class EngineeringSite implements ModInitializer {
         }
         CreateReadings.installSettling();
         NumenPlugins.register("engineering", api -> api.api("site",
-            "Create power, logistics and authorized edits. Lua namespace engineering.site (no numen prefix); print results, bare return is hidden. " +
-            "For a new functional build: survey feet height, plan critical clearances, route simple shaft paths if useful, " +
+            "Create power, logistics and authorized edits. Lua namespace engineering.site (no numen prefix); print or return results to receive a Lua receipt. " +
+            "For a new functional build: survey feet height, plan critical clearances, compile shaft connections from your chosen motor and load positions if useful, " +
             "prove working devices and throughput, then finish accessible enclosure with native building_design/shape/build. " +
             "check(cells) and plan(...) are read-only. apply(cells) is the same authorized batch up to 64 cells; " +
             "power readings settle on server ticks. Inspect after rejected or changed geometry; do not repeat writes blindly. " +
@@ -407,6 +407,114 @@ public final class EngineeringSite implements ModInitializer {
                 cells.add(cell);
             }
             return new Routed(cells,review(level,cells).check());
+        }
+
+        public record Load(@Doc("Position you chose for one load.") class_2338 pos,
+                           @Doc("Kinetic block ID or exact block state.") String state,
+                           @Doc("Use true for millstone side-drive; leaves space under the millstone for logistics.") Optional<Boolean> side_mesh) {}
+        public record Connect(@Doc("Empty position you chose for the creative motor.") class_2338 motor,
+                              @Doc("1..4 devices at selected positions.") List<Load> loads,
+                              @Doc("Signed motor RPM (1..256 in magnitude).") int rpm,
+                              @Doc("Optional cells reserved for walkways, depot clearance, or logistics.") Optional<List<class_2338>> avoid) {}
+
+        @Fn("Find compact right-angle shaft routes between YOUR motor and load positions, read-only. Supports 1..4 devices, sharing one motor output. Reserve planned clearance/logistics cells in avoid. If check.rejects is empty, use apply(result.cells), then verify real power. If no route fits, shift a device or use route with explicit paths.")
+        public static Routed connect(ServerCall call,Connect args) {
+            var level=level(call);
+            require(!args.loads().isEmpty() && args.loads().size()<=4,"choose 1..4 loads");
+            var avoid=args.avoid().orElse(List.of());
+            require(avoid.size()<=64,"at most 64 reserved positions");
+            var reserved=new HashSet<>(avoid);
+            check(level,args.motor());
+            require(level.method_8320(args.motor()).method_26215() && !reserved.contains(args.motor()),
+                "motor position is occupied or reserved");
+            var loadPositions=new HashSet<class_2338>();
+            for(var load:args.loads()){
+                check(level,load.pos());
+                require(level.method_8320(load.pos()).method_26215() && !reserved.contains(load.pos()) &&
+                    !load.pos().equals(args.motor()) && loadPositions.add(load.pos()),"load position occupied, reserved or duplicated at "+load.pos());
+                var state=parse(load.state());
+                require(state.method_26204() instanceof com.simibubi.create.content.kinetics.base.IRotate,
+                    "expected kinetic load at "+load.pos());
+                if(load.side_mesh().orElse(false)) require(id(state).equals("create:millstone"),"side_mesh is for millstone only");
+            }
+            reserved.addAll(loadPositions);
+            reserved.add(args.motor());
+            var cache=new java.util.HashMap<class_2338,Boolean>();
+            java.util.function.Predicate<class_2338> empty=at->!reserved.contains(at) &&
+                cache.computeIfAbsent(at,p->inSiteCell(level,p) && level.method_8320(p).method_26215());
+            for(var outlet:class_2350.values()){
+                var first=args.motor().method_10093(outlet);
+                if(!empty.test(first)) continue;
+                var alternatives=new ArrayList<List<DrivePath>>();
+                for(var load:args.loads()) alternatives.add(candidates(level,empty,args.motor(),first,load));
+                if(alternatives.stream().anyMatch(List::isEmpty)) continue;
+                // Try a few deterministic route combinations. Explicit route() remains available for complex geometry.
+                int attempts=1;
+                for(var paths:alternatives) attempts=Math.min(48,attempts*Math.min(paths.size(),5));
+                for(int option=0;option<attempts;option++){
+                    var paths=new ArrayList<DrivePath>();
+                    int remaining=option;
+                    for(var options:alternatives){
+                        int n=Math.min(options.size(),5);
+                        paths.add(options.get(remaining%n));
+                        remaining/=n;
+                    }
+                    try {
+                        var result=route(call,new Route(paths,args.rpm()));
+                        if(result.check().rejects().isEmpty()) return result;
+                    } catch(ApiError incompatible) {
+                        // A three-axis junction or an opposed motor port needs a different candidate.
+                    }
+                }
+            }
+            return new Routed(List.of(),new Check(0,List.of(new Reject(args.motor(),
+                "no protected right-angle route fits; move a motor/load, free a corridor, or supply explicit paths")),List.of()));
+        }
+
+        private static List<DrivePath> candidates(class_3218 level,java.util.function.Predicate<class_2338> empty,
+                                                  class_2338 motor,class_2338 first,Load load) {
+            var paths=new java.util.LinkedHashSet<List<class_2338>>();
+            boolean mesh=load.side_mesh().orElse(false);
+            for(var port:class_2350.values()){
+                if(mesh && (port==class_2350.field_11036 || port==class_2350.field_11033)) continue;
+                if(!mesh){
+                    try { CreateReadings.orient(level,load.pos(),load.state(),List.of(port.method_10151())); }
+                    catch(CommandSyntaxException | IllegalArgumentException invalid) { continue; }
+                }
+                var contact=load.pos().method_10093(port);
+                if(!empty.test(contact)) continue;
+                for(var vertical:mesh?List.of(class_2350.field_11033,class_2350.field_11036):List.of(port)){
+                    var approach=mesh?contact.method_10093(vertical):contact;
+                    if(!empty.test(approach)) continue;
+                    for(var order:List.of("xyz","xzy","yxz","yzx","zxy","zyx")){
+                        var path=new ArrayList<class_2338>();
+                        path.add(motor);
+                        path.add(first);
+                        var next=first;
+                        boolean blocked=false;
+                        for(char axis:order.toCharArray()){
+                            int distance=component(approach,axis)-component(next,axis);
+                            int step=Integer.signum(distance);
+                            for(int i=0;i<Math.abs(distance);i++){
+                                next=next.method_10069(axis=='x'?step:0,axis=='y'?step:0,axis=='z'?step:0);
+                                if(!empty.test(next)){ blocked=true; break; }
+                                path.add(next);
+                            }
+                            if(blocked) break;
+                        }
+                        if(blocked || mesh && path.contains(contact)) continue;
+                        if(mesh) path.add(contact);
+                        path.add(load.pos());
+                        paths.add(List.copyOf(path));
+                    }
+                }
+            }
+            return paths.stream().sorted(java.util.Comparator.comparingInt(List::size))
+                .map(path->new DrivePath(path,load.state(),load.side_mesh())).toList();
+        }
+
+        private static int component(class_2338 pos,char axis) {
+            return axis=='x'?pos.method_10263():axis=='y'?pos.method_10264():pos.method_10260();
         }
 
         private static List<String> layoutWarnings(class_3218 level,List<Cell> cells) {
