@@ -1,5 +1,7 @@
 # 当前任务：通用物流规划、多阶段产线与现有工程改造（2026-11-25）
 
+**阶段断点（2026-11-25）**　0.2.5-dev 工程候选已构建并运行。新增只读物流规划、已安装配方简读、现场设备概览和原生风扇水洗回读；支持从现有传动接出支路。旧版同条件面团未通过；新工具在固定夹具生成 5 个运输件，两次独立投料后成品桶 0→5→9。自主面团、石料、旧工坊改造和物流盲修正在隔离复验。已保存[原始日志和世界读回](https://chatgpt.com/library?file_id=libfile_9c886875a15c8191bd24c81e8435ed6f&account_id=personal)，保留 0.2.4-dev 已验收包。
+
 执行前读取 [Msipla/Conversation-Archives/AGENTS.md](https://github.com/Msipla/Conversation-Archives/blob/main/AGENTS.md) 最新版及[目标仓库 AGENTS.md](../../AGENTS.md)（如存在），全程遵守适用规范；无法读取须如实报告。核对最新分支、源码、HANDOFF、任务书及并发变更。以 [0.2.4-dev 源码 05ec6af](https://github.com/Msipla/-Moonlit-Halt/commit/05ec6aff976c3fd076039a09ebadf850f091bb38) 和 [6f5451f 阶段证据](https://github.com/Msipla/-Moonlit-Halt/commit/6f5451f9a5a84a7ccad710305d2d019135ea91d1) 为接续基线，阅读现有 README 与 evidence/planning-and-execution-0.2.4-dev.json。保留 0.2.3 和 0.2.4-dev 安装包及可回退提交。沿用 codex/numen-create-basic-actions 开发分支，不覆盖 main 或既有发布。
 
 ## 目标与授权

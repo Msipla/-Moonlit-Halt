@@ -7,7 +7,7 @@ classpath="${LAB_MC20}/mods/create.jar"
 while IFS= read -r -d '' file; do classpath="$classpath:$file"; done   < <(find "$LAB_MC20/libraries" "$LAB_MC20/.fabric/remappedJars" "$LAB_MC20/.fabric/processedMods" -name '*.jar' -print0)
 scratch="$(mktemp -d)"
 trap 'rm -rf "$scratch"' EXIT
-sources=(EngineeringSite.java CreateReadings.java CreateSettings.java PonderGuide.java)
+sources=(EngineeringSite.java CreateReadings.java CreateSettings.java PonderGuide.java Logistics.java)
 if [[ -n ${LAB_VS_MODS:-} ]]; then
     classpath="$classpath:$LAB_VS_MODS/vs.jar:$LAB_VS_MODS/eureka.jar"
     unzip -p "$LAB_VS_MODS/vs.jar" 'META-INF/jars/fabric-language-kotlin-*.jar' > "$scratch/kotlin.jar"

@@ -8,7 +8,7 @@ const {snapshot} = require('./world.cjs');
 
 const phase = process.argv[2];
 const engineering = phase === 'engineering';
-const engineeringSmoke = engineering && ['1','line','dough','ship','feed','permissions','planning','overload','routing'].includes(process.env.LAB_ENGINEERING_SMOKE);
+const engineeringSmoke = engineering && ['1','line','dough','ship','feed','permissions','planning','overload','routing','logistics'].includes(process.env.LAB_ENGINEERING_SMOKE);
 const engineeringShip = engineering && (process.env.LAB_ENGINEERING_SMOKE==='ship' || ['air','water'].includes(process.env.LAB_ENGINEERING_VESSEL));
 const basicCheck = phase === 'basic-check';
 const basicWater = phase === 'basic-water';

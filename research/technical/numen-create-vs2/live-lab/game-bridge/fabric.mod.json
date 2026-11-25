@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "engineering_site_lab",
-  "version": "0.2.4-dev",
+  "version": "0.2.5-dev",
   "name": "Numen Engineering",
   "environment": "*",
   "entrypoints": {"main": ["lab.EngineeringSite"]},

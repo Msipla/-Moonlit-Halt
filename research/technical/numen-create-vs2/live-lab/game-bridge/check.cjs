@@ -14,7 +14,7 @@ module.exports=async function check(lab){
     }
     await lab.cmd('fill -6 -60 6 7 -58 19 minecraft:water');
   }
-  if(process.env.LAB_ENGINEERING_SMOKE==='dough'){
+  if(['dough','logistics'].includes(process.env.LAB_ENGINEERING_SMOKE)){
     for(const edge of ['-7 -60 5 -7 -60 20','8 -60 5 8 -60 20','-6 -60 5 7 -60 5','-6 -60 20 7 -60 20']){
       await lab.cmd('fill '+edge+' minecraft:stone');
     }
@@ -37,7 +37,7 @@ module.exports=async function check(lab){
   if(process.env.LAB_ENGINEERING_SMOKE==='permissions') return permissionCheck(lab,baseline);
   if(process.env.LAB_ENGINEERING_SMOKE==='ship') return shipCheck(lab,baseline);
   if(process.env.LAB_ENGINEERING_SMOKE==='line') return calibrateLine(lab,baseline);
-  if(process.env.LAB_ENGINEERING_SMOKE==='dough') return calibrateDough(lab,baseline);
+  if(['dough','logistics'].includes(process.env.LAB_ENGINEERING_SMOKE)) return calibrateDough(lab,baseline,process.env.LAB_ENGINEERING_SMOKE==='logistics');
   if(process.env.LAB_ENGINEERING_SMOKE==='1') return settingsCheck(lab);
   if(['1','vertical'].includes(process.env.LAB_ENGINEERING_LINE)) return lineCheck(lab,baseline);
   if(['1','clearance'].includes(process.env.LAB_ENGINEERING_PRESS)) return pressCheck(lab,baseline);
@@ -128,7 +128,22 @@ async function routingCheck(lab) {
     ' print("routing_pass",a.cells,pressPower.rpm,millPower.rpm)','\nrouting_pass');
   const line=lab.output().split('\n').find(l=>l.startsWith('routing_pass\t'));
   assert(line);
-  lab.mark('engineering_routing',{passed:true,cells:Number(line.split('\t')[1]),rpm:line.split('\t').slice(2).map(Number)});
+  await lab.drive(`local p=function(x,y,z) return {x=x,y=y,z=z} end
+    local motor=p(-5,-56,16); local shaft=p(-4,-56,16); local fan=p(1,-56,16);
+    local site=engineering.site;
+    assert(site.apply({{pos=motor,state="create:creative_motor[facing=east]",rpm=64},
+      {pos=shaft,state="create:shaft[axis=x]"}}).cells==2);
+    local before=site.inspect(shaft);
+    local branch=site.connect(shaft,{{pos=fan,state="create:encased_fan[facing=east]"}},64,{reuse=true});
+    assert(#branch.cells>0 and #branch.check.rejects==0);
+    for _,cell in ipairs(branch.cells) do assert(cell.pos.x~=-4 or cell.pos.y~=-56 or cell.pos.z~=16) end;
+    assert(site.apply(branch.cells).cells==#branch.cells);
+    local after=site.inspect(shaft); local load=site.inspect(fan);
+    assert(after.state==before.state and after.rpm==before.rpm and load.power_status=="running" and load.network==after.network);
+    print("reuse_pass",#branch.cells,load.rpm)`.replaceAll('\n',' '),'\nreuse_pass');
+  const reuse=lab.output().split('\n').find(row=>row.startsWith('reuse_pass\t'));
+  assert(reuse);
+  lab.mark('engineering_routing',{passed:true,cells:Number(line.split('\t')[1]),rpm:line.split('\t').slice(2).map(Number),reuse:reuse.split('\t').slice(1).map(Number)});
 }
 
 async function overloadCheck(lab) {
@@ -378,17 +393,47 @@ async function settingsCheck(lab) {
     copies:structure.blocks.length,nativeSettings:structure.blocks.flatMap(b=>b.nbt?[b.nbt]:[])});
 }
 
-async function calibrateDough(lab,baseline) {
+async function calibrateDough(lab,baseline,compiled=false) {
   // The fixed, known wheat-to-dough apparatus is reused from the existing repair fixture.
   const fixture=require('../repair-fixture.cjs');
   const position=([x,y,z])=>[x,y-60,z+12];
   const coords=at=>{const [x,y,z]=position(at); return '{x='+x+',y='+y+',z='+z+'}';};
   const water=fixture.cells.find(cell=>cell.state==='minecraft:water');
-  const dry=fixture.cells.filter(cell=>cell!==water);
+  const logistics=new Set(['minecraft:hopper','create:chute','create:smart_chute']);
+  const dry=fixture.cells.filter(cell=>cell!==water&&(!compiled||!logistics.has(cell.state.split('[')[0])));
   const list=dry.map(({at,state,rpm,filter})=>'{pos='+coords(at)+',state='+JSON.stringify(state)+
       (rpm?',rpm='+rpm:'')+(filter?',filter='+JSON.stringify(filter):'')+'}').join(',');
   await lab.drive('assert(engineering.site.apply({'+list+'}).cells=='+dry.length+'); print("dough_calibrated")','\ndough_calibrated');
+  const transfers=[{from:fixture.sample.at,to:[1,6,0],item:'minecraft:wheat'},
+    {from:[1,6,0],to:[0,3,0],item:'create:wheat_flour',filter:true},
+    {from:[0,3,0],to:fixture.sample.out,item:'create:dough',filter:true}];
+  const flow=transfers.map(t=>'{from='+coords(t.from)+',to='+coords(t.to)+',item='+JSON.stringify(t.item)+
+    (t.filter?',filter=true':'')+'}').join(',');
+  if(compiled){
+    await lab.drive(`local site=engineering.site; local before=site.inspect(${coords([2,6,0])});
+      local recipe=site.recipe("create:milling","minecraft:wheat");
+      local wash=site.recipe("create:splashing","create:wheat_flour");
+      assert(string.find(recipe,"create:wheat_flour",1,true));
+      assert(string.find(wash,"create:dough",1,true));
+      local overview=site.overview(); assert(string.find(overview,"create:millstone",1,true));
+      local dry=site.air(${coords([0,4,-2])},${coords([0,3,0])}); assert(not dry.washing);
+      local result=site.flow({links={${flow}}});
+      assert(result.links[1].status=="candidate" and result.links[2].status=="candidate" and result.links[3].status=="candidate");
+      assert(#result.check.rejects==0 and #result.cells>=5); assert(site.inspect(${coords([2,6,0])}).state==before.state);
+      local avoid=site.flow({links={${flow}},avoid={${coords([2,6,0])}}}); assert(avoid.links[1].status=="blocked");
+      assert(site.apply(result.cells).cells==#result.cells);
+      local after=site.flow({links={${flow}}});
+      for _,row in ipairs(after.links) do print("flow_recheck",row.status,row.note) end;
+      assert(#after.cells==0 and after.links[1].status=="existing" and after.links[2].status=="existing" and after.links[3].status=="existing");
+      print("logistics_compiled",#result.cells,dry.status)`.replaceAll('\n',' '),'\nlogistics_compiled');
+  }
   assert.match(await lab.cmd('setblock '+position(water.at).join(' ')+' minecraft:water'),/Changed/);
+  if(compiled){
+    await wait(1300);
+    await lab.drive(`local air=engineering.site.air(${coords([0,4,-2])},${coords([0,3,0])});
+      assert(air.washing and air.status=="washing_reaches_depot",air.status);
+      print("live_washing",air.face,air.pushing,air.reach)`.replaceAll('\n',' '),'\nlive_washing');
+  }
   await lab.drive('assert(engineering.site.feed('+coords(fixture.sample.at)+',"minecraft:wheat",3)==3); print("dough_fed")','\ndough_fed');
   await lab.isolate();
   const out=position(fixture.sample.out);
@@ -419,7 +464,7 @@ async function calibrateDough(lab,baseline) {
   assert.match(await lab.cmd('item replace block '+position(fixture.sample.at).join(' ')+' container.0 with minecraft:wheat 3'),/Replaced/);
   const independent=await waitForProduct(first.count,'dough-independent');
   assert.deepEqual(independent.outside,[]);
-  lab.mark('engineering_dough',{passed:true,fixture:true,first,independent,firstIncrease:first.count,
+  lab.mark('engineering_dough',{passed:true,fixture:true,compiled,first,independent,firstIncrease:first.count,
     independentIncrease:independent.count-first.count});
 }
 

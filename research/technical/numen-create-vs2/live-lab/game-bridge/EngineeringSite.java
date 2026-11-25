@@ -90,7 +90,9 @@ public final class EngineeringSite implements ModInitializer {
             "prove working devices and throughput, then finish accessible enclosure with native building_design/shape/build. " +
             "check(cells) and plan(...) are read-only. apply(cells) is the same authorized batch up to 64 cells; " +
             "power readings settle on server ticks. Inspect after rejected or changed geometry; do not repeat writes blindly. " +
-            "Use one exact Ponder/recipe query only if needed.",Site.class));
+            "For an existing build use overview() once for device positions; inspect only chosen points. For production recipe(type,input) returns compact JSON; flow({links,cells,avoid}) " +
+            "plans downward transfer from model-chosen barrels, mills and depots. air(fan,depot) verifies live fan processing reach. " +
+            "Keep powered sections and correct only the failed direction, filter, or transfer.",Site.class));
     }
 
     public static final class Site {
@@ -351,7 +353,10 @@ public final class EngineeringSite implements ModInitializer {
 
         @Fn("Compile model-chosen paths into motor, shafts, gearboxes and loads, without writing. route(paths,rpm), paths={ {points={motor,...,loadPos},load='create:mechanical_press'}, ... }. Use neighboring cells, share the motor's first step; millstone accepts shaft from below, or side_mesh=true with the last cog powered vertically. Inspect result.check then apply(result.cells) if appropriate.")
         public static Routed route(ServerCall call,Route args) {
-            var level=level(call);
+            return compileRoute(level(call),args,false);
+        }
+
+        private static Routed compileRoute(class_3218 level,Route args,boolean reuse) {
             require(!args.paths().isEmpty() && args.paths().size()<=8,"expected 1..8 paths");
             require(args.rpm()!=0 && Math.abs((long)args.rpm())<=256,"motor RPM magnitude must be 1..256");
             var starts=args.paths().get(0).points();
@@ -395,6 +400,11 @@ public final class EngineeringSite implements ModInitializer {
             for(var entry:contacts.entrySet()){
                 var pos=entry.getKey();
                 var faces=List.copyOf(entry.getValue());
+                if(pos.equals(motor) && reuse) {
+                    require(CreateReadings.faces(level,pos,level.method_8320(pos)).containsAll(faces),
+                        "existing source has no shaft output toward "+faces);
+                    continue;
+                }
                 if(loads.containsKey(pos))
                     require(faces.size()+(faces.isEmpty()?1:0)==1 && !meshes.contains(pos),
                         "load may terminate only one edge at "+pos);
@@ -423,9 +433,10 @@ public final class EngineeringSite implements ModInitializer {
         public record Connect(@Doc("Empty position you chose for the creative motor.") class_2338 motor,
                               @Doc("1..4 devices at selected positions.") List<Load> loads,
                               @Doc("Signed motor RPM (1..256 in magnitude).") int rpm,
-                              @Doc("Optional cells reserved for walkways, depot clearance, or logistics.") Optional<List<class_2338>> avoid) {}
+                              @Doc("Optional cells reserved for walkways, depot clearance, or logistics.") Optional<List<class_2338>> avoid,
+                              @Doc("True: reuse a running shaft/gearbox/motor at motor without rewriting it. Choose an exposed free shaft face.") Optional<Boolean> reuse) {}
 
-        @Fn("Read-only: connect(motor, {{pos=loadPos, state=blockId, side_mesh=true if needed}}, rpm, {avoid=reservedPositions}). Find compact right-angle shafts between your selected positions. Supports 1..4 devices, sharing one motor output. Reserve planned clearance/logistics cells in avoid. If check.rejects is empty, use apply(result.cells), then verify real power. If no route fits, shift a device or use route with explicit paths.")
+        @Fn("Read-only: connect(motor, {{pos=loadPos, state=blockId, side_mesh=true if needed}}, rpm, {avoid=reservedPositions}). Find compact right-angle shafts between your selected positions. Supports 1..4 devices, sharing one motor output. Reserve clearance/logistics cells in avoid. Use reuse=true in the options for an existing running shaft port. If check.rejects is empty, use apply(result.cells), then verify real power. If no route fits, shift a device or use route with explicit paths.")
         public static Routed connect(ServerCall call,Connect args) {
             var level=level(call);
             require(!args.loads().isEmpty() && args.loads().size()<=4,"choose 1..4 loads");
@@ -434,8 +445,12 @@ public final class EngineeringSite implements ModInitializer {
             require(avoid.size()<=64,"at most 64 reserved positions");
             var reserved=new HashSet<>(avoid);
             check(level,args.motor());
-            require(level.method_8320(args.motor()).method_26215() && !reserved.contains(args.motor()),
-                "motor position is occupied or reserved");
+            boolean reuse=args.reuse().orElse(false);
+            var source=level.method_8320(args.motor());
+            require(!reserved.contains(args.motor()),"power source position is reserved");
+            require(reuse?CreateReadings.powerStatus(level,args.motor()).equals("running"):source.method_26215(),
+                reuse?"existing source is not verified running":"motor position is occupied");
+            var outlets=reuse?CreateReadings.faces(level,args.motor(),source):List.<String>of();
             var loadPositions=new HashSet<class_2338>();
             for(var load:args.loads()){
                 check(level,load.pos());
@@ -452,6 +467,7 @@ public final class EngineeringSite implements ModInitializer {
             java.util.function.Predicate<class_2338> empty=at->!reserved.contains(at) &&
                 cache.computeIfAbsent(at,p->inSiteCell(level,p) && level.method_8320(p).method_26215());
             for(var outlet:class_2350.values()){
+                if(reuse && !outlets.contains(outlet.method_10151())) continue;
                 var first=args.motor().method_10093(outlet);
                 if(!empty.test(first)) continue;
                 var alternatives=new ArrayList<List<DrivePath>>();
@@ -469,7 +485,7 @@ public final class EngineeringSite implements ModInitializer {
                         remaining/=n;
                     }
                     try {
-                        var result=route(call,new Route(paths,args.rpm()));
+                        var result=compileRoute(level,new Route(paths,args.rpm()),reuse);
                         if(result.check().rejects().isEmpty()) return result;
                     } catch(ApiError incompatible) {
                         // A three-axis junction or an opposed motor port needs a different candidate.
@@ -558,8 +574,9 @@ public final class EngineeringSite implements ModInitializer {
                     var below=pos.method_10074();
                     var next=planned.get(below);
                     if(next!=null && !next.equals("minecraft:air") && !next.contains("chute")
-                        && !next.equals("minecraft:barrel"))
-                        warnings.add(pos+" chute outputs into "+next+" below; chutes only move items downward into air or a container");
+                        && !next.startsWith("minecraft:barrel") && !next.startsWith("minecraft:hopper")
+                        && !next.startsWith("create:depot") && !next.startsWith("create:millstone"))
+                        warnings.add(pos+" chute output may be blocked by "+next+" below; verify the receiving item port");
                 }
             }
             return List.copyOf(warnings);
@@ -607,10 +624,47 @@ public final class EngineeringSite implements ModInitializer {
             return result;
         }
 
+        @Fn("Read-only transfer planner. flow({links={{from=source,to=target,item=registryId,filter=true}}, cells=optionalPlanned, avoid=reserved}). Source above target, one free cell below source. Optional link.via is the ordered intermediate cells. Returns candidate logistics cells only; call apply after review. Keep existing working cells. No belts or upward transport.")
+        public static Logistics.Result flow(ServerCall call,Logistics.Request request) {
+            var level=level(call);
+            var cells=request.cells().orElse(List.of());
+            var avoid=request.avoid().orElse(List.of());
+            require(!request.links().orElse(List.of()).isEmpty() && request.links().orElseThrow().size()<=4 && cells.size()<=LIMIT && avoid.size()<=LIMIT,
+                "flow needs 1..4 links, up to 64 planned edits and up to 64 reserved cells");
+            for(var pos:avoid) check(level,pos);
+            var plan=review(level,cells);
+            if(!plan.check().rejects().isEmpty()) return new Logistics.Result(List.of(),List.of(),plan.check());
+            var filters=new java.util.HashMap<class_2338,String>();
+            for(var cell:cells) filters.put(cell.pos(),cell.filter().orElse(null));
+            var result=Logistics.compile(level,request,plan.overlay(),filters,plan.check());
+            return new Logistics.Result(result.cells(),result.links(),review(level,result.cells()).check());
+        }
+
+        @Fn("Print one compact JSON map of up to 24 existing processing devices, barrels, hoppers and chutes in the loaded authorized site. No shafts or scenery; inspect selected positions for stock and power.")
+        public static String overview(ServerCall call,NoArgs args) {
+            return Logistics.overview(level(call),new class_2338(bounds[0],bounds[1],bounds[2]),
+                new class_2338(bounds[3],bounds[4],bounds[5]));
+        }
+
+        @Fn("Read active Create processing recipes by exact type and input, e.g. recipe('create:milling','minecraft:wheat'). Tag inputs are matched. Returns compact JSON for up to six recipes with chances, batch outputs and duration. Print the returned string.")
+        public static String recipe(ServerCall call,Logistics.RecipeQuery query) {
+            return Logistics.recipe(level(call),query);
+        }
+
+        @Fn("Read native air current at an existing depot: air(fan,depot). Returns face, push/pull, range and whether native washing currently reaches the depot. Wait for fan to update and separately verify stock and actual results.")
+        public static Logistics.Air air(ServerCall call,Logistics.AirQuery query) {
+            return Logistics.airflow(level(call),query);
+        }
+
         private static Edit prepare(class_3218 level,Cell c) {
             check(level,c.pos());
             var parsed=parseState(c.state());
             var state=parsed.comp_622();
+            if(id(state).equals(CreateSettings.CHUTE) && parsed.comp_623().isEmpty() &&
+                level.method_8320(c.pos()).method_26215()) {
+                state=state.method_11657(com.simibubi.create.content.logistics.chute.SmartChuteBlock.POWERED,
+                    level.method_49803(c.pos()));
+            }
             if(id(state).equals("create:shaft")
                 && c.faces().isEmpty() && parsed.comp_623().isEmpty()) {
                 var neighbours=new ArrayList<class_2350>();
