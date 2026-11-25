@@ -191,7 +191,7 @@ public final class Logistics {
     }
 
     private static Optional<class_1799> item(String id) {
-        if(!id.matches("[a-z0-9_.-]+:[a-z0-9_./-]+") || id.length()>128) return Optional.empty();
+        if(id.length()>128 || !id.matches("[a-z0-9_.-]+:[a-z0-9_./-]+")) return Optional.empty();
         var stack=CreateSettings.stack(id,1);
         return stack.method_7960()?Optional.empty():Optional.of(stack);
     }
@@ -199,9 +199,10 @@ public final class Logistics {
     static String overview(class_3218 level,class_2338 min,class_2338 max) {
         var devices=new ArrayList<Device>();
         int total=0;
-        for(int x=min.method_10263();x<=max.method_10263();x++)
-            for(int z=min.method_10260();z<=max.method_10260();z++)
-                for(int y=min.method_10264();y<=max.method_10264();y++) {
+        for(int dx=0;dx<=max.method_10263()-min.method_10263();dx++)
+            for(int dz=0;dz<=max.method_10260()-min.method_10260();dz++)
+                for(int dy=0;dy<=max.method_10264()-min.method_10264();dy++) {
+                    int x=min.method_10263()+dx, y=min.method_10264()+dy, z=min.method_10260()+dz;
                     var at=new class_2338(x,y,z);
                     if(!EngineeringSite.Site.inSiteCell(level,at)) continue;
                     var block=level.method_8320(at);

@@ -136,6 +136,8 @@ async function routingCheck(lab) {
     local before=site.inspect(shaft);
     local branch=site.connect(shaft,{{pos=fan,state="create:encased_fan[facing=east]"}},64,{reuse=true});
     assert(#branch.cells>0 and #branch.check.rejects==0);
+    local exact=site.route({{points={p(3,-51,19),p(4,-51,19)},load="create:encased_fan[facing=west]"}},64);
+    assert(#exact.check.rejects>0,"cannot silently reverse fixed fan facing");
     for _,cell in ipairs(branch.cells) do assert(cell.pos.x~=-4 or cell.pos.y~=-56 or cell.pos.z~=16) end;
     assert(site.apply(branch.cells).cells==#branch.cells);
     local after=site.inspect(shaft); local load=site.inspect(fan);

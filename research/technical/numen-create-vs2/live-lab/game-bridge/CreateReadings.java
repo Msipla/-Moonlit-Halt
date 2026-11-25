@@ -212,9 +212,10 @@ final class CreateReadings {
         if (wanted.isEmpty() || faces(level, at, state).containsAll(wanted)) return state;
         var shapes = new java.util.LinkedHashSet<List<String>>();
         for (var candidate : state.method_26204().method_9595().method_11662()) {
-            // Requested contacts determine orientation and never alter unrelated states.
+            // Auto-orient only properties that the caller left unspecified.
             var allowed = state.method_11656().entrySet().stream().allMatch(e ->
-                List.of("axis", "facing").contains(e.getKey().method_11899())
+                (List.of("axis", "facing").contains(e.getKey().method_11899())
+                    && !parsed.comp_623().containsKey(e.getKey()))
                 || e.getValue().equals(candidate.method_11656().get(e.getKey())));
             if (!allowed) continue;
             var have=faces(level, at, candidate);
