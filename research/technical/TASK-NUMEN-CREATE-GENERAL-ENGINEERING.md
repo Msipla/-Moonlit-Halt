@@ -1,6 +1,6 @@
 # 当前任务：工程规划、施工前自检与真实功能闭环（2026-11-25 晚）
 
-**阶段断点（2026-11-25）**　已构建 [0.2.4-dev 候选测试包](https://chatgpt.com/library?file_id=libfile_320f61dc3c088191b251dcdedd5a4635&account_id=personal)，源码 `05ec6af`，JAR SHA-256 `0186ac6f05ea2baa1b1e19ef6fa8d04ebcd3be08d0774003491b034b08f90389`。4 刻动力回读、断轴残留、过载、两套独立网络、共享动力盲修两份产物、双磨石及 NBT 副本复投、权限和库存保护已过隔离测试。候选系列真实图形客户端验证飞行船与水面船。最后两轮空地工坊和面团产线仍在进行，独立产品及入口通行尚待核对。0.2.3 发布包保留，Windows 玩家验收待复验。
+**阶段断点（2026-11-25）**　已构建 [0.2.4-dev 候选测试包](https://chatgpt.com/library?file_id=libfile_320f61dc3c088191b251dcdedd5a4635&account_id=personal)，源码 `05ec6af`，JAR SHA-256 `0186ac6f05ea2baa1b1e19ef6fa8d04ebcd3be08d0774003491b034b08f90389`。4 刻动力回读、断轴残留、过载、两套独立网络、共享动力盲修两份产物、双磨石及 NBT 副本复投、权限和库存保护已过隔离测试。候选系列真实图形客户端验证飞行船与水面船。两个不同空地布局独立试投均得到铁板和砂砾。复跑布局已用真实生存客户端通过入口与两工位通行。同一装置通过独立复投。面团固定夹具两次自动产出，自主面团整线仍未通过。0.2.3 可回退，Windows 玩家验收待复验。 [阶段实测与接续](numen-create-vs2/live-lab/README.md#2026-11-25-工程规划施工前自检与真实功能闭环)
 
 执行前读取 [Msipla/Conversation-Archives/AGENTS.md](https://github.com/Msipla/Conversation-Archives/blob/main/AGENTS.md) 与[目标仓库 AGENTS.md](../../AGENTS.md) 最新版（如存在），全程遵守适用规范，无法读取须报告。核对最新源码、HANDOFF、任务书、并发提交及 [50bca1f 实测](https://github.com/Msipla/-Moonlit-Halt/commit/50bca1f38b0ab064a1fd1e515e7646ca63a90346)、[研究记录](numen-create-vs2/live-lab/README.md#2026-11-25-开源技术选型与通用工程能力对照) 和对应 evidence。保护 25dde6a 的 0.2.3 发布包及既有实测成果。本阶段替代下文上一阶段的只读授权限制；在现有独立开发分支 codex/numen-create-basic-actions 上积极开发，保留可回退提交，不覆盖 main 或发布包。
 
