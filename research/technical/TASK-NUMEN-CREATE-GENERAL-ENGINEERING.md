@@ -1,5 +1,7 @@
 # 当前任务：工程专项教学与 Skill 迭代（2026-11-26，用户确认）
 
+**阶段断点（2026-11-26）**　冻结 `23dc232` 对应的 0.2.5-dev，沿用已交付 JAR。已对教材做 NBT 解析与清理后导入，完成四轮既有 Skill 迭代。教师工位两种朝向各首投和复投通过，原生飞行接近与单处过滤修复有实机闭环。学生能查到陌生两段研磨配方、定位过滤故障。整体自主通过率和效率尚无稳定提升，V4 仅作为隔离教学候选。自主空地面团整线、陌生双磨线及旧石料新回归待续，保留旧已验收版本和原默认 Skill。建议从干侧站位与原生放水的单元复考接续，逐段封存，先独立投料再评组合。 [实测与接续](numen-create-vs2/live-lab/README.md#2026-11-26-工程专项教学与-skill-迭代) · [结构化证据](numen-create-vs2/live-lab/evidence/teaching-0.2.5-dev.json) · [原始日志与存档](https://chatgpt.com/library?file_id=libfile_cc294de6057481918220530f7cd09fba&account_id=personal)。
+
 执行前先读取 [Msipla/Conversation-Archives/AGENTS.md](https://github.com/Msipla/Conversation-Archives/blob/main/AGENTS.md) 最新版及[目标仓库 AGENTS.md](../../AGENTS.md)（如存在），全过程遵守适用规范；无法读取须报告。核对最新分支、源码、HANDOFF、任务书、并发提交和实测证据。沿用 codex/numen-create-basic-actions。以 0.2.5-dev 源码 23dc232、阶段记录 [aa5598a](https://github.com/Msipla/-Moonlit-Halt/commit/aa5598ab807f0c2248ff261066954b0f1493d049) 及下文断点为基线，阅读 live-lab README 与 evidence/logistics-and-retrofit-0.2.5-dev.json。
 
 ## 目标与边界

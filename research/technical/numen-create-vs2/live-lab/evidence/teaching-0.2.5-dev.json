@@ -1,0 +1,4631 @@
+{
+  "startingTask": "a7a466b3829486844cb97ccd1b1e25cc02c05d3e",
+  "frozenJarSHA256": "d936a60cbacd51d7941d76b7d5c2195a304119223e0b58d47b250327ddfc091c",
+  "scope": "Isolated 1.20.1 Fabric dedicated server; no game-bridge changes.",
+  "materials": [
+    {
+      "file": "2x-speed-automatic-encased-fan.nbt",
+      "sha256": "fb0cdda6be979b98e7aeb3768ade65c8b58d34122dec0851fda14337891df816",
+      "size": [
+        6,
+        5,
+        12
+      ],
+      "dataVersion": 3465,
+      "total": 143,
+      "entityCount": 0,
+      "rootKeys": [
+        "size",
+        "blocks",
+        "palette",
+        "entities",
+        "DataVersion"
+      ],
+      "counts": {
+        "create:rose_quartz_lamp": 4,
+        "minecraft:lava": 2,
+        "minecraft:water": 2,
+        "create:belt": 36,
+        "create:encased_chain_drive": 16,
+        "minecraft:chest": 16,
+        "create:brass_belt_funnel": 8,
+        "create:copycat_panel": 30,
+        "create:smart_chute": 4,
+        "create:andesite_encased_shaft": 5,
+        "create:placard": 4,
+        "create:encased_fan": 8,
+        "minecraft:soul_campfire": 2,
+        "minecraft:campfire": 2,
+        "create:creative_motor": 1,
+        "create:gearbox": 1,
+        "minecraft:cherry_wall_sign": 2
+      },
+      "unsupported": [
+        "create:rose_quartz_lamp",
+        "minecraft:lava",
+        "minecraft:water",
+        "create:belt",
+        "create:encased_chain_drive",
+        "minecraft:chest",
+        "create:brass_belt_funnel",
+        "create:copycat_panel",
+        "create:andesite_encased_shaft",
+        "create:placard",
+        "minecraft:soul_campfire",
+        "minecraft:campfire",
+        "minecraft:cherry_wall_sign"
+      ],
+      "blockEntityKeys": [
+        "BottomAirFlowDistance",
+        "Casing",
+        "Controller",
+        "CookingTimes",
+        "CookingTotalTimes",
+        "Covered",
+        "Filter",
+        "FilterAmount",
+        "Index",
+        "Inventory",
+        "IsController",
+        "Item",
+        "ItemPosition",
+        "Items",
+        "Length",
+        "Material",
+        "NeedsSpeedUpdate",
+        "Network",
+        "PoweredTicks",
+        "Pull",
+        "Push",
+        "ScrollValue",
+        "Source",
+        "Speed",
+        "TransferCooldown",
+        "UpTo",
+        "back_text",
+        "front_text",
+        "id",
+        "is_waxed"
+      ],
+      "fans": [
+        {
+          "facing": "south",
+          "front": [
+            "minecraft:soul_campfire",
+            "create:copycat_panel",
+            "create:copycat_panel"
+          ],
+          "belowFront": [
+            "create:copycat_panel",
+            "create:smart_chute",
+            "unlisted"
+          ],
+          "rear": "create:encased_chain_drive"
+        },
+        {
+          "facing": "north",
+          "front": [
+            "minecraft:soul_campfire",
+            "create:copycat_panel",
+            "create:copycat_panel"
+          ],
+          "belowFront": [
+            "create:copycat_panel",
+            "unlisted",
+            "create:smart_chute"
+          ],
+          "rear": "create:encased_chain_drive"
+        },
+        {
+          "facing": "south",
+          "front": [
+            "minecraft:lava",
+            "create:copycat_panel",
+            "create:copycat_panel"
+          ],
+          "belowFront": [
+            "create:copycat_panel",
+            "create:smart_chute",
+            "unlisted"
+          ],
+          "rear": "create:encased_chain_drive"
+        },
+        {
+          "facing": "north",
+          "front": [
+            "minecraft:lava",
+            "create:copycat_panel",
+            "create:copycat_panel"
+          ],
+          "belowFront": [
+            "create:copycat_panel",
+            "unlisted",
+            "create:smart_chute"
+          ],
+          "rear": "create:encased_chain_drive"
+        },
+        {
+          "facing": "south",
+          "front": [
+            "minecraft:campfire",
+            "create:copycat_panel",
+            "create:copycat_panel"
+          ],
+          "belowFront": [
+            "create:copycat_panel",
+            "create:smart_chute",
+            "unlisted"
+          ],
+          "rear": "create:encased_chain_drive"
+        },
+        {
+          "facing": "north",
+          "front": [
+            "minecraft:campfire",
+            "create:copycat_panel",
+            "create:copycat_panel"
+          ],
+          "belowFront": [
+            "create:copycat_panel",
+            "unlisted",
+            "create:smart_chute"
+          ],
+          "rear": "create:encased_chain_drive"
+        },
+        {
+          "facing": "south",
+          "front": [
+            "minecraft:water",
+            "create:copycat_panel",
+            "create:copycat_panel"
+          ],
+          "belowFront": [
+            "create:copycat_panel",
+            "create:smart_chute",
+            "unlisted"
+          ],
+          "rear": "create:encased_chain_drive"
+        },
+        {
+          "facing": "north",
+          "front": [
+            "minecraft:water",
+            "create:copycat_panel",
+            "create:copycat_panel"
+          ],
+          "belowFront": [
+            "create:copycat_panel",
+            "unlisted",
+            "create:smart_chute"
+          ],
+          "rear": "create:encased_chain_drive"
+        }
+      ],
+      "mills": []
+    },
+    {
+      "file": "manual-processing-hub.nbt",
+      "sha256": "9ddb3f60ee9df3664d7939bd6eb000b6adf2505256db204f0b1724b8df46fd6b",
+      "size": [
+        14,
+        6,
+        17
+      ],
+      "dataVersion": 3465,
+      "total": 172,
+      "entityCount": 0,
+      "rootKeys": [
+        "size",
+        "blocks",
+        "palette",
+        "entities",
+        "DataVersion",
+        "simple_copper_pipes_DataVersion",
+        "Railways_DataVersion"
+      ],
+      "counts": {
+        "create:andesite_casing": 5,
+        "minecraft:stone": 1,
+        "minecraft:oak_leaves": 1,
+        "minecraft:lever": 1,
+        "create:framed_glass_trapdoor": 2,
+        "minecraft:lava": 1,
+        "create:belt": 33,
+        "create:encased_chain_drive": 17,
+        "create:gearbox": 8,
+        "create:blaze_burner": 2,
+        "create:shaft": 4,
+        "create:cogwheel": 6,
+        "create:rotation_speed_controller": 1,
+        "create:crushing_wheel": 2,
+        "create:crushing_wheel_controller": 1,
+        "create:mechanical_saw": 1,
+        "minecraft:hopper": 3,
+        "create:depot": 11,
+        "create:basin": 2,
+        "minecraft:barrel": 8,
+        "create:andesite_belt_funnel": 1,
+        "create:brass_belt_funnel": 9,
+        "create:mechanical_crafter": 21,
+        "create:large_cogwheel": 1,
+        "create:clutch": 1,
+        "create:creative_motor": 1,
+        "create:fluid_pipe": 2,
+        "create:brass_funnel": 1,
+        "create:item_drain": 1,
+        "create:andesite_encased_shaft": 3,
+        "minecraft:spruce_wall_sign": 1,
+        "create:mechanical_pump": 1,
+        "create:deployer": 5,
+        "create:mechanical_press": 3,
+        "create:mechanical_mixer": 1,
+        "create:spout": 1,
+        "minecraft:soul_campfire": 1,
+        "minecraft:campfire": 1,
+        "create:chute": 3,
+        "create:encased_fan": 4
+      },
+      "unsupported": [
+        "create:andesite_casing",
+        "minecraft:oak_leaves",
+        "minecraft:lever",
+        "create:framed_glass_trapdoor",
+        "minecraft:lava",
+        "create:belt",
+        "create:encased_chain_drive",
+        "create:blaze_burner",
+        "create:rotation_speed_controller",
+        "create:crushing_wheel",
+        "create:crushing_wheel_controller",
+        "create:mechanical_saw",
+        "create:basin",
+        "create:andesite_belt_funnel",
+        "create:brass_belt_funnel",
+        "create:mechanical_crafter",
+        "create:clutch",
+        "create:fluid_pipe",
+        "create:brass_funnel",
+        "create:item_drain",
+        "create:andesite_encased_shaft",
+        "minecraft:spruce_wall_sign",
+        "create:mechanical_pump",
+        "create:deployer",
+        "create:mechanical_mixer",
+        "create:spout",
+        "minecraft:soul_campfire",
+        "minecraft:campfire"
+      ],
+      "blockEntityKeys": [
+        "BottomAirFlowDistance",
+        "Casing",
+        "ChocolateBerries",
+        "ConnectedInput",
+        "Controller",
+        "CookingTimes",
+        "CookingTotalTimes",
+        "CountDown",
+        "Cover",
+        "Covered",
+        "DisabledSpoutput",
+        "Filter",
+        "FilterAmount",
+        "Finished",
+        "FluidOverflow",
+        "GroupedItems",
+        "HasAttachedComputer",
+        "HeldItem",
+        "Index",
+        "InputItems",
+        "InputTanks",
+        "Inventory",
+        "IsController",
+        "Item",
+        "ItemPosition",
+        "Items",
+        "Length",
+        "Mode",
+        "NeedsSpeedUpdate",
+        "NeedsUpdate",
+        "Network",
+        "NextTick",
+        "OutputBuffer",
+        "OutputItems",
+        "OutputTanks",
+        "Overflow",
+        "Owner",
+        "Phase",
+        "Powered",
+        "ProcessingTicks",
+        "Progress",
+        "Pull",
+        "Push",
+        "RecipeIndex",
+        "Running",
+        "ScrollValue",
+        "Source",
+        "Speed",
+        "State",
+        "Tanks",
+        "Ticks",
+        "Timer",
+        "TracksCreated",
+        "TransferCooldown",
+        "UpTo",
+        "back_text",
+        "burnTimeRemaining",
+        "down",
+        "east",
+        "front_text",
+        "fuelLevel",
+        "id",
+        "is_waxed",
+        "up",
+        "west"
+      ],
+      "fans": [
+        {
+          "facing": "down",
+          "front": [
+            "minecraft:soul_campfire",
+            "unlisted",
+            "create:depot"
+          ],
+          "belowFront": [
+            "unlisted",
+            "create:depot",
+            "unlisted"
+          ],
+          "rear": "create:encased_chain_drive"
+        },
+        {
+          "facing": "down",
+          "front": [
+            "minecraft:lava",
+            "minecraft:spruce_wall_sign",
+            "create:depot"
+          ],
+          "belowFront": [
+            "minecraft:spruce_wall_sign",
+            "create:depot",
+            "unlisted"
+          ],
+          "rear": "create:encased_chain_drive"
+        },
+        {
+          "facing": "down",
+          "front": [
+            "minecraft:campfire",
+            "unlisted",
+            "create:depot"
+          ],
+          "belowFront": [
+            "unlisted",
+            "create:depot",
+            "unlisted"
+          ],
+          "rear": "create:encased_chain_drive"
+        },
+        {
+          "facing": "down",
+          "front": [
+            "minecraft:oak_leaves",
+            "unlisted",
+            "create:depot"
+          ],
+          "belowFront": [
+            "unlisted",
+            "create:depot",
+            "unlisted"
+          ],
+          "rear": "create:encased_chain_drive"
+        }
+      ],
+      "mills": []
+    },
+    {
+      "file": "ponder-chute-smart.nbt",
+      "sha256": "321c09a22009bd0b41d842e1ff4854afe19ed8c5242d9fad01d497bb194edff8",
+      "size": [
+        5,
+        5,
+        5
+      ],
+      "dataVersion": 2230,
+      "total": 35,
+      "entityCount": 0,
+      "rootKeys": [
+        "size",
+        "entities",
+        "blocks",
+        "palette",
+        "DataVersion"
+      ],
+      "counts": {
+        "minecraft:white_concrete": 13,
+        "minecraft:snow_block": 12,
+        "create:andesite_casing": 4,
+        "minecraft:chest": 2,
+        "create:chute": 1,
+        "create:smart_chute": 1,
+        "minecraft:lever": 1,
+        "minecraft:redstone_wire": 1
+      },
+      "unsupported": [
+        "minecraft:white_concrete",
+        "minecraft:snow_block",
+        "create:andesite_casing",
+        "minecraft:chest",
+        "minecraft:lever",
+        "minecraft:redstone_wire"
+      ],
+      "blockEntityKeys": [
+        "BottomAirFlowDistance",
+        "Filter",
+        "FilterAmount",
+        "Item",
+        "ItemPosition",
+        "Items",
+        "Pull",
+        "Push",
+        "id"
+      ],
+      "fans": [],
+      "mills": []
+    },
+    {
+      "file": "ponder-fan-processing.nbt",
+      "sha256": "f48d2c37f86610f2ef52ee5dd3b491fdd80d219010af6a2a93c73e52f513857b",
+      "size": [
+        7,
+        5,
+        5
+      ],
+      "dataVersion": 2230,
+      "total": 46,
+      "entityCount": 0,
+      "rootKeys": [
+        "size",
+        "entities",
+        "blocks",
+        "palette",
+        "DataVersion"
+      ],
+      "counts": {
+        "minecraft:white_concrete": 13,
+        "minecraft:snow_block": 12,
+        "minecraft:barrier": 4,
+        "minecraft:glass": 1,
+        "minecraft:campfire": 1,
+        "create:belt": 3,
+        "create:encased_fan": 2,
+        "create:cogwheel": 2,
+        "create:creative_motor": 2,
+        "create:depot": 1,
+        "create:large_cogwheel": 2,
+        "create:shaft": 1,
+        "minecraft:lava": 1,
+        "minecraft:water": 1
+      },
+      "unsupported": [
+        "minecraft:white_concrete",
+        "minecraft:snow_block",
+        "minecraft:barrier",
+        "minecraft:campfire",
+        "create:belt",
+        "minecraft:lava",
+        "minecraft:water"
+      ],
+      "blockEntityKeys": [
+        "Casing",
+        "Controller",
+        "CookingTimes",
+        "CookingTotalTimes",
+        "Generating",
+        "Index",
+        "Inventory",
+        "IsController",
+        "Items",
+        "Length",
+        "NeedsSpeedUpdate",
+        "Network",
+        "OutputBuffer",
+        "ScrollValue",
+        "Source",
+        "Speed",
+        "id"
+      ],
+      "fans": [
+        {
+          "facing": "west",
+          "front": [
+            "unlisted",
+            "unlisted",
+            "unlisted"
+          ],
+          "belowFront": [
+            "minecraft:snow_block",
+            "minecraft:white_concrete",
+            "minecraft:snow_block"
+          ],
+          "rear": "create:cogwheel"
+        },
+        {
+          "facing": "west",
+          "front": [
+            "unlisted",
+            "unlisted",
+            "unlisted"
+          ],
+          "belowFront": [
+            "unlisted",
+            "unlisted",
+            "unlisted"
+          ],
+          "rear": "create:creative_motor"
+        }
+      ],
+      "mills": []
+    },
+    {
+      "file": "ponder-mill.nbt",
+      "sha256": "076787449842e773e048424cb743ecf77ad93bed7a1ded897dd6ded51ca640b2",
+      "size": [
+        6,
+        3,
+        6
+      ],
+      "dataVersion": 2230,
+      "total": 38,
+      "entityCount": 0,
+      "rootKeys": [
+        "size",
+        "entities",
+        "blocks",
+        "palette",
+        "DataVersion"
+      ],
+      "counts": {
+        "minecraft:white_concrete": 13,
+        "minecraft:snow_block": 12,
+        "create:andesite_casing": 1,
+        "create:belt": 2,
+        "create:cogwheel": 3,
+        "create:andesite_belt_funnel": 1,
+        "create:millstone": 1,
+        "create:large_cogwheel": 3,
+        "create:shaft": 2
+      },
+      "unsupported": [
+        "minecraft:white_concrete",
+        "minecraft:snow_block",
+        "create:andesite_casing",
+        "create:belt",
+        "create:andesite_belt_funnel"
+      ],
+      "blockEntityKeys": [
+        "Casing",
+        "Controller",
+        "Filter",
+        "FilterAmount",
+        "Index",
+        "InputInventory",
+        "Inventory",
+        "IsController",
+        "Length",
+        "NeedsSpeedUpdate",
+        "Network",
+        "OutputInventory",
+        "Source",
+        "Speed",
+        "Timer",
+        "TransferCooldown",
+        "id"
+      ],
+      "fans": [],
+      "mills": [
+        {
+          "above": "unlisted",
+          "below": "create:andesite_casing",
+          "side": [
+            "create:cogwheel",
+            "create:andesite_belt_funnel",
+            "unlisted",
+            "unlisted"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "ponder-press.nbt",
+      "sha256": "21b8ff837fbcf0a21ad199d0999af193a35f2c8aeae954f0cd199bb6a26bec48",
+      "size": [
+        5,
+        4,
+        6
+      ],
+      "dataVersion": 2230,
+      "total": 41,
+      "entityCount": 0,
+      "rootKeys": [
+        "size",
+        "entities",
+        "blocks",
+        "palette",
+        "DataVersion"
+      ],
+      "counts": {
+        "minecraft:white_concrete": 13,
+        "minecraft:snow_block": 12,
+        "create:andesite_casing": 1,
+        "create:depot": 1,
+        "create:belt": 5,
+        "create:andesite_belt_funnel": 1,
+        "create:mechanical_press": 1,
+        "create:cogwheel": 4,
+        "minecraft:chest": 1,
+        "create:shaft": 1,
+        "create:large_cogwheel": 1
+      },
+      "unsupported": [
+        "minecraft:white_concrete",
+        "minecraft:snow_block",
+        "create:andesite_casing",
+        "create:belt",
+        "create:andesite_belt_funnel",
+        "minecraft:chest"
+      ],
+      "blockEntityKeys": [
+        "Casing",
+        "Controller",
+        "Filter",
+        "FilterAmount",
+        "Finished",
+        "Index",
+        "Inventory",
+        "IsController",
+        "Items",
+        "Length",
+        "Mode",
+        "NeedsSpeedUpdate",
+        "NeedsUpdate",
+        "Network",
+        "OutputBuffer",
+        "Running",
+        "Source",
+        "Speed",
+        "Ticks",
+        "TransferCooldown",
+        "id"
+      ],
+      "fans": [],
+      "mills": []
+    }
+  ],
+  "publicFanImport": {
+    "response": "Loaded template \"lessons:public_fan\" at -4, -59, 6",
+    "present": {
+      "create:belt": 36,
+      "minecraft:chest": 16,
+      "create:brass_belt_funnel": 8,
+      "create:copycat_panel": 30,
+      "create:smart_chute": 4,
+      "create:placard": 4,
+      "create:rose_quartz_lamp": 4,
+      "create:encased_chain_drive": 16,
+      "create:encased_fan": 8,
+      "minecraft:soul_campfire": 2,
+      "minecraft:lava": 2,
+      "minecraft:campfire": 2,
+      "minecraft:cherry_wall_sign": 2,
+      "create:andesite_encased_shaft": 5,
+      "create:creative_motor": 1,
+      "minecraft:water": 2,
+      "create:gearbox": 1
+    },
+    "fans": 8,
+    "drivenFans": 8,
+    "rpm": [
+      -16,
+      16
+    ],
+    "waterCells": 2,
+    "testedProduct": false,
+    "scope": "sanitized block-state compatibility; all dynamic block entity and entity NBT removed"
+  },
+  "trials": {
+    "andesite-independent-v3-recheck": {
+      "dispatch": {
+        "utc": "2026-11-25T20:04:29.069Z",
+        "kind": "dispatch",
+        "mode": "andesite",
+        "arm": "independent-v3-recheck",
+        "site": [
+          -7,
+          -60,
+          5,
+          8,
+          -49,
+          20
+        ],
+        "prompt": "请在另一块隔离空地自行设计建造一条未提供蓝图的安山岩处理线。输入桶放安山岩，经 Create 两次研磨自动得到砂砾，由成品桶收集。设备、坐标、动力走向和运输布局自行选择。请给出原料和成品桶坐标、实际转速，独立考官将投安山岩首批并复投。",
+        "owner": "non-OP; creative",
+        "agent": "creative; ask",
+        "stage": "real dedicated server and protocol owner",
+        "fault": null,
+        "teaching": null,
+        "resumed": false,
+        "version": "0.2.5-dev",
+        "build": "independent-v3-recheck",
+        "thinking": "off",
+        "outputCap": 8192
+      },
+      "end": {
+        "utc": "2026-11-25T20:04:29.069Z",
+        "kind": "model-ended",
+        "seconds": 0.001,
+        "reason": "fixed no-model fixture",
+        "ownerReplySeen": false
+      },
+      "errors": [],
+      "game": {
+        "mode": "andesite",
+        "arm": "independent-v3-recheck",
+        "mods": [
+          "Fabric 0.17.2",
+          "MC 1.20.1",
+          "Create 6.0.8.1",
+          "Numen 0.1.5",
+          "Engineering 0.2.5-dev"
+        ],
+        "intervention": "test operator authored construction; no model",
+        "terminal": null,
+        "requests": 0,
+        "actualModels": [],
+        "tokenTotal": 0,
+        "peakInputContext": 0,
+        "modelRequestSeconds": 0,
+        "skillCalls": [],
+        "changed": 0,
+        "outside": [],
+        "power": {
+          "parts": [
+            {
+              "id": "create:creative_motor",
+              "at": [
+                0,
+                -54,
+                15
+              ],
+              "rpm": -32,
+              "network": [
+                0,
+                65482
+              ],
+              "stress": 128,
+              "capacity": 524288
+            },
+            {
+              "id": "create:millstone",
+              "at": [
+                0,
+                -55,
+                14
+              ],
+              "rpm": 32,
+              "network": [
+                0,
+                65482
+              ],
+              "stress": 128,
+              "capacity": 524288
+            },
+            {
+              "id": "create:creative_motor",
+              "at": [
+                0,
+                -56,
+                13
+              ],
+              "rpm": -32,
+              "network": [
+                0,
+                57288
+              ],
+              "stress": 128,
+              "capacity": 524288
+            },
+            {
+              "id": "create:millstone",
+              "at": [
+                0,
+                -57,
+                14
+              ],
+              "rpm": 32,
+              "network": [
+                0,
+                57288
+              ],
+              "stress": 128,
+              "capacity": 524288
+            }
+          ],
+          "mill": {
+            "id": "create:millstone",
+            "at": [
+              0,
+              -55,
+              14
+            ],
+            "rpm": 32,
+            "network": [
+              0,
+              65482
+            ],
+            "stress": 128,
+            "capacity": 524288
+          },
+          "shared": false
+        },
+        "product": {
+          "attempted": true,
+          "byTestOperator": true,
+          "driven": true,
+          "first": {
+            "after": 0,
+            "delta": 0,
+            "stranded": true,
+            "passed": false
+          },
+          "repeat": null,
+          "passed": false,
+          "input": [
+            0,
+            -54,
+            14
+          ],
+          "output": [
+            0,
+            -59,
+            14
+          ]
+        },
+        "inheritedProduct": null,
+        "preservation": null,
+        "pathProbe": null,
+        "answer": null
+      },
+      "siteReadback": {
+        "waterCells": 0,
+        "waterSourceCells": 0,
+        "newWaterOutside": [],
+        "mechanisms": [
+          {
+            "pos": [
+              0,
+              -54,
+              15
+            ],
+            "device": "create:creative_motor",
+            "state": {
+              "facing": "down"
+            },
+            "rawRPM": -32,
+            "stress": 128,
+            "capacity": 524288,
+            "network": [
+              0,
+              65482
+            ]
+          },
+          {
+            "pos": [
+              0,
+              -55,
+              14
+            ],
+            "device": "create:millstone",
+            "state": {},
+            "rawRPM": 32,
+            "stress": 128,
+            "capacity": 524288,
+            "network": [
+              0,
+              65482
+            ]
+          },
+          {
+            "pos": [
+              0,
+              -56,
+              13
+            ],
+            "device": "create:creative_motor",
+            "state": {
+              "facing": "down"
+            },
+            "rawRPM": -32,
+            "stress": 128,
+            "capacity": 524288,
+            "network": [
+              0,
+              57288
+            ]
+          },
+          {
+            "pos": [
+              0,
+              -57,
+              14
+            ],
+            "device": "create:millstone",
+            "state": {},
+            "rawRPM": 32,
+            "stress": 128,
+            "capacity": 524288,
+            "network": [
+              0,
+              57288
+            ]
+          }
+        ]
+      },
+      "recoveredAutosave": null,
+      "independentAssayPassed": false,
+      "noOutsideChange": true,
+      "requests": 0,
+      "usageReceipts": 0,
+      "tokens": 0,
+      "cachedInput": 0,
+      "peakInput": 0,
+      "providerResponseSeconds": 0,
+      "gameToolSecondsCoarse": 0,
+      "finishReasons": {},
+      "tools": {},
+      "successfulSkillCalls": [],
+      "productionReferenceReturned": false
+    },
+    "andesite-taught-heldout": {
+      "dispatch": {
+        "utc": "2026-11-25T19:40:32.326Z",
+        "kind": "dispatch",
+        "mode": "andesite",
+        "arm": "taught-heldout",
+        "site": [
+          -7,
+          -60,
+          5,
+          8,
+          -49,
+          20
+        ],
+        "prompt": "请在另一块隔离空地自行设计建造一条未提供蓝图的安山岩处理线。输入桶放安山岩，经 Create 两次研磨自动得到砂砾，由成品桶收集。设备、坐标、动力走向和运输布局自行选择。请给出原料和成品桶坐标、实际转速，独立考官将投安山岩首批并复投。 开工前用技能工具读取可用的 Create 工程技能，按需读相关参考。",
+        "owner": "non-OP; creative",
+        "agent": "creative; ask",
+        "stage": "real dedicated server and protocol owner",
+        "fault": null,
+        "teaching": "SKILL.md",
+        "resumed": false,
+        "version": "0.2.5-dev",
+        "build": "taught-heldout",
+        "thinking": "off",
+        "outputCap": 8192
+      },
+      "end": {
+        "utc": "2026-11-25T19:47:32.612Z",
+        "kind": "model-ended",
+        "seconds": 420.286,
+        "reason": "wall-clock timeout",
+        "ownerReplySeen": false
+      },
+      "errors": [],
+      "game": {
+        "mode": "andesite",
+        "arm": "taught-heldout",
+        "mods": [
+          "Fabric 0.17.2",
+          "MC 1.20.1",
+          "Create 6.0.8.1",
+          "Numen 0.1.5",
+          "Engineering 0.2.5-dev"
+        ],
+        "intervention": "none during modeling",
+        "terminal": null,
+        "requests": 30,
+        "actualModels": [
+          "deepseek-v4-pro"
+        ],
+        "tokenTotal": 477493,
+        "peakInputContext": 19368,
+        "modelRequestSeconds": 231.12099999999998,
+        "skillCalls": [
+          {
+            "id": "call_00_pH4KzFSACT7dySUfYJfy0281",
+            "name": "skill",
+            "arguments": "{\"skill\": \"create_kinetics\"}"
+          },
+          {
+            "id": "call_00_BWEO99fQImxZNne9Pokc8633",
+            "name": "skill",
+            "arguments": "{\"skill\": \"create_kinetics\", \"file\": \"references/production.md\"}"
+          }
+        ],
+        "changed": 0,
+        "outside": [],
+        "power": {
+          "parts": [],
+          "shared": false
+        },
+        "product": {
+          "attempted": false,
+          "driven": false,
+          "barrels": []
+        },
+        "inheritedProduct": null,
+        "preservation": null,
+        "pathProbe": null,
+        "answer": null
+      },
+      "siteReadback": {
+        "waterCells": 0,
+        "waterSourceCells": 0,
+        "newWaterOutside": [],
+        "mechanisms": []
+      },
+      "recoveredAutosave": null,
+      "independentAssayPassed": false,
+      "noOutsideChange": true,
+      "requests": 30,
+      "usageReceipts": 30,
+      "tokens": 477493,
+      "cachedInput": 448512,
+      "peakInput": 19368,
+      "providerResponseSeconds": 231.121,
+      "gameToolSecondsCoarse": 2.0,
+      "finishReasons": {
+        "tool_calls": 30
+      },
+      "tools": {
+        "skill": 2,
+        "lua": 28
+      },
+      "successfulSkillCalls": [
+        {
+          "skill": "create_kinetics"
+        },
+        {
+          "skill": "create_kinetics",
+          "file": "references/production.md"
+        }
+      ],
+      "productionReferenceReturned": true
+    },
+    "andesite-taught-v3": {
+      "dispatch": {
+        "utc": "2026-11-25T19:48:34.480Z",
+        "kind": "dispatch",
+        "mode": "andesite",
+        "arm": "taught-v3",
+        "site": [
+          -7,
+          -60,
+          5,
+          8,
+          -49,
+          20
+        ],
+        "prompt": "请在另一块隔离空地自行设计建造一条未提供蓝图的安山岩处理线。输入桶放安山岩，经 Create 两次研磨自动得到砂砾，由成品桶收集。设备、坐标、动力走向和运输布局自行选择。请给出原料和成品桶坐标、实际转速，独立考官将投安山岩首批并复投。 开工前用技能工具读取可用的 Create 工程技能，按需读相关参考。",
+        "owner": "non-OP; creative",
+        "agent": "creative; ask",
+        "stage": "real dedicated server and protocol owner",
+        "fault": null,
+        "teaching": "SKILL.md",
+        "resumed": false,
+        "version": "0.2.5-dev",
+        "build": "taught-v3",
+        "thinking": "off",
+        "outputCap": 8192
+      },
+      "end": null,
+      "errors": [],
+      "game": null,
+      "siteReadback": null,
+      "recoveredAutosave": null,
+      "independentAssayPassed": false,
+      "noOutsideChange": false,
+      "requests": 4,
+      "usageReceipts": 4,
+      "tokens": 52358,
+      "cachedInput": 45312,
+      "peakInput": 14102,
+      "providerResponseSeconds": 26.086,
+      "gameToolSecondsCoarse": 0.0,
+      "finishReasons": {
+        "tool_calls": 4
+      },
+      "tools": {
+        "skill": 2,
+        "lua": 3
+      },
+      "successfulSkillCalls": [
+        {
+          "skill": "create_kinetics"
+        },
+        {
+          "skill": "create_kinetics",
+          "file": "references/production.md"
+        }
+      ],
+      "productionReferenceReturned": true
+    },
+    "andesite-taught-v3-recheck": {
+      "dispatch": {
+        "utc": "2026-11-25T19:56:58.948Z",
+        "kind": "dispatch",
+        "mode": "andesite",
+        "arm": "taught-v3-recheck",
+        "site": [
+          -7,
+          -60,
+          5,
+          8,
+          -49,
+          20
+        ],
+        "prompt": "请在另一块隔离空地自行设计建造一条未提供蓝图的安山岩处理线。输入桶放安山岩，经 Create 两次研磨自动得到砂砾，由成品桶收集。设备、坐标、动力走向和运输布局自行选择。请给出原料和成品桶坐标、实际转速，独立考官将投安山岩首批并复投。 开工前用技能工具读取可用的 Create 工程技能，按需读相关参考。",
+        "owner": "non-OP; creative",
+        "agent": "creative; ask",
+        "stage": "real dedicated server and protocol owner",
+        "fault": null,
+        "teaching": "SKILL.md",
+        "resumed": false,
+        "version": "0.2.5-dev",
+        "build": "taught-v3-recheck",
+        "thinking": "off",
+        "outputCap": 8192
+      },
+      "end": {
+        "utc": "2026-11-25T20:03:59.357Z",
+        "kind": "model-ended",
+        "seconds": 420.41,
+        "reason": "wall-clock timeout",
+        "ownerReplySeen": false
+      },
+      "errors": [],
+      "game": {
+        "mode": "andesite",
+        "arm": "taught-v3-recheck",
+        "mods": [
+          "Fabric 0.17.2",
+          "MC 1.20.1",
+          "Create 6.0.8.1",
+          "Numen 0.1.5",
+          "Engineering 0.2.5-dev"
+        ],
+        "intervention": "none during modeling",
+        "terminal": null,
+        "requests": 43,
+        "actualModels": [
+          "deepseek-v4-pro"
+        ],
+        "tokenTotal": 1072892,
+        "peakInputContext": 38614,
+        "modelRequestSeconds": 388.71,
+        "skillCalls": [
+          {
+            "id": "call_00_w4BRiYgctgiEBPQKGLTY3955",
+            "name": "skill",
+            "arguments": "{\"skill\": \"create_kinetics\"}"
+          },
+          {
+            "id": "call_00_c1VBAYSOQRgziOwreAuf7417",
+            "name": "skill",
+            "arguments": "{\"skill\": \"create_kinetics\", \"file\": \"references/production.md\"}"
+          }
+        ],
+        "changed": 10,
+        "outside": [],
+        "power": {
+          "parts": [
+            {
+              "id": "create:creative_motor",
+              "at": [
+                0,
+                -54,
+                15
+              ],
+              "rpm": -32,
+              "network": [
+                0,
+                65482
+              ],
+              "stress": 128,
+              "capacity": 524288
+            },
+            {
+              "id": "create:millstone",
+              "at": [
+                0,
+                -55,
+                14
+              ],
+              "rpm": 32,
+              "network": [
+                0,
+                65482
+              ],
+              "stress": 128,
+              "capacity": 524288
+            },
+            {
+              "id": "create:creative_motor",
+              "at": [
+                0,
+                -56,
+                13
+              ],
+              "rpm": -32,
+              "network": [
+                0,
+                57288
+              ],
+              "stress": 128,
+              "capacity": 524288
+            },
+            {
+              "id": "create:millstone",
+              "at": [
+                0,
+                -57,
+                14
+              ],
+              "rpm": 32,
+              "network": [
+                0,
+                57288
+              ],
+              "stress": 128,
+              "capacity": 524288
+            }
+          ],
+          "mill": {
+            "id": "create:millstone",
+            "at": [
+              0,
+              -55,
+              14
+            ],
+            "rpm": 32,
+            "network": [
+              0,
+              65482
+            ],
+            "stress": 128,
+            "capacity": 524288
+          },
+          "shared": false
+        },
+        "product": {
+          "attempted": false,
+          "driven": false,
+          "barrels": [
+            [
+              0,
+              -54,
+              14
+            ],
+            [
+              0,
+              -59,
+              14
+            ]
+          ]
+        },
+        "inheritedProduct": null,
+        "preservation": null,
+        "pathProbe": null,
+        "answer": null
+      },
+      "siteReadback": {
+        "waterCells": 0,
+        "waterSourceCells": 0,
+        "newWaterOutside": [],
+        "mechanisms": [
+          {
+            "pos": [
+              0,
+              -54,
+              15
+            ],
+            "device": "create:creative_motor",
+            "state": {
+              "facing": "down"
+            },
+            "rawRPM": -32,
+            "stress": 128,
+            "capacity": 524288,
+            "network": [
+              0,
+              65482
+            ]
+          },
+          {
+            "pos": [
+              0,
+              -55,
+              14
+            ],
+            "device": "create:millstone",
+            "state": {},
+            "rawRPM": 32,
+            "stress": 128,
+            "capacity": 524288,
+            "network": [
+              0,
+              65482
+            ]
+          },
+          {
+            "pos": [
+              0,
+              -56,
+              13
+            ],
+            "device": "create:creative_motor",
+            "state": {
+              "facing": "down"
+            },
+            "rawRPM": -32,
+            "stress": 128,
+            "capacity": 524288,
+            "network": [
+              0,
+              57288
+            ]
+          },
+          {
+            "pos": [
+              0,
+              -57,
+              14
+            ],
+            "device": "create:millstone",
+            "state": {},
+            "rawRPM": 32,
+            "stress": 128,
+            "capacity": 524288,
+            "network": [
+              0,
+              57288
+            ]
+          }
+        ]
+      },
+      "recoveredAutosave": null,
+      "independentAssayPassed": false,
+      "noOutsideChange": true,
+      "requests": 43,
+      "usageReceipts": 43,
+      "tokens": 1072892,
+      "cachedInput": 989568,
+      "peakInput": 38614,
+      "providerResponseSeconds": 388.71,
+      "gameToolSecondsCoarse": 27.0,
+      "finishReasons": {
+        "tool_calls": 43
+      },
+      "tools": {
+        "skill": 2,
+        "lua": 41
+      },
+      "successfulSkillCalls": [
+        {
+          "skill": "create_kinetics"
+        },
+        {
+          "skill": "create_kinetics",
+          "file": "references/production.md"
+        }
+      ],
+      "productionReferenceReturned": true
+    },
+    "dough-baseline": {
+      "dispatch": {
+        "utc": "2026-11-25T19:32:01.183Z",
+        "kind": "dispatch",
+        "mode": "dough",
+        "arm": "baseline",
+        "site": [
+          -7,
+          -60,
+          5,
+          8,
+          -49,
+          20
+        ],
+        "prompt": "在授权空地上自主规划、建造和调试一条自动线。从输入桶投小麦，磨石磨成面粉，风扇经过围住的水格把它洗成面团，自动送入成品桶。用一个马达，共享传动。选址、设备布局和物流由你定，验收员独立复投。你有一个水桶，需要用原生玩法放水。优先选端点并搭第一段；已经通的子系统保留，看到局部问题只修相关格。先根据现场实际方块与库存验证，最后报告输入桶、产出桶和结果。",
+        "owner": "non-OP; creative",
+        "agent": "creative; ask",
+        "stage": "real dedicated server and protocol owner",
+        "teaching": null,
+        "resumed": false,
+        "version": "0.2.5-dev",
+        "build": "baseline",
+        "thinking": "off",
+        "outputCap": 8192,
+        "fault": null
+      },
+      "end": {
+        "utc": "2026-11-25T19:39:01.627Z",
+        "kind": "model-ended",
+        "seconds": 420.444,
+        "reason": "wall-clock timeout",
+        "ownerReplySeen": false
+      },
+      "errors": [],
+      "game": {
+        "mode": "dough",
+        "arm": "baseline",
+        "mods": [
+          "Fabric 0.17.2",
+          "MC 1.20.1",
+          "Create 6.0.8.1",
+          "Numen 0.1.5",
+          "Engineering 0.2.5-dev"
+        ],
+        "intervention": "one water bucket before dispatch; no post-dispatch construction",
+        "terminal": null,
+        "requests": 40,
+        "actualModels": [
+          "deepseek-v4-pro"
+        ],
+        "tokenTotal": 1097052,
+        "peakInputContext": 38443,
+        "modelRequestSeconds": 364.1480000000001,
+        "skillCalls": [
+          {
+            "id": "call_00_y9yDWJ7fzT6wWvvVU4Qk1122",
+            "name": "skill",
+            "arguments": "{\"skill\": \"crafting_and_smelting\"}"
+          }
+        ],
+        "changed": 218,
+        "outside": [
+          "-8,-60,11",
+          "-9,-60,12",
+          "-8,-60,12",
+          "-8,-60,13",
+          "-9,-60,14",
+          "-8,-60,14",
+          "-8,-60,15",
+          "-2,-60,21",
+          "5,-60,21"
+        ],
+        "power": {
+          "parts": [
+            {
+              "id": "create:creative_motor",
+              "at": [
+                -4,
+                -49,
+                12
+              ],
+              "rpm": -96,
+              "network": [
+                -256,
+                53199
+              ],
+              "stress": 576,
+              "capacity": 1572864
+            },
+            {
+              "id": "create:millstone",
+              "at": [
+                0,
+                -53,
+                12
+              ],
+              "rpm": -96,
+              "network": [
+                -256,
+                53199
+              ],
+              "stress": 576,
+              "capacity": 1572864
+            }
+          ],
+          "mill": {
+            "id": "create:millstone",
+            "at": [
+              0,
+              -53,
+              12
+            ],
+            "rpm": -96,
+            "network": [
+              -256,
+              53199
+            ],
+            "stress": 576,
+            "capacity": 1572864
+          },
+          "shared": false
+        },
+        "product": {
+          "attempted": false,
+          "driven": false,
+          "barrels": []
+        },
+        "inheritedProduct": null,
+        "preservation": null,
+        "pathProbe": null,
+        "answer": null
+      },
+      "siteReadback": {
+        "waterCells": 164,
+        "waterSourceCells": 2,
+        "newWaterOutside": [
+          "-8,-60,11",
+          "-9,-60,12",
+          "-8,-60,12",
+          "-8,-60,13",
+          "-9,-60,14",
+          "-8,-60,14",
+          "-8,-60,15",
+          "-2,-60,21"
+        ],
+        "mechanisms": [
+          {
+            "pos": [
+              -2,
+              -55,
+              12
+            ],
+            "device": "create:encased_fan",
+            "state": {
+              "facing": "east"
+            },
+            "rawRPM": 0,
+            "stress": null,
+            "capacity": null,
+            "network": null
+          },
+          {
+            "pos": [
+              -4,
+              -49,
+              12
+            ],
+            "device": "create:creative_motor",
+            "state": {
+              "facing": "down"
+            },
+            "rawRPM": -96,
+            "stress": 576,
+            "capacity": 1572864,
+            "network": [
+              -256,
+              53199
+            ]
+          },
+          {
+            "pos": [
+              0,
+              -53,
+              12
+            ],
+            "device": "create:millstone",
+            "state": {},
+            "rawRPM": -96,
+            "stress": 576,
+            "capacity": 1572864,
+            "network": [
+              -256,
+              53199
+            ]
+          }
+        ]
+      },
+      "recoveredAutosave": null,
+      "independentAssayPassed": false,
+      "noOutsideChange": false,
+      "requests": 40,
+      "usageReceipts": 40,
+      "tokens": 1097052,
+      "cachedInput": 1017344,
+      "peakInput": 38443,
+      "providerResponseSeconds": 364.148,
+      "gameToolSecondsCoarse": 47.0,
+      "finishReasons": {
+        "tool_calls": 40
+      },
+      "tools": {
+        "skill": 1,
+        "lua": 43,
+        "todo": 1
+      },
+      "successfulSkillCalls": [
+        {
+          "skill": "crafting_and_smelting"
+        }
+      ],
+      "productionReferenceReturned": false
+    },
+    "dough-original": {
+      "dispatch": {
+        "utc": "2026-11-25T19:39:12.912Z",
+        "kind": "dispatch",
+        "mode": "dough",
+        "arm": "original",
+        "site": [
+          -7,
+          -60,
+          5,
+          8,
+          -49,
+          20
+        ],
+        "prompt": "在授权空地上自主规划、建造和调试一条自动线。从输入桶投小麦，磨石磨成面粉，风扇经过围住的水格把它洗成面团，自动送入成品桶。用一个马达，共享传动。选址、设备布局和物流由你定，验收员独立复投。你有一个水桶，需要用原生玩法放水。优先选端点并搭第一段；已经通的子系统保留，看到局部问题只修相关格。先根据现场实际方块与库存验证，最后报告输入桶、产出桶和结果。 开工前用技能工具读取可用的 Create 工程技能，按需读相关参考。",
+        "owner": "non-OP; creative",
+        "agent": "creative; ask",
+        "stage": "real dedicated server and protocol owner",
+        "fault": null,
+        "teaching": "SKILL.md",
+        "resumed": false,
+        "version": "0.2.5-dev",
+        "build": "original",
+        "thinking": "off",
+        "outputCap": 8192
+      },
+      "end": {
+        "utc": "2026-11-25T19:46:13.436Z",
+        "kind": "model-ended",
+        "seconds": 420.524,
+        "reason": "wall-clock timeout",
+        "ownerReplySeen": false
+      },
+      "errors": [],
+      "game": {
+        "mode": "dough",
+        "arm": "original",
+        "mods": [
+          "Fabric 0.17.2",
+          "MC 1.20.1",
+          "Create 6.0.8.1",
+          "Numen 0.1.5",
+          "Engineering 0.2.5-dev"
+        ],
+        "intervention": "one water bucket before dispatch; no post-dispatch construction",
+        "terminal": null,
+        "requests": 36,
+        "actualModels": [
+          "deepseek-v4-pro"
+        ],
+        "tokenTotal": 969038,
+        "peakInputContext": 40128,
+        "modelRequestSeconds": 333.87600000000003,
+        "skillCalls": [
+          {
+            "id": "call_00_YhHUrf5GgRZMvDtBvjnu8554",
+            "name": "skill",
+            "arguments": "{\"skill\": \"create_kinetics\"}"
+          },
+          {
+            "id": "call_00_chmLUQ0Px6Shf018RmIc4955",
+            "name": "skill",
+            "arguments": "{\"skill\": \"create_kinetics\", \"file\": \"references/watermill.md\"}"
+          }
+        ],
+        "changed": 18,
+        "outside": [],
+        "power": {
+          "parts": [
+            {
+              "id": "create:creative_motor",
+              "at": [
+                0,
+                -59,
+                12
+              ],
+              "rpm": -32,
+              "network": [
+                0,
+                53189
+              ],
+              "stress": 192,
+              "capacity": 524288
+            },
+            {
+              "id": "create:millstone",
+              "at": [
+                3,
+                -59,
+                12
+              ],
+              "rpm": 32,
+              "network": [
+                0,
+                53189
+              ],
+              "stress": 192,
+              "capacity": 524288
+            }
+          ],
+          "mill": {
+            "id": "create:millstone",
+            "at": [
+              3,
+              -59,
+              12
+            ],
+            "rpm": 32,
+            "network": [
+              0,
+              53189
+            ],
+            "stress": 192,
+            "capacity": 524288
+          },
+          "shared": false
+        },
+        "product": {
+          "attempted": false,
+          "driven": true,
+          "barrels": []
+        },
+        "inheritedProduct": null,
+        "preservation": null,
+        "pathProbe": null,
+        "answer": null
+      },
+      "siteReadback": {
+        "waterCells": 0,
+        "waterSourceCells": 0,
+        "newWaterOutside": [],
+        "mechanisms": [
+          {
+            "pos": [
+              0,
+              -59,
+              12
+            ],
+            "device": "create:creative_motor",
+            "state": {
+              "facing": "down"
+            },
+            "rawRPM": -32,
+            "stress": 192,
+            "capacity": 524288,
+            "network": [
+              0,
+              53189
+            ]
+          },
+          {
+            "pos": [
+              3,
+              -59,
+              12
+            ],
+            "device": "create:millstone",
+            "state": {},
+            "rawRPM": 32,
+            "stress": 192,
+            "capacity": 524288,
+            "network": [
+              0,
+              53189
+            ]
+          },
+          {
+            "pos": [
+              3,
+              -54,
+              16
+            ],
+            "device": "create:encased_fan",
+            "state": {
+              "facing": "up"
+            },
+            "rawRPM": 32,
+            "stress": 192,
+            "capacity": 524288,
+            "network": [
+              0,
+              53189
+            ]
+          }
+        ]
+      },
+      "recoveredAutosave": null,
+      "independentAssayPassed": false,
+      "noOutsideChange": true,
+      "requests": 36,
+      "usageReceipts": 35,
+      "tokens": 969038,
+      "cachedInput": 886400,
+      "peakInput": 40128,
+      "providerResponseSeconds": 333.876,
+      "gameToolSecondsCoarse": 4.0,
+      "finishReasons": {
+        "tool_calls": 35,
+        "503": 1
+      },
+      "tools": {
+        "skill": 2,
+        "lua": 35,
+        "todo": 1
+      },
+      "successfulSkillCalls": [
+        {
+          "skill": "create_kinetics"
+        },
+        {
+          "skill": "create_kinetics",
+          "file": "references/watermill.md"
+        }
+      ],
+      "productionReferenceReturned": false
+    },
+    "dough-taught-v2": {
+      "dispatch": {
+        "utc": "2026-11-25T19:39:13.012Z",
+        "kind": "dispatch",
+        "mode": "dough",
+        "arm": "taught-v2",
+        "site": [
+          -7,
+          -60,
+          5,
+          8,
+          -49,
+          20
+        ],
+        "prompt": "在授权空地上自主规划、建造和调试一条自动线。从输入桶投小麦，磨石磨成面粉，风扇经过围住的水格把它洗成面团，自动送入成品桶。用一个马达，共享传动。选址、设备布局和物流由你定，验收员独立复投。你有一个水桶，需要用原生玩法放水。优先选端点并搭第一段；已经通的子系统保留，看到局部问题只修相关格。先根据现场实际方块与库存验证，最后报告输入桶、产出桶和结果。 开工前用技能工具读取可用的 Create 工程技能，按需读相关参考。",
+        "owner": "non-OP; creative",
+        "agent": "creative; ask",
+        "stage": "real dedicated server and protocol owner",
+        "fault": null,
+        "teaching": "SKILL.md",
+        "resumed": false,
+        "version": "0.2.5-dev",
+        "build": "taught-v2",
+        "thinking": "off",
+        "outputCap": 8192
+      },
+      "end": {
+        "utc": "2026-11-25T19:46:13.638Z",
+        "kind": "model-ended",
+        "seconds": 420.625,
+        "reason": "wall-clock timeout",
+        "ownerReplySeen": false
+      },
+      "errors": [
+        {
+          "utc": "2026-11-25T19:46:58.640Z",
+          "kind": "error",
+          "message": "No reply within 45000ms",
+          "stack": "RconError: No reply within 45000ms\n    at Timeout.<anonymous> (file:///workspace/scratch/d263229ee747/numen-research/mc20/node_modules/rcon-client/dist/rcon.js:242:54)\n    at listOnTimeout (node:internal/timers:685:17)\n    at process.processTimers (node:internal/timers:618:7)"
+        }
+      ],
+      "game": null,
+      "siteReadback": null,
+      "recoveredAutosave": {
+        "waterCells": 97,
+        "waterSourceCells": 1,
+        "newWaterOutside": [
+          "0,-60,4"
+        ],
+        "mechanisms": [
+          {
+            "pos": [
+              -4,
+              -59,
+              12
+            ],
+            "device": "create:creative_motor",
+            "state": {
+              "facing": "up"
+            },
+            "rawRPM": 64,
+            "stress": 384,
+            "capacity": 1048576,
+            "network": [
+              -256,
+              53189
+            ]
+          },
+          {
+            "pos": [
+              -1,
+              -59,
+              12
+            ],
+            "device": "create:encased_fan",
+            "state": {
+              "facing": "east"
+            },
+            "rawRPM": 64,
+            "stress": 384,
+            "capacity": 1048576,
+            "network": [
+              -256,
+              53189
+            ]
+          },
+          {
+            "pos": [
+              4,
+              -59,
+              12
+            ],
+            "device": "create:millstone",
+            "state": {},
+            "rawRPM": -64,
+            "stress": 384,
+            "capacity": 1048576,
+            "network": [
+              -256,
+              53189
+            ]
+          }
+        ]
+      },
+      "independentAssayPassed": false,
+      "noOutsideChange": false,
+      "requests": 28,
+      "usageReceipts": 28,
+      "tokens": 681304,
+      "cachedInput": 618368,
+      "peakInput": 32273,
+      "providerResponseSeconds": 268.596,
+      "gameToolSecondsCoarse": 0.0,
+      "finishReasons": {
+        "tool_calls": 28
+      },
+      "tools": {
+        "skill": 3,
+        "lua": 31,
+        "todo": 1
+      },
+      "successfulSkillCalls": [
+        {
+          "skill": "create_kinetics"
+        },
+        {
+          "skill": "create_kinetics",
+          "file": "references/production.md"
+        },
+        {
+          "skill": "create_kinetics",
+          "file": "references/production.md"
+        }
+      ],
+      "productionReferenceReturned": true
+    },
+    "flow-repair-taught-filter": {
+      "dispatch": {
+        "utc": "2026-11-25T19:40:39.792Z",
+        "kind": "dispatch",
+        "mode": "flow-repair",
+        "arm": "taught-filter",
+        "site": [
+          -7,
+          -60,
+          5,
+          8,
+          -49,
+          20
+        ],
+        "prompt": "这条已有的自动小麦面团线原来能生产，现在投入后成品桶没有新增。请实际读取设备、物流、库存定位问题，用最少的改动恢复整线，保留动力、围水、正常设备及旁边储物桶库存。不要重建。验收员将从原输入桶独立复投。请报告定位、改动和实际结果。 开工前用技能工具读取可用的 Create 工程技能，按需读相关参考。",
+        "owner": "non-OP; creative",
+        "agent": "creative; ask",
+        "stage": "real dedicated server and protocol owner",
+        "fault": "rotated wrong-filter fixture",
+        "teaching": "SKILL.md",
+        "resumed": false,
+        "version": "0.2.5-dev",
+        "build": "taught-filter",
+        "thinking": "off",
+        "outputCap": 8192
+      },
+      "end": {
+        "utc": "2026-11-25T19:45:50.138Z",
+        "kind": "model-ended",
+        "seconds": 310.347,
+        "reason": "wall-clock timeout",
+        "ownerReplySeen": false
+      },
+      "errors": [],
+      "game": {
+        "mode": "flow-repair",
+        "arm": "taught-filter",
+        "mods": [
+          "Fabric 0.17.2",
+          "MC 1.20.1",
+          "Create 6.0.8.1",
+          "Numen 0.1.5",
+          "Engineering 0.2.5-dev"
+        ],
+        "intervention": "none during modeling",
+        "terminal": null,
+        "requests": 31,
+        "actualModels": [
+          "deepseek-v4-pro"
+        ],
+        "tokenTotal": 561842,
+        "peakInputContext": 23814,
+        "modelRequestSeconds": 243.15099999999995,
+        "skillCalls": [
+          {
+            "id": "call_00_L4mZw51wEci3Rn2uzRQ81439",
+            "name": "skill",
+            "arguments": "{\"skill\": \"create_kinetics\"}"
+          },
+          {
+            "id": "call_00_Xyk5qJPRPCqv3Q0rux207080",
+            "name": "skill",
+            "arguments": "{\"skill\": \"create_kinetics\", \"file\": \"references/production.md\"}"
+          }
+        ],
+        "changed": 0,
+        "outside": [],
+        "power": {
+          "parts": [
+            {
+              "id": "create:millstone",
+              "at": [
+                2,
+                -54,
+                13
+              ],
+              "rpm": -64,
+              "network": [
+                448,
+                53192
+              ],
+              "stress": 384,
+              "capacity": 1048576
+            },
+            {
+              "id": "create:creative_motor",
+              "at": [
+                7,
+                -56,
+                12
+              ],
+              "rpm": -64,
+              "network": [
+                448,
+                53192
+              ],
+              "stress": 384,
+              "capacity": 1048576
+            }
+          ],
+          "mill": {
+            "id": "create:millstone",
+            "at": [
+              2,
+              -54,
+              13
+            ],
+            "rpm": -64,
+            "network": [
+              448,
+              53192
+            ],
+            "stress": 384,
+            "capacity": 1048576
+          },
+          "shared": false
+        },
+        "product": {
+          "attempted": true,
+          "byTestOperator": true,
+          "driven": true,
+          "first": {
+            "after": 0,
+            "delta": 0,
+            "stranded": true,
+            "passed": false
+          },
+          "repeat": null,
+          "passed": false,
+          "input": [
+            2,
+            -53,
+            14
+          ],
+          "output": [
+            2,
+            -59,
+            12
+          ]
+        },
+        "inheritedProduct": null,
+        "preservation": {
+          "copper": 7,
+          "oldTouched": [],
+          "expectedFaultOnly": true,
+          "faultFilterBefore": {
+            "id": "minecraft:wheat_seeds",
+            "Count": 1
+          },
+          "faultFilterAfter": {
+            "id": "minecraft:wheat_seeds",
+            "Count": 1
+          },
+          "faultChute": [
+            2,
+            -55,
+            13
+          ]
+        },
+        "pathProbe": null,
+        "answer": null
+      },
+      "siteReadback": {
+        "waterCells": 130,
+        "waterSourceCells": 1,
+        "newWaterOutside": [],
+        "mechanisms": [
+          {
+            "pos": [
+              2,
+              -54,
+              13
+            ],
+            "device": "create:millstone",
+            "state": {},
+            "rawRPM": -64,
+            "stress": 384,
+            "capacity": 1048576,
+            "network": [
+              448,
+              53192
+            ]
+          },
+          {
+            "pos": [
+              4,
+              -56,
+              12
+            ],
+            "device": "create:encased_fan",
+            "state": {
+              "facing": "west"
+            },
+            "rawRPM": 64,
+            "stress": 384,
+            "capacity": 1048576,
+            "network": [
+              448,
+              53192
+            ]
+          },
+          {
+            "pos": [
+              7,
+              -56,
+              12
+            ],
+            "device": "create:creative_motor",
+            "state": {
+              "facing": "west"
+            },
+            "rawRPM": -64,
+            "stress": 384,
+            "capacity": 1048576,
+            "network": [
+              448,
+              53192
+            ]
+          }
+        ]
+      },
+      "recoveredAutosave": null,
+      "independentAssayPassed": false,
+      "noOutsideChange": true,
+      "requests": 31,
+      "usageReceipts": 31,
+      "tokens": 561842,
+      "cachedInput": 521984,
+      "peakInput": 23814,
+      "providerResponseSeconds": 243.151,
+      "gameToolSecondsCoarse": 6.0,
+      "finishReasons": {
+        "tool_calls": 31
+      },
+      "tools": {
+        "skill": 2,
+        "lua": 29
+      },
+      "successfulSkillCalls": [
+        {
+          "skill": "create_kinetics"
+        },
+        {
+          "skill": "create_kinetics",
+          "file": "references/production.md"
+        }
+      ],
+      "productionReferenceReturned": true
+    },
+    "flow-repair-taught-v3": {
+      "dispatch": {
+        "utc": "2026-11-25T19:54:55.575Z",
+        "kind": "dispatch",
+        "mode": "flow-repair",
+        "arm": "taught-v3",
+        "site": [
+          -7,
+          -60,
+          5,
+          8,
+          -49,
+          20
+        ],
+        "prompt": "这条已有的自动小麦面团线原来能生产，现在投入后成品桶没有新增。请实际读取设备、物流、库存定位问题，用最少的改动恢复整线，保留动力、围水、正常设备及旁边储物桶库存。不要重建。验收员将从原输入桶独立复投。请报告定位、改动和实际结果。 开工前用技能工具读取可用的 Create 工程技能，按需读相关参考。",
+        "owner": "non-OP; creative",
+        "agent": "creative; ask",
+        "stage": "real dedicated server and protocol owner",
+        "fault": "rotated wrong-filter fixture",
+        "teaching": "SKILL.md",
+        "resumed": false,
+        "version": "0.2.5-dev",
+        "build": "taught-v3",
+        "thinking": "off",
+        "outputCap": 8192
+      },
+      "end": {
+        "utc": "2026-11-25T20:00:06.200Z",
+        "kind": "model-ended",
+        "seconds": 310.626,
+        "reason": "wall-clock timeout",
+        "ownerReplySeen": false
+      },
+      "errors": [],
+      "game": {
+        "mode": "flow-repair",
+        "arm": "taught-v3",
+        "mods": [
+          "Fabric 0.17.2",
+          "MC 1.20.1",
+          "Create 6.0.8.1",
+          "Numen 0.1.5",
+          "Engineering 0.2.5-dev"
+        ],
+        "intervention": "none during modeling",
+        "terminal": null,
+        "requests": 37,
+        "actualModels": [
+          "deepseek-v4-pro"
+        ],
+        "tokenTotal": 836775,
+        "peakInputContext": 32657,
+        "modelRequestSeconds": 309.83299999999997,
+        "skillCalls": [
+          {
+            "id": "call_00_6L1QwitraxuLHSvV9Z5O9707",
+            "name": "skill",
+            "arguments": "{\"skill\": \"create_kinetics\"}"
+          },
+          {
+            "id": "call_00_48SolkbAxY0Zk9uKdNBi6586",
+            "name": "skill",
+            "arguments": "{\"skill\": \"create_kinetics\", \"file\": \"references/production.md\"}"
+          }
+        ],
+        "changed": 0,
+        "outside": [],
+        "power": {
+          "parts": [
+            {
+              "id": "create:millstone",
+              "at": [
+                2,
+                -54,
+                13
+              ],
+              "rpm": -64,
+              "network": [
+                448,
+                53192
+              ],
+              "stress": 384,
+              "capacity": 1048576
+            },
+            {
+              "id": "create:creative_motor",
+              "at": [
+                7,
+                -56,
+                12
+              ],
+              "rpm": -64,
+              "network": [
+                448,
+                53192
+              ],
+              "stress": 384,
+              "capacity": 1048576
+            }
+          ],
+          "mill": {
+            "id": "create:millstone",
+            "at": [
+              2,
+              -54,
+              13
+            ],
+            "rpm": -64,
+            "network": [
+              448,
+              53192
+            ],
+            "stress": 384,
+            "capacity": 1048576
+          },
+          "shared": false
+        },
+        "product": {
+          "attempted": true,
+          "byTestOperator": true,
+          "driven": true,
+          "first": {
+            "after": 0,
+            "delta": 0,
+            "stranded": true,
+            "passed": false
+          },
+          "repeat": null,
+          "passed": false,
+          "input": [
+            2,
+            -53,
+            14
+          ],
+          "output": [
+            2,
+            -59,
+            12
+          ]
+        },
+        "inheritedProduct": null,
+        "preservation": {
+          "copper": 7,
+          "oldTouched": [],
+          "expectedFaultOnly": true,
+          "faultFilterBefore": {
+            "id": "minecraft:wheat_seeds",
+            "Count": 1
+          },
+          "faultFilterAfter": {
+            "id": "minecraft:wheat_seeds",
+            "Count": 1
+          },
+          "faultChute": [
+            2,
+            -55,
+            13
+          ]
+        },
+        "pathProbe": null,
+        "answer": null
+      },
+      "siteReadback": {
+        "waterCells": 130,
+        "waterSourceCells": 1,
+        "newWaterOutside": [],
+        "mechanisms": [
+          {
+            "pos": [
+              2,
+              -54,
+              13
+            ],
+            "device": "create:millstone",
+            "state": {},
+            "rawRPM": -64,
+            "stress": 384,
+            "capacity": 1048576,
+            "network": [
+              448,
+              53192
+            ]
+          },
+          {
+            "pos": [
+              4,
+              -56,
+              12
+            ],
+            "device": "create:encased_fan",
+            "state": {
+              "facing": "west"
+            },
+            "rawRPM": 64,
+            "stress": 384,
+            "capacity": 1048576,
+            "network": [
+              448,
+              53192
+            ]
+          },
+          {
+            "pos": [
+              7,
+              -56,
+              12
+            ],
+            "device": "create:creative_motor",
+            "state": {
+              "facing": "west"
+            },
+            "rawRPM": -64,
+            "stress": 384,
+            "capacity": 1048576,
+            "network": [
+              448,
+              53192
+            ]
+          }
+        ]
+      },
+      "recoveredAutosave": null,
+      "independentAssayPassed": false,
+      "noOutsideChange": true,
+      "requests": 37,
+      "usageReceipts": 37,
+      "tokens": 836775,
+      "cachedInput": 770944,
+      "peakInput": 32657,
+      "providerResponseSeconds": 309.833,
+      "gameToolSecondsCoarse": 6.0,
+      "finishReasons": {
+        "tool_calls": 37
+      },
+      "tools": {
+        "skill": 2,
+        "lua": 35
+      },
+      "successfulSkillCalls": [
+        {
+          "skill": "create_kinetics"
+        },
+        {
+          "skill": "create_kinetics",
+          "file": "references/production.md"
+        }
+      ],
+      "productionReferenceReturned": true
+    },
+    "flow-repair-teacher-filter": {
+      "dispatch": null,
+      "end": null,
+      "errors": [
+        {
+          "utc": "2026-11-25T19:48:14.605Z",
+          "kind": "error",
+          "message": "teacher could not read or repair the filter",
+          "stack": "AssertionError [ERR_ASSERTION]: teacher could not read or repair the filter\n    at main (/workspace/scratch/5775ffa4ccb1/trials/harness/compare.cjs:438:5)"
+        }
+      ],
+      "game": null,
+      "siteReadback": null,
+      "recoveredAutosave": null,
+      "independentAssayPassed": false,
+      "noOutsideChange": false,
+      "requests": 0,
+      "usageReceipts": 0,
+      "tokens": 0,
+      "cachedInput": 0,
+      "peakInput": 0,
+      "providerResponseSeconds": 0,
+      "gameToolSecondsCoarse": 0,
+      "finishReasons": {},
+      "tools": {},
+      "successfulSkillCalls": [],
+      "productionReferenceReturned": false
+    },
+    "flow-repair-teacher-filter-final": {
+      "dispatch": null,
+      "end": null,
+      "errors": [],
+      "game": null,
+      "siteReadback": null,
+      "recoveredAutosave": null,
+      "independentAssayPassed": false,
+      "noOutsideChange": false,
+      "requests": 0,
+      "usageReceipts": 0,
+      "tokens": 0,
+      "cachedInput": 0,
+      "peakInput": 0,
+      "providerResponseSeconds": 0,
+      "gameToolSecondsCoarse": 0,
+      "finishReasons": {},
+      "tools": {},
+      "successfulSkillCalls": [],
+      "productionReferenceReturned": false
+    },
+    "flow-repair-teacher-filter-recheck": {
+      "dispatch": null,
+      "end": null,
+      "errors": [
+        {
+          "utc": "2026-11-25T19:50:04.051Z",
+          "kind": "error",
+          "message": "companion failed to connect",
+          "stack": "AssertionError [ERR_ASSERTION]: companion failed to connect\n    at main (/workspace/scratch/5775ffa4ccb1/trials/harness/compare.cjs:380:3)"
+        }
+      ],
+      "game": null,
+      "siteReadback": null,
+      "recoveredAutosave": null,
+      "independentAssayPassed": false,
+      "noOutsideChange": false,
+      "requests": 0,
+      "usageReceipts": 0,
+      "tokens": 0,
+      "cachedInput": 0,
+      "peakInput": 0,
+      "providerResponseSeconds": 0,
+      "gameToolSecondsCoarse": 0,
+      "finishReasons": {},
+      "tools": {},
+      "successfulSkillCalls": [],
+      "productionReferenceReturned": false
+    },
+    "flow-repair-teacher-filter-solo": {
+      "dispatch": null,
+      "end": null,
+      "errors": [
+        {
+          "utc": "2026-11-25T19:53:36.287Z",
+          "kind": "error",
+          "message": "teacher could not read or repair the filter",
+          "stack": "AssertionError [ERR_ASSERTION]: teacher could not read or repair the filter\n    at main (/workspace/scratch/5775ffa4ccb1/trials/harness/compare.cjs:438:5)"
+        }
+      ],
+      "game": null,
+      "siteReadback": null,
+      "recoveredAutosave": null,
+      "independentAssayPassed": false,
+      "noOutsideChange": false,
+      "requests": 0,
+      "usageReceipts": 0,
+      "tokens": 0,
+      "cachedInput": 0,
+      "peakInput": 0,
+      "providerResponseSeconds": 0,
+      "gameToolSecondsCoarse": 0,
+      "finishReasons": {},
+      "tools": {},
+      "successfulSkillCalls": [],
+      "productionReferenceReturned": false
+    },
+    "flow-repair-teacher-filter-verified": {
+      "dispatch": {
+        "utc": "2026-11-25T19:53:49.795Z",
+        "kind": "dispatch",
+        "mode": "flow-repair",
+        "arm": "teacher-filter-verified",
+        "site": [
+          -7,
+          -60,
+          5,
+          8,
+          -49,
+          20
+        ],
+        "prompt": "这条已有的自动小麦面团线原来能生产，现在投入后成品桶没有新增。请实际读取设备、物流、库存定位问题，用最少的改动恢复整线，保留动力、围水、正常设备及旁边储物桶库存。不要重建。验收员将从原输入桶独立复投。请报告定位、改动和实际结果。",
+        "owner": "non-OP; creative",
+        "agent": "creative; ask",
+        "stage": "real dedicated server and protocol owner",
+        "fault": "rotated wrong-filter fixture",
+        "teaching": null,
+        "resumed": false,
+        "version": "0.2.5-dev",
+        "build": "teacher-filter-verified",
+        "thinking": "off",
+        "outputCap": 8192
+      },
+      "end": {
+        "utc": "2026-11-25T19:53:49.795Z",
+        "kind": "model-ended",
+        "seconds": 0.001,
+        "reason": "fixed no-model fixture",
+        "ownerReplySeen": false
+      },
+      "errors": [],
+      "game": {
+        "mode": "flow-repair",
+        "arm": "teacher-filter-verified",
+        "mods": [
+          "Fabric 0.17.2",
+          "MC 1.20.1",
+          "Create 6.0.8.1",
+          "Numen 0.1.5",
+          "Engineering 0.2.5-dev"
+        ],
+        "intervention": "test operator authored construction; no model",
+        "terminal": null,
+        "requests": 0,
+        "actualModels": [],
+        "tokenTotal": 0,
+        "peakInputContext": 0,
+        "modelRequestSeconds": 0,
+        "skillCalls": [],
+        "changed": 0,
+        "outside": [],
+        "power": {
+          "parts": [
+            {
+              "id": "create:millstone",
+              "at": [
+                2,
+                -54,
+                13
+              ],
+              "rpm": -64,
+              "network": [
+                448,
+                53192
+              ],
+              "stress": 384,
+              "capacity": 1048576
+            },
+            {
+              "id": "create:creative_motor",
+              "at": [
+                7,
+                -56,
+                12
+              ],
+              "rpm": -64,
+              "network": [
+                448,
+                53192
+              ],
+              "stress": 384,
+              "capacity": 1048576
+            }
+          ],
+          "mill": {
+            "id": "create:millstone",
+            "at": [
+              2,
+              -54,
+              13
+            ],
+            "rpm": -64,
+            "network": [
+              448,
+              53192
+            ],
+            "stress": 384,
+            "capacity": 1048576
+          },
+          "shared": false
+        },
+        "product": {
+          "attempted": true,
+          "byTestOperator": true,
+          "driven": true,
+          "first": {
+            "after": 5,
+            "delta": 5,
+            "stranded": false,
+            "passed": true
+          },
+          "repeat": {
+            "after": 11,
+            "delta": 6,
+            "stranded": false,
+            "passed": true
+          },
+          "passed": true,
+          "input": [
+            2,
+            -53,
+            14
+          ],
+          "output": [
+            2,
+            -59,
+            12
+          ]
+        },
+        "inheritedProduct": null,
+        "preservation": {
+          "copper": 7,
+          "oldTouched": [],
+          "expectedFaultOnly": true,
+          "faultFilterBefore": {
+            "id": "minecraft:wheat_seeds",
+            "Count": 1
+          },
+          "faultFilterAfter": {
+            "id": "create:wheat_flour",
+            "Count": 1
+          },
+          "faultChute": [
+            2,
+            -55,
+            13
+          ]
+        },
+        "pathProbe": null,
+        "answer": null
+      },
+      "siteReadback": {
+        "waterCells": 130,
+        "waterSourceCells": 1,
+        "newWaterOutside": [],
+        "mechanisms": [
+          {
+            "pos": [
+              2,
+              -54,
+              13
+            ],
+            "device": "create:millstone",
+            "state": {},
+            "rawRPM": -64,
+            "stress": 384,
+            "capacity": 1048576,
+            "network": [
+              448,
+              53192
+            ]
+          },
+          {
+            "pos": [
+              4,
+              -56,
+              12
+            ],
+            "device": "create:encased_fan",
+            "state": {
+              "facing": "west"
+            },
+            "rawRPM": 64,
+            "stress": 384,
+            "capacity": 1048576,
+            "network": [
+              448,
+              53192
+            ]
+          },
+          {
+            "pos": [
+              7,
+              -56,
+              12
+            ],
+            "device": "create:creative_motor",
+            "state": {
+              "facing": "west"
+            },
+            "rawRPM": -64,
+            "stress": 384,
+            "capacity": 1048576,
+            "network": [
+              448,
+              53192
+            ]
+          }
+        ]
+      },
+      "recoveredAutosave": null,
+      "independentAssayPassed": true,
+      "noOutsideChange": true,
+      "requests": 0,
+      "usageReceipts": 0,
+      "tokens": 0,
+      "cachedInput": 0,
+      "peakInput": 0,
+      "providerResponseSeconds": 0,
+      "gameToolSecondsCoarse": 0,
+      "finishReasons": {},
+      "tools": {},
+      "successfulSkillCalls": [],
+      "productionReferenceReturned": false
+    },
+    "stone-taught-regression": {
+      "dispatch": {
+        "utc": "2026-11-25T19:46:52.986Z",
+        "kind": "dispatch",
+        "mode": "stone",
+        "arm": "taught-regression",
+        "site": [
+          -7,
+          -60,
+          5,
+          8,
+          -49,
+          20
+        ],
+        "prompt": "在授权空地从零自主做一条自动圆石筛选线。原料桶投入圆石，第一台磨石得到砂砾，第二台磨石得到燧石，自动送回成品桶，两台同一动力源，不手工转运。请选自己的布局和路线，优先搭一个能实际过料的区段，再局部接通余下部分。最后报告输入和成品桶。 开工前用技能工具读取可用的 Create 工程技能，按需读相关参考。",
+        "owner": "non-OP; creative",
+        "agent": "creative; ask",
+        "stage": "real dedicated server and protocol owner",
+        "fault": null,
+        "teaching": "SKILL.md",
+        "resumed": false,
+        "version": "0.2.5-dev",
+        "build": "taught-regression",
+        "thinking": "off",
+        "outputCap": 8192
+      },
+      "end": null,
+      "errors": [],
+      "game": null,
+      "siteReadback": null,
+      "recoveredAutosave": null,
+      "independentAssayPassed": false,
+      "noOutsideChange": false,
+      "requests": 15,
+      "usageReceipts": 15,
+      "tokens": 259751,
+      "cachedInput": 231296,
+      "peakInput": 21820,
+      "providerResponseSeconds": 122.047,
+      "gameToolSecondsCoarse": 3.0,
+      "finishReasons": {
+        "tool_calls": 15
+      },
+      "tools": {
+        "skill": 2,
+        "lua": 19
+      },
+      "successfulSkillCalls": [
+        {
+          "skill": "create_kinetics"
+        },
+        {
+          "skill": "create_kinetics",
+          "file": "references/production.md"
+        }
+      ],
+      "productionReferenceReturned": true
+    },
+    "wash-baseline": {
+      "dispatch": {
+        "utc": "2026-11-25T19:32:01.459Z",
+        "kind": "dispatch",
+        "mode": "wash",
+        "arm": "baseline",
+        "site": [
+          -7,
+          -60,
+          5,
+          8,
+          -49,
+          20
+        ],
+        "prompt": "请在授权空地新建一个小型 Create 水洗工位。用围好的水源和风扇，把验收员放到置物台上的小麦粉洗成面团。位置、朝向、接轴和围水方式由你定。你有一只水桶。请实际检查气流是否覆盖置物台，并报告置物台坐标，供独立首投和复投。",
+        "owner": "non-OP; creative",
+        "agent": "creative; ask",
+        "stage": "real dedicated server and protocol owner",
+        "teaching": null,
+        "resumed": false,
+        "version": "0.2.5-dev",
+        "build": "baseline",
+        "thinking": "off",
+        "outputCap": 8192,
+        "fault": null
+      },
+      "end": {
+        "utc": "2026-11-25T19:36:21.720Z",
+        "kind": "model-ended",
+        "seconds": 260.26,
+        "reason": "wall-clock timeout",
+        "ownerReplySeen": false
+      },
+      "errors": [],
+      "game": {
+        "mode": "wash",
+        "arm": "baseline",
+        "mods": [
+          "Fabric 0.17.2",
+          "MC 1.20.1",
+          "Create 6.0.8.1",
+          "Numen 0.1.5",
+          "Engineering 0.2.5-dev"
+        ],
+        "intervention": "none during modeling",
+        "terminal": null,
+        "requests": 31,
+        "actualModels": [
+          "deepseek-v4-pro"
+        ],
+        "tokenTotal": 708960,
+        "peakInputContext": 31937,
+        "modelRequestSeconds": 259.942,
+        "skillCalls": [
+          {
+            "id": "call_00_apeYkacvN04oWqe1RMZ51457",
+            "name": "skill",
+            "arguments": "{\"skill\": \"crafting_and_smelting\"}"
+          }
+        ],
+        "changed": 145,
+        "outside": [
+          "-8,-60,14",
+          "-1,-60,21",
+          "1,-60,21"
+        ],
+        "power": {
+          "parts": [
+            {
+              "id": "create:creative_motor",
+              "at": [
+                0,
+                -60,
+                16
+              ],
+              "rpm": -2,
+              "network": [
+                0,
+                69572
+              ],
+              "stress": 4,
+              "capacity": 32768
+            }
+          ],
+          "shared": false
+        },
+        "product": {
+          "attempted": true,
+          "water": 1,
+          "rpm": [
+            -2
+          ],
+          "depot": [
+            0,
+            -60,
+            12
+          ],
+          "first": {
+            "item": {
+              "id": "create:dough",
+              "Count": 1
+            },
+            "passed": true
+          },
+          "repeat": {
+            "item": {
+              "id": "create:dough",
+              "Count": 1
+            },
+            "passed": true
+          },
+          "passed": true
+        },
+        "inheritedProduct": null,
+        "preservation": null,
+        "pathProbe": null,
+        "answer": null
+      },
+      "siteReadback": {
+        "waterCells": 141,
+        "waterSourceCells": 1,
+        "newWaterOutside": [
+          "-8,-60,14",
+          "-1,-60,21",
+          "1,-60,21"
+        ],
+        "mechanisms": [
+          {
+            "pos": [
+              0,
+              -60,
+              14
+            ],
+            "device": "create:encased_fan",
+            "state": {
+              "facing": "north"
+            },
+            "rawRPM": -2,
+            "stress": 4,
+            "capacity": 32768,
+            "network": [
+              0,
+              69572
+            ]
+          },
+          {
+            "pos": [
+              0,
+              -60,
+              16
+            ],
+            "device": "create:creative_motor",
+            "state": {
+              "facing": "north"
+            },
+            "rawRPM": -2,
+            "stress": 4,
+            "capacity": 32768,
+            "network": [
+              0,
+              69572
+            ]
+          }
+        ]
+      },
+      "recoveredAutosave": null,
+      "independentAssayPassed": true,
+      "noOutsideChange": false,
+      "requests": 31,
+      "usageReceipts": 31,
+      "tokens": 708960,
+      "cachedInput": 651648,
+      "peakInput": 31937,
+      "providerResponseSeconds": 259.942,
+      "gameToolSecondsCoarse": 4.0,
+      "finishReasons": {
+        "tool_calls": 31
+      },
+      "tools": {
+        "skill": 1,
+        "lua": 50
+      },
+      "successfulSkillCalls": [
+        {
+          "skill": "crafting_and_smelting"
+        }
+      ],
+      "productionReferenceReturned": false
+    },
+    "wash-original": {
+      "dispatch": {
+        "utc": "2026-11-25T19:35:21.610Z",
+        "kind": "dispatch",
+        "mode": "wash",
+        "arm": "original",
+        "site": [
+          -7,
+          -60,
+          5,
+          8,
+          -49,
+          20
+        ],
+        "prompt": "请在授权空地新建一个小型 Create 水洗工位。用围好的水源和风扇，把验收员放到置物台上的小麦粉洗成面团。位置、朝向、接轴和围水方式由你定。你有一只水桶。请实际检查气流是否覆盖置物台，并报告置物台坐标，供独立首投和复投。 开工前用技能工具读取可用的 Create 工程技能，按需读相关参考。",
+        "owner": "non-OP; creative",
+        "agent": "creative; ask",
+        "stage": "real dedicated server and protocol owner",
+        "teaching": "SKILL.md",
+        "resumed": false,
+        "version": "0.2.5-dev",
+        "build": "original",
+        "thinking": "off",
+        "outputCap": 8192,
+        "fault": null
+      },
+      "end": {
+        "utc": "2026-11-25T19:38:15.827Z",
+        "kind": "model-ended",
+        "seconds": 174.218,
+        "reason": "stop",
+        "ownerReplySeen": true
+      },
+      "errors": [],
+      "game": {
+        "mode": "wash",
+        "arm": "original",
+        "mods": [
+          "Fabric 0.17.2",
+          "MC 1.20.1",
+          "Create 6.0.8.1",
+          "Numen 0.1.5",
+          "Engineering 0.2.5-dev"
+        ],
+        "intervention": "none during modeling",
+        "terminal": "stop",
+        "requests": 21,
+        "actualModels": [
+          "deepseek-v4-pro"
+        ],
+        "tokenTotal": 382000,
+        "peakInputContext": 22894,
+        "modelRequestSeconds": 171.12599999999998,
+        "skillCalls": [
+          {
+            "id": "call_00_P1WtdJnTB5n7pTtKPwzI9169",
+            "name": "skill",
+            "arguments": "{\"skill\": \"create_kinetics\"}"
+          },
+          {
+            "id": "call_00_87oEnpzndLi81ZysnKQw5763",
+            "name": "skill",
+            "arguments": "{\"skill\": \"create_kinetics\", \"file\": \"references/watermill.md\"}"
+          }
+        ],
+        "changed": 3,
+        "outside": [],
+        "power": {
+          "parts": [
+            {
+              "id": "create:creative_motor",
+              "at": [
+                -4,
+                -60,
+                12
+              ],
+              "rpm": 32,
+              "network": [
+                -256,
+                53188
+              ],
+              "stress": 64,
+              "capacity": 524288
+            }
+          ],
+          "shared": false
+        },
+        "product": {
+          "attempted": false,
+          "depots": [],
+          "rpm": [
+            32
+          ],
+          "water": 0
+        },
+        "inheritedProduct": null,
+        "preservation": null,
+        "pathProbe": null,
+        "answer": "传动已建立,f"
+      },
+      "siteReadback": {
+        "waterCells": 0,
+        "waterSourceCells": 0,
+        "newWaterOutside": [],
+        "mechanisms": [
+          {
+            "pos": [
+              -4,
+              -60,
+              12
+            ],
+            "device": "create:creative_motor",
+            "state": {
+              "facing": "east"
+            },
+            "rawRPM": 32,
+            "stress": 64,
+            "capacity": 524288,
+            "network": [
+              -256,
+              53188
+            ]
+          },
+          {
+            "pos": [
+              -2,
+              -60,
+              12
+            ],
+            "device": "create:encased_fan",
+            "state": {
+              "facing": "east"
+            },
+            "rawRPM": 32,
+            "stress": 64,
+            "capacity": 524288,
+            "network": [
+              -256,
+              53188
+            ]
+          }
+        ]
+      },
+      "recoveredAutosave": null,
+      "independentAssayPassed": false,
+      "noOutsideChange": true,
+      "requests": 21,
+      "usageReceipts": 21,
+      "tokens": 382000,
+      "cachedInput": 335232,
+      "peakInput": 22894,
+      "providerResponseSeconds": 171.126,
+      "gameToolSecondsCoarse": 1.0,
+      "finishReasons": {
+        "tool_calls": 20,
+        "stop": 1
+      },
+      "tools": {
+        "skill": 2,
+        "lua": 16,
+        "todo": 2
+      },
+      "successfulSkillCalls": [
+        {
+          "skill": "create_kinetics"
+        },
+        {
+          "skill": "create_kinetics",
+          "file": "references/watermill.md"
+        }
+      ],
+      "productionReferenceReturned": false
+    },
+    "wash-taught-v1": {
+      "dispatch": {
+        "utc": "2026-11-25T19:35:21.431Z",
+        "kind": "dispatch",
+        "mode": "wash",
+        "arm": "taught-v1",
+        "site": [
+          -7,
+          -60,
+          5,
+          8,
+          -49,
+          20
+        ],
+        "prompt": "请在授权空地新建一个小型 Create 水洗工位。用围好的水源和风扇，把验收员放到置物台上的小麦粉洗成面团。位置、朝向、接轴和围水方式由你定。你有一只水桶。请实际检查气流是否覆盖置物台，并报告置物台坐标，供独立首投和复投。 开工前用技能工具读取可用的 Create 工程技能，按需读相关参考。",
+        "owner": "non-OP; creative",
+        "agent": "creative; ask",
+        "stage": "real dedicated server and protocol owner",
+        "teaching": "SKILL.md",
+        "resumed": false,
+        "version": "0.2.5-dev",
+        "build": "taught-v1",
+        "thinking": "off",
+        "outputCap": 8192,
+        "fault": null
+      },
+      "end": {
+        "utc": "2026-11-25T19:39:41.756Z",
+        "kind": "model-ended",
+        "seconds": 260.325,
+        "reason": "wall-clock timeout",
+        "ownerReplySeen": false
+      },
+      "errors": [],
+      "game": {
+        "mode": "wash",
+        "arm": "taught-v1",
+        "mods": [
+          "Fabric 0.17.2",
+          "MC 1.20.1",
+          "Create 6.0.8.1",
+          "Numen 0.1.5",
+          "Engineering 0.2.5-dev"
+        ],
+        "intervention": "none during modeling",
+        "terminal": null,
+        "requests": 28,
+        "actualModels": [
+          "deepseek-v4-pro"
+        ],
+        "tokenTotal": 549158,
+        "peakInputContext": 25894,
+        "modelRequestSeconds": 244.45699999999997,
+        "skillCalls": [
+          {
+            "id": "call_00_ZU0pB1gqUnjgNU60tRxP2803",
+            "name": "skill",
+            "arguments": "{\"skill\": \"create_kinetics\"}"
+          },
+          {
+            "id": "call_00_yaFCgYEPWzK9O8TMTsXw7354",
+            "name": "skill",
+            "arguments": "{\"skill\": \"create_kinetics\", \"file\": \"references/production.md\"}"
+          }
+        ],
+        "changed": 12,
+        "outside": [],
+        "power": {
+          "parts": [
+            {
+              "id": "create:creative_motor",
+              "at": [
+                -1,
+                -60,
+                12
+              ],
+              "rpm": 16,
+              "network": [
+                -64,
+                53188
+              ],
+              "stress": 32,
+              "capacity": 262144
+            }
+          ],
+          "shared": false
+        },
+        "product": {
+          "attempted": false,
+          "depots": [
+            [
+              3,
+              -60,
+              12
+            ]
+          ],
+          "rpm": [
+            16
+          ],
+          "water": 0
+        },
+        "inheritedProduct": null,
+        "preservation": null,
+        "pathProbe": null,
+        "answer": null
+      },
+      "siteReadback": {
+        "waterCells": 0,
+        "waterSourceCells": 0,
+        "newWaterOutside": [],
+        "mechanisms": [
+          {
+            "pos": [
+              -1,
+              -60,
+              12
+            ],
+            "device": "create:creative_motor",
+            "state": {
+              "facing": "east"
+            },
+            "rawRPM": 16,
+            "stress": 32,
+            "capacity": 262144,
+            "network": [
+              -64,
+              53188
+            ]
+          },
+          {
+            "pos": [
+              0,
+              -60,
+              12
+            ],
+            "device": "create:encased_fan",
+            "state": {
+              "facing": "east"
+            },
+            "rawRPM": 16,
+            "stress": 32,
+            "capacity": 262144,
+            "network": [
+              -64,
+              53188
+            ]
+          }
+        ]
+      },
+      "recoveredAutosave": null,
+      "independentAssayPassed": false,
+      "noOutsideChange": true,
+      "requests": 28,
+      "usageReceipts": 28,
+      "tokens": 549158,
+      "cachedInput": 487296,
+      "peakInput": 25894,
+      "providerResponseSeconds": 244.457,
+      "gameToolSecondsCoarse": 7.0,
+      "finishReasons": {
+        "tool_calls": 28
+      },
+      "tools": {
+        "skill": 2,
+        "lua": 25,
+        "todo": 1
+      },
+      "successfulSkillCalls": [
+        {
+          "skill": "create_kinetics"
+        },
+        {
+          "skill": "create_kinetics",
+          "file": "references/production.md"
+        }
+      ],
+      "productionReferenceReturned": true
+    },
+    "wash-taught-v2": {
+      "dispatch": {
+        "utc": "2026-11-25T19:42:52.740Z",
+        "kind": "dispatch",
+        "mode": "wash",
+        "arm": "taught-v2",
+        "site": [
+          -7,
+          -60,
+          5,
+          8,
+          -49,
+          20
+        ],
+        "prompt": "请在授权空地新建一个小型 Create 水洗工位。用围好的水源和风扇，把验收员放到置物台上的小麦粉洗成面团。位置、朝向、接轴和围水方式由你定。你有一只水桶。请实际检查气流是否覆盖置物台，并报告置物台坐标，供独立首投和复投。 开工前用技能工具读取可用的 Create 工程技能，按需读相关参考。",
+        "owner": "non-OP; creative",
+        "agent": "creative; ask",
+        "stage": "real dedicated server and protocol owner",
+        "fault": null,
+        "teaching": "SKILL.md",
+        "resumed": false,
+        "version": "0.2.5-dev",
+        "build": "taught-v2",
+        "thinking": "off",
+        "outputCap": 8192
+      },
+      "end": {
+        "utc": "2026-11-25T19:47:13.275Z",
+        "kind": "model-ended",
+        "seconds": 260.535,
+        "reason": "wall-clock timeout",
+        "ownerReplySeen": false
+      },
+      "errors": [],
+      "game": {
+        "mode": "wash",
+        "arm": "taught-v2",
+        "mods": [
+          "Fabric 0.17.2",
+          "MC 1.20.1",
+          "Create 6.0.8.1",
+          "Numen 0.1.5",
+          "Engineering 0.2.5-dev"
+        ],
+        "intervention": "none during modeling",
+        "terminal": null,
+        "requests": 24,
+        "actualModels": [
+          "deepseek-v4-pro"
+        ],
+        "tokenTotal": 410019,
+        "peakInputContext": 22595,
+        "modelRequestSeconds": 180.85199999999998,
+        "skillCalls": [
+          {
+            "id": "call_00_WfZtJCsmPvYEoJxpLMSO4816",
+            "name": "skill",
+            "arguments": "{\"skill\": \"create_kinetics\"}"
+          },
+          {
+            "id": "call_00_mQnzcSF5rjncSytYQejo6861",
+            "name": "skill",
+            "arguments": "{\"skill\": \"create_kinetics\", \"file\": \"references/production.md\"}"
+          }
+        ],
+        "changed": 0,
+        "outside": [],
+        "power": {
+          "parts": [],
+          "shared": false
+        },
+        "product": {
+          "attempted": false,
+          "depots": [],
+          "rpm": [],
+          "water": 0
+        },
+        "inheritedProduct": null,
+        "preservation": null,
+        "pathProbe": null,
+        "answer": null
+      },
+      "siteReadback": {
+        "waterCells": 0,
+        "waterSourceCells": 0,
+        "newWaterOutside": [],
+        "mechanisms": []
+      },
+      "recoveredAutosave": null,
+      "independentAssayPassed": false,
+      "noOutsideChange": true,
+      "requests": 24,
+      "usageReceipts": 23,
+      "tokens": 410019,
+      "cachedInput": 376064,
+      "peakInput": 22595,
+      "providerResponseSeconds": 180.852,
+      "gameToolSecondsCoarse": 1.0,
+      "finishReasons": {
+        "tool_calls": 23,
+        "503": 1
+      },
+      "tools": {
+        "skill": 2,
+        "lua": 21
+      },
+      "successfulSkillCalls": [
+        {
+          "skill": "create_kinetics"
+        },
+        {
+          "skill": "create_kinetics",
+          "file": "references/production.md"
+        }
+      ],
+      "productionReferenceReturned": true
+    },
+    "wash-taught-v3": {
+      "dispatch": {
+        "utc": "2026-11-25T19:46:53.144Z",
+        "kind": "dispatch",
+        "mode": "wash",
+        "arm": "taught-v3",
+        "site": [
+          -7,
+          -60,
+          5,
+          8,
+          -49,
+          20
+        ],
+        "prompt": "请在授权空地新建一个小型 Create 水洗工位。用围好的水源和风扇，把验收员放到置物台上的小麦粉洗成面团。位置、朝向、接轴和围水方式由你定。你有一只水桶。请实际检查气流是否覆盖置物台，并报告置物台坐标，供独立首投和复投。 开工前用技能工具读取可用的 Create 工程技能，按需读相关参考。",
+        "owner": "non-OP; creative",
+        "agent": "creative; ask",
+        "stage": "real dedicated server and protocol owner",
+        "fault": null,
+        "teaching": "SKILL.md",
+        "resumed": false,
+        "version": "0.2.5-dev",
+        "build": "taught-v3",
+        "thinking": "off",
+        "outputCap": 8192
+      },
+      "end": null,
+      "errors": [],
+      "game": null,
+      "siteReadback": null,
+      "recoveredAutosave": null,
+      "independentAssayPassed": false,
+      "noOutsideChange": false,
+      "requests": 20,
+      "usageReceipts": 20,
+      "tokens": 382737,
+      "cachedInput": 347264,
+      "peakInput": 24397,
+      "providerResponseSeconds": 184.514,
+      "gameToolSecondsCoarse": 45.0,
+      "finishReasons": {
+        "tool_calls": 20
+      },
+      "tools": {
+        "skill": 2,
+        "lua": 18
+      },
+      "successfulSkillCalls": [
+        {
+          "skill": "create_kinetics"
+        },
+        {
+          "skill": "create_kinetics",
+          "file": "references/production.md"
+        }
+      ],
+      "productionReferenceReturned": true
+    },
+    "wash-taught-v3-recheck": {
+      "dispatch": {
+        "utc": "2026-11-25T19:52:43.322Z",
+        "kind": "dispatch",
+        "mode": "wash",
+        "arm": "taught-v3-recheck",
+        "site": [
+          -7,
+          -60,
+          5,
+          8,
+          -49,
+          20
+        ],
+        "prompt": "请在授权空地新建一个小型 Create 水洗工位。用围好的水源和风扇，把验收员放到置物台上的小麦粉洗成面团。位置、朝向、接轴和围水方式由你定。你有一只水桶。请实际检查气流是否覆盖置物台，并报告置物台坐标，供独立首投和复投。 开工前用技能工具读取可用的 Create 工程技能，按需读相关参考。",
+        "owner": "non-OP; creative",
+        "agent": "creative; ask",
+        "stage": "real dedicated server and protocol owner",
+        "fault": null,
+        "teaching": "SKILL.md",
+        "resumed": false,
+        "version": "0.2.5-dev",
+        "build": "taught-v3-recheck",
+        "thinking": "off",
+        "outputCap": 8192
+      },
+      "end": {
+        "utc": "2026-11-25T19:57:03.566Z",
+        "kind": "model-ended",
+        "seconds": 260.244,
+        "reason": "wall-clock timeout",
+        "ownerReplySeen": false
+      },
+      "errors": [],
+      "game": {
+        "mode": "wash",
+        "arm": "taught-v3-recheck",
+        "mods": [
+          "Fabric 0.17.2",
+          "MC 1.20.1",
+          "Create 6.0.8.1",
+          "Numen 0.1.5",
+          "Engineering 0.2.5-dev"
+        ],
+        "intervention": "none during modeling",
+        "terminal": null,
+        "requests": 28,
+        "actualModels": [
+          "deepseek-v4-pro"
+        ],
+        "tokenTotal": 476660,
+        "peakInputContext": 24199,
+        "modelRequestSeconds": 235.33200000000005,
+        "skillCalls": [
+          {
+            "id": "call_00_OLgJibztrBh0i5OM2A7s1374",
+            "name": "skill",
+            "arguments": "{\"skill\": \"create_kinetics\"}"
+          },
+          {
+            "id": "call_00_TmMDMWGGaBIvzDLl4iO34895",
+            "name": "skill",
+            "arguments": "{\"skill\": \"create_kinetics\", \"file\": \"references/production.md\"}"
+          }
+        ],
+        "changed": 15,
+        "outside": [],
+        "power": {
+          "parts": [
+            {
+              "id": "create:creative_motor",
+              "at": [
+                0,
+                -58,
+                12
+              ],
+              "rpm": 32,
+              "network": [
+                0,
+                53190
+              ],
+              "stress": 64,
+              "capacity": 524288
+            }
+          ],
+          "shared": false
+        },
+        "product": {
+          "attempted": false,
+          "depots": [
+            [
+              6,
+              -59,
+              12
+            ]
+          ],
+          "rpm": [
+            32
+          ],
+          "water": 0
+        },
+        "inheritedProduct": null,
+        "preservation": null,
+        "pathProbe": null,
+        "answer": null
+      },
+      "siteReadback": {
+        "waterCells": 0,
+        "waterSourceCells": 0,
+        "newWaterOutside": [],
+        "mechanisms": [
+          {
+            "pos": [
+              0,
+              -58,
+              12
+            ],
+            "device": "create:creative_motor",
+            "state": {
+              "facing": "east"
+            },
+            "rawRPM": 32,
+            "stress": 64,
+            "capacity": 524288,
+            "network": [
+              0,
+              53190
+            ]
+          },
+          {
+            "pos": [
+              2,
+              -58,
+              12
+            ],
+            "device": "create:encased_fan",
+            "state": {
+              "facing": "east"
+            },
+            "rawRPM": 32,
+            "stress": 64,
+            "capacity": 524288,
+            "network": [
+              0,
+              53190
+            ]
+          }
+        ]
+      },
+      "recoveredAutosave": null,
+      "independentAssayPassed": false,
+      "noOutsideChange": true,
+      "requests": 28,
+      "usageReceipts": 28,
+      "tokens": 476660,
+      "cachedInput": 435712,
+      "peakInput": 24199,
+      "providerResponseSeconds": 235.332,
+      "gameToolSecondsCoarse": 20.0,
+      "finishReasons": {
+        "tool_calls": 28
+      },
+      "tools": {
+        "skill": 2,
+        "lua": 25,
+        "todo": 1
+      },
+      "successfulSkillCalls": [
+        {
+          "skill": "create_kinetics"
+        },
+        {
+          "skill": "create_kinetics",
+          "file": "references/production.md"
+        }
+      ],
+      "productionReferenceReturned": true
+    },
+    "wash-taught-v4": {
+      "dispatch": {
+        "utc": "2026-11-25T19:58:27.269Z",
+        "kind": "dispatch",
+        "mode": "wash",
+        "arm": "taught-v4",
+        "site": [
+          -7,
+          -60,
+          5,
+          8,
+          -49,
+          20
+        ],
+        "prompt": "请在授权空地新建一个小型 Create 水洗工位。用围好的水源和风扇，把验收员放到置物台上的小麦粉洗成面团。位置、朝向、接轴和围水方式由你定。你有一只水桶。请实际检查气流是否覆盖置物台，并报告置物台坐标，供独立首投和复投。 开工前用技能工具读取可用的 Create 工程技能，按需读相关参考。",
+        "owner": "non-OP; creative",
+        "agent": "creative; ask",
+        "stage": "real dedicated server and protocol owner",
+        "fault": null,
+        "teaching": "SKILL.md",
+        "resumed": false,
+        "version": "0.2.5-dev",
+        "build": "taught-v4",
+        "thinking": "off",
+        "outputCap": 8192
+      },
+      "end": {
+        "utc": "2026-11-25T20:02:47.791Z",
+        "kind": "model-ended",
+        "seconds": 260.522,
+        "reason": "wall-clock timeout",
+        "ownerReplySeen": false
+      },
+      "errors": [],
+      "game": {
+        "mode": "wash",
+        "arm": "taught-v4",
+        "mods": [
+          "Fabric 0.17.2",
+          "MC 1.20.1",
+          "Create 6.0.8.1",
+          "Numen 0.1.5",
+          "Engineering 0.2.5-dev"
+        ],
+        "intervention": "none during modeling",
+        "terminal": null,
+        "requests": 23,
+        "actualModels": [
+          "deepseek-v4-pro"
+        ],
+        "tokenTotal": 489348,
+        "peakInputContext": 27361,
+        "modelRequestSeconds": 225.245,
+        "skillCalls": [
+          {
+            "id": "call_00_qU3VI0NRJ5vimeATpMvl9040",
+            "name": "skill",
+            "arguments": "{\"skill\": \"create_kinetics\"}"
+          },
+          {
+            "id": "call_00_8j91lKXYYB80C7y0iysp5039",
+            "name": "skill",
+            "arguments": "{\"skill\": \"create_kinetics\", \"file\": \"references/production.md\"}"
+          }
+        ],
+        "changed": 152,
+        "outside": [
+          "-1,-60,4",
+          "-8,-60,11",
+          "-8,-60,12",
+          "-8,-60,13"
+        ],
+        "power": {
+          "parts": [
+            {
+              "id": "create:creative_motor",
+              "at": [
+                -4,
+                -58,
+                12
+              ],
+              "rpm": 256,
+              "network": [
+                -256,
+                53190
+              ],
+              "stress": 512,
+              "capacity": 4194304
+            }
+          ],
+          "shared": false
+        },
+        "product": {
+          "attempted": true,
+          "water": 1,
+          "rpm": [
+            256
+          ],
+          "depot": [
+            -2,
+            -59,
+            12
+          ],
+          "first": {
+            "item": {
+              "id": "create:wheat_flour",
+              "Count": 1
+            },
+            "passed": false
+          },
+          "repeat": null,
+          "passed": false
+        },
+        "inheritedProduct": null,
+        "preservation": null,
+        "pathProbe": null,
+        "answer": null
+      },
+      "siteReadback": {
+        "waterCells": 148,
+        "waterSourceCells": 1,
+        "newWaterOutside": [
+          "-1,-60,4",
+          "-8,-60,11",
+          "-8,-60,12",
+          "-8,-60,13"
+        ],
+        "mechanisms": [
+          {
+            "pos": [
+              -4,
+              -58,
+              12
+            ],
+            "device": "create:creative_motor",
+            "state": {
+              "facing": "east"
+            },
+            "rawRPM": 256,
+            "stress": 512,
+            "capacity": 4194304,
+            "network": [
+              -256,
+              53190
+            ]
+          },
+          {
+            "pos": [
+              -3,
+              -58,
+              12
+            ],
+            "device": "create:encased_fan",
+            "state": {
+              "facing": "east"
+            },
+            "rawRPM": 256,
+            "stress": 512,
+            "capacity": 4194304,
+            "network": [
+              -256,
+              53190
+            ]
+          }
+        ]
+      },
+      "recoveredAutosave": null,
+      "independentAssayPassed": false,
+      "noOutsideChange": false,
+      "requests": 23,
+      "usageReceipts": 23,
+      "tokens": 489348,
+      "cachedInput": 440832,
+      "peakInput": 27361,
+      "providerResponseSeconds": 225.245,
+      "gameToolSecondsCoarse": 42.0,
+      "finishReasons": {
+        "tool_calls": 23
+      },
+      "tools": {
+        "skill": 2,
+        "lua": 23,
+        "todo": 1
+      },
+      "successfulSkillCalls": [
+        {
+          "skill": "create_kinetics"
+        },
+        {
+          "skill": "create_kinetics",
+          "file": "references/production.md"
+        }
+      ],
+      "productionReferenceReturned": true
+    },
+    "wash-teacher-east": {
+      "dispatch": {
+        "utc": "2026-11-25T19:34:02.526Z",
+        "kind": "dispatch",
+        "mode": "wash",
+        "arm": "teacher-east",
+        "site": [
+          -7,
+          -60,
+          5,
+          8,
+          -49,
+          20
+        ],
+        "prompt": "请在授权空地新建一个小型 Create 水洗工位。用围好的水源和风扇，把验收员放到置物台上的小麦粉洗成面团。位置、朝向、接轴和围水方式由你定。你有一只水桶。请实际检查气流是否覆盖置物台，并报告置物台坐标，供独立首投和复投。",
+        "owner": "non-OP; creative",
+        "agent": "creative; ask",
+        "stage": "real dedicated server and protocol owner",
+        "teaching": null,
+        "resumed": false,
+        "version": "0.2.5-dev",
+        "build": "teacher-east",
+        "thinking": "off",
+        "outputCap": 8192,
+        "fault": null
+      },
+      "end": {
+        "utc": "2026-11-25T19:34:02.527Z",
+        "kind": "model-ended",
+        "seconds": 0.001,
+        "reason": "fixed no-model fixture",
+        "ownerReplySeen": false
+      },
+      "errors": [],
+      "game": {
+        "mode": "wash",
+        "arm": "teacher-east",
+        "mods": [
+          "Fabric 0.17.2",
+          "MC 1.20.1",
+          "Create 6.0.8.1",
+          "Numen 0.1.5",
+          "Engineering 0.2.5-dev"
+        ],
+        "intervention": "test operator authored construction; no model",
+        "terminal": null,
+        "requests": 0,
+        "actualModels": [],
+        "tokenTotal": 0,
+        "peakInputContext": 0,
+        "modelRequestSeconds": 0,
+        "skillCalls": [],
+        "changed": 11,
+        "outside": [],
+        "power": {
+          "parts": [
+            {
+              "id": "create:creative_motor",
+              "at": [
+                -1,
+                -58,
+                12
+              ],
+              "rpm": 64,
+              "network": [
+                -64,
+                53190
+              ],
+              "stress": 128,
+              "capacity": 1048576
+            }
+          ],
+          "shared": false
+        },
+        "product": {
+          "attempted": true,
+          "water": 1,
+          "rpm": [
+            64
+          ],
+          "depot": [
+            2,
+            -59,
+            12
+          ],
+          "first": {
+            "item": null,
+            "passed": false
+          },
+          "repeat": null,
+          "passed": false
+        },
+        "inheritedProduct": null,
+        "preservation": null,
+        "pathProbe": null,
+        "answer": null
+      },
+      "siteReadback": {
+        "waterCells": 2,
+        "waterSourceCells": 1,
+        "newWaterOutside": [],
+        "mechanisms": [
+          {
+            "pos": [
+              -1,
+              -58,
+              12
+            ],
+            "device": "create:creative_motor",
+            "state": {
+              "facing": "east"
+            },
+            "rawRPM": 64,
+            "stress": 128,
+            "capacity": 1048576,
+            "network": [
+              -64,
+              53190
+            ]
+          },
+          {
+            "pos": [
+              0,
+              -58,
+              12
+            ],
+            "device": "create:encased_fan",
+            "state": {
+              "facing": "east"
+            },
+            "rawRPM": 64,
+            "stress": 128,
+            "capacity": 1048576,
+            "network": [
+              -64,
+              53190
+            ]
+          }
+        ]
+      },
+      "recoveredAutosave": null,
+      "independentAssayPassed": false,
+      "noOutsideChange": true,
+      "requests": 0,
+      "usageReceipts": 0,
+      "tokens": 0,
+      "cachedInput": 0,
+      "peakInput": 0,
+      "providerResponseSeconds": 0,
+      "gameToolSecondsCoarse": 0,
+      "finishReasons": {},
+      "tools": {},
+      "successfulSkillCalls": [],
+      "productionReferenceReturned": false
+    },
+    "wash-teacher-east-recheck": {
+      "dispatch": {
+        "utc": "2026-11-25T19:37:50.581Z",
+        "kind": "dispatch",
+        "mode": "wash",
+        "arm": "teacher-east-recheck",
+        "site": [
+          -7,
+          -60,
+          5,
+          8,
+          -49,
+          20
+        ],
+        "prompt": "请在授权空地新建一个小型 Create 水洗工位。用围好的水源和风扇，把验收员放到置物台上的小麦粉洗成面团。位置、朝向、接轴和围水方式由你定。你有一只水桶。请实际检查气流是否覆盖置物台，并报告置物台坐标，供独立首投和复投。",
+        "owner": "non-OP; creative",
+        "agent": "creative; ask",
+        "stage": "real dedicated server and protocol owner",
+        "fault": null,
+        "teaching": null,
+        "resumed": false,
+        "version": "0.2.5-dev",
+        "build": "teacher-east-recheck",
+        "thinking": "off",
+        "outputCap": 8192
+      },
+      "end": {
+        "utc": "2026-11-25T19:37:50.582Z",
+        "kind": "model-ended",
+        "seconds": 0.001,
+        "reason": "fixed no-model fixture",
+        "ownerReplySeen": false
+      },
+      "errors": [],
+      "game": {
+        "mode": "wash",
+        "arm": "teacher-east-recheck",
+        "mods": [
+          "Fabric 0.17.2",
+          "MC 1.20.1",
+          "Create 6.0.8.1",
+          "Numen 0.1.5",
+          "Engineering 0.2.5-dev"
+        ],
+        "intervention": "test operator authored construction; no model",
+        "terminal": null,
+        "requests": 0,
+        "actualModels": [],
+        "tokenTotal": 0,
+        "peakInputContext": 0,
+        "modelRequestSeconds": 0,
+        "skillCalls": [],
+        "changed": 0,
+        "outside": [],
+        "power": {
+          "parts": [
+            {
+              "id": "create:creative_motor",
+              "at": [
+                -1,
+                -58,
+                12
+              ],
+              "rpm": 64,
+              "network": [
+                -64,
+                53190
+              ],
+              "stress": 128,
+              "capacity": 1048576
+            }
+          ],
+          "shared": false
+        },
+        "product": {
+          "attempted": true,
+          "water": 1,
+          "rpm": [
+            64
+          ],
+          "depot": [
+            2,
+            -59,
+            12
+          ],
+          "first": {
+            "item": {
+              "id": "create:dough",
+              "Count": 1
+            },
+            "passed": true
+          },
+          "repeat": {
+            "item": {
+              "id": "create:dough",
+              "Count": 1
+            },
+            "passed": true
+          },
+          "passed": true
+        },
+        "inheritedProduct": null,
+        "preservation": null,
+        "pathProbe": null,
+        "answer": null
+      },
+      "siteReadback": {
+        "waterCells": 2,
+        "waterSourceCells": 1,
+        "newWaterOutside": [],
+        "mechanisms": [
+          {
+            "pos": [
+              -1,
+              -58,
+              12
+            ],
+            "device": "create:creative_motor",
+            "state": {
+              "facing": "east"
+            },
+            "rawRPM": 64,
+            "stress": 128,
+            "capacity": 1048576,
+            "network": [
+              -64,
+              53190
+            ]
+          },
+          {
+            "pos": [
+              0,
+              -58,
+              12
+            ],
+            "device": "create:encased_fan",
+            "state": {
+              "facing": "east"
+            },
+            "rawRPM": 64,
+            "stress": 128,
+            "capacity": 1048576,
+            "network": [
+              -64,
+              53190
+            ]
+          }
+        ]
+      },
+      "recoveredAutosave": null,
+      "independentAssayPassed": true,
+      "noOutsideChange": true,
+      "requests": 0,
+      "usageReceipts": 0,
+      "tokens": 0,
+      "cachedInput": 0,
+      "peakInput": 0,
+      "providerResponseSeconds": 0,
+      "gameToolSecondsCoarse": 0,
+      "finishReasons": {},
+      "tools": {},
+      "successfulSkillCalls": [],
+      "productionReferenceReturned": false
+    },
+    "wash-teacher-native-flight": {
+      "dispatch": {
+        "utc": "2026-11-25T19:59:20.098Z",
+        "kind": "dispatch",
+        "mode": "wash",
+        "arm": "teacher-native-flight",
+        "site": [
+          -7,
+          -60,
+          5,
+          8,
+          -49,
+          20
+        ],
+        "prompt": "请在授权空地新建一个小型 Create 水洗工位。用围好的水源和风扇，把验收员放到置物台上的小麦粉洗成面团。位置、朝向、接轴和围水方式由你定。你有一只水桶。请实际检查气流是否覆盖置物台，并报告置物台坐标，供独立首投和复投。",
+        "owner": "non-OP; creative",
+        "agent": "creative; ask",
+        "stage": "real dedicated server and protocol owner",
+        "fault": null,
+        "teaching": null,
+        "resumed": false,
+        "version": "0.2.5-dev",
+        "build": "teacher-native-flight",
+        "thinking": "off",
+        "outputCap": 8192
+      },
+      "end": {
+        "utc": "2026-11-25T19:59:20.098Z",
+        "kind": "model-ended",
+        "seconds": 0.001,
+        "reason": "fixed no-model fixture",
+        "ownerReplySeen": false
+      },
+      "errors": [],
+      "game": {
+        "mode": "wash",
+        "arm": "teacher-native-flight",
+        "mods": [
+          "Fabric 0.17.2",
+          "MC 1.20.1",
+          "Create 6.0.8.1",
+          "Numen 0.1.5",
+          "Engineering 0.2.5-dev"
+        ],
+        "intervention": "test operator authored construction; no model",
+        "terminal": null,
+        "requests": 0,
+        "actualModels": [],
+        "tokenTotal": 0,
+        "peakInputContext": 0,
+        "modelRequestSeconds": 0,
+        "skillCalls": [],
+        "changed": 11,
+        "outside": [],
+        "power": {
+          "parts": [
+            {
+              "id": "create:creative_motor",
+              "at": [
+                1,
+                -56,
+                15
+              ],
+              "rpm": 64,
+              "network": [
+                64,
+                65480
+              ],
+              "stress": 128,
+              "capacity": 1048576
+            }
+          ],
+          "shared": false
+        },
+        "product": {
+          "attempted": true,
+          "water": 1,
+          "rpm": [
+            64
+          ],
+          "depot": [
+            1,
+            -57,
+            18
+          ],
+          "first": {
+            "item": {
+              "id": "create:dough",
+              "Count": 1
+            },
+            "passed": true
+          },
+          "repeat": {
+            "item": {
+              "id": "create:dough",
+              "Count": 1
+            },
+            "passed": true
+          },
+          "passed": true
+        },
+        "inheritedProduct": null,
+        "preservation": null,
+        "pathProbe": null,
+        "answer": null
+      },
+      "siteReadback": {
+        "waterCells": 2,
+        "waterSourceCells": 1,
+        "newWaterOutside": [],
+        "mechanisms": [
+          {
+            "pos": [
+              1,
+              -56,
+              15
+            ],
+            "device": "create:creative_motor",
+            "state": {
+              "facing": "south"
+            },
+            "rawRPM": 64,
+            "stress": 128,
+            "capacity": 1048576,
+            "network": [
+              64,
+              65480
+            ]
+          },
+          {
+            "pos": [
+              1,
+              -56,
+              16
+            ],
+            "device": "create:encased_fan",
+            "state": {
+              "facing": "south"
+            },
+            "rawRPM": 64,
+            "stress": 128,
+            "capacity": 1048576,
+            "network": [
+              64,
+              65480
+            ]
+          }
+        ]
+      },
+      "recoveredAutosave": null,
+      "independentAssayPassed": true,
+      "noOutsideChange": true,
+      "requests": 0,
+      "usageReceipts": 0,
+      "tokens": 0,
+      "cachedInput": 0,
+      "peakInput": 0,
+      "providerResponseSeconds": 0,
+      "gameToolSecondsCoarse": 0,
+      "finishReasons": {},
+      "tools": {},
+      "successfulSkillCalls": [],
+      "productionReferenceReturned": false
+    },
+    "wash-teacher-south": {
+      "dispatch": {
+        "utc": "2026-11-25T19:36:14.799Z",
+        "kind": "dispatch",
+        "mode": "wash",
+        "arm": "teacher-south",
+        "site": [
+          -7,
+          -60,
+          5,
+          8,
+          -49,
+          20
+        ],
+        "prompt": "请在授权空地新建一个小型 Create 水洗工位。用围好的水源和风扇，把验收员放到置物台上的小麦粉洗成面团。位置、朝向、接轴和围水方式由你定。你有一只水桶。请实际检查气流是否覆盖置物台，并报告置物台坐标，供独立首投和复投。",
+        "owner": "non-OP; creative",
+        "agent": "creative; ask",
+        "stage": "real dedicated server and protocol owner",
+        "teaching": null,
+        "resumed": false,
+        "version": "0.2.5-dev",
+        "build": "teacher-south",
+        "thinking": "off",
+        "outputCap": 8192,
+        "fault": null
+      },
+      "end": {
+        "utc": "2026-11-25T19:36:14.800Z",
+        "kind": "model-ended",
+        "seconds": 0.001,
+        "reason": "fixed no-model fixture",
+        "ownerReplySeen": false
+      },
+      "errors": [],
+      "game": {
+        "mode": "wash",
+        "arm": "teacher-south",
+        "mods": [
+          "Fabric 0.17.2",
+          "MC 1.20.1",
+          "Create 6.0.8.1",
+          "Numen 0.1.5",
+          "Engineering 0.2.5-dev"
+        ],
+        "intervention": "test operator authored construction; no model",
+        "terminal": null,
+        "requests": 0,
+        "actualModels": [],
+        "tokenTotal": 0,
+        "peakInputContext": 0,
+        "modelRequestSeconds": 0,
+        "skillCalls": [],
+        "changed": 11,
+        "outside": [],
+        "power": {
+          "parts": [
+            {
+              "id": "create:creative_motor",
+              "at": [
+                1,
+                -56,
+                15
+              ],
+              "rpm": 64,
+              "network": [
+                64,
+                65480
+              ],
+              "stress": 128,
+              "capacity": 1048576
+            }
+          ],
+          "shared": false
+        },
+        "product": {
+          "attempted": true,
+          "water": 1,
+          "rpm": [
+            64
+          ],
+          "depot": [
+            1,
+            -57,
+            18
+          ],
+          "first": {
+            "item": {
+              "id": "create:dough",
+              "Count": 1
+            },
+            "passed": true
+          },
+          "repeat": {
+            "item": {
+              "id": "create:dough",
+              "Count": 1
+            },
+            "passed": true
+          },
+          "passed": true
+        },
+        "inheritedProduct": null,
+        "preservation": null,
+        "pathProbe": null,
+        "answer": null
+      },
+      "siteReadback": {
+        "waterCells": 2,
+        "waterSourceCells": 1,
+        "newWaterOutside": [],
+        "mechanisms": [
+          {
+            "pos": [
+              1,
+              -56,
+              15
+            ],
+            "device": "create:creative_motor",
+            "state": {
+              "facing": "south"
+            },
+            "rawRPM": 64,
+            "stress": 128,
+            "capacity": 1048576,
+            "network": [
+              64,
+              65480
+            ]
+          },
+          {
+            "pos": [
+              1,
+              -56,
+              16
+            ],
+            "device": "create:encased_fan",
+            "state": {
+              "facing": "south"
+            },
+            "rawRPM": 64,
+            "stress": 128,
+            "capacity": 1048576,
+            "network": [
+              64,
+              65480
+            ]
+          }
+        ]
+      },
+      "recoveredAutosave": null,
+      "independentAssayPassed": true,
+      "noOutsideChange": true,
+      "requests": 0,
+      "usageReceipts": 0,
+      "tokens": 0,
+      "cachedInput": 0,
+      "peakInput": 0,
+      "providerResponseSeconds": 0,
+      "gameToolSecondsCoarse": 0,
+      "finishReasons": {},
+      "tools": {},
+      "successfulSkillCalls": [],
+      "productionReferenceReturned": false
+    }
+  }
+}
