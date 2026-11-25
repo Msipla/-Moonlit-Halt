@@ -1379,3 +1379,64 @@ DSH 使用安装的 Create JAR 内对应版本的 `assets/create/ponder/**/*.nbt
 - 载具另装 1.20.1 Fabric 的 VS 2.4.11 和 Eureka 1.6.4，启用 `-Dengineering.ships=true`。VS 该发行包已内置 Fabric Language Kotlin `1.11.0+kotlin.2.0.0` 及 Forge Config API Port 8.0.3。
 - 把解压后的 JAR 放进 `mods` 并移出旧版附属 JAR。按安装说明设置 `-Dengineering.site=x1,y1,z1,x2,y2,z2`，从新建的创造测试世界开始。
 - 构建命令沿用上文。0.2.3 统一构建的 `LAB_VS_MODS` 目录提供 `vs.jar` 和 `eureka.jar` 即可，编译从该 VS 发行包提取它自带的 Kotlin 标准库。载具冒烟测试用 `LAB_ENGINEERING_SMOKE=ship`，水面组另设 `LAB_ENGINEERING_VESSEL=water`。无需额外的隔离实验命令模组。
+
+## 2026-11-25 开源技术选型与通用工程能力对照
+
+**结论｜维持 0.2.3。** 保留 Numen 原生设计、受限施工与建筑蓝图，继续用 Create 的实际状态验收机械。外部项目带来的主要价值是“验证后复用经验”和“结构化检查”，本轮没有证据支持替换执行器、追加模型链路或上线记忆框架。数据和脚本属于隔离研究。目标分支调查起点 `bad7b324adb24cfdde2411d76f556aab736f652d`，实测沿用 `25dde6a` 的发布 JAR。执行前已回读双方 AGENTS、任务书和 Minecraft HANDOFF。
+
+### 可复用的现有能力
+
+| 环节 | 0.2.3 已有的接口与实际含义 |
+| --- | --- |
+| 自由设计与建筑施工 | Numen `SkillRegistry` 和 `SkillTool` 分层加载，`building_design` 提供布局与施工知识，Lua `shape` 生成 Cells，`build.diff/place` 负责占用差异和实际放置。原生可选 `LitematicaApi` 由房主客户端提供投影、分层 Cells 和预览。房车 A/B 已实测程序化 Cells 与 `place`，没有实测 Litematica 文件导入。 |
+| 可确定的工程动作 | `EngineeringSite` 的 `info/check/apply/inspect_many/ports/feed` 提供区域、白名单、检查、备份和受控施工。Create 的 `IRotate.hasShaftTowards`、原生转速/应力/来源与 Fabric Transfer API 提供实际设备状态。端口方向、占用、权限和写入范围由确定性代码检查，设计选址和整条方案交给模型。 |
+| 知识和蓝图 | `PonderGuide` 复用 110 个教学场景索引、安装版配方和 6 个正式设备案例。教学转速是演示值。附属原版结构 NBT 去掉实体与库存，只保留批准的设备设置。格式、方块朝向和游戏功能分别验收。 |
+| 已有回归 | e18/e19 的自动双磨石采用不同布局，两段均 −64 RPM，输出桶由 3 增到 6 个燧石且没有人工转运。本轮引用原始通过证据，未重刷同题。统一 JAR 的固定双磨石、面团、NBT、权限及飞行/水面船继续按既有记录计算。 |
+
+[原生 Numen 源码入口及许可证](https://github.com/Dwinovo/minecraft-numen/tree/2f47e7b9c111a1a116360638f97bb853b7571b18) · [本仓库源码映射](../SOURCE-MAP.md) · [Ponder 版本和知识来源](../ponder/README.md) · [DSH 通过记录](evidence/acceptance-pass-0.2.3.json) · [0.2.3 集成记录](evidence/integration-0.2.3.json) · [历史房车验收](https://github.com/Msipla/-Moonlit-Halt/commit/c217dd44ac37ccf490c8484d8843e003fd208f47)
+
+### 外部源码与取舍
+
+下表日期为各次检出的源码提交日期。许可证以对应树的文件为准。`mcbuild` 的纯软件渲染单列测试，其他候选的上游演示或现有发布版不计入本轮 0.2.3 实机通过。
+
+| 候选 | 查证与取舍 |
+| --- | --- |
+| **Voyager** | MIT，2023-07-27。 `voyager/agents/skill.py` 用 OpenAI embeddings + Chroma 检索成功技能，保存可执行 Mineflayer JS。轨迹另有 critic / feedback。原有 Mineflayer、Python、OpenAI/Chroma 工具栈与当前 Fabric 伴侣重复。借鉴“验收后登记、参数和前提可见、失败时回读”，用原生 Numen Skill 实现该思路。论文的原版迁移实验证明研究构想可行，无法代表 Create。 [固定源码](https://github.com/MineDojo/Voyager/blob/55e45a880755d0c8c66ca7fb5fe7962ac8974f89/voyager/agents/skill.py) · [许可证](https://github.com/MineDojo/Voyager/blob/55e45a880755d0c8c66ca7fb5fe7962ac8974f89/LICENSE) |
+| **MineMind** | MIT，2026-07-08。 `agent/planner.py` 从 FTB Quests 前沿规划 JSON，`agent/actions.py` 定义有限原语及等待条件，`agent/daemon.py` 分发。上游记录 Forge 1.20.1 / Reclamation 采集和多步合成；运行依赖 Python、AgentLink、PlayerEngine / Player2NPC 与 Forge，部分走 Minescript、Baritone。借鉴规划与执行分离、可等待后置条件。任务 DAG 没有提供 Create 动力拓扑和装配真值。 [固定源码和许可](https://github.com/Boyan253/minemind/tree/8b9a1a309158f561222d1b746df09c500d6d957f) |
+| **mcbuild** | MIT 代码，2026-07-10；包内 Mojang 材质与方块状态另有 NOTICE。Python ≥3.11，沙箱 DSL、体素、切顶/多视图、Sponge 导出和视觉回路在 `dsl/sandbox.py`、`render/views.py`、`export/schem.py`、`agent/loop.py`。游戏桥接 NeoForge，视觉模型另有开销。离线运行上游 162 项通过，包括 DSL、切视图与导出测试。初次 4 项被继承的 SOCKS 配置阻塞，隔离纯离线单测环境后全通过。可作为外部原型审图参考，当前优先用实际结构做入口/净空检查。 [固定源码](https://github.com/harrynull/mcbuild/tree/34ce86372d4c23f4d83d4e24fc256cb399d6c3e3) · [素材许可边界](https://github.com/harrynull/mcbuild/blob/34ce86372d4c23f4d83d4e24fc256cb399d6c3e3/src/mcbuild/assets/NOTICE.md) · [测试所用 Pro 不支持图像](https://api-docs.deepseek.com/quick_start/pricing/) |
+| **Create Architect** | 2026-05-07 检出树无许可证正文或包许可字段，未确认再利用许可。README 写 Forge 1.20.1 / Create 0.5.1f 和 Aeronautics，源码是 Node/React/Express/Groq，`layoutEngine.js` 按载具类型套布局，`suSolver.js` 用手录表估算供需，`physicsSolver.js` 静态估算质量和升力。运行源码时，场地不连通、无水的水轮仍为远处钻头报告 4,096 容量、16 需求和充足余量；压机未列入应力表。解析导出字节得到 Sponge v2 `Schematic` 容器。0.2.3 的原版结构 NBT 不能直用该文件。淘汰为施工、动力验收和蓝图直入依赖。 [固定源码树](https://github.com/twentyss2/create-architect/tree/3deae4a94449bf8e4ae1089a69a7d4d6cea205b3) |
+| **Minecraft Agent Builder** | 建筑 Skill 2026-08-18，无独立 LICENSE。MCP 配套仓库另有 Apache-2.0，2026-10-19，Node + Mineflayer，面向较新 Minecraft；README 所列批量操作、移动和读回另有测试源码。素建筑脚手架、不要封死施工入口、写后核对有参考价值。无需复制另一套执行器或未经许可移植 Skill。 [Skill 树](https://github.com/Spacecer2/minecraft-agent-builder/tree/9b6b15bb524768c7e4f93e9ca086463206603402) · [MCP 源码及许可](https://github.com/Spacecer2/minecraft-mcp-server/tree/82cc13ed946f010c7b53af50a1754dc9d40f0334) |
+| **Litematica-GPT** | LGPLv3，2026-07-03。 `HighEffortAIWorkflow.java` 规划再转 DSL，`OpenAISchematicDSLParser.java` 解析结构，投影来自 Litematica。Fabric 1.21.1 / MaLiLib 0.21 系列和额外模型调用成本，不匹配 1.20.1 基线。借鉴“独立计划、可检查的数据、施工”组合即可。 [固定源码和许可证](https://github.com/lukeclaw/litematica-gpt/tree/4cd35109306baa97330869bbb367457a99bd1bec) |
+| **Create Fabric 原生** | 主选。发行 6.0.8.1+build.1744，1.20.1 / Fabric API。对应版本的发布准备源码 `4c3fe77` 含 `KineticBlockEntity`、`RotationPropagator` 和 Schematicannon，代码 MIT，`assets` 权利另列。优先直接复用已接通的动力和配方，不转抄动力学表。Schematicannon 可作玩家可选打印流程，继续遵循它自身耗材与放置权限，本轮未把它接入自动施工。 [源码和许可](https://github.com/Fabricators-of-Create/Create/tree/4c3fe779d135d592548e4cb09da04d742d2637b7) · [已安装发行](https://modrinth.com/mod/create-fabric/version/HAqwA6X1) |
+| **上游 Litematica / WorldEdit** | Litematica 官方 0.15.4 可选给 Fabric 1.20.1 房主装，依赖匹配 MaLiLib。LGPLv3，源码对照为后续维护分支 `afb3feb`（2026-07-26，源码版本 0.15.6-beta.1，和发行版分开）。`SchematicVerifier` 回读差异。WorldEdit GPLv3，7.2 源码 `b490447`（2024-02-29），`SpongeSchematicReader/Writer` 可作外部格式转换。优先沿 Numen 现有可选投影，WorldEdit 仅作离线互通或人工工具。两者方块对齐和材料清单不能证明玩家可走或机械有产出。 [Litematica 源码](https://github.com/maruohon/litematica/tree/afb3feb258aacdc52901217bec233e2bee880b21) · [1.20.1 发行](https://modrinth.com/mod/litematica/version/1ZTpW1lr) · [WorldEdit 源码和许可](https://github.com/EngineHub/WorldEdit/tree/b490447f9343f8374bd4271ac70eb7b88e175754) |
+| **OR-Tools / MineAI** | OR-Tools v9.15 `551ad10`、Apache-2.0，`ortools/sat/cp_model.h` 提供 CP-SAT，适合成熟的多约束优化。Create 规则仍需自己建模，原型仅需小图搜索和原生回读，暂不引入原生求解器依赖。另查 `ailiujiarui/MineAI` 的 `d78abe6`（2026-10-22，LGPLv3），代码命名空间及 Skill、BuildApi、Litematica 和 GoalVerifier 仍在 Numen 家系内，本次未找到独立、已实测的 Create/VS 通用规划器。不作为另一套底座。 [OR-Tools 源码](https://github.com/google/or-tools/tree/551ad10d94835c99e5e1e684500d3db398c0e345) · [MineAI 源码](https://github.com/ailiujiarui/MineAI/tree/d78abe60be51d41cd1ca7b8ef0657475da73feed) |
+
+### 隔离方法
+
+- 四个独立、同种子创造世界，两道题分别采用 A/B 配对。1.20.1、Java 17、Fabric Loader 0.17.2、Create 6.0.8.1、Numen 0.1.5、未重编的 Engineering 0.2.3。两组同一工地区和权限，房主登录为真实协议玩家，发起委托前取消 OP，伴侣 `ask`。不挂载 VS/Eureka。实际模型回执 `deepseek-v4-pro`，关闭推理，4096 单次输出 Token，同题一个预算。与历史 high 推理数字不能做因果对比。
+- A 使用现有配置。B 唯一变量是用 Numen 现有加载机制增加一条可选工程经验 Skill。正文由 e18/e19 提炼，只有观察停止条件、最小修复、回读与终结条件，无位置、方向、布局、机器模板和硬编码配方。模型可按同一自然语言自行检索。
+- 盲修题是人工校准的共享动力压机/磨石夹具，断点不随委托提供。故障修复由伴侣完成，独立验收人为两工位各投 1 份原料，记录实际产物。空地题要求自主建可进入的带双工位小工坊，磨圆石和压铁锭，单动力。观察员只在停止模型后做独立验收。方块数量、模型回复与功能通过分别记录。
+- 运行时需检查同一 Network、实际 RPM、压头和置物台净空及产物。静态房车用既有实测存档回放检查门口。Pro 没有图像输入，模型施工过程中也没有收到任何截图。
+
+### 真实对照结果
+
+| 任务与组别 | 模型请求 / 总 Token / 峰值输入 | 自然委托耗时 | 独立结果 |
+| --- | --- | ---: | --- |
+| 未告知故障的共享动力压机 · A | 15 / 233,713 / 19,759 | 140.1 秒 | 通过。只改 1 格，压机和磨石各 −64 RPM，同网。木桶 7 铜锭保留。独立试投得到 1 铁板、1 砂砾。 |
+| 同一盲修 · B | 21 / 316,682 / 19,721 | 193.6 秒 | 同样通过。实际没有调用新增 Skill。差值只表明本次请求路径不同。 |
+| 空地双工位工坊 · A | 26 / 509,255 / 25,882 | 294.5 秒，单次输出 `length` | 未通过。162 格外壳，地板 y=-52（比地表高 9 格）。无机器和可验入口，未达到试投前提。 |
+| 同一空地工坊 · B | 29 / 656,250 / 35,640 | 420.4 秒，到点 | 未通过。第一轮加载了 Skill。把误放的高层地板移到 y=-60，落地 73 格，有压机、置物台和磨石。停机时两个马达各 +32 RPM、两台磨石与压机均 0；压头和置物台只差 1 层，未达到净空和试投前提。 |
+
+各组的改动都在授权区内。总 Token 汇总回执中的 `usage.total_tokens`，包含重复上下文和缓存命中。峰值是单次请求最大输入 Token，不等于总消耗。盲修终结消息送达两组房主。工坊 A 的截断文字和 B 的未收尾都不计为完成。各题每组一次，严格任务通过数均为 1/2，不把这四次当作普遍成功率。工坊 B 比 A 落地更多机械功能部件，但未证实新增 Skill 能提高通过率或节省调用。
+
+两组盲修均先读取当前轴朝向，再通过 `check/apply` 修复同一轴。两组都看到 `apply` 当刻的未连通警告，随后原生回读已恢复同网转速。试验前另有两次未启动模型的夹具校准，直接换错轴后，轴的 RPM 已是 0，压机仍保存 −64 并指向该轴；改用先移除目标压机、换错轴、再还原压机的夹具准备，确认压机 0、磨石 −64 后才发相同盲修委托。这个例子表明，单看某一刻的 Speed 或 Network 无法验证实际连接。追加游戏更新后的回读与真实产物校验价值比再叠一层设计提示更明确。
+
+结构检查回放取两个已有房车世界快照。四分钟时双格门存在，但门内同高度下格为白混凝土，再往上站会碰顶。终局同一门下格为烟熏炉。程序准确区分了门尚在但邻位不可通行、门已被覆盖两种结构，零模型调用、零世界写入。只覆盖这个已知门口的离散几何，楼梯、开门动作、路径可达和玩家真走仍需 Minecraft 实机分别验证。新工坊的局部站位扫描也只作提示，没有当作玩家通行通过。
+
+[采样指标、方块状态与关键回执](evidence/open-source-comparison-2026-11-25.json) · [历史静态房车 A/B 存档](https://chatgpt.com/library?file_id=libfile_e2d6f2145a348191adb0fcbbdec840de&account_id=personal)
+
+### 取舍与接续
+
+1. **先保持发布版，优先验证回执。** 如获正式改动授权，第一项仅在现有检查路径试验区分“施工完成等待动力稳定”“稳定后仍断开”“试产已确认”。用原生接面、Source 邻接和 RPM/应力核对，再在规定窗口后回读。保留对过载、传动断开、即时库存被物流移走的不同解释。验证延迟要有上限，避免为每次写入增加逐格等待。先用本轮盲修与既有双磨石回归，再测试多动力或隔离网络，避免无条件要求单源。
+2. **建筑继续由 Numen 原生设计，工程工具按需介入。** 只有建到可检查的门口和通道之后，才封闭外壳。可把“两格净空、地面支撑、施工前后入口位置”留成隔离验收清单，或者在现有蓝图/施工工具回执中按需读取。模型仍自行设计布局。附属提供实际动力、物流、装配与验收，不给模型一个预制应答。只有局部站位反复失败时再验证是否需要可复用的小型检查，目前没有采用并行建造框架、外部视觉模型或新依赖的证据。
+3. **对照还可进一步拆开。** 目前只验证了经验可选加载及结构回放，未证明 Skill 可迁移到陌生混合工程。若继续，优先用同一推理档对照“动力回读是否稳定”这个可测单变量，跨至少两种从未见过的机械或布局。待真实通过且复投、权限、库存均通过再沉淀经验。构建发布、正式集成、Windows 玩家验收和第三方领地兼容均另行确认。

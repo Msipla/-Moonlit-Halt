@@ -1,0 +1,1231 @@
+{
+  "date": "2026-11-25",
+  "baseline": "25dde6a2a21bb158b9183a908cc9d778fb360e36",
+  "instructions": "bad7b324adb24cfdde2411d76f556aab736f652d",
+  "conditions": {
+    "seed": 192834,
+    "site": [
+      -7,
+      -60,
+      5,
+      8,
+      -49,
+      20
+    ],
+    "placementPermission": "ask in natural-language phase",
+    "mode": "creative flat and non-OP owner",
+    "server": "Fabric dedicated, protocol owner, real Minecraft",
+    "thinking": "off",
+    "perRequestOutputCap": 4096,
+    "perTaskWallSeconds": {
+      "repair": 250,
+      "workshop": 420
+    },
+    "groupBOnly": "native configurable guided evidence Skill, no new tool or prompt rewrite",
+    "frozen_jar_sha256": "90703d5637eb3c11d5eebf19d67e860253d08a095dcd2673b7e4ff3dcfbdfa2c"
+  },
+  "priorPassedEvidence": "acceptance-pass-0.2.3.json (e18/e19; no rerun, no baseline source edits)",
+  "cases": {
+    "repair-A": {
+      "samePromptAsPairedArm": true,
+      "mode": "repair",
+      "arm": "A",
+      "mods": [
+        "Fabric 0.17.2",
+        "MC 1.20.1",
+        "Create 6.0.8.1",
+        "Numen 0.1.5",
+        "Engineering 0.2.3"
+      ],
+      "intervention": "none",
+      "terminal": "stop",
+      "requests": 15,
+      "actualModels": [
+        "deepseek-v4-pro"
+      ],
+      "tokenTotal": 233713,
+      "peakInputContext": 19759,
+      "modelRequestSeconds": 126.884,
+      "skillCalls": [],
+      "changed": 1,
+      "changedPositions": [
+        "0,-56,13"
+      ],
+      "outside": [],
+      "power": {
+        "parts": [
+          {
+            "id": "create:creative_motor",
+            "at": [
+              -3,
+              -56,
+              13
+            ],
+            "rpm": 64,
+            "network": [
+              -192,
+              57288
+            ],
+            "stress": 768,
+            "capacity": 1048576
+          },
+          {
+            "id": "create:millstone",
+            "at": [
+              0,
+              -55,
+              11
+            ],
+            "rpm": -64,
+            "network": [
+              -192,
+              57288
+            ],
+            "stress": 768,
+            "capacity": 1048576
+          },
+          {
+            "id": "create:mechanical_press",
+            "at": [
+              1,
+              -56,
+              13
+            ],
+            "rpm": -64,
+            "network": [
+              -192,
+              57288
+            ],
+            "stress": 768,
+            "capacity": 1048576
+          }
+        ],
+        "press": {
+          "id": "create:mechanical_press",
+          "at": [
+            1,
+            -56,
+            13
+          ],
+          "rpm": -64,
+          "network": [
+            -192,
+            57288
+          ],
+          "stress": 768,
+          "capacity": 1048576
+        },
+        "mill": {
+          "id": "create:millstone",
+          "at": [
+            0,
+            -55,
+            11
+          ],
+          "rpm": -64,
+          "network": [
+            -192,
+            57288
+          ],
+          "stress": 768,
+          "capacity": 1048576
+        },
+        "shared": true
+      },
+      "product": {
+        "attempted": true,
+        "byTestOperator": true,
+        "initial": {
+          "plate": 0,
+          "gravel": 0,
+          "loose": []
+        },
+        "result": {
+          "plate": 1,
+          "gravel": 1,
+          "loose": []
+        },
+        "passed": true
+      },
+      "preservation": {
+        "unchangedExceptFault": true,
+        "copper": 7
+      },
+      "pathProbe": null,
+      "answer": "修复完成,一切正常。汇报如下:\n\n**故障原因:** 压机(1,-56,13)前面那根传动轴 shaft(0,-56,13)装错了朝向——它本是南北向(axis=z),接不上齿轮箱东西端的输出,也接不上压机的动力端,所以整条压机线不转(转速 0)。\n\n**修复内容:** 只改了这一个方块——把那根传动轴从南北向改成东西向(axis=x),让它同时对上齿轮箱的输出端和压机的进力端。仅此一处,其余设备、旁边的原料桶都原样未动(桶里那 7 块铜锭还在)。\n\n**实测转速(都实际在转):**\n- 压机:转速 **-64** RPM(反向),与齿轮箱同网\n- 磨石:转速 **-64** RPM(反向),一直就是通的,确认在转\n\n两条线现在都并到同一动力源(creative_motor 64 RPM)上,压机和磨石均无过载(overstressed=false)。验收人员可以直接投料复验了。",
+      "finalChangedBlockTypes": {
+        "create:shaft": 1
+      },
+      "started": "2026-11-25T10:27:53.373Z",
+      "prompt": "授权区内有一套使用同一动力源的 Create 原型工坊，压制工位无法正常工作。请实际检查并修复故障，尽量只修改必要的方块，保留原有设备与旁边的原料桶及其库存。确认压机及旁边磨石都实际转动。完成后告诉我修复内容和两处的实测转速。验收人员会另行投料复验。",
+      "wallSeconds": 140.141,
+      "endReason": "stop",
+      "ownerReplySeen": true,
+      "responseTypes": {
+        "200 tool_calls": 14,
+        "200 stop": 1
+      },
+      "toolCounts": {
+        "lua": 18
+      },
+      "initialAndBroken": {
+        "utc": "2026-11-25T10:27:53.362Z",
+        "kind": "fixture-calibrated",
+        "prep": "authored fixture; ownership via setup drive",
+        "healthy": [
+          {
+            "id": "create:creative_motor",
+            "at": [
+              -3,
+              -56,
+              13
+            ],
+            "rpm": 64,
+            "network": [
+              -192,
+              57288
+            ],
+            "stress": 768,
+            "capacity": 1048576
+          },
+          {
+            "id": "create:millstone",
+            "at": [
+              0,
+              -55,
+              11
+            ],
+            "rpm": -64,
+            "network": [
+              -192,
+              57288
+            ],
+            "stress": 768,
+            "capacity": 1048576
+          },
+          {
+            "id": "create:mechanical_press",
+            "at": [
+              1,
+              -56,
+              13
+            ],
+            "rpm": -64,
+            "network": [
+              -192,
+              57288
+            ],
+            "stress": 768,
+            "capacity": 1048576
+          }
+        ],
+        "broken": [
+          {
+            "id": "create:creative_motor",
+            "at": [
+              -3,
+              -56,
+              13
+            ],
+            "rpm": 64,
+            "network": [
+              -192,
+              57288
+            ],
+            "stress": 256,
+            "capacity": 1048576
+          },
+          {
+            "id": "create:millstone",
+            "at": [
+              0,
+              -55,
+              11
+            ],
+            "rpm": -64,
+            "network": [
+              -192,
+              57288
+            ],
+            "stress": 256,
+            "capacity": 1048576
+          },
+          {
+            "id": "create:mechanical_press",
+            "at": [
+              1,
+              -56,
+              13
+            ],
+            "rpm": 0,
+            "network": null,
+            "stress": null,
+            "capacity": null
+          }
+        ],
+        "fault": [
+          0,
+          -56,
+          13
+        ]
+      },
+      "calibrationFirstMethod": [
+        {
+          "at": [
+            0,
+            -56,
+            13
+          ],
+          "block": {
+            "Properties": {
+              "waterlogged": "false",
+              "axis": "z"
+            },
+            "Name": "create:shaft"
+          },
+          "savedRpm": 0,
+          "source": null,
+          "network": null
+        },
+        {
+          "at": [
+            1,
+            -56,
+            13
+          ],
+          "block": {
+            "Properties": {
+              "facing": "west"
+            },
+            "Name": "create:mechanical_press"
+          },
+          "savedRpm": -64,
+          "source": {
+            "X": 0,
+            "Y": -56,
+            "Z": 13
+          },
+          "network": [
+            -192,
+            57288
+          ]
+        },
+        {
+          "at": [
+            0,
+            -55,
+            11
+          ],
+          "block": {
+            "Name": "create:millstone"
+          },
+          "savedRpm": -64,
+          "source": {
+            "X": -1,
+            "Y": -55,
+            "Z": 11
+          },
+          "network": [
+            -192,
+            57288
+          ]
+        }
+      ],
+      "applyWarningsThenRecovery": {
+        "confirmed": true,
+        "operatorActionDuringNaturalPrompt": "none",
+        "allPostFixDevicesOnSameNetwork": true,
+        "assayAfterModelDisconnect": true
+      }
+    },
+    "repair-B": {
+      "samePromptAsPairedArm": true,
+      "mode": "repair",
+      "arm": "B",
+      "mods": [
+        "Fabric 0.17.2",
+        "MC 1.20.1",
+        "Create 6.0.8.1",
+        "Numen 0.1.5",
+        "Engineering 0.2.3"
+      ],
+      "intervention": "native optional skill only",
+      "terminal": "stop",
+      "requests": 21,
+      "actualModels": [
+        "deepseek-v4-pro"
+      ],
+      "tokenTotal": 316682,
+      "peakInputContext": 19721,
+      "modelRequestSeconds": 171.30399999999997,
+      "skillCalls": [],
+      "changed": 1,
+      "changedPositions": [
+        "0,-56,13"
+      ],
+      "outside": [],
+      "power": {
+        "parts": [
+          {
+            "id": "create:creative_motor",
+            "at": [
+              -3,
+              -56,
+              13
+            ],
+            "rpm": 64,
+            "network": [
+              -192,
+              57288
+            ],
+            "stress": 768,
+            "capacity": 1048576
+          },
+          {
+            "id": "create:millstone",
+            "at": [
+              0,
+              -55,
+              11
+            ],
+            "rpm": -64,
+            "network": [
+              -192,
+              57288
+            ],
+            "stress": 768,
+            "capacity": 1048576
+          },
+          {
+            "id": "create:mechanical_press",
+            "at": [
+              1,
+              -56,
+              13
+            ],
+            "rpm": -64,
+            "network": [
+              -192,
+              57288
+            ],
+            "stress": 768,
+            "capacity": 1048576
+          }
+        ],
+        "press": {
+          "id": "create:mechanical_press",
+          "at": [
+            1,
+            -56,
+            13
+          ],
+          "rpm": -64,
+          "network": [
+            -192,
+            57288
+          ],
+          "stress": 768,
+          "capacity": 1048576
+        },
+        "mill": {
+          "id": "create:millstone",
+          "at": [
+            0,
+            -55,
+            11
+          ],
+          "rpm": -64,
+          "network": [
+            -192,
+            57288
+          ],
+          "stress": 768,
+          "capacity": 1048576
+        },
+        "shared": true
+      },
+      "product": {
+        "attempted": true,
+        "byTestOperator": true,
+        "initial": {
+          "plate": 0,
+          "gravel": 0,
+          "loose": []
+        },
+        "result": {
+          "plate": 1,
+          "gravel": 1,
+          "loose": []
+        },
+        "passed": true
+      },
+      "preservation": {
+        "unchangedExceptFault": true,
+        "copper": 7
+      },
+      "pathProbe": null,
+      "answer": "修复完成。故障就在压机正前方那根传动轴——它原本是南北朝向（axis z），接不住齿轮箱朝向东面的动力输出，所以压机一直 0 转速。我把这根轴改成东西朝向后，齿轮箱东面就从东侧接入了压机的西面输入。\n\n两处现在都已实际转动:压机 -64 rpm,磨石 -64 rpm(上方小齿轮 64 rpm,经齿轮箱反转传下去)。旁边的原料桶、库存以及原有设备都原样保留,只动了那一根轴。验收人员可以投料复验了。",
+      "finalChangedBlockTypes": {
+        "create:shaft": 1
+      },
+      "started": "2026-11-25T10:27:53.979Z",
+      "prompt": "授权区内有一套使用同一动力源的 Create 原型工坊，压制工位无法正常工作。请实际检查并修复故障，尽量只修改必要的方块，保留原有设备与旁边的原料桶及其库存。确认压机及旁边磨石都实际转动。完成后告诉我修复内容和两处的实测转速。验收人员会另行投料复验。",
+      "wallSeconds": 193.633,
+      "endReason": "stop",
+      "ownerReplySeen": true,
+      "responseTypes": {
+        "200 tool_calls": 20,
+        "200 stop": 1
+      },
+      "toolCounts": {
+        "lua": 20
+      },
+      "initialAndBroken": {
+        "utc": "2026-11-25T10:27:53.967Z",
+        "kind": "fixture-calibrated",
+        "prep": "authored fixture; ownership via setup drive",
+        "healthy": [
+          {
+            "id": "create:creative_motor",
+            "at": [
+              -3,
+              -56,
+              13
+            ],
+            "rpm": 64,
+            "network": [
+              -192,
+              57288
+            ],
+            "stress": 768,
+            "capacity": 1048576
+          },
+          {
+            "id": "create:millstone",
+            "at": [
+              0,
+              -55,
+              11
+            ],
+            "rpm": -64,
+            "network": [
+              -192,
+              57288
+            ],
+            "stress": 768,
+            "capacity": 1048576
+          },
+          {
+            "id": "create:mechanical_press",
+            "at": [
+              1,
+              -56,
+              13
+            ],
+            "rpm": -64,
+            "network": [
+              -192,
+              57288
+            ],
+            "stress": 768,
+            "capacity": 1048576
+          }
+        ],
+        "broken": [
+          {
+            "id": "create:creative_motor",
+            "at": [
+              -3,
+              -56,
+              13
+            ],
+            "rpm": 64,
+            "network": [
+              -192,
+              57288
+            ],
+            "stress": 256,
+            "capacity": 1048576
+          },
+          {
+            "id": "create:millstone",
+            "at": [
+              0,
+              -55,
+              11
+            ],
+            "rpm": -64,
+            "network": [
+              -192,
+              57288
+            ],
+            "stress": 256,
+            "capacity": 1048576
+          },
+          {
+            "id": "create:mechanical_press",
+            "at": [
+              1,
+              -56,
+              13
+            ],
+            "rpm": 0,
+            "network": null,
+            "stress": null,
+            "capacity": null
+          }
+        ],
+        "fault": [
+          0,
+          -56,
+          13
+        ]
+      },
+      "calibrationFirstMethod": [
+        {
+          "at": [
+            0,
+            -56,
+            13
+          ],
+          "block": {
+            "Properties": {
+              "waterlogged": "false",
+              "axis": "z"
+            },
+            "Name": "create:shaft"
+          },
+          "savedRpm": 0,
+          "source": null,
+          "network": null
+        },
+        {
+          "at": [
+            1,
+            -56,
+            13
+          ],
+          "block": {
+            "Properties": {
+              "facing": "west"
+            },
+            "Name": "create:mechanical_press"
+          },
+          "savedRpm": -64,
+          "source": {
+            "X": 0,
+            "Y": -56,
+            "Z": 13
+          },
+          "network": [
+            -192,
+            57288
+          ]
+        },
+        {
+          "at": [
+            0,
+            -55,
+            11
+          ],
+          "block": {
+            "Name": "create:millstone"
+          },
+          "savedRpm": -64,
+          "source": {
+            "X": -1,
+            "Y": -55,
+            "Z": 11
+          },
+          "network": [
+            -192,
+            57288
+          ]
+        }
+      ],
+      "applyWarningsThenRecovery": {
+        "confirmed": true,
+        "operatorActionDuringNaturalPrompt": "none",
+        "allPostFixDevicesOnSameNetwork": true,
+        "assayAfterModelDisconnect": true
+      }
+    },
+    "workshop-A": {
+      "samePromptAsPairedArm": true,
+      "mode": "workshop",
+      "arm": "A",
+      "mods": [
+        "Fabric 0.17.2",
+        "MC 1.20.1",
+        "Create 6.0.8.1",
+        "Numen 0.1.5",
+        "Engineering 0.2.3"
+      ],
+      "intervention": "none",
+      "terminal": "length",
+      "requests": 26,
+      "actualModels": [
+        "deepseek-v4-pro"
+      ],
+      "tokenTotal": 509255,
+      "peakInputContext": 25882,
+      "modelRequestSeconds": 290.82800000000003,
+      "skillCalls": [
+        {
+          "id": "call_00_IOT8lDYyNWeTkX5x39Iv8637",
+          "name": "skill",
+          "arguments": "{\"skill\": \"crafting_and_smelting\"}"
+        },
+        {
+          "id": "call_01_5PicsGzciLfrhxGA1lPG8031",
+          "name": "skill",
+          "arguments": "{\"skill\": \"game_progression\"}"
+        }
+      ],
+      "changed": 162,
+      "changedPositions": [
+        "-2,-52,9",
+        "-1,-52,9",
+        "-2,-52,10",
+        "-1,-52,10",
+        "-2,-52,11",
+        "-1,-52,11",
+        "-2,-52,12",
+        "-1,-52,12",
+        "-2,-52,13",
+        "-1,-52,13",
+        "-2,-52,14",
+        "-1,-52,14",
+        "-2,-52,15",
+        "-1,-52,15",
+        "-2,-51,9",
+        "-1,-51,9",
+        "-2,-51,10",
+        "-2,-51,13",
+        "-2,-51,14",
+        "-2,-51,15",
+        "-1,-51,15",
+        "-2,-50,9",
+        "-1,-50,9",
+        "-2,-50,10",
+        "-2,-50,11",
+        "-2,-50,12",
+        "-2,-50,13",
+        "-2,-50,14",
+        "-2,-50,15",
+        "-1,-50,15",
+        "-2,-49,9",
+        "-1,-49,9",
+        "-2,-49,10",
+        "-1,-49,10",
+        "-2,-49,11",
+        "-1,-49,11",
+        "-2,-49,12",
+        "-1,-49,12",
+        "-2,-49,13",
+        "-1,-49,13",
+        "-2,-49,14",
+        "-1,-49,14",
+        "-2,-49,15",
+        "-1,-49,15",
+        "0,-52,9",
+        "1,-52,9",
+        "2,-52,9",
+        "3,-52,9",
+        "4,-52,9",
+        "5,-52,9",
+        "0,-52,10",
+        "1,-52,10",
+        "2,-52,10",
+        "3,-52,10",
+        "4,-52,10",
+        "5,-52,10",
+        "0,-52,11",
+        "1,-52,11",
+        "2,-52,11",
+        "3,-52,11",
+        "4,-52,11",
+        "5,-52,11",
+        "0,-52,12",
+        "1,-52,12",
+        "2,-52,12",
+        "3,-52,12",
+        "4,-52,12",
+        "5,-52,12",
+        "0,-52,13",
+        "1,-52,13",
+        "2,-52,13",
+        "3,-52,13",
+        "4,-52,13",
+        "5,-52,13",
+        "0,-52,14",
+        "1,-52,14",
+        "2,-52,14",
+        "3,-52,14",
+        "4,-52,14",
+        "5,-52,14",
+        "0,-52,15",
+        "1,-52,15",
+        "2,-52,15",
+        "3,-52,15",
+        "4,-52,15",
+        "5,-52,15",
+        "0,-51,9",
+        "1,-51,9",
+        "2,-51,9",
+        "3,-51,9",
+        "4,-51,9",
+        "5,-51,9",
+        "5,-51,10",
+        "5,-51,11",
+        "5,-51,12",
+        "5,-51,13",
+        "5,-51,14",
+        "0,-51,15",
+        "1,-51,15",
+        "2,-51,15",
+        "3,-51,15",
+        "4,-51,15",
+        "5,-51,15",
+        "0,-50,9",
+        "1,-50,9",
+        "2,-50,9",
+        "3,-50,9",
+        "4,-50,9",
+        "5,-50,9",
+        "5,-50,10",
+        "5,-50,11",
+        "5,-50,12",
+        "5,-50,13",
+        "5,-50,14",
+        "0,-50,15",
+        "1,-50,15",
+        "2,-50,15",
+        "3,-50,15",
+        "4,-50,15",
+        "5,-50,15",
+        "0,-49,9",
+        "1,-49,9",
+        "2,-49,9",
+        "3,-49,9",
+        "4,-49,9",
+        "5,-49,9",
+        "0,-49,10",
+        "1,-49,10",
+        "2,-49,10",
+        "3,-49,10",
+        "4,-49,10",
+        "5,-49,10",
+        "0,-49,11",
+        "1,-49,11",
+        "2,-49,11",
+        "3,-49,11",
+        "4,-49,11",
+        "5,-49,11",
+        "0,-49,12",
+        "1,-49,12",
+        "2,-49,12",
+        "3,-49,12",
+        "4,-49,12",
+        "5,-49,12",
+        "0,-49,13",
+        "1,-49,13",
+        "2,-49,13",
+        "3,-49,13",
+        "4,-49,13",
+        "5,-49,13",
+        "0,-49,14",
+        "1,-49,14",
+        "2,-49,14",
+        "3,-49,14",
+        "4,-49,14",
+        "5,-49,14",
+        "0,-49,15",
+        "1,-49,15",
+        "2,-49,15",
+        "3,-49,15",
+        "4,-49,15",
+        "5,-49,15"
+      ],
+      "outside": [],
+      "power": {
+        "parts": [],
+        "shared": false
+      },
+      "product": {
+        "attempted": false,
+        "reason": "shared RPM and unobstructed press/depot geometry required"
+      },
+      "preservation": null,
+      "pathProbe": null,
+      "answer": "Shell complete. Now the machines. Let me mark todo progress and place the motor + shaft network.\n\nThe workshop interior now: x=-1..4, z=10..14, floor at y=-52, walls 3-tall from y=-51 to -49 interior height, roof at y=-49. So interior height is y=-52 (floor) to y=-48 (air above floor, machines sit at y=-51).\n\nMachine height: machines sit at y=-51 (one above floor), with their working space.\n\nLet me lay out the power network and machines concretely. I'll place motor + spine first, then millstone, then press+depot, then verify RPM.\n\n**Design decisions** (final):\n- **Motor** (creative_motor, axis=y) at (-1, -52, 12) — on floor, pointing up. Actually motor should have its output face up (axis=y). Put motor sitting on floor: motor block at y=-52, shaft comes out top at y=-51.\n\nWait, I need to think about the motor's shaft orientation and to reach the machines above at y=-51.\n\nLet me set up: Motor at (-1,-52,12), axis=y, rpm +32. Vertical shaft rising at (-1,-51,12).\n\nMillstone at (1,-51,12); press at (4,-51,12), depot at (4,-52,12).\n\nMillstone power: cogwheel(axis=y) on its side, vertical shaft below that cogwheel. So:\n- Millstone (1,-51,12)\n- Cogwheel axis=y at (0,-51,12) [west side of millstone]\n- Shaft axis=y at (0,-52,12) below that cogwheel, and down to motor line.\n\nPress power: shaft(axis=y) on top at (4,-50,12). Vertical shaft down to horizontal line.\n\nShared motor connects to both. Let me run a horizontal shaft line at y=-52 (floor level) that both vertical columns tap into.\n\nMotor at (-1,-52,12) axis=y. Its shaft goes UP to (-1,-51,12)... but I want to distribute horizontally at floor level. \n\nLet me reconsider: put motor with horizontal output (axis=x), running east along the floor y=-52, then tap vertical shafts up to each machine.\n\nActually cleanest and matches Ponder verification:\n\n**Motor** axis=x (horizontal, east-west) at (-1,-52,12), driving a horizontal shaft line eastward at y=-52.\n\nMotor output east → shaft axis=x at (0,-52,12), (1,-52,12), (2,-52,12), (3,-52,12), (4,-52,12).\n\nFor the millstone (needs vertical shaft below a side cogwheel):\n- Millstone (1,-51,12), cogwheel axis=y at (1? no)...\n\nThis is the fiddly part. Let me carefully reason about Create directional power transfer:\n\nA shaft with axis=x rotates about the x-axis. To turn that into vertical (axis=y) rotation, I need a 90° mesh: a cogwheel with axis=x meshes with a cogwheel with axis=y placed adjacent (diagonally meeting along their shared axis of rotation edge).\n\nCogwheels rotate in a plane perpendicular to their axis. Two cogwheels mesh when placed side-by-side with perpendicular axes (like bevel... actually in Create, cogwheels mesh when adjacent with axes at 90° while in the same plane).\n\nSimplest verifiable approach using what the Ponder notes already verified:\n\nFor **millstone**: \"a cogwheel[axis=y] on the millstone side is driven by a vertical shaft directly under that cogwheel (motor → shaft[axis=y] → cogwheel[axis=y])\".\n\nSo millstone gets power purely from a vertical (axis=y) shaft directly under a side cogwheel. This means I need a vertical shaft running up to the millstone's side cogwheel.\n\nFor **press**: input shaft on top, axis=y (vertical).\n\nSo BOTH machines want vertical (axis=y) rotation. The motor should therefore drive a VERTICAL shaft, and I branch that vertical rotation horizontally to both machines, then... but each machine needs its OWN vertical shaft, which means I need to convert horizontal→vertical somewhere.\n\nSolution: Motor drives a vertical shaft (axis=y) up to a high horizontal shaft line (axis=x or z) at roof level, using a 90° cogwheel mesh. Then from that horizontal line, at each machine's x-position, drop vertical shafts down (another 90° cogwheel mesh) to feed each machine.\n\nThis needs two 90° transitions (up then down). Each 90° transition is a pair of meshing cogwheels.\n\nLet me define exact cells:\n\n**Motor tower**: Motor (axis=y) at (0,-52,12). Vertical shaft up: (0,-51,12), (0,-50,12), (0,-49,12).\n\nAt the top (0,-49,12), place cogwheel axis=y. Then cogwheel axis=x adjacent at (1,-49,12) to turn horizontal, meshing. Then horizontal shaft axis=x running east: (2,-49,12), (3,-49,12), (4,-49,12).\n\nFrom horizontal line, drop to each machine:\n\n**Millstone** at (1,-51,12):\n- From horizontal shaft (axis=x) at (1,-49,12), place cogwheel axis=x at (1,-49,12)... \n\nUgh, this is getting complicated with many 90° transitions. Let me simplify by using the Ponder's verified two-stage approach but keeping it minimal.\n\nActually, re-reading the millstone note: the millstone can also be powered \"from the side using cogwheels\". And a cogwheel[axis=y] on the millstone side is driven by vertical shaft directly under it.\n\nGiven complexity, the cleanest shared-power design:\n\n1. Motor axis=y at a chosen bottom corner.\n2. Vertical shaft up to a distribution level.\n3. Horizontal shaft line (axis=x) at distribution level via a large cogwheel + small cogwheel 90° turn.\n4. At each machine, a vertical shaft drops down via another 90° turn (cogwheel axis=x meshing cogwheel axis=y).\n\nFor the millstone: the dropped vertical shaft (axis=y) connects to a cogwheel(axis=y) placed on the millstone's side.\n\nFor the press: the dropped vertical shaft (axis=y) connects directly to the press top.\n\nLet me just write it all and validate via check() + inspect RPM. The apply warnings will tell me about unconnected kinetics.\n\nLet me lay out concrete coordinates:\n\nDistribution level: y=-50 (just below roof y=-49).\n\nActually roof is at y=-49, so I have air at y=-48? No. Interior: floor y=-52, walls up to y=-49 (inclusive), so interior air is y=-51 and y=-50. Roof occupies y=-49. So machines can be at y=-51, and shafting at y=-50 and y=-51.\n\nLet me use:\n- Floor y=-52\n- Machines at y=-51\n- Distribution shaft line at y=-50 (just under roof at -49... wait roof is at -49, so y=-50 is one below roof, fine).\n\nHmm wait, let me re-examine. Floor placed at y=-52. Walls at y=-51,-50,-49. Roof at y=-49. So interior vertical space (air) is: y=-51 and y=-50. That's only 2 blocks of interior height. That's a bit cramped for a press (press is 1 block + depot 1 block below + head).\n\nLet me reconsider the building height. A press needs: depot at y=-52 (floor), press at y=-51, and press head above. Actually mechanical press is a single block, it has a \"head\" that extends. The press block at y=-51, depot at y=-52 below it. That works with 2-block interior.\n\nBut the millstone is 1 block at y=-51. Fine.\n\nFor power: shaft line at y=-50, dropping to machines.\n\nActually I'm overcomplicating the building. The requirement says \"外壳简洁即可\" (simple shell) and walkable interior with ground entrance. 2-block interior height (y=-51,-50) is walkable (player is 2 blocks tall, fits in 2-block space? Player is ~1.8 blocks, needs 2 blocks: y=-51 and y=-50 = 2 blocks, OK).\n\nLet me finalize the machine + power layout.\n\nCoordinates (final):\n- **Millstone** at (1, -51, 12)\n- **Press** at (4, -51, 12); **depot** at (4, -52, 12)\n- **Motor** at (0, -52, 12) axis=y, rpm +32\n\nPower:\n- Motor (0,-52,12) axis=y → vertical shaft (0,-51,12) axis=y\n- At (0,-51,12) is shaft (axis=y). To branch, I need horizontal. \n\nGiven the millstone is at y=-51 and press also at y=-51, and I have a horizontal shaft line possible at y=-51, but interior only spans y=-51..-50.\n\nLet me use a simpler, well-tested topology. Horizontal main shaft at y=-51 (axis=z, running north-south) is NOT what I need.\n\nI'll use this clean approach with gearbox-free, cogwheel-based 90° turns:\n\n**Main line (vertical, axis=y), motor → up**: \n- motor (0,-52,12) axis=y\n- shaft y ... but machines also at y=-51.\n\nOK let me just commit and verify iteratively. Final concrete plan:\n\nMotor + vertical spine:\n1. (0,-52,12) creative_motor axis=y rpm=32\n2. (0,-51,12) shaft axis=y  [this is below? no, above motor]\n\nWait motor axis=y at (0,-52,12), shaft comes out top at (0,-51,12) going up.\n\nThen I need to reach: millstone at (1,-51,12) with side cogwheel at (0,-51,12)?  No, the side cogwheel is at (0,-51,12) but that's where the vertical shaft is.\n\nConflict: position (0,-51,12) can't be both a vertical shaft AND the millstone's side cogwheel.\n\nLet me relocate. Millstone at (1,-51,12). Its side cogwheel(axis=y) at (0,-51,12) [west side]. Vertical shaft below that cogwheel at (0,-52,12) [which is the motor position].\n\nSo actually: motor at (0,-52,12) axis=y, shaft up at (0,-51,12)... but cogwheel(axis=y) is already AT (0,-51,12) as the millstone's side cogwheel. So motor → shaft/cogwheel at (0,-51,12) IS the millstone's driver cogwheel. \n\nSo the millstone shares the motor's vertical shaft directly! Motor (0,-52,12) axis=y, cogwheel(axis=y) at (0,-51,12) meshing with millstone's side, and this cogwheel is on the motor's shaft.\n\nThen for the press, I branch off. From the vertical rotation, add another cogwheel to extend horizontal.\n\nLet me structure as a single vertical spine shared by both:\n\nMotor (0,-52,12) axis=y rpm=32.\n- Cogwheel (axis=y) at (0,-51,12): this drives the millstone (west side of millstone at (1,-51,12)).\n\nWait, cogwheel(axis=y) at (0,-51,12) is adjacent (east) to millstone at (1,-51,12)? No — cogwheel at x=0, millstone at x=1, so cogwheel is WEST of millstone. Millstone's side cogwheel should be adjacent horizontally. Cogwheel at (0,-51,12) is adjacent to millstone at (1,-51,12) along x. Good, that meshes.\n\nBut then to also drive the press, I extend the vertical shaft UP and over. The spine continues up: (0,-50,12) shaft axis=y, then horizontal over to press.\n\nLet me do:\n- Motor (0,-52,12) axis=y rpm=32\n- Cogwheel axis=y at (0,-51,12)  ← drives millstone (millstone at (1,-51,12))\n- Millstone (1,-51,12)\n- shaft axis=y at (0,-50,12) [continues spine up]\n- At (0,-50,12) needs a gear... \n\nHmm but the press needs vertical shaft (axis=y) on its top. Press at (4,-51,12), press input shaft at (4,-50,12) axis=y.\n\nTo get power from spine (0, ...) to press top (4,-50,12), run horizontal shaft at y=-50 from x=0 to x=4.\n\nAt (0,-50,12): cogwheel axis=y (on spine), meshing cogwheel axis=x at (1,-50,12), then shaft axis=x (2,-50,12),(3,-50,12),(4,-50,12). At (4,-50,12) shaft axis=x... but press needs axis=y shaft on top.\n\nSo another 90° turn at (4,-50,12): cogwheel axis=x at (4,-50,12) meshing cogwheel axis=y at... the press input must be a shaft (axis=y) directly on top of press at (4,-50,12)? But (4,-50,12) I said is shaft axis=x.\n\nConflict again. Press top input shaft is at (4,-50,12) [one above press at (4,-51,12)].\n\nLet me reorganize the horizontal run at a DIFFERENT height than the press input.\n\nAlternative cleaner topology: Use y=-50 as the horizontal distribution level for BOTH, and drop each machine's power down from y=-50.\n\n- Motor (0,-52,12) axis=y\n- shaft (0,-51,12) axis=y\n- cogwheel (0,-50,12) axis=y  ← top of spine\n- cogwheel (1,-50,12) axis=x  ← 90° turn to horizontal\n- shaft axis=x: (2,-50,12),(3,-50,12),(4,-50,12)\n\nNow for millstone at (1,-51,12): needs a side cogwheel(axis=y) driven by a vertical shaft below it. \n- Drop at x=1: cogwheel axis=x at (1,-50,12) already there (it's the turn). Place cogwheel axis=y at (1,-49,12)? That's in the roof.\n\nThis is getting messy because interior is only 2 tall.\n\nLet me make the building one block taller. Re-do the building with interior y=-51,-50,-49, and roof at y=-48. That gives 3 interior blocks, more room for the press and shafting.\n\nActually, simpler: rethink. The press is 2 blocks tall total (head + base) but as a single block entity it's just one block with a visual head. Depot below. So press block at y=-51, depot at y=-52 (floor level, inset). That's fine with 2-block interior but no room above for input shaft if roof is at -49.\n\nI think I should rebuild the shell taller. Let me raise walls to y=-48 and roof to y=-48, with the machine floor still at y=-52. Interior y=-51,-50,-49 (3 blocks), roof at y=-48.\n\nActually simplest: let me not build an enclosing roof that's tight. Let me redesign:\n\n- Floor y=-52\n- Machine level y=-51 (millstone, press, depot on floor)\n- Power distribution at y=-50 (horizontal shaft)\n- Vertical drops from y=-50 to machines at y=-51\n- Roof/open at y=-49 and above (leave open or roof at -48)\n\nLet me rebuild the shell with walls going 4 tall: y=-51,-50,-49,-48, roof at -48. That gives interior y=-51,-50,-49 (3 walkable blocks) plus roof at -48.\n\nI'll redo walls/roof. Actually this is a lot of rework. Let me reconsider whether a simpler approach works with current 2-high interior.\n\nGiven the task, let me reconsider: maybe I don't need heavy enclosing walls. But I already built them. The 2-block interior (y=-51, -50) is actually enough IF I place the power line at y=-50 and machines at y=-51:\n\n- Motor on floor (0,-52,12) axis=y, rpm\n- Vertical shaft (0,-51,12) axis=y [this is the machine level]\n\nFor millstone: millstone at (1,-51,12), side cogwheel axis=y at (0,-51,12) — but (0,-51,12) is my vertical shaft. A cogwheel(axis=y) can BE the shaft coupling. So:\n\n- Motor (0,-52,12) axis=y rpm=+32\n- Cogwheel (0,-51,12) axis=y  [sits on motor shaft, drives millstone]\n- Millstone (1,-51,12)\n- For press: continue spine up: shaft (0,-50,12) axis=y [but roof at -49, so -50 is just below roof, OK]\n\nWait roof is at y=-49. So (0,-50,12) is air, below roof. Good. But then I can't go higher than -50 for horizontal line... actually horizontal at y=-50 works.\n\n- shaft (0,-50,12) axis=y [spine top]\n- cogwheel (0,-50,12)? No, shaft is there.\n\nLet me do:\n- shaft (0,-50,12) axis=y → top of spine\n- cogwheel (1,-50,12) axis=x? To mesh with axis=y shaft at (0,-50,12), adjacent cogwheel axis=x at (1,-50,12). But (1,-51,12) is millstone, (1,-50,12) is above millstone.\n\nHmm the millstone occupies (1,-51,12). Above it (1,-50,12) can hold a cogwheel axis=x. That cogwheel meshes with shaft(axis=y) at (0,-50,12)? A cogwheel axis=x at (1,-50,12) and shaft axis=y at (0,-50,12) are diagonally adjacent — cogwheels mesh when in adjacent blocks with perpendicular axes. A shaft at (0,-50,12) axis=y — the cogwheel at (1,-50,12) axis=x: are they adjacent? They're side by side (x differs by",
+      "finalChangedBlockTypes": {
+        "minecraft:oak_planks": 56,
+        "minecraft:stone": 106
+      },
+      "started": "2026-11-25T10:27:13.419Z",
+      "prompt": "请在授权区的空地自主设计并实际施工一间可走入的小型 Create 工坊，留可从地面进出的入口及到两台机器的过道。由一台创造马达同时驱动磨石和压机。磨石应能把圆石加工成砂砾，压机在置物台加工铁锭为铁板。验收人员将独立试投两道工序，你需要实际确认共享动力、压机与置物台之间留有加工空间，报告磨石及置物台坐标。外壳简洁即可，机械布局与坐标由你选择。不要求自动送料或美化。",
+      "wallSeconds": 294.455,
+      "endReason": "length",
+      "ownerReplySeen": false,
+      "responseTypes": {
+        "200 tool_calls": 25,
+        "200 length": 1
+      },
+      "toolCounts": {
+        "lua": 24,
+        "skill": 2,
+        "todo": 2
+      }
+    },
+    "workshop-B": {
+      "samePromptAsPairedArm": true,
+      "mode": "workshop",
+      "arm": "B",
+      "mods": [
+        "Fabric 0.17.2",
+        "MC 1.20.1",
+        "Create 6.0.8.1",
+        "Numen 0.1.5",
+        "Engineering 0.2.3"
+      ],
+      "intervention": "native optional skill only",
+      "terminal": null,
+      "requests": 29,
+      "actualModels": [
+        "deepseek-v4-pro"
+      ],
+      "tokenTotal": 656250,
+      "peakInputContext": 35640,
+      "modelRequestSeconds": 412.405,
+      "skillCalls": [
+        {
+          "id": "call_00_Jwse5qCKDjG763QUO1gQ2580",
+          "name": "skill",
+          "arguments": "{\"skill\": \"engineering_evidence\"}"
+        }
+      ],
+      "changed": 73,
+      "changedPositions": [
+        "-2,-60,6",
+        "-1,-60,6",
+        "-2,-60,7",
+        "-1,-60,7",
+        "-2,-60,8",
+        "-1,-60,8",
+        "-2,-60,9",
+        "-1,-60,9",
+        "-2,-60,10",
+        "-1,-60,10",
+        "-2,-60,11",
+        "-1,-60,11",
+        "-2,-60,12",
+        "-1,-60,12",
+        "-1,-59,8",
+        "0,-60,6",
+        "1,-60,6",
+        "2,-60,6",
+        "3,-60,6",
+        "4,-60,6",
+        "5,-60,6",
+        "0,-60,7",
+        "1,-60,7",
+        "2,-60,7",
+        "3,-60,7",
+        "4,-60,7",
+        "5,-60,7",
+        "0,-60,8",
+        "1,-60,8",
+        "2,-60,8",
+        "3,-60,8",
+        "4,-60,8",
+        "5,-60,8",
+        "0,-60,9",
+        "1,-60,9",
+        "2,-60,9",
+        "3,-60,9",
+        "4,-60,9",
+        "5,-60,9",
+        "0,-60,10",
+        "1,-60,10",
+        "2,-60,10",
+        "3,-60,10",
+        "4,-60,10",
+        "5,-60,10",
+        "0,-60,11",
+        "1,-60,11",
+        "2,-60,11",
+        "3,-60,11",
+        "4,-60,11",
+        "5,-60,11",
+        "0,-60,12",
+        "1,-60,12",
+        "2,-60,12",
+        "3,-60,12",
+        "4,-60,12",
+        "5,-60,12",
+        "0,-59,6",
+        "2,-59,6",
+        "0,-59,7",
+        "2,-59,7",
+        "0,-59,8",
+        "1,-59,8",
+        "2,-59,8",
+        "3,-59,8",
+        "4,-59,8",
+        "0,-59,10",
+        "5,-59,12",
+        "0,-58,6",
+        "5,-58,12",
+        "5,-57,10",
+        "5,-57,11",
+        "5,-57,12"
+      ],
+      "outside": [],
+      "power": {
+        "parts": [
+          {
+            "id": "create:creative_motor",
+            "at": [
+              -1,
+              -59,
+              8
+            ],
+            "rpm": 32,
+            "network": [
+              -64,
+              36805
+            ],
+            "stress": 0,
+            "capacity": 524288
+          },
+          {
+            "id": "create:mechanical_press",
+            "at": [
+              0,
+              -58,
+              6
+            ],
+            "rpm": 0,
+            "network": null,
+            "stress": null,
+            "capacity": null
+          },
+          {
+            "id": "create:millstone",
+            "at": [
+              2,
+              -59,
+              6
+            ],
+            "rpm": 0,
+            "network": null,
+            "stress": null,
+            "capacity": null
+          },
+          {
+            "id": "create:millstone",
+            "at": [
+              0,
+              -59,
+              10
+            ],
+            "rpm": 0,
+            "network": null,
+            "stress": null,
+            "capacity": null
+          },
+          {
+            "id": "create:creative_motor",
+            "at": [
+              5,
+              -59,
+              12
+            ],
+            "rpm": 32,
+            "network": [
+              320,
+              53189
+            ],
+            "stress": 0,
+            "capacity": 524288
+          }
+        ],
+        "press": {
+          "id": "create:mechanical_press",
+          "at": [
+            0,
+            -58,
+            6
+          ],
+          "rpm": 0,
+          "network": null,
+          "stress": null,
+          "capacity": null
+        },
+        "mill": {
+          "id": "create:millstone",
+          "at": [
+            2,
+            -59,
+            6
+          ],
+          "rpm": 0,
+          "network": null,
+          "stress": null,
+          "capacity": null
+        },
+        "shared": false
+      },
+      "product": {
+        "attempted": false,
+        "reason": "shared RPM and unobstructed press/depot geometry required"
+      },
+      "preservation": null,
+      "pathProbe": [
+        0,
+        2
+      ],
+      "answer": null,
+      "finalChangedBlockTypes": {
+        "minecraft:oak_planks": 55,
+        "create:creative_motor": 2,
+        "minecraft:barrel": 1,
+        "create:depot": 1,
+        "create:millstone": 2,
+        "create:cogwheel": 5,
+        "create:shaft": 5,
+        "create:mechanical_press": 1,
+        "create:large_cogwheel": 1
+      },
+      "started": "2026-11-25T10:27:13.478Z",
+      "prompt": "请在授权区的空地自主设计并实际施工一间可走入的小型 Create 工坊，留可从地面进出的入口及到两台机器的过道。由一台创造马达同时驱动磨石和压机。磨石应能把圆石加工成砂砾，压机在置物台加工铁锭为铁板。验收人员将独立试投两道工序，你需要实际确认共享动力、压机与置物台之间留有加工空间，报告磨石及置物台坐标。外壳简洁即可，机械布局与坐标由你选择。不要求自动送料或美化。",
+      "wallSeconds": 420.371,
+      "endReason": "wall-clock timeout",
+      "ownerReplySeen": false,
+      "responseTypes": {
+        "200 tool_calls": 29
+      },
+      "toolCounts": {
+        "skill": 1,
+        "lua": 30,
+        "todo": 2
+      }
+    }
+  },
+  "readOnlyIndependentEvidence": {
+    "mcbuild": {
+      "commit": "34ce86372d4c23f4d83d4e24fc256cb399d6c3e3",
+      "offlinePytest": "162 passed in 28.41s",
+      "noNewModelOrMinecraftIntegration": true
+    },
+    "createArchitect": {
+      "version": "3deae4a94449bf8e4ae1089a69a7d4d6cea205b3",
+      "scope": "actual upstream methods, disconnected positions and no water; no model and no in-game paste",
+      "disconnectedLayout": [
+        {
+          "type": "create:water_wheel",
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        {
+          "type": "create:mechanical_drill",
+          "x": 10,
+          "y": 2,
+          "z": 10
+        }
+      ],
+      "pressureOfUnsupportedPress": 0,
+      "stressReport": {
+        "totalDemand": 16,
+        "totalCapacity": 4096,
+        "headroomPct": 25500,
+        "generatorType": "create:water_wheel",
+        "generatorCount": 0,
+        "isOverstressed": false
+      },
+      "addedGenerators": 0,
+      "export": {
+        "root": [
+          "Schematic"
+        ],
+        "schema": 2,
+        "dataVersion": 3700,
+        "keys": [
+          "Version",
+          "DataVersion",
+          "Metadata",
+          "Width",
+          "Height",
+          "Length",
+          "Offset",
+          "PaletteMax",
+          "Palette",
+          "BlockData",
+          "BlockEntities"
+        ],
+        "hasVanillaStructureKeys": false
+      }
+    },
+    "rvStructureReplay": {
+      "scope": "structural regression using retained real worlds; no new player traversal",
+      "atFourMinutes": {
+        "knownOpening": [
+          [
+            1,
+            -58,
+            13
+          ],
+          [
+            1,
+            -57,
+            13
+          ]
+        ],
+        "doorCells": [
+          "minecraft:mangrove_door",
+          "minecraft:mangrove_door"
+        ],
+        "matchesOriginalPair": true,
+        "outerApproachCells": [
+          "minecraft:air",
+          "minecraft:air"
+        ],
+        "insideTwoBlocksAtDoorHeight": [
+          "minecraft:white_concrete",
+          "minecraft:air"
+        ],
+        "headSpaceIfStandingOnInteriorLayer": "minecraft:white_concrete"
+      },
+      "end": {
+        "knownOpening": [
+          [
+            1,
+            -58,
+            13
+          ],
+          [
+            1,
+            -57,
+            13
+          ]
+        ],
+        "doorCells": [
+          "minecraft:smoker",
+          "minecraft:air"
+        ],
+        "matchesOriginalPair": false,
+        "outerApproachCells": [
+          "minecraft:air",
+          "minecraft:cobblestone"
+        ],
+        "insideTwoBlocksAtDoorHeight": [
+          "minecraft:white_concrete",
+          "minecraft:air"
+        ],
+        "headSpaceIfStandingOnInteriorLayer": "minecraft:white_concrete"
+      }
+    }
+  }
+}
