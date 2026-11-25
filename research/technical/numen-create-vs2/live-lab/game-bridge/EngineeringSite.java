@@ -112,20 +112,21 @@ public final class EngineeringSite implements ModInitializer {
         public record NoArgs() {}
         public record Points(@Doc("1..16 loaded coordinates in the site.") List<class_2338> positions) {}
         public record SiteInfo(class_2338 from,class_2338 to,List<String> blocks,List<String> hull,
-                               List<String> test_items,int batch_limit) {}
+                               List<String> test_items,int batch_limit,Column center_surface) {}
         public record Observation(class_2338 pos,Reading reading) {}
 
-        @Fn("Get exact authorizations, inclusive coordinates and supported block IDs in one call. Start here instead of probing the site.")
+        @Fn("Get exact permissions, inclusive bounds, allowed blocks and center_surface.{floor_y,feet_y}. The supported floor can be one block below the editable site. Use survey for other chosen columns.")
         public static SiteInfo info(ServerCall call, NoArgs args) {
-            level(call);
+            var level=level(call);
             var blocks=new TreeSet<>(PALETTE);
             if (vessels) blocks.addAll(HULL);
             return new SiteInfo(new class_2338(bounds[0],bounds[1],bounds[2]),new class_2338(bounds[3],bounds[4],bounds[5]),
                 List.copyOf(blocks),vessels?HULL.stream().sorted().toList():List.of(),
-                CreateSettings.FEEDS.stream().sorted().toList(),LIMIT);
+                CreateSettings.FEEDS.stream().sorted().toList(),LIMIT,
+                column(level,bounds[0]+(bounds[3]-bounds[0])/2,bounds[2]+(bounds[5]-bounds[2])/2));
         }
 
-        @Fn("Check up to sixteen selected positions in one live snapshot. Returns exact block states, shaft faces, RPM and stock.")
+        @Fn("Check up to sixteen selected positions in one live snapshot. Each result is {pos, reading}; access row.reading.state, rpm, shaft_faces, power_status and items.")
         public static List<Observation> inspectMany(ServerCall call, Points args) {
             var world=level(call);
             require(!args.positions().isEmpty() && args.positions().size()<=16,"expected 1..16 inspection positions");
@@ -225,16 +226,23 @@ public final class EngineeringSite implements ModInitializer {
             require(!args.positions().isEmpty() && args.positions().size()<=16,"expected 1..16 survey columns");
             return args.positions().stream().map(p->{
                 check(level,p);
-                int x=p.method_10263(), z=p.method_10260();
+                return column(level,p.method_10263(),p.method_10260());
+            }).toList();
+        }
+
+        private static Column column(class_3218 level,int x,int z) {
+            if(level.method_37118(new class_2338(x,bounds[1],z))) {
                 for(int y=bounds[4]-1;y>=bounds[1];y--){
                     var feet=new class_2338(x,y,z);
-                    if(support(level,()->level.method_8320(feet.method_10074()),feet.method_10074()) &&
+                    var floor=feet.method_10074();
+                    var head=feet.method_10084();
+                    if(support(level,()->level.method_8320(floor),floor) &&
                         level.method_8320(feet).method_26218(level,feet).method_1110() &&
-                        level.method_8320(feet.method_10084()).method_26218(level,feet.method_10084()).method_1110())
+                        level.method_8320(head).method_26218(level,head).method_1110())
                         return new Column(x,z,Optional.of(y-1),Optional.of(y));
                 }
-                return new Column(x,z,Optional.empty(),Optional.empty());
-            }).toList();
+            }
+            return new Column(x,z,Optional.empty(),Optional.empty());
         }
 
         public record Plan(@Doc("0..64 optional candidate block edits; same syntax as apply.")
@@ -417,10 +425,11 @@ public final class EngineeringSite implements ModInitializer {
                               @Doc("Signed motor RPM (1..256 in magnitude).") int rpm,
                               @Doc("Optional cells reserved for walkways, depot clearance, or logistics.") Optional<List<class_2338>> avoid) {}
 
-        @Fn("Find compact right-angle shaft routes between YOUR motor and load positions, read-only. Supports 1..4 devices, sharing one motor output. Reserve planned clearance/logistics cells in avoid. If check.rejects is empty, use apply(result.cells), then verify real power. If no route fits, shift a device or use route with explicit paths.")
+        @Fn("Read-only: connect(motor, {{pos=loadPos, state=blockId, side_mesh=true if needed}}, rpm, {avoid=reservedPositions}). Find compact right-angle shafts between your selected positions. Supports 1..4 devices, sharing one motor output. Reserve planned clearance/logistics cells in avoid. If check.rejects is empty, use apply(result.cells), then verify real power. If no route fits, shift a device or use route with explicit paths.")
         public static Routed connect(ServerCall call,Connect args) {
             var level=level(call);
             require(!args.loads().isEmpty() && args.loads().size()<=4,"choose 1..4 loads");
+            require(args.rpm()!=0 && Math.abs((long)args.rpm())<=256,"motor RPM magnitude must be 1..256");
             var avoid=args.avoid().orElse(List.of());
             require(avoid.size()<=64,"at most 64 reserved positions");
             var reserved=new HashSet<>(avoid);
