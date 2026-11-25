@@ -1,0 +1,2527 @@
+{
+  "startingTask": "fd36865384f3cead462f756fe9b3c358d4fc7ebb",
+  "modelTrials": {
+    "dough-baseline": {
+      "dispatch": {
+        "utc": "2026-11-25T13:24:09.333Z",
+        "kind": "dispatch",
+        "mode": "dough",
+        "arm": "baseline",
+        "site": [
+          -7,
+          -60,
+          5,
+          8,
+          -49,
+          20
+        ],
+        "prompt": "在授权空地上自主规划、建造和调试一条自动线。从输入桶投小麦，磨石磨成面粉，风扇经过围住的水格把它洗成面团，自动送入成品桶。用一个马达，共享传动。选址、设备布局和物流由你定，验收员独立复投。你有一个水桶，需要用原生玩法放水。优先选端点并搭第一段；已经通的子系统保留，看到局部问题只修相关格。先根据现场实际方块与库存验证，最后报告输入桶、产出桶和结果。",
+        "owner": "non-OP; creative",
+        "agent": "creative; ask",
+        "stage": "real dedicated server and protocol owner",
+        "version": "0.2.4-dev",
+        "thinking": "off",
+        "outputCap": 8192
+      },
+      "end": {
+        "utc": "2026-11-25T13:32:09.687Z",
+        "kind": "model-ended",
+        "seconds": 480.354,
+        "reason": "wall-clock timeout",
+        "ownerReplySeen": false
+      },
+      "errors": [],
+      "game": {
+        "mode": "dough",
+        "arm": "baseline",
+        "mods": [
+          "Fabric 0.17.2",
+          "MC 1.20.1",
+          "Create 6.0.8.1",
+          "Numen 0.1.5",
+          "Engineering 0.2.4-dev"
+        ],
+        "intervention": "one water bucket before dispatch; no post-dispatch construction",
+        "terminal": null,
+        "requests": 35,
+        "actualModels": [
+          "deepseek-v4-pro"
+        ],
+        "tokenTotal": 835286,
+        "peakInputContext": 35966,
+        "modelRequestSeconds": 468.76200000000006,
+        "skillCalls": [],
+        "changed": 4,
+        "outside": [],
+        "power": {
+          "parts": [
+            {
+              "id": "create:creative_motor",
+              "at": [
+                7,
+                -49,
+                5
+              ],
+              "rpm": -16,
+              "network": [
+                448,
+                24527
+              ],
+              "stress": 0,
+              "capacity": 262144
+            }
+          ],
+          "shared": false
+        },
+        "product": {
+          "attempted": false,
+          "driven": false,
+          "barrels": []
+        },
+        "preservation": null,
+        "pathProbe": null,
+        "answer": null
+      },
+      "requests": 35,
+      "tokens": 835286,
+      "cachedInput": 759680,
+      "peakInput": 35966,
+      "usageReceipts": 35,
+      "providerResponseSeconds": 468.762,
+      "gameToolSecondsCoarse": 5.0,
+      "tools": {
+        "lua": 43,
+        "todo": 1
+      },
+      "luaMentions": {
+        "guide": 13,
+        "connect": 8,
+        "inspect": 1,
+        "apply": 3,
+        "inspect_many": 1,
+        "route": 2
+      },
+      "walk": null
+    },
+    "dough-exact-high": {
+      "dispatch": {
+        "utc": "2026-11-25T13:42:00.368Z",
+        "kind": "dispatch",
+        "mode": "dough",
+        "arm": "exact-high",
+        "site": [
+          -7,
+          -60,
+          5,
+          8,
+          -49,
+          20
+        ],
+        "prompt": "在授权空地上自主规划、建造和调试一条自动线。从输入桶投小麦，磨石磨成面粉，风扇经过围住的水格把它洗成面团，自动送入成品桶。用一个马达，共享传动。选址、设备布局和物流由你定，验收员独立复投。你有一个水桶，需要用原生玩法放水。优先选端点并搭第一段；已经通的子系统保留，看到局部问题只修相关格。先根据现场实际方块与库存验证，最后报告输入桶、产出桶和结果。工程提示可用于你自选布局：用 site.info 一次确认工地。各进料端点至少错开一层，留出直接下方的取料格；给最终成品桶留底部空间。site.flow 可从你选的桶、磨石、置物台端点编译漏斗和过滤溜槽，先读状态和候选格，再交原 apply。site.connect 的 avoid 保留物流和水洗格，磨石用侧齿轮留底部出料，风扇显式写 facing，气流经过水面覆盖置物台。配方已知，无需反复搜索。先实际建起合法的第一段，后续逐段接通，核对 air 和库存。用桶点合适的围水固体表面后回读实际水格。",
+        "owner": "non-OP; creative",
+        "agent": "creative; ask",
+        "stage": "real dedicated server and protocol owner",
+        "version": "0.2.5-dev",
+        "build": "exact-high",
+        "thinking": "high",
+        "outputCap": 8192
+      },
+      "end": {
+        "utc": "2026-11-25T13:48:53.564Z",
+        "kind": "model-ended",
+        "seconds": 413.196,
+        "reason": "length",
+        "ownerReplySeen": false
+      },
+      "errors": [],
+      "game": {
+        "mode": "dough",
+        "arm": "exact-high",
+        "mods": [
+          "Fabric 0.17.2",
+          "MC 1.20.1",
+          "Create 6.0.8.1",
+          "Numen 0.1.5",
+          "Engineering 0.2.5-dev"
+        ],
+        "intervention": "one water bucket before dispatch; no post-dispatch construction",
+        "terminal": "length",
+        "requests": 11,
+        "actualModels": [
+          "deepseek-v4-pro"
+        ],
+        "tokenTotal": 224572,
+        "peakInputContext": 27959,
+        "modelRequestSeconds": 395.243,
+        "skillCalls": [],
+        "changed": 0,
+        "outside": [],
+        "power": {
+          "parts": [],
+          "shared": false
+        },
+        "product": {
+          "attempted": false,
+          "driven": false,
+          "barrels": []
+        },
+        "inheritedProduct": null,
+        "preservation": null,
+        "pathProbe": null,
+        "answer": null
+      },
+      "requests": 11,
+      "tokens": 224572,
+      "cachedInput": 158464,
+      "peakInput": 27959,
+      "usageReceipts": 11,
+      "providerResponseSeconds": 395.243,
+      "gameToolSecondsCoarse": 4.0,
+      "tools": {
+        "lua": 19
+      },
+      "luaMentions": {
+        "recipe": 1,
+        "guide": 6,
+        "overview": 1
+      },
+      "walk": null
+    },
+    "dough-exact-orientation": {
+      "dispatch": {
+        "utc": "2026-11-25T13:40:49.383Z",
+        "kind": "dispatch",
+        "mode": "dough",
+        "arm": "exact-orientation",
+        "site": [
+          -7,
+          -60,
+          5,
+          8,
+          -49,
+          20
+        ],
+        "prompt": "在授权空地上自主规划、建造和调试一条自动线。从输入桶投小麦，磨石磨成面粉，风扇经过围住的水格把它洗成面团，自动送入成品桶。用一个马达，共享传动。选址、设备布局和物流由你定，验收员独立复投。你有一个水桶，需要用原生玩法放水。优先选端点并搭第一段；已经通的子系统保留，看到局部问题只修相关格。先根据现场实际方块与库存验证，最后报告输入桶、产出桶和结果。工程提示可用于你自选布局：用 site.info 一次确认工地。各进料端点至少错开一层，留出直接下方的取料格；给最终成品桶留底部空间。site.flow 可从你选的桶、磨石、置物台端点编译漏斗和过滤溜槽，先读状态和候选格，再交原 apply。site.connect 的 avoid 保留物流和水洗格，磨石用侧齿轮留底部出料，风扇显式写 facing，气流经过水面覆盖置物台。配方已知，无需反复搜索。先实际建起合法的第一段，后续逐段接通，核对 air 和库存。用桶点合适的围水固体表面后回读实际水格。",
+        "owner": "non-OP; creative",
+        "agent": "creative; ask",
+        "stage": "real dedicated server and protocol owner",
+        "version": "0.2.5-dev",
+        "build": "exact-orientation",
+        "thinking": "off",
+        "outputCap": 8192
+      },
+      "end": {
+        "utc": "2026-11-25T13:48:49.735Z",
+        "kind": "model-ended",
+        "seconds": 480.351,
+        "reason": "wall-clock timeout",
+        "ownerReplySeen": false
+      },
+      "errors": [],
+      "game": {
+        "mode": "dough",
+        "arm": "exact-orientation",
+        "mods": [
+          "Fabric 0.17.2",
+          "MC 1.20.1",
+          "Create 6.0.8.1",
+          "Numen 0.1.5",
+          "Engineering 0.2.5-dev"
+        ],
+        "intervention": "one water bucket before dispatch; no post-dispatch construction",
+        "terminal": null,
+        "requests": 42,
+        "actualModels": [
+          "deepseek-v4-pro"
+        ],
+        "tokenTotal": 885900,
+        "peakInputContext": 30755,
+        "modelRequestSeconds": 428.37600000000003,
+        "skillCalls": [],
+        "changed": 1,
+        "outside": [],
+        "power": {
+          "parts": [
+            {
+              "id": "create:millstone",
+              "at": [
+                0,
+                -60,
+                10
+              ],
+              "rpm": 0,
+              "network": null,
+              "stress": null,
+              "capacity": null
+            }
+          ],
+          "mill": {
+            "id": "create:millstone",
+            "at": [
+              0,
+              -60,
+              10
+            ],
+            "rpm": 0,
+            "network": null,
+            "stress": null,
+            "capacity": null
+          },
+          "shared": false
+        },
+        "product": {
+          "attempted": false,
+          "driven": false,
+          "barrels": []
+        },
+        "inheritedProduct": null,
+        "preservation": null,
+        "pathProbe": null,
+        "answer": null
+      },
+      "requests": 42,
+      "tokens": 885900,
+      "cachedInput": 824064,
+      "peakInput": 30755,
+      "usageReceipts": 42,
+      "providerResponseSeconds": 428.376,
+      "gameToolSecondsCoarse": 6.0,
+      "tools": {
+        "lua": 70,
+        "todo": 1
+      },
+      "luaMentions": {
+        "overview": 1,
+        "recipe": 16,
+        "guide": 10,
+        "plan": 6,
+        "air": 2,
+        "flow": 3,
+        "connect": 8,
+        "route": 2,
+        "feed": 2,
+        "inspect": 1,
+        "apply": 1
+      },
+      "walk": null
+    },
+    "dough-final-staged": {
+      "dispatch": {
+        "utc": "2026-11-25T13:35:54.769Z",
+        "kind": "dispatch",
+        "mode": "dough",
+        "arm": "final-staged",
+        "site": [
+          -7,
+          -60,
+          5,
+          8,
+          -49,
+          20
+        ],
+        "prompt": "在授权空地上自主规划、建造和调试一条自动线。从输入桶投小麦，磨石磨成面粉，风扇经过围住的水格把它洗成面团，自动送入成品桶。用一个马达，共享传动。选址、设备布局和物流由你定，验收员独立复投。你有一个水桶，需要用原生玩法放水。优先选端点并搭第一段；已经通的子系统保留，看到局部问题只修相关格。先根据现场实际方块与库存验证，最后报告输入桶、产出桶和结果。工程提示可用于你自选布局：用 site.info 一次确认工地。各进料端点至少错开一层，留出直接下方的取料格；给最终成品桶留底部空间。site.flow 可从你选的桶、磨石、置物台端点编译漏斗和过滤溜槽，先读状态和候选格，再交原 apply。site.connect 的 avoid 保留物流和水洗格，磨石用侧齿轮留底部出料，风扇显式写 facing，气流经过水面覆盖置物台。配方已知，无需反复搜索。先实际建起合法的第一段，后续逐段接通，核对 air 和库存。用桶点合适的围水固体表面后回读实际水格。",
+        "owner": "non-OP; creative",
+        "agent": "creative; ask",
+        "stage": "real dedicated server and protocol owner",
+        "version": "0.2.5-dev",
+        "build": "final-staged",
+        "thinking": "off",
+        "outputCap": 8192
+      },
+      "end": {
+        "utc": "2026-11-25T13:44:55.456Z",
+        "kind": "model-ended",
+        "seconds": 540.687,
+        "reason": "wall-clock timeout",
+        "ownerReplySeen": false
+      },
+      "errors": [],
+      "game": {
+        "mode": "dough",
+        "arm": "final-staged",
+        "mods": [
+          "Fabric 0.17.2",
+          "MC 1.20.1",
+          "Create 6.0.8.1",
+          "Numen 0.1.5",
+          "Engineering 0.2.5-dev"
+        ],
+        "intervention": "one water bucket before dispatch; no post-dispatch construction",
+        "terminal": null,
+        "requests": 38,
+        "actualModels": [
+          "deepseek-v4-pro"
+        ],
+        "tokenTotal": 897178,
+        "peakInputContext": 37911,
+        "modelRequestSeconds": 504.244,
+        "skillCalls": [],
+        "changed": 21,
+        "outside": [],
+        "power": {
+          "parts": [
+            {
+              "id": "create:creative_motor",
+              "at": [
+                -2,
+                -53,
+                8
+              ],
+              "rpm": -32,
+              "network": [
+                -128,
+                36811
+              ],
+              "stress": 192,
+              "capacity": 524288
+            },
+            {
+              "id": "create:millstone",
+              "at": [
+                1,
+                -53,
+                8
+              ],
+              "rpm": -32,
+              "network": [
+                -128,
+                36811
+              ],
+              "stress": 192,
+              "capacity": 524288
+            }
+          ],
+          "mill": {
+            "id": "create:millstone",
+            "at": [
+              1,
+              -53,
+              8
+            ],
+            "rpm": -32,
+            "network": [
+              -128,
+              36811
+            ],
+            "stress": 192,
+            "capacity": 524288
+          },
+          "shared": false
+        },
+        "product": {
+          "attempted": true,
+          "byTestOperator": true,
+          "driven": true,
+          "first": {
+            "after": 0,
+            "delta": 0,
+            "stranded": true,
+            "passed": false
+          },
+          "repeat": null,
+          "passed": false,
+          "input": [
+            1,
+            -50,
+            8
+          ],
+          "output": [
+            1,
+            -59,
+            8
+          ]
+        },
+        "inheritedProduct": null,
+        "preservation": null,
+        "pathProbe": null,
+        "answer": null
+      },
+      "requests": 38,
+      "tokens": 897178,
+      "cachedInput": 806400,
+      "peakInput": 37911,
+      "usageReceipts": 38,
+      "providerResponseSeconds": 504.244,
+      "gameToolSecondsCoarse": 10.0,
+      "tools": {
+        "lua": 45,
+        "todo": 2
+      },
+      "luaMentions": {
+        "overview": 2,
+        "recipe": 5,
+        "guide": 8,
+        "flow": 3,
+        "connect": 4,
+        "inspect": 3,
+        "apply": 2,
+        "air": 1,
+        "inspect_many": 1
+      },
+      "walk": null
+    },
+    "dough-flow-v1": {
+      "dispatch": null,
+      "end": null,
+      "errors": [
+        {
+          "utc": "2026-11-25T13:27:41.798Z",
+          "kind": "error",
+          "message": "server exit 0",
+          "stack": "Error: server exit 0\n    at until (/workspace/scratch/5775ffa4ccb1/trials/harness/compare.cjs:45:51)\n    at async main (/workspace/scratch/5775ffa4ccb1/trials/harness/compare.cjs:243:10)"
+        }
+      ],
+      "game": null,
+      "requests": 0,
+      "tokens": 0,
+      "cachedInput": 0,
+      "peakInput": 0,
+      "usageReceipts": 0,
+      "providerResponseSeconds": 0,
+      "gameToolSecondsCoarse": 0,
+      "tools": {},
+      "luaMentions": {},
+      "walk": null
+    },
+    "dough-flow-v2": {
+      "dispatch": {
+        "utc": "2026-11-25T13:31:37.447Z",
+        "kind": "dispatch",
+        "mode": "dough",
+        "arm": "flow-v2",
+        "site": [
+          -7,
+          -60,
+          5,
+          8,
+          -49,
+          20
+        ],
+        "prompt": "在授权空地上自主规划、建造和调试一条自动线。从输入桶投小麦，磨石磨成面粉，风扇经过围住的水格把它洗成面团，自动送入成品桶。用一个马达，共享传动。选址、设备布局和物流由你定，验收员独立复投。你有一个水桶，需要用原生玩法放水。优先选端点并搭第一段；已经通的子系统保留，看到局部问题只修相关格。先根据现场实际方块与库存验证，最后报告输入桶、产出桶和结果。",
+        "owner": "non-OP; creative",
+        "agent": "creative; ask",
+        "stage": "real dedicated server and protocol owner",
+        "version": "0.2.5-dev",
+        "thinking": "off",
+        "outputCap": 8192
+      },
+      "end": {
+        "utc": "2026-11-25T13:39:37.805Z",
+        "kind": "model-ended",
+        "seconds": 480.357,
+        "reason": "wall-clock timeout",
+        "ownerReplySeen": false
+      },
+      "errors": [],
+      "game": {
+        "mode": "dough",
+        "arm": "flow-v2",
+        "mods": [
+          "Fabric 0.17.2",
+          "MC 1.20.1",
+          "Create 6.0.8.1",
+          "Numen 0.1.5",
+          "Engineering 0.2.5-dev"
+        ],
+        "intervention": "one water bucket before dispatch; no post-dispatch construction",
+        "terminal": null,
+        "requests": 21,
+        "actualModels": [
+          "deepseek-v4-pro"
+        ],
+        "tokenTotal": 552852,
+        "peakInputContext": 40697,
+        "modelRequestSeconds": 445.25400000000013,
+        "skillCalls": [],
+        "changed": 25,
+        "outside": [],
+        "power": {
+          "parts": [
+            {
+              "id": "create:millstone",
+              "at": [
+                0,
+                -56,
+                10
+              ],
+              "rpm": 32,
+              "network": [
+                0,
+                57284
+              ],
+              "stress": 192,
+              "capacity": 524288
+            },
+            {
+              "id": "create:millstone",
+              "at": [
+                2,
+                -56,
+                8
+              ],
+              "rpm": -32,
+              "network": [
+                320,
+                36804
+              ],
+              "stress": 192,
+              "capacity": 524288
+            },
+            {
+              "id": "create:creative_motor",
+              "at": [
+                0,
+                -60,
+                13
+              ],
+              "rpm": 32,
+              "network": [
+                0,
+                57284
+              ],
+              "stress": 192,
+              "capacity": 524288
+            },
+            {
+              "id": "create:creative_motor",
+              "at": [
+                5,
+                -60,
+                8
+              ],
+              "rpm": 32,
+              "network": [
+                320,
+                36804
+              ],
+              "stress": 192,
+              "capacity": 524288
+            }
+          ],
+          "mill": {
+            "id": "create:millstone",
+            "at": [
+              0,
+              -56,
+              10
+            ],
+            "rpm": 32,
+            "network": [
+              0,
+              57284
+            ],
+            "stress": 192,
+            "capacity": 524288
+          },
+          "shared": false
+        },
+        "product": {
+          "attempted": false,
+          "driven": false,
+          "barrels": []
+        },
+        "inheritedProduct": null,
+        "preservation": null,
+        "pathProbe": null,
+        "answer": null
+      },
+      "requests": 21,
+      "tokens": 552852,
+      "cachedInput": 461568,
+      "peakInput": 40697,
+      "usageReceipts": 21,
+      "providerResponseSeconds": 445.254,
+      "gameToolSecondsCoarse": 9.0,
+      "tools": {
+        "lua": 38,
+        "todo": 1
+      },
+      "luaMentions": {
+        "recipe": 6,
+        "guide": 4,
+        "inspect_many": 1,
+        "connect": 7,
+        "apply": 2,
+        "inspect": 4
+      },
+      "walk": null
+    },
+    "dough-staged-owned": {
+      "dispatch": {
+        "utc": "2026-11-25T13:55:56.160Z",
+        "kind": "dispatch",
+        "mode": "dough",
+        "arm": "staged-owned",
+        "site": [
+          -7,
+          -60,
+          5,
+          8,
+          -49,
+          20
+        ],
+        "prompt": "这条小麦自动面团线是你之前搭到一半的工程。已建了原料桶、磨石、风扇、置物台和成品桶，部分动力与进料已通，机件方向、气流和收集还需验证。请继续完成，不重建工厂。用 engineering.site.overview() 读现状，用 air 指出水洗气流是否覆盖置物台，只修需要改的局部动力支路或物流，保留已经正常的传动和进料。背包有一只可用原生交互的水桶。确认小麦自动磨面、置物台水洗、成品桶收集，再报告实际证据和桶位置。验收员独立复投。",
+        "owner": "non-OP; creative",
+        "agent": "creative; ask",
+        "stage": "real dedicated server and protocol owner",
+        "resumed": true,
+        "version": "0.2.5-dev",
+        "build": "staged-owned",
+        "thinking": "off",
+        "outputCap": 8192
+      },
+      "end": {
+        "utc": "2026-11-25T14:00:31.416Z",
+        "kind": "model-ended",
+        "seconds": 275.257,
+        "reason": "wall-clock timeout",
+        "ownerReplySeen": false
+      },
+      "errors": [],
+      "game": {
+        "mode": "dough",
+        "arm": "staged-owned",
+        "mods": [
+          "Fabric 0.17.2",
+          "MC 1.20.1",
+          "Create 6.0.8.1",
+          "Numen 0.1.5",
+          "Engineering 0.2.5-dev"
+        ],
+        "intervention": "one water bucket before dispatch; no post-dispatch construction",
+        "terminal": null,
+        "requests": 17,
+        "actualModels": [
+          "deepseek-v4-pro"
+        ],
+        "tokenTotal": 726071,
+        "peakInputContext": 49221,
+        "modelRequestSeconds": 294.15200000000004,
+        "skillCalls": [],
+        "changed": 4,
+        "outside": [],
+        "power": {
+          "parts": [
+            {
+              "id": "create:creative_motor",
+              "at": [
+                -2,
+                -53,
+                8
+              ],
+              "rpm": -64,
+              "network": [
+                -128,
+                36811
+              ],
+              "stress": 384,
+              "capacity": 1048576
+            },
+            {
+              "id": "create:millstone",
+              "at": [
+                1,
+                -53,
+                8
+              ],
+              "rpm": -64,
+              "network": [
+                -128,
+                36811
+              ],
+              "stress": 384,
+              "capacity": 1048576
+            }
+          ],
+          "mill": {
+            "id": "create:millstone",
+            "at": [
+              1,
+              -53,
+              8
+            ],
+            "rpm": -64,
+            "network": [
+              -128,
+              36811
+            ],
+            "stress": 384,
+            "capacity": 1048576
+          },
+          "shared": false
+        },
+        "product": {
+          "attempted": true,
+          "byTestOperator": true,
+          "driven": true,
+          "first": {
+            "after": 0,
+            "delta": 0,
+            "stranded": true,
+            "passed": false
+          },
+          "repeat": null,
+          "passed": false,
+          "input": [
+            1,
+            -50,
+            8
+          ],
+          "output": [
+            1,
+            -59,
+            8
+          ]
+        },
+        "inheritedProduct": null,
+        "preservation": null,
+        "pathProbe": null,
+        "answer": null
+      },
+      "requests": 17,
+      "tokens": 726071,
+      "cachedInput": 664832,
+      "peakInput": 49221,
+      "usageReceipts": 17,
+      "providerResponseSeconds": 294.152,
+      "gameToolSecondsCoarse": 7.0,
+      "tools": {
+        "lua": 16
+      },
+      "luaMentions": {
+        "overview": 2,
+        "air": 5,
+        "inspect": 7,
+        "apply": 3,
+        "inspect_many": 1,
+        "connect": 1
+      },
+      "walk": null
+    },
+    "dough-staged-resume": {
+      "dispatch": {
+        "utc": "2026-11-25T13:49:19.300Z",
+        "kind": "dispatch",
+        "mode": "dough",
+        "arm": "staged-resume",
+        "site": [
+          -7,
+          -60,
+          5,
+          8,
+          -49,
+          20
+        ],
+        "prompt": "这条小麦自动面团线是你之前搭到一半的工程。已建了原料桶、磨石、风扇、置物台和成品桶，部分动力与进料已通，机件方向、气流和收集还需验证。请继续完成，不重建工厂。用 engineering.site.overview() 读现状，用 air 指出水洗气流是否覆盖置物台，只修需要改的局部动力支路或物流，保留已经正常的传动和进料。背包有一只可用原生交互的水桶。确认小麦自动磨面、置物台水洗、成品桶收集，再报告实际证据和桶位置。验收员独立复投。",
+        "owner": "non-OP; creative",
+        "agent": "creative; ask",
+        "stage": "real dedicated server and protocol owner",
+        "resumed": true,
+        "version": "0.2.5-dev",
+        "build": "staged-resume",
+        "thinking": "off",
+        "outputCap": 8192
+      },
+      "end": {
+        "utc": "2026-11-25T13:54:08.925Z",
+        "kind": "model-ended",
+        "seconds": 289.625,
+        "reason": "stop",
+        "ownerReplySeen": true
+      },
+      "errors": [],
+      "game": {
+        "mode": "dough",
+        "arm": "staged-resume",
+        "mods": [
+          "Fabric 0.17.2",
+          "MC 1.20.1",
+          "Create 6.0.8.1",
+          "Numen 0.1.5",
+          "Engineering 0.2.5-dev"
+        ],
+        "intervention": "one water bucket before dispatch; no post-dispatch construction",
+        "terminal": "stop",
+        "requests": 28,
+        "actualModels": [
+          "deepseek-v4-pro"
+        ],
+        "tokenTotal": 513239,
+        "peakInputContext": 26256,
+        "modelRequestSeconds": 285.479,
+        "skillCalls": [],
+        "changed": 0,
+        "outside": [],
+        "power": {
+          "parts": [
+            {
+              "id": "create:creative_motor",
+              "at": [
+                -2,
+                -53,
+                8
+              ],
+              "rpm": -32,
+              "network": [
+                -128,
+                36811
+              ],
+              "stress": 192,
+              "capacity": 524288
+            },
+            {
+              "id": "create:millstone",
+              "at": [
+                1,
+                -53,
+                8
+              ],
+              "rpm": -32,
+              "network": [
+                -128,
+                36811
+              ],
+              "stress": 192,
+              "capacity": 524288
+            }
+          ],
+          "mill": {
+            "id": "create:millstone",
+            "at": [
+              1,
+              -53,
+              8
+            ],
+            "rpm": -32,
+            "network": [
+              -128,
+              36811
+            ],
+            "stress": 192,
+            "capacity": 524288
+          },
+          "shared": false
+        },
+        "product": {
+          "attempted": true,
+          "byTestOperator": true,
+          "driven": true,
+          "first": {
+            "after": 0,
+            "delta": 0,
+            "stranded": true,
+            "passed": false
+          },
+          "repeat": null,
+          "passed": false,
+          "input": [
+            1,
+            -50,
+            8
+          ],
+          "output": [
+            1,
+            -59,
+            8
+          ]
+        },
+        "inheritedProduct": null,
+        "preservation": null,
+        "pathProbe": null,
+        "answer": "你把厂子的这些方块判定为别人所有的,我这边的改动机件方向和水洗置物台的操作被权限硬规则拦下了(break other)。传动和进料我刚才验过,都还正常在跑。要不要你把置物台和风扇那两格的归属放开,或者你自己动手把风扇转向朝北、给置物台灌上水?我这边只动需要修的那两处。"
+      },
+      "requests": 28,
+      "tokens": 513239,
+      "cachedInput": 467968,
+      "peakInput": 26256,
+      "usageReceipts": 28,
+      "providerResponseSeconds": 285.479,
+      "gameToolSecondsCoarse": 3.0,
+      "tools": {
+        "lua": 27
+      },
+      "luaMentions": {
+        "overview": 3,
+        "air": 3,
+        "inspect_many": 7,
+        "recipe": 1,
+        "guide": 4,
+        "plan": 1,
+        "apply": 1
+      },
+      "walk": null
+    },
+    "flow-repair-flow-v2": {
+      "dispatch": {
+        "utc": "2026-11-25T13:31:37.392Z",
+        "kind": "dispatch",
+        "mode": "flow-repair",
+        "arm": "flow-v2",
+        "site": [
+          -7,
+          -60,
+          5,
+          8,
+          -49,
+          20
+        ],
+        "prompt": "这条已有的自动小麦面团线原来能生产，现在投入后成品桶没有新增。请实际读取设备、物流、库存定位问题，用最少的改动恢复整线，保留动力、围水、正常设备及旁边储物桶库存。不要重建。验收员将从原输入桶独立复投。请报告定位、改动和实际结果。",
+        "owner": "non-OP; creative",
+        "agent": "creative; ask",
+        "stage": "real dedicated server and protocol owner",
+        "version": "0.2.5-dev",
+        "thinking": "off",
+        "outputCap": 8192
+      },
+      "end": {
+        "utc": "2026-11-25T13:36:47.819Z",
+        "kind": "model-ended",
+        "seconds": 310.428,
+        "reason": "wall-clock timeout",
+        "ownerReplySeen": false
+      },
+      "errors": [],
+      "game": {
+        "mode": "flow-repair",
+        "arm": "flow-v2",
+        "mods": [
+          "Fabric 0.17.2",
+          "MC 1.20.1",
+          "Create 6.0.8.1",
+          "Numen 0.1.5",
+          "Engineering 0.2.5-dev"
+        ],
+        "intervention": "none during modeling",
+        "terminal": null,
+        "requests": 24,
+        "actualModels": [
+          "deepseek-v4-pro"
+        ],
+        "tokenTotal": 600645,
+        "peakInputContext": 35559,
+        "modelRequestSeconds": 289.66100000000006,
+        "skillCalls": [
+          {
+            "id": "call_00_5Pu77xeUzNXJB0p8EwCw4536",
+            "name": "skill",
+            "arguments": "{\"skill\": \"crafting_and_smelting\"}"
+          }
+        ],
+        "changed": 131,
+        "outside": [],
+        "power": {
+          "parts": [
+            {
+              "id": "create:millstone",
+              "at": [
+                1,
+                -54,
+                12
+              ],
+              "rpm": -64,
+              "network": [
+                0,
+                32712
+              ],
+              "stress": 384,
+              "capacity": 1048576
+            },
+            {
+              "id": "create:creative_motor",
+              "at": [
+                0,
+                -56,
+                7
+              ],
+              "rpm": 64,
+              "network": [
+                0,
+                32712
+              ],
+              "stress": 384,
+              "capacity": 1048576
+            }
+          ],
+          "mill": {
+            "id": "create:millstone",
+            "at": [
+              1,
+              -54,
+              12
+            ],
+            "rpm": -64,
+            "network": [
+              0,
+              32712
+            ],
+            "stress": 384,
+            "capacity": 1048576
+          },
+          "shared": false
+        },
+        "product": {
+          "attempted": true,
+          "byTestOperator": true,
+          "driven": true,
+          "first": {
+            "after": 5,
+            "delta": 5,
+            "stranded": false,
+            "passed": true
+          },
+          "repeat": {
+            "after": 8,
+            "delta": 3,
+            "stranded": false,
+            "passed": true
+          },
+          "passed": true,
+          "input": [
+            2,
+            -53,
+            12
+          ],
+          "output": [
+            0,
+            -59,
+            12
+          ]
+        },
+        "inheritedProduct": null,
+        "preservation": {
+          "copper": 7,
+          "oldTouched": [
+            "1,-57,12"
+          ],
+          "expectedFaultOnly": true
+        },
+        "pathProbe": null,
+        "answer": null
+      },
+      "requests": 24,
+      "tokens": 600645,
+      "cachedInput": 524928,
+      "peakInput": 35559,
+      "usageReceipts": 24,
+      "providerResponseSeconds": 289.661,
+      "gameToolSecondsCoarse": 22.0,
+      "tools": {
+        "skill": 1,
+        "lua": 30,
+        "todo": 2
+      },
+      "luaMentions": {
+        "guide": 3,
+        "inspect_many": 4,
+        "recipe": 1,
+        "air": 1,
+        "flow": 1,
+        "apply": 1
+      },
+      "walk": null
+    },
+    "retrofit-flow-v3": {
+      "dispatch": {
+        "utc": "2026-11-25T13:34:09.346Z",
+        "kind": "dispatch",
+        "mode": "retrofit",
+        "arm": "flow-v3",
+        "site": [
+          -7,
+          -60,
+          5,
+          8,
+          -49,
+          20
+        ],
+        "prompt": "保留这间旧工坊、入口、原来压机和磨石的功能，也保留所有旧方块与现有物品。复用已经在转的传动，新增一套独立的桶进桶出圆石磨砂砾自动工位（新增磨石、原料桶和成品桶），给玩家留出通道。现有两台设备和马达不要改拆；在空位置上接支路。你选位置、设备和路线，完成后用真实动力和产品验证，请报告新原料桶和成品桶坐标。",
+        "owner": "non-OP; creative",
+        "agent": "creative; ask",
+        "stage": "real dedicated server and protocol owner",
+        "version": "0.2.5-dev",
+        "thinking": "off",
+        "outputCap": 8192
+      },
+      "end": {
+        "utc": "2026-11-25T13:42:09.864Z",
+        "kind": "model-ended",
+        "seconds": 480.517,
+        "reason": "wall-clock timeout",
+        "ownerReplySeen": false
+      },
+      "errors": [
+        {
+          "utc": "2026-11-25T13:42:54.865Z",
+          "kind": "error",
+          "message": "No reply within 45000ms",
+          "stack": "RconError: No reply within 45000ms\n    at Timeout.<anonymous> (file:///workspace/scratch/d263229ee747/numen-research/mc20/node_modules/rcon-client/dist/rcon.js:242:54)\n    at listOnTimeout (node:internal/timers:685:17)\n    at process.processTimers (node:internal/timers:618:7)"
+        }
+      ],
+      "game": null,
+      "requests": 18,
+      "tokens": 430451,
+      "cachedInput": 374144,
+      "peakInput": 31724,
+      "usageReceipts": 18,
+      "providerResponseSeconds": 186.688,
+      "gameToolSecondsCoarse": 33.0,
+      "tools": {
+        "skill": 1,
+        "lua": 23
+      },
+      "luaMentions": {
+        "inspect_many": 10,
+        "recipe": 2,
+        "guide": 1,
+        "inspect": 2
+      },
+      "walk": null
+    },
+    "retrofit-operator-fixture": {
+      "dispatch": {
+        "utc": "2026-11-25T13:50:27.597Z",
+        "kind": "dispatch",
+        "mode": "retrofit",
+        "arm": "operator-fixture",
+        "site": [
+          -7,
+          -60,
+          5,
+          8,
+          -49,
+          20
+        ],
+        "prompt": "保留这间旧工坊、入口、原来压机和磨石的功能，也保留所有旧方块与现有物品。复用已经在转的传动，新增一套独立的桶进桶出圆石磨砂砾自动工位（新增磨石、原料桶和成品桶），给玩家留出通道。现有两台设备和马达不要改拆；在空位置上接支路。你选位置、设备和路线，完成后用真实动力和产品验证，请报告新原料桶和成品桶坐标。",
+        "owner": "non-OP; creative",
+        "agent": "creative; ask",
+        "stage": "real dedicated server and protocol owner",
+        "resumed": false,
+        "version": "0.2.5-dev",
+        "build": "operator-fixture",
+        "thinking": "off",
+        "outputCap": 8192
+      },
+      "end": {
+        "utc": "2026-11-25T13:50:27.598Z",
+        "kind": "model-ended",
+        "seconds": 0.001,
+        "reason": "fixed no-model fixture",
+        "ownerReplySeen": false
+      },
+      "errors": [],
+      "game": {
+        "mode": "retrofit",
+        "arm": "operator-fixture",
+        "mods": [
+          "Fabric 0.17.2",
+          "MC 1.20.1",
+          "Create 6.0.8.1",
+          "Numen 0.1.5",
+          "Engineering 0.2.5-dev"
+        ],
+        "intervention": "test operator authored construction; no model",
+        "terminal": null,
+        "requests": 0,
+        "actualModels": [],
+        "tokenTotal": 0,
+        "peakInputContext": 0,
+        "modelRequestSeconds": 0,
+        "skillCalls": [],
+        "changed": 10,
+        "outside": [],
+        "power": {
+          "parts": [
+            {
+              "id": "create:mechanical_press",
+              "at": [
+                -2,
+                -58,
+                8
+              ],
+              "rpm": -32,
+              "network": [
+                0,
+                77770
+              ],
+              "stress": 512,
+              "capacity": 524288
+            },
+            {
+              "id": "create:millstone",
+              "at": [
+                2,
+                -59,
+                8
+              ],
+              "rpm": 32,
+              "network": [
+                0,
+                77770
+              ],
+              "stress": 512,
+              "capacity": 524288
+            },
+            {
+              "id": "create:millstone",
+              "at": [
+                0,
+                -55,
+                14
+              ],
+              "rpm": 32,
+              "network": [
+                0,
+                77770
+              ],
+              "stress": 512,
+              "capacity": 524288
+            },
+            {
+              "id": "create:creative_motor",
+              "at": [
+                0,
+                -54,
+                18
+              ],
+              "rpm": -32,
+              "network": [
+                0,
+                77770
+              ],
+              "stress": 512,
+              "capacity": 524288
+            }
+          ],
+          "press": {
+            "id": "create:mechanical_press",
+            "at": [
+              -2,
+              -58,
+              8
+            ],
+            "rpm": -32,
+            "network": [
+              0,
+              77770
+            ],
+            "stress": 512,
+            "capacity": 524288
+          },
+          "mill": {
+            "id": "create:millstone",
+            "at": [
+              2,
+              -59,
+              8
+            ],
+            "rpm": 32,
+            "network": [
+              0,
+              77770
+            ],
+            "stress": 512,
+            "capacity": 524288
+          },
+          "shared": true
+        },
+        "product": {
+          "attempted": true,
+          "byTestOperator": true,
+          "driven": true,
+          "first": {
+            "after": 3,
+            "delta": 3,
+            "stranded": false,
+            "passed": true
+          },
+          "repeat": {
+            "after": 6,
+            "delta": 3,
+            "stranded": false,
+            "passed": true
+          },
+          "passed": true,
+          "input": [
+            0,
+            -53,
+            14
+          ],
+          "output": [
+            0,
+            -57,
+            14
+          ]
+        },
+        "inheritedProduct": {
+          "attempted": true,
+          "byTestOperator": true,
+          "initial": {
+            "plate": 0,
+            "gravel": 0,
+            "loose": []
+          },
+          "result": {
+            "plate": 1,
+            "gravel": 1,
+            "loose": []
+          },
+          "passed": true
+        },
+        "preservation": {
+          "copper": 7,
+          "oldTouched": [],
+          "expectedFaultOnly": null
+        },
+        "pathProbe": null,
+        "answer": null
+      },
+      "requests": 0,
+      "tokens": 0,
+      "cachedInput": 0,
+      "peakInput": 0,
+      "usageReceipts": 0,
+      "providerResponseSeconds": 0,
+      "gameToolSecondsCoarse": 0,
+      "tools": {},
+      "luaMentions": {},
+      "walk": {
+        "path": [
+          [
+            -1,
+            -60,
+            5
+          ],
+          [
+            -1,
+            -60,
+            6
+          ],
+          [
+            -1,
+            -60,
+            7
+          ],
+          [
+            -2,
+            -60,
+            7
+          ],
+          [
+            -1,
+            -60,
+            7
+          ],
+          [
+            0,
+            -60,
+            7
+          ],
+          [
+            1,
+            -60,
+            7
+          ],
+          [
+            2,
+            -60,
+            7
+          ]
+        ],
+        "workstations": [
+          [
+            -2,
+            -60,
+            7
+          ],
+          [
+            2,
+            -60,
+            7
+          ]
+        ],
+        "press": [
+          -2,
+          -58,
+          8
+        ],
+        "depot": [
+          -2,
+          -60,
+          8
+        ],
+        "mill": [
+          2,
+          -59,
+          8
+        ],
+        "actualClientPositions": [
+          [
+            -0.5,
+            -60.0,
+            5.5
+          ],
+          [
+            -0.5,
+            -60.0,
+            6.3249359744434415
+          ],
+          [
+            -0.5,
+            -60.0,
+            7.621645294243631
+          ],
+          [
+            -1.3249359744434415,
+            -60.0,
+            7.64733033139292
+          ],
+          [
+            -0.5209305109505608,
+            -60.0,
+            7.64733033139292
+          ],
+          [
+            0.3186962527913842,
+            -60.0,
+            7.64733033139292
+          ],
+          [
+            1.635598019811347,
+            -60.0,
+            7.64733033139292
+          ],
+          [
+            2.4946938223446717,
+            -60.0,
+            7.64733033139292
+          ]
+        ],
+        "passed": true,
+        "mode": "survival; teleported only to initial outdoor position; subsequent movement by ordinary movement keys"
+      }
+    },
+    "retrofit-retrofit-guided": {
+      "dispatch": {
+        "utc": "2026-11-25T13:43:36.976Z",
+        "kind": "dispatch",
+        "mode": "retrofit",
+        "arm": "retrofit-guided",
+        "site": [
+          -7,
+          -60,
+          5,
+          8,
+          -49,
+          20
+        ],
+        "prompt": "保留这间旧工坊、入口、原来压机和磨石的功能，也保留所有旧方块与现有物品。复用已经在转的传动，新增一套独立的桶进桶出圆石磨砂砾自动工位（新增磨石、原料桶和成品桶），给玩家留出通道。现有两台设备和马达不要改拆；在空位置上接支路。你选位置、设备和路线，完成后用真实动力和产品验证，请报告新原料桶和成品桶坐标。请先用 engineering.site.overview() 一次读旧设备坐标，检查某个在转的传动件的空闲接面。connect 的 options.reuse=true 能追加支路并排除原件，avoid 保留玩家脚位和物流格。flow 从你确定的桶和新磨石端点规划物料；可先接一项并实际检查，保留已通过的部分。已有建筑和两台旧机目前正常，无需重画或逐格扫描。",
+        "owner": "non-OP; creative",
+        "agent": "creative; ask",
+        "stage": "real dedicated server and protocol owner",
+        "version": "0.2.5-dev",
+        "build": "retrofit-guided",
+        "thinking": "off",
+        "outputCap": 8192
+      },
+      "end": {
+        "utc": "2026-11-25T13:50:37.461Z",
+        "kind": "model-ended",
+        "seconds": 420.485,
+        "reason": "wall-clock timeout",
+        "ownerReplySeen": false
+      },
+      "errors": [
+        {
+          "utc": "2026-11-25T13:51:22.465Z",
+          "kind": "error",
+          "message": "No reply within 45000ms",
+          "stack": "RconError: No reply within 45000ms\n    at Timeout.<anonymous> (file:///workspace/scratch/d263229ee747/numen-research/mc20/node_modules/rcon-client/dist/rcon.js:242:54)\n    at listOnTimeout (node:internal/timers:685:17)\n    at process.processTimers (node:internal/timers:618:7)"
+        }
+      ],
+      "game": null,
+      "requests": 15,
+      "tokens": 215524,
+      "cachedInput": 191232,
+      "peakInput": 17438,
+      "usageReceipts": 15,
+      "providerResponseSeconds": 123.287,
+      "gameToolSecondsCoarse": 23.0,
+      "tools": {
+        "lua": 15
+      },
+      "luaMentions": {
+        "overview": 3,
+        "inspect": 3,
+        "inspect_many": 4,
+        "connect": 3
+      },
+      "walk": null
+    },
+    "stone-flow-v3": {
+      "dispatch": {
+        "utc": "2026-11-25T13:34:08.526Z",
+        "kind": "dispatch",
+        "mode": "stone",
+        "arm": "flow-v3",
+        "site": [
+          -7,
+          -60,
+          5,
+          8,
+          -49,
+          20
+        ],
+        "prompt": "在授权空地从零自主做一条自动圆石筛选线。原料桶投入圆石，第一台磨石得到砂砾，第二台磨石得到燧石，自动送回成品桶，两台同一动力源，不手工转运。请选自己的布局和路线，优先搭一个能实际过料的区段，再局部接通余下部分。最后报告输入和成品桶。",
+        "owner": "non-OP; creative",
+        "agent": "creative; ask",
+        "stage": "real dedicated server and protocol owner",
+        "version": "0.2.5-dev",
+        "thinking": "off",
+        "outputCap": 8192
+      },
+      "end": {
+        "utc": "2026-11-25T13:41:10.471Z",
+        "kind": "model-ended",
+        "seconds": 421.945,
+        "reason": "stop",
+        "ownerReplySeen": true
+      },
+      "errors": [],
+      "game": {
+        "mode": "stone",
+        "arm": "flow-v3",
+        "mods": [
+          "Fabric 0.17.2",
+          "MC 1.20.1",
+          "Create 6.0.8.1",
+          "Numen 0.1.5",
+          "Engineering 0.2.5-dev"
+        ],
+        "intervention": "none during modeling",
+        "terminal": "stop",
+        "requests": 34,
+        "actualModels": [
+          "deepseek-v4-pro"
+        ],
+        "tokenTotal": 722242,
+        "peakInputContext": 29929,
+        "modelRequestSeconds": 364.993,
+        "skillCalls": [],
+        "changed": 22,
+        "outside": [],
+        "power": {
+          "parts": [
+            {
+              "id": "create:millstone",
+              "at": [
+                0,
+                -54,
+                12
+              ],
+              "rpm": -16,
+              "network": [
+                0,
+                61380
+              ],
+              "stress": 128,
+              "capacity": 262144
+            },
+            {
+              "id": "create:millstone",
+              "at": [
+                0,
+                -56,
+                12
+              ],
+              "rpm": -16,
+              "network": [
+                0,
+                61380
+              ],
+              "stress": 128,
+              "capacity": 262144
+            },
+            {
+              "id": "create:creative_motor",
+              "at": [
+                0,
+                -60,
+                14
+              ],
+              "rpm": -16,
+              "network": [
+                0,
+                61380
+              ],
+              "stress": 128,
+              "capacity": 262144
+            }
+          ],
+          "mill": {
+            "id": "create:millstone",
+            "at": [
+              0,
+              -54,
+              12
+            ],
+            "rpm": -16,
+            "network": [
+              0,
+              61380
+            ],
+            "stress": 128,
+            "capacity": 262144
+          },
+          "shared": false
+        },
+        "product": {
+          "attempted": true,
+          "byTestOperator": true,
+          "driven": true,
+          "first": {
+            "after": 6,
+            "delta": 3,
+            "stranded": false,
+            "passed": true
+          },
+          "repeat": {
+            "after": 9,
+            "delta": 3,
+            "stranded": false,
+            "passed": true
+          },
+          "passed": true,
+          "input": [
+            0,
+            -52,
+            12
+          ],
+          "output": [
+            0,
+            -58,
+            12
+          ]
+        },
+        "inheritedProduct": null,
+        "preservation": null,
+        "pathProbe": null,
+        "answer": "自动圆石筛选线已经搭好并跑通了。整条线从零放在授权空地的中间那根柱位上。\n\n结构是一条竖直流水线:顶部的输入桶接一条溜槽,喂进第一台磨石,圆石磨成砂砾往下落到第二台磨石,再磨成燧石,最后经溜槽落进底部的成品桶。三颗圆石投进去,约半分钟后成品桶里就是三颗燧石,全程没有手工转运。\n\n动力上,两台磨石由同一台创造马达驱动——马达在地面,经齿轮箱分两路竖轴升到左右两侧,各用一个竖轴齿轮转到磨石侧边,所以它们上下都留着出料口。两边的轴和齿轮现在都在转,速率显示正常。\n\n输入桶在你头顶上方偏一处的高位,成品桶在最底下贴地面。整条线现在就能用,随时往里倒圆石就出燧石。"
+      },
+      "requests": 34,
+      "tokens": 722242,
+      "cachedInput": 658560,
+      "peakInput": 29929,
+      "usageReceipts": 34,
+      "providerResponseSeconds": 364.993,
+      "gameToolSecondsCoarse": 45.0,
+      "tools": {
+        "lua": 35,
+        "todo": 3
+      },
+      "luaMentions": {
+        "recipe": 4,
+        "guide": 4,
+        "connect": 2,
+        "route": 3,
+        "apply": 2,
+        "inspect_many": 4,
+        "feed": 1
+      },
+      "walk": null
+    }
+  },
+  "independentFixtures": {
+    "feed-serial.log": [
+      {
+        "utc": "2026-11-25T13:49:04.366Z",
+        "type": "engineering_guards",
+        "outOfScopeRejected": true,
+        "survivalRejected": true,
+        "worldUnchanged": true
+      },
+      {
+        "utc": "2026-11-25T13:49:08.643Z",
+        "type": "engineering_feed",
+        "passed": true,
+        "idleAccepted": 3,
+        "flowAccepted": 3,
+        "final": [
+          0,
+          0,
+          3
+        ],
+        "occupiedRejected": true,
+        "fullSlotRejected": true,
+        "wrongTargetRejected": true,
+        "occupiedReplacementRejected": true,
+        "outside": []
+      }
+    ],
+    "line-final.log": [
+      {
+        "utc": "2026-11-25T13:40:08.670Z",
+        "type": "engineering_guards",
+        "outOfScopeRejected": true,
+        "survivalRejected": true,
+        "worldUnchanged": true
+      },
+      {
+        "utc": "2026-11-25T13:40:43.294Z",
+        "type": "engineering_calibrated_line",
+        "original": {
+          "input": [
+            -5,
+            -49,
+            12
+          ],
+          "out": [
+            -2,
+            -57,
+            12
+          ],
+          "finished": 3,
+          "shared": true,
+          "motorSetting": 64,
+          "mills": [
+            {
+              "pos": [
+                -5,
+                -51,
+                12
+              ],
+              "rpm": -64,
+              "source": {
+                "X": -6,
+                "Y": -51,
+                "Z": 12
+              }
+            },
+            {
+              "pos": [
+                -2,
+                -55,
+                12
+              ],
+              "rpm": -64,
+              "source": {
+                "X": -3,
+                "Y": -55,
+                "Z": 12
+              }
+            }
+          ],
+          "drained": true
+        },
+        "copy": {
+          "input": [
+            2,
+            -49,
+            12
+          ],
+          "out": [
+            5,
+            -57,
+            12
+          ],
+          "finished": 3,
+          "shared": true,
+          "motorSetting": 64,
+          "mills": [
+            {
+              "pos": [
+                2,
+                -51,
+                12
+              ],
+              "rpm": -64,
+              "source": {
+                "X": 1,
+                "Y": -51,
+                "Z": 12
+              }
+            },
+            {
+              "pos": [
+                5,
+                -55,
+                12
+              ],
+              "rpm": -64,
+              "source": {
+                "X": 4,
+                "Y": -55,
+                "Z": 12
+              }
+            }
+          ],
+          "drained": true
+        },
+        "passed": true,
+        "repeat": {
+          "original": {
+            "input": [
+              -5,
+              -49,
+              12
+            ],
+            "out": [
+              -2,
+              -57,
+              12
+            ],
+            "finished": 6,
+            "shared": true,
+            "motorSetting": 64,
+            "mills": [
+              {
+                "pos": [
+                  -5,
+                  -51,
+                  12
+                ],
+                "rpm": -64,
+                "source": {
+                  "X": -6,
+                  "Y": -51,
+                  "Z": 12
+                }
+              },
+              {
+                "pos": [
+                  -2,
+                  -55,
+                  12
+                ],
+                "rpm": -64,
+                "source": {
+                  "X": -3,
+                  "Y": -55,
+                  "Z": 12
+                }
+              }
+            ],
+            "drained": true
+          },
+          "copy": {
+            "input": [
+              2,
+              -49,
+              12
+            ],
+            "out": [
+              5,
+              -57,
+              12
+            ],
+            "finished": 6,
+            "shared": true,
+            "motorSetting": 64,
+            "mills": [
+              {
+                "pos": [
+                  2,
+                  -51,
+                  12
+                ],
+                "rpm": -64,
+                "source": {
+                  "X": 1,
+                  "Y": -51,
+                  "Z": 12
+                }
+              },
+              {
+                "pos": [
+                  5,
+                  -55,
+                  12
+                ],
+                "rpm": -64,
+                "source": {
+                  "X": 4,
+                  "Y": -55,
+                  "Z": 12
+                }
+              }
+            ],
+            "drained": true
+          },
+          "passed": true
+        },
+        "outside": [],
+        "modelRequests": 0
+      }
+    ],
+    "line-orient.log": [
+      {
+        "utc": "2026-11-25T13:44:27.955Z",
+        "type": "engineering_guards",
+        "outOfScopeRejected": true,
+        "survivalRejected": true,
+        "worldUnchanged": true
+      },
+      {
+        "utc": "2026-11-25T13:45:02.711Z",
+        "type": "engineering_calibrated_line",
+        "original": {
+          "input": [
+            -5,
+            -49,
+            12
+          ],
+          "out": [
+            -2,
+            -57,
+            12
+          ],
+          "finished": 3,
+          "shared": true,
+          "motorSetting": 64,
+          "mills": [
+            {
+              "pos": [
+                -5,
+                -51,
+                12
+              ],
+              "rpm": -64,
+              "source": {
+                "X": -6,
+                "Y": -51,
+                "Z": 12
+              }
+            },
+            {
+              "pos": [
+                -2,
+                -55,
+                12
+              ],
+              "rpm": -64,
+              "source": {
+                "X": -3,
+                "Y": -55,
+                "Z": 12
+              }
+            }
+          ],
+          "drained": true
+        },
+        "copy": {
+          "input": [
+            2,
+            -49,
+            12
+          ],
+          "out": [
+            5,
+            -57,
+            12
+          ],
+          "finished": 3,
+          "shared": true,
+          "motorSetting": 64,
+          "mills": [
+            {
+              "pos": [
+                2,
+                -51,
+                12
+              ],
+              "rpm": -64,
+              "source": {
+                "X": 1,
+                "Y": -51,
+                "Z": 12
+              }
+            },
+            {
+              "pos": [
+                5,
+                -55,
+                12
+              ],
+              "rpm": -64,
+              "source": {
+                "X": 4,
+                "Y": -55,
+                "Z": 12
+              }
+            }
+          ],
+          "drained": true
+        },
+        "passed": true,
+        "repeat": {
+          "original": {
+            "input": [
+              -5,
+              -49,
+              12
+            ],
+            "out": [
+              -2,
+              -57,
+              12
+            ],
+            "finished": 6,
+            "shared": true,
+            "motorSetting": 64,
+            "mills": [
+              {
+                "pos": [
+                  -5,
+                  -51,
+                  12
+                ],
+                "rpm": -64,
+                "source": {
+                  "X": -6,
+                  "Y": -51,
+                  "Z": 12
+                }
+              },
+              {
+                "pos": [
+                  -2,
+                  -55,
+                  12
+                ],
+                "rpm": -64,
+                "source": {
+                  "X": -3,
+                  "Y": -55,
+                  "Z": 12
+                }
+              }
+            ],
+            "drained": true
+          },
+          "copy": {
+            "input": [
+              2,
+              -49,
+              12
+            ],
+            "out": [
+              5,
+              -57,
+              12
+            ],
+            "finished": 6,
+            "shared": true,
+            "motorSetting": 64,
+            "mills": [
+              {
+                "pos": [
+                  2,
+                  -51,
+                  12
+                ],
+                "rpm": -64,
+                "source": {
+                  "X": 1,
+                  "Y": -51,
+                  "Z": 12
+                }
+              },
+              {
+                "pos": [
+                  5,
+                  -55,
+                  12
+                ],
+                "rpm": -64,
+                "source": {
+                  "X": 4,
+                  "Y": -55,
+                  "Z": 12
+                }
+              }
+            ],
+            "drained": true
+          },
+          "passed": true
+        },
+        "outside": [],
+        "modelRequests": 0
+      }
+    ],
+    "logistics-final.log": [
+      {
+        "utc": "2026-11-25T13:36:36.806Z",
+        "type": "engineering_guards",
+        "outOfScopeRejected": true,
+        "survivalRejected": true,
+        "worldUnchanged": true
+      },
+      {
+        "utc": "2026-11-25T13:38:16.291Z",
+        "type": "engineering_dough",
+        "passed": true,
+        "fixture": true,
+        "compiled": true,
+        "first": {
+          "count": 4,
+          "powered": true,
+          "drained": true,
+          "rpm": [
+            -64,
+            -64,
+            64
+          ],
+          "outside": []
+        },
+        "independent": {
+          "count": 7,
+          "powered": true,
+          "drained": true,
+          "rpm": [
+            -64,
+            -64,
+            64
+          ],
+          "outside": []
+        },
+        "firstIncrease": 4,
+        "independentIncrease": 3
+      }
+    ],
+    "logistics-orient.log": [
+      {
+        "utc": "2026-11-25T13:41:33.244Z",
+        "type": "engineering_guards",
+        "outOfScopeRejected": true,
+        "survivalRejected": true,
+        "worldUnchanged": true
+      },
+      {
+        "error": "No reply within 12000ms"
+      }
+    ],
+    "logistics-serial.log": [
+      {
+        "utc": "2026-11-25T13:46:38.999Z",
+        "type": "engineering_guards",
+        "outOfScopeRejected": true,
+        "survivalRejected": true,
+        "worldUnchanged": true
+      },
+      {
+        "utc": "2026-11-25T13:48:05.177Z",
+        "type": "engineering_dough",
+        "passed": true,
+        "fixture": true,
+        "compiled": true,
+        "first": {
+          "count": 6,
+          "powered": true,
+          "drained": true,
+          "rpm": [
+            -64,
+            -64,
+            64
+          ],
+          "outside": []
+        },
+        "independent": {
+          "count": 9,
+          "powered": true,
+          "drained": true,
+          "rpm": [
+            -64,
+            -64,
+            64
+          ],
+          "outside": []
+        },
+        "firstIncrease": 6,
+        "independentIncrease": 3
+      }
+    ],
+    "logistics-v1.log": [
+      {
+        "error": "Minecraft process exited with code 0"
+      }
+    ],
+    "logistics-v2-recheck.log": [
+      {
+        "utc": "2026-11-25T13:31:48.676Z",
+        "type": "engineering_guards",
+        "outOfScopeRejected": true,
+        "survivalRejected": true,
+        "worldUnchanged": true
+      },
+      {
+        "error": "No matching event within 30000 ms"
+      }
+    ],
+    "logistics-v2.log": [
+      {
+        "utc": "2026-11-25T13:29:41.915Z",
+        "type": "engineering_guards",
+        "outOfScopeRejected": true,
+        "survivalRejected": true,
+        "worldUnchanged": true
+      },
+      {
+        "error": "No matching event within 30000 ms"
+      }
+    ],
+    "logistics-v3.log": [
+      {
+        "utc": "2026-11-25T13:33:22.355Z",
+        "type": "engineering_guards",
+        "outOfScopeRejected": true,
+        "survivalRejected": true,
+        "worldUnchanged": true
+      },
+      {
+        "utc": "2026-11-25T13:34:42.757Z",
+        "type": "engineering_dough",
+        "passed": true,
+        "fixture": true,
+        "compiled": true,
+        "first": {
+          "count": 5,
+          "powered": true,
+          "drained": true,
+          "rpm": [
+            -64,
+            -64,
+            64
+          ],
+          "outside": []
+        },
+        "independent": {
+          "count": 9,
+          "powered": true,
+          "drained": true,
+          "rpm": [
+            -64,
+            -64,
+            64
+          ],
+          "outside": []
+        },
+        "firstIncrease": 5,
+        "independentIncrease": 4
+      }
+    ],
+    "overload-final.log": [
+      {
+        "utc": "2026-11-25T13:39:41.315Z",
+        "type": "engineering_guards",
+        "outOfScopeRejected": true,
+        "survivalRejected": true,
+        "worldUnchanged": true
+      },
+      {
+        "utc": "2026-11-25T13:39:41.751Z",
+        "type": "engineering_overload",
+        "passed": true,
+        "nativeNetwork": {
+          "Capacity": 256,
+          "Size": 2,
+          "AddedStress": 8,
+          "Id": [
+            0,
+            45000
+          ],
+          "Stress": 512
+        },
+        "rawSpeed": 64
+      }
+    ],
+    "overload-serial.log": [
+      {
+        "utc": "2026-11-25T13:48:34.432Z",
+        "type": "engineering_guards",
+        "outOfScopeRejected": true,
+        "survivalRejected": true,
+        "worldUnchanged": true
+      },
+      {
+        "utc": "2026-11-25T13:48:34.900Z",
+        "type": "engineering_overload",
+        "passed": true,
+        "nativeNetwork": {
+          "Capacity": 256,
+          "Size": 2,
+          "AddedStress": 8,
+          "Id": [
+            0,
+            45000
+          ],
+          "Stress": 512
+        },
+        "rawSpeed": 64
+      }
+    ],
+    "permissions-final.log": [
+      {
+        "utc": "2026-11-25T13:41:13.014Z",
+        "type": "engineering_guards",
+        "outOfScopeRejected": true,
+        "survivalRejected": true,
+        "worldUnchanged": true
+      },
+      {
+        "utc": "2026-11-25T13:41:13.528Z",
+        "type": "engineering_native_permissions",
+        "passed": true,
+        "mode": "observe",
+        "mutationDenied": true,
+        "fillDenied": true,
+        "worldUnchanged": true
+      }
+    ],
+    "permissions-orient.log": [
+      {
+        "utc": "2026-11-25T13:45:31.379Z",
+        "type": "engineering_guards",
+        "outOfScopeRejected": true,
+        "survivalRejected": true,
+        "worldUnchanged": true
+      },
+      {
+        "utc": "2026-11-25T13:45:31.942Z",
+        "type": "engineering_native_permissions",
+        "passed": true,
+        "mode": "observe",
+        "mutationDenied": true,
+        "fillDenied": true,
+        "worldUnchanged": true
+      }
+    ],
+    "planning-final.log": [
+      {
+        "utc": "2026-11-25T13:39:12.240Z",
+        "type": "engineering_guards",
+        "outOfScopeRejected": true,
+        "survivalRejected": true,
+        "worldUnchanged": true
+      },
+      {
+        "utc": "2026-11-25T13:39:14.249Z",
+        "type": "engineering_planning",
+        "passed": true,
+        "states": [
+          "4",
+          "-64",
+          "stale_source",
+          "-64",
+          "64",
+          "32"
+        ],
+        "fixtureOnly": true
+      }
+    ],
+    "planning-orient.log": [
+      {
+        "utc": "2026-11-25T13:43:58.402Z",
+        "type": "engineering_guards",
+        "outOfScopeRejected": true,
+        "survivalRejected": true,
+        "worldUnchanged": true
+      },
+      {
+        "utc": "2026-11-25T13:44:00.424Z",
+        "type": "engineering_planning",
+        "passed": true,
+        "states": [
+          "4",
+          "-64",
+          "stale_source",
+          "-64",
+          "64",
+          "32"
+        ],
+        "fixtureOnly": true
+      }
+    ],
+    "routing-final.log": [
+      {
+        "utc": "2026-11-25T13:38:45.287Z",
+        "type": "engineering_guards",
+        "outOfScopeRejected": true,
+        "survivalRejected": true,
+        "worldUnchanged": true
+      },
+      {
+        "utc": "2026-11-25T13:38:46.553Z",
+        "type": "engineering_routing",
+        "passed": true,
+        "cells": 17,
+        "rpm": [
+          -64,
+          -64
+        ],
+        "reuse": [
+          5,
+          64
+        ]
+      }
+    ],
+    "routing-orient.log": [
+      {
+        "utc": "2026-11-25T13:41:02.140Z",
+        "type": "engineering_guards",
+        "outOfScopeRejected": true,
+        "survivalRejected": true,
+        "worldUnchanged": true
+      },
+      {
+        "utc": "2026-11-25T13:41:03.533Z",
+        "type": "engineering_routing",
+        "passed": true,
+        "cells": 17,
+        "rpm": [
+          -64,
+          -64
+        ],
+        "reuse": [
+          5,
+          64
+        ]
+      }
+    ]
+  },
+  "builds": {
+    "baseline": "0186ac6f05ea2baa1b1e19ef6fa8d04ebcd3be08d0774003491b034b08f90389",
+    "flow-v1": "71a11fa55b279d0815ba29be0803e116f43b346c9d9162513b94588f91c684b3",
+    "flow-v2": "f00dc9b66cafc41682f1b1226584f81bee467484ff58858bc7d87bd4d1932463",
+    "flow-v3": "a6c1b966487342c50836e734a4db82a452eaab5e3bb303a3ea5f84d5043d66d4",
+    "final-staged": "820829f41f2c831d0c9fe40b6bc1f2b06a817df4eb65c721545343d641723ed2",
+    "exact-orientation": "d936a60cbacd51d7941d76b7d5c2195a304119223e0b58d47b250327ddfc091c",
+    "exact-high": "d936a60cbacd51d7941d76b7d5c2195a304119223e0b58d47b250327ddfc091c",
+    "retrofit-guided": "d936a60cbacd51d7941d76b7d5c2195a304119223e0b58d47b250327ddfc091c",
+    "staged-resume": "d936a60cbacd51d7941d76b7d5c2195a304119223e0b58d47b250327ddfc091c",
+    "staged-owned": "d936a60cbacd51d7941d76b7d5c2195a304119223e0b58d47b250327ddfc091c",
+    "operator-fixture": "d936a60cbacd51d7941d76b7d5c2195a304119223e0b58d47b250327ddfc091c"
+  },
+  "finalJar": {
+    "commit": "23dc232d09af97bec391864ce0b23ef36edfb336",
+    "sha256": "d936a60cbacd51d7941d76b7d5c2195a304119223e0b58d47b250327ddfc091c",
+    "package": "https://chatgpt.com/library?file_id=libfile_0c5988a473d88191b6fe6058d1afa8bb&account_id=personal",
+    "rawEvidence": "https://chatgpt.com/library?file_id=libfile_9c886875a15c8191bd24c81e8435ed6f&account_id=personal"
+  },
+  "optionalVesselBytecode": {
+    "classesCompared": 7,
+    "identicalTo024Dev": 7,
+    "runtimeProof": "0.2.4-dev baseline"
+  },
+  "ownedResumeState": {
+    "beforeRpm": {
+      "create:motor": -32,
+      "create:encased_fan": 32,
+      "create:millstone": -32
+    },
+    "afterRpm": {
+      "create:motor": -64,
+      "create:encased_fan": 64,
+      "create:millstone": -64
+    },
+    "waterCells": 0
+  }
+}
