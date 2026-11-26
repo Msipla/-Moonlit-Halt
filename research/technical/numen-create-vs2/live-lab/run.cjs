@@ -12,7 +12,8 @@ const mobileModel=engineering && process.env.LAB_MOBILE_MODEL==='1';
 const mobileResume=mobileModel && process.env.LAB_MOBILE_RESUME;
 const mobile=engineering && (mobileModel || process.env.LAB_ENGINEERING_CABIN==='large');
 const engineeringBounds=mobile?[-20,-61,-23,20,-35,21]:[-7,-60,5,8,-49,20];
-const engineeringSmoke = engineering && ['1','line','dough','ship','feed','permissions','planning','overload','routing','logistics','stationary'].includes(process.env.LAB_ENGINEERING_SMOKE);
+const constructionSmoke = engineering && process.env.LAB_ENGINEERING_SMOKE==='batching';
+const engineeringSmoke = constructionSmoke || engineering && ['1','line','dough','ship','feed','permissions','planning','overload','routing','logistics','stationary'].includes(process.env.LAB_ENGINEERING_SMOKE);
 const engineeringShip = engineering && (mobile || process.env.LAB_ENGINEERING_SMOKE==='ship' || ['air','water'].includes(process.env.LAB_ENGINEERING_VESSEL));
 const basicCheck = phase === 'basic-check';
 const basicWater = phase === 'basic-water';
@@ -150,7 +151,7 @@ function prepare() {
   } else if (basicAction || watermill || ['B','C'].includes(phase)) {
     fs.cpSync(path.join(base,'config/numen/server/skills/createlab'),path.join(config,'skills/createlab'),{recursive:true});
   }
-  if (autonomousMill || checkMillIsolation) {
+  if (autonomousMill || checkMillIsolation || constructionSmoke || (mobileModel && process.env.LAB_MOBILE_BATCH!=='off')) {
     // Minecraft offline UUID for the lab's existing owner client.
     const id = createHash('md5').update('OfflinePlayer:LabOwner').digest();
     id[6] = (id[6] & 15) | 48;

@@ -30,6 +30,7 @@ module.exports=async function check(lab){
   assert.deepEqual(unchanged.blocks,baseline.blocks);
   lab.mark('engineering_guards',{outOfScopeRejected:true,survivalRejected:true,worldUnchanged:true});
   await lab.cmd('deop LabOwner');
+  if(process.env.LAB_ENGINEERING_SMOKE==='batching') return constructionCheck(lab,baseline);
   if(process.env.LAB_ENGINEERING_SMOKE==='planning') return planningCheck(lab);
   if(process.env.LAB_ENGINEERING_SMOKE==='overload') return overloadCheck(lab);
   if(process.env.LAB_ENGINEERING_SMOKE==='routing') return routingCheck(lab);
@@ -201,6 +202,58 @@ async function permissionCheck(lab,baseline) {
   assert.match(lab.output(),/observed_fill\s+false\s+[^\n]*denied/i);
   assert.deepEqual((await lab.save('permissions-final')).blocks,baseline.blocks);
   lab.mark('engineering_native_permissions',{passed:true,mode:'observe',mutationDenied:true,fillDenied:true,worldUnchanged:true});
+}
+
+async function constructionCheck(lab,baseline) {
+  const assertBlocks = (state,y,count,material) => {
+    for(let i=0;i<130;i++){
+      const key=[i%16-7,y,5+Math.floor(i/16)].join(',');
+      assert.equal(state.blocks[key]?.Name,i<count ? material : undefined,key);
+    }
+  };
+  const plan = 'local s=engineering.site; local build=my.create_survey.construct; local limit=s.info().batch_limit; '+
+    'local function plan(n,y,state) local cells={}; for i=0,n-1 do '+
+    'cells[#cells+1]={pos={x=i%16-7,y=y,z=5+math.floor(i/16)},state=state} end; return cells end; ';
+  const drive = (code,label)=>lab.drive(plan+code+'; print("'+label+'")','\n'+label);
+
+  await drive('local a=plan(101,-59,"minecraft:oak_planks"); local ok,e=pcall(s.check,a); '+
+    'assert(not ok and tostring(e):find("1..64",1,true)); '+
+    'local b=plan(65,-59,"minecraft:oak_planks"); b[65]=b[1]; local duplicate=build(b); '+
+    'assert(duplicate.stage=="plan" and duplicate.written==0 and #duplicate.rejects==1)', 'construction_rejected');
+  assert.deepEqual((await lab.save('batch-oversized-and-duplicate')).blocks,baseline.blocks);
+
+  await drive('local r=build(plan(101,-59,"minecraft:oak_planks")); '+
+    'assert(r.stage=="complete" and r.batches==2 and r.confirmed==101 and r.written==101)', 'construction_full');
+  assertBlocks(await lab.save('batch-full'),-59,101,'minecraft:oak_planks');
+
+  await lab.cmd('setblock -7 -56 9 minecraft:barrel');
+  await lab.cmd('item replace block -7 -56 9 container.0 with minecraft:gold_ingot 7');
+  await drive('local a=plan(130,-56,"minecraft:oak_planks"); a[65].expected=s.inspect(a[65].pos).state; local r=build(a); '+
+    'assert(r.stage=="check" and r.batches==1 and r.confirmed==limit and r.written==limit); '+
+    'assert(r.next==65 and r.through==128 and #r.rejects==1 and r.rejects[1].reason:find("occupied inventory"))',
+    'construction_partial');
+  const partial=await lab.save('batch-partial');
+  const protectedBlock=partial.blocks['-7,-56,9'];
+  assert.equal(protectedBlock.Name,'minecraft:barrel');
+  assert.equal(partial.blockEntities.find(e=>e.x===-7&&e.y===-56&&e.z===9).Items[0].Count,7);
+  const otherBlocks={...partial.blocks};
+  delete otherBlocks['-7,-56,9'];
+  assertBlocks({blocks:otherBlocks},-56,64,'minecraft:oak_planks');
+  await drive('local a=plan(130,-56,"minecraft:oak_planks"); local remaining={}; '+
+    'for i=66,#a do remaining[#remaining+1]=a[i] end; local r=build(remaining); '+
+    'assert(r.stage=="complete" and r.batches==2 and r.confirmed==65 and r.written==65)', 'construction_resumed');
+  const resumed=await lab.save('batch-resumed');
+  assert.deepEqual(resumed.blocks['-7,-56,9'],protectedBlock);
+  assert.equal(resumed.blockEntities.find(e=>e.x===-7&&e.y===-56&&e.z===9).Items[0].Count,7);
+  assertBlocks({blocks:{...resumed.blocks,'-7,-56,9':{Name:'minecraft:oak_planks'}}},-56,130,'minecraft:oak_planks');
+  assert.deepEqual(outsideChanges(baseline,resumed),[]);
+
+  await lab.cmd('execute as LabOwner run numen permission mode LabBot observe');
+  await drive('local r=build(plan(101,-53,"minecraft:oak_planks")); '+
+    'assert(r.stage=="apply" and r.batches==0 and r.error:find("denied"))', 'construction_denied');
+  assert.deepEqual((await lab.save('batch-denied')).blocks,resumed.blocks);
+  lab.mark('engineering_construction',{passed:true,oversized:101,batches:[64,37],duplicatesRejected:true,
+    occupiedBatchRejected:true,retained:64,resumed:65,inventoryPreserved:true,observeDenied:true,outside:[]});
 }
 
 async function pressCheck(lab,baseline) {

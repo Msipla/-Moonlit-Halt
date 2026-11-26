@@ -1,4 +1,4 @@
--- Read-only Create observations and candidate checks for a local change.
+-- Create observations, candidate checks and ordered construction at an authorized site.
 local M = {}
 
 local function position(p)
@@ -110,6 +110,95 @@ function M.observe(options)
   end
   rows[#rows + 1] = floor and floorExtent(floor, radius) or "no floor observed"
   return table.concat(rows, "\n")
+end
+
+local function matchesState(requested, actual)
+  local id = requested:match("^([^%s%[]+)")
+  if not id:find(":", 1, true) then id = "minecraft:" .. id end
+  if actual:match("^([^%[]+)") ~= id then return false end
+  local properties = {}
+  for key, value in actual:gmatch("([%w_]+)=([%w_%-]+)") do properties[key] = value end
+  for key, value in requested:gmatch("([%w_]+)%s*=%s*([%w_%-]+)") do
+    if properties[key] ~= value then return false end
+  end
+  return true
+end
+
+local function readBack(site, batch, applied)
+  local byPosition, resolved, rejects = {}, {}, {}
+  for _, cell in ipairs(batch) do byPosition[position(cell.pos)] = cell end
+  for _, row in ipairs(applied.resolved) do resolved[position(row.pos)] = row.state end
+  for first = 1, #batch, 16 do
+    local positions = {}
+    for i = first, math.min(first + 15, #batch) do positions[#positions + 1] = batch[i].pos end
+    local observations = site.inspect_many(positions)
+    assert(#observations == #positions, "Incomplete live readback")
+    for _, row in ipairs(observations) do
+      local key = position(row.pos)
+      local cell, reading = byPosition[key], row.reading
+      if not matchesState(resolved[key] or cell.state, reading.state)
+        or (cell.rpm and cell.rpm ~= reading.motor_setting)
+        or (cell.filter and cell.filter ~= reading.filter) then
+        rejects[#rejects + 1] = {pos = cell.pos, reason = reading.state}
+      end
+    end
+  end
+  return rejects
+end
+
+---Execute an ordered list of site cells. Order supports before dependent blocks.
+---The first unconfirmed range is next..through. A check failure made no writes to that range.
+---After an apply/readback failure or interruption, inspect the uncertain range before resuming.
+function M.construct(cells)
+  assert(#cells > 0, "Supply an ordered list of site cells")
+  local site = engineering.site
+  local receipt = {batches = 0, confirmed = 0, written = 0, total = #cells, next = 1}
+  local seen = {}
+  for i, cell in ipairs(cells) do
+    local key = position(cell.pos)
+    if seen[key] then
+      receipt.stage = "plan"
+      receipt.rejects = {{pos = cell.pos, reason = "duplicate at indices " .. seen[key] .. " and " .. i}}
+      return receipt
+    end
+    seen[key] = i
+  end
+
+  local limit = site.info().batch_limit
+  assert(type(limit) == "number" and limit >= 1 and limit % 1 == 0, "Invalid site batch_limit")
+  for first = 1, #cells, limit do
+    local last = math.min(first + limit - 1, #cells)
+    local batch = {}
+    for i = first, last do batch[#batch + 1] = cells[i] end
+    receipt.next, receipt.through = first, last
+
+    receipt.stage = "check"
+    local ok, checked = pcall(site.check, batch)
+    if not ok then receipt.error = tostring(checked); return receipt end
+    if #checked.rejects > 0 then receipt.rejects = checked.rejects; return receipt end
+
+    receipt.stage = "apply"
+    local applied
+    ok, applied = pcall(site.apply, batch)
+    if not ok then receipt.error = tostring(applied); return receipt end
+
+    receipt.stage, receipt.backup = "readback", applied.backup
+    local rejects
+    ok, rejects = pcall(readBack, site, batch, applied)
+    if not ok then receipt.error = tostring(rejects); return receipt end
+    if #rejects > 0 then receipt.rejects = rejects; return receipt end
+
+    receipt.batches = receipt.batches + 1
+    receipt.confirmed = last
+    receipt.written = receipt.written + applied.cells
+    receipt.next = last + 1
+    print(("construction confirmed %d..%d; written=%d backup=%s"):format(
+      first, last, applied.cells, applied.backup))
+    for _, warning in ipairs(checked.warnings or {}) do print(warning) end
+    for _, warning in ipairs(applied.warnings or {}) do print(warning) end
+  end
+  receipt.stage, receipt.through = "complete", nil
+  return receipt
 end
 
 return M
