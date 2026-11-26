@@ -67,11 +67,14 @@ async function checkHullCap(lab) {
 }
 
 module.exports=async function(lab) {
-  await lab.cmd('fill -20 -61 -23 20 -61 21 minecraft:stone');
-  if(water){
-    for(const a of ['-18 -60 -21 -18 -58 20','18 -60 -21 18 -58 20','-17 -60 -21 17 -58 -21','-17 -60 20 17 -58 20'])
-      await lab.cmd('fill '+a+' minecraft:stone');
-    await lab.cmd('fill -17 -60 -20 17 -58 19 minecraft:water');
+  const resume=Boolean(process.env.LAB_MOBILE_MODEL==='1'&&process.env.LAB_MOBILE_RESUME);
+  if(!resume){
+    await lab.cmd('fill -20 -61 -23 20 -61 21 minecraft:stone');
+    if(water){
+      for(const a of ['-18 -60 -21 -18 -58 20','18 -60 -21 18 -58 20','-17 -60 -21 17 -58 -21','-17 -60 20 17 -58 20'])
+        await lab.cmd('fill '+a+' minecraft:stone');
+      await lab.cmd('fill -17 -60 -20 17 -58 19 minecraft:water');
+    }
   }
   await lab.cmd('time set 4000');
   await lab.cmd('deop LabOwner');
@@ -80,11 +83,14 @@ module.exports=async function(lab) {
 
   if(process.env.LAB_MOBILE_MODEL==='1'){
     const scenario=water?'河道补给站，包含驾驶位、储物货位和有顶的休息间。':'山脊观测救援站，包含驾驶位、医用储物和有顶的两人休息区。';
-    const answer=await lab.chat('在授权工程区自主设计并完成一座'+(water?'水面':'飞行')+'移动基地。'+scenario+
-      '先读 create_kinetics 的移动基地参考。留连续两格净高通道和侧置的实际磨石工位。自选位置、材料、朝向和布局。一次勘察后尽快开始直接施工，保持助手原地。逐批检查，核对方块、通道和磨石的实际转速。最后装配，实际推进转向并锚停。未实测的功能说明待验。',420000);
+    const prompt=resume
+      ? '接续隔离存档里你之前自主建造的补给船。保留船体和现有储物。只做这几步：查实际舵、锚、浮块、走道和加工件；将舵移出舱内两格净空走道，保持原有室内用途；核对船体允许搬运的部件，磨石用兼容的最短动力连接；尽快装配、核对在水面与短程推进、转向、锚停。按实际回执推进，助手原地施工，不扩大布局或重做百科勘察。'
+      : '在授权工程区自主设计并完成一座'+(water?'水面':'飞行')+'移动基地。'+scenario+
+        '先读 create_kinetics 的移动基地参考。留连续两格净高通道和侧置的实际磨石工位。自选位置、材料、朝向和布局。一次勘察后尽快开始直接施工，保持助手原地。逐批检查，核对方块、通道和磨石的实际转速。最后装配，实际推进转向并锚停。未实测的功能说明待验。';
+    const answer=await lab.chat(prompt,resume?285000:420000);
     await lab.isolate();
     const final=await lab.save('mobile-model-final');
-    lab.mark('mobile_model_result',{answer,fixture:false,placedBlockDelta:Object.keys(final.blocks)
+    lab.mark('mobile_model_result',{answer,fixture:false,resume,placedBlockDelta:Object.keys(final.blocks)
       .filter(p=>JSON.stringify(final.blocks[p])!==JSON.stringify(baseline.blocks[p])).length});
     return;
   }

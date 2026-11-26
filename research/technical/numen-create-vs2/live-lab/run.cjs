@@ -9,6 +9,7 @@ const {snapshot} = require('./world.cjs');
 const phase = process.argv[2];
 const engineering = phase === 'engineering';
 const mobileModel=engineering && process.env.LAB_MOBILE_MODEL==='1';
+const mobileResume=mobileModel && process.env.LAB_MOBILE_RESUME;
 const mobile=engineering && (mobileModel || process.env.LAB_ENGINEERING_CABIN==='large');
 const engineeringBounds=mobile?[-20,-61,-23,20,-35,21]:[-7,-60,5,8,-49,20];
 const engineeringSmoke = engineering && ['1','line','dough','ship','feed','permissions','planning','overload','routing','logistics','stationary'].includes(process.env.LAB_ENGINEERING_SMOKE);
@@ -91,7 +92,7 @@ function prepare() {
     fs.symlinkSync(path.join(base,name),path.join(run,name));
   }
   fs.copyFileSync(path.join(base,'eula.txt'),path.join(run,'eula.txt'));
-  const startingWorld = knownFault || boatResume || millResume;
+  const startingWorld = knownFault || boatResume || millResume || mobileResume;
   if (boatResume) {
     const original = path.join(boatResume,'..','baseline.json');
     if (fs.existsSync(original)) fs.copyFileSync(original,path.join(run,'original-flat.json'));
@@ -107,6 +108,12 @@ function prepare() {
     if (millResume && fs.existsSync(placements)) {
       fs.mkdirSync(path.join(world,'data'),{recursive:true});
       fs.copyFileSync(placements,path.join(world,'data','numen_placed.dat'));
+    }
+    if (mobileResume) {
+      for (const name of ['data','playerdata']) {
+        const source=path.join(startingWorld,name);
+        if (fs.existsSync(source)) fs.cpSync(source,path.join(world,name),{recursive:true});
+      }
     }
   }
   fs.writeFileSync(path.join(run,'server.properties'), [
