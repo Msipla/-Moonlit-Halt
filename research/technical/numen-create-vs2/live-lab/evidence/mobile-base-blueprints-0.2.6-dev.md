@@ -79,3 +79,12 @@ MC Planner 表中尺寸按发布页，尺寸、功能房间和公开预览来自
 - 固定夹具为 `LAB_ENGINEERING_SMOKE=ship LAB_ENGINEERING_CABIN=large LAB_SHIP_PROTOCOL_OWNER=1 LAB_ENGINEERING_VESSEL=air node live-lab/run.cjs engineering`。水面选择 `water`。各轮隔离端口可由 `LAB_MC_PORT` 设置。
 - 图形客户端运行固定夹具时设 `LAB_MOBILE_GRAPHICS=1`，由真实客户端以 LabOwner 加入。探针返回世界位姿与船体局部坐标。固定夹具由脚本主持，不能记作模型自主。
 - 模型考卷为 `LAB_MOBILE_MODEL=1 LAB_SHIP_PROTOCOL_OWNER=1 LAB_ENGINEERING_VESSEL=air node live-lab/run.cjs engineering`。提供 DeepSeek 环境变量。空地由模型自行设计和执行。用 `LAB_MOBILE_SKILL` 指定旧或新实验 Skill 目录，默认读取活动参考。此模型回合与固定夹具分别验收。
+
+### 上限、实机补验与首轮自主成绩
+
+- 水面夹具离席入舱时船体实测移动 4.19 格，玩家相对船体移动 4.10 格，采样速率 1.76 格/秒。再乘原生舵、输入转向、锚停与静止回读均通过。飞行与水面录像各约 22 秒。候选 JAR SHA-256 为 `c01f2d977d2bc9d1f1d2299ab5789ca6482d8303adf45b18c2b0ea7c001c3ea0`。
+- 17 格宽独立夹具使用同一受测 JAR。513 格拒绝且装配前后实体方块快照一致。移除一格后 512 格实际装配通过。该回归仅验证装配容量。可设 `LAB_MOBILE_CAP=1` 复跑。
+- 无 VS 隔离服通过原有规划、动力诊断、observe 模式下拒绝 apply/fill、双磨石石料物流与 NBT 副本复投。原件、副本首投各 3 燧石，独立复投各累计 6 燧石。
+- 山脊观测救援站首轮为 `deepseek-v4-pro`，关闭推理，35 次请求，815,162 Token（缓存命中 744,960），420.14 秒截止。模型自行建造和装配，教学参考实际加载 1 次。独立读取船坞存档得到 184 格，其中 12 个气球，磨石 32 RPM 连接至同船马达。船体升力不足，下沉后工程航行被工区边界约束；未通过真实自主推进、居住通行和加工试投。候选版 Skill 加入已实测的 204 格/44 气球量级与复核动作。
+
+[可安装测试包](https://chatgpt.com/library?file_id=libfile_3d55b1b626188191b32535153026e56a&account_id=personal) · [录像、截图、日志和存档](https://chatgpt.com/library?file_id=libfile_d5b59820f0a08191a6bc87cd242c8f3b&account_id=personal)

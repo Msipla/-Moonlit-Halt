@@ -43,6 +43,29 @@ function cabin() {
   return {cells:[...cells.values()],walk:Array.from({length:11},(_,i)=>[0,d+1,i+6]),helm,mill,input,stock,d};
 }
 
+async function checkHullCap(lab) {
+  const cells=[];
+  for(let x=-8;x<8;x++) for(let z=-8;z<8;z++) for(const y of [-56,-55])
+    cells.push([x,y,z,'minecraft:oak_planks']);
+  cells[0][3]='vs_eureka:oak_ship_helm[facing=north]';
+  cells.push([-9,-56,-8,'vs_eureka:anchor']);
+  for(let i=0;i<cells.length;i+=32){
+    const batch=cells.slice(i,i+32).map(([x,y,z,b])=>`{pos=${pos([x,y,z])},state="${b}"}`);
+    const marker='limit_built_'+i;
+    await lab.drive(`assert(${site}apply({${batch}}).cells==${batch.length}); print("${marker}")`,'\n'+marker);
+  }
+  const before=await lab.save('cap-before');
+  await lab.drive(`local ok,r=pcall(function() return ${ships}assemble({x=-8,y=-56,z=-8}) end); print("limit_rejected",ok,tostring(r))`,'\nlimit_rejected');
+  assert.match(lab.output(),/limit_rejected\s+false\s+[^\n]*hull exceeds 512 cells/);
+  const after=await lab.save('cap-after');
+  assert.deepEqual(after.blocks,before.blocks);
+  await lab.drive(`assert(${site}apply({{pos={x=7,y=-55,z=7},state="minecraft:air",expected="minecraft:oak_planks"}}).cells==1); print("limit_trim")`,'\nlimit_trim');
+  const allowed=await receipt(lab,'limit_accepted',ships+'assemble({x=-8,y=-56,z=-8})');
+  assert.equal(allowed.cells,512);
+  lab.mark('mobile_hull_cap',{rejectedCells:cells.length,acceptedCells:allowed.cells,
+    denied:true,worldUnchangedOnRejection:true});
+}
+
 module.exports=async function(lab) {
   await lab.cmd('fill -20 -61 -23 20 -61 21 minecraft:stone');
   if(water){
@@ -53,6 +76,7 @@ module.exports=async function(lab) {
   await lab.cmd('time set 4000');
   await lab.cmd('deop LabOwner');
   const baseline=await lab.save('mobile-empty');
+  if(process.env.LAB_MOBILE_CAP==='1') return checkHullCap(lab);
 
   if(process.env.LAB_MOBILE_MODEL==='1'){
     const scenario=water?'河道补给站，包含驾驶位、储物货位和有顶的休息间。':'山脊观测救援站，包含驾驶位、医用储物和有顶的两人休息区。';

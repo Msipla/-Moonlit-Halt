@@ -15,7 +15,7 @@ Place an upward-facing creative motor directly below a millstone to form a simpl
 
 ## Choose the carrier
 
-- **Air.** Build the floor in empty space above the ground. Leave several blocks below the floor and above the balloons for stabilization, and leave side space for turns. Connect the balloons across the hull. Test lift and settle at low altitude before a short drive and turn.
+- **Air.** Build the floor in empty space above the ground. Leave several blocks below the floor and above the balloons for stabilization, and leave side space for turns. Count both ordinary blocks and connected balloons before assembling. A 204-cell wooden workshop with 44 connected balloons hovered in this setup. A similar 184-cell cabin with 12 balloons sank. For a similarly light hull, start near one balloon per three to four other blocks. Spread them across the roof and count the final lift hardware after edits. This is an empirical starting point for these mod settings. Test the actual lift before attempting longer travel.
 - **Surface.** Place flotation on both sides and keep the entry above the intended waterline. Leave a flat deck from the entry to the interior and space to turn without clipping the shore. Verify afloat, forward, turn and moor in that order.
 - **Road.** Allow chassis and steering clearance under the floor, with door and interior access above it. Identify an installed compatible driven chassis before attempting powered travel.
 - **Submerged.** Group the boarding hatch and vertical access together. Keep space for control, living and ballast apart. Verify depth hold, resurfacing and the dry interior independently before calling the result habitable.

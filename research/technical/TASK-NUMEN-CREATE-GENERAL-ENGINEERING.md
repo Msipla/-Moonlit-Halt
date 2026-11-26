@@ -1,6 +1,6 @@
 # 当前任务：移动基地集成与社区蓝图专项教学（2026-11-26，用户确认）
 
-**阶段断点（2026-11-26）**　从 `01c8481` 重启后已复原测试运行时。0.2.7-dev 调整载具范围和装配上限，接入 Eureka 的原生巡航交接。隔离服飞行 204 格、水面 185 格夹具通过装配和 256 RPM 安山岩加工，含移动中首投、复投及库存保留。飞行夹具在真实生存客户端通过停泊进舱、离席巡航通行、重新乘舵及锚停。四份社区原始 1.20.1 NBT 已下载、解析及在原版专服隔离导入。后续优先核对水面图形实测和陌生任务独立考试。 [复测与验收边界](numen-create-vs2/live-lab/evidence/mobile-base-blueprints-0.2.6-dev.md#027-dev-实机恢复)
+**阶段断点（2026-11-26）**　[0.2.7-dev 候选安装](https://chatgpt.com/library?file_id=libfile_3d55b1b626188191b32535153026e56a&account_id=personal)，[真实录像、原始记录及隔离存档](https://chatgpt.com/library?file_id=libfile_d5b59820f0a08191a6bc87cd242c8f3b&account_id=personal)。飞行 204 格和水面 185 格夹具均实机通过舱内通行、原生离席巡航、重新乘舵、锚停及移动中磨石独立试投和复投。512 格装配与 513 格拒绝均验证。四份原版 1.20.1 社区蓝图重新下载、解析及隔离导入。首卷模型自行建造装配 184 格、磨石 32 RPM，船体升力不足，转向与航行未验收。定量升力教学复考、水面陌生考试续记在[阶段实测](numen-create-vs2/live-lab/evidence/mobile-base-blueprints-0.2.6-dev.md#027-dev-实机恢复)。
 
 执行前先读取 [Msipla/Conversation-Archives/AGENTS.md](https://github.com/Msipla/Conversation-Archives/blob/main/AGENTS.md) 最新版及[目标仓库 AGENTS.md](../../AGENTS.md)（如存在），全过程遵守适用规范，无法读取须报告。核对最新分支、源码、HANDOFF、任务书、并发提交与实测证据。沿用 codex/numen-create-basic-actions，以 0.2.6-dev 源码 3c6ef01、阶段记录 [33d0d6e](https://github.com/Msipla/-Moonlit-Halt/commit/33d0d6e18d5d91e4e5e8cdd21523fe1dfd2348b6)、live-lab README 和 evidence/decoupled-execution-0.2.6-dev.json 为基线，保留原候选安装包、待命 Skill 和已通过功能。
 
