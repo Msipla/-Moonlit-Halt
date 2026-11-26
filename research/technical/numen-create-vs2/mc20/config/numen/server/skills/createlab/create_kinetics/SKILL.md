@@ -3,7 +3,7 @@ name: create_kinetics
 description: Build, inspect, and repair Create 6.0.8.1 production, water-powered mills, mixers and crushers using real kinetics and recipe outputs.
 ---
 
-For a mobile-base commission, load `references/mobile-base.md` for hull layout, continuous construction and vessel checks. After choosing a layout, pass the ordered edits to `my.create_survey.construct(cells)` when installed. If you need a missing tool signature, print or return the specific help result.
+For a mobile-base commission or cabin drill, load `references/mobile-base.md`. Generate the ordered site cells and call `my.create_survey.construct(cells)` in your first construction script. Each cell is `{pos={x=x,y=y,z=z},state=blockId}`. The helper runs while the companion stands by. The reference gives a direct site fallback. The water-wheel and retrofit workflows below use their own placement and observation tools.
 
 For an Engineering 0.2.6 site, load `references/stationary-production.md` for fan washing, gravity production or repairs. Keep the companion stationary while using site operations. The original water-wheel workflow follows.
 

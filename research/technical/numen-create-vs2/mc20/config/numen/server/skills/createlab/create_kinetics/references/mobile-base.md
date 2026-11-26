@@ -1,5 +1,22 @@
 # Small mobile bases with Numen Engineering
 
+When the brief gives the site and deck height, use the constructor's candidate check to find any occupied cells. For an empty pool with an unknown waterline, sample one short vertical column at your chosen site and continue to construction. Read additional positions when a specific decision depends on them. Keep the Lua short with loops and execute the design in the same tool call.
+
+```lua
+local cells, byPos = {}, {}
+local function put(x, y, z, state)
+  local key = x .. "," .. y .. "," .. z
+  local i = byPos[key] or (#cells + 1)
+  byPos[key] = i
+  cells[i] = {pos={x=x,y=y,z=z}, state=state}
+end
+-- Build your own layout with put before this call; reuse put to replace a design entry.
+local r = my.create_survey.construct(cells)
+print(r.stage, r.batches, r.confirmed, r.written, r.next, r.through)
+if r.error then print(r.error) end
+for _, reject in ipairs(r.rejects or {}) do print(reject.pos, reject.reason) end
+```
+
 ## Pick a route and build in passes
 
 1. Use the supplied site and terrain facts. If a fact changes the layout, read it once. For site info, print the specific fields or palette entries you need. Printing the whole table can abbreviate the palette. Choose a heading, short boarding route and useful bays. If the deck is at Y, reserve Y+1 for feet and Y+2 for head along the route. Start the roof at Y+3 or higher. Put helm, anchor, stowage and the mill column beside that reservation.
@@ -9,7 +26,7 @@
 
 ### Make the first useful batch immediately
 
-When the brief supplies an empty work area and deck height, use the candidate check as the survey. Each entry is `{pos={x=x,y=y,z=z},state=block_id}`. In the same Lua call that generates the plan, use `print(my.create_survey.construct(cells))`. Lua loops count up by default. Use a step of `-1` for descending bounds. Specify the shaft axis or faces for drive connections that cross batches.
+For a deck block at Y, the walking cells are at Y+1 and Y+2. The first roof block over that route can be at Y+3. Put the helm and barrel on top of the deck, in side bays. Lua loops count up by default. Use a step of `-1` for descending bounds. Specify the shaft axis or faces for drive connections that cross batches.
 
 - `stage="complete"` confirms the listed edits. Continue with the required route or machine test. Use `engineering.site.plan({walk=feetPositions})` to check the built route once.
 - A `plan` rejection can identify duplicate design coordinates before writing. A `check` rejection gives the coordinate and reason. Keep the original design in the Lua call so you can use the `confirmed` prefix. Correct the relevant edit and submit only the remaining suffix starting at `next`. `through` is the last cell of the failed batch.
@@ -25,7 +42,7 @@ Place an upward-facing creative motor directly below a millstone to form a simpl
 ## Choose the carrier
 
 - **Air.** Build the floor in empty space above the ground. Leave several blocks below the floor and above the balloons for stabilization, and leave side space for turns. Count both ordinary blocks and connected balloons before assembling. A 204-cell wooden workshop with 44 connected balloons hovered in this setup. A similar 184-cell cabin with 12 balloons sank. For a similarly light hull, start near one balloon per three to four other blocks. Spread them across the roof and count the final lift hardware after edits. This is an empirical starting point for these mod settings. Read the actual lift with `engineering_vessels.ship.inspect()` on the turn after assembly, then decide whether to drive.
-- **Surface.** Place flotation on both sides and keep the entry above the intended waterline. Leave a flat deck from the entry to the interior and space to turn without clipping the shore. Verify afloat, forward, turn and moor in that order.
+- **Surface.** Start the floaters on both sides in the first air layer above the sampled water surface. Build and assemble there, then let the ship settle while afloat. Engineering 0.2.7 rejects water as a site-edit state, including as `expected`. Keep the drive in air above that surface. Leave a flat deck from the entry to the interior, and space to turn without clipping the shore. Verify afloat, forward, turn and moor in that order.
 - **Road.** Allow chassis and steering clearance under the floor, with door and interior access above it. Identify an installed compatible driven chassis before attempting powered travel.
 - **Submerged.** Group the boarding hatch and vertical access together. Keep space for control, living and ballast apart. Verify depth hold, resurfacing and the dry interior independently before calling the result habitable.
 

@@ -44,12 +44,13 @@ function cabin() {
 }
 
 const cabinDrill='在授权区做一段紧凑的飞船生活舱练习，不造整船。方块限 x=-3..3、z=-6..0，甲板 y=-55。沿 x=0 从 z=0 上甲板，经 z=-1 的门口，沿两格净高走道到 z=-4。门后有顶、有侧窗。驾驶舵和一个可从走道使用的储物桶必须摆侧边。两侧轮廓至少有一处收窄或折线。先读 create_kinetics 的移动基地参考；自行设计，只用直接施工，以实际通道和完工简报结束。';
-const cabinCoaching='这一轮用候选格的 site.check 同时做占用调查，题面已指定甲板和入口，不扫描周边。读参考后用一条 Lua 生成并检查第一批甲板，有效就直接 apply。下一批把舵、桶、侧窗和顶一并落地，最后调用 plan 核对一次走道。用 Lua 正向范围或显式负步长。';
+const cabinCoaching='甲板高度指方块所在 Y，脚在 Y+1、头在 Y+2，屋面从 Y+3 开始。读参考后，下一条 Lua 用坐标去重的 put 函数生成你自己的甲板、舵桶、侧窗和屋面，结尾调用 my.create_survey.construct(cells) 并打印 stage、batches 和 confirmed。按回执续建，最后用 plan 核对走道。';
 const cabinFinish='继续上一轮的小舱室构件。独立读回：49 格橡木甲板已完成，五步中心走道净空，舵、桶、顶与侧窗尚缺。保留甲板主路线；现在直接生成并检查一批舵、桶、墙窗和顶，舵与桶要可从走道旁使用。加一段侧身轮廓收分。Lua 每格形如 {pos={x=x,y=y,z=z},state=方块状态}，调用 engineering.site.check(cells) 通过后直接 apply(cells)，不要重扫。最后用 plan({walk=脚位置列表})核对连通并报告。前一题原限定范围继续有效，甲板 y=-55，入口从(0,-54,0)通往(0,-54,-4)。';
 const helmDrill='小练习，只在已建的甲板放一件驾驶舵和一件储物桶，不做别的。甲板已核对 x=-3..3、z=-6..0、y=-55，并且没有任何物件，中心 x=0 是净空走道。两组件自行选择 x=1 或 -1 的侧槽位，y=-54，z 取 -4 到 -2，可从走道走近。舵用 vs_eureka:oak_ship_helm[facing=north]，桶用 minecraft:barrel。一条 Lua 用 {pos={x=x,y=y,z=z},state=方块字符串} 的两格数组，engineering.site.check 无拒绝就立即 apply。下一条核对后简报。不需全场勘察或查手册。';
 const canopyDrill='在上一题的甲板、舵和桶上加一个短舱雨棚。甲板 y=-55、x=-3..3、z=-6..0，舵桶位于 x=±1、y=-54、z=-3。只做 z=-4..-1 的透光有边框雨棚，两列侧边支撑和至少两个侧窗，x=0 保留两格净空，保留原甲板、舵和桶。自行选边框宽度、收窄方式及条纹；雨棚顶 y=-52 或 -51。候选格 {pos={x=x,y=y,z=z},state=方块字符串}。用一批 engineering.site.check，合格直接 apply，查一次走道并简报。只写新增方块。';
 const liftDrill='做一段单独的飞行升力练习，只造可装配的小甲板、侧舵、侧锚和连上的气球，不装修。区域空旷，甲板在 y=-54 附近，自选足够紧凑的范围和朝向。用候选格检查占用并直接分批施工。气球从约每 3 个普通方块配 1 个起步。放齐两层功能后立即装配，查悬停，短推进、转向、锚停。最后报告实际值，不扩建。';
 const waterExam='陌生实机考试：在空池造一艘浅滩取样艇。自行选址、朝向、比例和布局，做一个收窄的船头、带侧窗的短舱、一条两格净高的登舱路线、可交互的储物桶和一个边侧磨石。用 create_kinetics 移动基地参考，控制在小艇规模。只做直接施工，先用候选格检查占用，不重扫。磨石先用竖直直驱，舵锚离开走道。建全必要部件和连上的浮块，核实通道和动力后真实装配，实测短推进、转向、锚停并报告。只有实际通过的步骤才写通过。考官会独立验收玩家离席和运动中投料。';
+const waterConstructionCoaching='补充施工方法。取样一列确定水线，浮块放在水面紧邻的第一层空气，装配后再看实际浮态。第一段施工 Lua 用参考的坐标去重 put 函数安排自己的布局，同一段结尾调用 my.create_survey.construct(cells)。甲板上方两格留空，屋面从第三格开始，竖直动力件放在水线之上。按回执继续。';
 
 const waterRigSetup='续做原存档的浅滩取样艇，只练舵锚和装配。独立读回已铺 29 橡木甲板在 y=-56，下方 29 浮块，艇首在负 Z，甲板 x=±2、z=-4..0 段完整。两件新增方块：舵 vs_eureka:oak_ship_helm[facing=north] 与锚 vs_eureka:anchor，自己选 x=±1 的边位，z=-3..-1，y=-55。保留 x=0 两格净高。用 {pos={x=x,y=y,z=z},state=方块字符串} 一次 engineering.site.check 无拒绝后直接 apply。用 engineering_vessels.ship.assemble(舵坐标) 装配，成功立即 inspect()。';
 const waterRig=waterRigSetup+'先实测短推进、再短转向，调用签名 drive("north",0.3,0,0,100)，再 anchor()。逐步读回实际值然后报告，暂不加舱或磨石，不重扫。';
@@ -159,7 +160,7 @@ module.exports=async function(lab) {
 
   if(process.env.LAB_MOBILE_MODEL==='1'){
     const scenario=water?'河道补给站，包含驾驶位、储物货位和有顶的休息间。':'山脊观测救援站，包含驾驶位、医用储物和有顶的两人休息区。';
-    const waterPrompts={'water-exam':waterExam,'water-rig':waterRig,'water-turn':waterTurn};
+    const waterPrompts={'water-exam':waterExam,'water-exam-coached':waterExam+waterConstructionCoaching,'water-rig':waterRig,'water-turn':waterTurn};
     const prompt=waterPrompts[drill]??(resume
       ? '接续隔离存档里你之前自主建造的补给船。保留船体和现有储物。只做这几步：查实际舵、锚、浮块、走道和加工件；将舵移出舱内两格净空走道，保持原有室内用途；核对船体允许搬运的部件，磨石用兼容的最短动力连接；尽快装配、核对在水面与短程推进、转向、锚停。按实际回执推进，助手原地施工，不扩大布局或重做百科勘察。'
       : '在授权工程区自主设计并完成一座'+(water?'水面':'飞行')+'移动基地。'+scenario+
@@ -167,7 +168,7 @@ module.exports=async function(lab) {
     const waterPractice=drill==='water-rig'||drill==='water-turn';
     const answer=await lab.chat(prompt,waterPractice?175000:resume?285000:420000);
     await lab.isolate();
-    if(drill==='water-exam'||waterPractice){
+    if(drill==='water-exam'||drill==='water-exam-coached'||waterPractice){
       const raw=await lab.cmd('engineering_test_ship_pose');
       const data=raw.split('LAB_SHIP_POSE ',2)[1];
       lab.mark('mobile_exam_pose',{ship:data?JSON.parse(data):null});
