@@ -151,7 +151,7 @@ function prepare() {
   } else if (basicAction || watermill || ['B','C'].includes(phase)) {
     fs.cpSync(path.join(base,'config/numen/server/skills/createlab'),path.join(config,'skills/createlab'),{recursive:true});
   }
-  if (autonomousMill || checkMillIsolation || constructionSmoke || (mobileModel && process.env.LAB_MOBILE_BATCH!=='off')) {
+  if (autonomousMill || checkMillIsolation || constructionSmoke || (mobile && process.env.LAB_MOBILE_BATCH!=='off')) {
     // Minecraft offline UUID for the lab's existing owner client.
     const id = createHash('md5').update('OfflinePlayer:LabOwner').digest();
     id[6] = (id[6] & 15) | 48;

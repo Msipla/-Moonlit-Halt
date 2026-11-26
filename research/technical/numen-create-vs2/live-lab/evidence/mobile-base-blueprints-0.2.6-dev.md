@@ -12,6 +12,10 @@
 | 局部失败与续建 | 130 格计划的第一批 64 格保留。第二批的第 65 格是有 7 个金锭的木桶，提交精确旧状态仍被保护。第三批没有执行。排除木桶后仅提交剩余 65 格，方块及库存独立读盘吻合。 |
 | 权限与施工竞态 | `observe` 零写入。原生 `ask` 让第二批等待房主答复。拒绝、Stop、审批超时或房主断连各保留前 64 格，之后零写入。Stop 与超时后的迟到许可被拒绝。等待时另放一格玻璃，房主批准后原生前置条件发现状态冲突并保留玻璃。 |
 | 回放取样艇 | 原始第 21 次请求的 101 条同时存在重复坐标，模块预检在写入前报错。把原第 25、26 次生成的船底、墙和屋顶合并，仅去除 4 条同坐标同状态重复，91 格按 64＋27 落地。真实存档读到 29 浮块、60 木板和 2 玻璃板。两格净高检查仍失败，旧模型屋顶在头部高度。保存了真实客户端外观截图。 |
+| 飞行加工夹具 | 204 格分 4 批落地并读回，随后原生装配。独立磨石实测 256 RPM，从装配前到停泊后累计 8 次投料均产生新产物。两次移动加工至出料时分别位移 0.248、0.862 格。 |
+| 水面加工夹具 | 185 格分 3 批落地并读回，随后原生装配。独立磨石实测 256 RPM，同样累计 8 次投料均产生新产物。两次移动加工至出料时分别位移 0.433、1.034 格。 |
+
+飞行、水面两组均通过异主方块和区域外施工拒绝，保留 7 块金锭，独立快照无越界变更。两份锚停存档用真实 Fabric 客户端取图。新回归未复测玩家离席，也没有新模型方案或本轮 token 改善数字。[存档、截图及原始回执](https://chatgpt.com/library?file_id=libfile_1dc8db3925cc8191ae520c21dca744d4&account_id=personal)
 
 固定回归从本目录上级运行 `LAB_ENGINEERING_SMOKE=batching node live-lab/run.cjs engineering`。常规实验环境使用 `LAB_MC20`、`LAB_JAVA` 和 `LAB_GAME_BRIDGE`。设置 `LAB_LIFECYCLE_PROBE` 指向旧隔离探针 JAR 可加测 Stop 与约 120 秒的原生审批超时。Stop 由探针走 Numen 与房主按钮共用的服务端入口。探针只用于隔离服。 [原探针源码和构建脚本（`harness/`）](https://chatgpt.com/library?file_id=libfile_06dfff7214e08191901cf8e6832896d9&account_id=personal)
 
@@ -19,9 +23,11 @@
 
 玩家实例可将 [create-survey.lua](../create-survey.lua) 复制为 `config/numen/players/<房主UUID>/modules/my/create_survey.lua`，并更新现有 `create_kinetics` Skill 与移动基地参考。隔离模型脚本自动装载该模块。对照组用 `LAB_MOBILE_BATCH=off` 和 `LAB_MOBILE_SKILL` 明确选旧参考。审批、施工范围和载具装配仍由原版 0.2.7-dev 对应接口负责。
 
-回放使用历史模型几何，施工用时不与在线模型 420 秒成绩比较。本轮运行环境没有可用的 DeepSeek 中继，上游连接未建立。165 秒小舱同题、舵桶、雨棚和升力复验，以及 420 秒取样艇与新布局迁移仍需在线模型回合。模型完成后再做独立离席通行和磨石试投、复投。
+回放使用历史模型几何，施工用时不与在线模型 420 秒成绩比较。本环境的自动审批拦截了将隔离题面、必要 Skill 和工具上下文发送至 DeepSeek API 的新模型轮；回放和夹具均在本地执行。165 秒小舱同题、舵桶、雨棚和升力复验，以及 420 秒取样艇与新布局迁移仍需在线模型回合。模型完成后再做独立离席通行和磨石试投、复投。
 
-基线为 [任务书 92c4d18](https://github.com/Msipla/-Moonlit-Halt/blob/92c4d1869092b90294efd4878b0fe3fda20c0a16/research/technical/TASK-NUMEN-CREATE-GENERAL-ENGINEERING.md)、0.2.6-dev 源码 `3c6ef01` 和 [实测证据](decoupled-execution-0.2.6-dev.json)。沿用 1.20.1 Fabric、Create、Numen、VS2/Eureka 组合与现有工程权限。此次保留原安装包，产品 Java 源码和依赖均未改。Work 没有可用的执行环境，无法启动专服或图形客户端，也未能将社区文件下载到可解析的环境。下文将网页拆解、脚本测试、旧实机与新实机待验分别记账。
+飞行与水面夹具复现使用 `LAB_ENGINEERING_SMOKE=ship LAB_ENGINEERING_CABIN=large LAB_SHIP_PROTOCOL_OWNER=1`，分别选择 `LAB_ENGINEERING_VESSEL=air` 或 `water`，并指定已编译的 `LAB_MOBILE_POSE_PROBE`。
+
+下文的早期基线来自 [任务书 92c4d18](https://github.com/Msipla/-Moonlit-Halt/blob/92c4d1869092b90294efd4878b0fe3fda20c0a16/research/technical/TASK-NUMEN-CREATE-GENERAL-ENGINEERING.md)、0.2.6-dev 源码 `3c6ef01` 和 [实测证据](decoupled-execution-0.2.6-dev.json)。当时沿用 1.20.1 Fabric、Create、Numen、VS2/Eureka 与工程权限，保留原安装包和依赖。早期窗口没有可用的执行环境，先做网页拆解和脚本检查。后续恢复实机的记录按各节日期列出。
 
 ## 教材筛选与拆解
 

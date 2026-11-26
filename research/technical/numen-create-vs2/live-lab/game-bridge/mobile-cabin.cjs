@@ -179,10 +179,22 @@ module.exports=async function(lab) {
   }
 
   const {cells,helm,walk,mill,input,stock,d}=cabin();
-  for(let i=0;i<cells.length;i+=32){
-    const label='mobile_built_'+i;
-    const batch=cells.slice(i,i+32).map(([p,b,rpm])=>`{pos=${pos(p)},state=${JSON.stringify(b)}${rpm?',rpm='+rpm:''}}`);
-    await lab.drive(`local s=engineering.site; local cells={${batch}}; assert(#s.check(cells).rejects==0); assert(s.apply(cells).cells==#cells); print("${label}")`,'\n'+label);
+  const planned=cells.map(([p,b,rpm])=>`{pos=${pos(p)},state=${JSON.stringify(b)}${rpm?',rpm='+rpm:''}}`);
+  if(process.env.LAB_MOBILE_BATCH==='off'){
+    for(let i=0;i<cells.length;i+=32){
+      const label='mobile_built_'+i;
+      const batch=planned.slice(i,i+32);
+      await lab.drive(`local s=engineering.site; local cells={${batch}}; assert(#s.check(cells).rejects==0); assert(s.apply(cells).cells==#cells); print("${label}")`,'\n'+label);
+    }
+  }else{
+    await lab.drive(`local r=my.create_survey.construct({${planned}}); print("mobile_batches",r.stage,r.batches,r.confirmed,r.written)`,'\nmobile_batches');
+    const row=lab.output().split('\n').find(line=>line.startsWith('mobile_batches\t'));
+    const [,stage,batches,confirmed,written]=row.split('\t');
+    lab.mark('mobile_batch_result',{fixture:true,stage,batches:Number(batches),confirmed:Number(confirmed),written:Number(written)});
+    assert.equal(stage,'complete');
+    assert(Number(batches)>1);
+    assert.equal(Number(confirmed),cells.length);
+    assert.equal(Number(written),cells.length);
   }
   await lab.drive(`assert(#${site}plan({walk={${walk.map(pos)}}}).clearance==0); print("mobile_clear")`,'\nmobile_clear');
   const unrelated=[water?4:3,d,6];
