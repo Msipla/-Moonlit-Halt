@@ -1,5 +1,19 @@
 # 移动基地集成与蓝图教学 · 0.2.6-dev 接续记录
 
+## 0.2.7-dev 连续施工与中断保留
+
+取样艇旧卷的真实轨迹有 21 次 `numen.api.help` 调用。最初四段帮助脚本没有输出签名，回执只有调用计数。随后模型多次重新读场地与定义，实际把有重复坐标的 101 个条目送进 `site.check`，服务端先因 64 格上限拒绝。首批 58 格在第 25 个模型请求执行，最后一轮只检查了第二批便到 420 秒。轨迹中既有工具调用方式与方案写法的问题，也有模型请求等待，不能单靠减少帮助次数推算完工时间。旧日志见 [建筑教学证据](https://chatgpt.com/library?file_id=libfile_9ad5831bc8dc81918a371820b1e13d16&account_id=personal) 内 `lab-exam/model.jsonl`。
+
+现有房主模块的 `my.create_survey.construct(cells)` 按设计顺序读取实际批量上限，逐批调用原生 `check`、`apply` 和 `inspect_many`。保留每批审批、区域、模式、库存和归属检查。每批回读成功才继续。拒绝或中断后用已确认范围对照原计划，回读不确定批次，再决定如何续建。只在模块和移动基地参考增加这个入口，继续使用原 0.2.7-dev JAR。支持大小与各形状的实际装配结果仍由配套载具 API 决定。
+
+| 隔离专服样本 | 游戏内回执与独立读盘 |
+| --- | --- |
+| 101 格超限复现 | 原生整批 `check` 拒绝，世界未改。同规模有效计划经模块分成 64 + 37，101 格均读回，落盘一致。跨批同格（含小数与嵌套位置）在写前拒绝。 |
+| 第二批占用拒绝 | 130 格计划首批写入并确认 64 格。第 65 格的桶内有 7 块金锭，即使传入精确 `expected` 也拒绝替换。后续批保持空，排除该格后只续写剩余 65 格。 |
+| 权限拒绝与断连取消 | `observe` 下零写入。另两轮以 `ask` 开始，在第二批第 65 格等待原生审批。房主明确拒绝，或等待中断开连接，均只保留首批 64 格，第三批未执行。断连回执记录脚本在 `apply` 被切断，并保留首批日志。 |
+
+复现沿用同一服务器夹具，运行 `LAB_ENGINEERING_SMOKE=batching node live-lab/run.cjs engineering`，查 `events.jsonl`、`minecraft.log` 和各批落盘快照。实际模型设计、图形客户端和移动功能在各自试验中计入。
+
 基线为 [任务书 92c4d18](https://github.com/Msipla/-Moonlit-Halt/blob/92c4d1869092b90294efd4878b0fe3fda20c0a16/research/technical/TASK-NUMEN-CREATE-GENERAL-ENGINEERING.md)、0.2.6-dev 源码 `3c6ef01` 和 [实测证据](decoupled-execution-0.2.6-dev.json)。沿用 1.20.1 Fabric、Create、Numen、VS2/Eureka 组合与现有工程权限。此次保留原安装包，产品 Java 源码和依赖均未改。Work 没有可用的执行环境，无法启动专服或图形客户端，也未能将社区文件下载到可解析的环境。下文将网页拆解、脚本测试、旧实机与新实机待验分别记账。
 
 ## 教材筛选与拆解

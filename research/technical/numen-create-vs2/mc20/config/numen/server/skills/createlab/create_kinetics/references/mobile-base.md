@@ -4,12 +4,22 @@
 
 1. Read site info once; use one local read only if it resolves ground, water level or an obstruction. Choose a heading, short boarding route and useful bays. If the deck is at Y, reserve Y+1 for feet and Y+2 for head along the route. Start the roof at Y+3 or higher. Put helm, anchor, stowage and the mill column beside that reservation. Give the doorway a threshold and fit the furniture to the remaining space.
 2. Commit to a footprint and side profile. The yacht's usable main body is narrow under its tall rig. Use one narrower bow or transom, a low cabin volume and a side glazing band; preserve the useful route when changing width. A short three-station sequence of entry, control and rest/work is sufficient for the first fit-out. Leave decoration for after the tests.
-3. Generate a coordinate-keyed plan once. Put one state at each coordinate, omit reserved air from writes, and split the plan into batches of at most `info.batch_limit`. Read only failed cells, repair that batch, then proceed. Preview the first relevant batch with `site.plan({cells=cells,walk=walk})`; the walk is feet positions. Check and apply each subsequent batch, and read the placed route once with `site.plan({walk=walk})`. An already accepted batch is finished.
+3. Generate one ordered plan from a coordinate-keyed table, so windows and fixtures replace earlier design entries in place. Omit reserved air from writes. Put support, deck and clearance-critical pieces before dependent blocks, and specify shaft axis and machine facing where they matter. Use the construction call below. For a separate layout preview, `site.plan({cells=oneBatch,walk=walk})` takes at most `info.batch_limit` candidate cells. After construction, `site.plan({walk=walk})` checks the actual route; supply feet positions.
 4. Stop when the drill's required features pass. For a vessel, assemble one connected companion-built hull, using `info.hull`, one helm and one anchor. Check `hull_limit` independently of the batch limit. Before assembly, count real connected lift/flotation, confirm the route stays clear and test the smallest allowed drive train. After assembly finish afloat or hovering, short forward, turn and anchor, then report the measured values. Once these pass, stop surveying.
 
 ### Make the first useful batch immediately
 
-When the brief supplies an empty work area and deck height, the candidate check is the survey. Each entry is `{pos={x=x,y=y,z=z},state=block_id}`. In Lua call `local s=engineering.site; local p=s.check(cells); print(#cells,#p.rejects); if #p.rejects==0 then print(s.apply(cells).cells) end`. Add the helm, usable stowage and roof ahead of ornamental walls. Lua loops count up by default; sort the bounds or supply `-1` when intentionally descending. Print the batch size to catch an empty roof or wall loop.
+When the brief supplies an empty work area and deck height, the candidate check is the survey. Each entry is `{pos={x=x,y=y,z=z},state=block_id}`. Use the next Lua call to generate the list and construct it. Add the helm, usable stowage and roof ahead of ornamental walls. Lua loops count up by default; supply `-1` when intentionally descending.
+
+```lua
+-- cells is your own ordered list of {pos, state} entries.
+return my.create_survey.construct(cells)
+```
+
+- The owner module reads the current batch limit, then checks, applies and reads back each batch before advancing. A `complete` receipt gives the number of batches, confirmed cells and actual writes. Continue immediately to the next design phase or the required functional checks. Keep the design in your Lua arguments so you can recover the same coordinates from the call.
+- A `plan` rejection reports a duplicate. Correct the design entries. A `check` rejection gives the affected slice `next..through` and positions and reasons when available. Keep confirmed cells, correct only the rejected entries and submit the remaining list in order. Keep existing inventories and reservations. If you intentionally replace an occupied cell, use its exact live state as `expected` and respect the native preflight.
+- On `apply` or `readback` failure, time limit, or disconnect, stop. Read the uncertain slice with `engineering.site.inspect_many({pos1,pos2,...})` in groups of at most 16 before any retry. Leave already confirmed cells and live matching cells alone. Resume only after settling any permission or state conflict. The last printed confirmed range and backup identify progress when a script is interrupted.
+- When the owner module is unavailable, use `engineering.site.check(cells)` and `engineering.site.apply(cells)` on one batch at a time, up to the measured limit. Use `inspect_many` to verify the batch. If a signature is missing, use `return numen.api.help("engineering.site.apply")` for that specific call, then act on the result.
 
 ## Blueprint lessons
 

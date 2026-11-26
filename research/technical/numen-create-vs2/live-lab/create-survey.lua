@@ -112,6 +112,16 @@ function M.observe(options)
   return table.concat(rows, "\n")
 end
 
+local function cellPosition(p)
+  while type(p) == "table" and p.pos do p = p.pos end
+  if type(p) ~= "table" then return nil end
+  for _, axis in ipairs({"x", "y", "z"}) do
+    local value = p[axis]
+    if type(value) ~= "number" or value ~= value or math.abs(value) >= math.huge then return nil end
+  end
+  return {x = math.floor(p.x), y = math.floor(p.y), z = math.floor(p.z)}
+end
+
 local function matchesState(requested, actual)
   local id = requested:match("^([^%s%[]+)")
   if not id:find(":", 1, true) then id = "minecraft:" .. id end
@@ -126,7 +136,7 @@ end
 
 local function readBack(site, batch, applied)
   local byPosition, resolved, rejects = {}, {}, {}
-  for _, cell in ipairs(batch) do byPosition[position(cell.pos)] = cell end
+  for _, cell in ipairs(batch) do byPosition[position(cellPosition(cell.pos))] = cell end
   for _, row in ipairs(applied.resolved) do resolved[position(row.pos)] = row.state end
   for first = 1, #batch, 16 do
     local positions = {}
@@ -154,11 +164,17 @@ function M.construct(cells)
   local site = engineering.site
   local receipt = {batches = 0, confirmed = 0, written = 0, total = #cells, next = 1}
   local seen = {}
-  for i, cell in ipairs(cells) do
-    local key = position(cell.pos)
+  for i = 1, #cells do
+    local cell = cells[i]
+    local pos = type(cell) == "table" and cellPosition(cell.pos)
+    if not pos then
+      receipt.stage, receipt.error = "plan", "invalid position at index " .. i
+      return receipt
+    end
+    local key = position(pos)
     if seen[key] then
       receipt.stage = "plan"
-      receipt.rejects = {{pos = cell.pos, reason = "duplicate at indices " .. seen[key] .. " and " .. i}}
+      receipt.rejects = {{pos = pos, reason = "duplicate at indices " .. seen[key] .. " and " .. i}}
       return receipt
     end
     seen[key] = i
