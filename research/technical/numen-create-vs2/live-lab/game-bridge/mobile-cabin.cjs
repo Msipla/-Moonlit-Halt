@@ -191,7 +191,7 @@ module.exports=async function(lab) {
   if(process.env.LAB_MOBILE_MODEL==='1'){
     const scenario=water?'河道补给站，包含驾驶位、储物货位和有顶的休息间。':'山脊观测救援站，包含驾驶位、医用储物和有顶的两人休息区。';
     const waterPrompts={'water-exam':waterExam,'water-exam-coached':waterExam+waterConstructionCoaching,'water-rig':waterRig,'water-turn':waterTurn};
-    const repairPrompt='修你原来的浅滩取样艇。原设计已从装配前的真实存档恢复。保留船底、浮块、现有储物和船舱用途。已知甲板 y=-56，中心路线 x=0、脚 y=-55、z=2 到 -5。检查现场的低屋顶和中间舵位，自己决定修法。磨石在(3,-55,1)，侧齿轮会留在岸上。调整为船用竖直直驱，保留输入和磨石库存取货。一次 Lua 生成你的编辑，用 my.create_survey.construct(edits,{walk=脚坐标数组,drive=马达到磨石坐标数组}) 先做确定性验收再施工，已有格使用精确 expected。随后 check_vessel({walk=同走道,drive=同动力}) 确认陆上实际转速。装配后读磨石转速，完成短推进、偏航、锚停和简报。';
+    const repairPrompt='修你原来的浅滩取样艇，保留船底、浮块、原储物和船舱用途。甲板 y=-56，中心路线 x=0、脚 y=-55、z=2 到 -5。自行修正低屋顶和中间舵位，让屋顶通过立柱连入船身。磨石在(3,-55,1)，侧齿轮会留在岸上。用船用竖直直驱、输入桶和漏斗，从磨石库存取货。一次 Lua 自行生成编辑，用 my.create_survey.construct(edits,{walk=脚坐标数组,drive=马达到磨石坐标数组}) 检查并施工，已有格使用精确 expected。再用 check_vessel 检查成品及实际转速。核对装配格数和船上磨石转速，完成短推进、偏航、锚停和简报。';
     const prompt=(repair?repairPrompt:waterPrompts[drill])??(resume
       ? '接续隔离存档里你之前自主建造的补给船。保留船体和现有储物。只做这几步：查实际舵、锚、浮块、走道和加工件；将舵移出舱内两格净空走道，保持原有室内用途；核对船体允许搬运的部件，磨石用兼容的最短动力连接；尽快装配、核对在水面与短程推进、转向、锚停。按实际回执推进，助手原地施工，不扩大布局或重做百科勘察。'
       : '在授权工程区自主设计并完成一座'+(water?'水面':'飞行')+'移动基地。'+scenario+
