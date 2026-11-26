@@ -37,7 +37,7 @@ For a deck block at Y, the walking cells are at Y+1 and Y+2. The first roof bloc
 
 The 1.20.1 yacht has a fully connected 626-cell body and a narrow hull below a tall mast. Preserve the deck and its entrance before adding the tall profile. The airship's largest connected component is 1,490 of 2,141 cells. Place all lift hardware in physical contact with the hull and size it for the final mass. The research submarine's connected hull is 417 cells after excluding terrain and separating disconnected shapes. Leave scenery, stands and stray parts outside the assembly.
 
-Place an upward-facing creative motor directly below a millstone to form a simple workshop column. A hopper facing down takes items from the input barrel one cell above it. Put the column beside the aisle and give the input a reachable work surface. Use the direct vertical drive when output is removed from the mill inventory. Keep optional side gears and separate output lines out of the first functional pass. Read the moving machine’s RPM and inventories separately.
+Place a creative motor with `facing=up` directly below the millstone. A hopper facing down takes items from the input barrel one cell above it. Put the column beside the aisle and give the input a reachable work surface. For this layout, collect output from the millstone inventory. The warning about a blocked bottom face applies to downward extraction. Check every required transmission part against `engineering.site.info().hull` before assembly. In 0.2.7, a side cogwheel can run on shore, then stay behind at assembly and leave the onboard millstone at 0 RPM. Read RPM and inventory again with `engineering_vessels.ship.inspect_onboard` before driving and after motion.
 
 ## Choose the carrier
 
