@@ -7,6 +7,7 @@ import com.dwinovo.numen.api.permission.PlacedBlocks;
 import com.dwinovo.numen.api.sdk.Doc;
 import com.dwinovo.numen.api.sdk.Fn;
 import com.dwinovo.numen.api.sdk.Pending;
+import com.dwinovo.numen.api.sdk.Positional;
 import com.dwinovo.numen.api.sdk.ServerCall;
 import com.dwinovo.numen.script.ApiError;
 import com.dwinovo.numen.script.ErrorKind;
@@ -29,9 +30,11 @@ import net.fabricmc.api.ModInitializer;
 import net.minecraft.class_1937;
 import net.minecraft.class_1263;
 import net.minecraft.class_2248;
+import net.minecraft.class_2246;
 import net.minecraft.class_2259;
 import net.minecraft.class_2338;
 import net.minecraft.class_2350;
+import net.minecraft.class_2402;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemStorage;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.minecraft.class_2382;
@@ -86,13 +89,11 @@ public final class EngineeringSite implements ModInitializer {
         CreateReadings.installSettling();
         NumenPlugins.register("engineering", api -> api.api("site",
             "Create power, logistics and authorized edits. Lua namespace engineering.site (no numen prefix); print or return results to receive a Lua receipt. " +
-            "For a new functional build: survey feet height, plan critical clearances, compile shaft connections from your chosen motor and load positions if useful, " +
-            "prove working devices and throughput, then finish accessible enclosure with native building_design/shape/build. " +
-            "check(cells) and plan(...) are read-only. apply(cells) is the same authorized batch up to 64 cells; " +
-            "power readings settle on server ticks. Inspect after rejected or changed geometry; do not repeat writes blindly. " +
-            "For an existing build use overview() once for device positions; inspect only chosen points. For production recipe(type,input) returns compact JSON; flow({links,cells,avoid}) " +
-            "plans downward transfer from model-chosen barrels, mills and depots. air(fan,depot) verifies live fan processing reach. " +
-            "Keep powered sections and correct only the failed direction, filter, or transfer.",Site.class));
+            "Site operations work with the companion standing by; use apply, water and feed directly. Movement and hand interaction are not prerequisites. " +
+            "Use info or overview once, choose your layout, then apply a small functional batch of up to 64 cells. check and plan are read-only. " +
+            "Keep one transfer cell below each output barrel or millstone, use flow for gravity links and connect for power. " +
+            "Keep powered sections and change only the first failed direction, filter or transfer. For washing use water(source, tail) in a dry bounded lane, then air(fan,depot). " +
+            "Verify actual stock or product separately from placement and RPM. Use building_design and shape for the layout and enclosure.",Site.class));
     }
 
     public static final class Site {
@@ -139,6 +140,9 @@ public final class EngineeringSite implements ModInitializer {
         }
         public record Point(class_2338 pos) {}
         public record Topic(String topic) {}
+        public record Water(@Doc("Exact source cell. Must be dry air before pouring.") class_2338 source,
+                            @Doc("Optional horizontal neighbor, for example the cell directly above a wash depot.") @Positional Optional<class_2338> tail) {}
+        public record WaterResult(class_2338 pos,String state,String backup) {}
 
         @Fn("Read Create Ponder teaching by scene or keyword, or an installed Create recipe by type/name. Returns bounded JSON.")
         public static String guide(ServerCall call,Topic args) {
@@ -148,8 +152,9 @@ public final class EngineeringSite implements ModInitializer {
         public record Region(String name,class_2338 from,class_2338 to) {}
         public record Replay(String name,class_2338 at) {}
         public record ResolvedCell(class_2338 pos,String state) {}
+        public record ConfiguredCell(class_2338 pos,Optional<Integer> rpm,Optional<String> filter) {}
         public record Applied(int cells,String backup,List<ResolvedCell> resolved,List<String> warnings,
-                              int power_wait_ticks,List<CreateReadings.Power> power) {}
+                              int power_wait_ticks,List<CreateReadings.Power> power,List<ConfiguredCell> configured) {}
         public record Reading(String block,String properties,Optional<Double> rpm,Optional<Boolean> overstressed,
                               List<String> shaft_faces,Optional<String> network,Optional<class_2338> source,
                               Optional<Integer> motor_setting,Optional<String> filter,List<CreateSettings.Stock> items,
@@ -656,6 +661,78 @@ public final class EngineeringSite implements ModInitializer {
             return Logistics.airflow(level(call),query);
         }
 
+        @Fn("Place one native water source from a carried water bucket without moving. Use water(source,tail) for a bounded two-cell horizontal wash lane. Both cells start in air. The source needs a solid floor and the tail a solid floor or depot. Enclose the four sides of the lane with solid faces and keep it inside the site. Read air(fan,depot) after ticks settle. Creative retains the bucket.")
+        public static Pending<WaterResult> water(ServerCall call,Water args) {
+            var level=level(call);
+            checkBasin(level,args);
+            requireBucket(call,"minecraft:water_bucket");
+            var at=args.source();
+            var before=level.method_8320(at);
+            return call.authorize(Action.place(at,before,net.minecraft.class_1802.field_8705)).then(allowed -> {
+                require(level(call)==level && level.method_8320(at)==before,"water source changed before authorization completed");
+                checkBasin(level,args);
+                requireBucket(call,"minecraft:water_bucket");
+                return writeWater(call,level,at,class_2246.field_10382.method_9564());
+            });
+        }
+
+        @Fn("Remove one exact native source with a carried empty bucket and break authorization. Creative retains the bucket. Flowing water recedes through normal game ticks; inspect it before removing the containment.")
+        public static Pending<WaterResult> drainWater(ServerCall call,Point args) {
+            var level=level(call);
+            var at=args.pos();
+            check(level,at);
+            var before=class_2246.field_10382.method_9564();
+            require(level.method_8320(at)==before,"target is not a water source");
+            requireBucket(call,"minecraft:bucket");
+            return call.authorize(Action.breakBlock(at,before)).then(allowed -> {
+                require(level(call)==level,"dimension changed before removing water");
+                check(level,at);
+                require(level.method_8320(at)==before,"water source changed before authorization completed");
+                requireBucket(call,"minecraft:bucket");
+                return writeWater(call,level,at,class_2246.field_10124.method_9564());
+            });
+        }
+
+        private static void requireBucket(ServerCall call,String item) {
+            require(call.her().method_31548().method_7379(CreateSettings.stack(item,1)),"carry a "+item+" before using this tool");
+        }
+
+        private static WaterResult writeWater(ServerCall call,class_3218 level,class_2338 at,class_2680 state) {
+            var saved=backup(level,List.of(at));
+            require(level.method_8652(at,state,3) && level.method_8320(at)==state,
+                "native fluid write failed; backup engineering:"+saved);
+            if(state.method_26215()) PlacedBlocks.of(level).forget(at);
+            else PlacedBlocks.placedBy(level,at,call.her());
+            return new WaterResult(at,CreateReadings.commandState(state),"engineering:"+saved);
+        }
+
+        private static void checkBasin(class_3218 level,Water args) {
+            var source=args.source();
+            check(level,source);
+            var cells=args.tail().map(tail -> {
+                check(level,tail);
+                require(tail.method_10264()==source.method_10264() &&
+                    Math.abs(source.method_10263()-tail.method_10263())+Math.abs(source.method_10260()-tail.method_10260())==1,
+                    "water tail must be one horizontal neighbor");
+                return List.of(source,tail);
+            }).orElseGet(() -> List.of(source));
+            for(var cell:cells) {
+                require(level.method_8320(cell).method_26215(),"water lane must start dry and empty at "+cell);
+                require(level.method_8320(cell.method_10084()).method_26227().method_15769(),"existing fluid above water lane at "+cell);
+                for(var normal:class_2350.values()) {
+                    if(normal==class_2350.field_11036) continue; // Up is not a fluid outlet.
+                    var wall=cell.method_10093(normal);
+                    if(cells.contains(wall)) continue;
+                    check(level,wall);
+                    var state=level.method_8320(wall);
+                    boolean depotFloor=normal==class_2350.field_11033 && !cell.equals(source) && id(state).equals("create:depot");
+                    require(state.method_26227().method_15769() && (depotFloor ||
+                        !(state.method_26204() instanceof class_2402) && state.method_26206(level,wall,normal.method_10153())),
+                        "water lane needs a solid dry wall or floor at "+wall);
+                }
+            }
+        }
+
         private static Edit prepare(class_3218 level,Cell c) {
             check(level,c.pos());
             var parsed=parseState(c.state());
@@ -817,6 +894,7 @@ public final class EngineeringSite implements ModInitializer {
                 String backup=backup(level,edits.stream().map(Edit::at).toList());
                 int written=0;
                 var changed=new ArrayList<Edit>();
+                var configured=new ArrayList<ConfiguredCell>();
                 try {
                     for(var edit:edits) {
                         if(edit.state()==edit.before()) continue;
@@ -828,8 +906,13 @@ public final class EngineeringSite implements ModInitializer {
                         var actual=level.method_8320(edit.at());
                         require(edit.matches(actual),"neighbor update changed "+edit.at()+" to "+CreateReadings.commandState(actual));
                     }
-                    for(var edit:edits) require(CreateSettings.apply(level.method_8321(edit.at()),edit.settings()),
-                        "device rejected configuration at "+edit.at());
+                    for(var edit:edits) {
+                        if(!edit.settings().present()) continue;
+                        var device=level.method_8321(edit.at());
+                        require(CreateSettings.apply(device,edit.settings()),"device rejected configuration at "+edit.at());
+                        var actual=CreateSettings.read(device);
+                        configured.add(new ConfiguredCell(edit.at(),Optional.ofNullable(actual.rpm()),Optional.ofNullable(actual.filter())));
+                    }
                     for(var edit:changed) {
                         if(level.method_8321(edit.at()) instanceof KineticBlockEntity kinetic) {
                             try {
@@ -867,14 +950,14 @@ public final class EngineeringSite implements ModInitializer {
                     p->isTransmission(id(level.method_8320(p))))).limit(16).toList();
                 int count=written;
                 String saved="engineering:"+backup;
-                if(points.isEmpty()) return Pending.of(new Applied(count,saved,resolved,List.of(),0,List.of()));
+                if(points.isEmpty()) return Pending.of(new Applied(count,saved,resolved,List.of(),0,List.of(),List.copyOf(configured)));
                 return CreateReadings.afterTicks(level,()->{
                     require(level(call)==level,"owner or companion changed worlds after write; backup "+saved);
                     var power=points.stream().filter(p->inSiteCell(level,p)).map(p->CreateReadings.power(level,p)).toList();
                     var warnings=power.stream().filter(p->p.status().equals("disconnected") ||
                         p.status().equals("overstressed") || p.status().equals("stale_source"))
                         .limit(8).map(p->p.pos()+" "+p.status()+" after wait").toList();
-                    return new Applied(count,saved,resolved,warnings,CreateReadings.SETTLE_TICKS,power);
+                    return new Applied(count,saved,resolved,warnings,CreateReadings.SETTLE_TICKS,power,List.copyOf(configured));
                 });
 
             });
@@ -900,7 +983,8 @@ public final class EngineeringSite implements ModInitializer {
             var owner=call.her().resolveOwnerPlayer();
             var level=call.her().method_51469();
             String gate="creative companion and connected creative owner in the same dimension required: ";
-            require(owner!=null && owner.method_51469()==level,gate+"owner must join this dimension before retrying");
+            require(!call.her().method_14239() && !call.her().method_31481(),gate+"companion must still be connected");
+            require(owner!=null && !owner.method_14239() && owner.method_51469()==level,gate+"owner must join this dimension before retrying");
             require(owner.method_7337(),gate+"owner must enter creative mode before retrying");
             require(call.her().method_7337(),gate+"companion must enter creative mode before retrying");
             require(level.method_27983().equals(class_1937.field_25179),"the engineering site is in the overworld");

@@ -100,6 +100,7 @@ public final class Logistics {
         if(item(link.item()).isEmpty()) return "Unknown or empty item ID";
         if(link.filter().orElse(false) && !new CreateSettings.Settings(null,link.item()).allowedFor(SMART)) return "Item is outside the smart chute filter allowlist";
         if(link.from().method_10264()<=link.to().method_10264()) return "Gravity intake needs the source above the destination";
+        if(link.from().method_10074().equals(link.to())) return "Source directly touches destination. Leave a free transfer cell below the source for a hopper or chute";
         if(!ENDPOINTS.contains(EngineeringSite.Site.id(state(level,overlay,link.from()))) ||
            !ENDPOINTS.contains(EngineeringSite.Site.id(state(level,overlay,link.to())))) return "Endpoints must be barrel, millstone or depot; include planned endpoint cells";
         if(!overlay.containsKey(link.from())) {

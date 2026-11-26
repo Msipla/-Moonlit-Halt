@@ -15,7 +15,7 @@ import net.minecraft.class_7923;
 final class CreateSettings {
     private static final Set<String> FILTERS=Set.of("minecraft:wheat","minecraft:wheat_seeds","create:wheat_flour",
         "create:dough","minecraft:cobblestone","minecraft:gravel","minecraft:flint");
-    static final Set<String> FEEDS=Set.of("minecraft:wheat","minecraft:cobblestone");
+    static final Set<String> FEEDS=Set.of("minecraft:wheat","minecraft:cobblestone","minecraft:andesite");
     static final String MOTOR="create:creative_motor";
     static final String CHUTE="create:smart_chute";
     static final Settings EMPTY=new Settings(null,null);

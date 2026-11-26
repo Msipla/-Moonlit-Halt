@@ -14,7 +14,7 @@ module.exports=async function check(lab){
     }
     await lab.cmd('fill -6 -60 6 7 -58 19 minecraft:water');
   }
-  if(['dough','logistics'].includes(process.env.LAB_ENGINEERING_SMOKE)){
+  if(['dough','logistics','stationary'].includes(process.env.LAB_ENGINEERING_SMOKE)){
     for(const edge of ['-7 -60 5 -7 -60 20','8 -60 5 8 -60 20','-6 -60 5 7 -60 5','-6 -60 20 7 -60 20']){
       await lab.cmd('fill '+edge+' minecraft:stone');
     }
@@ -37,7 +37,7 @@ module.exports=async function check(lab){
   if(process.env.LAB_ENGINEERING_SMOKE==='permissions') return permissionCheck(lab,baseline);
   if(process.env.LAB_ENGINEERING_SMOKE==='ship') return shipCheck(lab,baseline);
   if(process.env.LAB_ENGINEERING_SMOKE==='line') return calibrateLine(lab,baseline);
-  if(['dough','logistics'].includes(process.env.LAB_ENGINEERING_SMOKE)) return calibrateDough(lab,baseline,process.env.LAB_ENGINEERING_SMOKE==='logistics');
+  if(['dough','logistics','stationary'].includes(process.env.LAB_ENGINEERING_SMOKE)) return calibrateDough(lab,baseline,process.env.LAB_ENGINEERING_SMOKE);
   if(process.env.LAB_ENGINEERING_SMOKE==='1') return settingsCheck(lab);
   if(['1','vertical'].includes(process.env.LAB_ENGINEERING_LINE)) return lineCheck(lab,baseline);
   if(['1','clearance'].includes(process.env.LAB_ENGINEERING_PRESS)) return pressCheck(lab,baseline);
@@ -395,24 +395,41 @@ async function settingsCheck(lab) {
     copies:structure.blocks.length,nativeSettings:structure.blocks.flatMap(b=>b.nbt?[b.nbt]:[])});
 }
 
-async function calibrateDough(lab,baseline,compiled=false) {
+async function calibrateDough(lab,baseline,scenario) {
   // The fixed, known wheat-to-dough apparatus is reused from the existing repair fixture.
   const fixture=require('../repair-fixture.cjs');
   const position=([x,y,z])=>[x,y-60,z+12];
   const coords=at=>{const [x,y,z]=position(at); return '{x='+x+',y='+y+',z='+z+'}';};
+  const stationary=scenario==='stationary';
+  const compiled=scenario!=='dough';
   const water=fixture.cells.find(cell=>cell.state==='minecraft:water');
   const logistics=new Set(['minecraft:hopper','create:chute','create:smart_chute']);
   const dry=fixture.cells.filter(cell=>cell!==water&&(!compiled||!logistics.has(cell.state.split('[')[0])));
+  let input=fixture.sample.at;
+  let mill=[1,6,0];
+  if(stationary){
+    input=[2,8,0];
+    mill=[1,7,0];
+    for(const [original,replacement] of [[[2,7,0],input],[[1,6,0],mill],[[0,6,0],[0,7,0]]]){
+      const index=dry.findIndex(cell=>cell.at.join()===original.join());
+      dry[index]={...dry[index],at:replacement};
+    }
+    dry.push({at:[0,6,0],state:'create:shaft[axis=y]'});
+    for(const at of [[-1,4,0],[1,4,0],[0,4,1]]) dry.push({at,state:'minecraft:glass'});
+    await lab.cmd('give LabBot minecraft:water_bucket 1');
+  }
+  const resting=await lab.cmd('data get entity LabBot Pos');
   const list=dry.map(({at,state,rpm,filter})=>'{pos='+coords(at)+',state='+JSON.stringify(state)+
       (rpm?',rpm='+rpm:'')+(filter?',filter='+JSON.stringify(filter):'')+'}').join(',');
   await lab.drive('assert(engineering.site.apply({'+list+'}).cells=='+dry.length+'); print("dough_calibrated")','\ndough_calibrated');
-  const transfers=[{from:fixture.sample.at,to:[1,6,0],item:'minecraft:wheat'},
-    {from:[1,6,0],to:[0,3,0],item:'create:wheat_flour',filter:true},
+  const entry=[input[0],input[1]-1,input[2]];
+  const transfers=[{from:input,to:mill,item:'minecraft:wheat'},
+    {from:mill,to:[0,3,0],item:'create:wheat_flour',filter:true},
     {from:[0,3,0],to:fixture.sample.out,item:'create:dough',filter:true}];
   const flow=transfers.map(t=>'{from='+coords(t.from)+',to='+coords(t.to)+',item='+JSON.stringify(t.item)+
     (t.filter?',filter=true':'')+'}').join(',');
   if(compiled){
-    await lab.drive(`local site=engineering.site; local before=site.inspect(${coords([2,6,0])});
+    await lab.drive(`local site=engineering.site; local before=site.inspect(${coords(entry)});
       local recipe=site.recipe("create:milling","minecraft:wheat");
       local wash=site.recipe("create:splashing","create:wheat_flour");
       assert(string.find(recipe,"create:wheat_flour",1,true));
@@ -421,22 +438,32 @@ async function calibrateDough(lab,baseline,compiled=false) {
       local dry=site.air(${coords([0,4,-2])},${coords([0,3,0])}); assert(not dry.washing);
       local result=site.flow({links={${flow}}});
       assert(result.links[1].status=="candidate" and result.links[2].status=="candidate" and result.links[3].status=="candidate");
-      assert(#result.check.rejects==0 and #result.cells>=5); assert(site.inspect(${coords([2,6,0])}).state==before.state);
-      local avoid=site.flow({links={${flow}},avoid={${coords([2,6,0])}}}); assert(avoid.links[1].status=="blocked");
+      assert(#result.check.rejects==0 and #result.cells>=5); assert(site.inspect(${coords(entry)}).state==before.state);
+      local avoid=site.flow({links={${flow}},avoid={${coords(entry)}}}); assert(avoid.links[1].status=="blocked");
       assert(site.apply(result.cells).cells==#result.cells);
       local after=site.flow({links={${flow}}});
       for _,row in ipairs(after.links) do print("flow_recheck",row.status,row.note) end;
       assert(#after.cells==0 and after.links[1].status=="existing" and after.links[2].status=="existing" and after.links[3].status=="existing");
       print("logistics_compiled",#result.cells,dry.status)`.replaceAll('\n',' '),'\nlogistics_compiled');
   }
-  assert.match(await lab.cmd('setblock '+position(water.at).join(' ')+' minecraft:water'),/Changed/);
+  if(stationary){
+    const outlet=[mill[0],mill[1]-1,mill[2]];
+    await lab.drive(`local s=engineering.site; local p=${coords(outlet)}; local old=s.inspect(p);
+      assert(old.filter=="create:wheat_flour");
+      assert(s.apply({{pos=p,state=old.state,expected=old.state,filter="minecraft:wheat_seeds"}}).configured[1].filter=="minecraft:wheat_seeds");
+      local fixed=s.apply({{pos=p,state=old.state,expected=old.state,filter="create:wheat_flour"}});
+      assert(fixed.cells==0 and fixed.configured[1].filter=="create:wheat_flour" and s.inspect(p).filter=="create:wheat_flour");
+      assert(s.water(${coords(water.at)},${coords([0,4,0])}).state=="minecraft:water[level=0]");
+      print("stationary_setup",fixed.cells,fixed.configured[1].filter)`.replaceAll('\n',' '),'\nstationary_setup');
+  }else assert.match(await lab.cmd('setblock '+position(water.at).join(' ')+' minecraft:water'),/Changed/);
   if(compiled){
     await wait(1300);
     await lab.drive(`local air=engineering.site.air(${coords([0,4,-2])},${coords([0,3,0])});
       assert(air.washing and air.status=="washing_reaches_depot",air.status);
       print("live_washing",air.face,air.pushing,air.reach)`.replaceAll('\n',' '),'\nlive_washing');
   }
-  await lab.drive('assert(engineering.site.feed('+coords(fixture.sample.at)+',"minecraft:wheat",3)==3); print("dough_fed")','\ndough_fed');
+  await lab.drive('assert(engineering.site.feed('+coords(input)+',"minecraft:wheat",3)==3); print("dough_fed")','\ndough_fed');
+  if(stationary) assert.equal(await lab.cmd('data get entity LabBot Pos'),resting);
   await lab.isolate();
   const out=position(fixture.sample.out);
   const read=async label=>{
@@ -463,10 +490,10 @@ async function calibrateDough(lab,baseline,compiled=false) {
     throw Error(label+' did not produce dough: '+JSON.stringify(sample));
   }
   const first=await waitForProduct(0,'dough-first');
-  assert.match(await lab.cmd('item replace block '+position(fixture.sample.at).join(' ')+' container.0 with minecraft:wheat 3'),/Replaced/);
+  assert.match(await lab.cmd('item replace block '+position(input).join(' ')+' container.0 with minecraft:wheat 3'),/Replaced/);
   const independent=await waitForProduct(first.count,'dough-independent');
   assert.deepEqual(independent.outside,[]);
-  lab.mark('engineering_dough',{passed:true,fixture:true,compiled,first,independent,firstIncrease:first.count,
+  lab.mark('engineering_dough',{passed:true,fixture:true,compiled,stationary,first,independent,firstIncrease:first.count,
     independentIncrease:independent.count-first.count});
 }
 
