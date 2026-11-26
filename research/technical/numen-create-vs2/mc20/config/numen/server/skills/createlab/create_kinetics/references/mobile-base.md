@@ -10,8 +10,9 @@ local function put(x, y, z, state)
   byPos[key] = i
   cells[i] = {pos={x=x,y=y,z=z}, state=state}
 end
--- Build your own layout with put before this call; reuse put to replace a design entry.
-local r = my.create_survey.construct(cells)
+-- Generate your layout and choose feetPath and motorToMill before this call.
+local checks = {walk=feetPath, drive=motorToMill}
+local r = my.create_survey.construct(cells, checks)
 print(r.stage, r.batches, r.confirmed, r.written, r.next, r.through)
 if r.error then print(r.error) end
 for _, reject in ipairs(r.rejects or {}) do print(reject.pos, reject.reason) end
@@ -21,8 +22,8 @@ for _, reject in ipairs(r.rejects or {}) do print(reject.pos, reject.reason) end
 
 1. Use the supplied site and terrain facts. If a fact changes the layout, read it once. For site info, print the specific fields or palette entries you need. Printing the whole table can abbreviate the palette. Choose a heading, short boarding route and useful bays. If the deck is at Y, reserve Y+1 for feet and Y+2 for head along the route. Start the roof at Y+3 or higher. Put helm, anchor, stowage and the mill column beside that reservation.
 2. Commit to a footprint and side profile. The yacht's usable main body is narrow under its tall rig. Use one narrower bow or transom, a low cabin volume and a side glazing band; preserve the useful route when changing width. A short three-station sequence of entry, control and rest/work is sufficient for the first fit-out. Leave decoration for after the tests.
-3. Generate one coordinate-keyed plan. When a fitting or window takes the place of an earlier design entry, replace that entry at the same coordinate. Omit reserved air. Order connected supports, deck, fittings and roof so each stage works with the blocks already placed. Pass the ordered array to `my.create_survey.construct(cells)` and print the receipt. The helper reads the live batch limit and checks, applies and reads back each batch before continuing. When previewing a route with candidate edits, `site.plan({cells=batch,walk=feetPositions})` accepts one legal batch.
-4. Stop when the drill's required features pass. For a vessel, assemble one connected companion-built hull, using `info.hull`, one helm and one anchor. Check `hull_limit` independently of the batch limit. Before assembly, count real connected lift/flotation, confirm the route stays clear and test the smallest allowed drive train. After assembly finish afloat or hovering, short forward, turn and anchor, then report the measured values. Once these pass, stop surveying.
+3. For a vessel plan or repair, pass 2–32 consecutive feet positions from the entrance through the cabin and the face-adjacent motor, optional shafts, and mill positions in order. `construct(cells, checks)` reuses the native route and drive checks before writing and reads each batch back. For an incomplete phase or cabin-only exercise, use `construct(cells)`.
+4. Before assembly, run `my.create_survey.check_vessel(checks)` on the built geometry. It requires the complete walk and live mill RPM. Then count real lift/flotation and assemble one connected companion-built hull with one helm and one anchor, within `info.hull_limit`. Verify onboard mill power, float or hover, forward, turn and anchor. Report the measured values.
 
 ### Make the first useful batch immediately
 

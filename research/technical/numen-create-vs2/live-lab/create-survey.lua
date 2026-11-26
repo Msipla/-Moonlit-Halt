@@ -168,15 +168,7 @@ local function readBack(site, batch, applied)
   return rejects
 end
 
----Execute an ordered list of site cells. Order supports before dependent blocks.
----The first unconfirmed range is next..through. A check failure made no writes to that range.
----After an apply/readback failure or interruption, inspect the uncertain range before resuming.
----@param cells table[] Ordered entries with pos and state. Optional expected, faces, rpm and filter use the native site edit format.
----@return table Receipt with stage, batches, confirmed, written, and the remaining range.
-function M.construct(cells)
-  assert(type(cells) == "table" and #cells > 0, "Supply an ordered list of site cells")
-  local site = engineering.site
-  local receipt = {batches = 0, confirmed = 0, written = 0, total = #cells, next = 1}
+local function indexCells(cells)
   for index in pairs(cells) do
     assert(type(index) == "number" and index % 1 == 0 and index >= 1 and index <= #cells,
       "Site cells must form a dense array starting at 1")
@@ -186,19 +178,114 @@ function M.construct(cells)
     local cell = cells[i]
     local pos = type(cell) == "table" and cellPosition(cell.pos)
     if not pos or type(cell.state) ~= "string" then
-      receipt.stage, receipt.error = "plan", "Each site cell needs pos and state at index " .. i
-      return receipt
+      return nil, {error = "Each site cell needs pos and state at index " .. i}
     end
     local key = position(pos)
     if seen[key] then
-      receipt.stage = "plan"
-      receipt.rejects = {{pos = pos, reason = "duplicate at indices " .. seen[key] .. " and " .. i}}
-      return receipt
+      return nil, {rejects = {{pos = pos, reason = "duplicate at indices " .. seen[key] .. " and " .. i}}}
     end
     seen[key] = i
   end
+  return seen
+end
 
-  local limit = site.info().batch_limit
+local function vesselCheck(site, info, cells, index, options)
+  local walk, drive = options.walk, options.drive
+  assert(type(walk) == "table" and #walk >= 2 and #walk <= 32, "Supply 2..32 route feet positions")
+  assert(type(drive) == "table" and #drive >= 2 and #drive <= 16, "Supply the 2..16 motor-to-mill positions")
+  local rejects, hull = {}, {}
+  for _, id in ipairs(info.hull) do hull[id] = true end
+
+  local function projected(positions, path)
+    local edits, used = {}, {}
+    for _, raw in ipairs(positions) do
+      local p = cellPosition(raw)
+      assert(p, "Expected a position with x, y and z")
+      for dy = path and -1 or 0, path and 2 or 0 do
+        local i = index[position({x = p.x, y = p.y + dy, z = p.z})]
+        if i and not used[i] then edits[#edits + 1], used[i] = cells[i], true end
+      end
+    end
+    return edits
+  end
+
+  local function addPlan(result)
+    for _, row in ipairs(result.changes.rejects) do rejects[#rejects + 1] = row end
+    for _, row in ipairs(result.clearance) do rejects[#rejects + 1] = row end
+  end
+
+  local reads = {}
+  for _, row in ipairs(site.inspect_many(drive)) do reads[position(row.pos)] = row.reading end
+  for i, raw in ipairs(drive) do
+    local p = cellPosition(raw)
+    local key = position(p)
+    local cell = cells[index[key]]
+    local state = cell and cell.state or reads[key].state
+    local id = state:match("^%s*([^%s%[]+)")
+    local expected = i == 1 and "create:creative_motor" or
+      i == #drive and "create:millstone" or "create:shaft"
+    if not id or not hull[namespaced(id)] then
+      rejects[#rejects + 1] = {pos = p, reason = "not a hull component: " .. state}
+    elseif namespaced(id) ~= expected then
+      rejects[#rejects + 1] = {pos = p, reason = "expected " .. expected .. " in the drive; got " .. state}
+    end
+    if i > 1 then
+      local prev = cellPosition(drive[i - 1])
+      if math.abs(prev.x - p.x) + math.abs(prev.y - p.y) + math.abs(prev.z - p.z) ~= 1 then
+        rejects[#rejects + 1] = {pos = p, reason = "drive positions must be face-adjacent"}
+      end
+    end
+  end
+  if #rejects == 0 then
+    addPlan(site.plan({cells = projected(drive), machines = drive}))
+  end
+  -- Keep one shared step so the native planner also checks each section boundary.
+  for start = 1, #walk - 1, 15 do
+    local segment = {}
+    for i = start, math.min(start + 15, #walk) do segment[#segment + 1] = walk[i] end
+    addPlan(site.plan({cells = projected(segment, true), walk = segment}))
+  end
+  local mill = reads[position(cellPosition(drive[#drive]))]
+  if #cells == 0 and (not mill.rpm or mill.rpm == 0 or mill.power_status ~= "running") then
+    rejects[#rejects + 1] = {pos = drive[#drive], reason = "live millstone is not running"}
+  end
+  return {ok = #rejects == 0, rejects = rejects, mill_rpm = mill.rpm}
+end
+
+---Check the proposed vessel path and motor-to-mill drive without editing the world.
+---@param options table Required walk (feet coordinates) and drive (motor through shafts to mill). Optional cells are proposed edits. Omit cells to require live mill power.
+---@return table Receipt with ok, rejects and current mill_rpm.
+function M.check_vessel(options)
+  local cells = options.cells or {}
+  local index, problem = indexCells(cells)
+  if not index then problem.ok = false; return problem end
+  local site = engineering.site
+  return vesselCheck(site, site.info(), cells, index, options)
+end
+
+---Execute an ordered list of site cells. Order supports before dependent blocks.
+---The first unconfirmed range is next..through. A check failure made no writes to that range.
+---After an apply/readback failure or interruption, inspect the uncertain range before resuming.
+---@param cells table[] Ordered entries with pos and state. Optional expected, faces, rpm and filter use the native site edit format.
+---@param vessel? table Optional walk and drive, as in check_vessel. Reject a blocked route or incompatible drive before any batch.
+---@return table Receipt with stage, batches, confirmed, written, and the remaining range.
+function M.construct(cells, vessel)
+  assert(type(cells) == "table" and #cells > 0, "Supply an ordered list of site cells")
+  local site = engineering.site
+  local receipt = {batches = 0, confirmed = 0, written = 0, total = #cells, next = 1}
+  local index, problem = indexCells(cells)
+  if not index then
+    receipt.stage, receipt.error, receipt.rejects = "plan", problem.error, problem.rejects
+    return receipt
+  end
+  local info = site.info()
+  if vessel then
+    receipt.stage = "vessel"
+    local ok, checked = pcall(vesselCheck, site, info, cells, index, vessel)
+    if not ok then receipt.error = tostring(checked); return receipt end
+    if not checked.ok then receipt.rejects = checked.rejects; return receipt end
+  end
+  local limit = info.batch_limit
   assert(type(limit) == "number" and limit >= 1 and limit % 1 == 0, "Invalid site batch_limit")
   receipt.batch_limit = limit
   for first = 1, #cells, limit do

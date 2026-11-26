@@ -1,12 +1,39 @@
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const path=require('node:path');
+const {createRequire}=require('node:module');
+const {gunzipSync}=require('node:zlib');
 const {setTimeout:wait}=require('node:timers/promises');
 const water=process.env.LAB_ENGINEERING_VESSEL==='water';
 const pos=p=>`{x=${p[0]},y=${p[1]},z=${p[2]}}`;
 const coord=p=>p.join(' ');
 const ships='engineering_vessels.ship.';
 const site='engineering.site.';
+
+async function restoreWaterExam(lab, file) {
+  const nbt=createRequire(path.join(lab.base,'lab.cjs'))('prismarine-nbt');
+  const design=nbt.simplify(nbt.parseUncompressed(gunzipSync(fs.readFileSync(file))));
+  assert.deepEqual(design.size,[6,4,13]);
+  const origin=[-2,-57,-10];
+  const cells=design.blocks.flatMap(({pos:offset,state,nbt:entity})=>{
+    const block=design.palette[state];
+    if(block.Name==='minecraft:air') return [];
+    const properties=Object.entries(block.Properties??{}).filter(([k])=>k==='axis'||k==='facing');
+    const spec=block.Name+(properties.length?'['+properties.map(([k,v])=>k+'='+v).join(',')+']':'');
+    const at=offset.map((v,i)=>v+origin[i]);
+    const rpm=block.Name==='create:creative_motor'?',rpm='+Number(entity.ScrollValue):'';
+    return [`{pos=${pos(at)},state=${JSON.stringify(spec)}${rpm}}`];
+  });
+  assert.equal(cells.length,143);
+  await lab.drive(`local r=my.create_survey.construct({${cells}}); assert(r.stage=="complete" and r.confirmed==143); print("restored_exam")`,'\nrestored_exam');
+  const walk=Array.from({length:8},(_,i)=>[0,-55,2-i]);
+  const drive=[[2,-56,1],[2,-55,1],[3,-55,1]];
+  await lab.drive(`local r=my.create_survey.check_vessel({walk={${walk.map(pos)}},drive={${drive.map(pos)}}}); local gear, roof=false,false;
+    for _,e in ipairs(r.rejects) do gear=gear or e.reason:find("not a hull component",1,true); roof=roof or e.reason:find("head blocked",1,true) end
+    assert(not r.ok and gear and roof); print("restored_defects")`.replaceAll('\n',' '),'\nrestored_defects');
+  lab.mark('mobile_repair_restored',{cells:143,walk,drive});
+  return lab.save('mobile-repair-restored');
+}
 
 async function receipt(lab,label,expression) {
   await lab.drive(`print("${label}",${expression})`,'\n'+label);
@@ -118,9 +145,12 @@ module.exports=async function(lab) {
   }
   await lab.cmd('time set 4000');
   await lab.cmd('deop LabOwner');
-  const baseline=await lab.save('mobile-empty');
-  if(process.env.LAB_MOBILE_CAP==='1') return checkHullCap(lab);
   const drill=process.env.LAB_MOBILE_DRILL;
+  const repair=drill==='water-repair';
+  const baseline=repair
+    ? await restoreWaterExam(lab,process.env.LAB_MOBILE_REPAIR_NBT)
+    : await lab.save('mobile-empty');
+  if(process.env.LAB_MOBILE_CAP==='1') return checkHullCap(lab);
   const drills={cabin:cabinDrill,'cabin-coached':cabinDrill+cabinCoaching,'cabin-finish':cabinFinish,helm:helmDrill,canopy:canopyDrill};
   if(Object.hasOwn(drills,drill)){
     const prompt=drills[drill];
@@ -161,14 +191,15 @@ module.exports=async function(lab) {
   if(process.env.LAB_MOBILE_MODEL==='1'){
     const scenario=water?'河道补给站，包含驾驶位、储物货位和有顶的休息间。':'山脊观测救援站，包含驾驶位、医用储物和有顶的两人休息区。';
     const waterPrompts={'water-exam':waterExam,'water-exam-coached':waterExam+waterConstructionCoaching,'water-rig':waterRig,'water-turn':waterTurn};
-    const prompt=waterPrompts[drill]??(resume
+    const repairPrompt='修你原来的浅滩取样艇。原设计已从装配前的真实存档恢复。保留船底、浮块、现有储物和船舱用途。已知甲板 y=-56，中心路线 x=0、脚 y=-55、z=2 到 -5。检查现场的低屋顶和中间舵位，自己决定修法。磨石在(3,-55,1)，侧齿轮会留在岸上。调整为船用竖直直驱，保留输入和磨石库存取货。一次 Lua 生成你的编辑，用 my.create_survey.construct(edits,{walk=脚坐标数组,drive=马达到磨石坐标数组}) 先做确定性验收再施工，已有格使用精确 expected。随后 check_vessel({walk=同走道,drive=同动力}) 确认陆上实际转速。装配后读磨石转速，完成短推进、偏航、锚停和简报。';
+    const prompt=(repair?repairPrompt:waterPrompts[drill])??(resume
       ? '接续隔离存档里你之前自主建造的补给船。保留船体和现有储物。只做这几步：查实际舵、锚、浮块、走道和加工件；将舵移出舱内两格净空走道，保持原有室内用途；核对船体允许搬运的部件，磨石用兼容的最短动力连接；尽快装配、核对在水面与短程推进、转向、锚停。按实际回执推进，助手原地施工，不扩大布局或重做百科勘察。'
       : '在授权工程区自主设计并完成一座'+(water?'水面':'飞行')+'移动基地。'+scenario+
         '先读 create_kinetics 的移动基地参考。留连续两格净高通道和侧置的实际磨石工位。自选位置、材料、朝向和布局。一次勘察后尽快开始直接施工，保持助手原地。逐批检查，核对方块、通道和磨石的实际转速。最后装配，实际推进转向并锚停。未实测的功能说明待验。');
     const waterPractice=drill==='water-rig'||drill==='water-turn';
     const answer=await lab.chat(prompt,waterPractice?175000:resume?285000:420000);
     await lab.isolate();
-    if(drill==='water-exam'||drill==='water-exam-coached'||waterPractice){
+    if(drill==='water-exam'||drill==='water-exam-coached'||waterPractice||repair){
       const raw=await lab.cmd('engineering_test_ship_pose');
       const data=raw.split('LAB_SHIP_POSE ',2)[1];
       lab.mark('mobile_exam_pose',{ship:data?JSON.parse(data):null});
@@ -188,7 +219,17 @@ module.exports=async function(lab) {
       await lab.drive(`local s=engineering.site; local cells={${batch}}; assert(#s.check(cells).rejects==0); assert(s.apply(cells).cells==#cells); print("${label}")`,'\n'+label);
     }
   }else{
-    await lab.drive(`local r=my.create_survey.construct({${planned}}); print("mobile_batches",r.stage,r.batches,r.confirmed,r.written)`,'\nmobile_batches');
+    const options=`{walk={${walk.map(pos)}},drive={${pos([mill[0],mill[1]-1,mill[2]])},${pos(mill)}}}`;
+    const motorIndex=cells.findIndex(([,state])=>state.startsWith('create:creative_motor'));
+    const bad=planned.slice();
+    bad[motorIndex]=bad[motorIndex].replace(/create:creative_motor\[facing=up\]/,'create:cogwheel[axis=y]').replace(',rpm=256','');
+    const [x,y,z]=walk[0];
+    bad.push(`{pos=${pos([x,y+1,z])},state="minecraft:oak_planks"}`);
+    await lab.drive(`local r=my.create_survey.construct({${bad}},${options}); local gear, roof=false,false;
+      for _,e in ipairs(r.rejects) do gear=gear or e.reason:find("not a hull component",1,true); roof=roof or e.reason:find("head blocked",1,true) end
+      assert(r.stage=="vessel" and r.written==0 and gear and roof); print("mobile_preflight_rejected")`.replaceAll('\n',' '),'\nmobile_preflight_rejected');
+    assert.deepEqual((await lab.save('mobile-preflight')).blocks,baseline.blocks);
+    await lab.drive(`local r=my.create_survey.construct({${planned}},${options}); print("mobile_batches",r.stage,r.batches,r.confirmed,r.written); if r.error then print(r.error) end; for _,e in ipairs(r.rejects or {}) do print(e.pos,e.reason) end`,'\nmobile_batches');
     const row=lab.output().split('\n').find(line=>line.startsWith('mobile_batches\t'));
     const [,stage,batches,confirmed,written]=row.split('\t');
     lab.mark('mobile_batch_result',{fixture:true,stage,batches:Number(batches),confirmed:Number(confirmed),written:Number(written)});
@@ -196,6 +237,7 @@ module.exports=async function(lab) {
     assert(Number(batches)>1);
     assert.equal(Number(confirmed),cells.length);
     assert.equal(Number(written),cells.length);
+    await lab.drive(`local r=my.create_survey.check_vessel(${options}); assert(r.ok and r.mill_rpm==256); print("mobile_vessel_verified")`,'\nmobile_vessel_verified');
   }
   await lab.drive(`assert(#${site}plan({walk={${walk.map(pos)}}}).clearance==0); print("mobile_clear")`,'\nmobile_clear');
   const unrelated=[water?4:3,d,6];
