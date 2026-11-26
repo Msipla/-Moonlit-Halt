@@ -3,6 +3,8 @@ name: create_kinetics
 description: Build, inspect, and repair Create 6.0.8.1 production, water-powered mills, mixers and crushers using real kinetics and recipe outputs.
 ---
 
+For a mobile-base commission at an Engineering 0.2.6 site, load `references/mobile-base.md` for hull layout, route clearance and vessel checks.
+
 For an Engineering 0.2.6 site, load `references/stationary-production.md` for fan washing, gravity production or repairs. Keep the companion stationary while using site operations. The original water-wheel workflow follows.
 
 **Start a new water-powered build at the source.** Make one local check for ground and clearance. Once you find a safe spot, use the next Lua call to place the water wheel or the first blocks of its channel with `numen.build.place`. Keep room at an axle end for the drive. Build the channel in small batches using the power-source procedure below. Read the actual wheel RPM and correct zero RPM before extending the drive. Use each measured result to choose the next connection. Put the local plan in the tool arguments and use only the reference for the requested load.

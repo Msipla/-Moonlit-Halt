@@ -230,6 +230,42 @@ async function pressCheck(lab,baseline) {
   if(!passed) process.exitCode=1;
 }
 
+function cabinFixture(water, deck) {
+  const cells=[];
+  const add=(x,y,z,state)=>cells.push([x,y,z,state]);
+  const oak='minecraft:oak_planks';
+  for (const x of [-1,0,1]) for (let z=11;z<=15;z++) add(x,deck,z,oak);
+  for (const x of [-1,1]) for (let z=13;z<=15;z++) {
+    add(x,deck+1,z,x===-1&&z===14?'vs_eureka:oak_ship_helm[facing=north]':oak);
+    add(x,deck+2,z,oak);
+  }
+  add(0,deck+1,15,oak);
+  add(0,deck+2,15,oak);
+  for (const x of [-1,0,1]) for (let z=13;z<=15;z++) add(x,deck+3,z,oak);
+  add(2,deck,15,'vs_eureka:anchor');
+  if (water) {
+    for (const x of [-2,2]) for (let z=11;z<=15;z++)
+      if (x!==2 || z!==15) add(x,deck,z,'vs_eureka:floater');
+  } else {
+    for (const x of [-1,0,1]) for (let z=13;z<=15;z++)
+      if (x!==0 || z!==14) add(x,deck+4,z,'vs_eureka:balloon');
+  }
+  const walk=[11,12,13,14].map(z=>[0,deck+1,z]);
+  checkCabinPath(cells,walk);
+  return {cells,walk,helm:[-1,deck+1,14]};
+}
+
+function checkCabinPath(cells,walk) {
+  const blocks=new Map(cells.map(([x,y,z,state])=>[[x,y,z].join(','),state]));
+  assert.equal(blocks.size,cells.length,'duplicate vessel cell');
+  for (const [x,y,z] of walk) {
+    const floor=[x,y-1,z].join(',');
+    assert.equal(blocks.get(floor),'minecraft:oak_planks','cabin route needs continuous full deck at '+floor);
+    assert(!blocks.has([x,y,z].join(','))&&!blocks.has([x,y+1,z].join(',')),
+      'cabin route needs two clear cells at '+[x,y,z].join(','));
+  }
+}
+
 async function shipCheck(lab,baseline) {
   const water=process.env.LAB_ENGINEERING_VESSEL==='water';
   const api='engineering_vessels.ship.';
@@ -239,16 +275,29 @@ async function shipCheck(lab,baseline) {
     assert(row,'missing vessel inspection '+label);
     return JSON.parse(row.slice(label.length).trim());
   };
-  const cells=[], deck=water?-57:-56;
-  for (const x of [-1,0,1]) for (const z of [12,13,14])
-    cells.push([x,deck,z,water && x!==0?'vs_eureka:floater':'minecraft:oak_planks']);
-  if(!water){
-    for (const x of [-1,1]) for (const z of [12,14]) cells.push([x,deck+1,z,'vs_eureka:balloon']);
+  const deck=water?-57:-56;
+  const cabin=process.env.LAB_ENGINEERING_CABIN==='1';
+  const fixture=cabin?cabinFixture(water,deck):{cells:[],walk:[],helm:[0,deck+1,13]};
+  const {cells,walk,helm}=fixture;
+  if (!cabin) {
+    for (const x of [-1,0,1]) for (const z of [12,13,14])
+      cells.push([x,deck,z,water && x!==0?'vs_eureka:floater':'minecraft:oak_planks']);
+    if (!water) {
+      for (const x of [-1,1]) for (const z of [12,14]) cells.push([x,deck+1,z,'vs_eureka:balloon']);
+    }
+    cells.push([0,deck+1,13,'vs_eureka:oak_ship_helm[facing=north]'],[0,deck,15,'vs_eureka:anchor']);
   }
-  cells.push([0,deck+1,13,'vs_eureka:oak_ship_helm[facing=north]'],[0,deck,15,'vs_eureka:anchor']);
-  const plan=cells.map(([x,y,z,state])=>'{pos={x='+x+',y='+y+',z='+z+'},state='+JSON.stringify(state)+'}').join(',');
-  await lab.drive('assert(engineering.site.apply({'+plan+'}).cells=='+cells.length+'); print("vessel_built")','\nvessel_built');
-  const assembly=await read('vessel_assembled',api+'assemble({x=0,y='+ (deck+1) +',z=13})');
+  const pos=([x,y,z])=>'{x='+x+',y='+y+',z='+z+'}';
+  const plan=cells.map(([x,y,z,state])=>'{pos='+pos([x,y,z])+',state='+JSON.stringify(state)+'}').join(',');
+  if (cabin) {
+    const path=walk.map(pos).join(',');
+    await lab.drive('local s=engineering.site; local cells={'+plan+'}; local walk={'+path+
+      '}; local p=s.plan({cells=cells,walk=walk}); assert(#p.changes.rejects==0 and #p.clearance==0); '+
+      'assert(s.apply(cells).cells==#cells); assert(#s.plan({walk=walk}).clearance==0); print("vessel_built")','\nvessel_built');
+  } else {
+    await lab.drive('assert(engineering.site.apply({'+plan+'}).cells=='+cells.length+'); print("vessel_built")','\nvessel_built');
+  }
+  const assembly=await read('vessel_assembled',api+'assemble('+pos(helm)+')');
   assert.match(assembly.backup,/^engineering:backup_/);
   await wait(water?4000:1400);
   const initial=await read('vessel_initial',api+'inspect()');
@@ -271,7 +320,7 @@ async function shipCheck(lab,baseline) {
   assert.deepEqual(anchored.rotation,turned.rotation);
   const outside=outsideChanges(baseline,await lab.save('engineering-ship-final'));
   assert.deepEqual(outside,[]);
-  lab.mark('engineering_ship_result',{passed:true,kind:water?'water':'air',pilot:'Numen LabBot',
+  lab.mark('engineering_ship_result',{passed:true,kind:water?'water':'air',pilot:'Numen LabBot',cabin,plannedWalk:walk,actualPassengerWalk:null,
     assembly,initial,start,moved,turnStart,turned,anchored,degrees,outside,modelRequests:0});
 }
 
