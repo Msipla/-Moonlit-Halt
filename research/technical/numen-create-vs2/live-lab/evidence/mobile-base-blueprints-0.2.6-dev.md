@@ -1,18 +1,25 @@
 # 移动基地集成与蓝图教学 · 0.2.6-dev 接续记录
 
-## 0.2.7-dev 连续施工与中断保留
+## 0.2.7-dev 连续施工与失败恢复（2026-11-26）
 
-取样艇旧卷的真实轨迹有 21 次 `numen.api.help` 调用。最初四段帮助脚本没有输出签名，回执只有调用计数。随后模型多次重新读场地与定义，实际把有重复坐标的 101 个条目送进 `site.check`，服务端先因 64 格上限拒绝。首批 58 格在第 25 个模型请求执行，最后一轮只检查了第二批便到 420 秒。轨迹中既有工具调用方式与方案写法的问题，也有模型请求等待，不能单靠减少帮助次数推算完工时间。旧日志见 [建筑教学证据](https://chatgpt.com/library?file_id=libfile_9ad5831bc8dc81918a371820b1e13d16&account_id=personal) 内 `lab-exam/model.jsonl`。
+恢复上一窗口的房主 Lua 模块与隔离夹具。使用原 0.2.7-dev JAR，SHA-256 为 `c01f2d977d2bc9d1f1d2299ab5789ca6482d8303adf45b18c2b0ea7c001c3ea0`。模块 `my.create_survey.construct(cells)` 按设计顺序读取真实 `batch_limit`，逐批调用原生 `check`、`apply`、`inspect_many`。`confirmed` 是已回读的前缀，`written` 是其中实际写入数。写入或读回中断后，先核对不确定批次的实际状态，再提交剩余编辑。
 
-现有房主模块的 `my.create_survey.construct(cells)` 按设计顺序读取实际批量上限，逐批调用原生 `check`、`apply` 和 `inspect_many`。保留每批审批、区域、模式、库存和归属检查。每批回读成功才继续。拒绝或中断后用已确认范围对照原计划，回读不确定批次，再决定如何续建。只在模块和移动基地参考增加这个入口，继续使用原 0.2.7-dev JAR。支持大小与各形状的实际装配结果仍由配套载具 API 决定。
+旧取样艇的 420 秒轨迹共 26 次模型请求，554,556 总 token，其中 497,152 命中缓存。前四段帮助脚本未打印或返回签名，整轮共 21 次 `numen.api.help`。后续多次读取场地信息及重新生成候选。第 21 次请求在约第 351 秒收到 101 条超限拒绝，第 25 次请求首次落地 58 格，第 26 次只发出第二批检查。该次轨迹包含多次模型响应等待，其中一轮约 71 秒。模型策略、工具调用语法、坐标重复和上游响应耗时均可在轨迹中看到。 [原始模型轨迹 `lab-exam/model.jsonl`](https://chatgpt.com/library?file_id=libfile_9ad5831bc8dc81918a371820b1e13d16&account_id=personal)
 
-| 隔离专服样本 | 游戏内回执与独立读盘 |
+| 隔离实测 | 游戏回执及独立读取 Anvil 存档 |
 | --- | --- |
-| 101 格超限复现 | 原生整批 `check` 拒绝，世界未改。同规模有效计划经模块分成 64 + 37，101 格均读回，落盘一致。跨批同格（含小数与嵌套位置）在写前拒绝。 |
-| 第二批占用拒绝 | 130 格计划首批写入并确认 64 格。第 65 格的桶内有 7 块金锭，即使传入精确 `expected` 也拒绝替换。后续批保持空，排除该格后只续写剩余 65 格。 |
-| 权限拒绝与断连取消 | `observe` 下零写入。另两轮以 `ask` 开始，在第二批第 65 格等待原生审批。房主明确拒绝，或等待中断开连接，均只保留首批 64 格，第三批未执行。断连回执记录脚本在 `apply` 被切断，并保留首批日志。 |
+| 101 格合法计划 | 原生整批检查超限，零写入。房主模块将其切为 64＋37，两批逐格回读通过。跨批的重复坐标（含嵌套、小数位置）在施工前拒绝。 |
+| 局部失败与续建 | 130 格计划的第一批 64 格保留。第二批的第 65 格是有 7 个金锭的木桶，提交精确旧状态仍被保护。第三批没有执行。排除木桶后仅提交剩余 65 格，方块及库存独立读盘吻合。 |
+| 权限与施工竞态 | `observe` 零写入。原生 `ask` 让第二批等待房主答复。拒绝、Stop、审批超时或房主断连各保留前 64 格，之后零写入。Stop 与超时后的迟到许可被拒绝。等待时另放一格玻璃，房主批准后原生前置条件发现状态冲突并保留玻璃。 |
+| 回放取样艇 | 原始第 21 次请求的 101 条同时存在重复坐标，模块预检在写入前报错。把原第 25、26 次生成的船底、墙和屋顶合并，仅去除 4 条同坐标同状态重复，91 格按 64＋27 落地。真实存档读到 29 浮块、60 木板和 2 玻璃板。两格净高检查仍失败，旧模型屋顶在头部高度。保存了真实客户端外观截图。 |
 
-复现沿用同一服务器夹具，运行 `LAB_ENGINEERING_SMOKE=batching node live-lab/run.cjs engineering`，查 `events.jsonl`、`minecraft.log` 和各批落盘快照。实际模型设计、图形客户端和移动功能在各自试验中计入。
+固定回归从本目录上级运行 `LAB_ENGINEERING_SMOKE=batching node live-lab/run.cjs engineering`。常规实验环境使用 `LAB_MC20`、`LAB_JAVA` 和 `LAB_GAME_BRIDGE`。设置 `LAB_LIFECYCLE_PROBE` 指向旧隔离探针 JAR 可加测 Stop 与约 120 秒的原生审批超时。Stop 由探针走 Numen 与房主按钮共用的服务端入口。探针只用于隔离服。 [原探针源码和构建脚本（`harness/`）](https://chatgpt.com/library?file_id=libfile_06dfff7214e08191901cf8e6832896d9&account_id=personal)
+
+本轮原始回执、各批独立快照、隔离存档与真实截图已保存。证据包 SHA-256 为 `d3f36f66ffb60adef3804117f20d5d4bf841e86a32dc33750397adde5e7f88fd`。 [连续施工证据包](https://chatgpt.com/library?file_id=libfile_9719b044df3c81919f2967e3f0c283cf&account_id=personal)
+
+玩家实例可将 [create-survey.lua](../create-survey.lua) 复制为 `config/numen/players/<房主UUID>/modules/my/create_survey.lua`，并更新现有 `create_kinetics` Skill 与移动基地参考。隔离模型脚本自动装载该模块。对照组用 `LAB_MOBILE_BATCH=off` 和 `LAB_MOBILE_SKILL` 明确选旧参考。审批、施工范围和载具装配仍由原版 0.2.7-dev 对应接口负责。
+
+回放使用历史模型几何，施工用时不与在线模型 420 秒成绩比较。本轮运行环境没有可用的 DeepSeek 中继，上游连接未建立。165 秒小舱同题、舵桶、雨棚和升力复验，以及 420 秒取样艇与新布局迁移仍需在线模型回合。模型完成后再做独立离席通行和磨石试投、复投。
 
 基线为 [任务书 92c4d18](https://github.com/Msipla/-Moonlit-Halt/blob/92c4d1869092b90294efd4878b0fe3fda20c0a16/research/technical/TASK-NUMEN-CREATE-GENERAL-ENGINEERING.md)、0.2.6-dev 源码 `3c6ef01` 和 [实测证据](decoupled-execution-0.2.6-dev.json)。沿用 1.20.1 Fabric、Create、Numen、VS2/Eureka 组合与现有工程权限。此次保留原安装包，产品 Java 源码和依赖均未改。Work 没有可用的执行环境，无法启动专服或图形客户端，也未能将社区文件下载到可解析的环境。下文将网页拆解、脚本测试、旧实机与新实机待验分别记账。
 

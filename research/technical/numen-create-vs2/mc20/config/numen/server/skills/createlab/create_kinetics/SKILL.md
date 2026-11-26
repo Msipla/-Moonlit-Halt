@@ -3,7 +3,7 @@ name: create_kinetics
 description: Build, inspect, and repair Create 6.0.8.1 production, water-powered mills, mixers and crushers using real kinetics and recipe outputs.
 ---
 
-For a mobile-base commission, load `references/mobile-base.md` for route clearance, ordered construction and vessel checks. After choosing the layout, use `my.create_survey.construct(cells)` when installed. That call handles the site batch limit, checks, writes and live readback. Use specific help only for an unresolved signature, and return its value.
+For a mobile-base commission, load `references/mobile-base.md` for hull layout, continuous construction and vessel checks. After choosing a layout, pass the ordered edits to `my.create_survey.construct(cells)` when installed. If you need a missing tool signature, print or return the specific help result.
 
 For an Engineering 0.2.6 site, load `references/stationary-production.md` for fan washing, gravity production or repairs. Keep the companion stationary while using site operations. The original water-wheel workflow follows.
 
@@ -13,7 +13,7 @@ For a watermill workshop or a millstone powered by a water wheel, load `referenc
 
 ## Building or retrofitting machinery
 
-For a local retrofit, use the owner module's read-only observation function to get the parts, axes and local floor in one receipt. Choose the IDs and load for the job. Example for the watermill drive:
+For a local retrofit, use the installed owner module's read-only `observe` entry to get the parts, axes and local floor in one receipt. Choose the IDs and load for the job. Example for the watermill drive:
 
 ```lua
 print(my.create_survey.observe({ids={"create:water_wheel","create:shaft","create:gearbox","create:millstone"}, load="create:millstone"}))

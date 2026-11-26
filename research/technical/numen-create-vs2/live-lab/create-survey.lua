@@ -113,19 +113,27 @@ function M.observe(options)
 end
 
 local function cellPosition(p)
-  while type(p) == "table" and p.pos do p = p.pos end
+  local seen = {}
+  while type(p) == "table" and p.pos do
+    if seen[p] then return nil end
+    seen[p], p = true, p.pos
+  end
   if type(p) ~= "table" then return nil end
   for _, axis in ipairs({"x", "y", "z"}) do
     local value = p[axis]
-    if type(value) ~= "number" or value ~= value or math.abs(value) >= math.huge then return nil end
+    if type(value) ~= "number" or value ~= value or math.abs(value) == math.huge then return nil end
   end
+  -- Match the native Pos reader's block coordinates.
   return {x = math.floor(p.x), y = math.floor(p.y), z = math.floor(p.z)}
 end
 
+local function namespaced(id)
+  return id:find(":", 1, true) and id or "minecraft:" .. id
+end
+
 local function matchesState(requested, actual)
-  local id = requested:match("^([^%s%[]+)")
-  if not id:find(":", 1, true) then id = "minecraft:" .. id end
-  if actual:match("^([^%[]+)") ~= id then return false end
+  local id = requested:match("^%s*([^%s%[]+)")
+  if not id or actual:match("^([^%[]+)") ~= namespaced(id) then return false end
   local properties = {}
   for key, value in actual:gmatch("([%w_]+)=([%w_%-]+)") do properties[key] = value end
   for key, value in requested:gmatch("([%w_]+)%s*=%s*([%w_%-]+)") do
@@ -146,11 +154,15 @@ local function readBack(site, batch, applied)
     for _, row in ipairs(observations) do
       local key = position(row.pos)
       local cell, reading = byPosition[key], row.reading
-      if not matchesState(resolved[key] or cell.state, reading.state)
-        or (cell.rpm and cell.rpm ~= reading.motor_setting)
-        or (cell.filter and cell.filter ~= reading.filter) then
-        rejects[#rejects + 1] = {pos = cell.pos, reason = reading.state}
+      local reason
+      if not matchesState(resolved[key] or cell.state, reading.state) then
+        reason = "actual state " .. reading.state
+      elseif cell.rpm and cell.rpm ~= reading.motor_setting then
+        reason = "actual motor setting " .. tostring(reading.motor_setting)
+      elseif cell.filter and namespaced(cell.filter) ~= reading.filter then
+        reason = "actual filter " .. tostring(reading.filter)
       end
+      if reason then rejects[#rejects + 1] = {pos = cell.pos, reason = reason} end
     end
   end
   return rejects
@@ -160,15 +172,19 @@ end
 ---The first unconfirmed range is next..through. A check failure made no writes to that range.
 ---After an apply/readback failure or interruption, inspect the uncertain range before resuming.
 function M.construct(cells)
-  assert(#cells > 0, "Supply an ordered list of site cells")
+  assert(type(cells) == "table" and #cells > 0, "Supply an ordered list of site cells")
   local site = engineering.site
   local receipt = {batches = 0, confirmed = 0, written = 0, total = #cells, next = 1}
+  for index in pairs(cells) do
+    assert(type(index) == "number" and index % 1 == 0 and index >= 1 and index <= #cells,
+      "Site cells must form a dense array starting at 1")
+  end
   local seen = {}
   for i = 1, #cells do
     local cell = cells[i]
     local pos = type(cell) == "table" and cellPosition(cell.pos)
-    if not pos then
-      receipt.stage, receipt.error = "plan", "invalid position at index " .. i
+    if not pos or type(cell.state) ~= "string" then
+      receipt.stage, receipt.error = "plan", "Each site cell needs pos and state at index " .. i
       return receipt
     end
     local key = position(pos)
@@ -182,13 +198,14 @@ function M.construct(cells)
 
   local limit = site.info().batch_limit
   assert(type(limit) == "number" and limit >= 1 and limit % 1 == 0, "Invalid site batch_limit")
+  receipt.batch_limit = limit
   for first = 1, #cells, limit do
     local last = math.min(first + limit - 1, #cells)
     local batch = {}
     for i = first, last do batch[#batch + 1] = cells[i] end
     receipt.next, receipt.through = first, last
 
-    receipt.stage = "check"
+    receipt.stage, receipt.backup = "check", nil
     local ok, checked = pcall(site.check, batch)
     if not ok then receipt.error = tostring(checked); return receipt end
     if #checked.rejects > 0 then receipt.rejects = checked.rejects; return receipt end
@@ -196,13 +213,13 @@ function M.construct(cells)
     receipt.stage = "apply"
     local applied
     ok, applied = pcall(site.apply, batch)
-    if not ok then receipt.error = tostring(applied); return receipt end
+    if not ok then receipt.error, receipt.uncertain = tostring(applied), true; return receipt end
 
     receipt.stage, receipt.backup = "readback", applied.backup
     local rejects
     ok, rejects = pcall(readBack, site, batch, applied)
-    if not ok then receipt.error = tostring(rejects); return receipt end
-    if #rejects > 0 then receipt.rejects = rejects; return receipt end
+    if not ok then receipt.error, receipt.uncertain = tostring(rejects), true; return receipt end
+    if #rejects > 0 then receipt.rejects, receipt.uncertain = rejects, true; return receipt end
 
     receipt.batches = receipt.batches + 1
     receipt.confirmed = last

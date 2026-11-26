@@ -13,7 +13,7 @@ const mobileResume=mobileModel && process.env.LAB_MOBILE_RESUME;
 const mobile=engineering && (mobileModel || process.env.LAB_ENGINEERING_CABIN==='large');
 const engineeringBounds=mobile?[-20,-61,-23,20,-35,21]:[-7,-60,5,8,-49,20];
 const constructionSmoke = engineering && process.env.LAB_ENGINEERING_SMOKE==='batching';
-const engineeringSmoke = constructionSmoke || engineering && ['1','line','dough','ship','feed','permissions','planning','overload','routing','logistics','stationary'].includes(process.env.LAB_ENGINEERING_SMOKE);
+const engineeringSmoke = engineering && ['1','line','dough','ship','feed','permissions','planning','overload','routing','logistics','stationary','batching'].includes(process.env.LAB_ENGINEERING_SMOKE);
 const engineeringShip = engineering && (mobile || process.env.LAB_ENGINEERING_SMOKE==='ship' || ['air','water'].includes(process.env.LAB_ENGINEERING_VESSEL));
 const basicCheck = phase === 'basic-check';
 const basicWater = phase === 'basic-water';
@@ -561,6 +561,9 @@ async function main() {
   if (engineering) {
     extraMods.push(path.resolve(gameBridge));
     args.push('-Dengineering.site='+engineeringBounds.join(','));
+    if (constructionSmoke && process.env.LAB_LIFECYCLE_PROBE) {
+      extraMods.push(path.resolve(process.env.LAB_LIFECYCLE_PROBE));
+    }
     if (engineeringShip) {
       const vs = process.env.LAB_VS_MODS;
       assert(vs,'Set LAB_VS_MODS for the engineering ship smoke test');
@@ -612,7 +615,7 @@ async function main() {
   if (basicCheck) return waterAction ? verifyWaterAction() : verifyBasicNative();
   if (basicAction) return testBasic();
   if (engineering) return require(mobile?'./game-bridge/mobile-cabin.cjs':'./game-bridge/check.cjs')({run,base,save,mark,drive,chat,cmd,engineeringBounds,
-    isolate:isolateMillAgent,output:()=>output});
+    isolate:isolateMillAgent,output:()=>output,until});
   if (watermill) {
     const mill = require('./watermill.cjs');
     const lab = {chat,cmd,save,mark,run,inScope,isolateMillAgent,

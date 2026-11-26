@@ -205,10 +205,10 @@ async function permissionCheck(lab,baseline) {
 }
 
 async function constructionCheck(lab,baseline) {
-  const assertBlocks = (state,y,count,material,exception) => {
+  const assertBlocks = (state,y,count,barrelIndex) => {
     for(let i=0;i<130;i++){
       const key=[i%16-7,y,5+Math.floor(i/16)].join(',');
-      const expected=i===exception ? 'minecraft:barrel' : i<count ? material : undefined;
+      const expected=i===barrelIndex ? 'minecraft:barrel' : i<count ? 'minecraft:oak_planks' : undefined;
       assert.equal(state.blocks[key]?.Name,expected,key);
     }
   };
@@ -225,7 +225,7 @@ async function constructionCheck(lab,baseline) {
 
   await drive('local r=build(plan(101,-59,"minecraft:oak_planks")); '+
     'assert(r.stage=="complete" and r.batches==2 and r.confirmed==101 and r.written==101)', 'construction_full');
-  assertBlocks(await lab.save('batch-full'),-59,101,'minecraft:oak_planks');
+  assertBlocks(await lab.save('batch-full'),-59,101);
 
   await lab.cmd('setblock -7 -56 9 minecraft:barrel');
   await lab.cmd('item replace block -7 -56 9 container.0 with minecraft:gold_ingot 7');
@@ -237,58 +237,67 @@ async function constructionCheck(lab,baseline) {
   const protectedBlock=partial.blocks['-7,-56,9'];
   assert.equal(protectedBlock.Name,'minecraft:barrel');
   assert.equal(partial.blockEntities.find(e=>e.x===-7&&e.y===-56&&e.z===9).Items[0].Count,7);
-  assertBlocks(partial,-56,64,'minecraft:oak_planks',64);
+  assertBlocks(partial,-56,64,64);
   await drive('local a=plan(130,-56,"minecraft:oak_planks"); local remaining={}; '+
     'for i=66,#a do remaining[#remaining+1]=a[i] end; local r=build(remaining); '+
     'assert(r.stage=="complete" and r.batches==2 and r.confirmed==65 and r.written==65)', 'construction_resumed');
   const resumed=await lab.save('batch-resumed');
   assert.deepEqual(resumed.blocks['-7,-56,9'],protectedBlock);
   assert.equal(resumed.blockEntities.find(e=>e.x===-7&&e.y===-56&&e.z===9).Items[0].Count,7);
-  assertBlocks(resumed,-56,130,'minecraft:oak_planks',64);
+  assertBlocks(resumed,-56,130,64);
   assert.deepEqual(outsideChanges(baseline,resumed),[]);
 
   await lab.cmd('execute as LabOwner run numen permission mode LabBot observe');
   await drive('local r=build(plan(101,-53,"minecraft:oak_planks")); '+
     'assert(r.stage=="apply" and r.batches==0 and r.error:find("denied"))', 'construction_denied');
   assert.deepEqual((await lab.save('batch-denied')).blocks,resumed.blocks);
+  lab.mark('engineering_construction',{passed:true,oversized:101,batches:[64,37],duplicatesRejected:true,
+    occupiedBatchRejected:true,retained:64,resumed:65,inventoryPreserved:true,observeDenied:true,outside:[]});
 
   await lab.cmd('execute as LabOwner run numen permission mode LabBot ask');
-  const added=await lab.cmd('execute as LabOwner run numen permission rules add ask place(minecraft:glass)');
-  assert.match(added,/added|添加/i);
-  const approvalPlan = y => `local a=plan(130,${y},"minecraft:oak_planks"); a[65].state="minecraft:glass"; local r=build(a); `;
-  async function onConsent(code,marker,act){
-    const from=lab.output().length;
-    const running=lab.drive(plan+code,marker);
-    running.catch(()=>{});
-    for(let attempt=0;attempt<100;attempt++){
-      const id=lab.output().slice(from).match(/\[numen-consent\].* ask #(\d+):/)?.[1];
-      if(id){
-        await act(id);
-        return running;
-      }
-      await wait(50);
+  assert.match(await lab.cmd('execute as LabOwner run numen permission rules add allow place(minecraft:oak_planks)'),/added/i);
+  assert.match(await lab.cmd('execute as LabOwner run numen permission rules add ask place(minecraft:stone)'),/added/i);
+  const cases = [['denial',-53],['changed',-49]];
+  if (process.env.LAB_LIFECYCLE_PROBE) cases.push(['stop',-52],['timeout',-51]);
+  cases.push(['disconnect',-50]);
+  for (const [action,y] of cases) {
+    const offset=lab.output().length;
+    const program=plan+`local a=plan(130,${y},"minecraft:oak_planks"); a[65].state="minecraft:stone"; `+
+      'local r=build(a); assert(r.stage=="apply" and r.confirmed==64 and r.next==65 and r.uncertain); '+
+      'print("construction_stopped",r.error:sub(1,160))';
+    await lab.drive(program,'ask #');
+    const id=await lab.until(()=>lab.output().slice(offset).match(/\[numen-consent\].*ask #(\d+):/)?.[1],5000);
+    let pending=await lab.save('batch-'+action+'-pending');
+    assertBlocks(pending,y,64);
+    if(action==='denial') {
+      await lab.cmd('execute as LabOwner run numen consent deny '+id);
+      await lab.until(()=>lab.output().slice(offset).match(/\nconstruction_stopped\t[^\n]*denied/),5000);
+    } else if(action==='changed') {
+      await lab.cmd('setblock -7 '+y+' 9 minecraft:glass');
+      pending=await lab.save('batch-changed-before-approval');
+      await lab.cmd('execute as LabOwner run numen consent allow '+id);
+      await lab.until(()=>lab.output().slice(offset).match(/\nconstruction_stopped\t[^\n]*state conflict/),5000);
+    } else if(action==='disconnect') {
+      await lab.cmd('kick LabOwner Lab approval cancelled');
+      await lab.until(()=>lab.output().slice(offset).includes('this turn was cut off'),6000);
+      assert.doesNotMatch(lab.output().slice(offset),/\nconstruction_stopped\t/);
+    } else {
+      if(action==='stop') await lab.cmd('engineering_test_stop');
+      const budget=action==='timeout'?140000:6000;
+      const outcome={
+        stop:/engineering\.site\.apply: interrupted[^\n]*owner pressed Stop/,
+        timeout:new RegExp('#'+id+' expired:'),
+      }[action];
+      await lab.until(()=>lab.output().slice(offset).match(outcome),budget);
+      const late=await lab.cmd('execute as LabOwner run numen consent allow '+id);
+      assert.match(late,/no (pending|such)|already|expired|no longer|not pending|not found/i);
     }
-    throw Error('The second construction batch did not request native approval');
+    await wait(750);
+    const final=await lab.save('batch-'+action+'-final');
+    assert.deepEqual(final.blocks,pending.blocks);
+    assert.deepEqual(outsideChanges(baseline,final),[]);
+    lab.mark('engineering_construction_interrupted',{action,passed:true,confirmed:64,subsequentWrites:0});
   }
-  await onConsent(approvalPlan(-53)+
-    'assert(r.stage=="apply" and r.next==65 and r.confirmed==64 and r.error:find("denied")); print("construction_approval_denied")',
-    '\nconstruction_approval_denied', async id=>{
-      const reply=await lab.cmd('execute as LabOwner run numen consent deny '+id);
-      assert.match(reply,/answered|denied|已回复|已拒绝/i);
-    });
-  assertBlocks(await lab.save('batch-approval-denied'),-53,64,'minecraft:oak_planks');
-
-  await onConsent(approvalPlan(-50)+'print("construction_after_disconnect",r.stage)',
-    'this turn was cut off',async()=>{await lab.cmd('kick LabOwner Lab approval cancelled');});
-  await wait(700);
-  assert.match(lab.output(),/this turn was cut off[^\n]*\nstdout:\nconstruction confirmed 1\.\.64/);
-  assert.doesNotMatch(lab.output(),/\nconstruction_after_disconnect\t/);
-  const cancelled=await lab.save('batch-cancelled');
-  assertBlocks(cancelled,-50,64,'minecraft:oak_planks');
-  assert.deepEqual(outsideChanges(baseline,cancelled),[]);
-  lab.mark('engineering_construction',{passed:true,oversized:101,batches:[64,37],duplicatesRejected:true,
-    occupiedBatchRejected:true,retained:64,resumed:65,inventoryPreserved:true,observeDenied:true,
-    secondBatchConsentDenied:true,ownerDisconnectedDuringConsent:true,outside:[]});
 }
 
 async function pressCheck(lab,baseline) {
