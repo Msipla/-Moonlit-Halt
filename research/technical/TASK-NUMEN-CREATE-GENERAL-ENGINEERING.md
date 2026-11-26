@@ -1,5 +1,7 @@
 # 当前任务：工程施工与助手实体行动解耦、执行效率突破（2026-11-26，用户确认）
 
+**阶段断点（2026-11-26）**　[0.2.6-dev 已构建候选安装包](https://chatgpt.com/library?file_id=libfile_67a3ea48baa4819188f8d634cd6f9a0f&account_id=personal)，源码 [`3c6ef01`](https://github.com/Msipla/-Moonlit-Halt/commit/3c6ef01ff3dacaa69e95201180ccd0f5c46829ad)。直接施工、受控放水/收水、纯过滤读回和重力进料验证通过。同题自主水洗由 26 次请求、260 秒未完成，推进到 15 次、132 秒并通过独立首投与复投。过滤盲修两次均独立复投成功。安山岩双磨一轮通过、复跑未接通动力。自主飞行基地完成 50 格直接施工、装配、推进 2.98 格、偏航 14.3°和锚停，无越界。取得真实船体截图，锚位落差卡住舱内通行。 空地面团整线、移动中的舱内活动和船载 Create 实际加工仍待续。保留 0.2.5-dev、原生工具权限与 Windows 安装验收边界。 [实测与接续](numen-create-vs2/live-lab/README.md#2026-11-26-工程施工与助手实体行动解耦) · [日志、存档与截图](https://chatgpt.com/library?file_id=libfile_06dfff7214e08191901cf8e6832896d9&account_id=personal)
+
 执行前读取 [Msipla/Conversation-Archives/AGENTS.md](https://github.com/Msipla/Conversation-Archives/blob/main/AGENTS.md) 最新版及[目标仓库 AGENTS.md](../../AGENTS.md)（如存在），全程遵守适用规范；无法读取须报告。核对最新分支、源码、HANDOFF、任务书、并发提交及实际证据。沿用 codex/numen-create-basic-actions，以 0.2.5-dev 源码 23dc232 和 [74babe1 教学实测](https://github.com/Msipla/-Moonlit-Halt/commit/74babe1000976b59d052933338f7e68143937b54) 为基线，阅读 live-lab README、evidence/teaching-0.2.5-dev.json 及相关源码。保护原 JAR、默认 Skill 和历史验收。
 
 ## 目标与授权

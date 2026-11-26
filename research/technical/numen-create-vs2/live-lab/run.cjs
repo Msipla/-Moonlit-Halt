@@ -562,7 +562,7 @@ async function main() {
   await until(()=>output.includes('scheduler heartbeat online'),120000);
   rcon=await Rcon.connect({host:'127.0.0.1',port:rconPort,password:labPassword,timeout:12000});
   const captureOwner = autonomousMill || checkMillIsolation || engineering;
-  if (!engineeringShip) owner=spawn(process.execPath,[path.join(base,'connect.cjs'),String(serverPort)],{
+  if (!engineeringShip || process.env.LAB_SHIP_PROTOCOL_OWNER==='1') owner=spawn(process.execPath,[path.join(base,'connect.cjs'),String(serverPort)],{
     env:relayEnv,stdio:captureOwner ? ['ignore','ignore','ignore','ipc'] : 'ignore',
   });
   if (captureOwner && owner) owner.on('message',text=>{
