@@ -1,6 +1,6 @@
 # 当前任务：移动基地集成与社区蓝图专项教学（2026-11-26，用户确认）
 
-**阶段断点（2026-11-26）**　[飞行、水面舱内夹具及社区教材记录](numen-create-vs2/live-lab/evidence/mobile-base-blueprints-0.2.6-dev.md)已就绪。47 格飞行和 48 格水面夹具均通过脚本几何检查，逐项排除了锚占走道、缺地板、低门楣。8 份社区案例已按四类完成网页拆解，专项教学可从现有 Skill 调用，蓝图文件解析、导入和模型考试待验。本次 Work 执行环境不可用，未构建新包或运行游戏；接续先在原 0.2.6-dev 上验证停泊舱内通行、行驶时第二名玩家走动，再验证驾驶员离席巡航和船载设备。原安装包继续适用。
+**阶段断点（2026-11-26）**　从 `01c8481` 重启后已复原测试运行时。0.2.7-dev 调整载具范围和装配上限，接入 Eureka 的原生巡航交接。隔离服飞行 204 格、水面 185 格夹具通过装配和 256 RPM 安山岩加工，含移动中首投、复投及库存保留。飞行夹具在真实生存客户端通过停泊进舱、离席巡航通行、重新乘舵及锚停。四份社区原始 1.20.1 NBT 已下载、解析及在原版专服隔离导入。后续优先核对水面图形实测和陌生任务独立考试。 [复测与验收边界](numen-create-vs2/live-lab/evidence/mobile-base-blueprints-0.2.6-dev.md#027-dev-实机恢复)
 
 执行前先读取 [Msipla/Conversation-Archives/AGENTS.md](https://github.com/Msipla/Conversation-Archives/blob/main/AGENTS.md) 最新版及[目标仓库 AGENTS.md](../../AGENTS.md)（如存在），全过程遵守适用规范，无法读取须报告。核对最新分支、源码、HANDOFF、任务书、并发提交与实测证据。沿用 codex/numen-create-basic-actions，以 0.2.6-dev 源码 3c6ef01、阶段记录 [33d0d6e](https://github.com/Msipla/-Moonlit-Halt/commit/33d0d6e18d5d91e4e5e8cdd21523fe1dfd2348b6)、live-lab README 和 evidence/decoupled-execution-0.2.6-dev.json 为基线，保留原候选安装包、待命 Skill 和已通过功能。
 

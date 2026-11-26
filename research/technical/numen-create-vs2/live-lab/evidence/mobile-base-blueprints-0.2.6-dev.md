@@ -46,3 +46,36 @@ MC Planner 表中尺寸按发布页，尺寸、功能房间和公开预览来自
 4. 两道保留题。空中为山脊观测救援站，主通道连接驾驶位、医用储物与两人休息区，登舱需与教材例船方向不同。水面为河道补给站，驾驶位与后部独立休息间通过有遮挡的舱道连接，安排可从通道操作的货位。模型自选址、朝向和结构。将隔离实例的 `create_kinetics` 目录在旧版和本次待验教学版间互换并重启，同一提示、`deepseek-v4-pro`、推理、预算、世界和权限条件各跑一轮。确认日志中的 `skill` 命中与参考读取，教师只投料及实际验收。记录可辨识的侧型、外观、出入口、内饰、相对坐标、库存、总/缓存 Token、调用次数、耗时、返工与日志。无真实证据的格子继续留空。
 
 本次无新编译、真实画面、专服运行、模型考试或玩家验收；续测优先飞行及水面，实际运行以前不扩大装配白名单或引入新的载具依赖。 [原 0.2.6-dev 安装包](https://chatgpt.com/library?file_id=libfile_67a3ea48baa4819188f8d634cd6f9a0f&account_id=personal)
+
+
+## 0.2.7-dev 实机恢复
+
+`01c8481` 阶段的“待验”表保留作为历史。本轮找回 Java 17、Fabric 1.20.1、Numen、Create 6.0.8.1、VS2 2.4.11、Eureka 1.6.4 及真实图形客户端。上一窗口的临时文件因环境重启丢失，以下状态以本窗口重新运行记录和 GitHub 成果为准。
+
+### 装配、巡航与加工
+
+- 复用 [DSH 的 BoatAssembly](https://github.com/Msipla/-Moonlit-Halt/blob/d31f9fb70c9734059923ce3433da4a0b0f657721/projects/minecraft-mods/experiments/mobile-base/src/main/java/dev/mispla/mobilebase/BoatAssembly.java) 所用的 VS 原生指定坐标装配。实际搬运集合是通过同伴归属、加载状态、权限和二次核对的同一批方块。直接施工仍是每批 64 格。载具站点上界为 48×32×48，船体为 512 格及 8,192 格包围盒，仍受 Eureka 自身更低限制影响。普通无载具工区各轴上界仍为 16。真实受测工区 41×27×45，两个夹具分别 204、185 格。
+- 白名单新增有限的舱室材料、木桶、漏斗、创造马达、轴和磨石。船上读回以舵的本地方块偏移为地址，动力追踪只查看同一装配船体的已加载白名单块。实测磨石接船上马达，动力读回 `running` 和 256 RPM。安山岩逐次投入，每次增加 1 圆石。装配前、锚停时、行驶时、再停后各两次。前后保留独立储物桶的 7 个金锭。连接在侧面的不归助手木板被拒且保留，地面工区边界外试放被拒，结果快照无界外地面改动。
+- `handover()` 需同一有权限的在线创造房主和空闲、锚停的原生舵。授权后保持锚停，直到房主亲自上舵。继承 Eureka 已有的 C 键巡航、Shift 离席和右键重新上舵。有红石信号的锚继续有效。越界、离线、切换维度或出现其他驾船人时守卫触发停车。两套驾驶方式分别验证。0.2.6 的普通工程脉冲依旧驾驶员离席即停。
+- 飞行真实客户端使用生存模式。通过普通按键进舱，启用原生巡航并离席。进入内舱时船体比离席时移动 3.97 格，人在船体局部移动约 3.99 格，船速约 1.82 格/秒。随后走回并重新乘舵，输入转向，再由工程锚停，两个独立位姿采样一致。只在最开始设定玩家登船位置。
+
+### 社区蓝图二进制
+
+四份文件均使用 MC Planner 发布页的 1.20.1 Structure NBT 下载，数据版本 3465、纯原版方块、零实体和方块实体 NBT。四份均用隔离原版 Minecraft 1.20.1 的 `place template` 导入，并按原 NBT 位置核对相应门或活板门存在。原社区资产不入库。
+
+| 案例 | NBT 体积 | 文件方块 | 排除地形后的最大面连通 | 转化为教学 |
+| --- | --- | ---: | ---: | --- |
+| Airship | 44×36×21 | 2,141 | 1,490 | 气囊和上部轮廓与连续主甲板分别布局，检查附属结构是否真的连接。 |
+| Sailing yacht | 23×24×7 | 626 | 626 | 窄船体保留纵向连续甲板，桅杆与舱口分开。 |
+| Camper van | 16×8×19 | 572 | 344 | 用侧门接主过道，把驾驶区与床、桌等内饰沿长向排列。 |
+| Research submarine | 37×14×19 | 1,275 | 417 | 排除海床及离散装饰，将塔、竖梯、住舱和控制舱逐层核对。 |
+
+实际留存解析尺寸、楼层、门窗与内饰构件示例坐标、SHA-256、原版加载日志。解析与导入只说明建筑结构。本轮陆行、轮胎、下潜和密封仍沿用各自技术路线，待 0.2.7-dev 实测。
+
+### 复跑接口
+
+设置 `LAB_MC20`（原隔离 Fabric 服）、`LAB_VS_MODS`（vs.jar 与 eureka.jar）、`LAB_JAVA`（Java 17）。从研究目录执行 `LAB_BUILD_MOBILE_POSE=1 bash live-lab/game-bridge/build.sh`。设置 `LAB_GAME_BRIDGE` 指向 JAR，`LAB_MOBILE_POSE_PROBE` 指向独立测试探针，该探针不随安装包装进游戏。以下环境量只作用于实验启动器。
+
+- 固定夹具为 `LAB_ENGINEERING_SMOKE=ship LAB_ENGINEERING_CABIN=large LAB_SHIP_PROTOCOL_OWNER=1 LAB_ENGINEERING_VESSEL=air node live-lab/run.cjs engineering`。水面选择 `water`。各轮隔离端口可由 `LAB_MC_PORT` 设置。
+- 图形客户端运行固定夹具时设 `LAB_MOBILE_GRAPHICS=1`，由真实客户端以 LabOwner 加入。探针返回世界位姿与船体局部坐标。固定夹具由脚本主持，不能记作模型自主。
+- 模型考卷为 `LAB_MOBILE_MODEL=1 LAB_SHIP_PROTOCOL_OWNER=1 LAB_ENGINEERING_VESSEL=air node live-lab/run.cjs engineering`。提供 DeepSeek 环境变量。空地由模型自行设计和执行。用 `LAB_MOBILE_SKILL` 指定旧或新实验 Skill 目录，默认读取活动参考。此模型回合与固定夹具分别验收。

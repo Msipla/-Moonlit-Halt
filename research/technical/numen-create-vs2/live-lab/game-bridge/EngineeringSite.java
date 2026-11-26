@@ -53,8 +53,11 @@ public final class EngineeringSite implements ModInitializer {
     private static int[] bounds;
     private static boolean vessels;
     static final Set<String> HULL = Set.of("minecraft:oak_planks", "minecraft:oak_fence",
+        "minecraft:oak_stairs", "minecraft:oak_slab", "minecraft:glass", "minecraft:glass_pane",
+        "minecraft:barrel", "minecraft:hopper", "create:creative_motor", "create:shaft", "create:millstone",
         "vs_eureka:oak_ship_helm", "vs_eureka:anchor", "vs_eureka:balloon", "vs_eureka:white_balloon",
         "vs_eureka:floater");
+    static final int MAX_HULL_CELLS=512;
     private static final int LIMIT=64;
     private static final Set<String> PALETTE=Set.of(
         "minecraft:air","minecraft:stone","minecraft:glass","minecraft:oak_planks","minecraft:barrel","minecraft:hopper",
@@ -68,11 +71,12 @@ public final class EngineeringSite implements ModInitializer {
         if (value==null || value.isBlank()) return;
         bounds=java.util.Arrays.stream(value.split(",")).map(String::trim).mapToInt(Integer::parseInt).toArray();
         if (bounds.length!=6) throw new IllegalArgumentException("engineering.site requires six coordinates");
+        vessels=Boolean.getBoolean("engineering.ships");
         for (int i=0;i<3;i++) {
             long size=(long)bounds[i+3]-bounds[i]+1;
-            if(size<1 || size>16) throw new IllegalArgumentException("engineering.site dimensions must be 1..16");
+            int max=vessels ? (i==1 ? 32 : 48) : 16;
+            if(size<1 || size>max) throw new IllegalArgumentException("engineering.site axis "+i+" must be 1.."+max);
         }
-        vessels=Boolean.getBoolean("engineering.ships");
         if (vessels) {
             var mods=net.fabricmc.loader.api.FabricLoader.getInstance();
             boolean supported=mods.getModContainer("valkyrienskies")
@@ -115,7 +119,7 @@ public final class EngineeringSite implements ModInitializer {
         public record NoArgs() {}
         public record Points(@Doc("1..16 loaded coordinates in the site.") List<class_2338> positions) {}
         public record SiteInfo(class_2338 from,class_2338 to,List<String> blocks,List<String> hull,
-                               List<String> test_items,int batch_limit,Column center_surface) {}
+                               List<String> test_items,int batch_limit,int hull_limit,Column center_surface) {}
         public record Observation(class_2338 pos,Reading reading) {}
 
         @Fn("Get exact permissions, inclusive bounds, allowed blocks and center_surface.{floor_y,feet_y}. The supported floor can be one block below the editable site. Use survey for other chosen columns.")
@@ -125,7 +129,7 @@ public final class EngineeringSite implements ModInitializer {
             if (vessels) blocks.addAll(HULL);
             return new SiteInfo(new class_2338(bounds[0],bounds[1],bounds[2]),new class_2338(bounds[3],bounds[4],bounds[5]),
                 List.copyOf(blocks),vessels?HULL.stream().sorted().toList():List.of(),
-                CreateSettings.FEEDS.stream().sorted().toList(),LIMIT,
+                CreateSettings.FEEDS.stream().sorted().toList(),LIMIT,vessels?MAX_HULL_CELLS:0,
                 column(level,bounds[0]+(bounds[3]-bounds[0])/2,bounds[2]+(bounds[5]-bounds[2])/2));
         }
 
@@ -777,6 +781,10 @@ public final class EngineeringSite implements ModInitializer {
         }
 
         private static Reading read(class_3218 level,class_2338 pos) {
+            return read(level,pos,source->inSiteCell(level,source));
+        }
+
+        static Reading read(class_3218 level,class_2338 pos,java.util.function.Predicate<class_2338> allowedSource) {
             var state=level.method_8320(pos);
             var entity=level.method_8321(pos);
             var settings=CreateSettings.read(entity);
@@ -788,7 +796,7 @@ public final class EngineeringSite implements ModInitializer {
                 entity instanceof KineticBlockEntity kinetic ? Optional.ofNullable(kinetic.source):Optional.empty(),
                 Optional.ofNullable(settings.rpm()),Optional.ofNullable(settings.filter()),CreateSettings.inventory(entity),
                 CreateReadings.commandState(state),entity instanceof KineticBlockEntity
-                    ?Optional.of(CreateReadings.powerStatus(level,pos)):Optional.empty());
+                    ?Optional.of(CreateReadings.powerStatus(level,pos,allowedSource)):Optional.empty());
         }
 
         @Fn("Insert 1..3 approved test items into an empty barrel. Returns the count verified in the insertion tick. Vanilla/Create can move it before later inspection; inspect the downstream stock before feeding again.")
@@ -1059,8 +1067,14 @@ public final class EngineeringSite implements ModInitializer {
         }
 
         private static class_2487 capture(class_3218 level,class_2338 from,class_2338 to) {
-            for (var pos : List.of(new class_2338(from.method_10263(),from.method_10264(),to.method_10260()),
-                                   new class_2338(to.method_10263(),from.method_10264(),from.method_10260()))) check(level,pos);
+            check(level,from);
+            check(level,to);
+            for (int x=from.method_10263()>>4; x<=to.method_10263()>>4; x++) {
+                for (int z=from.method_10260()>>4; z<=to.method_10260()>>4; z++) {
+                    require(level.method_37118(new class_2338(x<<4,from.method_10264(),z<<4)),
+                        "all chunks in the structure must already be loaded");
+                }
+            }
             var dimensions=new class_2382(to.method_10263()-from.method_10263()+1,
                 to.method_10264()-from.method_10264()+1,to.method_10260()-from.method_10260()+1);
             var template=new class_3499();

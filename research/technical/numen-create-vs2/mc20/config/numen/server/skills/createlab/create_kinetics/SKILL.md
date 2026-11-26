@@ -3,7 +3,7 @@ name: create_kinetics
 description: Build, inspect, and repair Create 6.0.8.1 production, water-powered mills, mixers and crushers using real kinetics and recipe outputs.
 ---
 
-For a mobile-base commission at an Engineering 0.2.6 site, load `references/mobile-base.md` for hull layout, route clearance and vessel checks.
+For a mobile-base commission, load `references/mobile-base.md` for hull layout, route clearance and vessel checks.
 
 For an Engineering 0.2.6 site, load `references/stationary-production.md` for fan washing, gravity production or repairs. Keep the companion stationary while using site operations. The original water-wheel workflow follows.
 

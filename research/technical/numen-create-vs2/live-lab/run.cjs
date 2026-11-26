@@ -8,8 +8,11 @@ const {snapshot} = require('./world.cjs');
 
 const phase = process.argv[2];
 const engineering = phase === 'engineering';
+const mobileModel=engineering && process.env.LAB_MOBILE_MODEL==='1';
+const mobile=engineering && (mobileModel || process.env.LAB_ENGINEERING_CABIN==='large');
+const engineeringBounds=mobile?[-20,-61,-23,20,-35,21]:[-7,-60,5,8,-49,20];
 const engineeringSmoke = engineering && ['1','line','dough','ship','feed','permissions','planning','overload','routing','logistics','stationary'].includes(process.env.LAB_ENGINEERING_SMOKE);
-const engineeringShip = engineering && (process.env.LAB_ENGINEERING_SMOKE==='ship' || ['air','water'].includes(process.env.LAB_ENGINEERING_VESSEL));
+const engineeringShip = engineering && (mobile || process.env.LAB_ENGINEERING_SMOKE==='ship' || ['air','water'].includes(process.env.LAB_ENGINEERING_VESSEL));
 const basicCheck = phase === 'basic-check';
 const basicWater = phase === 'basic-water';
 const basicAxis = phase === 'basic-axis';
@@ -46,7 +49,7 @@ assert(!basicModel || ['deepseek-flash','deepseek-v4-pro'].includes(basicModel),
 const model = basicModel || (boatMode === 'pro' || watermill || engineering ? 'deepseek-v4-pro' : 'deepseek-flash');
 const repairUnowned = Boolean(knownFault && process.env.LAB_REPAIR_UNOWNED === '1');
 const runLabel = knownFault ? (repairUnowned ? 'repair-unowned-' : 'repair-') + phase : boatResume ? 'boat-pro-finish' : focusedBoat ? 'boat-' + boatMode : phase;
-const run = path.resolve(process.env.LAB_RUNS || path.join(__dirname, 'runs'), runLabel + '-' + Date.now());
+const run = path.resolve(process.env.LAB_RUNS || path.join(__dirname, 'runs'), runLabel + '-' + Date.now() + (mobile?'-'+process.pid:''));
 const serverPort = Number(process.env.LAB_MC_PORT || 25576);
 const rconPort = serverPort + 1;
 const relayPort = serverPort + 2;
@@ -134,7 +137,10 @@ function prepare() {
   }));
   const cache = path.join(base,'config/numen/server/cache/models-dev.json');
   if (fs.existsSync(cache)) fs.copyFileSync(cache,path.join(config,'cache/models-dev.json'));
-  if (basicAction || watermill || ['B','C'].includes(phase)) {
+  if (mobileModel) {
+    const skill=process.env.LAB_MOBILE_SKILL || path.join(root,'mc20/config/numen/server/skills/createlab/create_kinetics');
+    fs.cpSync(skill,path.join(config,'skills/createlab/create_kinetics'),{recursive:true});
+  } else if (basicAction || watermill || ['B','C'].includes(phase)) {
     fs.cpSync(path.join(base,'config/numen/server/skills/createlab'),path.join(config,'skills/createlab'),{recursive:true});
   }
   if (autonomousMill || checkMillIsolation) {
@@ -546,12 +552,13 @@ async function main() {
   if (waterAction) args.push('-Dcreatelab.water=true');
   if (engineering) {
     extraMods.push(path.resolve(gameBridge));
-    args.push('-Dengineering.site=-7,-60,5,8,-49,20');
+    args.push('-Dengineering.site='+engineeringBounds.join(','));
     if (engineeringShip) {
       const vs = process.env.LAB_VS_MODS;
       assert(vs,'Set LAB_VS_MODS for the engineering ship smoke test');
       extraMods.push(...['vs.jar','eureka.jar'].map(name=>path.resolve(vs,name)));
       args.push('-Dengineering.ships=true');
+      if (process.env.LAB_MOBILE_POSE_PROBE) extraMods.push(path.resolve(process.env.LAB_MOBILE_POSE_PROBE));
     }
   }
   if (extraMods.length) args.push('-Dfabric.addMods='+extraMods.join(path.delimiter));
@@ -575,7 +582,7 @@ async function main() {
   await cmd('gamerule doDaylightCycle false');
   await cmd('setworldspawn 0 -60 0');
   await cmd('worldborder center 0 0');
-  await cmd('worldborder set 42');
+  await cmd('worldborder set '+(mobile?80:42));
   await cmd('tp LabOwner 0.5 -59 15.5');
   await cmd(cmdAs+'numen player summon LabBot');
   await until(()=>output.includes('LabBot joined the game'),20000);
@@ -596,7 +603,7 @@ async function main() {
   }
   if (basicCheck) return waterAction ? verifyWaterAction() : verifyBasicNative();
   if (basicAction) return testBasic();
-  if (engineering) return require('./game-bridge/check.cjs')({run,base,save,mark,drive,chat,cmd,
+  if (engineering) return require(mobile?'./game-bridge/mobile-cabin.cjs':'./game-bridge/check.cjs')({run,base,save,mark,drive,chat,cmd,engineeringBounds,
     isolate:isolateMillAgent,output:()=>output});
   if (watermill) {
     const mill = require('./watermill.cjs');

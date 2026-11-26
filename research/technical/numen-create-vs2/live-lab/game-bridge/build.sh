@@ -19,3 +19,12 @@ fi
 mkdir -p "$scratch/engineering/ponder"
 cp ../../ponder/knowledge/scenes.jsonl ../../ponder/THIRD-PARTY.md "$scratch/engineering/ponder/"
 "$java/bin/jar" --create --file game-bridge.jar -C "$scratch" lab -C "$scratch" engineering fabric.mod.json
+if [[ ${LAB_BUILD_MOBILE_POSE:-0} == 1 ]]; then
+    : "${LAB_VS_MODS:?Set LAB_VS_MODS to build the isolated pose recorder}"
+    mkdir -p "$scratch/pose"
+    "$java/bin/javac" --release 17 -proc:none -cp "$classpath" -d "$scratch/pose" MobilePoseProbe.java
+    cat > "$scratch/pose/fabric.mod.json" <<'JSON'
+{"schemaVersion":1,"id":"engineering_ship_pose_lab","version":"2","name":"Engineering ship pose recorder","environment":"server","entrypoints":{"main":["lab.test.MobilePoseProbe"]}}
+JSON
+    "$java/bin/jar" --create --file mobile-pose.jar -C "$scratch/pose" .
+fi

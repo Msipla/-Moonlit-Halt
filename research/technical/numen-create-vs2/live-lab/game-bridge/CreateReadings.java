@@ -88,6 +88,10 @@ final class CreateReadings {
     }
 
     static String powerStatus(class_3218 level,class_2338 at) {
+        return powerStatus(level,at,source->EngineeringSite.Site.inSiteCell(level,source));
+    }
+
+    static String powerStatus(class_3218 level,class_2338 at,java.util.function.Predicate<class_2338> allowedSource) {
         if(!(level.method_8321(at) instanceof KineticBlockEntity first)) return "no_device";
         if(first.getTheoreticalSpeed()==0) return "disconnected";
         var visited=new HashSet<class_2338>();
@@ -100,7 +104,7 @@ final class CreateReadings {
                 return first.isOverStressed()?"overstressed":"running";
             }
             var source=current.source;
-            if(!EngineeringSite.Site.inSiteCell(level,source)) return "source_unverified";
+            if(!allowedSource.test(source)) return "source_unverified";
             if(!(level.method_8321(source) instanceof KineticBlockEntity next) ||
                 next.getTheoreticalSpeed()==0 || current.network==null || !Objects.equals(current.network,next.network) ||
                 !(RotationPropagator.isConnected(current,next) || RotationPropagator.isConnected(next,current)))

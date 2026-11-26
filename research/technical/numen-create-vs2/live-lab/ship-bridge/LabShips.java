@@ -30,6 +30,7 @@ import org.valkyrienskies.mod.api.SeatedControllingPlayer;
 import org.valkyrienskies.mod.common.IShipObjectWorldServerProvider;
 
 public final class LabShips implements ModInitializer {
+    static final int MAX_HULL_VOLUME=8192;
     static final Set<String> HULL = Set.of("minecraft:oak_planks", "minecraft:oak_fence",
         "vs_eureka:oak_ship_helm", "vs_eureka:anchor", "vs_eureka:balloon", "vs_eureka:white_balloon",
         "vs_eureka:floater");
@@ -172,7 +173,7 @@ public final class LabShips implements ModInitializer {
 
     static class_2338 findHelm(net.minecraft.class_3218 level,LoadedServerShip ship) {
         var box=ship.getShipAABB();
-        if (box==null || (long)(box.maxX()-box.minX()+1)*(box.maxY()-box.minY()+1)*(box.maxZ()-box.minZ()+1)>4096) return null;
+        if (box==null || (long)(box.maxX()-box.minX()+1)*(box.maxY()-box.minY()+1)*(box.maxZ()-box.minZ()+1)>MAX_HULL_VOLUME) return null;
         for (var at:class_2338.method_10094(box.minX(),box.minY(),box.minZ(),box.maxX(),box.maxY(),box.maxZ())) {
             if (level.method_37118(at) && level.method_8321(at) instanceof ShipHelmBlockEntity) return at.method_10062();
         }
@@ -181,6 +182,7 @@ public final class LabShips implements ModInitializer {
 
     static void anchor(LoadedServerShip ship, EurekaShipControl control, class_3222 pilot) {
         ship.removeAttachment(SeatedControllingPlayer.class);
+        control.setCruising(false);
         if (control.getSeatedPlayer()==pilot && pilot!=null) {
             if (pilot.method_5854() instanceof ShipMountingEntity) pilot.method_5848();
             control.setSeatedPlayer(null);

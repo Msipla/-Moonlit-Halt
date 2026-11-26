@@ -22,7 +22,8 @@ import net.minecraft.class_3218;
 import net.minecraft.class_3222;
 import org.valkyrienskies.core.api.ships.LoadedServerShip;
 import org.valkyrienskies.eureka.ship.EurekaShipControl;
-import org.valkyrienskies.eureka.util.ShipAssembler;
+import org.valkyrienskies.eureka.EurekaConfig;
+import org.valkyrienskies.mod.common.assembly.ShipAssembler;
 import org.valkyrienskies.mod.common.IShipObjectWorldServerProvider;
 
 import static lab.EngineeringSite.Site.*;
@@ -37,12 +38,16 @@ public final class EngineeringShips {
     private static final class Session {
         final UUID operator;
         final long id;
+        final class_2338 anchorOffset;
         class_3222 pilot;
+        class_3222 manualOwner;
+        boolean awaitingPilot;
         int until;
 
-        Session(UUID operator, long id) {
+        Session(UUID operator, long id, class_2338 anchorOffset) {
             this.operator = operator;
             this.id = id;
+            this.anchorOffset = anchorOffset;
         }
     }
 
@@ -51,12 +56,13 @@ public final class EngineeringShips {
             "Use engineering.site.info().hull and batch-place your hull. In Lua print " +
             "engineering_vessels.ship.assemble(helmPos), then inspect() after loading. " +
             "Drive takes (heading,forward,up,left,ticks); left turns. The pulse ends and anchors automatically. " +
-            "Read actual motion using inspect() after the pulse.", Tools.class));
+            "Use inspect() for actual motion and inspect_onboard for machinery relative to the helm. "+
+            "After anchoring, handover lets the owner control the native helm and cruise inside the site.", Tools.class));
         ServerTickEvents.END_WORLD_TICK.register(EngineeringShips::tick);
         net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents.SERVER_STOPPING.register(server -> {
             var world = server.method_30002();
             var session = SESSIONS.remove(world);
-            if (session != null && session.pilot != null) stop(world,session);
+            if (session != null && (session.pilot != null || session.manualOwner != null)) stop(world,session);
         });
     }
 
@@ -64,8 +70,9 @@ public final class EngineeringShips {
         public record Hull(class_2338 helm) {}
         public record Drive(String heading, double forward, double up, double left, int ticks) {}
         public record Empty() {}
+        public record Offset(int dx,int dy,int dz) {}
 
-        @Fn("Assemble 2..64 connected, companion-built hull cells at an oak helm. Use engineering.site.info().hull for allowed IDs. Include one oak_ship_helm with horizontal facing, one anchor, and balloon or floater as needed.")
+        @Fn("Assemble a connected companion-built hull at an oak helm. Read engineering.site.info() for the hull palette and limit. Include one oak_ship_helm with horizontal facing, one anchor, and balloon or floater as needed.")
         public static Pending<String> assemble(ServerCall call, Hull args) {
             var world = level(call);
             var original = hull(call, world, args.helm());
@@ -77,15 +84,17 @@ public final class EngineeringShips {
                 var current = level(call);
                 require(current==world && original.equals(hull(call, world,args.helm())), "hull changed before assembly");
                 var backup = backup(world, original.keySet());
-                var ship = ShipAssembler.INSTANCE.collectBlocks(world,args.helm(), state -> EngineeringSite.HULL.contains(id(state)));
+                // The VS relocation used by DSH BoatAssembly; pass precisely the approved cells.
+                var ship = ShipAssembler.assembleToShip(world,original.keySet(),1.0);
                 require(ship != null,"Eureka rejected assembly. Backup engineering:"+backup);
                 for (var cell : original.keySet()) {
                     if (world.method_8320(cell).method_26215()) PlacedBlocks.of(world).forget(cell);
                 }
-                var session=new Session(call.companion(),ship.getId());
+                var anchor=original.entrySet().stream().filter(e->id(e.getValue()).equals(ANCHOR)).findFirst().orElseThrow().getKey();
+                var session=new Session(call.companion(),ship.getId(),anchor.method_10059(args.helm()));
                 SESSIONS.put(world,session);
                 return JSON.toJson(Map.of("id",Long.toString(session.id),"backup","engineering:"+backup,
-                    "state","assembling; inspect after the ship has loaded"));
+                    "cells",original.size(),"state","assembling; inspect after the ship has loaded"));
             });
         }
 
@@ -96,6 +105,41 @@ public final class EngineeringShips {
             var ship=loaded(world,session);
             if (ship==null) return JSON.toJson(Map.of("id",Long.toString(session.id),"state","loading"));
             return sample(ship,session);
+        }
+
+        @Fn("Read a supported loaded onboard block at dx,dy,dz from the helm, using ship-local block axes.")
+        public static lab.EngineeringSite.Site.Reading inspectOnboard(ServerCall call,Offset a) {
+            var world=level(call);
+            var ship=loaded(world,session(call,world));
+            require(ship!=null && withinSite(ship),"ship must be loaded inside the configured site");
+            require(a.dx()>=-47 && a.dx()<=47 && a.dy()>=-31 && a.dy()<=31
+                && a.dz()>=-47 && a.dz()<=47,"offset outside site dimensions");
+            var helm=LabShips.findHelm(world,ship);
+            require(helm!=null,"loaded ship helm is unavailable");
+            var at=helm.method_10069(a.dx(),a.dy(),a.dz());
+            require(onboard(world,ship,at),"offset has no supported block in the loaded hull");
+            return read(world,at,source->onboard(world,ship,source));
+        }
+
+        @Fn("With owner approval, hand over the anchored ship to the owner at the native Eureka helm for manual cruising inside the site.")
+        public static Pending<String> handover(ServerCall call,Empty args) {
+            var world=level(call);
+            var session=session(call,world);
+            var ship=loaded(world,session);
+            require(ship!=null && ship.isStatic() && withinSite(ship),"park the ship inside the configured site first");
+            var helm=LabShips.findHelm(world,ship);
+            require(helm!=null,"loaded ship helm is unavailable");
+            return call.authorize(Action.useBlock(helm,world.method_8320(helm))).then(ignored -> {
+                require(level(call)==world && session(call,world)==session && loaded(world,session)==ship
+                    && ship.isStatic() && withinSite(ship),"ship or site changed before handover");
+                var owner=call.her().resolveOwnerPlayer();
+                var control=ship.getAttachment(EurekaShipControl.class);
+                require(control!=null && control.getAnchors()==1 && control.getSeatedPlayer()==null,
+                    "handover requires one anchor and an empty helm");
+                session.manualOwner=owner;
+                session.awaitingPilot=true;
+                return sample(ship,session);
+            });
         }
 
         @Fn("Pilot the authorized ship for 1..100 ticks within the configured site, then anchor. Inputs -1..1; left applies yaw. Heading is ship-local north/east/south/west.")
@@ -116,6 +160,7 @@ public final class EngineeringShips {
                     loaded(world,session)==ship && withinSite(ship),"ship or site changed before drive");
                 var control=ship.getAttachment(EurekaShipControl.class);
                 require(control!=null && control.getAnchors()==1,"expected one installed Eureka anchor");
+                require(session.manualOwner==null,"anchor the manual voyage before starting an engineering pulse");
                 require(LabShips.engage(world,ship,control,call.her(),heading,
                     (float)a.forward(),(float)a.up(),(float)a.left()),"native helm refused the companion mount");
                 session.pilot=call.her();
@@ -132,7 +177,8 @@ public final class EngineeringShips {
             require(ship!=null,"ship is not loaded");
             var control=ship.getAttachment(EurekaShipControl.class);
             require(control!=null && control.getAnchors()==1,"expected one installed Eureka anchor");
-            require(control.getSeatedPlayer()==null || control.getSeatedPlayer()==call.her(),"helm is occupied by another rider");
+            require(control.getSeatedPlayer()==null || control.getSeatedPlayer()==call.her()
+                || control.getSeatedPlayer()==session.manualOwner,"helm is occupied by another rider");
             stop(world,session);
             return sample(ship,session);
         }
@@ -146,7 +192,10 @@ public final class EngineeringShips {
         var queue=new ArrayDeque<class_2338>();
         var seen=new LinkedHashSet<class_2338>();
         queue.add(helm);
+        int nativeLimit=EurekaConfig.SERVER.getMaxShipBlocks();
+        int limit=nativeLimit>0 ? Math.min(nativeLimit,EngineeringSite.MAX_HULL_CELLS) : EngineeringSite.MAX_HULL_CELLS;
         int helms=0,anchors=0;
+        int minX=helm.method_10263(),maxX=minX,minY=helm.method_10264(),maxY=minY,minZ=helm.method_10260(),maxZ=minZ;
         while (!queue.isEmpty()) {
             var at=queue.remove();
             if (!seen.add(at)) continue;
@@ -158,7 +207,13 @@ public final class EngineeringShips {
             require(placer!=null && placer.id().equals(call.her().method_5667()),
                 "every hull cell must have been placed by the calling companion");
             joined.put(at,state);
-            require(joined.size()<=64,"hull exceeds 64 cells");
+            require(joined.size()<=limit,"hull exceeds "+limit+" cells");
+            int ax=at.method_10263(),ay=at.method_10264(),az=at.method_10260();
+            minX=Math.min(minX,ax); maxX=Math.max(maxX,ax);
+            minY=Math.min(minY,ay); maxY=Math.max(maxY,ay);
+            minZ=Math.min(minZ,az); maxZ=Math.max(maxZ,az);
+            require((long)(maxX-minX+1)*(maxY-minY+1)*(maxZ-minZ+1)<=LabShips.MAX_HULL_VOLUME,
+                "hull bounding volume exceeds "+LabShips.MAX_HULL_VOLUME+" cells");
             if (id(state).equals(HELM)) helms++;
             if (id(state).equals(ANCHOR)) anchors++;
             // Eureka's collector can include diagonal neighbors even with its diagonals option disabled.
@@ -189,10 +244,38 @@ public final class EngineeringShips {
             inSite(box.maxX()+1, box.maxY()+1, box.maxZ()+1);
     }
 
+    private static boolean onboard(class_3218 world,LoadedServerShip ship,class_2338 at) {
+        var box=ship.getShipAABB();
+        int x=at.method_10263(),y=at.method_10264(),z=at.method_10260();
+        return box!=null && x>=box.minX() && x<=box.maxX() && y>=box.minY() && y<=box.maxY()
+            && z>=box.minZ() && z<=box.maxZ() && world.method_37118(at)
+            && EngineeringSite.HULL.contains(id(world.method_8320(at)));
+    }
+
     private static void tick(class_3218 world) {
         var session=SESSIONS.get(world);
-        if (session==null || session.pilot==null) return;
+        if (session==null || (session.pilot==null && session.manualOwner==null)) return;
         var ship=loaded(world,session);
+        if (session.manualOwner!=null) {
+            var owner=session.manualOwner;
+            var control=ship==null?null:ship.getAttachment(EurekaShipControl.class);
+            if (ship==null || !withinSite(ship) || owner.method_14239() || owner.method_51469()!=world
+                || control==null || control.getAnchors()!=1
+                || (control.getSeatedPlayer()!=null && control.getSeatedPlayer()!=owner)) {
+                stop(world,session);
+            } else if (session.awaitingPilot && control.getSeatedPlayer()==owner && owner.method_5765()) {
+                session.awaitingPilot=false;
+                var helm=LabShips.findHelm(world,ship);
+                if (helm!=null) {
+                    var anchor=helm.method_10081(session.anchorOffset);
+                    if (id(world.method_8320(anchor)).equals(ANCHOR) && !world.method_49803(anchor)) {
+                        control.setAnchorsActive(0);
+                        ship.setStatic(false);
+                    }
+                }
+            }
+            return;
+        }
         var owner=((com.dwinovo.numen.api.entity.NumenPlayer)session.pilot).resolveOwnerPlayer();
         if (ship==null || !withinSite(ship) || owner==null || owner.method_51469()!=world || !owner.method_7337() ||
             !session.pilot.method_7337() || !session.pilot.method_5765() ||
@@ -201,12 +284,16 @@ public final class EngineeringShips {
 
     private static void stop(class_3218 world,Session session) {
         var ship=loaded(world,session);
-        if (ship==null) return;
-        var control=ship.getAttachment(EurekaShipControl.class);
-        if (control!=null && (control.getSeatedPlayer()==null || control.getSeatedPlayer()==session.pilot)) {
-            LabShips.anchor(ship,control,session.pilot);
+        if (ship!=null) {
+            var control=ship.getAttachment(EurekaShipControl.class);
+            if (control!=null && (session.manualOwner!=null || control.getSeatedPlayer()==null
+                || control.getSeatedPlayer()==session.pilot)) {
+                LabShips.anchor(ship,control,session.manualOwner==null?session.pilot:session.manualOwner);
+            }
         }
         session.pilot=null;
+        session.manualOwner=null;
+        session.awaitingPilot=false;
     }
 
     private static String sample(LoadedServerShip ship,Session session) {
@@ -214,8 +301,10 @@ public final class EngineeringShips {
         var p=transform.getPositionInWorld();
         var q=transform.getShipToWorldRotation();
         var v=ship.getVelocity();
+        var control=ship.getAttachment(EurekaShipControl.class);
         return JSON.toJson(Map.of("id",Long.toString(ship.getId()),"position",List.of(p.x(),p.y(),p.z()),
             "rotation",List.of(q.x(),q.y(),q.z(),q.w()),"velocity",List.of(v.x(),v.y(),v.z()),
-            "static",ship.isStatic(),"mounted",session.pilot!=null && session.pilot.method_5765()));
+            "static",ship.isStatic(),"mounted",session.pilot!=null && session.pilot.method_5765(),
+            "manual",session.manualOwner!=null,"cruising",control!=null && control.isCruising()));
     }
 }
