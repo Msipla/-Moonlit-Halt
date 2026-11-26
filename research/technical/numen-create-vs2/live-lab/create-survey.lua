@@ -171,6 +171,8 @@ end
 ---Execute an ordered list of site cells. Order supports before dependent blocks.
 ---The first unconfirmed range is next..through. A check failure made no writes to that range.
 ---After an apply/readback failure or interruption, inspect the uncertain range before resuming.
+---@param cells table[] Ordered entries with pos and state. Optional expected, faces, rpm and filter use the native site edit format.
+---@return table Receipt with stage, batches, confirmed, written, and the remaining range.
 function M.construct(cells)
   assert(type(cells) == "table" and #cells > 0, "Supply an ordered list of site cells")
   local site = engineering.site

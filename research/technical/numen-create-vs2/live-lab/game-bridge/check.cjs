@@ -217,7 +217,8 @@ async function constructionCheck(lab,baseline) {
     'cells[#cells+1]={pos={x=i%16-7,y=y,z=5+math.floor(i/16)},state=state} end; return cells end; ';
   const drive = (code,label)=>lab.drive(plan+code+'; print("'+label+'")','\n'+label);
 
-  await drive('local a=plan(101,-59,"minecraft:oak_planks"); local ok,e=pcall(s.check,a); '+
+  await drive('assert(numen.api.help("my.create_survey"):find("construct fun(cells: table[]): table",1,true)); '+
+    'local a=plan(101,-59,"minecraft:oak_planks"); local ok,e=pcall(s.check,a); '+
     'assert(not ok and tostring(e):find("1..64",1,true)); '+
     'local b=plan(65,-59,"minecraft:oak_planks"); b[65].pos={pos={x=-6.5,y=-58.7,z=5.4}}; local duplicate=build(b); '+
     'assert(duplicate.stage=="plan" and duplicate.written==0 and #duplicate.rejects==1)', 'construction_rejected');
