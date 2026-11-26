@@ -4,6 +4,10 @@
 
 执行前先读取 [Msipla/Conversation-Archives/AGENTS.md](https://github.com/Msipla/Conversation-Archives/blob/main/AGENTS.md) 最新版及[目标仓库 AGENTS.md](../../AGENTS.md)（如存在），全过程遵守适用规范，无法读取须报告。核对最新分支、源码、HANDOFF、任务书、并发提交与实测证据。沿用 codex/numen-create-basic-actions，以 0.2.6-dev 源码 3c6ef01、阶段记录 [33d0d6e](https://github.com/Msipla/-Moonlit-Halt/commit/33d0d6e18d5d91e4e5e8cdd21523fe1dfd2348b6)、live-lab README 和 evidence/decoupled-execution-0.2.6-dev.json 为基线，保留原候选安装包、待命 Skill 和已通过功能。
 
+## 建筑专项教学接续（2026-11-26）
+
+从 `f6455b2` 基线恢复。保留 0.2.7-dev 受测 JAR、原安装包和工程权限。本轮八份原版 1.20.1 蓝图逐层解析，四份复用、四份新增，飞艇和帆船在实际客户端取图。DeepSeek 先拆解文件，再进行小舱室、两件舱用构件和独立升力练习。原参考、仅改参考的同题对照均未通过完整舱室。一次定向辅导完成 49 格甲板但提前回复，一般性续课仍有重复勘察。改为明确只做舵和储物桶的定向课后，模型在 49 秒内自行选边槽、施工并收尾，5 格走道保持净空。升力专项自主装配 11 格，3 个气球在未锚定时实测悬停，推进与转向待验。新题为小型浅滩取样艇。持续记录构件验收、同题效率、独立实机与模型全自主结果。 [专项证据与原始存档](https://chatgpt.com/library?file_id=libfile_9ad5831bc8dc81918a371820b1e13d16&account_id=personal) · [仓库实测记录](numen-create-vs2/live-lab/evidence/mobile-base-blueprints-0.2.6-dev.md#027-dev-建筑专项教学)
+
 ## 目标及授权
 
 用户确认采用社区海陆空潜艇蓝图拆解、建筑与功能双类教材、分层教学和自主考试；先由 Work 开始，不等待 DSH。目标是 AI 自行设计并直接施工、组装、驾驶、停泊、支持生活和基础加工的移动基地，而非交付四个固定模板。争取 11 月 28 日周六晚完成基础功能候选交付，以实际效果和效率优先。常规开发、必要接口优化、局部重构、成熟技术复用、教材调查、解析、Skill 迭代、隔离实测和修复在既定授权内自主推进；不扩大权限、不覆盖 main、旧包或玩家存档，不重复开发成熟载具物理。重大架构、权限或依赖变更另请示。核对 DSH 最新实际交付及分支，避免并发覆盖。

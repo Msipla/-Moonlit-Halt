@@ -43,6 +43,39 @@ function cabin() {
   return {cells:[...cells.values()],walk:Array.from({length:11},(_,i)=>[0,d+1,i+6]),helm,mill,input,stock,d};
 }
 
+const cabinDrill='在授权区做一段紧凑的飞船生活舱练习，不造整船。方块限 x=-3..3、z=-6..0，甲板 y=-55。沿 x=0 从 z=0 上甲板，经 z=-1 的门口，沿两格净高走道到 z=-4。门后有顶、有侧窗。驾驶舵和一个可从走道使用的储物桶必须摆侧边。两侧轮廓至少有一处收窄或折线。先读 create_kinetics 的移动基地参考；自行设计，只用直接施工，以实际通道和完工简报结束。';
+const cabinCoaching='这一轮用候选格的 site.check 同时做占用调查，题面已指定甲板和入口，不扫描周边。读参考后用一条 Lua 生成并检查第一批甲板，有效就直接 apply。下一批把舵、桶、侧窗和顶一并落地，最后调用 plan 核对一次走道。用 Lua 正向范围或显式负步长。';
+const cabinFinish='继续上一轮的小舱室构件。独立读回：49 格橡木甲板已完成，五步中心走道净空，舵、桶、顶与侧窗尚缺。保留甲板主路线；现在直接生成并检查一批舵、桶、墙窗和顶，舵与桶要可从走道旁使用。加一段侧身轮廓收分。Lua 每格形如 {pos={x=x,y=y,z=z},state=方块状态}，调用 engineering.site.check(cells) 通过后直接 apply(cells)，不要重扫。最后用 plan({walk=脚位置列表})核对连通并报告。前一题原限定范围继续有效，甲板 y=-55，入口从(0,-54,0)通往(0,-54,-4)。';
+const helmDrill='小练习，只在已建的甲板放一件驾驶舵和一件储物桶，不做别的。甲板已核对 x=-3..3、z=-6..0、y=-55，并且没有任何物件，中心 x=0 是净空走道。两组件自行选择 x=1 或 -1 的侧槽位，y=-54，z 取 -4 到 -2，可从走道走近。舵用 vs_eureka:oak_ship_helm[facing=north]，桶用 minecraft:barrel。一条 Lua 用 {pos={x=x,y=y,z=z},state=方块字符串} 的两格数组，engineering.site.check 无拒绝就立即 apply。下一条核对后简报。不需全场勘察或查手册。';
+const liftDrill='做一段单独的飞行升力练习，只造可装配的小甲板、侧舵、侧锚和连上的气球，不装修。区域空旷，甲板在 y=-54 附近，自选足够紧凑的范围和朝向。用候选格检查占用并直接分批施工。气球从约每 3 个普通方块配 1 个起步。放齐两层功能后立即装配，查悬停，短推进、转向、锚停。最后报告实际值，不扩建。';
+const waterExam='陌生实机考试：在空池造一艘浅滩取样艇。自行选址、朝向、比例和布局，做一个收窄的船头、带侧窗的短舱、一条两格净高的登舱路线、可交互的储物桶和一个边侧磨石。用 create_kinetics 移动基地参考，控制在小艇规模。只做直接施工，先用候选格检查占用，不重扫。磨石先用竖直直驱，舵锚离开走道。建全必要部件和连上的浮块，核实通道和动力后真实装配，实测短推进、转向、锚停并报告。只有实际通过的步骤才写通过。考官会独立验收玩家离席和运动中投料。';
+
+function scoreCabinDrill(baseline, final) {
+  const blocks=final.blocks;
+  const name=(x,y,z)=>blocks[[x,y,z].join(',')]?.Name;
+  const route=[0,-1,-2,-3,-4].map(z=>({z,
+    open:!name(0,-54,z)&&!name(0,-53,z),
+    floor:name(0,-55,z)==='minecraft:oak_planks'}));
+  const changes=[...new Set([...Object.keys(blocks),...Object.keys(baseline.blocks)])]
+    .filter(p=>JSON.stringify(blocks[p])!==JSON.stringify(baseline.blocks[p]));
+  const together=(id)=>changes.filter(p=>blocks[p]?.Name===id).map(p=>p.split(',').map(Number));
+  const positions=together('vs_eureka:oak_ship_helm');
+  const storage=together('minecraft:barrel');
+  const usable=points=>points.length===1&&points.every(([x,y,z])=>y===-54&&z>=-4&&z<=-2&&
+    (Math.abs(x)===1||Math.abs(x)===2&&!name(Math.sign(x),-54,z)));
+  const roof=[-1,-2,-3,-4].every(z=>Boolean(name(0,-52,z)||name(0,-51,z)));
+  const sideGlass=changes.some(p=>{
+    const [x,y,z]=p.split(',').map(Number);
+    return x!==0 && y>=-54 && y<=-53 && z<=-2 && ['minecraft:glass','minecraft:glass_pane'].includes(blocks[p]?.Name);
+  });
+  const widths=Array.from({length:7},(_,i)=>Array.from({length:7},(_,x)=>name(x-3,-55,-i))
+    .filter(b=>b==='minecraft:oak_planks').length);
+  const variedOutline=new Set(widths.filter(n=>n>0)).size>1;
+  const allowed=changes.every(p=>{const [x,y,z]=p.split(',').map(Number);return Math.abs(x)<=3&&z>=-6&&z<=0&&y>=-55&&y<=-51;});
+  const pass=route.every(p=>p.floor&&p.open)&&usable(positions)&&usable(storage)&&roof&&sideGlass&&variedOutline&&allowed;
+  return {pass,usable:usable(positions)&&usable(storage),route,helm:positions,storage,roof,sideGlass,widths,variedOutline,allowed,cells:changes.length};
+}
+
 async function checkHullCap(lab) {
   const cells=[];
   for(let x=-8;x<8;x++) for(let z=-8;z<8;z++) for(const y of [-56,-55])
@@ -80,15 +113,50 @@ module.exports=async function(lab) {
   await lab.cmd('deop LabOwner');
   const baseline=await lab.save('mobile-empty');
   if(process.env.LAB_MOBILE_CAP==='1') return checkHullCap(lab);
+  const drill=process.env.LAB_MOBILE_DRILL;
+  if(['cabin','cabin-coached','cabin-finish','helm'].includes(drill)){
+    const prompt=drill==='helm'?helmDrill:drill==='cabin-finish'?cabinFinish:cabinDrill+(drill==='cabin-coached'?cabinCoaching:'');
+    const answer=await lab.chat(prompt,165000);
+    await lab.isolate();
+    const final=await lab.save('mobile-drill-final');
+    const score=scoreCabinDrill(baseline,final);
+    const pass=drill==='helm'?score.usable&&score.route.every(p=>p.floor&&p.open)&&score.allowed:score.pass;
+    lab.mark('mobile_drill_result',{...score,pass,drill,replied:Boolean(answer&&!answer.truncated)});
+    return;
+  }
+  if(drill==='lift'){
+    const answer=await lab.chat(liftDrill,190000);
+    await lab.isolate();
+    const observe=async()=>{
+      const pos=await lab.cmd('engineering_test_ship_pose');
+      const row=pos.split('LAB_SHIP_POSE ',2)[1];
+      return row?JSON.parse(row):null;
+    };
+    const first=await observe();
+    await wait(950);
+    const last=await observe();
+    await lab.save('mobile-lift-final');
+    const delta=last&&first?Math.hypot(...last.position.map((v,i)=>v-first.position[i])):null;
+    const count=last?.blocks.reduce((a,b)=>a+Number(/balloon/.test(b.block)),0)??0;
+    lab.mark('mobile_lift_result',{ship:last?.id??null,cells:last?.blocks.length??0,balloons:count,
+      pos:last?.position??null,drift:delta,anchored:last?.stationary??null,
+      hoverAboveGround:Boolean(last&&!last.stationary&&last.position[1]>-57&&delta<0.3),replied:Boolean(answer&&!answer.truncated)});
+    return;
+  }
 
   if(process.env.LAB_MOBILE_MODEL==='1'){
     const scenario=water?'河道补给站，包含驾驶位、储物货位和有顶的休息间。':'山脊观测救援站，包含驾驶位、医用储物和有顶的两人休息区。';
-    const prompt=resume
+    const prompt=drill==='water-exam'?waterExam:resume
       ? '接续隔离存档里你之前自主建造的补给船。保留船体和现有储物。只做这几步：查实际舵、锚、浮块、走道和加工件；将舵移出舱内两格净空走道，保持原有室内用途；核对船体允许搬运的部件，磨石用兼容的最短动力连接；尽快装配、核对在水面与短程推进、转向、锚停。按实际回执推进，助手原地施工，不扩大布局或重做百科勘察。'
       : '在授权工程区自主设计并完成一座'+(water?'水面':'飞行')+'移动基地。'+scenario+
         '先读 create_kinetics 的移动基地参考。留连续两格净高通道和侧置的实际磨石工位。自选位置、材料、朝向和布局。一次勘察后尽快开始直接施工，保持助手原地。逐批检查，核对方块、通道和磨石的实际转速。最后装配，实际推进转向并锚停。未实测的功能说明待验。';
     const answer=await lab.chat(prompt,resume?285000:420000);
     await lab.isolate();
+    if(drill==='water-exam'){
+      const raw=await lab.cmd('engineering_test_ship_pose');
+      const data=raw.split('LAB_SHIP_POSE ',2)[1];
+      lab.mark('mobile_exam_pose',{ship:data?JSON.parse(data):null});
+    }
     const final=await lab.save('mobile-model-final');
     lab.mark('mobile_model_result',{answer,fixture:false,resume,placedBlockDelta:Object.keys(final.blocks)
       .filter(p=>JSON.stringify(final.blocks[p])!==JSON.stringify(baseline.blocks[p])).length});
