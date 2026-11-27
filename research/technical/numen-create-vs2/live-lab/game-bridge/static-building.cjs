@@ -17,6 +17,8 @@ function delta(before, after, bounds) {
   let newCells = 0;
   let changedExisting = 0;
   let outside = 0;
+  const min = [Infinity,Infinity,Infinity];
+  const max = [-Infinity,-Infinity,-Infinity];
   for (const key of new Set([...Object.keys(before.blocks), ...Object.keys(after.blocks)])) {
     const old = before.blocks[key];
     const state = after.blocks[key];
@@ -28,11 +30,15 @@ function delta(before, after, bounds) {
       changedExisting++;
     } else {
       newCells++;
+      [x,y,z].forEach((value, axis) => {
+        min[axis] = Math.min(min[axis],value);
+        max[axis] = Math.max(max[axis],value);
+      });
       materials[state.Name] = (materials[state.Name] || 0) + 1;
       levels[y] = (levels[y] || 0) + 1;
     }
   }
-  return {newCells, changedExisting, outside, materials, levels};
+  return {newCells, changedExisting, outside, materials, levels, footprint:newCells ? {min,max} : null};
 }
 
 module.exports = async function staticBuilding(lab) {
@@ -40,6 +46,7 @@ module.exports = async function staticBuilding(lab) {
   const startAt = staticResume ? stages.findIndex(([phase]) => phase === process.env.LAB_STATIC_FROM_PHASE) : 0;
   assert(!staticResume || startAt>0, 'Set LAB_STATIC_FROM_PHASE to a construction or report stage');
   const scheduled = stages.slice(startAt);
+  const assessment = staticResume && process.env.LAB_STATIC_FEEDBACK?.trim();
   const start = await save(staticResume ? 'static-start' : 'static-empty');
   let baseline = start;
   const planFile = path.join(run,'static-model-plan.txt');
@@ -58,6 +65,7 @@ module.exports = async function staticBuilding(lab) {
     assert(plan,'The source run must have the model’s original plan');
     fs.writeFileSync(planFile,plan);
     mark('static_resume',{source:path.basename(staticResume),phase:scheduled[0][0],start:delta(baseline,start,bounds)});
+    if (assessment) mark('static_assessment',{phase:scheduled[0][0],text:assessment});
   }
   mark('static_budget', {bounds, stages: scheduled.map(([phase, timeout]) => ({phase, seconds: timeout / 1000}))});
   let previous = start;
@@ -66,12 +74,16 @@ module.exports = async function staticBuilding(lab) {
   try {
     for (const [phase, timeout, brief] of scheduled) {
       const started = performance.now();
-      const count = delta(baseline, previous, bounds).newCells;
+      const measured = delta(baseline, previous, bounds);
+      const count = measured.newCells;
+      const footprint = measured.footprint
+        ? ` 实际施工包围盒（不是授权工区外沿）为 [${measured.footprint.min}]..[${measured.footprint.max}]，各 Y 层新增数 ${JSON.stringify(measured.levels)}。只读可能改变本段决定的少量目标。`
+        : '';
       const goal = phase === 'layout'
         ? '在陌生空地造一座可入住的双层机械工坊住宅，目标实际净增 800～1500 格。需要休息、厨房、储物、加工区、楼梯、阳台、门窗、照明和内饰。全程保持静态，禁用命令施工、拆改已有库存或使用完整现成蓝图。以实际有效建筑计数。'
-        : `沿用当前世界和你自己的上一段方案。考官上次读盘记录区内净增 ${count} 格（含待甄别格），距 800～1500 格目标还可净增 ${Math.max(0, 800-count)}～${Math.max(0, 1500-count)} 格。`;
+        : `沿用当前世界和你自己的上一段方案。考官上次读盘记录区内净增 ${count} 格（含待甄别格），距 800～1500 格目标还可净增 ${Math.max(0, 800-count)}～${Math.max(0, 1500-count)} 格。${footprint}`;
       const resume = staticResume && phase === scheduled[0][0]
-        ? `现在从原世界的存档接续。你的原始方案如下，只作为接续上下文，不重复规划或重写已完成部位。${plan.replace(/\s+/g,' ').trim()} 前一段超时，先局部读回确认实际边界，再继续。` : '';
+        ? `现在从原世界的存档接续。你的原始方案如下，只作为接续上下文，不重复规划或重写已完成部位。${plan.replace(/\s+/g,' ').trim()} 前一段超时，先局部读回确认实际边界，再继续。${assessment ? '考官实测补充：'+assessment.replace(/\s+/g,' ') : ''}` : '';
       const answer = await chat(`${goal} ${resume} ${brief} 只做本段，未完成也应在本段内先给简报。回复本段的施工量、读回、连接边界、剩余预算与下一步，等待下一段任务。`, timeout);
       if (!answer || answer.truncated) {
         await isolate();

@@ -17,7 +17,7 @@
 
 Windows 玩家验收仍待完成。房车和潜艇的当前 DSH 装配白名单拒绝随船搬运 Create 磨石。 [实测、存档和复现说明](evidence/mobile-base-blueprints-0.2.6-dev.md#中型轮船与-dsh-陌生载具2026-11-27)
 
-另有[静态工坊候选](https://chatgpt.com/library?file_id=libfile_226de5a1095c81918190673fd3661680&account_id=personal)，JAR 源码 `ec17265`。纯静态工区每轴最多 16 格，新增六种结构材料支持受控分批。支持入口、楼梯、阳台的 1,015 格工坊由 Work 构建并经生存客户端复验。DeepSeek 自主考试需由运行环境注入凭据，尚未启动。 [工坊存档与实测](https://chatgpt.com/library?file_id=libfile_d8827f8032e881919c7cce0a6f18808f&account_id=personal)
+另有[静态工坊候选](https://chatgpt.com/library?file_id=libfile_226de5a1095c81918190673fd3661680&account_id=personal)，JAR 源码 `ec17265`。纯静态工区每轴最多 16 格，新增六种结构材料支持受控分批。1,015 格 Work 固定工坊通过生存客户端通行。DeepSeek V4 Pro 实作 407 格，单项续建加入 6 格可运行磨石工位，首投、复投与生存取物通过。屋顶、阳台和楼梯通行未验收，规模目标未达到。 [Work 夹具](https://chatgpt.com/library?file_id=libfile_d8827f8032e881919c7cce0a6f18808f&account_id=personal) · [DeepSeek 在线存档、实机与回执](https://chatgpt.com/library?file_id=libfile_371d82e6c6848191a4ce784c44395dfd&account_id=personal)
 
 在 `numen-create-vs2` 目录沿用下文的隔离服、Java、Numen 模型中继配置，从空地启动静态考试。`scope.jar` 见实测包的 `lab-only/`。每次运行保存单独的世界、模型回执和阶段读盘，便于考官随后独立复验。
 
@@ -26,6 +26,8 @@ LAB_STATIC_BUILDING=1 LAB_SCOPE_JAR=/path/to/scope.jar \
   LAB_GAME_BRIDGE=/path/to/numen-engineering-0.2.7-dev-static.jar \
   node live-lab/run.cjs engineering
 ```
+
+超时后可追加 `LAB_STATIC_RESUME_RUN=/path/to/previous-run` 和 `LAB_STATIC_FROM_PHASE=upper`，从已关服的运行目录复制存档，同一伴侣继续使用原方案。首次续建另可用 `LAB_STATIC_FEEDBACK` 提供考官实际观察，原文会进入事件记录。各阶段提示同时包含实际施工包围盒与净增数。若从在线证据包恢复，将需要续建的存档放在相应运行目录的 `world/`，保留配套的空场快照与模型原计划。
 
 ## 真实模型握手
 

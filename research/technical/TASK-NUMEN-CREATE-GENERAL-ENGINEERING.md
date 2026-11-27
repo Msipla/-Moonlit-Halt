@@ -21,7 +21,9 @@ Work 主攻 Numen 通用工程、自主建筑教学、规模扩展诊断与基�
 
 **接续断点（2026-11-27 晚）**　基础候选已收尾。旧包完整，新建[静态工坊候选](https://chatgpt.com/library?file_id=libfile_226de5a1095c81918190673fd3661680&account_id=personal)，JAR 源码 `ec17265`，SHA-256 `6a18ff7547eb44886b687df21692218f8a2acf692e05e0d5f6ef9572100a09a2`。Work 固定工坊净新增 1,015 格，经两次楼梯修复后生存客户端 20 段通行通过，门、床、炉、储物及 128 RPM 磨石首投、复投通过。新旧候选分批和中断回归通过，512 格装配和库存通过，513 格及过大包围盒确认拒绝。Windows 玩家验收、DSH 的干舱、自行解锚、移动加工和大载具工程仍待验。 [实测、存档及原始回执](https://chatgpt.com/library?file_id=libfile_d8827f8032e881919c7cce0a6f18808f&account_id=personal)
 
-**下一验收点**　恢复已授权的隔离模型运行环境后，从空地运行 `LAB_STATIC_BUILDING=1 node live-lab/run.cjs engineering`。按 live-lab README 配置 Java 17、Fabric 依赖、最新候选 `LAB_GAME_BRIDGE`，将已有边界补丁设为 `LAB_SCOPE_JAR`，由运行环境注入 `DEEPSEEK_API_KEY`。首次分段预算已写入脚本，在线考试尚未发出请求。本轮 Work 夹具坐标只用于复验；模型依题面自主选址、设计、建造和修整，并以模型自己的最终世界独立实走、投料、读盘和审美检查。保留实际耗时、工具回执、总与缓存 token 及所有人工介入。 [本轮详细记录](numen-create-vs2/live-lab/evidence/mobile-base-blueprints-0.2.6-dev.md#大型静态工坊与规模边界2026-11-27)
+**在线实测断点（2026-11-28）**　DeepSeek V4 Pro 已从陌生空地真实写入 407 格的两层木构主体。续建多次耗在读盘与规划，独立短题实装 6 格门外磨石工位，最高净增 413 格。关服读盘和真实客户端复验 `−16 RPM`，安山岩两次投料各出圆石 1 块，生存玩家实际取走 2 块。入口能跳过，楼梯起步卡住。屋顶、阳台、二楼内饰和 800～1500 格整栋未通过。施工和选址由模型承担，教师提供实测边界、楼梯卡点和分段指导。 [在线回执、存档与截图](https://chatgpt.com/library?file_id=libfile_371d82e6c6848191a4ce784c44395dfd&account_id=personal)
+
+**下一验收点**　从原 413 格世界续建，复用 `LAB_STATIC_BUILDING=1`、`LAB_STATIC_RESUME_RUN` 与 `LAB_STATIC_FROM_PHASE`，通过运行环境注入凭据。先各自单验楼梯和屋顶，依据已测建筑范围直接做模型选定的第一段施工，局部读回复核。通过后再接阳台、二楼内装和有用途的扩建，继续独立实走与加工复投。原候选 JAR、保护与移动装配上限沿用。 [本轮详细记录](numen-create-vs2/live-lab/evidence/mobile-base-blueprints-0.2.6-dev.md#2026-11-28-deepseek-在线自主考试与单项复验)
 
 ---
 
