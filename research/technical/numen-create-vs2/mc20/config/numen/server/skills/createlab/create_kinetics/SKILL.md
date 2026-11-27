@@ -5,6 +5,8 @@ description: Build, inspect, and repair Create 6.0.8.1 production, water-powered
 
 For a mobile-base commission or cabin drill, load `references/mobile-base.md`. Generate the ordered site cells and call `my.create_survey.construct(cells)` in your first construction script. Each cell is `{pos={x=x,y=y,z=z},state=blockId}`. The helper runs while the companion stands by. The reference gives a direct site fallback. The water-wheel and retrofit workflows below use their own placement and observation tools.
 
+For a large static workshop or workshop-home, use `building_design` and `shape` with `references/static-building.md`. Decide the circulation and construction sections before placing the first block.
+
 For an Engineering 0.2.6 site, load `references/stationary-production.md` for fan washing, gravity production or repairs. Keep the companion stationary while using site operations. The original water-wheel workflow follows.
 
 **Start a new water-powered build at the source.** Make one local check for ground and clearance. Once you find a safe spot, use the next Lua call to place the water wheel or the first blocks of its channel with `numen.build.place`. Keep room at an axle end for the drive. Build the channel in small batches using the power-source procedure below. Read the actual wheel RPM and correct zero RPM before extending the drive. Use each measured result to choose the next connection. Put the local plan in the tool arguments and use only the reference for the requested load.

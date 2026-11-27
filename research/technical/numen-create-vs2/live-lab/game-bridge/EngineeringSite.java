@@ -63,6 +63,9 @@ public final class EngineeringSite implements ModInitializer {
         "minecraft:air","minecraft:stone","minecraft:glass","minecraft:oak_planks","minecraft:barrel","minecraft:hopper",
         "create:creative_motor","create:shaft","create:gearbox","create:cogwheel","create:large_cogwheel",
         "create:millstone","create:encased_fan","create:mechanical_press","create:depot","create:chute","create:smart_chute");
+    private static final Set<String> STATIC_STRUCTURE=Set.of(
+        "minecraft:stone_bricks","minecraft:stripped_spruce_log","minecraft:spruce_planks",
+        "minecraft:oak_stairs","minecraft:spruce_stairs","minecraft:spruce_fence");
 
     @Override
     public void onInitialize() {
@@ -126,7 +129,7 @@ public final class EngineeringSite implements ModInitializer {
         public static SiteInfo info(ServerCall call, NoArgs args) {
             var level=level(call);
             var blocks=new TreeSet<>(PALETTE);
-            if (vessels) blocks.addAll(HULL);
+            blocks.addAll(vessels ? HULL : STATIC_STRUCTURE);
             return new SiteInfo(new class_2338(bounds[0],bounds[1],bounds[2]),new class_2338(bounds[3],bounds[4],bounds[5]),
                 List.copyOf(blocks),vessels?HULL.stream().sorted().toList():List.of(),
                 CreateSettings.FEEDS.stream().sorted().toList(),LIMIT,vessels?MAX_HULL_CELLS:0,
@@ -1051,7 +1054,7 @@ public final class EngineeringSite implements ModInitializer {
         }
 
         private static boolean supported(String id) {
-            return PALETTE.contains(id) || vessels && HULL.contains(id);
+            return PALETTE.contains(id) || (vessels ? HULL : STATIC_STRUCTURE).contains(id);
         }
 
         private static class_2680 parse(String spec) {

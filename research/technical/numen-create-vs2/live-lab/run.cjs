@@ -8,15 +8,17 @@ const {snapshot} = require('./world.cjs');
 
 const phase = process.argv[2];
 const engineering = phase === 'engineering';
+const staticBuilding = engineering && process.env.LAB_STATIC_BUILDING === '1';
 const dshCore = engineering && process.env.LAB_ENGINEERING_SMOKE==='dsh-core';
 const mobileModel=engineering && process.env.LAB_MOBILE_MODEL==='1';
 const dshTrial=mobileModel && ['dsh-land','dsh-sub'].includes(process.env.LAB_MOBILE_DRILL);
 const mobileResume=mobileModel && process.env.LAB_MOBILE_RESUME;
 const mobile=engineering && (mobileModel || process.env.LAB_ENGINEERING_CABIN==='large');
-const engineeringBounds=mobile||dshCore?[-20,-61,-23,20,-35,21]:[-7,-60,5,8,-49,20];
+const engineeringBounds=staticBuilding?[-8,-60,-8,7,-45,7]:mobile||dshCore?[-20,-61,-23,20,-35,21]:[-7,-60,5,8,-49,20];
 const constructionSmoke = engineering && process.env.LAB_ENGINEERING_SMOKE==='batching';
 const engineeringSmoke = engineering && ['1','line','dough','ship','feed','permissions','planning','overload','routing','logistics','stationary','batching','dsh-core'].includes(process.env.LAB_ENGINEERING_SMOKE);
 const engineeringShip = engineering && (mobile || dshCore || process.env.LAB_ENGINEERING_SMOKE==='ship' || ['air','water'].includes(process.env.LAB_ENGINEERING_VESSEL));
+assert(!staticBuilding || (!engineeringShip && !engineeringSmoke), 'Static exam needs its own non-ship model run');
 const basicCheck = phase === 'basic-check';
 const basicWater = phase === 'basic-water';
 const basicAxis = phase === 'basic-axis';
@@ -69,7 +71,8 @@ assert(!waterAction || basicCheck || basicWater || watermill, 'The water action 
 assert(!skillFile || basicAction || ['B','C'].includes(phase) || (watermill && millMode === 'press'),
   'LAB_SKILL_FILE requires a Skill phase');
 assert(!(guardCheck || basic || watermill) || scopeJar, 'Set LAB_SCOPE_JAR to the compiled test mod');
-assert(!scopeJar || phase === 'C' || guardCheck || basic || watermill, 'LAB_SCOPE_JAR requires a guarded phase');
+assert(!staticBuilding || scopeJar, 'The static exam requires the existing construction scope mod for native furniture placement');
+assert(!scopeJar || phase === 'C' || guardCheck || basic || watermill || staticBuilding, 'LAB_SCOPE_JAR requires a guarded phase');
 const runOnlySkill = path.join('skills','createlab','create_kinetics','SKILL.md');
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 const box = [-24,-64,-24,24,-35,24];
@@ -147,13 +150,13 @@ function prepare() {
   }));
   const cache = path.join(base,'config/numen/server/cache/models-dev.json');
   if (fs.existsSync(cache)) fs.copyFileSync(cache,path.join(config,'cache/models-dev.json'));
-  if (mobileModel) {
+  if (mobileModel || staticBuilding) {
     const skill=process.env.LAB_MOBILE_SKILL || path.join(root,'mc20/config/numen/server/skills/createlab/create_kinetics');
     fs.cpSync(skill,path.join(config,'skills/createlab/create_kinetics'),{recursive:true});
   } else if (basicAction || watermill || ['B','C'].includes(phase)) {
     fs.cpSync(path.join(base,'config/numen/server/skills/createlab'),path.join(config,'skills/createlab'),{recursive:true});
   }
-  if (autonomousMill || checkMillIsolation || constructionSmoke || (mobile && process.env.LAB_MOBILE_BATCH!=='off')) {
+  if (autonomousMill || checkMillIsolation || constructionSmoke || staticBuilding || (mobile && process.env.LAB_MOBILE_BATCH!=='off')) {
     // Minecraft offline UUID for the lab's existing owner client.
     const id = createHash('md5').update('OfflinePlayer:LabOwner').digest();
     id[6] = (id[6] & 15) | 48;
@@ -541,6 +544,7 @@ async function testBasic() {
 }
 
 async function main() {
+  if (staticBuilding) assert(process.env.DEEPSEEK_API_KEY, 'Set DEEPSEEK_API_KEY in the runtime');
   prepare();
   const relayEnv={...process.env};
   if (!(guardCheck || basicCheck || checkMillIsolation || checkMillMechanics || engineeringSmoke)) {
@@ -557,7 +561,7 @@ async function main() {
   const extraMods = phase === 'C' || basic || watermill ? [probe] : [];
   if (scopeJar) {
     extraMods.push(path.resolve(scopeJar));
-    args.push('-Dcreatelab.scope='+construction.join(','));
+    args.push('-Dcreatelab.scope='+(staticBuilding ? engineeringBounds : construction).join(','));
   }
   if (waterAction) args.push('-Dcreatelab.water=true');
   if (engineering) {
@@ -621,6 +625,7 @@ async function main() {
   }
   if (basicCheck) return waterAction ? verifyWaterAction() : verifyBasicNative();
   if (basicAction) return testBasic();
+  if (staticBuilding) return require('./game-bridge/static-building.cjs')({save,mark,chat,engineeringBounds,isolate:isolateMillAgent});
   if (engineering) return require(mobile&&!dshCore?'./game-bridge/mobile-cabin.cjs':'./game-bridge/check.cjs')({run,base,save,mark,drive,chat,cmd,engineeringBounds,
     isolate:isolateMillAgent,output:()=>output,until});
   if (watermill) {
