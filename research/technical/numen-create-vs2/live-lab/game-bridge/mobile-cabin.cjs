@@ -172,6 +172,66 @@ const canopyDrill='在上一题的甲板、舵和桶上加一个短舱雨棚。�
 const liftDrill='做一段单独的飞行升力练习，只造可装配的小甲板、侧舵、侧锚和连上的气球，不装修。区域空旷，甲板在 y=-54 附近，自选足够紧凑的范围和朝向。用候选格检查占用并直接分批施工。气球从约每 3 个普通方块配 1 个起步。放齐两层功能后立即装配，查悬停，短推进、转向、锚停。最后报告实际值，不扩建。';
 const waterExam='陌生实机考试：在空池造一艘浅滩取样艇。自行选址、朝向、比例和布局，做一个收窄的船头、带侧窗的短舱、一条两格净高的登舱路线、可交互的储物桶和一个边侧磨石。用 create_kinetics 移动基地参考，控制在小艇规模。只做直接施工，先用候选格检查占用，不重扫。磨石先用竖直直驱，舵锚离开走道。建全必要部件和连上的浮块，核实通道和动力后真实装配，实测短推进、转向、锚停并报告。只有实际通过的步骤才写通过。考官会独立验收玩家离席和运动中投料。';
 const waterConstructionCoaching='补充施工方法。取样一列确定水线，浮块放在水面紧邻的第一层空气，装配后再看实际浮态。第一段施工 Lua 用参考的坐标去重 put 函数安排自己的布局，同一段结尾调用 my.create_survey.construct(cells)。甲板上方两格留空，屋面从第三格开始，竖直动力件放在水线之上。按回执继续。';
+const transferWater='空池造一艘东向巡检艇。南舷登舱，步行路线先穿入舱并向东转弯。短舱有顶和窗，前方留露天工作甲板。'+
+  '自选位置、长宽和内饰。水面 y=-58，浮块先铺 y=-57。舵、锚、储物、磨石放侧位。';
+const transferAir='空地造一座南向飞行巡检站。西侧进入有顶有窗的休息间，储物和磨石放过道两侧，北端留露天观测平台。'+
+  '自选位置、高度、比例和布局。甲板离地，升力从每 3 到 4 个普通方块配一个连在船身上的气球起步，实际核对悬停。';
+const transferWork='造竖直直驱磨石和桶、向下漏斗进料。一个施工 Lua 编写去重的编辑数组，'+
+  '每格 {pos={x=x,y=y,z=z},state=id,rpm=可选转速}。用 my.create_survey.construct(编辑,{walk=脚路线,drive=马达到磨石}) 预检和施工。'+
+  '打印进度和错误，现场读回路线和磨石，再装配。实际读船载转速、推进、偏航和锚停，按实测简报。';
+
+async function transferStages(lab) {
+  const deckY=water?-56:-54;
+  const place='只用直接施工。Lua 编辑格 {pos={x=x,y=y,z=z},state=id}。'+
+    '循环生成去重数组，调用 my.create_survey.construct(cells)，打印确认格数后一句话报告。';
+  let answer=await lab.chat((water?'只做东向小艇的收分甲板和浮块。':'只做南向飞行站的甲板。')+
+    '空地，自选 x,z 和大小。橡木甲板 y='+deckY+'。'+
+    (water?'水线 y=-58，浮块 vs_eureka:floater 铺在两侧甲板正下方 y=-57。甲板中段南侧留登舱面。':
+      '甲板西侧留入口、北端留观测面。气球、屋顶和设备交给后续。')+
+    '本次先动手铺甲板，不需要整船设计。'+place,125000);
+  const base=await lab.save('transfer-deck');
+  const find=(state,id)=>Object.entries(state.blocks)
+    .filter(([,b])=>b.Name===id).map(([p,b])=>({pos:p.split(',').map(Number),properties:b.Properties??{}}));
+  const deck=find(base,'minecraft:oak_planks').filter(({pos:p})=>p[1]===deckY);
+  const floaters=find(base,'vs_eureka:floater').length;
+  const passed=deck.length>=15&&(!water||floaters>=8);
+  lab.mark('mobile_transfer_deck',{passed,cells:deck.length,floaters,deckY});
+  if(!passed||!answer||answer.truncated) return answer;
+
+  const lower=deck[0].pos.slice(),upper=lower.slice();
+  for(const {pos:p} of deck) for(let i=0;i<3;i++){
+    lower[i]=Math.min(lower[i],p[i]);
+    upper[i]=Math.max(upper[i],p[i]);
+  }
+  const site='甲板范围 x='+lower[0]+'..'+upper[0]+'、z='+lower[2]+'..'+upper[2]+'、y='+deckY+'。';
+  const access=water?'南舷进入后向东折向舱内，前方留露天工作面。':'西侧进入，北端留露天观测面。';
+  answer=await lab.chat('在你刚建的实际甲板上只做短舱、舵、锚与储物桶。'+site+access+
+    '带侧窗和由边墙支撑的屋顶。入口和走道留两格净空，屋顶从甲板上第三格起。'+
+    '用 vs_eureka:oak_ship_helm[facing='+(water?'east':'south')+
+    '] 与 vs_eureka:anchor，侧置，材料自行选择。'+
+    (water?'':'屋顶连入足够 vs_eureka:balloon，轻型结构每三到四普通格先配一个。')+
+    '舵与储物贴边，给磨石留侧位。用 engineering.site.plan({walk=脚坐标}) 核对通路。'+place,160000);
+  const cabin=await lab.save('transfer-cabin');
+  const helms=find(cabin,'vs_eureka:oak_ship_helm');
+  const roof=find(cabin,'minecraft:oak_planks').filter(({pos:p})=>p[1]>=deckY+3).length;
+  const lift=find(cabin,'vs_eureka:balloon').length+find(cabin,'vs_eureka:white_balloon').length;
+  const proper=helms.length===1&&helms[0].properties.facing===(water?'east':'south')&&roof>=4
+    &&find(cabin,'vs_eureka:anchor').length===1&&find(cabin,'minecraft:barrel').length>0&&(water||lift>=8);
+  lab.mark('mobile_transfer_cabin',{passed:proper,roof,lift,helm:helms[0]?.pos??null});
+  if(!proper||!answer||answer.truncated) return answer;
+
+  answer=await lab.chat('只在你的短舱侧边补一个磨石工位。'+site+access+
+    '同一竖列放朝上马达、磨石、朝下漏斗和供料桶。马达和加工设备的坐标自行选择，留走道。'+
+    '用 my.create_survey.construct(edits,{walk=完整脚路线,drive=马达到磨石坐标}) 检查并施工。'+
+    '用 check_vessel 读陆上 RPM，完成回一句。装配留给下一步。',130000);
+  const work=await lab.save('transfer-workshop');
+  const mill=work.blockEntities.find(b=>b.id==='create:millstone'&&b.Speed&&b.Network?.Stress<=b.Network?.Capacity);
+  lab.mark('mobile_transfer_workshop',{passed:Boolean(mill),rpm:mill?.Speed??null});
+  if(!mill||!answer||answer.truncated) return answer;
+  const helm=helms[0].pos;
+  return lab.chat('实际舵坐标 '+pos(helm)+'，磨石相对舵 '+[mill.x,mill.y,mill.z].map((v,i)=>v-helm[i]).join(',')+
+    '。'+shipControls+'现在装配、实测船体与磨石、推进与偏航，然后锚停简报。',135000);
+}
 
 const waterRigSetup='续做原存档的浅滩取样艇，只练舵锚和装配。独立读回已铺 29 橡木甲板在 y=-56，下方 29 浮块，艇首在负 Z，甲板 x=±2、z=-4..0 段完整。两件新增方块：舵 vs_eureka:oak_ship_helm[facing=north] 与锚 vs_eureka:anchor，自己选 x=±1 的边位，z=-3..-1，y=-55。保留 x=0 两格净高。用 {pos={x=x,y=y,z=z},state=方块字符串} 一次 engineering.site.check 无拒绝后直接 apply。用 engineering_vessels.ship.assemble(舵坐标) 装配，成功立即 inspect()。';
 const waterRig=waterRigSetup+'先实测短推进、再短转向，调用签名 drive("north",0.3,0,0,100)，再 anchor()。逐步读回实际值然后报告，暂不加舱或磨石，不重扫。';
@@ -240,6 +300,8 @@ module.exports=async function(lab) {
   await lab.cmd('time set 4000');
   await lab.cmd('deop LabOwner');
   const drill=process.env.LAB_MOBILE_DRILL;
+  const stepTransfer=drill==='water-transfer-stages'||drill==='air-transfer-stages';
+  const transfer=drill==='water-transfer'||drill==='air-transfer'||stepTransfer;
   const componentRepair=drill==='water-repair-components';
   const repair=drill==='water-repair'||componentRepair;
   const baseline=repair
@@ -285,9 +347,11 @@ module.exports=async function(lab) {
 
   if(process.env.LAB_MOBILE_MODEL==='1'){
     const scenario=water?'河道补给站，包含驾驶位、储物货位和有顶的休息间。':'山脊观测救援站，包含驾驶位、医用储物和有顶的两人休息区。';
-    const waterPrompts={'water-exam':waterExam,'water-exam-coached':waterExam+waterConstructionCoaching,'water-rig':waterRig,'water-turn':waterTurn};
+    const prompts={'water-exam':waterExam,'water-exam-coached':waterExam+waterConstructionCoaching,
+      'water-rig':waterRig,'water-turn':waterTurn,
+      'water-transfer':transferWater+transferWork+shipControls,'air-transfer':transferAir+transferWork+shipControls};
     const repairPrompt='修你原来的浅滩取样艇，保留船底、浮块、原储物和船舱用途。甲板 y=-56，中心路线 x=0、脚 y=-55、z=2 到 -5。自行修正低屋顶和中间舵位，让屋顶通过立柱连入船身。磨石在(3,-55,1)，侧齿轮会留在岸上。用船用竖直直驱、输入桶和漏斗，从磨石库存取货。一次 Lua 自行生成编辑，用 my.create_survey.construct(edits,{walk=脚坐标数组,drive=马达到磨石坐标数组}) 检查并施工，已有格使用精确 expected。再用 check_vessel 检查成品及实际转速。核对装配格数和船上磨石转速，完成短推进、偏航、锚停和简报。';
-    const prompt=(repair?repairPrompt:waterPrompts[drill])??(resume
+    const prompt=(repair?repairPrompt:prompts[drill])??(resume
       ? '接续隔离存档里你之前自主建造的补给船。保留船体和现有储物。只做这几步：查实际舵、锚、浮块、走道和加工件；将舵移出舱内两格净空走道，保持原有室内用途；核对船体允许搬运的部件，磨石用兼容的最短动力连接；尽快装配、核对在水面与短程推进、转向、锚停。按实际回执推进，助手原地施工，不扩大布局或重做百科勘察。'
       : '在授权工程区自主设计并完成一座'+(water?'水面':'飞行')+'移动基地。'+scenario+
         '先读 create_kinetics 的移动基地参考。留连续两格净高通道和侧置的实际磨石工位。自选位置、材料、朝向和布局。一次勘察后尽快开始直接施工，保持助手原地。逐批检查，核对方块、通道和磨石的实际转速。最后装配，实际推进转向并锚停。未实测的功能说明待验。');
@@ -302,11 +366,13 @@ module.exports=async function(lab) {
           '实测舵坐标 '+pos(prepared.helm)+'，磨石相对舵 '+offset.join(',')+'。'+shipControls+
           '先装配，下一回合读船体与磨石，再试短推进和偏航，锚停读回，最后简报。用 print 输出。',180000);
       }
+    }else if(stepTransfer){
+      answer=await transferStages(lab);
     }else{
       answer=await lab.chat(prompt,waterPractice?175000:resume?285000:420000);
     }
     await lab.isolate();
-    if(drill==='water-exam'||drill==='water-exam-coached'||waterPractice||repair){
+    if(drill==='water-exam'||drill==='water-exam-coached'||waterPractice||repair||transfer){
       const raw=await lab.cmd('engineering_test_ship_pose');
       const data=raw.split('LAB_SHIP_POSE ',2)[1];
       ship=data?JSON.parse(data):null;
