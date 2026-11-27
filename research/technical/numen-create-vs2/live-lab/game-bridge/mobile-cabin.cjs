@@ -4,6 +4,7 @@ const path=require('node:path');
 const {createRequire}=require('node:module');
 const {gunzipSync}=require('node:zlib');
 const {setTimeout:wait}=require('node:timers/promises');
+const {snapshot}=require('../world.cjs');
 const water=process.env.LAB_ENGINEERING_VESSEL==='water';
 const pos=p=>`{x=${p[0]},y=${p[1]},z=${p[2]}}`;
 const coord=p=>p.join(' ');
@@ -35,11 +36,104 @@ async function restoreWaterExam(lab, file) {
   return lab.save('mobile-repair-restored');
 }
 
+function oldRoof(baseline) {
+  return Object.entries(baseline.blocks)
+    .filter(([p,b])=>p.split(',')[1]==='-54'&&b.Name==='minecraft:oak_planks')
+    .map(([p])=>p.split(',').map(Number));
+}
+
+function repairSurvey(baseline) {
+  const partIds=new Set([
+    'vs_eureka:oak_ship_helm','vs_eureka:anchor','minecraft:barrel',
+    'create:creative_motor','create:millstone','create:cogwheel'
+  ]);
+  const parts=Object.entries(baseline.blocks)
+    .filter(([,b])=>partIds.has(b.Name)).map(([p,b])=>`${p} ${b.Name}`);
+  const roof=new Map();
+  for(const [x,,z] of oldRoof(baseline)){
+    if(!roof.has(z)) roof.set(z,[]);
+    roof.get(z).push(x);
+  }
+  const rows=[...roof.entries()].sort((a,b)=>a[0]-b[0]).map(([z,xs])=>
+    `z=${z} x=${xs.sort((a,b)=>a-b).join(',')}`);
+  return '巡检回执：旧屋顶 oak_planks、y=-54，'+rows.join('；')+'。旧部件 '+parts.join('；')+'。';
+}
+
+const shipControls='engineering_vessels.ship API: assemble(舵坐标), inspect(), inspect_onboard(dx,dy,dz)（相对舵）, '+
+  'drive(朝向,前进,升降,偏航,刻数<=100), anchor()。航行状态下一轮读取。';
+const repairEdits='Lua 每格 {pos={x=x,y=y,z=z},state=id,expected=engineering.site.inspect(p).state}。'+
+  '把你的坐标编辑数组传入 my.create_survey.construct(edits)，print(r.stage,r.confirmed)。直接执行并一行报告。';
+
+function waterRepairReadiness(before,after) {
+  const name=(x,y,z)=>after.blocks[[x,y,z]]?.Name;
+  const route=Array.from({length:8},(_,i)=>2-i);
+  const roof=oldRoof(before).map(([x,,z])=>{
+    const y=[-53,-52,-51].find(y=>name(x,y,z)==='minecraft:oak_planks');
+    return y===undefined?null:[x,y,z];
+  });
+  const helm=Object.entries(after.blocks)
+    .filter(([,b])=>b.Name==='vs_eureka:oak_ship_helm')
+    .map(([p])=>p.split(',').map(Number));
+  const mill=after.blockEntities.find(b=>b.id==='create:millstone'&&b.x===3&&b.y===-55&&b.z===1);
+  const rpm=mill?.Network?.Stress>mill?.Network?.Capacity?0:(mill?.Speed??0);
+  const preservedIds=new Set(['vs_eureka:floater','vs_eureka:anchor','minecraft:barrel']);
+  const preserved=Object.entries(before.blocks).filter(([p,b])=>preservedIds.has(b.Name)||
+    (p.split(',')[1]==='-56'&&b.Name==='minecraft:oak_planks'&&p!=='3,-56,1'));
+  const checks={
+    route:route.every(z=>name(0,-56,z)==='minecraft:oak_planks'&&!name(0,-55,z)&&!name(0,-54,z)),
+    roof:roof.every(Boolean),
+    helm:helm.length===1&&helm[0][0]!==0,
+    preserved:preserved.every(([p,b])=>JSON.stringify(after.blocks[p])===JSON.stringify(b)),
+    mill:Boolean(rpm&&mill.Network&&name(3,-56,1)==='create:creative_motor'),
+    intake:name(3,-53,1)==='minecraft:barrel'&&after.blocks['3,-54,1']?.Properties?.facing==='down'&&
+      name(3,-54,1)==='minecraft:hopper'
+  };
+  return {ready:Object.values(checks).every(Boolean),checks,helm:helm[0]??null,rpm,route,roof};
+}
+
+function repairOnboard(world,prepared,ship) {
+  const helm=ship.blocks.find(c=>c.block==='vs_eureka:oak_ship_helm');
+  assert(helm,'expected the assembled helm');
+  const shift=helm.pos.map((v,i)=>v-prepared.helm[i]);
+  const relocate=p=>p.map((v,i)=>v+shift[i]);
+  const blocks=new Map(ship.blocks.map(c=>[c.pos.join(','),c.block]));
+  const name=(...p)=>blocks.get(relocate(p).join(','));
+  const millPos=relocate([3,-55,1]);
+  const saved=snapshot(world,[...millPos,...millPos]);
+  const mill=saved.blockEntities.find(e=>e.id==='create:millstone');
+  const rpm=mill?.Network?.Stress>mill?.Network?.Capacity?0:(mill?.Speed??0);
+  return {roof:prepared.roof.every(p=>name(...p)==='minecraft:oak_planks'),
+    route:prepared.route.every(z=>name(0,-56,z)==='minecraft:oak_planks'&&!name(0,-55,z)&&!name(0,-54,z)),
+    rpm,anchored:ship.stationary,cells:ship.blocks.length};
+}
+
 async function receipt(lab,label,expression) {
   await lab.drive(`print("${label}",${expression})`,'\n'+label);
   const line=lab.output().split('\n').find(s=>s.startsWith(label+'\t'));
   assert(line,label);
   return JSON.parse(line.slice(label.length).trim());
+}
+
+async function repairComponents(lab,baseline) {
+  const steps=[
+    ['helm',90000,'只修舵位。原舵在(0,-55,-3)，中心 x=0 是通道。选 x=1 或 -1、z=-5..-1、y=-55 的空位。'+
+      '放 vs_eureka:oak_ship_helm[facing=north]，从中间移除旧舵。同一条 Lua 生成这两个编辑，保留原甲板。'],
+    ['roof',150000,'只修低屋顶。舵位已实测侧置。'+repairSurvey(baseline)+
+      '把原低屋顶抬一格，留 x=0,z=2 到 -5、脚 y=-55 和头 y=-54 净空。选侧柱位置连接屋面与甲板。保留舵和家具。'],
+    ['mill',150000,'只修现有磨石动力。旧马达(2,-56,1)、侧齿轮(2,-55,1)、磨石(3,-55,1)。'+
+      '保留磨石，自行安排上竖直直驱并设马达 rpm，原侧齿轮改船身。磨石上从下到上接向下漏斗和桶。'+
+      '同条 Lua 施工并用 engineering.site.inspect(磨石坐标).rpm 读转速。']
+  ];
+  let answer,prepared;
+  for(const [step,time,prompt] of steps){
+    answer=await lab.chat(prompt+repairEdits,time);
+    prepared=waterRepairReadiness(baseline,await lab.save('mobile-repair-'+step));
+    const passed=prepared.checks[step]&&prepared.checks.preserved&&
+      (step!=='roof'||prepared.checks.route)&&(step!=='mill'||prepared.ready);
+    lab.mark('mobile_repair_component',{step,passed,...prepared});
+    if(!passed||!answer||answer.truncated) return {answer,prepared};
+  }
+  return {answer,prepared};
 }
 
 function cabin() {
@@ -146,7 +240,8 @@ module.exports=async function(lab) {
   await lab.cmd('time set 4000');
   await lab.cmd('deop LabOwner');
   const drill=process.env.LAB_MOBILE_DRILL;
-  const repair=drill==='water-repair';
+  const componentRepair=drill==='water-repair-components';
+  const repair=drill==='water-repair'||componentRepair;
   const baseline=repair
     ? await restoreWaterExam(lab,process.env.LAB_MOBILE_REPAIR_NBT)
     : await lab.save('mobile-empty');
@@ -197,14 +292,28 @@ module.exports=async function(lab) {
       : '在授权工程区自主设计并完成一座'+(water?'水面':'飞行')+'移动基地。'+scenario+
         '先读 create_kinetics 的移动基地参考。留连续两格净高通道和侧置的实际磨石工位。自选位置、材料、朝向和布局。一次勘察后尽快开始直接施工，保持助手原地。逐批检查，核对方块、通道和磨石的实际转速。最后装配，实际推进转向并锚停。未实测的功能说明待验。');
     const waterPractice=drill==='water-rig'||drill==='water-turn';
-    const answer=await lab.chat(prompt,waterPractice?175000:resume?285000:420000);
+    let answer,prepared,ship;
+    if(componentRepair){
+      ({answer,prepared}=await repairComponents(lab,baseline));
+      lab.mark('mobile_repair_readiness',prepared);
+      if(prepared.ready&&answer&&!answer.truncated){
+        const offset=[3,-55,1].map((v,i)=>v-prepared.helm[i]);
+        answer=await lab.chat('你的修复已通过独立读回，陆上磨石 '+prepared.rpm+' RPM。现在只装配与实航。'+
+          '实测舵坐标 '+pos(prepared.helm)+'，磨石相对舵 '+offset.join(',')+'。'+shipControls+
+          '先装配，下一回合读船体与磨石，再试短推进和偏航，锚停读回，最后简报。用 print 输出。',180000);
+      }
+    }else{
+      answer=await lab.chat(prompt,waterPractice?175000:resume?285000:420000);
+    }
     await lab.isolate();
     if(drill==='water-exam'||drill==='water-exam-coached'||waterPractice||repair){
       const raw=await lab.cmd('engineering_test_ship_pose');
       const data=raw.split('LAB_SHIP_POSE ',2)[1];
-      lab.mark('mobile_exam_pose',{ship:data?JSON.parse(data):null});
+      ship=data?JSON.parse(data):null;
+      lab.mark('mobile_exam_pose',{ship});
     }
     const final=await lab.save('mobile-model-final');
+    if(prepared?.ready&&ship) lab.mark('mobile_repair_onboard',repairOnboard(path.join(lab.run,'world'),prepared,ship));
     lab.mark('mobile_model_result',{answer,fixture:false,resume,placedBlockDelta:Object.keys(final.blocks)
       .filter(p=>JSON.stringify(final.blocks[p])!==JSON.stringify(baseline.blocks[p])).length});
     return;
