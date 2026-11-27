@@ -215,15 +215,23 @@ async function transferStages(lab, baseline, resume) {
     if(supported.length<8||!answer||answer.truncated) return answer;
   }
   const access=water?'南舷进入后向东折向舱内，前方留露天工作面。':'西侧进入，北端留露天观测面。';
+  const draftFile=resume&&process.env.LAB_MOBILE_TRANSFER_DRAFT;
+  const draft=draftFile
+    ? '接续你自己上一轮的未施工草稿。先修草稿里去重后丢失的窗和撞墙的路径，补齐舵锚、桶'+
+      (water?'':'和足够相连的气球')+'。下一条 Lua 直接调用 construct 完成候选批，不再重复查帮助。草稿代码 JSON 字符串 '+
+      JSON.stringify(fs.readFileSync(draftFile,'utf8'))
+    : '';
   answer=await lab.chat('在你刚建的实际甲板上只做短舱、舵、锚与储物桶。'+site+access+
     '带侧窗和由边墙支撑的屋顶。入口和走道留两格净空，屋顶从甲板上第三格起。'+
     '用 vs_eureka:oak_ship_helm[facing='+(water?'east':'south')+
     '] 与 vs_eureka:anchor，侧置，材料自行选择。'+
     (water?'':'屋顶连入足够 vs_eureka:balloon，轻型结构每三到四普通格先配一个。')+
-    '舵与储物贴边，给磨石留侧位。用 engineering.site.plan({walk=脚坐标}) 核对通路。'+place,160000);
+    '舵与储物贴边，给磨石留侧位。用 engineering.site.plan({walk=脚坐标}) 核对通路。'+place+draft,160000);
   const cabin=await lab.save('transfer-cabin');
   const helms=find(cabin,'vs_eureka:oak_ship_helm');
-  const roof=find(cabin,'minecraft:oak_planks').filter(({pos:p})=>p[1]>=deckY+3).length;
+  const roof=['minecraft:oak_planks','minecraft:oak_slab']
+    .flatMap(id=>find(cabin,id)).filter(({pos:p})=>p[1]>=deckY+3).length;
+  const windows=find(cabin,'minecraft:glass_pane').length+find(cabin,'minecraft:glass').length;
   const lift=find(cabin,'vs_eureka:balloon').length+find(cabin,'vs_eureka:white_balloon').length;
   await lab.drive('local i=engineering.site.info(); print("transfer_hull",i.hull_limit,table.concat(i.hull," "))',
     '\ntransfer_hull');
@@ -233,10 +241,10 @@ async function transferStages(lab, baseline, resume) {
   const limit=Number(rawLimit);
   const hull=new Set(ids.split(' '));
   const hullSize=Object.values(cabin.blocks).filter(b=>hull.has(b.Name)).length;
-  const proper=helms.length===1&&helms[0].properties.facing===(water?'east':'south')&&roof>=4
+  const proper=helms.length===1&&helms[0].properties.facing===(water?'east':'south')&&roof>=4&&windows>0
     &&find(cabin,'vs_eureka:anchor').length===1&&find(cabin,'minecraft:barrel').length>0
     &&(water||lift>=8)&&hullSize+4<=limit;
-  lab.mark('mobile_transfer_cabin',{passed:proper,roof,lift,helm:helms[0]?.pos??null,hullSize,limit});
+  lab.mark('mobile_transfer_cabin',{passed:proper,roof,windows,lift,helm:helms[0]?.pos??null,hullSize,limit});
   if(!proper||!answer||answer.truncated) return answer;
 
   answer=await lab.chat('只在你的短舱侧边补一个磨石工位。'+site+access+

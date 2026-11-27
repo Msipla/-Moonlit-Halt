@@ -141,7 +141,7 @@ function prepare() {
   fs.writeFileSync(path.join(config,'provider/lab/deepseek.json'), stringify({
     provider:'deepseek', protocol:'chat', model,
     base_url:'http://127.0.0.1:'+relayPort, reasoning_effort:thinking?'high':'off', ctx:65536,
-    ...(thinking ? {max_tokens:8192} : {}),
+    ...(process.env.LAB_OUTPUT ? {max_tokens:Number(process.env.LAB_OUTPUT)} : thinking ? {max_tokens:8192} : {}),
   }));
   const cache = path.join(base,'config/numen/server/cache/models-dev.json');
   if (fs.existsSync(cache)) fs.copyFileSync(cache,path.join(config,'cache/models-dev.json'));
@@ -205,9 +205,9 @@ async function chat(text, timeout = 340000) {
   const command=cmdAs+'numen chat LabBot '+text;
   const started = performance.now();
   const deadline = started+timeout;
-  if (watermill) {
-    // A reviewed plan can exceed the RCON packet limit.
-    assert(!/[\r\n]/.test(command),'The watermill chat must fit one console line');
+  if (watermill || engineering && Buffer.byteLength(command)>1400) {
+    // A recovered plan can exceed the RCON packet limit.
+    assert(!/[\r\n]/.test(command),'The lab chat must fit one console line');
     server.stdin.write(command+'\n');
   } else {
     await cmd(command);
