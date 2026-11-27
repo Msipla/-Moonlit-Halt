@@ -10,6 +10,8 @@ const pos=p=>`{x=${p[0]},y=${p[1]},z=${p[2]}}`;
 const coord=p=>p.join(' ');
 const ships='engineering_vessels.ship.';
 const site='engineering.site.';
+const find=(state,id)=>Object.entries(state.blocks)
+  .filter(([,b])=>b.Name===id).map(([p,b])=>({pos:p.split(',').map(Number),properties:b.Properties??{}}));
 
 async function restoreWaterExam(lab, file) {
   const nbt=createRequire(path.join(lab.base,'lab.cjs'))('prismarine-nbt');
@@ -180,18 +182,25 @@ const transferWork='造竖直直驱磨石和桶、向下漏斗进料。一个施
   '每格 {pos={x=x,y=y,z=z},state=id,rpm=可选转速}。用 my.create_survey.construct(编辑,{walk=脚路线,drive=马达到磨石}) 预检和施工。'+
   '打印进度和错误，现场读回路线和磨石，再装配。实际读船载转速、推进、偏航和锚停，按实测简报。';
 
-async function transferStages(lab, baseline, resume) {
+async function transferStages(lab, baseline, resume, medium=false) {
   const deckY=water?-56:-54;
   const place='只用直接施工。Lua 编辑格 {pos={x=x,y=y,z=z},state=id}。'+
     '循环生成去重数组，调用 my.create_survey.construct(cells)，打印确认格数后一句话报告。';
-  const find=(state,id)=>Object.entries(state.blocks)
-    .filter(([,b])=>b.Name===id).map(([p,b])=>({pos:p.split(',').map(Number),properties:b.Properties??{}}));
   let answer,base=baseline;
   if(!resume){
-    answer=await lab.chat((water?'只做东向小艇的收分甲板。':'只做南向飞行站的甲板。')+
+    if(medium){
+      answer=await lab.chat('空池中型轮船设计，最后实际装配 300～500 格，整船上限 512。你选址、朝向、船形与分区。'+
+        '需要驾驶、休息、生活备餐、储物、磨石区与连续可走路线。甲板 y=-56，水面 y=-58。'+
+        '先用六行简报定下平面、分区和分段格数预算，留动力、舵锚、浮块余量。这一步只定方案。',100000);
+      if(!answer||answer.truncated) return answer;
+    }
+    answer=await lab.chat(medium
+      ? '按你刚提交的方案先施工收分甲板，自选位置、朝向与长宽。橡木甲板 y=-56，90 到 144 格，长宽各不超过 24。'+
+        '先只做甲板，用循环生成一批方案跨64格。浮块与上层后续独立施工。'+place
+      : (water?'只做东向小艇的收分甲板。':'只做南向飞行站的甲板。')+
       '空地，自选 x,z 和形状。橡木甲板 y='+deckY+'，15 到 72 格，长宽各不超过 12 格。'+
       (water?'水线 y=-58，甲板中段南侧留登舱面。浮块随后补。':'甲板西侧留入口，北端留观测面。另给整船屋顶和气球留方块预算。')+
-      '只动手铺甲板。'+place,125000);
+      '只动手铺甲板。'+place,medium?180000:125000);
     base=await lab.save('transfer-deck');
   }
   const deck=find(base,'minecraft:oak_planks').filter(({pos:p})=>p[1]===deckY);
@@ -200,21 +209,26 @@ async function transferStages(lab, baseline, resume) {
     lower[i]=Math.min(lower[i],p[i]);
     upper[i]=Math.max(upper[i],p[i]);
   }
-  const passed=deck.length>=15&&deck.length<=72&&upper[0]-lower[0]<12&&upper[2]-lower[2]<12;
+  const span=medium?24:12;
+  const passed=deck.length>=(medium?90:15)&&deck.length<=(medium?144:72)
+    &&upper[0]-lower[0]<span&&upper[2]-lower[2]<span;
   lab.mark('mobile_transfer_deck',{passed,cells:deck.length,deckY,resumed:resume});
   if(!passed||(!resume&&(!answer||answer.truncated))) return answer;
   const site='甲板范围 x='+lower[0]+'..'+upper[0]+'、z='+lower[2]+'..'+upper[2]+'、y='+deckY+'。';
-  if(water&&find(base,'vs_eureka:floater').length<8){
+  const floats=medium?Math.ceil(deck.length/2):8;
+  if(water&&find(base,'vs_eureka:floater').length<floats){
     answer=await lab.chat('甲板已读回，共 '+deck.length+' 格。'+site+
-      '本次只在甲板下面 y=-57 两条长边选位补上 vs_eureka:floater，和甲板相接，至少 8 格。'+
-      '保持所有现有结构。'+place,85000);
+      (medium?'本次只在甲板下面 y=-57 分布':'本次只在甲板下面 y=-57、两条长边选位放')+
+      ' vs_eureka:floater，确保和甲板相接，至少 '+floats+' 格。'+
+      '保持所有现有结构。'+place,medium?110000:85000);
     const fitted=await lab.save('transfer-floaters');
     const supported=find(fitted,'vs_eureka:floater').filter(({pos:[x,y,z]})=>
       y===deckY-1&&fitted.blocks[[x,deckY,z]]?.Name==='minecraft:oak_planks');
-    lab.mark('mobile_transfer_floaters',{passed:supported.length>=8,cells:supported.length});
-    if(supported.length<8||!answer||answer.truncated) return answer;
+    lab.mark('mobile_transfer_floaters',{passed:supported.length>=floats,cells:supported.length});
+    if(supported.length<floats||!answer||answer.truncated) return answer;
   }
-  const access=water?'南舷进入后向东折向舱内，前方留露天工作面。':'西侧进入，北端留露天观测面。';
+  const access=medium?'保留自己设计的登舱与分区路线，侧向通行，留露天工作面。'
+    :water?'南舷进入后向东折向舱内，前方留露天工作面。':'西侧进入，北端留露天观测面。';
   const windowsIn=state=>find(state,'minecraft:glass_pane').length+find(state,'minecraft:glass').length;
   const existingCabin=resume&&find(base,'vs_eureka:oak_ship_helm').length===1;
   const draftFile=resume&&process.env.LAB_MOBILE_TRANSFER_DRAFT;
@@ -228,15 +242,24 @@ async function transferStages(lab, baseline, resume) {
       '只修窗。挑两处已有舱壁头部高度 '+(deckY+2)+' 的橡木墙格，替换成 minecraft:glass 或 minecraft:glass_pane。'+
       '读取各自原状态作为 expected。同一条 Lua 提交这两格，保留其他方块。'+repairEdits,100000);
   }else if(!existingCabin){
-    answer=await lab.chat('在你刚建的实际甲板上只做短舱、舵、锚与储物桶。'+site+access+
+    answer=await lab.chat((medium?'按原分区在实际甲板上做墙窗、舱顶和独立驾驶位。留休息、备餐、储物和磨石分区。'
+      :'在你刚建的实际甲板上只做短舱、舵、锚与储物桶。')+site+access+
     '带侧窗和由边墙支撑的屋顶。入口和走道留两格净空，屋顶从甲板上第三格起。'+
-    '用 vs_eureka:oak_ship_helm[facing='+(water?'east':'south')+
-    '] 与 vs_eureka:anchor，侧置，材料自行选择。'+
+    (medium?'用 vs_eureka:oak_ship_helm 和 vs_eureka:anchor，舵朝向、墙窗与屋顶由你决定。用同一坐标只保留最后方案，跨64格交给 construct。'
+      :'用 vs_eureka:oak_ship_helm[facing='+(water?'east':'south')+'] 与 vs_eureka:anchor，侧置，材料自行选择。')+
     (water?'':'屋顶连入足够 vs_eureka:balloon，轻型结构每三到四普通格先配一个。')+
-      '舵与储物贴边，给磨石留侧位。用 engineering.site.plan({walk=脚坐标}) 核对通路。'+place+draft,160000);
+      '舵与储物贴边，给磨石留侧位。'+
+      (medium?'用 construct 提交完整墙窗屋顶，再用 engineering.site.plan({walk=脚坐标}) 核对建成后的通道。plan 不接收超过 64 格的候选。'
+        :'用 engineering.site.plan({walk=脚坐标}) 核对通路。')+place+draft,medium?240000:160000);
   }
-  const cabin=await lab.save('transfer-cabin');
-  const helms=find(cabin,'vs_eureka:oak_ship_helm');
+  let cabin=await lab.save('transfer-cabin');
+  if(medium&&answer&&!answer.truncated){
+    answer=await lab.chat('只布置你规划的休息座、备餐台、生活储物和工作区。'+site+access+
+      '沿通道贴边摆设，留脚和头净空。用现有白名单，座位可用橡木楼梯，备餐可用台面和食材桶。'+
+      '不要添加无用途的填充。最终一句说明分区，另附 WALK: 后的单行 JSON 脚路线数组 [[x,y,z],...]。'+place,150000);
+    cabin=await lab.save('transfer-interior');
+  }
+  let helms=find(cabin,'vs_eureka:oak_ship_helm');
   const roof=['minecraft:oak_planks','minecraft:oak_slab']
     .flatMap(id=>find(cabin,id)).filter(({pos:p})=>p[1]>=deckY+3).length;
   const windows=windowsIn(cabin);
@@ -249,13 +272,43 @@ async function transferStages(lab, baseline, resume) {
   const limit=Number(rawLimit);
   const hull=new Set(ids.split(' '));
   const hullSize=Object.values(cabin.blocks).filter(b=>hull.has(b.Name)).length;
-  const proper=helms.length===1&&helms[0].properties.facing===(water?'east':'south')&&roof>=4&&windows>0
+  const proper=helms.length===1&&(medium||helms[0].properties.facing===(water?'east':'south'))&&roof>=4&&windows>0
     &&find(cabin,'vs_eureka:anchor').length===1&&find(cabin,'minecraft:barrel').length>0
-    &&(water||lift>=8)&&hullSize+4<=limit;
+    &&(water||lift>=8)&&hullSize+4<=limit&&(!medium||hullSize+4<=500);
   lab.mark('mobile_transfer_cabin',{passed:proper,roof,windows,lift,helm:helms[0]?.pos??null,hullSize,limit});
   if(!proper||(!answer&&(!existingCabin||!windowsIn(base)))||answer?.truncated) return answer;
 
-  const route=JSON.parse(process.env.LAB_MOBILE_TRANSFER_ROUTE||'null');
+  let route=JSON.parse(process.env.LAB_MOBILE_TRANSFER_ROUTE||'null');
+  if(medium){
+    const verify=async (response, label)=>{
+      let proposed;
+      try {
+        const line=response?.content?.match(/WALK\s*[:：]\s*(\[\[.+\]\])/u)?.[1];
+        proposed=JSON.parse(line??'null');
+      } catch {}
+      if(!Array.isArray(proposed)||proposed.length<2||proposed.length>32||
+        !proposed.every(p=>Array.isArray(p)&&p.length===3&&p.every(Number.isInteger))) return null;
+      const check=await receipt(lab,label,'engineering.site.plan({walk={'+proposed.map(pos).join(',')+'}})');
+      return {proposed,clearance:check.clearance};
+    };
+    const first=await verify(answer,'medium_walk_first');
+    const helm=helms[0].pos;
+    if(!first||first.clearance.length||helm[1]!==deckY+1){
+      lab.mark('mobile_medium_access_repair',{helm,reportedRoute:first});
+      answer=await lab.chat('只纠正已建轮船的走道和驾驶舵。实际舵 '+pos(helm)+'，甲板 y='+deckY+'。'+
+        '把舵摆在甲板上方 y='+String(deckY+1)+' 的驾驶区侧位，舵后留两格可站脚位，给中线留净空。'+
+        '若旧舵嵌进甲板，恢复原处橡木地板。保留已有舱室与窗。读回阻塞 '+JSON.stringify(first?.clearance??[])+
+        '。按 expected 施工小修，不重做船。回报 WALK: 后的单行 JSON 脚路线数组。',160000);
+      cabin=await lab.save('transfer-access-repaired');
+      helms=find(cabin,'vs_eureka:oak_ship_helm');
+      const fixed=await verify(answer,'medium_walk_fixed');
+      route=fixed&&!fixed.clearance.length?fixed.proposed:null;
+    }else{
+      route=first.proposed;
+    }
+    lab.mark('mobile_medium_walk',{route});
+    if(!route||helms.length!==1||helms[0].pos[1]!==deckY+1) return answer;
+  }
   const walk=route?'现有净空已读回，Lua 脚路线 walk={'+route.map(pos).join(',')+'}。':access;
   const slots=route?deck.map(({pos:[x,y,z]})=>[x,y+1,z]).filter(([x,y,z])=>
     !route.some(([rx,,rz])=>rx===x&&rz===z)&&
@@ -283,7 +336,7 @@ async function transferStages(lab, baseline, resume) {
     }
   }
   const helm=helms[0].pos;
-  return lab.chat('实际舵坐标 '+pos(helm)+'，磨石相对舵 '+[mill.x,mill.y,mill.z].map((v,i)=>v-helm[i]).join(',')+
+  return lab.chat((medium?'舵朝 '+helms[0].properties.facing+'，':'')+'实际舵坐标 '+pos(helm)+'，磨石相对舵 '+[mill.x,mill.y,mill.z].map((v,i)=>v-helm[i]).join(',')+
     '。'+shipControls+'现在装配、实测船体与磨石、推进与偏航，然后锚停简报。'+
     (water?'':'装配后先读两次实际高度，核对离地悬停。'),135000);
 }
@@ -342,20 +395,81 @@ async function checkHullCap(lab) {
     denied:true,worldUnchangedOnRejection:true});
 }
 
+async function dshTrial(lab, sub) {
+  const deckY=sub?-49:-58;
+  const family=sub?'潜艇':'房车';
+  const core='mobilebase:'+(sub?'sub':'land')+'_core';
+  await lab.save('dsh-autonomous-empty');
+  await lab.chat('在空场自行选址、朝向、布局，建一辆带生活内饰的'+family+'。'+
+    (sub?'池内 x=-17..17、z=-20..19，水面 y=-50，艇底必须贴水。':'平路 y=-61，底盘须给原生四轮留空，底下和两侧先不放部件。')+
+    '甲板 y='+deckY+'，先用橡木板做长 9～13 格、宽 5～7 格底板，留场地边缘间距供转向。选点时避开助手初始位置 (0,11)。用 my.create_survey.construct(cells) 一次提交，由它分批。'+
+    '格子为 {pos={x=x,y=y,z=z},state="minecraft:oak_planks"}。用循环立即施工，再简报方向和预留分区。',125000);
+  const base=await lab.save('dsh-autonomous-deck');
+  const deck=find(base,'minecraft:oak_planks').map(p=>p.pos).filter(p=>p[1]===deckY);
+  lab.mark('dsh_autonomous_deck',{sub,cells:deck.length});
+  if(deck.length<35) return;
+  const [left,right,front,back]=[Math.min(...deck.map(p=>p[0])),Math.max(...deck.map(p=>p[0])),
+    Math.min(...deck.map(p=>p[2])),Math.max(...deck.map(p=>p[2]))];
+  const box='x='+left+'..'+right+'、z='+front+'..'+back+'、y='+deckY+'。';
+  await lab.chat('底板已读回。实际边界 '+box+'。沿用你选的布局，建墙窗、屋顶、侧置休息座与储物桶。'+
+    (sub?'做完整围合壳和双格高玻璃观察窗，另留上浮用的出入口。':'留侧门与沿车长的两格净高过道。')+
+    '预留驾驶区。核心上方净空，旁边留可站两格及自动舵锚位置。保留甲板完整，不提前放轴、浮块、机件或舵锚。'+
+    '用 my.create_survey.construct(cells) 写入，可用橡木板、橡木楼梯、玻璃和木桶。报告主要通行点和核心坐标。',165000);
+  const cabin=await lab.save('dsh-autonomous-cabin');
+  await lab.chat('请只安装一个 '+core+'，朝向沿你规划的行进方向。用原生 numen.build.place({{name="'+core+
+    '[facing=north]",pos={x=x,y=y,z=z}}})（north 替换成所选方向），放在自己选的甲板驾驶区 y='+String(deckY+1)+
+    '。放完用 numen.scan.block 回读并报告位置。下一阶段再点击核心。',90000);
+  const before=await lab.save('dsh-autonomous-prelaunch');
+  const cores=find(before,core).map(p=>p.pos);
+  lab.mark('dsh_autonomous_cabin',{sub,windows:find(cabin,'minecraft:glass').length,
+    storage:find(cabin,'minecraft:barrel').length,cores});
+  if(cores.length!==1) return;
+  const [x,y,z]=cores[0];
+  const distance=([a,b])=>Math.abs(a-x)+Math.abs(b-z);
+  const stand=[[left-2,z],[right+2,z],[x,front-2],[x,back+2]].sort((a,b)=>distance(a)-distance(b))
+    .find(([a,b])=>a>=-20&&a<=20&&b>=-23&&b<=21&&
+      [deckY,y,y+1].every(height=>!Object.hasOwn(before.blocks,coord([a,height,b]))));
+  if(!stand) return;
+  const [side,end]=stand;
+  // The isolated inspector stand stays physically disconnected from the hull.
+  await lab.cmd('setblock '+coord([side,deckY,end])+' minecraft:stone');
+  await lab.cmd('tp LabBot '+[side+0.5,y,end+0.5].join(' '));
+  try {
+    await lab.chat('你已站在独立试车台。当前核心真实坐标 '+pos(cores[0])+
+      '。用 print(numen.use.block(核心坐标)) 调用现有原生装配。第一次预览，第二次确认；若明确拒绝，回报原因。'+
+      '调用后用 numen.scan.block 复核原地核心是否移走。不要让助手进入车体，不要重做。',125000);
+    const raw=await lab.cmd('engineering_test_ship_pose');
+    const data=raw.split('LAB_SHIP_POSE ',2)[1];
+    const ship=data?JSON.parse(data):null;
+    const count=id=>ship?.blocks.filter(part=>part.block===id).length??0;
+    lab.mark('dsh_autonomous_assembled',{sub,cells:ship?.blocks.length??0,position:ship?.position??null,
+      wheels:count('trackwork:med_simple_wheel'),floaters:count('vs_eureka:floater'),
+      engine:count('vs_eureka:engine'),helm:count('vs_eureka:oak_ship_helm'),core:count(core)});
+  } finally {
+    await lab.isolate();
+    await lab.save('dsh-autonomous-final');
+  }
+}
+
 module.exports=async function(lab) {
   const resume=Boolean(process.env.LAB_MOBILE_MODEL==='1'&&process.env.LAB_MOBILE_RESUME);
+  const drill=process.env.LAB_MOBILE_DRILL;
+  const subTrial=drill==='dsh-sub';
   if(!resume){
     await lab.cmd('fill -20 -61 -23 20 -61 21 minecraft:stone');
     if(water){
-      for(const a of ['-18 -60 -21 -18 -58 20','18 -60 -21 18 -58 20','-17 -60 -21 17 -58 -21','-17 -60 20 17 -58 20'])
+      const waterline=subTrial?-50:-58;
+      for(const a of [`-18 -60 -21 -18 ${waterline} 20`,`18 -60 -21 18 ${waterline} 20`,
+        `-17 -60 -21 17 ${waterline} -21`,`-17 -60 20 17 ${waterline} 20`])
         await lab.cmd('fill '+a+' minecraft:stone');
-      await lab.cmd('fill -17 -60 -20 17 -58 19 minecraft:water');
+      await lab.cmd(`fill -17 -60 -20 17 ${waterline} 19 minecraft:water`);
     }
   }
   await lab.cmd('time set 4000');
   await lab.cmd('deop LabOwner');
-  const drill=process.env.LAB_MOBILE_DRILL;
-  const stepTransfer=drill==='water-transfer-stages'||drill==='air-transfer-stages';
+  if(process.env.LAB_MOBILE_MODEL==='1'&&(subTrial||drill==='dsh-land')) return dshTrial(lab,subTrial);
+  const medium=drill==='water-medium';
+  const stepTransfer=drill==='water-transfer-stages'||drill==='air-transfer-stages'||medium;
   const transfer=drill==='water-transfer'||drill==='air-transfer'||stepTransfer;
   const componentRepair=drill==='water-repair-components';
   const repair=drill==='water-repair'||componentRepair;
@@ -422,7 +536,7 @@ module.exports=async function(lab) {
           '先装配，下一回合读船体与磨石，再试短推进和偏航，锚停读回，最后简报。用 print 输出。',180000);
       }
     }else if(stepTransfer){
-      answer=await transferStages(lab,baseline,resume);
+      answer=await transferStages(lab,baseline,resume,medium);
     }else{
       answer=await lab.chat(prompt,waterPractice?175000:resume?285000:420000);
     }
@@ -432,6 +546,8 @@ module.exports=async function(lab) {
       const data=raw.split('LAB_SHIP_POSE ',2)[1];
       ship=data?JSON.parse(data):null;
       lab.mark('mobile_exam_pose',{ship});
+      if(medium) lab.mark('mobile_medium_assembled',{cells:ship?.blocks.length??0,
+        inScale:Boolean(ship&&ship.blocks.length>=300&&ship.blocks.length<=500)});
     }
     const final=await lab.save('mobile-model-final');
     if(prepared?.ready&&ship) lab.mark('mobile_repair_onboard',repairOnboard(path.join(lab.run,'world'),prepared,ship));

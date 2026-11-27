@@ -10,6 +10,7 @@ const phase = process.argv[2];
 const engineering = phase === 'engineering';
 const dshCore = engineering && process.env.LAB_ENGINEERING_SMOKE==='dsh-core';
 const mobileModel=engineering && process.env.LAB_MOBILE_MODEL==='1';
+const dshTrial=mobileModel && ['dsh-land','dsh-sub'].includes(process.env.LAB_MOBILE_DRILL);
 const mobileResume=mobileModel && process.env.LAB_MOBILE_RESUME;
 const mobile=engineering && (mobileModel || process.env.LAB_ENGINEERING_CABIN==='large');
 const engineeringBounds=mobile||dshCore?[-20,-61,-23,20,-35,21]:[-7,-60,5,8,-49,20];
@@ -569,7 +570,7 @@ async function main() {
       const vs = process.env.LAB_VS_MODS;
       assert(vs,'Set LAB_VS_MODS for the engineering ship smoke test');
       extraMods.push(...['vs.jar','eureka.jar'].map(name=>path.resolve(vs,name)));
-      if(dshCore){
+      if(dshCore||dshTrial){
         assert(process.env.LAB_DSH_MOBILE_BASE && process.env.LAB_MOBILE_POSE_PROBE,
           'The DSH core test requires the optional Mobile Base JAR and the isolated pose recorder');
         extraMods.push(path.resolve(process.env.LAB_DSH_MOBILE_BASE),path.resolve(vs,'trackwork.jar'));
@@ -586,7 +587,7 @@ async function main() {
   await until(()=>output.includes('scheduler heartbeat online'),120000);
   rcon=await Rcon.connect({host:'127.0.0.1',port:rconPort,password:labPassword,timeout:12000});
   const captureOwner = autonomousMill || checkMillIsolation || engineering;
-  if (!engineeringShip || dshCore || process.env.LAB_SHIP_PROTOCOL_OWNER==='1') owner=spawn(process.execPath,[path.join(base,'connect.cjs'),String(serverPort)],{
+  if (!engineeringShip || dshCore || dshTrial || process.env.LAB_SHIP_PROTOCOL_OWNER==='1') owner=spawn(process.execPath,[path.join(base,'connect.cjs'),String(serverPort)],{
     env:relayEnv,stdio:captureOwner ? ['ignore','ignore','ignore','ipc'] : 'ignore',
   });
   if (captureOwner && owner) owner.on('message',text=>{
