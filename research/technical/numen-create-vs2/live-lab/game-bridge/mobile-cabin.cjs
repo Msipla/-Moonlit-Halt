@@ -5,7 +5,7 @@ const {createRequire}=require('node:module');
 const {gunzipSync}=require('node:zlib');
 const {setTimeout:wait}=require('node:timers/promises');
 const {snapshot}=require('../world.cjs');
-const water=process.env.LAB_ENGINEERING_VESSEL==='water';
+const water=process.env.LAB_ENGINEERING_VESSEL==='water'||process.env.LAB_MOBILE_DRILL==='dsh-sub';
 const pos=p=>`{x=${p[0]},y=${p[1]},z=${p[2]}}`;
 const coord=p=>p.join(' ');
 const ships='engineering_vessels.ship.';
@@ -417,6 +417,24 @@ async function checkHullCap(lab) {
     denied:true,worldUnchangedOnRejection:true});
 }
 
+function hullScaffolds(snapshot, core) {
+  const shell=new Set(['minecraft:oak_planks','minecraft:oak_stairs','minecraft:glass','minecraft:barrel','mobilebase:sub_core']);
+  const sides=[[1,0,0],[-1,0,0],[0,1,0],[0,-1,0],[0,0,1],[0,0,-1]];
+  const hull=[core],seen=new Set([core.join(',')]),scaffolds=[];
+  for(let i=0;i<hull.length;i++){
+    for(const side of sides){
+      const next=hull[i].map((value,axis)=>value+side[axis]);
+      const key=next.join(',');
+      if(seen.has(key)) continue;
+      seen.add(key);
+      const block=snapshot.blocks[key]?.Name;
+      if(block==='minecraft:cobblestone') scaffolds.push(next);
+      if(shell.has(block)) hull.push(next);
+    }
+  }
+  return {hull,scaffolds};
+}
+
 async function dshTrial(lab, sub, resume) {
   const deckY=sub?-49:-58;
   const family=sub?'潜艇':'房车';
@@ -454,7 +472,7 @@ async function dshTrial(lab, sub, resume) {
     const glass=find(walls,'minecraft:glass').filter(({pos:p})=>p[1]===deckY+2);
     if(glass.length<4) return;
     const xs=glass.map(p=>p.pos[0]),zs=glass.map(p=>p.pos[2]);
-    await lab.chat('侧壁观察窗已读回，范围 x='+Math.min(...xs)+'..'+Math.max(...xs)+
+    if(!find(walls,'minecraft:barrel').length) await lab.chat('侧壁观察窗已读回，范围 x='+Math.min(...xs)+'..'+Math.max(...xs)+
       '、z='+Math.min(...zs)+'..'+Math.max(...zs)+'。用两层 for 循环填同范围屋顶 y='+(deckY+3)+
       '，自己选择顶部出入口，保留驾驶外部接近面。先装屋顶，再加一只侧置桶和一个休息座。'+
       write+'用同一 Lua 提交这两部分，简短回报。',130000);
@@ -470,20 +488,50 @@ async function dshTrial(lab, sub, resume) {
       '[facing=north]",pos={x=x,y=y,z=z}}})（north 替换成所选方向），放在自己选的甲板驾驶区 y='+String(deckY+1)+
       '。放完用 numen.scan.block 回读并报告位置。下一阶段再点击核心。',90000);
   }
-  const before=await lab.save('dsh-autonomous-prelaunch');
+  let before=await lab.save('dsh-autonomous-prelaunch');
   const cores=find(before,core).map(p=>p.pos);
   lab.mark('dsh_autonomous_cabin',{sub,windows:find(cabin,'minecraft:glass').length,
     storage:find(cabin,'minecraft:barrel').length,cores});
   if(cores.length!==1) return;
   const [x,y,z]=cores[0];
+  if(sub){
+    const facing=before.blocks[cores[0]].Properties.facing;
+    const [dx,dz]={north:[1,0],east:[0,1],south:[-1,0],west:[0,-1]}[facing];
+    const anchor=[x+dx,y,z+dz];
+    const occupied=before.blocks[anchor];
+    if(occupied&&occupied.Name!=='vs_eureka:anchor'){
+      lab.mark('dsh_autonomous_anchor_conflict',{anchor,block:occupied.Name});
+      await lab.chat('核心右侧的原生锚位 '+pos(anchor)+' 被占。保留墙窗和内饰，只清这一格。'+
+        'local p='+pos(anchor)+'; print(my.create_survey.construct({{pos=p,state="minecraft:air",expected=engineering.site.inspect(p).state}}))',90000);
+      before=await lab.save('dsh-autonomous-anchor-cleared');
+      if(before.blocks[anchor]) return;
+    }
+    const {hull,scaffolds}=hullScaffolds(before,cores[0]);
+    if(scaffolds.length){
+      lab.mark('dsh_autonomous_scaffolds',{connected:scaffolds});
+      await lab.chat('只清与船壳相邻的自有寻路圆石接点。逐一由原生权限检查筛选，拒绝项保留。'+
+        '直接运行 local cells={}; local s=engineering.site; for _,p in ipairs({'+scaffolds.map(pos).join(',')+
+        '}) do local e={pos=p,state="minecraft:air",expected="minecraft:cobblestone"}; '+
+        'if #s.check({e}).rejects==0 then cells[#cells+1]=e end end; '+
+        'if #cells>0 then print(my.create_survey.construct(cells)) end。只用直接施工，回报确认格数。',95000);
+      const cleaned=await lab.save('dsh-autonomous-scaffolds-cleared');
+      const lost=hull.filter(p=>JSON.stringify(before.blocks[p])!==JSON.stringify(cleaned.blocks[p]));
+      lab.mark('dsh_autonomous_hull_preserved',{passed:lost.length===0,damaged:lost});
+      if(lost.length) return;
+      before=cleaned;
+    }
+  }
   const distance=([a,b])=>Math.abs(a-x)+Math.abs(b-z);
   const stand=[[left-2,z],[right+2,z],[x,front-2],[x,back+2]].sort((a,b)=>distance(a)-distance(b))
     .find(([a,b])=>a>=-20&&a<=20&&b>=-23&&b<=21&&
-      [deckY,y,y+1].every(height=>!Object.hasOwn(before.blocks,coord([a,height,b]))));
+      (!before.blocks[[a,deckY,b]]||before.blocks[[a,deckY,b]].Name==='minecraft:stone')&&
+      [y,y+1].every(height=>!before.blocks[[a,height,b]])&&
+      [[a-1,deckY,b],[a+1,deckY,b],[a,deckY,b-1],[a,deckY,b+1],[a,deckY-1,b]]
+        .every(p=>!before.blocks[p]||before.blocks[p].Name==='minecraft:water'));
   if(!stand) return;
   const [side,end]=stand;
   // The isolated inspector stand stays physically disconnected from the hull.
-  await lab.cmd('setblock '+coord([side,deckY,end])+' minecraft:stone');
+  if(!before.blocks[[side,deckY,end]]) await lab.cmd('setblock '+coord([side,deckY,end])+' minecraft:stone');
   await lab.cmd('tp LabBot '+[side+0.5,y,end+0.5].join(' '));
   // A creative placement can leave the core item selected. DSH needs an empty main hand.
   await lab.cmd('clear LabBot');

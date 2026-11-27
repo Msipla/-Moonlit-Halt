@@ -204,12 +204,12 @@ public final class EngineeringSite implements ModInitializer {
         public static Check check(ServerCall call,Work args) {
             var level=level(call);
             require(!args.cells().isEmpty() && args.cells().size()<=LIMIT,"expected 1..64 block edits");
-            return review(level,args.cells()).check();
+            return review(call,level,args.cells()).check();
         }
 
         private record Review(Check check, Map<class_2338,class_2680> overlay) {}
 
-        private static Review review(class_3218 level,List<Cell> cells) {
+        private static Review review(ServerCall call,class_3218 level,List<Cell> cells) {
             var rejects=new ArrayList<Reject>();
             var overlay=new java.util.LinkedHashMap<class_2338,class_2680>();
             var valid=new ArrayList<Cell>();
@@ -219,7 +219,7 @@ public final class EngineeringSite implements ModInitializer {
                 try {
                     require(seen.add(cell.pos()),"duplicate cell "+cell.pos());
                     var edit=prepare(level,inferAxis(cell,batch));
-                    preflight(level,List.of(edit));
+                    preflight(call,level,List.of(edit));
                     overlay.put(edit.at(),edit.state());
                     valid.add(new Cell(cell.pos(),CreateReadings.commandState(edit.state()),cell.expected(),
                         cell.faces(),cell.rpm(),cell.filter()));
@@ -271,7 +271,7 @@ public final class EngineeringSite implements ModInitializer {
             var machines=args.machines().orElse(List.of());
             require(cells.size()<=LIMIT && walk.size()<=32 && machines.size()<=16,
                 "plan supports up to 64 edits, 32 path steps and 16 machine positions");
-            var review=review(level,cells);
+            var review=review(call,level,cells);
             var issues=new ArrayList<Reject>();
             var blocks=review.overlay();
             class_2338 previous=null;
@@ -362,10 +362,10 @@ public final class EngineeringSite implements ModInitializer {
 
         @Fn("Compile model-chosen paths into motor, shafts, gearboxes and loads, without writing. route(paths,rpm), paths={ {points={motor,...,loadPos},load='create:mechanical_press'}, ... }. Use neighboring cells, share the motor's first step; millstone accepts shaft from below, or side_mesh=true with the last cog powered vertically. Inspect result.check then apply(result.cells) if appropriate.")
         public static Routed route(ServerCall call,Route args) {
-            return compileRoute(level(call),args,false);
+            return compileRoute(call,level(call),args,false);
         }
 
-        private static Routed compileRoute(class_3218 level,Route args,boolean reuse) {
+        private static Routed compileRoute(ServerCall call,class_3218 level,Route args,boolean reuse) {
             require(!args.paths().isEmpty() && args.paths().size()<=8,"expected 1..8 paths");
             require(args.rpm()!=0 && Math.abs((long)args.rpm())<=256,"motor RPM magnitude must be 1..256");
             var starts=args.paths().get(0).points();
@@ -433,7 +433,7 @@ public final class EngineeringSite implements ModInitializer {
                     pos.equals(motor)?Optional.of(args.rpm()):Optional.empty(),Optional.empty());
                 cells.add(cell);
             }
-            return new Routed(cells,review(level,cells).check());
+            return new Routed(cells,review(call,level,cells).check());
         }
 
         public record Load(@Doc("Position you chose for one load.") class_2338 pos,
@@ -494,7 +494,7 @@ public final class EngineeringSite implements ModInitializer {
                         remaining/=n;
                     }
                     try {
-                        var result=compileRoute(level,new Route(paths,args.rpm()),reuse);
+                        var result=compileRoute(call,level,new Route(paths,args.rpm()),reuse);
                         if(result.check().rejects().isEmpty()) return result;
                     } catch(ApiError incompatible) {
                         // A three-axis junction or an opposed motor port needs a different candidate.
@@ -641,12 +641,12 @@ public final class EngineeringSite implements ModInitializer {
             require(!request.links().orElse(List.of()).isEmpty() && request.links().orElseThrow().size()<=4 && cells.size()<=LIMIT && avoid.size()<=LIMIT,
                 "flow needs 1..4 links, up to 64 planned edits and up to 64 reserved cells");
             for(var pos:avoid) check(level,pos);
-            var plan=review(level,cells);
+            var plan=review(call,level,cells);
             if(!plan.check().rejects().isEmpty()) return new Logistics.Result(List.of(),List.of(),plan.check());
             var filters=new java.util.HashMap<class_2338,String>();
             for(var cell:cells) filters.put(cell.pos(),cell.filter().orElse(null));
             var result=Logistics.compile(level,request,plan.overlay(),filters,plan.check());
-            return new Logistics.Result(result.cells(),result.links(),review(level,result.cells()).check());
+            return new Logistics.Result(result.cells(),result.links(),review(call,level,result.cells()).check());
         }
 
         @Fn("Print one compact JSON map of up to 24 existing processing devices, barrels, hoppers and chutes in the loaded authorized site. No shafts or scenery; inspect selected positions for stock and power.")
@@ -770,7 +770,16 @@ public final class EngineeringSite implements ModInitializer {
             }
             var settings=new CreateSettings.Settings(c.rpm().orElse(null),c.filter().orElse(null));
             require(settings.allowedFor(id(state)),"unsupported settings for "+id(state));
-            return new Edit(c.pos(),parse(c.expected().orElse("minecraft:air")),state,parsed.comp_623(),c.faces().isPresent(),settings);
+            var expected=c.expected().orElse("minecraft:air");
+            // Path cobblestone can only be the old state of a vessel-site removal.
+            class_2680 before;
+            if(vessels && state.method_26215() && expected.equals("minecraft:cobblestone")){
+                before=level.method_8320(c.pos());
+                require(id(before).equals(expected),"state conflict at "+c.pos()+": actual "+CreateReadings.commandState(before));
+            }else{
+                before=parse(expected);
+            }
+            return new Edit(c.pos(),before,state,parsed.comp_623(),c.faces().isPresent(),settings);
         }
 
         @Fn("Read the actual block and signed Create RPM at a loaded, authorized site cell.")
@@ -883,7 +892,7 @@ public final class EngineeringSite implements ModInitializer {
         }
 
         private static Pending<Applied> execute(ServerCall call,List<Edit> edits) {
-            preflight(level(call),edits);
+            preflight(call,level(call),edits);
             Pending<Void> consent=Pending.of(null);
             for(var edit:edits){
                 if(edit.before()==edit.state() && edit.settings().present()) {
@@ -898,7 +907,7 @@ public final class EngineeringSite implements ModInitializer {
             }
             return consent.thenWait(x->{
                 var level=level(call);
-                preflight(level,edits);
+                preflight(call,level,edits);
                 String backup=backup(level,edits.stream().map(Edit::at).toList());
                 int written=0;
                 var changed=new ArrayList<Edit>();
@@ -971,7 +980,7 @@ public final class EngineeringSite implements ModInitializer {
             });
         }
 
-        private static void preflight(class_3218 level,List<Edit> edits) {
+        private static void preflight(ServerCall call,class_3218 level,List<Edit> edits) {
             require(!edits.isEmpty()&&edits.size()<=LIMIT,"expected 1..64 block edits");
             var seen=new HashSet<class_2338>();
             for(var edit:edits) {
@@ -980,6 +989,12 @@ public final class EngineeringSite implements ModInitializer {
                 var actual=level.method_8320(edit.at());
                 require(actual==edit.before(),"state conflict at "+edit.at()+": actual "+CreateReadings.commandState(actual)
                     +"; supply that state as expected if replacing it is intended");
+                if(edit.state().method_26215() && id(actual).equals("minecraft:cobblestone")){
+                    var placer=PlacedBlocks.of(level).placerAt(edit.at(),actual);
+                    require(vessels && placer!=null && call.her().method_5667().equals(placer.id())
+                        && placer.way()==PlacedBlocks.Way.PATH,
+                        "only the calling companion's path cobblestone can be removed at "+edit.at());
+                }
                 if (actual.method_26204()!=edit.state().method_26204()) {
                     require(CreateSettings.inventory(level.method_8321(edit.at())).isEmpty(),
                         "occupied inventory at "+edit.at()+"; keep the container or empty it before replacing the block");
