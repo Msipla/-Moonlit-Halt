@@ -336,4 +336,22 @@ function M.construct(cells, vessel)
   return receipt
 end
 
+---Build a ship-compatible millstone column in four empty cells.
+---@param options table Motor position at, feet path walk, optional rpm defaulting to 128.
+---@return table The normal checked construction receipt.
+function M.mill_column(options)
+  local at = cellPosition(options.at)
+  assert(at, "Supply the motor position as at")
+  local states = {
+    "create:creative_motor[facing=up]", "create:millstone",
+    "minecraft:hopper[facing=down]", "minecraft:barrel"
+  }
+  local cells = {}
+  for i, state in ipairs(states) do
+    cells[i] = {pos = {x = at.x, y = at.y + i - 1, z = at.z}, state = state}
+  end
+  cells[1].rpm = options.rpm or 128
+  return M.construct(cells, {walk = options.walk, drive = {cells[1].pos, cells[2].pos}})
+end
+
 return M

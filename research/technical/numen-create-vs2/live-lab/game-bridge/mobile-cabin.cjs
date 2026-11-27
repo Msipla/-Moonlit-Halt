@@ -255,17 +255,37 @@ async function transferStages(lab, baseline, resume) {
   lab.mark('mobile_transfer_cabin',{passed:proper,roof,windows,lift,helm:helms[0]?.pos??null,hullSize,limit});
   if(!proper||(!answer&&(!existingCabin||!windowsIn(base)))||answer?.truncated) return answer;
 
-  answer=await lab.chat('只在你的短舱侧边补一个磨石工位。'+site+access+
-    '同一竖列放朝上马达、磨石、朝下漏斗和供料桶。马达和加工设备的坐标自行选择，留走道。'+
-    '用 my.create_survey.construct(edits,{walk=完整脚路线,drive=马达到磨石坐标}) 检查并施工。'+
-    '用 check_vessel 读陆上 RPM，完成回一句。装配留给下一步。',130000);
+  const route=JSON.parse(process.env.LAB_MOBILE_TRANSFER_ROUTE||'null');
+  const walk=route?'现有净空已读回，Lua 脚路线 walk={'+route.map(pos).join(',')+'}。':access;
+  const slots=route?deck.map(({pos:[x,y,z]})=>[x,y+1,z]).filter(([x,y,z])=>
+    !route.some(([rx,,rz])=>rx===x&&rz===z)&&
+    route.some(([rx,,rz])=>Math.abs(rx-x)+Math.abs(rz-z)<=2)&&
+    [0,1,2,3].every(dy=>!cabin.blocks[[x,y+dy,z]])): [];
+  const open=slots.length?'程序已查到四格净空的柱底候选 '+slots.slice(0,6).map(pos).join('，')+'。自行挑一个。':'';
+  answer=await lab.chat('只补一个磨石工位。'+site+walk+
+    '在露天甲板任选四格竖向净空的侧位，柱底马达 y='+(deckY+1)+'，避开走道。'+open+
+    '用 print(my.create_survey.mill_column({at={x=x,y=y,z=z},walk=脚路线,rpm=128}))。'+
+    '它会用原生检查和分批确认马达、磨石、漏斗及桶。然后 print(engineering.site.inspect(磨石坐标).rpm)，完成回一句。',130000);
   const work=await lab.save('transfer-workshop');
   const mill=work.blockEntities.find(b=>b.id==='create:millstone'&&b.Speed&&b.Network?.Stress<=b.Network?.Capacity);
   lab.mark('mobile_transfer_workshop',{passed:Boolean(mill),rpm:mill?.Speed??null});
   if(!mill||!answer||answer.truncated) return answer;
+  if(!water){
+    const liftTarget=Math.ceil((hullSize-lift+4)/4);
+    if(lift<liftTarget){
+      answer=await lab.chat('磨石正常。装配前加气球。现有 '+lift+' 格，固定夹具实测配比下本次起步目标 '+liftTarget+' 格。'+
+        site+'只在屋面正上方 y='+(deckY+4)+' 的未占用格补 '+(liftTarget-lift)+' 个 vs_eureka:balloon。'+
+        '按下面格确实是屋面选位。已有气球、屋顶、通道和工位保留。'+place,110000);
+      const ready=await lab.save('transfer-lift');
+      const liftCount=find(ready,'vs_eureka:balloon').length+find(ready,'vs_eureka:white_balloon').length;
+      lab.mark('mobile_transfer_lift',{passed:liftCount>=liftTarget,cells:liftCount,target:liftTarget});
+      if(liftCount<liftTarget||!answer||answer.truncated) return answer;
+    }
+  }
   const helm=helms[0].pos;
   return lab.chat('实际舵坐标 '+pos(helm)+'，磨石相对舵 '+[mill.x,mill.y,mill.z].map((v,i)=>v-helm[i]).join(',')+
-    '。'+shipControls+'现在装配、实测船体与磨石、推进与偏航，然后锚停简报。',135000);
+    '。'+shipControls+'现在装配、实测船体与磨石、推进与偏航，然后锚停简报。'+
+    (water?'':'装配后先读两次实际高度，核对离地悬停。'),135000);
 }
 
 const waterRigSetup='续做原存档的浅滩取样艇，只练舵锚和装配。独立读回已铺 29 橡木甲板在 y=-56，下方 29 浮块，艇首在负 Z，甲板 x=±2、z=-4..0 段完整。两件新增方块：舵 vs_eureka:oak_ship_helm[facing=north] 与锚 vs_eureka:anchor，自己选 x=±1 的边位，z=-3..-1，y=-55。保留 x=0 两格净高。用 {pos={x=x,y=y,z=z},state=方块字符串} 一次 engineering.site.check 无拒绝后直接 apply。用 engineering_vessels.ship.assemble(舵坐标) 装配，成功立即 inspect()。';
