@@ -9,6 +9,8 @@ const {snapshot} = require('./world.cjs');
 const phase = process.argv[2];
 const engineering = phase === 'engineering';
 const staticBuilding = engineering && process.env.LAB_STATIC_BUILDING === '1';
+const staticResume = process.env.LAB_STATIC_RESUME_RUN && path.resolve(process.env.LAB_STATIC_RESUME_RUN);
+assert(!staticResume || staticBuilding, 'LAB_STATIC_RESUME_RUN requires the static exam');
 const dshCore = engineering && process.env.LAB_ENGINEERING_SMOKE==='dsh-core';
 const mobileModel=engineering && process.env.LAB_MOBILE_MODEL==='1';
 const dshTrial=mobileModel && ['dsh-land','dsh-sub'].includes(process.env.LAB_MOBILE_DRILL);
@@ -98,7 +100,7 @@ function prepare() {
     fs.symlinkSync(path.join(base,name),path.join(run,name));
   }
   fs.copyFileSync(path.join(base,'eula.txt'),path.join(run,'eula.txt'));
-  const startingWorld = knownFault || boatResume || millResume || mobileResume;
+  const startingWorld = knownFault || boatResume || millResume || mobileResume || (staticResume && path.join(staticResume, 'world'));
   if (boatResume) {
     const original = path.join(boatResume,'..','baseline.json');
     if (fs.existsSync(original)) fs.copyFileSync(original,path.join(run,'original-flat.json'));
@@ -115,8 +117,9 @@ function prepare() {
       fs.mkdirSync(path.join(world,'data'),{recursive:true});
       fs.copyFileSync(placements,path.join(world,'data','numen_placed.dat'));
     }
-    if (mobileResume) {
-      for (const name of ['data','playerdata']) {
+    if (mobileResume || staticResume) {
+      const folders = staticResume ? ['data','playerdata','generated'] : ['data','playerdata'];
+      for (const name of folders) {
         const source=path.join(startingWorld,name);
         if (fs.existsSync(source)) fs.cpSync(source,path.join(world,name),{recursive:true});
       }
@@ -625,7 +628,7 @@ async function main() {
   }
   if (basicCheck) return waterAction ? verifyWaterAction() : verifyBasicNative();
   if (basicAction) return testBasic();
-  if (staticBuilding) return require('./game-bridge/static-building.cjs')({save,mark,chat,engineeringBounds,isolate:isolateMillAgent});
+  if (staticBuilding) return require('./game-bridge/static-building.cjs')({save,mark,chat,engineeringBounds,run,staticResume,isolate:isolateMillAgent});
   if (engineering) return require(mobile&&!dshCore?'./game-bridge/mobile-cabin.cjs':'./game-bridge/check.cjs')({run,base,save,mark,drive,chat,cmd,engineeringBounds,
     isolate:isolateMillAgent,output:()=>output,until});
   if (watermill) {
