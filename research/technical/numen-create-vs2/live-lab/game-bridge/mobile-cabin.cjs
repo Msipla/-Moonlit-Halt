@@ -180,30 +180,40 @@ const transferWork='造竖直直驱磨石和桶、向下漏斗进料。一个施
   '每格 {pos={x=x,y=y,z=z},state=id,rpm=可选转速}。用 my.create_survey.construct(编辑,{walk=脚路线,drive=马达到磨石}) 预检和施工。'+
   '打印进度和错误，现场读回路线和磨石，再装配。实际读船载转速、推进、偏航和锚停，按实测简报。';
 
-async function transferStages(lab) {
+async function transferStages(lab, baseline, resume) {
   const deckY=water?-56:-54;
   const place='只用直接施工。Lua 编辑格 {pos={x=x,y=y,z=z},state=id}。'+
     '循环生成去重数组，调用 my.create_survey.construct(cells)，打印确认格数后一句话报告。';
-  let answer=await lab.chat((water?'只做东向小艇的收分甲板和浮块。':'只做南向飞行站的甲板。')+
-    '空地，自选 x,z 和大小。橡木甲板 y='+deckY+'。'+
-    (water?'水线 y=-58，浮块 vs_eureka:floater 铺在两侧甲板正下方 y=-57。甲板中段南侧留登舱面。':
-      '甲板西侧留入口、北端留观测面。气球、屋顶和设备交给后续。')+
-    '本次先动手铺甲板，不需要整船设计。'+place,125000);
-  const base=await lab.save('transfer-deck');
   const find=(state,id)=>Object.entries(state.blocks)
     .filter(([,b])=>b.Name===id).map(([p,b])=>({pos:p.split(',').map(Number),properties:b.Properties??{}}));
+  let answer,base=baseline;
+  if(!resume){
+    answer=await lab.chat((water?'只做东向小艇的收分甲板。':'只做南向飞行站的甲板。')+
+      '空地，自选 x,z 和形状。橡木甲板 y='+deckY+'，15 到 72 格，长宽各不超过 12 格。'+
+      (water?'水线 y=-58，甲板中段南侧留登舱面。浮块随后补。':'甲板西侧留入口，北端留观测面。另给整船屋顶和气球留方块预算。')+
+      '只动手铺甲板。'+place,125000);
+    base=await lab.save('transfer-deck');
+  }
   const deck=find(base,'minecraft:oak_planks').filter(({pos:p})=>p[1]===deckY);
-  const floaters=find(base,'vs_eureka:floater').length;
-  const passed=deck.length>=15&&(!water||floaters>=8);
-  lab.mark('mobile_transfer_deck',{passed,cells:deck.length,floaters,deckY});
-  if(!passed||!answer||answer.truncated) return answer;
-
-  const lower=deck[0].pos.slice(),upper=lower.slice();
+  const lower=[Infinity,deckY,Infinity],upper=[-Infinity,deckY,-Infinity];
   for(const {pos:p} of deck) for(let i=0;i<3;i++){
     lower[i]=Math.min(lower[i],p[i]);
     upper[i]=Math.max(upper[i],p[i]);
   }
+  const passed=deck.length>=15&&deck.length<=72&&upper[0]-lower[0]<12&&upper[2]-lower[2]<12;
+  lab.mark('mobile_transfer_deck',{passed,cells:deck.length,deckY,resumed:resume});
+  if(!passed||(!resume&&(!answer||answer.truncated))) return answer;
   const site='甲板范围 x='+lower[0]+'..'+upper[0]+'、z='+lower[2]+'..'+upper[2]+'、y='+deckY+'。';
+  if(water&&find(base,'vs_eureka:floater').length<8){
+    answer=await lab.chat('甲板已读回，共 '+deck.length+' 格。'+site+
+      '本次只在甲板下面 y=-57 两条长边选位补上 vs_eureka:floater，和甲板相接，至少 8 格。'+
+      '保持所有现有结构。'+place,85000);
+    const fitted=await lab.save('transfer-floaters');
+    const supported=find(fitted,'vs_eureka:floater').filter(({pos:[x,y,z]})=>
+      y===deckY-1&&fitted.blocks[[x,deckY,z]]?.Name==='minecraft:oak_planks');
+    lab.mark('mobile_transfer_floaters',{passed:supported.length>=8,cells:supported.length});
+    if(supported.length<8||!answer||answer.truncated) return answer;
+  }
   const access=water?'南舷进入后向东折向舱内，前方留露天工作面。':'西侧进入，北端留露天观测面。';
   answer=await lab.chat('在你刚建的实际甲板上只做短舱、舵、锚与储物桶。'+site+access+
     '带侧窗和由边墙支撑的屋顶。入口和走道留两格净空，屋顶从甲板上第三格起。'+
@@ -215,9 +225,18 @@ async function transferStages(lab) {
   const helms=find(cabin,'vs_eureka:oak_ship_helm');
   const roof=find(cabin,'minecraft:oak_planks').filter(({pos:p})=>p[1]>=deckY+3).length;
   const lift=find(cabin,'vs_eureka:balloon').length+find(cabin,'vs_eureka:white_balloon').length;
+  await lab.drive('local i=engineering.site.info(); print("transfer_hull",i.hull_limit,table.concat(i.hull," "))',
+    '\ntransfer_hull');
+  const palette=lab.output().split('\n').find(line=>line.startsWith('transfer_hull\t'));
+  assert(palette,'expected native hull limits');
+  const [,rawLimit,ids]=palette.split('\t');
+  const limit=Number(rawLimit);
+  const hull=new Set(ids.split(' '));
+  const hullSize=Object.values(cabin.blocks).filter(b=>hull.has(b.Name)).length;
   const proper=helms.length===1&&helms[0].properties.facing===(water?'east':'south')&&roof>=4
-    &&find(cabin,'vs_eureka:anchor').length===1&&find(cabin,'minecraft:barrel').length>0&&(water||lift>=8);
-  lab.mark('mobile_transfer_cabin',{passed:proper,roof,lift,helm:helms[0]?.pos??null});
+    &&find(cabin,'vs_eureka:anchor').length===1&&find(cabin,'minecraft:barrel').length>0
+    &&(water||lift>=8)&&hullSize+4<=limit;
+  lab.mark('mobile_transfer_cabin',{passed:proper,roof,lift,helm:helms[0]?.pos??null,hullSize,limit});
   if(!proper||!answer||answer.truncated) return answer;
 
   answer=await lab.chat('只在你的短舱侧边补一个磨石工位。'+site+access+
@@ -367,7 +386,7 @@ module.exports=async function(lab) {
           '先装配，下一回合读船体与磨石，再试短推进和偏航，锚停读回，最后简报。用 print 输出。',180000);
       }
     }else if(stepTransfer){
-      answer=await transferStages(lab);
+      answer=await transferStages(lab,baseline,resume);
     }else{
       answer=await lab.chat(prompt,waterPractice?175000:resume?285000:420000);
     }
