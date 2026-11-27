@@ -4,6 +4,19 @@
 
 [阶段任务书](../TASK.md) · [上一阶段的复现与前置依赖](../REPRODUCE.md) · [固定提交源码索引](../SOURCE-MAP.md) · [依赖与 SHA-256](../dependencies.tsv)
 
+## 0.2.7-dev 基础候选体验
+
+沿用 Minecraft 1.20.1 Fabric 与[原安装包](https://chatgpt.com/library?file_id=libfile_3d55b1b626188191b32535153026e56a&account_id=personal)，按包内 `INSTALL.md` 配置独立测试实例。另将 [create-survey.lua](create-survey.lua) 保存为 `config/numen/players/<房主UUID>/modules/my/create_survey.lua`，与 `create_kinetics` 参考一同使用。房车和潜艇另装 DSH Mobile Base 0.3.4-dev 与 Trackwork 1.2.2，沿用 VS2 2.4.11 和 Eureka 1.6.4。原生 DSH 核心由创造模式空手点击，两次间隔须在 200 游戏刻内，临时踏台应与待装配结构分离。
+
+| 载具 | 已验收范围 |
+| --- | --- |
+| 水面 | 原取样艇与 385 格中型轮船实装、操控、在途离席及移动加工。 |
+| 飞行 | 已复验 162 格巡检站的悬停、离席巡航和移动加工。 |
+| 房车 | 182 格装配、四轮、独立行驶停车、舵后短路线离席返座。侧舱在途长路线待验。 |
+| 潜艇 | 模型自建后实装 152 格，另有保形 155 格的独立下潜、定深、上浮和水下步行证据。干舱、水下返座及无损自主装配待验。 |
+
+Windows 玩家验收仍待完成。房车和潜艇的当前 DSH 装配白名单拒绝随船搬运 Create 磨石。 [实测、存档和复现说明](evidence/mobile-base-blueprints-0.2.6-dev.md#中型轮船与-dsh-陌生载具2026-11-27)
+
 ## 真实模型握手
 
 DeepSeek 官方端点返回 HTTP 200 和 `check_fixture` 工具调用，使用 389 token，用时 9.65 秒。随后用同一个模型通过游戏聊天发出问题，模型自行生成 `return numen.scan.block({x=3, y=-59, z=3})` 对应调用，游戏回执返回 `minecraft:emerald_block`，模型准确报出 ID 与坐标。独立读取服务器关停后的 Anvil 存档得到相同方块。游戏内握手使用 21,657 token，自发问到模型回复约 17 秒。
