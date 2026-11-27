@@ -151,7 +151,7 @@ function prepare() {
   const cache = path.join(base,'config/numen/server/cache/models-dev.json');
   if (fs.existsSync(cache)) fs.copyFileSync(cache,path.join(config,'cache/models-dev.json'));
   if (mobileModel || staticBuilding) {
-    const skill=process.env.LAB_MOBILE_SKILL || path.join(root,'mc20/config/numen/server/skills/createlab/create_kinetics');
+    const skill=(mobileModel && process.env.LAB_MOBILE_SKILL) || path.join(root,'mc20/config/numen/server/skills/createlab/create_kinetics');
     fs.cpSync(skill,path.join(config,'skills/createlab/create_kinetics'),{recursive:true});
   } else if (basicAction || watermill || ['B','C'].includes(phase)) {
     fs.cpSync(path.join(base,'config/numen/server/skills/createlab'),path.join(config,'skills/createlab'),{recursive:true});

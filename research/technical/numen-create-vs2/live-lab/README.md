@@ -17,6 +17,16 @@
 
 Windows 玩家验收仍待完成。房车和潜艇的当前 DSH 装配白名单拒绝随船搬运 Create 磨石。 [实测、存档和复现说明](evidence/mobile-base-blueprints-0.2.6-dev.md#中型轮船与-dsh-陌生载具2026-11-27)
 
+另有[静态工坊候选](https://chatgpt.com/library?file_id=libfile_226de5a1095c81918190673fd3661680&account_id=personal)，JAR 源码 `ec17265`。纯静态工区每轴最多 16 格，新增六种结构材料支持受控分批。支持入口、楼梯、阳台的 1,015 格工坊由 Work 构建并经生存客户端复验。DeepSeek 自主考试需由运行环境注入凭据，尚未启动。 [工坊存档与实测](https://chatgpt.com/library?file_id=libfile_d8827f8032e881919c7cce0a6f18808f&account_id=personal)
+
+在 `numen-create-vs2` 目录沿用下文的隔离服、Java、Numen 模型中继配置，从空地启动静态考试。`scope.jar` 见实测包的 `lab-only/`。每次运行保存单独的世界、模型回执和阶段读盘，便于考官随后独立复验。
+
+```bash
+LAB_STATIC_BUILDING=1 LAB_SCOPE_JAR=/path/to/scope.jar \
+  LAB_GAME_BRIDGE=/path/to/numen-engineering-0.2.7-dev-static.jar \
+  node live-lab/run.cjs engineering
+```
+
 ## 真实模型握手
 
 DeepSeek 官方端点返回 HTTP 200 和 `check_fixture` 工具调用，使用 389 token，用时 9.65 秒。随后用同一个模型通过游戏聊天发出问题，模型自行生成 `return numen.scan.block({x=3, y=-59, z=3})` 对应调用，游戏回执返回 `minecraft:emerald_block`，模型准确报出 ID 与坐标。独立读取服务器关停后的 Anvil 存档得到相同方块。游戏内握手使用 21,657 token，自发问到模型回复约 17 秒。
