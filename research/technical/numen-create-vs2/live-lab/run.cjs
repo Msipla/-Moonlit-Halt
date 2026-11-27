@@ -8,13 +8,14 @@ const {snapshot} = require('./world.cjs');
 
 const phase = process.argv[2];
 const engineering = phase === 'engineering';
+const dshCore = engineering && process.env.LAB_ENGINEERING_SMOKE==='dsh-core';
 const mobileModel=engineering && process.env.LAB_MOBILE_MODEL==='1';
 const mobileResume=mobileModel && process.env.LAB_MOBILE_RESUME;
 const mobile=engineering && (mobileModel || process.env.LAB_ENGINEERING_CABIN==='large');
-const engineeringBounds=mobile?[-20,-61,-23,20,-35,21]:[-7,-60,5,8,-49,20];
+const engineeringBounds=mobile||dshCore?[-20,-61,-23,20,-35,21]:[-7,-60,5,8,-49,20];
 const constructionSmoke = engineering && process.env.LAB_ENGINEERING_SMOKE==='batching';
-const engineeringSmoke = engineering && ['1','line','dough','ship','feed','permissions','planning','overload','routing','logistics','stationary','batching'].includes(process.env.LAB_ENGINEERING_SMOKE);
-const engineeringShip = engineering && (mobile || process.env.LAB_ENGINEERING_SMOKE==='ship' || ['air','water'].includes(process.env.LAB_ENGINEERING_VESSEL));
+const engineeringSmoke = engineering && ['1','line','dough','ship','feed','permissions','planning','overload','routing','logistics','stationary','batching','dsh-core'].includes(process.env.LAB_ENGINEERING_SMOKE);
+const engineeringShip = engineering && (mobile || dshCore || process.env.LAB_ENGINEERING_SMOKE==='ship' || ['air','water'].includes(process.env.LAB_ENGINEERING_VESSEL));
 const basicCheck = phase === 'basic-check';
 const basicWater = phase === 'basic-water';
 const basicAxis = phase === 'basic-axis';
@@ -568,6 +569,11 @@ async function main() {
       const vs = process.env.LAB_VS_MODS;
       assert(vs,'Set LAB_VS_MODS for the engineering ship smoke test');
       extraMods.push(...['vs.jar','eureka.jar'].map(name=>path.resolve(vs,name)));
+      if(dshCore){
+        assert(process.env.LAB_DSH_MOBILE_BASE && process.env.LAB_MOBILE_POSE_PROBE,
+          'The DSH core test requires the optional Mobile Base JAR and the isolated pose recorder');
+        extraMods.push(path.resolve(process.env.LAB_DSH_MOBILE_BASE),path.resolve(vs,'trackwork.jar'));
+      }
       args.push('-Dengineering.ships=true');
       if (process.env.LAB_MOBILE_POSE_PROBE) extraMods.push(path.resolve(process.env.LAB_MOBILE_POSE_PROBE));
     }
@@ -580,7 +586,7 @@ async function main() {
   await until(()=>output.includes('scheduler heartbeat online'),120000);
   rcon=await Rcon.connect({host:'127.0.0.1',port:rconPort,password:labPassword,timeout:12000});
   const captureOwner = autonomousMill || checkMillIsolation || engineering;
-  if (!engineeringShip || process.env.LAB_SHIP_PROTOCOL_OWNER==='1') owner=spawn(process.execPath,[path.join(base,'connect.cjs'),String(serverPort)],{
+  if (!engineeringShip || dshCore || process.env.LAB_SHIP_PROTOCOL_OWNER==='1') owner=spawn(process.execPath,[path.join(base,'connect.cjs'),String(serverPort)],{
     env:relayEnv,stdio:captureOwner ? ['ignore','ignore','ignore','ipc'] : 'ignore',
   });
   if (captureOwner && owner) owner.on('message',text=>{
@@ -614,7 +620,7 @@ async function main() {
   }
   if (basicCheck) return waterAction ? verifyWaterAction() : verifyBasicNative();
   if (basicAction) return testBasic();
-  if (engineering) return require(mobile?'./game-bridge/mobile-cabin.cjs':'./game-bridge/check.cjs')({run,base,save,mark,drive,chat,cmd,engineeringBounds,
+  if (engineering) return require(mobile&&!dshCore?'./game-bridge/mobile-cabin.cjs':'./game-bridge/check.cjs')({run,base,save,mark,drive,chat,cmd,engineeringBounds,
     isolate:isolateMillAgent,output:()=>output,until});
   if (watermill) {
     const mill = require('./watermill.cjs');

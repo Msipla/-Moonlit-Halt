@@ -6,6 +6,7 @@ const {setTimeout:wait}=require('node:timers/promises');
 const {createRequire}=require('node:module');
 
 module.exports=async function check(lab){
+  if(process.env.LAB_ENGINEERING_SMOKE==='dsh-core') return dshCoreCheck(lab);
   // Inert floor prevents grass decay beneath opaque placements from obscuring the boundary check.
   await lab.cmd('fill -7 -61 5 8 -61 20 minecraft:stone');
   if(process.env.LAB_ENGINEERING_SMOKE==='ship' && process.env.LAB_ENGINEERING_VESSEL==='water'){
@@ -66,6 +67,59 @@ module.exports=async function check(lab){
   lab.mark('engineering_result',{passed:pass,fans,structure,backups,outside,modelReturned:completed});
   if(!pass) process.exitCode=1;
 };
+
+async function dshCoreCheck(lab) {
+  const mode=process.env.LAB_DSH_VEHICLE;
+  assert(['land','sub'].includes(mode),'Set LAB_DSH_VEHICLE to land or sub');
+  const sub=mode==='sub';
+  const y=sub?-53:-58;
+  const core='mobilebase:'+mode+'_core';
+  const at=`{x=0,y=${y+1},z=8}`;
+  const origin=[0,y+1,8];
+  await lab.cmd('fill -12 -61 -3 12 -61 21 minecraft:stone');
+  if(sub){
+    for(const edge of ['-11 -60 -2 -11 -54 20','11 -60 -2 11 -54 20',
+      '-10 -60 -2 10 -54 -2','-10 -60 20 10 -54 20']){
+      await lab.cmd('fill '+edge+' minecraft:stone');
+    }
+    await lab.cmd('fill -10 -60 -1 10 -54 19 minecraft:water');
+  }
+  await lab.cmd(`fill -2 ${y} 4 2 ${y} 12 minecraft:oak_planks`);
+  await lab.cmd(`setblock ${origin.join(' ')} ${core}[facing=north]`);
+  await lab.cmd(`setblock -1 ${y+1} 5 minecraft:barrel`);
+  await lab.cmd(`item replace block -1 ${y+1} 5 container.0 with minecraft:gold_ingot 7`);
+  // Keep both players outside the cells the existing DSH assembler may fill.
+  await lab.cmd(`fill -5 ${y} 7 -4 ${y} 9 minecraft:stone`);
+  await lab.cmd(`tp LabOwner -4.5 ${y+1} 7.5`);
+  await lab.cmd(`tp LabBot -3.5 ${y+1} 8.5`);
+  const before=await lab.save('dsh-core-before');
+  assert.equal(before.blocks[origin].Name,core);
+  await lab.drive(`print("dsh_core_read",engineering.site.inspect(${at}).state)`,'\ndsh_core_read');
+  assert(lab.output().includes(core+'[facing=north,powered=false]'));
+  await lab.drive(`print("dsh_core_preview",numen.use.block(${at}))`,'\ndsh_core_preview');
+  assert.deepEqual((await lab.save('dsh-core-preview')).blocks,before.blocks);
+  await lab.drive(`print("dsh_core_confirm",numen.use.block(${at}))`,'\ndsh_core_confirm');
+  let ship;
+  for(let i=0;i<12&&!ship;i++){
+    await wait(300);
+    const raw=await lab.cmd('engineering_test_ship_pose');
+    const data=raw.split('LAB_SHIP_POSE ',2)[1];
+    if(data) ship=JSON.parse(data);
+  }
+  assert(ship,'The native DSH launch must create a loaded ship');
+  const count=id=>ship.blocks.filter(({block})=>block===id).length;
+  assert.equal(count(core),1);
+  assert.equal(count('vs_eureka:oak_ship_helm'),1);
+  if(sub) assert(count('vs_eureka:floater')>0&&count('vs_eureka:engine')===1);
+  else assert.equal(count('trackwork:med_simple_wheel'),4);
+  const stock=ship.blocks.find(({block})=>block==='minecraft:barrel');
+  assert(stock);
+  const cargo=await lab.cmd('data get block '+stock.pos.join(' ')+' Items');
+  assert.match(cargo,/id: "minecraft:gold_ingot", Count: 7b/);
+  assert(!(await lab.save('dsh-core-assembled')).blocks[origin],'Core must leave its original position');
+  lab.mark('dsh_core_result',{mode,assembled:ship.blocks.length,
+    wheels:count('trackwork:med_simple_wheel'),floaters:count('vs_eureka:floater'),cargoPreserved:true});
+}
 
 
 async function planningCheck(lab) {

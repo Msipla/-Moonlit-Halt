@@ -60,7 +60,7 @@ function repairSurvey(baseline) {
 }
 
 const shipControls='engineering_vessels.ship API: assemble(舵坐标), inspect(), inspect_onboard(dx,dy,dz)（相对舵）, '+
-  'drive(朝向,前进,升降,偏航,刻数<=100), anchor()。航行状态下一轮读取。';
+  'drive(朝向,前进,升降,偏航,刻数), anchor()。前进、升降、偏航限 -1 到 1，持续 1 到 100 刻。航行状态下一轮读取。';
 const repairEdits='Lua 每格 {pos={x=x,y=y,z=z},state=id,expected=engineering.site.inspect(p).state}。'+
   '把你的坐标编辑数组传入 my.create_survey.construct(edits)，print(r.stage,r.confirmed)。直接执行并一行报告。';
 
