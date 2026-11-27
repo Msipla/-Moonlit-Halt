@@ -189,6 +189,19 @@ local function indexCells(cells)
   return seen
 end
 
+local function stopped(receipt)
+  print(("construction stopped at %s; confirmed=%d; next=%d"):format(
+    receipt.stage, receipt.confirmed, receipt.next))
+  if receipt.error then print(receipt.error) end
+  local rejects = receipt.rejects or {}
+  for i = 1, math.min(#rejects, 6) do
+    local row = rejects[i]
+    print(position(cellPosition(row.pos)), row.reason)
+  end
+  if #rejects > 6 then print(("%d more rejects in the receipt"):format(#rejects - 6)) end
+  return receipt
+end
+
 local function vesselCheck(site, info, cells, index, options)
   local walk, drive = options.walk, options.drive
   assert(type(walk) == "table" and #walk >= 2 and #walk <= 32, "Supply 2..32 route feet positions")
@@ -276,14 +289,14 @@ function M.construct(cells, vessel)
   local index, problem = indexCells(cells)
   if not index then
     receipt.stage, receipt.error, receipt.rejects = "plan", problem.error, problem.rejects
-    return receipt
+    return stopped(receipt)
   end
   local info = site.info()
   if vessel then
     receipt.stage = "vessel"
     local ok, checked = pcall(vesselCheck, site, info, cells, index, vessel)
-    if not ok then receipt.error = tostring(checked); return receipt end
-    if not checked.ok then receipt.rejects = checked.rejects; return receipt end
+    if not ok then receipt.error = tostring(checked); return stopped(receipt) end
+    if not checked.ok then receipt.rejects = checked.rejects; return stopped(receipt) end
   end
   local limit = info.batch_limit
   assert(type(limit) == "number" and limit >= 1 and limit % 1 == 0, "Invalid site batch_limit")
@@ -296,19 +309,19 @@ function M.construct(cells, vessel)
 
     receipt.stage, receipt.backup = "check", nil
     local ok, checked = pcall(site.check, batch)
-    if not ok then receipt.error = tostring(checked); return receipt end
-    if #checked.rejects > 0 then receipt.rejects = checked.rejects; return receipt end
+    if not ok then receipt.error = tostring(checked); return stopped(receipt) end
+    if #checked.rejects > 0 then receipt.rejects = checked.rejects; return stopped(receipt) end
 
     receipt.stage = "apply"
     local applied
     ok, applied = pcall(site.apply, batch)
-    if not ok then receipt.error, receipt.uncertain = tostring(applied), true; return receipt end
+    if not ok then receipt.error, receipt.uncertain = tostring(applied), true; return stopped(receipt) end
 
     receipt.stage, receipt.backup = "readback", applied.backup
     local rejects
     ok, rejects = pcall(readBack, site, batch, applied)
-    if not ok then receipt.error, receipt.uncertain = tostring(rejects), true; return receipt end
-    if #rejects > 0 then receipt.rejects, receipt.uncertain = rejects, true; return receipt end
+    if not ok then receipt.error, receipt.uncertain = tostring(rejects), true; return stopped(receipt) end
+    if #rejects > 0 then receipt.rejects, receipt.uncertain = rejects, true; return stopped(receipt) end
 
     receipt.batches = receipt.batches + 1
     receipt.confirmed = last
