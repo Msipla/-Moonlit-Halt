@@ -45,7 +45,11 @@ module.exports = async function staticBuilding(lab) {
   const {save, mark, chat, isolate, engineeringBounds: bounds, run, staticResume} = lab;
   const startAt = staticResume ? stages.findIndex(([phase]) => phase === process.env.LAB_STATIC_FROM_PHASE) : 0;
   assert(!staticResume || startAt>0, 'Set LAB_STATIC_FROM_PHASE to a construction or report stage');
-  const scheduled = stages.slice(startAt);
+  const stopAt = process.env.LAB_STATIC_TO_PHASE
+    ? stages.findIndex(([phase]) => phase === process.env.LAB_STATIC_TO_PHASE)
+    : stages.length - 1;
+  assert(stopAt>=startAt, 'Set LAB_STATIC_TO_PHASE to an available stage at or after the start');
+  const scheduled = stages.slice(startAt,stopAt+1);
   const assessment = staticResume && process.env.LAB_STATIC_FEEDBACK?.trim();
   const start = await save(staticResume ? 'static-start' : 'static-empty');
   let baseline = start;

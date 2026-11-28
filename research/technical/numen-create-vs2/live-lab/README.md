@@ -33,9 +33,9 @@ LAB_STATIC_BUILDING=1 LAB_SCOPE_JAR=/path/to/scope.jar \
 
 隔离静态试验继续使用 0.2.7-dev 静态 JAR、原作用域探针和房主的 `my.create_survey.construct`。在上述命令补充 `LAB_STATIC_BLUEPRINT=/path/to/design.lua`。本模式本地展开已保存的 Lua，施工无需模型 API 凭据。Linux 运行环境需要 `texlua` 和 `prlimit`。程序只用几何辅助 `put`、`box`、`gable`、有限数学函数及 Lua 控制流。可从新世界首次运行，或追加 `LAB_STATIC_RESUME_RUN=/path/to/saved-run` 复制一次已关服的现场。
 
-程序和目标先保存为 `blueprint-design.lua` 与 `blueprint-cells.json`。每轮先读盘、跳过与目标匹配的状态，拆改须声明完整预期旧状态。遇到非预期状态时保留该格，停止当前批并记下冲突。实际写入仍通过原生检查、授权、64 格批量和读回，最终依据 `blueprint-final.json` 与事件回执。可用 `LAB_STATIC_BLUEPRINT_BATCHES=1` 在首批已读回后留下测试断点。门、床和灯仍走原生放置的既有流程。
+程序和目标先保存为 `blueprint-design.lua` 与 `blueprint-cells.json`。每轮先读盘、跳过与目标匹配的状态，拆改须声明完整预期旧状态。遇到非预期状态时保留该格，停止当前批并记下冲突。实际写入仍通过原生检查、授权、64 格批量和读回，最终依据 `blueprint-final.json` 与事件回执。可用 `LAB_STATIC_BLUEPRINT_BATCHES=1` 在首批已读回后留下测试断点。门、床和灯仍走原生放置的既有流程。要单独复验内装等原有在线阶段，可把 `LAB_STATIC_FROM_PHASE` 与 `LAB_STATIC_TO_PHASE` 设为同一阶段，例如 `services`。
 
-[社区工具取舍、工程回执和生存实测](evidence/mobile-base-blueprints-0.2.6-dev.md#蓝图编程与差异续建2026-11-28)
+原 413 格工坊已按阶段扩建，实走入口、上下楼及阳台并复验磨石。独立原生回放补齐床与灯后，最终读盘 839 格。陌生补给亭实装 162 格，独立生存客户端通过双入口和储物。 [社区选型、实际回执及实测](evidence/mobile-base-blueprints-0.2.6-dev.md#蓝图编程与差异续建2026-11-28)
 
 ## 真实模型握手
 

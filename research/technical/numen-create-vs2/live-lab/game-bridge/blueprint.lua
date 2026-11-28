@@ -79,7 +79,25 @@ local function gable(x1, z1, x2, z2, y, state, axis, overhang, endState)
   end
 end
 
-local env = {put = put, box = box, gable = gable, pairs = pairs, ipairs = ipairs,
+local function orderedPairs(values)
+  local keys = {}
+  for key in pairs(values) do
+    assert(type(key) == "number" or type(key) == "string", "Blueprint map keys must be numbers or strings")
+    keys[#keys + 1] = key
+  end
+  table.sort(keys, function(a, b)
+    if type(a) ~= type(b) then return type(a) == "number" end
+    return a < b
+  end)
+  local i = 0
+  return function()
+    i = i + 1
+    local key = keys[i]
+    if key ~= nil then return key, values[key] end
+  end
+end
+
+local env = {put = put, box = box, gable = gable, pairs = orderedPairs, ipairs = ipairs,
   math = {min = math.min, max = math.max, abs = math.abs, floor = math.floor, ceil = math.ceil}}
 local program = assert(load(source, "blueprint", "t", env))
 local steps = 0
