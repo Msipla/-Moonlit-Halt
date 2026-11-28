@@ -17,7 +17,7 @@
 
 Windows 玩家验收仍待完成。房车和潜艇的当前 DSH 装配白名单拒绝随船搬运 Create 磨石。 [实测、存档和复现说明](evidence/mobile-base-blueprints-0.2.6-dev.md#中型轮船与-dsh-陌生载具2026-11-27)
 
-另有[静态工坊候选](https://chatgpt.com/library?file_id=libfile_226de5a1095c81918190673fd3661680&account_id=personal)，JAR 源码 `ec17265`。纯静态工区每轴最多 16 格，新增六种结构材料支持受控分批。1,015 格 Work 固定工坊通过生存客户端通行。DeepSeek V4 Pro 实作 407 格，单项续建加入 6 格可运行磨石工位，首投、复投与生存取物通过。屋顶、阳台和楼梯通行未验收，规模目标未达到。 [Work 夹具](https://chatgpt.com/library?file_id=libfile_d8827f8032e881919c7cce0a6f18808f&account_id=personal) · [DeepSeek 在线存档、实机与回执](https://chatgpt.com/library?file_id=libfile_371d82e6c6848191a4ce784c44395dfd&account_id=personal)
+另有[静态工坊候选](https://chatgpt.com/library?file_id=libfile_226de5a1095c81918190673fd3661680&account_id=personal)，JAR 源码 `ec17265`。纯静态工区每轴最多 16 格，新增六种结构材料支持受控分批。1,015 格 Work 固定工坊通过生存客户端通行。DeepSeek V4 Pro 实作 407 格，单项续建加入 6 格可运行磨石工位，首投、复投与生存取物通过。该轮仍卡在楼梯、屋顶与阳台，规模目标未达到。最新续建结果见下节。 [Work 夹具](https://chatgpt.com/library?file_id=libfile_d8827f8032e881919c7cce0a6f18808f&account_id=personal) · [DeepSeek 在线存档、实机与回执](https://chatgpt.com/library?file_id=libfile_371d82e6c6848191a4ce784c44395dfd&account_id=personal)
 
 在 `numen-create-vs2` 目录沿用下文的隔离服、Java、Numen 模型中继配置，从空地启动静态考试。`scope.jar` 见实测包的 `lab-only/`。每次运行保存单独的世界、模型回执和阶段读盘，便于考官随后独立复验。
 
@@ -28,6 +28,14 @@ LAB_STATIC_BUILDING=1 LAB_SCOPE_JAR=/path/to/scope.jar \
 ```
 
 超时后可追加 `LAB_STATIC_RESUME_RUN=/path/to/previous-run` 和 `LAB_STATIC_FROM_PHASE=upper`，从已关服的运行目录复制存档，同一伴侣继续使用原方案。首次续建另可用 `LAB_STATIC_FEEDBACK` 提供考官实际观察，原文会进入事件记录。各阶段提示同时包含实际施工包围盒与净增数。若从在线证据包恢复，将需要续建的存档放在相应运行目录的 `world/`，保留配套的空场快照与模型原计划。
+
+## 蓝图编程与差异续建
+
+隔离静态试验继续使用 0.2.7-dev 静态 JAR、原作用域探针和房主的 `my.create_survey.construct`。在上述命令补充 `LAB_STATIC_BLUEPRINT=/path/to/design.lua`。本模式本地展开已保存的 Lua，施工无需模型 API 凭据。Linux 运行环境需要 `texlua` 和 `prlimit`。程序只用几何辅助 `put`、`box`、`gable`、有限数学函数及 Lua 控制流。可从新世界首次运行，或追加 `LAB_STATIC_RESUME_RUN=/path/to/saved-run` 复制一次已关服的现场。
+
+程序和目标先保存为 `blueprint-design.lua` 与 `blueprint-cells.json`。每轮先读盘、跳过与目标匹配的状态，拆改须声明完整预期旧状态。遇到非预期状态时保留该格，停止当前批并记下冲突。实际写入仍通过原生检查、授权、64 格批量和读回，最终依据 `blueprint-final.json` 与事件回执。可用 `LAB_STATIC_BLUEPRINT_BATCHES=1` 在首批已读回后留下测试断点。门、床和灯仍走原生放置的既有流程。
+
+[社区工具取舍、工程回执和生存实测](evidence/mobile-base-blueprints-0.2.6-dev.md#蓝图编程与差异续建2026-11-28)
 
 ## 真实模型握手
 

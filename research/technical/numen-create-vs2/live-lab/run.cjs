@@ -9,6 +9,8 @@ const {snapshot} = require('./world.cjs');
 const phase = process.argv[2];
 const engineering = phase === 'engineering';
 const staticBuilding = engineering && process.env.LAB_STATIC_BUILDING === '1';
+const staticBlueprint = process.env.LAB_STATIC_BLUEPRINT && path.resolve(process.env.LAB_STATIC_BLUEPRINT);
+assert(!staticBlueprint || staticBuilding, 'LAB_STATIC_BLUEPRINT requires the static exam site');
 const staticResume = process.env.LAB_STATIC_RESUME_RUN && path.resolve(process.env.LAB_STATIC_RESUME_RUN);
 assert(!staticResume || staticBuilding, 'LAB_STATIC_RESUME_RUN requires the static exam');
 const dshCore = engineering && process.env.LAB_ENGINEERING_SMOKE==='dsh-core';
@@ -547,10 +549,10 @@ async function testBasic() {
 }
 
 async function main() {
-  if (staticBuilding) assert(process.env.DEEPSEEK_API_KEY, 'Set DEEPSEEK_API_KEY in the runtime');
+  if (staticBuilding && !staticBlueprint) assert(process.env.DEEPSEEK_API_KEY, 'Set DEEPSEEK_API_KEY in the runtime');
   prepare();
   const relayEnv={...process.env};
-  if (!(guardCheck || basicCheck || checkMillIsolation || checkMillMechanics || engineeringSmoke)) {
+  if (!(guardCheck || basicCheck || checkMillIsolation || checkMillMechanics || engineeringSmoke || staticBlueprint)) {
     assert(relayEnv.DEEPSEEK_API_KEY,'Set DEEPSEEK_API_KEY in the runtime');
     relay=spawn('python3',[path.join(__dirname,'relay.py'),String(relayPort),evidence],{env:relayEnv,stdio:['ignore','pipe','pipe']});
     const relayLog=fs.createWriteStream(path.join(run,'relay.log'));
@@ -621,13 +623,14 @@ async function main() {
     await verifyScope();
     return;
   }
-  if (!(basicCheck || checkMillIsolation || checkMillMechanics || engineeringSmoke)) await cmd(cmdAs+'numen companion LabBot profile lab:deepseek');
+  if (!(basicCheck || checkMillIsolation || checkMillMechanics || engineeringSmoke || staticBlueprint)) await cmd(cmdAs+'numen companion LabBot profile lab:deepseek');
   if (scopeJar) {
     await cmd('deop LabOwner');
     await cmd('gamerule commandModificationBlockLimit 64');
   }
   if (basicCheck) return waterAction ? verifyWaterAction() : verifyBasicNative();
   if (basicAction) return testBasic();
+  if (staticBlueprint) return require('./game-bridge/blueprint.cjs')({save,mark,drive,output:()=>output,run,engineeringBounds},staticBlueprint);
   if (staticBuilding) return require('./game-bridge/static-building.cjs')({save,mark,chat,engineeringBounds,run,staticResume,isolate:isolateMillAgent});
   if (engineering) return require(mobile&&!dshCore?'./game-bridge/mobile-cabin.cjs':'./game-bridge/check.cjs')({run,base,save,mark,drive,chat,cmd,engineeringBounds,
     isolate:isolateMillAgent,output:()=>output,until});
